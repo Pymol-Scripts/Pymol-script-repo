@@ -265,7 +265,7 @@ def ramaplot(x=0,y=0,meta=[],clear=0):
         canvas.bind("<ButtonRelease-1>",canvas.up)
         canvas.bind("<Motion>",canvas.drag)
         canvas.pack(side=Tkinter.LEFT,fill="both",expand=1)
-        canvas.axis(xint=150,xlabels=[-180,-150,-120,-90,-60,-30,0,30,60,90,120,150,180],ylabels=[-180,-150,-120,-90,-60,-30,0,30,60,90,120,150,180])
+        canvas.axis(xint=150,xlabels=range(-180,181,30),ylabels=range(-180,181, 30))
         canvas.update()
 	init = 1
     else:
