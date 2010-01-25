@@ -28,6 +28,7 @@ except ImportError:
 	print "Nope"
  
 canvas = None
+rootframe = None
 init = 0
  
 class SimplePlot(Tkinter.Canvas):
@@ -248,12 +249,14 @@ def __init__(self):
  
 def ramaplot(x=0,y=0,meta=[],clear=0):
     global canvas
+    global rootframe
     global init
  
     # If no window is open
     if init == 0:
         rootframe=Tk()
         rootframe.title(' Dynamic Angle Plotting ')
+        rootframe.protocol("WM_DELETE_WINDOW", close_callback)
  
         canvas = SimplePlot(rootframe,width=320,height=320)
         canvas.bind("<Button-2>",canvas.pickWhich)
@@ -267,6 +270,13 @@ def ramaplot(x=0,y=0,meta=[],clear=0):
 	init = 1
     else:
       canvas.plot(int(x), int(y),meta)
+
+def close_callback():
+	global init
+	global rootframe
+	init=0
+	rootframe.destroy()
+
  
  
 # New Callback object, so that we can update the structure when phi,psi points are moved.
