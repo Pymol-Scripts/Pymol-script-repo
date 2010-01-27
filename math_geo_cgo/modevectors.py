@@ -30,7 +30,7 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 	stat                     show              String  Keeps track and prints statistics (total modevectors, skipped, cutoff).
 	factor                   1.0               Float   Multiplies each mode vector length by a specified factor.
 	                                                   Values between 0 and 1 will decrease the relative mode vector length.
-							   Values greater than 1 will increase the relative mode vector length.
+	                                                   Values greater than 1 will increase the relative mode vector length.
  
 	"""
  
@@ -71,7 +71,7 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 #                                                            #
 ##############################################################
  
-        skipcount=0
+	skipcount=0
 	skipcounter=0
 	keepcounter=0
 	atom_lookup={}
@@ -105,7 +105,7 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 				skipcount=skipcount+1
 				skipcounter=skipcounter+1
  
-        skipcount=0
+	skipcount=0
 	for atom in framelast.atom:
 		if atom.name == atomtype:
 			if skipcount == skip:
@@ -169,12 +169,12 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 		return
 	else:
 		#Continue with representing modevectors!
-	        #########################################
+		#########################################
 		#                                       #
 		# Delete old selection or object if it  #
 		# exists so that it can be overwritten  #
 		#                                       #
-	        #########################################
+		#########################################
 		save_view=cmd.get_view(output=1,quiet=1)
 		cmd.delete(name=outname)
 		cmd.hide(representation="everything",selection=first_obj_frame)
