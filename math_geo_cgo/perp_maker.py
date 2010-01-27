@@ -99,7 +99,7 @@ def getPPlane( viewVector, center, side_length=100 ):
 viewVector[2]) + center[2]
  
                 else:
-                        print "Z-component of viewVector is zero.  Now, I need a nonzero value here
+                        print "Z-component of viewVector is zero.  Now, I need a nonzero value here \
 so I'm just making one up. :)"
                         z = random.randint(-200, 200)
  
