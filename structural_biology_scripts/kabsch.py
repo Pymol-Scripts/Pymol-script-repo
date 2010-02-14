@@ -33,7 +33,6 @@ import copy
  
 # pretty printing
 import pprint
-import string
  
 # for importing as a plugin into PyMol
 from pymol import cmd
