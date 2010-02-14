@@ -52,7 +52,6 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 	tr,tg,tb=map(float,tailrgb.split(','))
  
 	version=cmd.get_version()
-	pi=4*atan2(1,1)
 	arrow=[]
 	arrowhead = []
 	arrowtail = []
@@ -62,7 +61,7 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 	x2 = []
 	y2 = []
 	z2 = []
-	exit_flag=0
+	exit_flag=False
  
 ##############################################################
 #                                                            #
@@ -99,11 +98,11 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 				atom_lookup['current_atom']=1
  
 				skipcount=0
-				keepcounter=keepcounter+1
+				keepcounter+=1
 			else:
 #				print skipcount
-				skipcount=skipcount+1
-				skipcounter=skipcounter+1
+				skipcount+=1
+				skipcounter+=1
  
 	skipcount=0
 	for atom in framelast.atom:
@@ -131,17 +130,17 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 					      +atom.resn+\
 					      " ATMNUM "+str(atom.index)
 #				print current_atom
-				if atom_lookup.has_key('current_atom') != 1:
+				if 'current_at' not in atom_lookup:
 					print "\nError: "+current_atom+" from \""\
 					      +last_obj_frame+\
 					      " \"is not found in \""+first_obj_frame+"\"."
 					print "\nPlease check your input and/or selections and try again."
-					exit_flag=1
+					exit_flag=True
 					break
  
 				skipcount=0
 			else:
-				skipcount=skipcount+1
+				skipcount+=1
  
 	if exit_flag == 1:
 		###########################################
@@ -195,7 +194,7 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 		vectorz=z2[mv]-z1[mv]
 		length=sqrt(vectorx**2+vectory**2+vectorz**2)
 		if length < cutoff:
-			cutoff_counter=cutoff_counter+1
+			cutoff_counter+=1
 			continue
 		t=1.0-(cut/length)
 		x2[mv]=x1[mv]+factor*t*vectorx
@@ -223,7 +222,7 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 		dz=z2[mv]-z
 		seg=d/100
 		intfactor=int(factor)
-		if (version < 1.1): #Version >= 1.1 has cone primitive
+		if version < 1.1: #Version >= 1.1 has cone primitive
 			for i in range (100,0,-1): #i=100 is tip of cone
 				print i
 				t1=seg*i

@@ -29,7 +29,6 @@
 ####################################################################
  
 import colorsys,sys
-import string
 import re
 import editing
 import os
@@ -64,10 +63,11 @@ def readRotLib():
                     # Add to rotamer library in memory : 
                     #   key format       RES:PHI_BIN:PSI_BIN
                     #   value format     PROB, CHI1, CHI2, CHI3, CHI4
-                    try:
-                        rotdat[dat[RES]+":"+dat[PHI]+":"+dat[PSI]].append([ dat[PROB], dat[CHI1], dat[CHI2], dat[CHI3], dat[CHI4] ])
-                    except KeyError:
-                        rotdat[dat[RES]+":"+dat[PHI]+":"+dat[PSI]] = [ [ dat[PROB], dat[CHI1], dat[CHI2], dat[CHI3], dat[CHI4] ] ]
+                    key=dat[RES]+":"+dat[PHI]+":"+dat[PSI]
+                    if key in rotdat:
+                        rotdat[key].append([ dat[PROB], dat[CHI1], dat[CHI2], dat[CHI3], dat[CHI4] ])
+                    else:
+                        rotdat[key] = [ [ dat[PROB], dat[CHI1], dat[CHI2], dat[CHI3], dat[CHI4] ] ]
  
  
     else:
@@ -165,7 +165,7 @@ def set_rotamer(sel, chi1, chi2=0,chi3=0,chi4=0):
     at = cmd.get_model("byres ("+sel+")").atom[0]
  
     list = [chi1,chi2,chi3,chi4]
-    for i in range(0,len(CHIS[at.resn])):
+    for i in range(len(CHIS[at.resn])):
         print "Setting Chi"+str(i+1)+" to "+str(list[i])
         editing.set_dihedral(sel + ' and name '+CHIS[at.resn][i][0],
                              sel + ' and name '+CHIS[at.resn][i][1],
@@ -182,23 +182,18 @@ def set_rotamer(sel, chi1, chi2=0,chi3=0,chi4=0):
 def getBins(sel):
     return doRotamers(sel, type="bins")
  
-# Specific comparison operator for rotamer prob data 
-def mycmp(first, second):
-        return cmp( first[1], second[1])
- 
 # Color Ramp...
 def rot_color(vals): 
         nbins = 10
-        vals.sort(mycmp)
+        vals.sort(key=lambda x:x[1])
 #       print "End sort: "+str(len(vals))+" : "+str(nbins)
  
  
         # Coloring scheme...
-        i = 0
         j = 0
         rgb = [0.0,0.0,0.0]
         sel_str = ""
-        while i < len(vals):
+        for i in range(len(vals)):
                 if int(len(vals)/nbins) == 0 or i % int(len(vals)/nbins) == 0:
                       hsv = (colorsys.TWO_THIRD - colorsys.TWO_THIRD * float(j) / (nbins-1), 1.0, 1.0)
  
@@ -209,7 +204,6 @@ def rot_color(vals):
  
                 cmd.set_color("RotProbColor"+str(i), rgb)
                 cmd.color("RotProbColor"+str(i), str(vals[i][0]))
-                i += 1
  
  
 # Main function
@@ -233,12 +227,12 @@ def doRotamers(sel,angles=[], type="color"):
             try:
                # Don't process Glycines or Alanines
                if not (at.resn == 'GLY' or at.resn == 'ALA'):
-                if not at.chain+":"+at.resn+":"+at.resi in residues:
+                if at.chain+":"+at.resn+":"+at.resi not in residues:
                     residues.append(at.chain+":"+at.resn+":"+at.resi)
  
                     # Check for a null chain id (some PDBs contain this) 
                     unit_select = ""
-                    if not at.chain == "":
+                    if at.chain != "":
                         unit_select = "chain "+str(at.chain)+" and "
  
                     # Define selections for residue i-1, i and i+1
@@ -279,7 +273,7 @@ def doRotamers(sel,angles=[], type="color"):
  
                     # Get current chi angle measurements
                     chi = []
-                    for i in range(0,len(CHIS[at.resn])):
+                    for i in range(len(CHIS[at.resn])):
                        chi.append(cmd.get_dihedral(residue_def + ' and name '+CHIS[at.resn][i][0],
                                                      residue_def + ' and name '+CHIS[at.resn][i][1],
                                                      residue_def + ' and name '+CHIS[at.resn][i][2],
@@ -291,7 +285,7 @@ def doRotamers(sel,angles=[], type="color"):
                     # Compute probabilities for given chi angles
                     prob = 0
                     prob_box = 22                   
-                    for item in range(0,len(rotdat[at.resn+":"+str(phi_bin)+":"+str(psi_bin)])):
+                    for item in range(len(rotdat[at.resn+":"+str(phi_bin)+":"+str(psi_bin)])):
                         print "Rotamer from db: "+str(rotdat[at.resn+":"+str(phi_bin)+":"+str(psi_bin)][item])
                         if chi[0]:
                             if chi[0] >= float(rotdat[at.resn+":"+str(phi_bin)+":"+str(psi_bin)][item][1]) - (prob_box/2) and \
@@ -341,7 +335,7 @@ def createRotamerPDBs(sel,ncutoff=10,pcutoff=0,prefix="ROTAMER"):
  
         # Loop through atoms in selection
         for at in atoms.atom:
-                if at.resn == 'GLY' or at.resn == 'ALA' or "%s:%s:%s" % (at.chain,at.resn,at.resi) in residues:
+                if at.resn in ('GLY','ALA') or "%s:%s:%s" % (at.chain,at.resn,at.resi) in residues:
                         continue
  
                 # Add to residue list (keep track of which ones we've done)
@@ -360,7 +354,7 @@ def createRotamerPDBs(sel,ncutoff=10,pcutoff=0,prefix="ROTAMER"):
  
                 # Store crystal angle
                 crystal_angles = [0.0,0.0,0.0,0.0]
-                for angle in range(0,3):
+                for angle in range(3):
                         try:
                                 crystal_angles[angle] = bin[3][angle]
                         except IndexError:
@@ -370,7 +364,7 @@ def createRotamerPDBs(sel,ncutoff=10,pcutoff=0,prefix="ROTAMER"):
                 match_rotamers = rotdat["%s:%s:%s" % (bin[0],str(bin[1]),str(bin[2]))]
  
                 count = 0
-                for item in range(0, len(match_rotamers)):
+                for item in range(len(match_rotamers)):
  
                         # Store probablity
                         prob = match_rotamers[item][0]

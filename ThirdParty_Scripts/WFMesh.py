@@ -8,7 +8,6 @@
 ###############################################
  
 import os
-import string
 import re
 import math
 from pymol.opengl.gl import *
