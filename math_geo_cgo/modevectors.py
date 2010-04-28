@@ -93,9 +93,9 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 				current_atom="CHAIN "+atom.chain+" RESID "\
 					      +atom.resi+" RESTYPE "\
 					      +atom.resn+\
-					      " ATMNUM "+str(atom.index)
+					      " ATMNAME "+atom.name
 #				print current_atom
-				atom_lookup['current_atom']=1
+				atom_lookup[current_atom]=1
  
 				skipcount=0
 				keepcounter+=1
@@ -128,9 +128,9 @@ def modevectors( first_obj_frame, last_obj_frame, outname="modevectors", head=1.
 				current_atom="CHAIN "+atom.chain+" RESID "\
 					      +atom.resi+" RESTYPE "\
 					      +atom.resn+\
-					      " ATMNUM "+str(atom.index)
+					      " ATMNAME "+atom.name
 #				print current_atom
-				if 'current_at' not in atom_lookup:
+				if current_atom not in atom_lookup:
 					print "\nError: "+current_atom+" from \""\
 					      +last_obj_frame+\
 					      " \"is not found in \""+first_obj_frame+"\"."
