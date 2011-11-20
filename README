@@ -1,1 +1,13 @@
 Here we collect all Pymol scripts we can get.
+
+Import script in pymol by:
+import coloring.spectrumany
+
+To see the settings:
+help(coloring.spectrumany)
+
+To test:
+import math_geo_cgo.axes
+import math_geo_cgo.radiusOfGyration
+load protein.pdb
+rgyrate

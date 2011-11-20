@@ -19,7 +19,7 @@ cmd.select("domain", "/1c7c//A/143-283/ and name ca") ## selecting a domain
 domainCenter=centerOfMass("domain")
  
 print "Center of mass: (%.1f,%.1f,%.1f)"% domainCenter
-cmd.as("cartoon", "all")
+cmd.showas("cartoon", "all")
 cmd.show("spheres", "domain")
  
 ## Creating a sphere CGO
