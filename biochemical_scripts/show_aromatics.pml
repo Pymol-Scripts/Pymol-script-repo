@@ -9,7 +9,7 @@
 mstop
 dss
 hide all
-#zoom all
+#zoom all 
 #orient
 show cartoon,all
 color gray,all
