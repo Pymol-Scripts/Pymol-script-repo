@@ -8,7 +8,7 @@ import os, re
 ## Thx for inspiration from Andreas Henschel
 ## http://www.mail-archive.com/pymol-users@lists.sourceforge.net/msg05595.html (17 dec 2010)
 ## And from Simple scriptin PymMOl http://www.pymolwiki.org/index.php/Simple_Scripting
-### Ma.Sc student. Troels Linnet, 2010-12-18. troels.linnet@bbz.uni-leipzig.de
+### Troels Linnet, 2010-12-18.
 
 ### Calculates the distance for example between all CA atoms between a closed and open form of a structure.
 ### Give a data matrix and a gnuplot file, and input to pymol for easy visualisation
