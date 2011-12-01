@@ -2,6 +2,9 @@ try: from pymol import cmd; runningpymol='yes'
 except: runningpymol='no'; pass
 import os, platform, math
 
+### Described at PyMOL wiki:
+# http://www.pymolwiki.org/index.php/forster_distance_calculator
+
 #-------------------------------------------------------------------------------
 # Name:		Forster
 # Purpose:	Forster resonance energy transfer calculator.
@@ -19,7 +22,7 @@ import os, platform, math
 #		http://en.wikipedia.org/wiki/F%C3%B6rster_resonance_energy_transfer#Theoretical_basis
 #		{R_0}^6 = \frac{9\,Q_0 \,(\ln 10) \kappa^2 \, J}{128 \, \pi^5 \,n^4 \, N_A}
 #
-# Author:	Troels Emtekaer Linnet: tlinnet@gmail.com
+# Author:	Troels Emtekaer Linnet
 #
 # Created:	29/03/2011
 # Copyright:	(c) tlinnet 2011
