@@ -186,7 +186,7 @@ def displacementUpdateBAll(objA, alnAri, objB, alnBri):
         s1 = objA + " and resi " + alnAri[x][0] + " and name " + str(alnAri[x][1])
         cmd.alter( s1, "b = " + str(-0.01))
     for x in range(len(alnBri)):
-    s2 = objB + " and resi " + alnBri[x][0] + " and name " + alnBri[x][1]
+        s2 = objB + " and resi " + alnBri[x][0] + " and name " + alnBri[x][1]
         cmd.alter( s2, "b = " + str(-0.01))
     cmd.sort(objA); cmd.sort(objB)
     for x in range(len(alnAri)):
