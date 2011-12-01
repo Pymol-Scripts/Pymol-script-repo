@@ -1,13 +1,8 @@
-Here we collect all Pymol scripts we can get.
+This is the project to put all PyMOL script inder Git control.
+See more here: http://www.pymolwiki.org/index.php/Git_intro
 
-Import script in pymol by:
-import coloring.spectrumany
+#Import script in pymol by filename of script
+import colorbydisplacement
 
-To see the settings:
-help(coloring.spectrumany)
-
-To test:
-import math_geo_cgo.axes
-import math_geo_cgo.radiusOfGyration
-load protein.pdb
-rgyrate
+To see the functions in the script:
+help(colorbydisplacement)
