@@ -2,6 +2,9 @@ from pymol import cmd, stored, selector
 from math import *
 import os, re
 
+### Described at PyMOL wiki:
+# http://www.pymolwiki.org/index.php/displacementmap
+
 ## Thx for inspiration from Andreas Henschel
 ## http://www.mail-archive.com/pymol-users@lists.sourceforge.net/msg05595.html (17 dec 2010)
 ## And from Simple scriptin PymMOl http://www.pymolwiki.org/index.php/Simple_Scripting
