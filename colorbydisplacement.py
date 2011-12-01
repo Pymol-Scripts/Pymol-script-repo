@@ -52,21 +52,21 @@ def displacementUpdateB(objA, alnAri, objB, alnBri):
 ### If residue is unassigned in one of the pdb files, we reset its value
     for x in range(len(alnAri)):
         s1 = objA + " and name CA and resi " + alnAri[x]
- 	cmd.alter( s1, "b = " + str(-0.01))
+    cmd.alter( s1, "b = " + str(-0.01))
     for x in range(len(alnBri)):
-	s2 = objB + " and name CA and resi " + alnBri[x]
+    s2 = objB + " and name CA and resi " + alnBri[x]
         cmd.alter( s2, "b = " + str(-0.01))
     cmd.sort(objA); cmd.sort(objB)
     for x in range(len(alnAri)):
         s1 = objA + " and name CA and resi " + alnAri[x]
-	s2 = objB + " and name CA and resi " + alnAri[x]
-	### Names starting with __ (underscores) are normally hidden by PyMOL
-	tempObject = "__tempObject"
-	Displacement = cmd.distance(tempObject, s1, s2)
- 	cmd.alter( s1, "b = " + str(Displacement))
+    s2 = objB + " and name CA and resi " + alnAri[x]
+    ### Names starting with __ (underscores) are normally hidden by PyMOL
+    tempObject = "__tempObject"
+    Displacement = cmd.distance(tempObject, s1, s2)
+    cmd.alter( s1, "b = " + str(Displacement))
         cmd.alter( s2, "b = " + str(Displacement))
-	cmd.remove(tempObject)
-	cmd.delete(tempObject)
+    cmd.remove(tempObject)
+    cmd.delete(tempObject)
     cmd.sort(objA); cmd.sort(objB)
 
 def ColorByDisplacementCA(objSel1, objSel2, super1='all', super2='all', doColor="True", doAlign="True", AlignedWhite='yes'):
@@ -77,17 +77,17 @@ def ColorByDisplacementCA(objSel1, objSel2, super1='all', super2='all', doColor=
         ### Create temp objects
         cmd.create( tObj1, objSel1 )
         cmd.create( tObj2, objSel2 )
-	### Align and make create an object aln which indicates which atoms were paired between the two structures
-	### Super is must faster than align http://www.pymolwiki.org/index.php/Super
+    ### Align and make create an object aln which indicates which atoms were paired between the two structures
+    ### Super is must faster than align http://www.pymolwiki.org/index.php/Super
         cmd.super(tObj1 + ' and ' + str(super1), tObj2 + ' and ' + str(super2), object=aln)
-	### Modify the original matrix of object1 from the alignment
+    ### Modify the original matrix of object1 from the alignment
         cmd.matrix_copy(tObj1, objSel1)
     else:
         ### Create temp objects
         cmd.create( tObj1, objSel1 )
         cmd.create( tObj2, objSel2 )
-	### Align and make create an object aln which indicates which atoms were paired between the two structures
-	### Super is must faster than align http://www.pymolwiki.org/index.php/Super
+    ### Align and make create an object aln which indicates which atoms were paired between the two structures
+    ### Super is must faster than align http://www.pymolwiki.org/index.php/Super
         cmd.super(tObj1 + ' and ' + str(super1), tObj2 + ' and ' + str(super2), object=aln)
 
     ### Modify the B-factor columns of the original objects,
@@ -105,9 +105,9 @@ def ColorByDisplacementCA(objSel1, objSel2, super1='all', super2='all', doColor=
     ### Iterate over objects
     if AlignedWhite=='yes':
         cmd.iterate(tObj1 + " and n. CA and not " + aln, "stored.alnAres.append(resi)")
-	cmd.iterate(tObj2 + " and n. CA and not " + aln, "stored.alnBres.append(resi)")
+    cmd.iterate(tObj2 + " and n. CA and not " + aln, "stored.alnBres.append(resi)")
     else:
-	cmd.iterate(tObj1 + " and n. CA", "stored.alnAres.append(resi)")
+    cmd.iterate(tObj1 + " and n. CA", "stored.alnAres.append(resi)")
         cmd.iterate(tObj2 + " and n. CA", "stored.alnBres.append(resi)")
 
     ### Change the B-factors for EACH object
@@ -118,12 +118,12 @@ def ColorByDisplacementCA(objSel1, objSel2, super1='all', super2='all', doColor=
     ### Iterate over objects and get b
     if AlignedWhite=='yes':
 	### Iterate over objects which is not aligned
-    	cmd.iterate(tObj1 + " and n. CA and not " + aln, "stored.alnAnb.append(b)" )
-	cmd.iterate(tObj2 + " and n. CA and not " + aln, "stored.alnBnb.append(b)" )
+        cmd.iterate(tObj1 + " and n. CA and not " + aln, "stored.alnAnb.append(b)" )
+    cmd.iterate(tObj2 + " and n. CA and not " + aln, "stored.alnBnb.append(b)" )
     else:
 	### Or Iterate over all objects with CA
-    	cmd.iterate(tObj1 + " and n. CA", "stored.alnAnb.append(b)" )
-    	cmd.iterate(tObj2 + " and n. CA", "stored.alnBnb.append(b)" )
+        cmd.iterate(tObj1 + " and n. CA", "stored.alnAnb.append(b)" )
+        cmd.iterate(tObj2 + " and n. CA", "stored.alnBnb.append(b)" )
 
     ### Get rid of all intermediate objects and clean up
     cmd.remove(tObj1)
@@ -160,7 +160,7 @@ def ColorByDisplacementCA(objSel1, objSel2, super1='all', super2='all', doColor=
         ### White-wash the residues not used for alignment
         cmd.color("black", "ResNotInBothPDB")
         ### Color the residues used for alignment according to their B-factors (Displacment values)
-#        cmd.spectrum("b", 'rainbow',  "((" + objSel1 + " and n. CA) or (n. CA and " + objSel2 +" )) and not notUsedForAln+ResNotInBothPDB")
+        #cmd.spectrum("b", 'rainbow',  "((" + objSel1 + " and n. CA) or (n. CA and " + objSel2 +" )) and not notUsedForAln+ResNotInBothPDB")
         cmd.spectrum("b", 'rainbow',  "((" + objSel1 + " and n. CA) or (n. CA and " + objSel2 +" )) and not (notUsedForAln or ResNotInBothPDB)")
         ### Delete the selection of atoms not used for alignment
         ### If you would like to keep this selection intact,
@@ -176,7 +176,7 @@ def ColorByDisplacementCA(objSel1, objSel2, super1='all', super2='all', doColor=
         print "\nObjects are now colored by C-alpha displacement deviation."
         print "Blue is minimum and red is maximum..."
         print "White is those residues used in the alignment algorithm. Can be turned off in top of algorithm."
-	print "Black is residues that does not exist in both files..."
+        print "Black is residues that does not exist in both files..."
 cmd.extend("ColorByDisplacementCA", ColorByDisplacementCA)
 
 def displacementUpdateBAll(objA, alnAri, objB, alnBri):
@@ -184,20 +184,20 @@ def displacementUpdateBAll(objA, alnAri, objB, alnBri):
     ### If residue is unassigned in one of the pdb files, we reset its value
     for x in range(len(alnAri)):
         s1 = objA + " and resi " + alnAri[x][0] + " and name " + str(alnAri[x][1])
- 	cmd.alter( s1, "b = " + str(-0.01))
+    cmd.alter( s1, "b = " + str(-0.01))
     for x in range(len(alnBri)):
-	s2 = objB + " and resi " + alnBri[x][0] + " and name " + alnBri[x][1]
+    s2 = objB + " and resi " + alnBri[x][0] + " and name " + alnBri[x][1]
         cmd.alter( s2, "b = " + str(-0.01))
     cmd.sort(objA); cmd.sort(objB)
     for x in range(len(alnAri)):
         s1 = objA + " and resi " + alnAri[x][0] + " and name " + alnAri[x][1]
-	s2 = objB + " and resi " + alnAri[x][0] + " and name " + alnAri[x][1]
-	### Names starting with __ (underscores) are normally hidden by PyMOL
-	tempObject = "__tempObject"
-	Displacement = cmd.distance(tempObject, s1, s2)
- 	cmd.alter( s1, "b = " + str(Displacement))
+    s2 = objB + " and resi " + alnAri[x][0] + " and name " + alnAri[x][1]
+    ### Names starting with __ (underscores) are normally hidden by PyMOL
+    tempObject = "__tempObject"
+    Displacement = cmd.distance(tempObject, s1, s2)
+    cmd.alter( s1, "b = " + str(Displacement))
         cmd.alter( s2, "b = " + str(Displacement))
-	cmd.delete(tempObject)
+    cmd.delete(tempObject)
     cmd.sort(objA); cmd.sort(objB)
 
 def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor="True", doAlign="True", AlignedWhite='yes'):
@@ -208,17 +208,17 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
         ### Create temp objects
         cmd.create( tObj1, objSel1 )
         cmd.create( tObj2, objSel2 )
-	### Align and make create an object aln which indicates which atoms were paired between the two structures
-	### Super is must faster than align http://www.pymolwiki.org/index.php/Super
+    ### Align and make create an object aln which indicates which atoms were paired between the two structures
+    ### Super is must faster than align http://www.pymolwiki.org/index.php/Super
         cmd.super(tObj1 + ' and ' + str(super1), tObj2 + ' and ' + str(super2), object=aln)
-	### Modify the original matrix of object1 from the alignment
+    ### Modify the original matrix of object1 from the alignment
         cmd.matrix_copy(tObj1, objSel1)
     else:
         ### Create temp objects
         cmd.create( tObj1, objSel1 )
         cmd.create( tObj2, objSel2 )
-	### Align and make create an object aln which indicates which atoms were paired between the two structures
-	### Super is must faster than align http://www.pymolwiki.org/index.php/Super
+    ### Align and make create an object aln which indicates which atoms were paired between the two structures
+    ### Super is must faster than align http://www.pymolwiki.org/index.php/Super
         cmd.super(tObj1 + ' and ' + str(super1), tObj2 + ' and ' + str(super2), object=aln)
 
     ### Modify the B-factor columns of the original objects,
@@ -253,7 +253,7 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
         cmd.iterate(tObj1 + " and not " + aln, "stored.alnAnb.append(b)" )
         cmd.iterate(tObj2 + " and not " + aln, "stored.alnBnb.append(b)" )
     else:
-	### Or Iterate over all objects with CA
+    ### Or Iterate over all objects with CA
         cmd.iterate(tObj1, "stored.alnAnb.append(b)" )
         cmd.iterate(tObj2, "stored.alnBnb.append(b)" )
 
@@ -290,7 +290,7 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
         ### White-wash the residues not used for alignment
         cmd.color("black", "ResNotInBothPDB")
         ### Color the residues used for alignment according to their B-factors (Displacement values)
-#        cmd.spectrum("b", 'rainbow',  "((" + objSel1 + ") or (" + objSel2 +" )) and not notUsedForAln+ResNotInBothPDB")
+        #cmd.spectrum("b", 'rainbow',  "((" + objSel1 + ") or (" + objSel2 +" )) and not notUsedForAln+ResNotInBothPDB")
         cmd.spectrum("b", 'rainbow',  "((" + objSel1 + ") or (" + objSel2 +" )) and not (notUsedForAln or ResNotInBothPDB)")
         ### Delete the selection of atoms not used for alignment
         ### If you would like to keep this selection intact,
@@ -303,5 +303,5 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
         print "\nObjects are now colored by C-alpha displacement deviation."
         print "Blue is minimum and red is maximum..."
         print "White is those residues used in the alignment algorithm. Can be turned off in top of algorithm."
-	print "Black is residues that does not exist in both files..."
+        print "Black is residues that does not exist in both files..."
 cmd.extend("ColorByDisplacementAll", ColorByDisplacementAll)
