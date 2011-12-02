@@ -1,11 +1,14 @@
+### Described at PyMOL wiki:
+# http://www.pymolwiki.org/index.php/rotkit
+
 #-------------------------------------------------------------------------------
 # Name:		rotkit.py   examples
 # Purpose:      To rotate molecules easier
 #
-# Author:      tlinnet
+# Author:      Troels Linnet
 #
 # Created:     30/08/2011
-# Copyright:   (c) tlinnet 2011
+# Copyright:   (c) Troels Linnet 2011
 # Licence:     Free
 #-------------------------------------------------------------------------------
 
