@@ -14,8 +14,8 @@
 
 
 from pymol import cmd
-import math, os
-from time import sleep
+import math, os, platform
+
 
 def printMat(matrix):
 	print("%s %s %s %s \n%s %s %s %s \n%s %s %s %s \n%s %s %s %s"%(matrix[0],matrix[1],matrix[2],matrix[3],matrix[4],matrix[5],matrix[6],matrix[7],matrix[8],matrix[9],matrix[10],matrix[11],matrix[12],matrix[13],matrix[14],matrix[15]))
@@ -156,6 +156,12 @@ def findMinMax(datalist,index):
 		if l[index] > maximum:
 			maximum = l[index]
 	return(minimum,maximum,datacolumn)  
+
+def createdirs(dirname):
+	if platform.system() == 'Windows': Newdir = os.getcwd()+"\\%s\\"%dirname
+	if platform.system() == 'Linux': Newdir = os.getcwd()+"/%s/"%dirname
+	if not os.path.exists(Newdir): os.makedirs(Newdir)
+	return(Newdir)
 	
 def makehistogram(datalist,dataname="Histogram",datalistindex=2,nrbins=100,binrange=[0,0]):
 	import numpy
@@ -196,7 +202,7 @@ def makehistogram(datalist,dataname="Histogram",datalistindex=2,nrbins=100,binra
 	gnuplot_write.write('set title "Normalized distance histogram"' + '\n')
 	gnuplot_write.write('set xlabel "Distance [Ang]"' + '\n')
 	gnuplot_write.write('set xrange[%s:%s]'%(binrange[0],binrange[1]) + '\n')
-	gnuplot_write.write('set ylabel "Probability"' + '\n')
+	gnuplot_write.write('set ylabel "Density"' + '\n')
 	gnuplot_write.write('set yrange[%s:%s]'%(DistHistMin,DistHistMax/binwidthDist) + '\n')
 	gnuplot_write.write('set ytics nomirror' + '\n')
 	gnuplot_write.write('set y2label "Integrated Bin probability"' + '\n')
