@@ -1,5 +1,4 @@
-import pymol
-import cmd
+from pymol import cmd
 from pymol import stored
 
 ### Described at PyMOL wiki:
