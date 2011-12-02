@@ -162,10 +162,6 @@ def propka(molecule="NIL",chain="*",resi="0",resn="NIL",method="upload",logtime=
 		pkafile = getpropka(PDB,chain,resi,resn,source,PDBID,logtime,server_wait,version,verbose,showresult)
 		### Open the result file and put in into a handy list.
 		list_results,ligands_results = importpropkaresult(pkafile)
-		### Now we check if the script is actually the newest one.
-		Web_Version,Script_Version=checkversion(Script_Version,verbose)
-		if float(Web_Version) > float(Script_Version):
-			print('\n\n####################################\nWarning: The author has updated the pymol propka script.\nPresent: %s > Script: %s \nThe new script is available at "http://pymolwiki.org/index.php/Propka" or "http://tinyurl.com/pymolpropka"\n####################################\n\n'%(Web_Version,Script_Version))
 	if method=="file":
 		assert pkafile not in ['NIL'], "You have to provide path to file. Example: pkafile=./Results_propka/4ins_2011.pka"
 		assert ".pka" in pkafile, 'The propka result file should end with ".pka" \nExample: pkafile=./Results_propka/4ins_2011.pka \npkafile=%s'%(pkafile)
@@ -690,24 +686,6 @@ def writepymolcmd(newmolecule,pkafile,verbose,makebonds):
 	##result_pka_pymol.write("cmd.feedback('enable','all','results')\n")
 	result_pka_pymol.close()
 	return(result_pka_pymol_name)
-
-def checkversion(Script_Version="0",verbose='no',url="http://pymolwiki.org/index.php/Propka#ScriptVersion"):
-	try: import mechanize; importedmechanize='yes'
-	except ImportError: print("Import error. Is a module missing?"); print(sys.exc_info()); print("Look if missing module is in your python path \n %s"%sys.path);importedmechanize='no'
- 	### Start the browser
-	br = mechanize.Browser()
-	### We pass to the server, that we are not a browser, but this python script. Can be used for statistics for the server.
-	br.addheaders = [('User-agent', 'pythonMechanizeClient')]
-	### To open the start page.
-	page_start = br.open(url)
-	read_start = page_start.read()
-	if verbose == 'yes': print(br.title()); print(br.geturl())
-	read_start_lines = read_start.splitlines()
-	for l in read_start_lines:
-		if "Current_Version=" in l:
-			Web_Version=l.split("=")[-1]
-			if verbose == 'yes': print(Web_Version)
-	return(Web_Version, Script_Version)
 
 def replace_all(text, dic):
 	for i, j in dic.iteritems():
