@@ -1,5 +1,7 @@
-#Described at: http://www.pymolwiki.org/index.php/Resicolor_plugin
-#plugin contributed by Philippe Garteiser garteiserp@omrf.org
+'''
+Described at: http://www.pymolwiki.org/index.php/resicolor_plugin
+plugin contributed by Philippe Garteiser garteiserp@omrf.org
+'''
 from Tkinter import *
 from pymol import cmd
 import tkSimpleDialog
