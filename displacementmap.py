@@ -1,20 +1,24 @@
+'''
+Described at PyMOL wiki:
+http://www.pymolwiki.org/index.php/displacementmap
+
+Thx for inspiration from Andreas Henschel
+http://www.mail-archive.com/pymol-users@lists.sourceforge.net/msg05595.html (17 dec 2010)
+And from Simple scriptin PymMOl http://www.pymolwiki.org/index.php/Simple_Scripting
+Troels Linnet, 2010-12-18.
+
+Calculates the distance for example between all CA atoms between a closed and open form of a structure.
+Give a data matrix and a gnuplot file, and input to pymol for easy visualisation
+Possible so select interesting residues in ranges. Needs to be separated with a dot '.'
+Example input from pymol. with 2 objects.
+dispmap O5NT-1HP1-A, C5NT-1HPU-C, 30.0, 15.0, resi1=23-25, atom=CA, showsticks=yes
+'''
+
 from pymol import cmd, stored, selector
 from math import *
 import os, re
 
-### Described at PyMOL wiki:
-# http://www.pymolwiki.org/index.php/displacementmap
 
-## Thx for inspiration from Andreas Henschel
-## http://www.mail-archive.com/pymol-users@lists.sourceforge.net/msg05595.html (17 dec 2010)
-## And from Simple scriptin PymMOl http://www.pymolwiki.org/index.php/Simple_Scripting
-### Troels Linnet, 2010-12-18.
-
-### Calculates the distance for example between all CA atoms between a closed and open form of a structure.
-### Give a data matrix and a gnuplot file, and input to pymol for easy visualisation
-### Possible so select interesting residues in ranges. Needs to be separated with a dot '.'
-### Example input from pymol. with 2 objects.
-### dispmap O5NT-1HP1-A, C5NT-1HPU-C, 30.0, 15.0, resi1=23-25, atom=CA, showsticks=yes
 
 def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1=str(0), resi2=str(0), atom='CA', listlength=5, showsticks='yes'):
 	if molecule1=="NIL":

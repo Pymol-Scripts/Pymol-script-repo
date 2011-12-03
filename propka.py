@@ -1,5 +1,6 @@
-### Described at PyMOL wiki:
-# http://www.pymolwiki.org/index.php/propka
+'''
+Described at PyMOL wiki:
+http://www.pymolwiki.org/index.php/propka
 
 #-------------------------------------------------------------------------------
 # Name:		propka for pymol
@@ -14,7 +15,7 @@
 #
 #
 #-------------------------------------------------------------------------------
-"""
+
 	    The PROPKA method is developed by the
 		  Jensen Research Group
 		 Department of Chemistry
@@ -57,12 +58,9 @@ Execute with pymol or start pymol and: File->Run->trypropka.pml
 #cd /homes/linnet/Documents/Speciale/5NT-project/Mutant-construct/predict_reactivity/propka
 cd C:/Users/tlinnet/Documents/My Dropbox/Speciale/5NT-project/Mutant-construct/predict_reactivity/propka
 
-### If you have the script in your working directory the
-#run ./propka.py
-### You can also make the script general available. Put it into your python path. Ex: C:\Program Files (x86)\PyMOL\PyMOL\modules Then do instead:
+### The fastest method is just to write propka. Then the last pymol molecule is assumed and send to server. verbose=yes makes the script gossip mode.
 import propka
 
-### The fastest method is just to write propka. Then the last pymol molecule is assumed and send to server. verbose=yes makes the script gossip mode.
 fetch 4ins, async=0
 propka
 #fetch 1hp1, async=0
@@ -116,7 +114,7 @@ propka
 # PDBID: is used as the 4 number/letter pdb code, when invoking source=ID.
 
 ##############################################################################################################################################################################################################################
-"""
+'''
 try: from pymol import cmd; runningpymol='yes'
 except: runningpymol='no'; pass
 import time, platform, os

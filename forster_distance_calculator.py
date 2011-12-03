@@ -1,9 +1,6 @@
-try: from pymol import cmd; runningpymol='yes'
-except: runningpymol='no'; pass
-import os, platform, math
-
-### Described at PyMOL wiki:
-# http://www.pymolwiki.org/index.php/forster_distance_calculator
+'''
+Described at PyMOL wiki:
+http://www.pymolwiki.org/index.php/forster_distance_calculator
 
 #-------------------------------------------------------------------------------
 # Name:		Forster
@@ -27,23 +24,30 @@ import os, platform, math
 # Created:	29/03/2011
 # Copyright:	(c) tlinnet 2011
 # Licence:	Free for all
-#-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 #Ref(1)
 # Biochemistry 1997, 36, 11261-11272
 # M. Pilar Lillo, Joseph M. Beechem, Barbara K. Szpikowska, Mark A. Sherman, and Maria T. Mas
 #Design and Characterization of a Multisite Fluorescence Energy-Transfer System for Protein Folding Studies: A Steady-State and Time-Resolved Study of Yeast Phosphoglycerate Kinase
-#
-# NOTES:
-# Datafiles: 	Two column file. Space separated. Numbers are "." dot noted. First column is in nanometers nm. Second column is arbitrary units of fluorescence/emission.
-# 		If you have collected Donor Exitation and Acceptor Emission, they can be collected and plotted in gnuplot automatically. Set: Compare"yes"
 
-# xunit="nm":	Enter x values in "nm" or "cm".
-# A_e_Max_Y :	Acceptor maximum molar extinction coefficient. In units of M-1 cm-1. Approx 60000 - 1500000
-# A_e_Max_X :	Enter at which wavelength (in nm) the maximum absorption occurs.
-# Qd=0.8    :	Fluorescence quantum yield of the donor in the absence of the acceptor. Qd = neta_fl = n_fl / n_abs = n_emi / n_exi
-# k2 = 2.0/3.0	Dipole orientation factor.
-# n = 1.33  : 	Refractive index of the medium. water=1.33, protein=1.4, n2MGuHCl=1.375 Ref(1)
-# NA = 6.02214179e+023 # (units: Number*mol-1 )Avogadros number
+NOTES:
+Datafiles: 	Two column file. Space separated. Numbers are "." dot noted. First column is in nanometers nm. Second column is arbitrary units of fluorescence/emission.
+ 		If you have collected Donor Exitation and Acceptor Emission, they can be collected and plotted in gnuplot automatically. Set: Compare"yes"
+
+xunit="nm":	Enter x values in "nm" or "cm".
+A_e_Max_Y :	Acceptor maximum molar extinction coefficient. In units of M-1 cm-1. Approx 60000 - 1500000
+A_e_Max_X :	Enter at which wavelength (in nm) the maximum absorption occurs.
+Qd=0.8    :	Fluorescence quantum yield of the donor in the absence of the acceptor. Qd = neta_fl = n_fl / n_abs = n_emi / n_exi
+k2 = 2.0/3.0	Dipole orientation factor.
+n = 1.33  : 	Refractive index of the medium. water=1.33, protein=1.4, n2MGuHCl=1.375 Ref(1)
+NA = 6.02214179e+023 # (units: Number*mol-1 )Avogadros number
+'''
+
+try: from pymol import cmd; runningpymol='yes'
+except: runningpymol='no'; pass
+import os, platform, math
+
+
 
 def forster(D_Exi="ATTO488Exi.txt",D_Emi="ATTO488Emi.txt",A_Exi="ATTO590Exi.txt",A_Emi="ATTO590Emi.txt",A_e_Max_Y=120000,A_e_Max_X=594,Qd=0.8,k2=0.66667,n=1.33,Compare="yes",xunit="nm"):
 	A_e_Max_Y=float(A_e_Max_Y);A_e_Max_X=float(A_e_Max_X);Qd=float(Qd);k2=float(k2);n=float(n);NA=6.02214179e+023
