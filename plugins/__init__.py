@@ -3,6 +3,11 @@ This script is described at: http://www.pymolwiki.org/index.php/plugindirectory
 
 PyMOL personal plugin directory
 Recommended location of this file: ~/xxx/Pymol-script-repo/plugins/__init__.py
+
+### Make these settings in ~/.pymolrc ####################
+import sys
+sys.path.append('C:/Users/YOURNAME/Documents/Pymol-script-repo')
+import plugins
 '''
  
 import os, sys, traceback
