@@ -1,3 +1,6 @@
+'''
+See more at: http://www.pymolwiki.org/index.php/emovie
+
 #eMovie plugin tool for PyMOL
 #28-Dec-2006
 #created by Eran Hodis during summer 2006
@@ -5,6 +8,7 @@
 #Weizmann Institute of Science, Rehovot, Israel
 
 #editing functions for storyboard added 28-Jul-07 - EH
+'''
 
 from Tkinter import *
 from pymol import cmd
@@ -188,7 +192,8 @@ def __init__(self):
 	cmd.extend('mvSet',mv_set)     # adjust parameter over frame range
 
 	# KR: finally, call open_eMovie:
-	open_eMovie()
+	#UN-COMMENTED TO REMOVE AUTO OPEN 
+	#open_eMovie()
     	
 
 def open_eMovie():
