@@ -634,7 +634,7 @@ R0lGODdhEAAQAOMPAAAAAIAAAACAAICAAAAAgIAAgACAgMDAwICAgP8AAAD/AP//AAAA//8A/wD/
         self.iconimages[name] = image
         return image
     
-    def setannotationservice(self, as):
+    def setannotationservice(self, as1):
         self.annotationservice = as
 
     #overload to set annotation service for children
@@ -835,7 +835,7 @@ RBmyQYWKDiMgIMDSEFWaHUae/DhBoYEGIWO2wDkkkBGeUrJiTZpxgQ5ixUD6zOLDKogAAlQA0Wlk
 50CENn9WzOoyawAmRbNkuTolCsUlMaEKzMoTKguNNQEA6F4gg8weKhhmefoCKNSmJRWscCl+XEIZ
 gZKaWEhQos4qREQmGPDAZlZAADs=
 """
-    def setannotationservice(self, as):
+    def setannotationservice(self, as1):
         self.annotationservice = as
         
     # overload to load the annotation icon data from strings
