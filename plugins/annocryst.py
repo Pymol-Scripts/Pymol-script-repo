@@ -635,7 +635,7 @@ R0lGODdhEAAQAOMPAAAAAIAAAACAAICAAAAAgIAAgACAgMDAwICAgP8AAAD/AP//AAAA//8A/wD/
         return image
     
     def setannotationservice(self, as1):
-        self.annotationservice = as
+        self.annotationservice = as1
 
     #overload to set annotation service for children
     def draw(self,x,y):
@@ -836,7 +836,7 @@ RBmyQYWKDiMgIMDSEFWaHUae/DhBoYEGIWO2wDkkkBGeUrJiTZpxgQ5ixUD6zOLDKogAAlQA0Wlk
 gZKaWEhQos4qREQmGPDAZlZAADs=
 """
     def setannotationservice(self, as1):
-        self.annotationservice = as
+        self.annotationservice = as1
         
     # overload to load the annotation icon data from strings
     def geticonimage(self, name):
@@ -850,6 +850,7 @@ gZKaWEhQos4qREQmGPDAZlZAADs=
             return self.iconimages[name]
         except KeyError:
             pass
+
         icondata = self.comment_icon
         if name == "Question":
             icondata = self.question_icon
