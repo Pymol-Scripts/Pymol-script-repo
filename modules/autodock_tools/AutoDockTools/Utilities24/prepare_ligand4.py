@@ -4,7 +4,8 @@
 #
 # $Header: /opt/cvs/python/packages/share1.5/AutoDockTools/Utilities24/prepare_ligand4.py,v 1.5.4.1 2009/04/15 17:41:57 rhuey Exp $
 #
-import os 
+import os,sys
+sys.path.append(sys.argv[1])
 
 from MolKit import Read
 
