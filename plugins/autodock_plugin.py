@@ -34,7 +34,7 @@ Is described at: http://www.pymolwiki.org/index.php/autodock_plugin
 
 
 #================================================================
-import sys,os,math,re, fnmatch, shutil
+import sys,os,platform,math,re, fnmatch, shutil
 from os import stat
 from os.path import abspath
 from stat import ST_SIZE
@@ -1904,8 +1904,9 @@ class Autodock:
         print tmp_rec_pdb
         cmd.save(tmp_rec_pdb,sel[0])
         util_program = os.path.join(self.autodock_tools_path.get(),"prepare_receptor4.py")
+        module_path = add_to_path()
         outfilename = os.path.join(self.work_dir(), "receptor.%s.pdbqt" % sel[0])
-        command = "%s -r %s -o %s -A checkhydrogens" % (util_program,tmp_rec_pdb,outfilename)
+        command = "%s %s -r %s -o %s -A checkhydrogens" % (util_program,module_path,tmp_rec_pdb,outfilename)
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
 
@@ -3861,3 +3862,13 @@ class ScoreTable(Frame):
             for k in range(4):
                 self.set_cell_value(i,k,"")
         self.clearTable()
+
+def add_to_path():
+    for path in sys.path:
+        if 'Pymol-script-repo' in path:
+            if platform.system() == 'Windows':
+                pathstring = path + "\\modules\\autodock_tools"
+            if platform.system() == 'Linux':
+                pathstring = path + "/modules/autodock_tools"
+            break
+    return(pathstring)
