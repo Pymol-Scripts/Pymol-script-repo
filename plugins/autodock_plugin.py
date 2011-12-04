@@ -1,3 +1,6 @@
+'''
+Is described at: http://www.pymolwiki.org/index.php/autodock_plugin
+
 # Autodock/Vina plugin  Copyright Notice
 # ============================
 #
@@ -27,6 +30,8 @@
 # CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 # CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 # ----------------------------------------------------------------------
+'''
+
 
 #================================================================
 import sys,os,math,re, fnmatch, shutil
