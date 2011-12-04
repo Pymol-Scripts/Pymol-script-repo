@@ -14,7 +14,7 @@ See more at: http://www.pymolwiki.org/index.php/annocryst
 '''
 
 import Pmw, sys, urllib2, urllib, string, webbrowser
-from idlelib.TreeWidget import TreeItem, TreeNode
+from modules.idlelib.TreeWidget import TreeItem, TreeNode
 from Tkinter import PhotoImage
 from pymol import cmd
 from urllib2 import URLError, HTTPError 
