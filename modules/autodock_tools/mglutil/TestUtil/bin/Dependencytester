@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+#
+
+#Authors: Michel F Sanner,Sowjanya Karnati
+#
+
+#NOTES:This script finds and prints  dependencies of all packages or one
+#patricular package.When run with -V option finds dependencies at file level
+#
+#
+import os, sys, re,string
+from os.path import walk
+import getopt,warnings
+#os.system('rm -rf depresult')
+######################################################################
+#   COMMAND LINE OPTIONS
+######################################################################
+
+def Usage():
+    "Print helpful accurate statement to Usage statement"
+    print "Usage:Dependency"
+    print "Description of Command:"
+    print "Optional parameters:"
+    print "     -v pack level(default is True) prints for all packages" 
+    print "     -V file level(default is False) prints for all packages"
+    print "     -p pack"
+    print "     -h help"
+    print "     Script can be called for each pack like this:"
+    print "            ./Dependency -v -pPACKNAME"
+    print "     For list of Packs:"
+    print "             ./Dependency -v -pPACK1,PACK2,PACK3..."
+    print "     For each file :" 
+    print "             ./Dependency -V -pPACKNAME.FILE(full path using '.')"
+    print "     Location of output file:"
+    print "             ./Dependency -l '/directory where you want to view result' "
+exec("opt_list,args=getopt.getopt(sys.argv[1:],'p:rvhVl:')")
+
+
+#initialize required parameters
+pack = None
+
+#optinal parameters
+loc = None
+v = True
+V = False
+for o,a in opt_list:
+    if o in ('-p','--p'):
+        pack = a    
+    if o in ('-h','--'):
+        Usage()
+        sys.exit()
+    if o in ('-v','--v'):
+        v = False
+    if o in ('-V','--V'):
+        V = True
+    if o in ('-l','--l'):
+	    loc = a
+
+from mglutil.TestUtil import Dependencytester
+deptester = Dependencytester.DEPENDENCYCHECKER()
+Total_packs = deptester.rundependencychecker(pack,v,V,loc)
+if loc:
+	if os.path.exists(loc):	
+        
+       	  os.chdir("%s" %loc)
+          if os.path.exists("%s/depresult" %loc):
+            os.system('rm -rf %s/depresult' %loc)
+          fptr = open("depresult",'w')
+          fptr.writelines("DEPENDENCIES OF THE FOLLOWING PACKAGES:\n")
+          for i in Total_packs:
+                fptr.writelines(i)
+                fptr.writelines("\n")
+                fptr.writelines("\n")
+          fptr.close()
+          print "\n"
+          print "You can also view result at %s/depresult"  %loc	
+print "DEPENDENCIES OF THE FOLLOWING PACKAGES:\n"
+for i in Total_packs:
+    print "%s" %i
+    print "\n"
+
+

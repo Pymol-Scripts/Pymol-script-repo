@@ -1,0 +1,136 @@
+#!/usr/bin/env python2.5
+#
+import sys, getopt
+
+optlist, args = getopt.getopt(sys.argv[1:], 'hai', [
+            'help', 'again', 'overwriteLog', 'uniqueLog', 'noLog', 'die',
+	    'customizer=', 'interactive'] )
+
+help_msg = """usage: %s <options>
+        -h or --help       : print this message
+        -a or --again      : play back lastlog file
+        --overwriteLog     : overwrite log file
+        --uniqueLog        : create a log file with a unique name
+        --noLog            : turn off logging
+        --die              : do not start GUI event loop
+        --customizer file  : run the user specified file
+        --lib packageName  : add a libraries of commands""" % sys.argv[0]
+customizer = None
+logmode = 'overwrite'
+libraries = []
+again = 0
+interactive = 0
+die=0
+
+for opt in optlist:
+    if opt[ 0] in ('-h', '--help'):
+        print help_msg
+        sys.exit()
+    elif opt[ 0] in ('-a', '--again'):
+        again = 1
+	import os
+        os.system("mv mvAll.log.py .tmp.py")
+    elif opt[ 0] =='--overwriteLog': logmode = 'overwrite'
+    elif opt[ 0] =='--uniqueLog': logmode = 'unique'
+    elif opt[ 0] =='--noLog': logmode = 'no'
+    elif opt[ 0] =='--die': die = 1
+    elif opt[ 0] == '--customizer':
+        customFile = opt[1]
+    elif opt[ 0] == '--lib':
+        libraries.append(opt[1])
+    elif opt[ 0] in ('-i', '--interactive'):
+	interactive = 1
+    else:
+        print "unknown option %s %s"%tuple(opt)
+        print help_msg
+        sys.exit( 1)
+
+sys.path.insert(0, '.')
+try:
+    import AutoDockTools
+    print 'Run AutoDockTools from', AutoDockTools.__path__[0]
+
+    from Pmv.moleculeViewer import MoleculeViewer
+    mv = MoleculeViewer( title='AutoDockTools3',
+                         logMode=logmode, customizer=customizer,
+                         withShell= not interactive)
+#                        libraries=libraries)
+    atorsList = [ 'ADtors_readLigand', 'ADtors_chooseLigand', 
+    'ADtors_setRoot', 'ADtors_autoRoot', 'ADtors_markRoot',
+    'ADtors_defineRotBonds', 'ADtors_setBondRotatableFlag', 
+    'ADtors_limitTorsionsGC', 'ADtors_limitTorsions', 
+    'ADtors_changePlanarCarbonsToA', 'ADtors_changeAromaticCarbonsToC', 
+    'ADtors_setCarbonNames', 'ADtors_changePlanarityCriteria',
+    'ADtors_rigidLigand', 'ADtors_writeFormattedPDBQ',
+    'ADtors_showRootSphere', 'ADtors_automaticLigandFormatting'] 
+    mv.browseCommands('autotorsCommands', commands=atorsList, package='AutoDockTools')
+    gpfList = [ 'ADgpf_initMacro','ADgpf_initMacro', 
+    'ADgpf_readMacromolecule', 
+    'ADgpf_chooseMacromolecule', 
+    'ADgpf_addSolvationParameters',
+    'ADgpf_checkMacroTypes',
+    'ADgpf_initLigand', 'ADgpf_setMapTypes', 
+    'ADgpf_readFormattedLigand', 'ADgpf_chooseFormattedLigand', 
+    'ADgpf_selectCenter', 'ADgpf_setGrid', 'ADgpf_setGpo',
+    'ADgpf_writeGPF',  'ADgpf_editGPF']
+    #'ADgpf_setOtherOptions',  'ADgpf_setUpCovalentMap',
+    mv.browseCommands('autogpfCommands', commands=gpfList, package='AutoDockTools')
+    dpfList = ['ADdpf_read', 'ADdpf_readMacromolecule', 
+        'ADdpf_readFormattedLigand', 'ADdpf_chooseFormattedLigand', 
+        'ADdpf_initLigand', 'ADdpf_setDpo', 
+        'ADdpf_setSAparameters',
+        'ADdpf_setGAparameters', 'ADdpf_setLSparameters', 
+        'ADdpf_setDockingParameters', 'ADdpf_writeSA',
+        'ADdpf_writeGA', 'ADdpf_writeLS', 'ADdpf_writeGALS', 
+        'ADdpf_edit' ]
+    mv.browseCommands('autodpfCommands', commands=dpfList, package='AutoDockTools')
+    mv.browseCommands('autostartCommands', package='AutoDockTools')
+    mv.browseCommands('autoanalyzeCommands', package='AutoDockTools')
+    # Here just the time to fix the loadCommands
+    mv.browseCommands('selectionCommands', package='Pmv')
+    #mv.customize('_adtrc')
+
+    self=mv
+    for a in args:
+        print a
+	if a[0]=='-':# skip all command line options
+	    continue
+
+        elif a[-7:]=='_net.py':  # Vision networks
+            mv.browseCommands('visionCommands', commands=('vision',) )
+            if mv.vision.ed is None:
+                mv.vision()
+            mv.vision.ed.loadNetwork(a)
+
+        elif a[-3:]=='.py':     # command script
+            print 'sourcing', a
+            mv.source(a)
+
+        elif a[-4:] in ['.pdb', '.pqr', 'pdbq', 'mol2'] or a[-5:]=='pdbqs':
+            mv.readMolecule(a)
+
+        else:
+            print 'WARNING: unable to process %s command line argument'%a
+    if again:
+        mv.source(".tmp.py")
+
+    ##################################################################
+    # Set the Python Shell
+    ##################################################################
+    if interactive:
+        sys.stdin = sys.__stdin__
+        sys.stdout = sys.__stdout__
+        sys.stderr = sys.__stderr__
+        import code
+        code.interact( 'AutoDockTools Interactive Shell', local=globals() )
+    elif not die:
+        mv.GUI.ROOT.mainloop()
+
+except:
+    import traceback
+    traceback.print_exc()
+    raw_input("hit enter to continue")
+    import sys
+    sys.exit( 1)
+import sys, getopt
+

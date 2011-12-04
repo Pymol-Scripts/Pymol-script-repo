@@ -1,0 +1,261 @@
+=============================================================================
+                AutoDockTools Release Notes
+                  Release 1.5.4 (May 2009)
+=============================================================================
+
+----------------------------
+autotorsCommands.py
+----------------------------
+CHANGE:
+    -replaced 'AD4.1' with 'AD4.2' in Graphical User Interface
+    -removed obsolete commands:
+        ADanalyze_showHistogram
+        ADtors_changePlanarCarbonsToA 
+        ADtors_changeAromaticCarbonsToC
+    -renamed adt_automergeNPHS 'Automerge NPHS'
+    -added check for availability of isocontour library for 
+        showGridIsocontours commands in updateCmds.
+
+----------------------------
+autoanalyzeCommands.py
+----------------------------
+CHANGE:
+    -removed obsolete commands:
+        ReadAutoDockClusteringStates 
+        ADanalyze_writeStates 
+        ADanalyze_epdbMolecule
+        ADanalyze_showHistogram
+        ADanalyze_readStates
+        ADanalyze_showStatesHISTOGRAM
+        ADanalyze_showResultsOutput
+        ADanalyze_getChart
+        ADanalyze_writeClustering
+        ADanalyze_showPopulation
+    -removed obsolete warningMsg about ligand not being in input conformation 
+    -replaced 'adt_playerGUI' with 'Player GUI'
+    -added **kw to doit signature to support 'ask' on reading a directory 
+    of dlg files
+    -updated doc-strings replacing 'mv.docked' by 'self.docked' 
+    because 'mv' has been arbitrarily removed  and is no longer valid
+    -replaced  'mv.docked.warnings' with 'self.docked.warnings' to keep up 
+    with shifting ground in pmv
+    -moved preferences into a pickled file. See the new mgltutil.preferences 
+    for details.
+BUG-FIX:
+    -replaced checking whether the version of the docking was equal to 4.0 
+    with checking whether it was equal to or GREATER THAN 4.0
+
+----------------------------
+AutoDockBondClassifier.py
+----------------------------
+BUG-FIX:
+    -changed so that detectAll is not on by default in cycle detection. This 
+    change is in response to a problem encountered by a user whose ligand 
+    was comprised of two aromatic carbon rings bonded to a cyclohexane. In 
+    that case, the bond between the cyclohexane and the first benzene should 
+    be rotatable (and was in v 1.4.6). So now the detectAll option is NOT 
+    the default
+
+----------------------------
+autodpfCommands.py
+----------------------------
+
+NEW-FEATURE:
+    -'Set AutoDock4[2] Options' widgets now include support for setting 
+    whether to include a parameter file, rmsatoms, epdb and for previous
+    AD4.0 support for setting unbound energy or compute_unbound_extended
+    -added SetAutoDock41Parameters command
+CHANGE:
+    -support for to setting sw default for ad3 dpfs
+    -replaced 4.1 with 4.2 in gui
+    -removed widgets for setting rmsatoms + epdb
+    -removed label+entry for filename for epdb calculation from 
+    SetAutoDock4Parameters and SetAutoDock41Parameters
+    -removed obsolete usage of 'torsdofcoeff' which is now specified 
+    in the autodock parameter library
+    -increased support for restoring default values for epdb, parameter_file,
+    rmsatoms,custom_parameter_file, rmsref, seeds et al after customization
+BUG-FIX:
+    -fixed bug where flexres types were sometimes not included
+
+----------------------------
+autoflexCommands.py
+----------------------------
+NEW-FEATURE:
+    -changed format of BEGIN_RES/END_RES: to list res.type, res.number and
+    chain.id
+
+----------------------------
+autogpfCommands.py
+----------------------------
+CHANGE:
+    -replaced "Choose FlexResMolecule..." with "Choose FlexRes..." 
+    -replaced "Open Flexible Residues..." with "Open FlexRes..." 
+    -replaced 'adt_automergeNPHS' with 'Automerge NPHS'
+    -replaced 'adt_editHISprotonation' with 'HIS Protonation'
+    -moved preferences into a pickled file. See the new mgltutil.preferences for details.
+
+----------------------------
+AutoLigandCommand.py
+----------------------------
+NEW-FEATURE:
+    added try/except for pickle
+
+----------------------------
+AutoLigand.py
+----------------------------
+NEW-FEATURE:
+    -Web page describing the code and how it works:
+        http://www.scripps.edu/~rharris
+    -New PP (pseudo-pod) version.
+Changes:
+    -Improvements were made to the final fill volume optimization of the code.
+
+----------------------------
+autotorsCommands.py
+----------------------------
+CHANGE:
+    -removed loading obsolete commands: 
+        ADtors_changePlanarCarbonsToA
+        ADtors_changeAromaticCarbonsToC
+        ADanalyze_showHistogram
+    -replaced 'AD4.1' with 'AD4.2' in the GUI
+    -replaced 'adt_automergeNPHS' with 'Automerge NPHS'
+    -moved preferences into a pickled file. See the new mgltutil.preferences for details.
+    -added if condition for showGridIsocontours in updateCmds.
+
+----------------------------
+cluster.py
+----------------------------
+NEW-FEATURE:
+    -added 'flexres' sort option
+    -added 'intermolecular' sort option
+    -added method _get_distance_flexres
+BUG_FIX:
+    -a change to use the correct subset of coords for the rmsd calculation
+
+----------------------------
+cmdlib.py
+----------------------------
+CHANGE:
+    -removed obsolete commands:
+        ADtors_changePlanarCarbonsToA 
+        ADtors_changeAromaticCarbonsToC
+        ADtors_readStates
+        ADanalyze_showHistogram
+        ADanalyze_showStatesHISTOGRAM
+        ADanalyze_showResultsOutput
+        ADanalyze_getChart
+        ADanalyze_writeClustering
+
+----------------------------
+Conformation.py
+----------------------------
+NEW-FEATURE:
+    -added support for showing dlgfilename for each conformation
+CHANGE:
+    -now initialize current_pop_ind to 0 (instead of None) 
+    -added appending conformations to all_populations list
+    -if there is only 1 entry in all_populations, set current_pop_ind to 0 
+    -added 'filename' parameter to parameters for 'add' method in order to 
+    support conformation know its dlg filename
+
+----------------------------
+ConfPlayer.py
+----------------------------
+NEW-FEATURE:
+    - support for showing dlgfilename for each conformation in 'info' panel
+CHANGE:
+    -updates to default file type extension from pdbq to pdbqt
+    -improved support for playing populations
+    - moved AddAtomsEvent, DeleteAtomsEvent and EditAtomsEvent from 
+    ViewerFramework.VF to Pmv.moleculerViewer
+
+----------------------------
+DlgParser.py
+----------------------------
+NEW-FEATURE:
+    -added version attribute
+CHANGE:
+    -added support for version larger than 3 
+    -added check line for garbage from DPF; updated parsing of population information
+BUG-FIX:
+    -change to search for ' Run' instead of 'Run' to fix problem arising from a 
+    dpf filename which included 'Run'
+
+----------------------------
+DockingParameters.py
+----------------------------
+NEW-FEATURE:
+    -changes to make psw default for autodock4 and later versions
+    -added 'psw_trans_scale', 'psw_rot_scale' and 'psw_tors_scale' keywords 
+        to modulate local search
+    -new keywords unbound_energy, unbound_model, autodock_parameter_version keywords 
+        support for writing these new keywords and inserted them in appropriate keyword lists
+    -added set_version method 
+    -added quaternion0 keyword
+----------------------------
+CHANGE:
+    -replaced use of quat0 with axisangle0
+    -removed torsdofcoeff which is now in the autodock parameter library
+    -changed setting torsdof4 from ligand.ndihe to ligand.TORSDOF
+    -added check in _parse() for keyword epdb for argument before using it. 
+    New autodock epdb usage takes no arguments unlike previously.
+
+----------------------------
+Docking.py
+----------------------------
+NEW-FEATURE:
+    -added 'filename' parameter  to call to self.ch.add in order to support 
+        conformation know its dlg filename 
+
+----------------------------
+GridParameters.py
+----------------------------
+NEW-FEATURE:
+    -in set_grid_parameters(): added special treatment for setting parameter 
+        'ligand_types': now newvalue is to be a comma-separated list
+    -added support for turning-off option 'size_box_to_include_ligand'
+
+----------------------------
+__init__.py
+----------------------------
+CHANGE:
+    -updated setADTmode parameter from AD4.1 to AD4.2
+    -input flag -n now means '--noSplash'
+----------------------------
+BUG-FIX:
+    -solved ipython issues for adt
+
+----------------------------
+MoleculePreparation.py
+----------------------------
+NEW-FEATURE:
+    -Additions so that prepare_ligand script can return a status based on
+        a check that all the atoms in the ligand are written to the file.
+        The result of the check is used to set ligand attributes 'returnCode' 
+        and 'returnMsg' appropriately for reporting to the user
+    -augmented format of BEGIN_RES/END_RES: now includes chain.id after 
+        res.type and res.number 
+----------------------------
+CHANGE:
+    -added '#Deprecated 2009' comment to obsolete AD4FlexibleDockingPreparation class
+    -print a warning and add charges if all the atoms in the molecule have a zero-charge; 
+----------------------------
+BUG-FIX:
+    -removed disallowing torsions of bonds between cycles. This was added as an 
+        attempt to set bonds in large-fused-rings non-rotatable. However, a 
+        side-effect of that addition was disallowing torsions between cycles not part 
+        of a large-fused-ring. Consequently, this is a stepback (~v1.4.6). (So the 
+        detectAll option for cycles is NOT the default.)
+
+----------------------------
+XMLParser.py
+----------------------------
+NEW-FEATURE:
+    -added quaternion0 as field save in xml parser
+    -added "xml" xml filename "dlg" dlg filename in parser dictionary for xml field.
+CHANGES:
+    -replaced quat0 by axisangle0
+
+=============================================================================

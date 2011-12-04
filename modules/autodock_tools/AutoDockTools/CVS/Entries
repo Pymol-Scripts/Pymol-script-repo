@@ -1,0 +1,68 @@
+/.packager.py/1.14/Thu Dec 18 17:26:12 2003/-kkv/Trc-1-5-4
+/AD4.1_bound.dat/1.2.2.1/Wed Apr 15 22:35:26 2009/-kkv/Trc-1-5-4
+/AD4_parameters.dat/1.2.2.1/Wed Apr 15 22:35:26 2009/-kkv/Trc-1-5-4
+/AutoDockBondClassifier.py/1.9/Wed Aug 13 19:08:24 2008/-kkv/Trc-1-5-4
+/AutoLigand.py/1.8.4.2/Fri Aug 21 19:38:15 2009/-kkv/Trc-1-5-4
+/AutoLigandCommand.py/1.18.2.1/Fri May 15 19:19:56 2009/-kkv/Trc-1-5-4
+/ConfPlayer.py/1.43.2.2/Wed Feb 18 17:47:32 2009/-kkv/Trc-1-5-4
+/Conformation.py/1.45.4.2/Tue Mar  3 17:27:50 2009/-kkv/Trc-1-5-4
+/DlgParser.py/1.60.2.4/Thu Sep 17 19:54:59 2009/-kkv/Trc-1-5-4
+/Docking.py/1.41.4.2/Fri Sep 18 17:57:28 2009/-kkv/Trc-1-5-4
+/DockingParameters.py/1.79.2.11/Wed Jun  3 17:48:02 2009/-kkv/Trc-1-5-4
+/EntropiaParser.py/1.7/Thu Mar 11 19:17:04 2004/-kkv/Trc-1-5-4
+/EpdbParser.py/1.6/Tue Aug 30 17:00:50 2005/-kkv/Trc-1-5-4
+/GridParameters.py/1.35.4.2/Thu Aug 20 20:25:49 2009/-kkv/Trc-1-5-4
+/LICENSE/1.1/Thu Jul  3 20:35:47 2008/-kkv/Trc-1-5-4
+/LigandMixin.py/1.3/Tue Jul 24 17:30:44 2007/-kkv/Trc-1-5-4
+/MoleculePreparation.py/1.61.2.5/Fri Sep 25 15:45:27 2009/-kkv/Trc-1-5-4
+/RELNOTES/1.7.8.3/Thu May 14 21:00:32 2009/-kkv/Trc-1-5-4
+/ResultParser.py/1.2.18.1/Tue Mar  3 17:18:23 2009/-kkv/Trc-1-5-4
+/TrajParser.py/1.2/Fri Aug 29 17:55:18 2003/-kkv/Trc-1-5-4
+/WebServices.py/1.19.2.1/Fri Jun 19 17:17:08 2009/-kkv/Trc-1-5-4
+/XMLParser.py/1.14/Tue Sep  2 22:30:59 2008/-kkv/Trc-1-5-4
+/__init__.py/1.38.2.4/Fri May 15 17:11:30 2009/-kkv/Trc-1-5-4
+/adthosts.py/1.2/Thu Apr 17 15:29:25 2008/-kkv/Trc-1-5-4
+/atomTypeTools.py/1.22/Mon Aug 27 19:45:09 2007/-kkv/Trc-1-5-4
+/autoanalyze3Commands.py/1.2.4.4/Thu Feb 26 22:17:02 2009/-kkv/Trc-1-5-4
+/autoanalyze41Commands.py/1.2.4.5/Thu Aug 20 23:56:21 2009/-kkv/Trc-1-5-4
+/autoanalyze4Commands.py/1.2.4.4/Thu Feb 26 22:17:02 2009/-kkv/Trc-1-5-4
+/autoanalyzeCommands.py/1.233.2.7/Thu Aug 20 23:55:16 2009/-kkv/Trc-1-5-4
+/autodockHosts.py/1.1.1.1/Tue Apr  3 19:47:50 2001/-kkv/Trc-1-5-4
+/autodpf3Commands.py/1.1/Mon Jun  2 23:55:43 2008/-kkv/Trc-1-5-4
+/autodpf41Commands.py/1.2/Thu Sep 18 19:42:37 2008/-kkv/Trc-1-5-4
+/autodpf4Commands.py/1.1/Mon Jun  2 23:55:43 2008/-kkv/Trc-1-5-4
+/autodpfCommands.py/1.65.2.9/Tue May 19 21:09:32 2009/-kkv/Trc-1-5-4
+/autoflex41Commands.py/1.2/Wed Jun  4 15:38:51 2008/-kkv/Trc-1-5-4
+/autoflex4Commands.py/1.1/Wed Jun  4 15:37:20 2008/-kkv/Trc-1-5-4
+/autoflexCommands.py/1.66.2.1/Thu Mar 19 19:07:30 2009/-kkv/Trc-1-5-4
+/autogpf3Commands.py/1.1/Mon Jun  2 23:55:17 2008/-kkv/Trc-1-5-4
+/autogpf41Commands.py/1.2/Mon Jun 16 16:16:49 2008/-kkv/Trc-1-5-4
+/autogpf4Commands.py/1.1/Mon Jun  2 23:55:17 2008/-kkv/Trc-1-5-4
+/autogpfCommands.py/1.121.2.2/Mon Jun 22 23:40:04 2009/-kkv/Trc-1-5-4
+/autopilotCommands.py/1.3/Wed Jan 12 21:53:52 2005/-kkv/Trc-1-5-4
+/autostart3Commands.py/1.2/Mon Jun 23 19:49:13 2008/-kkv/Trc-1-5-4
+/autostart41Commands.py/1.2/Mon Jun 23 19:49:13 2008/-kkv/Trc-1-5-4
+/autostart4Commands.py/1.2/Mon Jun 23 19:49:13 2008/-kkv/Trc-1-5-4
+/autostartCommands.py/1.34/Tue Jul 15 22:23:50 2008/-kkv/Trc-1-5-4
+/autotors3Commands.py/1.2.4.1/Tue Feb 17 23:48:12 2009/-kkv/Trc-1-5-4
+/autotors41Commands.py/1.2.4.1/Tue Feb 17 23:48:12 2009/-kkv/Trc-1-5-4
+/autotors4Commands.py/1.2.4.1/Tue Feb 17 23:48:12 2009/-kkv/Trc-1-5-4
+/autotorsCommands.py/1.101.2.5/Fri Sep 18 18:01:41 2009/-kkv/Trc-1-5-4
+/cluster.py/1.31/Wed Sep 24 22:20:56 2008/-kkv/Trc-1-5-4
+/cluster_ad.py/1.4/Tue Jul 24 17:30:44 2007/-kkv/Trc-1-5-4
+/cmdlib.py/1.1.18.2/Wed Feb 18 00:36:51 2009/-kkv/Trc-1-5-4
+/energyCalculator.py/1.5/Tue Jul 24 17:30:44 2007/-kkv/Trc-1-5-4
+/energyConstants.py/1.4/Tue Mar 12 21:24:55 2002/-kkv/Trc-1-5-4
+/histogram.py/1.6/Tue Jul 24 17:30:44 2007/-kkv/Trc-1-5-4
+/interactiveHistogramGraph.py/1.16/Tue Dec  4 19:25:53 2007/-kkv/Trc-1-5-4
+/lib_parameter_file_writer.py/1.4/Wed Aug 25 20:44:33 2004/-kkv/Trc-1-5-4
+/modlib.py/1.2/Thu Nov  8 00:26:30 2001/-kkv/Trc-1-5-4
+/pixelMap2D.py/1.4/Mon Oct  8 18:16:25 2007/-kkv/Trc-1-5-4
+/pyAutoDockCommands.py/1.21/Tue Jul 15 22:24:11 2008/-kkv/Trc-1-5-4
+/sol_par.py/1.5/Thu Aug 22 17:57:06 2002/-kkv/Trc-1-5-4
+D/Objects////
+D/Tests////
+D/Utilities24////
+D/VisionInterface////
+D/bin////
+D/doc////

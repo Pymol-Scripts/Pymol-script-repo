@@ -1,0 +1,14 @@
+/__init__.py///
+/callback.py///
+/colorUtil.py///
+/defaultPalettes.py///
+/idleUtil.py///
+/misc.py///
+/packageFilePath.py///
+/parser.py///
+/qhullUtils.py///
+/recentFiles.py///
+/relpath.py///
+/tree.py///
+/uniq.py///
+D/Tests///

@@ -1,0 +1,17 @@
+/.packager.py/1.11/Thu Dec 18 21:52:48 2003/-kkv/Trc-1-5-4
+/LICENSE/1.1/Thu Jul  3 20:46:37 2008/-kkv/Trc-1-5-4
+/RELNOTES/1.3/Mon Dec 12 02:06:00 2005/-kkv/Trc-1-5-4
+/__init__.py/1.10/Wed Mar 15 00:45:52 2006/-kkv/Trc-1-5-4
+/addh.py/1.6/Thu Oct 11 17:43:48 2007/-kkv/Trc-1-5-4
+/aromatic.py/1.2/Fri Apr 12 00:01:02 2002/-kkv/Trc-1-5-4
+/atomTypes.py/1.4.4.1/Thu Apr 16 17:57:24 2009/-kkv/Trc-1-5-4
+/babelAtomTypes.py/1.1.1.1/Tue Apr  3 19:47:47 2001/-kkv/Trc-1-5-4
+/babelElements.py/1.2/Wed Sep 11 18:15:15 2002/-kkv/Trc-1-5-4
+/bo.py/1.4/Tue Oct 22 23:11:38 2002/-kkv/Trc-1-5-4
+/cycle.py/1.8/Thu Sep  4 23:53:56 2003/-kkv/Trc-1-5-4
+/gasteiger.py/1.7/Tue Sep 24 17:32:00 2002/-kkv/Trc-1-5-4
+/source.list/1.1.1.1/Tue Apr  3 19:47:47 2001/-kkv/Trc-1-5-4
+/tools.py/1.1.1.1/Tue Apr  3 19:47:47 2001/-kkv/Trc-1-5-4
+/util.py/1.1.1.1/Tue Apr  3 19:47:47 2001/-kkv/Trc-1-5-4
+D/Tests////
+D/regression////

@@ -1,0 +1,496 @@
+==============================================================================
+                 mglutil Release Notes:
+==============================================================================
+-----------------------
+Release 1.5.4 (May 2007)
+------------------------
+preferences.py
+  - added RemoveCommand
+  - removed pdb.set_trace()
+  - moved saving fonts to preferences
+  - moved preferences into a pickled file. See the new mgltutil.preferences for details.
+
+gui/__init__.py
+  - comment indicate better path for home directory under windows
+
+gui/BasicWidgets/Tk/Dial.py
+  - minus and plus can now be typed
+
+gui/BasicWidgets/Tk/colorWidgets.py
+  - saves colors when button "Add to custom" is pressed.
+
+gui/BasicWidgets/Tk/multiListbox.py
+  - added ensureFontCase beecause on windows, font starts with lowercase
+
+gui/BasicWidgets/Tk/thumbwheel.py
+  - minus and plus can now be typed
+
+gui/BasicWidgets/Tk/Tests/test_colorWidgets.py
+  - saves colors when button "Add to custom" is pressed.
+
+gui/BasicWidgets/Tk/trees/TreeWithButtons.py
+  - fixed createColHeader to display the full headers
+
+gui/BasicWidgets/Tk/trees/tree.py
+  - added tooltip for molecules with long names
+  - fixed bug #987 long molecule names cover up buttons in dashboard
+
+gui/Misc/Tk/KeybdModMonitor.py
+  - fixed ALT-TAB problem reported by Luca Clementi <lclement@ucsd.edu>
+
+math/statetocoords.py
+  - fix bug retrieing the coorect coordinate with statetocoords was broken.
+  - updated applyState to fix this problem. ( see test in AutodockTools)
+
+splashregister/license.py
+  - added ensureFontCase beecause on windows, font starts with lowercase
+
+util/idleUtil.py
+  - replaced with previous revision
+  - saves sys.std*.fileno
+
+util/packageFilePath.py
+  - added resourceFolder argument which defaults to 'mgltools'
+
+util/recentFiles.py
+  - added try/except  in dumpCategories
+
+-----------------------
+Release 1.5.2 (May 2007)
+------------------------
+-- ported to python2.5
+-- moved from Numeric to numpy
+
+LICENSE
+  - -added TSRI to the copyright part.
+  - -added LICENSE file
+
+__init__.py
+  - added 'Support' to noncritical
+  - cleaned mglutil init
+  - saved networks launch pythonsh
+  - cleaned mglutil init
+  - added link to python for saved networks
+
+popen2Threads.py
+  - replaced text for kill_cb
+  - removed tk button destroy
+
+
+TestUtil/BugReport.py
+  - report UserID for registered Users.
+
+TestUtil/Dependencytester.py
+  - -replaced all occurances of python2.4 by 'python'+version (version comes from sys.vesion_info)
+
+Tests/test_popen2Threads.py
+  - removed
+
+gui/__init__.py
+  - removed -T option in ln as it is unknown on most system
+  - corected self loop in symbolic link to pythonsh
+  - now vision runs even without a directory to write to
+  - grab the correct pythonsh even when installed from source
+  - now widgetsOnBackWindowsCanGrabFocus is in mglutil.gui
+  - cleaned mglutil init
+  - now widgetsOnBackWindowsCanGrabFocus is in mglutil.gui
+
+gui/BasicWidgets/Tk/Dial.py
+  - introduced from ensureFontCase
+  - corrected mousewheel on thumbwhell and dial
+  - added mouseWheel to dial and thumbwheel widgets
+
+gui/BasicWidgets/Tk/KeyboardEntry.py
+  - now widgetsOnBackWindowsCanGrabFocus is in mglutil.gui
+
+gui/BasicWidgets/Tk/customizedWidgets.py
+  -removed 1.4.7 revision modifications. Need to fix reparenting of objects.
+  - added try except when removing entry from ListChooser to avoid exception
+    when entry removed is not in the list
+  - changed cwcfg in ListChooser to be None and add whatever is specified to
+    the default set of options
+  - added index
+
+
+gui/BasicWidgets/Tk/player.py
+  - added slider (Tkinter.Scale widget)
+
+gui/BasicWidgets/Tk/thumbwheel.py
+  - corrected mousewheel on thumbwhell and dial
+  - added mouseWheel to dial and thumbwheel widgets
+
+
+gui/BasicWidgets/Tk/Tests/test_graphtool.py
+  -fixed an error resulted from comparing two numpy arrays.
+
+
+gui/BasicWidgets/Tk/TreeWidget/tree.py
+  - removed critical dependency to PIL
+  - corrected displayed info
+  - adjusted mousewheel on win32
+
+
+gui/BasicWidgets/Tk/trees/TreeWithButtons.py
+  - fixed hidden dialogs problem
+
+
+splashregister/about.py
+  - removed critical dependency to PIL
+  - added NIH and SNF logos
+  - added NBCR logo
+  - introduced from ensureFontCase
+  - introduced revision number
+
+splashregister/license.py
+  -corrected some contact info in the MSMS license.
+  - deselect commercial radiobutton on startup
+
+splashregister/splashscreen.py
+  - -trying to fix a problem when .mgltools directory can not be created
+  - now vision runs even without a directory to write to
+  - added self.splash_win.update()
+
+util/packageFilePath.py
+  - renamed findAllPackageNames into findAllPackages and repaired full search
+  - if no home directory, we use the temp directory
+  - now networks run into the saved network directory
+
+util/recentFiles.py
+  - now pmv works without writting permissions
+  - now vision runs even without a directory to write to
+  - added keyboard shortcuts
+
+
+web/services/AppService_client.py
+  - updated for the latest version of ZSI-2.1_a1
+
+web/services/AppService_server.py
+  - updated for the latest version of ZSI-2.1_a1
+
+web/services/AppService_services.py
+  - moved from PMV and ADT
+
+web/services/AppService_services_types.py
+  - moved from PMV and ADT
+
+web/services/AppService_types.py
+  - updated for the latest version of ZSI-2.1_a1
+
+web/services/SecuritymyproxyloginImplService_services.py
+  - moved from PMV and ADT
+
+web/services/SecurityuserimportImplService_services.py
+  - moved from PMV and ADT
+
+web/services/__init__.py
+  - moved from PMV and ADT
+
+
+-----------------------
+Release 1.4.5 (May 2007)
+------------------------
+New features and bug fixes:
+
+events.py
+ - added Event class and EventHandler mix in class
+  (see DejaVu.Viewer for example of using it)
+
+TestUtil/BugReport.py
+ - added code that allows attaching more than one file to the bug report;
+ - added cc option;
+
+gui/BasicWidgets/Tk/RelabelingCascadeMenu.py
+ - introduced RelabelingCascadeMenu
+
+gui/BasicWidgets/Tk/colorWidgets.py
+ - enclosed setting self.master.protocol for WM_DELETE_WINDOW in a try-except loop because ColorChooser's 
+   master may not be a toplevel widget in some uses... eg in setbackgroundcolor it is lodged in an input 
+   form and this line caused an error
+ - changed line 623 so that now exitFunction is passed to the init of the base class; added line 625 so 
+   that 'self.exit' is invoked for WM_DELETE_WINDOW
+
+gui/BasicWidgets/Tk/graphtool.py
+ - added to show histogram,invert graph,added gray scales
+   fixing invert graph to delte endpoint which it sometimes missing.
+
+gui/BasicWidgets/Tk/player.py
+ - added a check for 'deiconify' attribute of self.form in showGUI()(caused problems on Windows).
+
+gui/BasicWidgets/Tk/progressBar.py
+ - added if self.max == 0: in  elif self.mode == 'increment':
+
+gui/BasicWidgets/Tk/vector3DGUI.py
+ - corrected wrong axis in sphere representation
+ - correction to allow mouse outside trackball
+ - dawVector on setentries
+
+
+gui/BasicWidgets/Tk/TreeWidget/tree.py
+ - added mouse wheel scrolling to dejavu geoms tree
+
+
+math/transformation.py
+ - introduced getAxisAndAngleDegres
+
+math/usr.py
+ - added code implementing the Ballester & Richards shape similarity algorithm. 
+
+splashregister/about.py
+ - added update info in the version text
+
+util/packageFilePath.py
+ - replaced relative path with absolute path for regfile
+ - moved writing .registration after response.status == 200
+ - ResourceFolder is set to tempfile.gettempdir() we we fail to create one
+ - added old_rc to search for .registration
+ - added  registration for updating version in MySQL
+
+util/recentFiles.py
+ - fixed problem with duplicate entries
+ - added menuLabel to readRecent
+ - added Recent Files to SourceCommand
+
+
+Release 1.4.4 (December 2006)
+-----------------------------
+
+TestUtil/BugReport.py
+ - added module for submitting bugs to Bugzila DataBase from Pmv
+
+ gui/BasicWidgets/Tk/Dial.py
+ - added ability to type a value on keyboard when cursor is over a dial or
+   a thumbwheel
+
+ gui/BasicWidgets/Tk/KeyboardEntry.py
+ - first commit of mixin class to add keyboard entry to widgets such as dial
+   and thumbwheels
+
+gui/BasicWidgets/Tk/customizedWidgets.py
+ - replaced types.StringType with in types.StringTypes to support 'unicode'
+
+gui/BasicWidgets/Tk/graphtool.py
+ - added Graph Tool for adjusting non photo rendering parameters
+
+gui/BasicWidgets/Tk/multiListbox.py
+ - fixed problems when using different python on Linux
+
+gui/BasicWidgets/Tk/progressBar.py
+ - simplified the update of the progress bar in the increment case
+
+gui/BasicWidgets/Tk/thumbwheel.py
+ - added ability to type a value on keyboard when cursor is over a dial or
+   a thumbwheel
+
+gui/BasicWidgets/Tk/trees/TreeWithButtons.py
+ - added crosshair to dashboard
+ - fixed bug where buttons in dashboard tree selection would not be reset
+   except for the one we click on.
+ - fixed a bug when deleting molecule, i.e., self.object is None
+ - added execute=True to def buttonClick() to allow suppressing execution
+   of command when buttonmClick is called for instance from resetNodes
+ - added val=None to node.buttonClick and changed right button click
+   (i.e. execution through option menu) to always execute with val=1
+ - added reparentNodes method to averwrite .tree attribute to belong to a new
+   tee.  This was neededd in order to allow tree to move to a new master widget.
+ -  added undisplayNode method to destroy canvas items
+ - moved column label creation into its own function so we can recreate them
+   when a tree is moved to a new master
+ - added posx=event.x_root, posy=event.y_root to cmd.showForm to post menu
+   near button
+ - made right button click execute command after displaying the form
+ - handle cancel button in option forms
+ - removed old Columndescriptor class
+ - added button-3 callback on column labels
+ - added objClassHasNoButton=None attribute to ColumnDescriptor to allow
+   some objects to bot have button in some columns
+ - added ColumnDescriptor.isON(node) hook to allow columns to define how to
+   check wether its button for a node is shoudl be checked or not. This is used
+   by the selection commands to check the buttons for the molecular objects
+   selected in Pmv
+ - removed node.chkbtval = [] from TreeWithButtons.resetDisplayedNodes
+ - fixed bug in NodeWithButtons constructor which cause columns with
+   inherit=False to create children nodes in the tree with checked buttons
+ - added fast tree widget
+
+gui/BasicWidgets/Tk/trees/tree.py
+ - added button3OnLabel hook for right click event on labels in tree
+ - added enter_cb to set focus to Tree canvas when mouse enters. This was
+   causing Shift and Control keys to not work after the focus has been set
+   to the camera once
+ - move label background setting to yellow to drawSelectionBox to fix bug
+   where selection box was drawn but label had a white background
+ - fixed bug that caused labels to disappear in tree
+ - added reparentNodes method to averwrite .tree attribute to belong to a new
+   tee.  This was neededd in order to allow tree to move to a new master widget.
+ - added undisplayNode method to destroy canvas items
+ - made hull_height 100 by default
+ - added self.suspendRedraw attribute to tree to avoid unnecessary redraws
+   while multiple columns are added
+ - rewrote refreshChildren to no longer destroy nodes that already exist
+ - fixed IconsManager object to handle path in a platform independent way
+ - fixed icon manager to use Icons in mglutil/gui/BasicWidgets/Tk/trees
+ - added icons
+
+gui/InputForm/Tk/gui.py
+ - now BackBone trace inherit sticksAndBalls
+ - replaced licorice and noballs with sticksBallsLicorice
+
+splashregister/register.py
+ - added self.regButton.configure(state='disabled') to avoid multiple registrations
+ - added the requirement for registration of Updates
+ - added conn.close()
+
+splashregister/splashscreen.py
+- modified splash screen to use its own toplevel
+- removed all self.master references.  Now the splash screen does nothing
+  to the master of the application anymore (i.e. no withdraw or geometry)
+- registration request comes up each time after 10 starts
+- added optional hideGui=False to the finish method to avoid
+  splashScreen.finish() to deiconify when hideGui is true
+
+util/packageFilePath.py
+ - changes Version number when moving .registration
+ - added copy .registration from .mgltools to .mgltools/$version
+ - added version to Resource folder
+
+Release 1.4.3 (September 2006)
+-------------------------------
+New features
+ - users can register MGLTools through the GUI(splashscreen);
+ - added suport for Unicode in ListChooser;
+ - added parent argument to fileBrowser;
+ - implemented multiListbox widget;
+ - added Vision icon and pictures in the Vision splashscreen;
+
+ Bug fixes
+  - added try/except: around  os.kill(self.com.pid,signal.SIGKILL) in 
+    popen2Threads.py.
+  -added parent argument to fileBrowser that can be used instead of 
+   Tkinter._default_root.
+  -Fixed problem with SplashScreen fonts.
+
+
+
+
+Release 1.4.2 (May 2006)
+------------------------
+Changes and bug fixes:
+
+gui/BasicWidgets/Tk/toolbarbutton.py
+-corrected bug in toolBarButton
+-added cascade menu for FastLibs in vision toobar, smaller icon for diamond ports
+
+gui/BasicWidgets/Tk/TreeWidget/tree.py
+
+- added code to remove delete node from tree.list_selected in deleteNode
+- added clearSelection() method to remove all selection boxes
+- added expandPath(nade) method to make sure all parent of a given node are
+  expanded
+- fixed addNodeSet to return the list of added nodes
+- added stacklevel=2 to warning, helps finding where we come from
+- disabled arrow keys in multi_choice trees
+- added parent.draw() in addNodeSet to update the + box in the tree
+- added Tree.selectionHistory and tree.undoSelect() to undo selection on
+  a tree in multi_choice mode
+- made selection and deselection of node faster by not calling node.draw
+  bu deleting the selection box and dawing it
+- separated drawing the selection box from node.draw
+- fixed growing size in Y of selection box
+- removed Pmw.ScrolledCanvas subclass
+- remove x scrolling on tree canvas when header is present
+- added watch cursor when nodes get expanded
+- added selectNodes method to select a list of nodes
+- added a visibility flag for nodes
+- added surpport for shift and control picking for multiline selections
+- added showNode method to move the tree to amek a given node visible
+- made CallBackFunction return the result of calling the function
+- renamed CallBackFunction class CallbackFunction and create alias
+  for backwards compatibility
+- subclassed Pmw.ScrolledCanvas to create a version using pading on the
+  canvas which alleviates somewhat the problem of buttons bleeding over the
+  scroll bars
+- added canvasHeaderCol option to Tree widget allow to add a canvas above tree
+  for headers that will scroll horizontaly with tree
+
+
+
+splashregister/__init__.py
+
+-initial version of Splash Screen and Registration
+
+splashregister/register.py
+
+-initial version of Splash Screen and Registration
+
+util/callback.py
+
+- made CallBackFunction return the result of calling the function
+- renamed CallBackFunction class CallbackFunction and create alias
+  for backwards compatibility
+
+util/colorUtil.py
+-now ColorPalette inherits ColorMapGUI
+
+
+Release 1.4.1 (March 2006)
+-----------------------
+
+Release rel 1.2beta1 (12/15/2003)
+_____________________________________________________________________________
+
+What's new since rel 1.2alpha (09/18/2003):
+- gui/BasicWidgets/Tk/Dial:
+- gui/BasicWidgets/Tk/progressBar: added None as a possible label side. 
+  This places the label on the bar
+- gui/BasicWidget/Tk/TreeWidget:
+  Implemented a set of python module to create a TreeWidget
+- math/rotax: added rotVectToVect function to compute rotation matrix to 
+  align 2 vectors
+- util/misc: Implemented a deepCopySeq function which returns a deep copy of 
+  the given sequence whether it is a list, tuple or Numeric array.
+-  util/packageFilePath: In findModulesInPackage:
+  1- added the Icons directory to the list of directory to not consider
+  In findModulesInPackage and findModulesInDirectory
+  2- the key of the candidates dictionnary is now the path to the module
+  and the value the list of modules in which the name was found.
+
+Bug Fixes since rel 1.2alpha (09/18/2003):
+- gui/BasicWidgets/Tk/Dial: fixed a couple of logic errors when updating 
+  the options panel display (it would not lock the entries for min, max, 
+  incr when they were set to None
+- gui/BasicWidgets/Tk/Dial: fixed default values in Dial and Thumbwheel to 
+  be 0 for lockMin, lockMax and lockIncrement, and fixed lockIncrement to use 
+  the user-specified value rather than just 1.
+- gui/BasicWidgets/Tk/Dial and Thumbwheel: fixed default values in Dial and 
+  Thumbwheel to be  0 for lockMin, lockMax  and lockIncrement, and fixed 
+  lockIncrement to use the user-specified value rather than just 1.
+
+- gui/BasicWidgets/Tk/optionsPanel: fixed a logic bug in toggleIncr 
+  checkbutton: if increment is 0.0 the button should not be checked by 
+  default.
+- gui/BasicWidgets/Tk/optionsPanel: fixed a couple of logic errors when 
+  updating the options panel display (it would not lock the entries for min, 
+  max, incr when they were set to None
+- gui/BasicWidgets/Tk/progressBar: fixed progress bar to accept master
+
+
+Changes since rel 1.2alpha (09/18/2003):
+- Replaced "== None" by "is None"
+- TestUtil: Renamed script bin.
+- gui/BasicWidgets/Tk/customizedWidgets: In the Listchooser when selecting 
+  an entry in calls the selection_set and the activate method of the listbox.
+- gui/InputForm/Tk/gui: Modified the checkValues behavior in InputForm to
+  return the value from the entry when different from the selection in 
+  Pmw.ComboBox.
+- util/callback: remove argument funcList in FindFunctionByName, because was 
+  not used anywhere
+
+Known Issues:
+- tester: The -r (recursive) and -s (usesubprocess) options of the "tester" 
+  don't work properly under windows.
+  If the testModule raises an exception when importing None of the test in that
+  testModule will be run.
+	
+
+Backwards INCOMPATIBLE Changes since rel 1.2alpha (09/18/2003):
+

@@ -1,0 +1,155 @@
+TreeView Widget Release Notes
+============================
+Release September, 2004
+
+What's New
+
+- displayValueInTree() to hide/show value of tree objects
+- The tree node and all the sub tree can be moved under another parent node 
+  (newParent) using moveNode(node, newParent) 
+- removed all unused canvasIDs
+- draw_new_root() is moved from class Node to class TreeView
+- added expandAllNodes() and collapseAllNodes() to tree
+- add the new method addNodeSet to add a batch of children node to parent
+  node
+- treat empty list/dictionary as leaf node (coz they are not expandable)
+
+- moved drawing of the parent node above call to first expand in Expand method
+  this speeds things up because we do not destroy the parent and all the
+  children, but as a side effect the parent might be missing the + icon
+  beacuse it has not children when it is drawn
+- commented out the checking of unique name for children, which is very 
+  expensive while children list is long
+
+- changed TreeView to use Pmw.ScrolledCanvas. This allows to automatically
+  shown/hide the scrollbars
+
+- tried drawing + and - icons rather than using PhotoImage but not much faster
+
+- chande pickNode of Tree to set self.selected to True rather than not selected
+- removed folder drawing to speed up
+- removed ballons and replaced by right click
+- split text labels into 2 labels to get alignment right
+- added right click on label to print full label
+- modified addNode method to test if object is hash-able
+
+- ballooms added to nodes, but disabled because of the high cost
+- fixed bugs. now using object as key in objToNode{}, if object is not an
+  instance, use an ingeter as key.
+
+- added method addFirstExpandCallback() to specify a callback
+- added some tests for setting self.firstExpand_cb correctly
+- new warning messages now use warnings.warn
+
+- add hasChildren to Node class to save time for adding all children
+  (children nodes only added when + icon first clicked)
+- add firstExpand_cb call back function to add children
+- mousebinding can be specified for a node when it is added to tree.
+
+- add deleteAllChildren() to tree class to delete properly all the children 
+  of a node
+
+
+- added a way to specify differrent mouse binding functions to a node:
+	see mouseBinding dictionnary pass when a node is created.,
+	The mouseBinding dictionnary is updated with the new value.
+	As now It pass when the Tree is created.
+	example:
+	value = { '<Double-Button-1>':func},
+	tv= TreeView(mouseBinding= value)
+
+- added 'nohistory', if set to True allow to not create the history frame
+	in the TreeView gui, default is False
+	example:
+	tv = TreeView(nohistory=True)
+
+- added	'obj2Node', if set to False, there is no one on one relation between
+	an object and a node. TreeView.objToNode dictionnary is not populated.
+	It was create to allow  associate one object with different node
+	Default is True
+- add 2 methods to copy the root of the tree to another tree.
+  The methods are 'copy' and 'copyNode'.
+  User must specify the newTree where the root of the tree should be copied.
+- display the selected node when program starts
+
+
+Bug Fixes
+
+- Not Available (please report bugs to yongzhao@scripps.edu )
+
+Backwards compatible Changes (renaming of methods, attributes)
+
+- Not Available
+
+Backwards INCOMPATIBLE Changes
+
+- Not Available
+
+
+
+Suggested Fix for users:
+In case of some nodes not properly shown in the TreeView, try to collapse the 
+TreeView and then expand it. (Refresh the TreeView)
+
+
+
+
+
+
+=========================
+Release December 17, 2003
+-------------------------
+
+What's New (compared to release Sep 18, 2003)
+
+- New added widget, as a replacement of the list representation of objects in 
+  DejaVu.
+- The objects are organized as a tree-like structure based on the hierarchical 
+  relationship among the objects.
+  e.g. In Pmv, each molecule can be displayed as lines, CPK, Sticks and Balls,
+       MSMS etc. In the TreeView, the name of the molecule is shown as parent 
+       node, while different geometry objects are shown as children nodes of 
+       the molecule
+- The TreeView can expand or collapse the children nodes of a given parent node.
+  By clicking the "+" or "-" icon to the left of the parent node, the subtree 
+  can be expanded or collapsed. Double click the folder icon between +/- icon 
+  and name of the parent can also toggle the expand / collapse.
+- Single click on the NAME of any node in the tree can make that specific node 
+  be the current object in Pmv. Any further operation will be applied to the 
+  selected object. The current selected object is highlighted by a yellow box
+  in the TreeView.
+  For now, only one object can be selected as current object.
+- There is history list recording all the last 10 (by default) object selected.
+  The History List can be visible by changing the size of TreeView pane. 
+  Please be noticed that there is a small handel in the top-left of TreeView, 
+  which is used to resize the TreeView and History List.
+- Any object can be added to the History List by double clicking on the name of
+  the node.
+- The items in the History List can be locked (saved) by clicking the checkbox
+  to the left of the history item.
+- The History List is a First In First Out (FIFO) list. When the list is full,
+  ( by default, length of the list is 10 ), the first unsaved item will be 
+  removed and the new item will be appended to the end of the list.
+- Double click on any item in the History List will set that object to be the 
+  current object, the corresponding node in the TreeView will be selected,
+  highlighted and put within the visible region of users
+  
+
+Bug Fixes
+
+- Not Available ( The TreeView is a new released feature)
+
+
+Backwards compatible Changes (renaming of methods, attributes)
+
+- Not Available ( The TreeView is a new released feature)
+
+Backwards INCOMPATIBLE Changes
+
+- Not Available ( The TreeView is a new released feature)
+
+Suggested Fix for users:
+In case of some nodes not properly shown in the TreeView, try to collapse the 
+TreeView and then expand it. (Refresh the TreeView)
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
