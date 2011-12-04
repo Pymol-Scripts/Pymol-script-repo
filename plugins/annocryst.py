@@ -1,3 +1,5 @@
+'''
+See more at: http://www.pymolwiki.org/index.php/annocryst
 
 ######################################################
 #
@@ -9,6 +11,7 @@
 #  Copyright 2008 eResearch, ITEE, 
 #                 The University of Queensland
 ######################################################
+'''
 
 import Pmw, sys, urllib2, urllib, string, webbrowser
 from idlelib.TreeWidget import TreeItem, TreeNode
