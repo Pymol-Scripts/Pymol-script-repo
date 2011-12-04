@@ -2065,7 +2065,8 @@ class Autodock:
         filename = self.ligand_dic[sel].input_file
         outfile = os.path.join(self.work_dir(), os.path.basename(filename).split('.')[0]+'.pdbqt')
         util_program = os.path.join(self.autodock_tools_path.get(),"prepare_ligand4.py")
-        command = "%s -l %s -o %s -A checkhydrogens" % (util_program,filename,outfile)
+        module_path = add_to_path()
+        command = "%s %s -l %s -o %s -A checkhydrogens" % (util_program,module_path,filename,outfile)
         self.ligand_page_log_text.insert('end',"Batch: %s\n" % command)
 #        result = os.system(command)
         result, output = getstatusoutput(command)
