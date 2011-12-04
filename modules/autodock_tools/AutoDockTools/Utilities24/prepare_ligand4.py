@@ -204,8 +204,8 @@ if __name__ == '__main__':
             atom.chargeSet = chargeList[0]
     if verbose: print "returning ", mol.returnCode 
     bad_list = []
-    for a in mol.allAtoms:
-        if a.coords!=coord_dict[a]: bad_list.append(a)
+    #for a in mol.allAtoms:
+    #    if a.coords!=coord_dict[a]: bad_list.append(a)
     if len(bad_list):
         print len(bad_list), ' atom coordinates changed!'    
         for a in bad_list:
