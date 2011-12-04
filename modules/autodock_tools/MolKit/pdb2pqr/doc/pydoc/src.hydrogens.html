@@ -1,0 +1,899 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.hydrogens</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.hydrogens</strong></big></big> (16 May 2006)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/hydrogens.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/hydrogens.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="copy.html">copy</a><br>
+<a href="getopt.html">getopt</a><br>
+</td><td width="25%" valign=top><a href="math.html">math</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="re.html">re</a><br>
+<a href="xml.sax.html">xml.sax</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+<a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="src.hydrogens.html#OptimizationHolder">OptimizationHolder</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.hydrogens.html#Optimize">Optimize</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="src.hydrogens.html#Alcoholic">Alcoholic</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.hydrogens.html#Carboxylic">Carboxylic</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.hydrogens.html#Flip">Flip</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.hydrogens.html#Water">Water</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="src.hydrogens.html#PotentialBond">PotentialBond</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.hydrogens.html#hydrogenRoutines">hydrogenRoutines</a>
+</font></dt><dt><font face="helvetica, arial"><a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="src.hydrogens.html#HydrogenHandler">HydrogenHandler</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Alcoholic">class <strong>Alcoholic</strong></a>(<a href="src.hydrogens.html#Optimize">Optimize</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;class&nbsp;for&nbsp;alcoholic&nbsp;residues<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Alcoholic-__init__"><strong>__init__</strong></a>(self, residue, optinstance, routines)</dt><dd><tt>Initialize&nbsp;the&nbsp;alcoholic&nbsp;class&nbsp;by&nbsp;removing<br>
+the&nbsp;alcoholic&nbsp;hydrogen&nbsp;if&nbsp;it&nbsp;exists.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-complete"><strong>complete</strong></a>(self)</dt><dd><tt>Complete&nbsp;an&nbsp;alcoholic&nbsp;optimization.&nbsp;&nbsp;Call&nbsp;<a href="#Alcoholic-finalize">finalize</a>(),&nbsp;and&nbsp;then<br>
+remove&nbsp;all&nbsp;extra&nbsp;LP&nbsp;atoms.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-finalize"><strong>finalize</strong></a>(self)</dt><dd><tt>Finalize&nbsp;an&nbsp;alcoholic&nbsp;residue.&nbsp;&nbsp;Try&nbsp;to&nbsp;minimize<br>
+conflict&nbsp;with&nbsp;nearby&nbsp;atoms&nbsp;by&nbsp;building&nbsp;away<br>
+from&nbsp;them.&nbsp;&nbsp;Called&nbsp;when&nbsp;LPs&nbsp;are&nbsp;still&nbsp;present<br>
+so&nbsp;as&nbsp;to&nbsp;account&nbsp;for&nbsp;their&nbsp;bonds.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-tryAcceptor"><strong>tryAcceptor</strong></a>(self, acc, donor)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;adding&nbsp;an&nbsp;LP&nbsp;to&nbsp;an&nbsp;optimizeable<br>
+residue.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-tryBoth"><strong>tryBoth</strong></a>(self, donor, acc, accobj)</dt><dd><tt>Called&nbsp;when&nbsp;both&nbsp;the&nbsp;donor&nbsp;and&nbsp;acceptor&nbsp;are&nbsp;optimizeable;<br>
+If&nbsp;one&nbsp;is&nbsp;fixed,&nbsp;we&nbsp;only&nbsp;need&nbsp;to&nbsp;try&nbsp;one&nbsp;side.&nbsp;&nbsp;Otherwise<br>
+first&nbsp;try&nbsp;to&nbsp;satisfy&nbsp;the&nbsp;donor&nbsp;-&nbsp;if&nbsp;that's&nbsp;succesful,<br>
+try&nbsp;to&nbsp;satisfy&nbsp;the&nbsp;acceptor.&nbsp;&nbsp;An&nbsp;undo&nbsp;may&nbsp;be&nbsp;necessary<br>
+if&nbsp;the&nbsp;donor&nbsp;is&nbsp;satisfied&nbsp;and&nbsp;the&nbsp;acceptor&nbsp;isn't.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-tryDonor"><strong>tryDonor</strong></a>(self, donor, acc)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;adding&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an<br>
+optimizeable&nbsp;residue.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.hydrogens.html#Optimize">Optimize</a>:<br>
+<dl><dt><a name="Alcoholic-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>String&nbsp;output&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-debug"><strong>debug</strong></a>(self, txt)</dt><dd><tt>Easy&nbsp;way&nbsp;to&nbsp;turn&nbsp;on/off&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-getHbondangle"><strong>getHbondangle</strong></a>(self, atom1, atom2, atom3)</dt><dd><tt>Get&nbsp;the&nbsp;angle&nbsp;between&nbsp;three&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;(vertex)&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom3:&nbsp;&nbsp;The&nbsp;third&nbsp;atom&nbsp;(atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;angle&nbsp;between&nbsp;the&nbsp;atoms&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-getPairEnergy"><strong>getPairEnergy</strong></a>(self, donor, acceptor)</dt><dd><tt>Get&nbsp;the&nbsp;energy&nbsp;between&nbsp;two&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;donor:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;acceptor:&nbsp;The&nbsp;second&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;energy:&nbsp;&nbsp;&nbsp;The&nbsp;energy&nbsp;of&nbsp;the&nbsp;pair&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-getPositionWithThreeBonds"><strong>getPositionWithThreeBonds</strong></a>(self, atom)</dt><dd><tt>If&nbsp;there's&nbsp;three&nbsp;bonds&nbsp;in&nbsp;a&nbsp;tetrahedral&nbsp;geometry,<br>
+there's&nbsp;only&nbsp;one&nbsp;available&nbsp;position.&nbsp;&nbsp;Find&nbsp;that<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-getPositionsWithTwoBonds"><strong>getPositionsWithTwoBonds</strong></a>(self, atom)</dt><dd><tt>Given&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with&nbsp;two<br>
+existing&nbsp;bonds,&nbsp;return&nbsp;the&nbsp;two&nbsp;potential<br>
+sets&nbsp;of&nbsp;coordinates&nbsp;that&nbsp;are&nbsp;possible&nbsp;for<br>
+a&nbsp;new&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-isHbond"><strong>isHbond</strong></a>(self, donor, acc)</dt><dd><tt>Determine&nbsp;whether&nbsp;this&nbsp;donor&nbsp;acceptor&nbsp;pair&nbsp;is&nbsp;a<br>
+hydrogen&nbsp;bond</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-makeAtomWithNoBonds"><strong>makeAtomWithNoBonds</strong></a>(self, atom, closeatom, addname)</dt><dd><tt>Called&nbsp;for&nbsp;water&nbsp;oxygen&nbsp;atoms&nbsp;with&nbsp;no&nbsp;current&nbsp;bonds.<br>
+Uses&nbsp;the&nbsp;closeatom&nbsp;to&nbsp;place&nbsp;the&nbsp;new&nbsp;atom&nbsp;directly<br>
+colinear&nbsp;with&nbsp;the&nbsp;atom&nbsp;and&nbsp;the&nbsp;closeatom.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;oxygen&nbsp;atom&nbsp;of&nbsp;the&nbsp;water<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closeatom:&nbsp;The&nbsp;nearby&nbsp;atom&nbsp;(donor/acceptor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;addname:&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-makeAtomWithOneBondH"><strong>makeAtomWithOneBondH</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-makeAtomWithOneBondLP"><strong>makeAtomWithOneBondLP</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;lone&nbsp;pair&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-makeWaterWithOneBond"><strong>makeWaterWithOneBond</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;water&nbsp;residue&nbsp;that&nbsp;already&nbsp;has<br>
+one&nbsp;bond.&nbsp;&nbsp;Uses&nbsp;the&nbsp;water&nbsp;reference&nbsp;structure&nbsp;to<br>
+align&nbsp;the&nbsp;new&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-tryPositionsWithThreeBondsH"><strong>tryPositionsWithThreeBondsH</strong></a>(self, donor, acc, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;with&nbsp;the&nbsp;lone&nbsp;available<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-tryPositionsWithThreeBondsLP"><strong>tryPositionsWithThreeBondsLP</strong></a>(self, acc, donor, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;using&nbsp;the&nbsp;lone<br>
+available&nbsp;hydrogen&nbsp;position.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-tryPositionsWithTwoBondsH"><strong>tryPositionsWithTwoBondsH</strong></a>(self, donor, acc, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;adding&nbsp;a&nbsp;new&nbsp;hydrogen&nbsp;two&nbsp;the&nbsp;two&nbsp;potential<br>
+locations.&nbsp;&nbsp;If&nbsp;both&nbsp;form&nbsp;hydrogen&nbsp;bonds,&nbsp;place&nbsp;at<br>
+whatever&nbsp;returns&nbsp;the&nbsp;best&nbsp;bond&nbsp;as&nbsp;determined&nbsp;by<br>
+getPairEnergy.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-tryPositionsWithTwoBondsLP"><strong>tryPositionsWithTwoBondsLP</strong></a>(self, acc, donor, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;placing&nbsp;an&nbsp;LP&nbsp;on&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with<br>
+two&nbsp;existing&nbsp;bonds.&nbsp;&nbsp;If&nbsp;this&nbsp;isn't&nbsp;a&nbsp;hydrogen&nbsp;bond<br>
+it&nbsp;can&nbsp;return&nbsp;-&nbsp;otherwise&nbsp;ensure&nbsp;that&nbsp;the&nbsp;H(D)-A-LP<br>
+angle&nbsp;is&nbsp;minimized.</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-trySingleAlcoholicH"><strong>trySingleAlcoholicH</strong></a>(self, donor, acc, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;try&nbsp;to&nbsp;find&nbsp;the&nbsp;best&nbsp;orientation<br>
+by&nbsp;rotating&nbsp;to&nbsp;form&nbsp;a&nbsp;hydrogen&nbsp;bond.&nbsp;&nbsp;If&nbsp;a&nbsp;bond<br>
+cannot&nbsp;be&nbsp;formed,&nbsp;remove&nbsp;the&nbsp;newatom&nbsp;(thereby<br>
+returning&nbsp;to&nbsp;a&nbsp;single&nbsp;bond).</tt></dd></dl>
+
+<dl><dt><a name="Alcoholic-trySingleAlcoholicLP"><strong>trySingleAlcoholicLP</strong></a>(self, acc, donor, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;ensure&nbsp;that&nbsp;a<br>
+hydrogen&nbsp;bond&nbsp;has&nbsp;been&nbsp;made.&nbsp;&nbsp;If&nbsp;so,&nbsp;try&nbsp;to<br>
+minimze&nbsp;the&nbsp;H(D)-A-LP&nbsp;angle.&nbsp;&nbsp;If&nbsp;that&nbsp;cannot<br>
+be&nbsp;minimized,&nbsp;ignore&nbsp;the&nbsp;bond&nbsp;and&nbsp;remove&nbsp;the<br>
+atom.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Carboxylic">class <strong>Carboxylic</strong></a>(<a href="src.hydrogens.html#Optimize">Optimize</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;class&nbsp;for&nbsp;carboxylic&nbsp;residues<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Carboxylic-__init__"><strong>__init__</strong></a>(self, residue, optinstance, routines)</dt><dd><tt>Initialize&nbsp;a&nbsp;case&nbsp;where&nbsp;the&nbsp;lone&nbsp;hydrogen&nbsp;atom<br>
+can&nbsp;have&nbsp;four&nbsp;different&nbsp;orientations.&nbsp;&nbsp;Works&nbsp;similar<br>
+to&nbsp;initializeFlip&nbsp;by&nbsp;preadding&nbsp;the&nbsp;necessary&nbsp;atoms.<br>
+&nbsp;<br>
+This&nbsp;also&nbsp;takes&nbsp;into&nbsp;account&nbsp;that&nbsp;the&nbsp;carboxyl&nbsp;group<br>
+has&nbsp;different&nbsp;bond&nbsp;lengths&nbsp;for&nbsp;the&nbsp;two&nbsp;C-O&nbsp;bonds&nbsp;-<br>
+this&nbsp;is&nbsp;probably&nbsp;due&nbsp;to&nbsp;one&nbsp;bond&nbsp;being&nbsp;assigned<br>
+as&nbsp;a&nbsp;C=O.&nbsp;&nbsp;As&nbsp;a&nbsp;result&nbsp;hydrogens&nbsp;are&nbsp;only&nbsp;added&nbsp;to<br>
+the&nbsp;C-O&nbsp;(longer)&nbsp;bond.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;to&nbsp;flip&nbsp;(residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dihedral:&nbsp;The&nbsp;angle&nbsp;to&nbsp;flip&nbsp;about<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hname:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;one&nbsp;of&nbsp;the&nbsp;hydrogens&nbsp;to&nbsp;add<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;optlist:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;optimizeable&nbsp;donors&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;acceptors&nbsp;in&nbsp;the&nbsp;residue&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-complete"><strong>complete</strong></a>(self)</dt><dd><tt>If&nbsp;not&nbsp;already&nbsp;fixed,&nbsp;finalize</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-finalize"><strong>finalize</strong></a>(self)</dt><dd><tt>Finalize&nbsp;a&nbsp;protontated&nbsp;residue.&nbsp;&nbsp;Try&nbsp;to&nbsp;minimize<br>
+conflict&nbsp;with&nbsp;nearby&nbsp;atoms.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-fix"><strong>fix</strong></a>(self, donor, acc)</dt><dd><tt>Fix&nbsp;the&nbsp;carboxylic&nbsp;residue.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-isCarboxylicHbond"><strong>isCarboxylicHbond</strong></a>(self, donor, acc)</dt><dd><tt>Determine&nbsp;whether&nbsp;this&nbsp;donor&nbsp;acceptor&nbsp;pair&nbsp;is&nbsp;a<br>
+hydrogen&nbsp;bond</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-rename"><strong>rename</strong></a>(self, hydatom)</dt><dd><tt>Rename&nbsp;the&nbsp;optimized&nbsp;atoms&nbsp;appropriately.&nbsp;&nbsp;This&nbsp;is&nbsp;done<br>
+since&nbsp;the&nbsp;forcefields&nbsp;tend&nbsp;to&nbsp;require&nbsp;that&nbsp;the&nbsp;hydrogen&nbsp;is<br>
+linked&nbsp;to&nbsp;a&nbsp;specific&nbsp;oxygen,&nbsp;and&nbsp;this&nbsp;atom&nbsp;may&nbsp;have&nbsp;different<br>
+parameter&nbsp;values.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hydatom:&nbsp;&nbsp;The&nbsp;hydrogen&nbsp;atom&nbsp;that&nbsp;was&nbsp;added.&nbsp;(atom)</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-tryAcceptor"><strong>tryAcceptor</strong></a>(self, acc, donor)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;adding&nbsp;an&nbsp;LP&nbsp;to&nbsp;an&nbsp;optimizeable<br>
+residue.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-tryBoth"><strong>tryBoth</strong></a>(self, donor, acc, accobj)</dt><dd><tt>Called&nbsp;when&nbsp;both&nbsp;the&nbsp;donor&nbsp;and&nbsp;acceptor&nbsp;are&nbsp;optimizeable;<br>
+If&nbsp;one&nbsp;is&nbsp;fixed,&nbsp;we&nbsp;only&nbsp;need&nbsp;to&nbsp;try&nbsp;one&nbsp;side.&nbsp;&nbsp;Otherwise<br>
+first&nbsp;try&nbsp;to&nbsp;satisfy&nbsp;the&nbsp;donor&nbsp;-&nbsp;if&nbsp;that's&nbsp;succesful,<br>
+try&nbsp;to&nbsp;satisfy&nbsp;the&nbsp;acceptor.&nbsp;&nbsp;An&nbsp;undo&nbsp;may&nbsp;be&nbsp;necessary<br>
+if&nbsp;the&nbsp;donor&nbsp;is&nbsp;satisfied&nbsp;and&nbsp;the&nbsp;acceptor&nbsp;isn't.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-tryDonor"><strong>tryDonor</strong></a>(self, donor, acc)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;adding&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an<br>
+optimizeable&nbsp;residue.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.hydrogens.html#Optimize">Optimize</a>:<br>
+<dl><dt><a name="Carboxylic-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>String&nbsp;output&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-debug"><strong>debug</strong></a>(self, txt)</dt><dd><tt>Easy&nbsp;way&nbsp;to&nbsp;turn&nbsp;on/off&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-getHbondangle"><strong>getHbondangle</strong></a>(self, atom1, atom2, atom3)</dt><dd><tt>Get&nbsp;the&nbsp;angle&nbsp;between&nbsp;three&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;(vertex)&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom3:&nbsp;&nbsp;The&nbsp;third&nbsp;atom&nbsp;(atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;angle&nbsp;between&nbsp;the&nbsp;atoms&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-getPairEnergy"><strong>getPairEnergy</strong></a>(self, donor, acceptor)</dt><dd><tt>Get&nbsp;the&nbsp;energy&nbsp;between&nbsp;two&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;donor:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;acceptor:&nbsp;The&nbsp;second&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;energy:&nbsp;&nbsp;&nbsp;The&nbsp;energy&nbsp;of&nbsp;the&nbsp;pair&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-getPositionWithThreeBonds"><strong>getPositionWithThreeBonds</strong></a>(self, atom)</dt><dd><tt>If&nbsp;there's&nbsp;three&nbsp;bonds&nbsp;in&nbsp;a&nbsp;tetrahedral&nbsp;geometry,<br>
+there's&nbsp;only&nbsp;one&nbsp;available&nbsp;position.&nbsp;&nbsp;Find&nbsp;that<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-getPositionsWithTwoBonds"><strong>getPositionsWithTwoBonds</strong></a>(self, atom)</dt><dd><tt>Given&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with&nbsp;two<br>
+existing&nbsp;bonds,&nbsp;return&nbsp;the&nbsp;two&nbsp;potential<br>
+sets&nbsp;of&nbsp;coordinates&nbsp;that&nbsp;are&nbsp;possible&nbsp;for<br>
+a&nbsp;new&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-isHbond"><strong>isHbond</strong></a>(self, donor, acc)</dt><dd><tt>Determine&nbsp;whether&nbsp;this&nbsp;donor&nbsp;acceptor&nbsp;pair&nbsp;is&nbsp;a<br>
+hydrogen&nbsp;bond</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-makeAtomWithNoBonds"><strong>makeAtomWithNoBonds</strong></a>(self, atom, closeatom, addname)</dt><dd><tt>Called&nbsp;for&nbsp;water&nbsp;oxygen&nbsp;atoms&nbsp;with&nbsp;no&nbsp;current&nbsp;bonds.<br>
+Uses&nbsp;the&nbsp;closeatom&nbsp;to&nbsp;place&nbsp;the&nbsp;new&nbsp;atom&nbsp;directly<br>
+colinear&nbsp;with&nbsp;the&nbsp;atom&nbsp;and&nbsp;the&nbsp;closeatom.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;oxygen&nbsp;atom&nbsp;of&nbsp;the&nbsp;water<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closeatom:&nbsp;The&nbsp;nearby&nbsp;atom&nbsp;(donor/acceptor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;addname:&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-makeAtomWithOneBondH"><strong>makeAtomWithOneBondH</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-makeAtomWithOneBondLP"><strong>makeAtomWithOneBondLP</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;lone&nbsp;pair&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-makeWaterWithOneBond"><strong>makeWaterWithOneBond</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;water&nbsp;residue&nbsp;that&nbsp;already&nbsp;has<br>
+one&nbsp;bond.&nbsp;&nbsp;Uses&nbsp;the&nbsp;water&nbsp;reference&nbsp;structure&nbsp;to<br>
+align&nbsp;the&nbsp;new&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-tryPositionsWithThreeBondsH"><strong>tryPositionsWithThreeBondsH</strong></a>(self, donor, acc, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;with&nbsp;the&nbsp;lone&nbsp;available<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-tryPositionsWithThreeBondsLP"><strong>tryPositionsWithThreeBondsLP</strong></a>(self, acc, donor, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;using&nbsp;the&nbsp;lone<br>
+available&nbsp;hydrogen&nbsp;position.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-tryPositionsWithTwoBondsH"><strong>tryPositionsWithTwoBondsH</strong></a>(self, donor, acc, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;adding&nbsp;a&nbsp;new&nbsp;hydrogen&nbsp;two&nbsp;the&nbsp;two&nbsp;potential<br>
+locations.&nbsp;&nbsp;If&nbsp;both&nbsp;form&nbsp;hydrogen&nbsp;bonds,&nbsp;place&nbsp;at<br>
+whatever&nbsp;returns&nbsp;the&nbsp;best&nbsp;bond&nbsp;as&nbsp;determined&nbsp;by<br>
+getPairEnergy.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-tryPositionsWithTwoBondsLP"><strong>tryPositionsWithTwoBondsLP</strong></a>(self, acc, donor, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;placing&nbsp;an&nbsp;LP&nbsp;on&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with<br>
+two&nbsp;existing&nbsp;bonds.&nbsp;&nbsp;If&nbsp;this&nbsp;isn't&nbsp;a&nbsp;hydrogen&nbsp;bond<br>
+it&nbsp;can&nbsp;return&nbsp;-&nbsp;otherwise&nbsp;ensure&nbsp;that&nbsp;the&nbsp;H(D)-A-LP<br>
+angle&nbsp;is&nbsp;minimized.</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-trySingleAlcoholicH"><strong>trySingleAlcoholicH</strong></a>(self, donor, acc, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;try&nbsp;to&nbsp;find&nbsp;the&nbsp;best&nbsp;orientation<br>
+by&nbsp;rotating&nbsp;to&nbsp;form&nbsp;a&nbsp;hydrogen&nbsp;bond.&nbsp;&nbsp;If&nbsp;a&nbsp;bond<br>
+cannot&nbsp;be&nbsp;formed,&nbsp;remove&nbsp;the&nbsp;newatom&nbsp;(thereby<br>
+returning&nbsp;to&nbsp;a&nbsp;single&nbsp;bond).</tt></dd></dl>
+
+<dl><dt><a name="Carboxylic-trySingleAlcoholicLP"><strong>trySingleAlcoholicLP</strong></a>(self, acc, donor, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;ensure&nbsp;that&nbsp;a<br>
+hydrogen&nbsp;bond&nbsp;has&nbsp;been&nbsp;made.&nbsp;&nbsp;If&nbsp;so,&nbsp;try&nbsp;to<br>
+minimze&nbsp;the&nbsp;H(D)-A-LP&nbsp;angle.&nbsp;&nbsp;If&nbsp;that&nbsp;cannot<br>
+be&nbsp;minimized,&nbsp;ignore&nbsp;the&nbsp;bond&nbsp;and&nbsp;remove&nbsp;the<br>
+atom.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Flip">class <strong>Flip</strong></a>(<a href="src.hydrogens.html#Optimize">Optimize</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;holder&nbsp;for&nbsp;optimization&nbsp;of&nbsp;flippable&nbsp;residues.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Flip-__init__"><strong>__init__</strong></a>(self, residue, optinstance, routines)</dt><dd><tt>Initialize&nbsp;a&nbsp;potential&nbsp;flip.&nbsp;&nbsp;Rather&nbsp;than&nbsp;flipping<br>
+the&nbsp;given&nbsp;residue&nbsp;back&nbsp;and&nbsp;forth,&nbsp;take&nbsp;each&nbsp;atom<br>
+that&nbsp;would&nbsp;be&nbsp;flipped&nbsp;and&nbsp;pre-flip&nbsp;it,&nbsp;making&nbsp;a<br>
+new&nbsp;*FLIP&nbsp;atom&nbsp;in&nbsp;its&nbsp;place.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;to&nbsp;flip&nbsp;(residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;optinstance:&nbsp;&nbsp;The&nbsp;optimization&nbsp;instance&nbsp;containing<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;information&nbsp;about&nbsp;what&nbsp;to&nbsp;optimize</tt></dd></dl>
+
+<dl><dt><a name="Flip-complete"><strong>complete</strong></a>(self)</dt><dd><tt>Complete&nbsp;the&nbsp;flippable&nbsp;residue&nbsp;optimization.&nbsp;&nbsp;Call&nbsp;the&nbsp;finalize<br>
+function,&nbsp;and&nbsp;then&nbsp;rename&nbsp;all&nbsp;FLIP&nbsp;atoms&nbsp;back&nbsp;to&nbsp;their&nbsp;standard<br>
+names.</tt></dd></dl>
+
+<dl><dt><a name="Flip-finalize"><strong>finalize</strong></a>(self)</dt><dd><tt>Finalizes&nbsp;a&nbsp;flippable&nbsp;back&nbsp;to&nbsp;its&nbsp;original&nbsp;state&nbsp;-<br>
+since&nbsp;the&nbsp;original&nbsp;atoms&nbsp;are&nbsp;now&nbsp;*FLIP,&nbsp;it&nbsp;deletes<br>
+the&nbsp;*&nbsp;atoms&nbsp;and&nbsp;renames&nbsp;the&nbsp;*FLIP&nbsp;atoms&nbsp;back&nbsp;to&nbsp;*.</tt></dd></dl>
+
+<dl><dt><a name="Flip-fixFlip"><strong>fixFlip</strong></a>(self, bondatom)</dt><dd><tt>Called&nbsp;if&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;has&nbsp;been&nbsp;found&nbsp;using<br>
+the&nbsp;bondatom.&nbsp;&nbsp;If&nbsp;bondatom&nbsp;is&nbsp;*FLIP,&nbsp;remove&nbsp;all&nbsp;*<br>
+atoms,&nbsp;otherwise&nbsp;remove&nbsp;all&nbsp;*FLIP&nbsp;atoms.</tt></dd></dl>
+
+<dl><dt><a name="Flip-tryAcceptor"><strong>tryAcceptor</strong></a>(self, acc, donor)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;adding&nbsp;an&nbsp;LP&nbsp;to&nbsp;an&nbsp;optimizeable<br>
+residue.</tt></dd></dl>
+
+<dl><dt><a name="Flip-tryBoth"><strong>tryBoth</strong></a>(self, donor, acc, accobj)</dt><dd><tt>Called&nbsp;when&nbsp;both&nbsp;the&nbsp;donor&nbsp;and&nbsp;acceptor&nbsp;are&nbsp;optimizeable;<br>
+If&nbsp;one&nbsp;is&nbsp;fixed,&nbsp;we&nbsp;only&nbsp;need&nbsp;to&nbsp;try&nbsp;one&nbsp;side.&nbsp;&nbsp;Otherwise<br>
+first&nbsp;try&nbsp;to&nbsp;satisfy&nbsp;the&nbsp;donor&nbsp;-&nbsp;if&nbsp;that's&nbsp;succesful,<br>
+try&nbsp;to&nbsp;satisfy&nbsp;the&nbsp;acceptor.&nbsp;&nbsp;An&nbsp;undo&nbsp;may&nbsp;be&nbsp;necessary<br>
+if&nbsp;the&nbsp;donor&nbsp;is&nbsp;satisfied&nbsp;and&nbsp;the&nbsp;acceptor&nbsp;isn't.</tt></dd></dl>
+
+<dl><dt><a name="Flip-tryDonor"><strong>tryDonor</strong></a>(self, donor, acc)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;adding&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an<br>
+optimizeable&nbsp;residue.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.hydrogens.html#Optimize">Optimize</a>:<br>
+<dl><dt><a name="Flip-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>String&nbsp;output&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Flip-debug"><strong>debug</strong></a>(self, txt)</dt><dd><tt>Easy&nbsp;way&nbsp;to&nbsp;turn&nbsp;on/off&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Flip-getHbondangle"><strong>getHbondangle</strong></a>(self, atom1, atom2, atom3)</dt><dd><tt>Get&nbsp;the&nbsp;angle&nbsp;between&nbsp;three&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;(vertex)&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom3:&nbsp;&nbsp;The&nbsp;third&nbsp;atom&nbsp;(atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;angle&nbsp;between&nbsp;the&nbsp;atoms&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Flip-getPairEnergy"><strong>getPairEnergy</strong></a>(self, donor, acceptor)</dt><dd><tt>Get&nbsp;the&nbsp;energy&nbsp;between&nbsp;two&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;donor:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;acceptor:&nbsp;The&nbsp;second&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;energy:&nbsp;&nbsp;&nbsp;The&nbsp;energy&nbsp;of&nbsp;the&nbsp;pair&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Flip-getPositionWithThreeBonds"><strong>getPositionWithThreeBonds</strong></a>(self, atom)</dt><dd><tt>If&nbsp;there's&nbsp;three&nbsp;bonds&nbsp;in&nbsp;a&nbsp;tetrahedral&nbsp;geometry,<br>
+there's&nbsp;only&nbsp;one&nbsp;available&nbsp;position.&nbsp;&nbsp;Find&nbsp;that<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Flip-getPositionsWithTwoBonds"><strong>getPositionsWithTwoBonds</strong></a>(self, atom)</dt><dd><tt>Given&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with&nbsp;two<br>
+existing&nbsp;bonds,&nbsp;return&nbsp;the&nbsp;two&nbsp;potential<br>
+sets&nbsp;of&nbsp;coordinates&nbsp;that&nbsp;are&nbsp;possible&nbsp;for<br>
+a&nbsp;new&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Flip-isHbond"><strong>isHbond</strong></a>(self, donor, acc)</dt><dd><tt>Determine&nbsp;whether&nbsp;this&nbsp;donor&nbsp;acceptor&nbsp;pair&nbsp;is&nbsp;a<br>
+hydrogen&nbsp;bond</tt></dd></dl>
+
+<dl><dt><a name="Flip-makeAtomWithNoBonds"><strong>makeAtomWithNoBonds</strong></a>(self, atom, closeatom, addname)</dt><dd><tt>Called&nbsp;for&nbsp;water&nbsp;oxygen&nbsp;atoms&nbsp;with&nbsp;no&nbsp;current&nbsp;bonds.<br>
+Uses&nbsp;the&nbsp;closeatom&nbsp;to&nbsp;place&nbsp;the&nbsp;new&nbsp;atom&nbsp;directly<br>
+colinear&nbsp;with&nbsp;the&nbsp;atom&nbsp;and&nbsp;the&nbsp;closeatom.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;oxygen&nbsp;atom&nbsp;of&nbsp;the&nbsp;water<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closeatom:&nbsp;The&nbsp;nearby&nbsp;atom&nbsp;(donor/acceptor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;addname:&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add</tt></dd></dl>
+
+<dl><dt><a name="Flip-makeAtomWithOneBondH"><strong>makeAtomWithOneBondH</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Flip-makeAtomWithOneBondLP"><strong>makeAtomWithOneBondLP</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;lone&nbsp;pair&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Flip-makeWaterWithOneBond"><strong>makeWaterWithOneBond</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;water&nbsp;residue&nbsp;that&nbsp;already&nbsp;has<br>
+one&nbsp;bond.&nbsp;&nbsp;Uses&nbsp;the&nbsp;water&nbsp;reference&nbsp;structure&nbsp;to<br>
+align&nbsp;the&nbsp;new&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="Flip-tryPositionsWithThreeBondsH"><strong>tryPositionsWithThreeBondsH</strong></a>(self, donor, acc, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;with&nbsp;the&nbsp;lone&nbsp;available<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Flip-tryPositionsWithThreeBondsLP"><strong>tryPositionsWithThreeBondsLP</strong></a>(self, acc, donor, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;using&nbsp;the&nbsp;lone<br>
+available&nbsp;hydrogen&nbsp;position.</tt></dd></dl>
+
+<dl><dt><a name="Flip-tryPositionsWithTwoBondsH"><strong>tryPositionsWithTwoBondsH</strong></a>(self, donor, acc, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;adding&nbsp;a&nbsp;new&nbsp;hydrogen&nbsp;two&nbsp;the&nbsp;two&nbsp;potential<br>
+locations.&nbsp;&nbsp;If&nbsp;both&nbsp;form&nbsp;hydrogen&nbsp;bonds,&nbsp;place&nbsp;at<br>
+whatever&nbsp;returns&nbsp;the&nbsp;best&nbsp;bond&nbsp;as&nbsp;determined&nbsp;by<br>
+getPairEnergy.</tt></dd></dl>
+
+<dl><dt><a name="Flip-tryPositionsWithTwoBondsLP"><strong>tryPositionsWithTwoBondsLP</strong></a>(self, acc, donor, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;placing&nbsp;an&nbsp;LP&nbsp;on&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with<br>
+two&nbsp;existing&nbsp;bonds.&nbsp;&nbsp;If&nbsp;this&nbsp;isn't&nbsp;a&nbsp;hydrogen&nbsp;bond<br>
+it&nbsp;can&nbsp;return&nbsp;-&nbsp;otherwise&nbsp;ensure&nbsp;that&nbsp;the&nbsp;H(D)-A-LP<br>
+angle&nbsp;is&nbsp;minimized.</tt></dd></dl>
+
+<dl><dt><a name="Flip-trySingleAlcoholicH"><strong>trySingleAlcoholicH</strong></a>(self, donor, acc, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;try&nbsp;to&nbsp;find&nbsp;the&nbsp;best&nbsp;orientation<br>
+by&nbsp;rotating&nbsp;to&nbsp;form&nbsp;a&nbsp;hydrogen&nbsp;bond.&nbsp;&nbsp;If&nbsp;a&nbsp;bond<br>
+cannot&nbsp;be&nbsp;formed,&nbsp;remove&nbsp;the&nbsp;newatom&nbsp;(thereby<br>
+returning&nbsp;to&nbsp;a&nbsp;single&nbsp;bond).</tt></dd></dl>
+
+<dl><dt><a name="Flip-trySingleAlcoholicLP"><strong>trySingleAlcoholicLP</strong></a>(self, acc, donor, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;ensure&nbsp;that&nbsp;a<br>
+hydrogen&nbsp;bond&nbsp;has&nbsp;been&nbsp;made.&nbsp;&nbsp;If&nbsp;so,&nbsp;try&nbsp;to<br>
+minimze&nbsp;the&nbsp;H(D)-A-LP&nbsp;angle.&nbsp;&nbsp;If&nbsp;that&nbsp;cannot<br>
+be&nbsp;minimized,&nbsp;ignore&nbsp;the&nbsp;bond&nbsp;and&nbsp;remove&nbsp;the<br>
+atom.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HydrogenHandler">class <strong>HydrogenHandler</strong></a>(<a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Extends&nbsp;the&nbsp;SAX&nbsp;XML&nbsp;Parser&nbsp;to&nbsp;parse&nbsp;the&nbsp;Hydrogens.xml<br>
+class<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="HydrogenHandler-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initalize&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-characters"><strong>characters</strong></a>(self, text)</dt><dd><tt>Set&nbsp;a&nbsp;given&nbsp;attribute&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;the&nbsp;text</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-endElement"><strong>endElement</strong></a>(self, name)</dt><dd><tt>Complete&nbsp;whatever&nbsp;object&nbsp;is&nbsp;currently&nbsp;passed&nbsp;in<br>
+by&nbsp;the&nbsp;name&nbsp;parameter</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-startElement"><strong>startElement</strong></a>(self, name, attributes)</dt><dd><tt>Create&nbsp;optimization&nbsp;holder&nbsp;objects&nbsp;or&nbsp;atoms</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>:<br>
+<dl><dt><a name="HydrogenHandler-endDocument"><strong>endDocument</strong></a>(self)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;document.<br>
+&nbsp;<br>
+The&nbsp;SAX&nbsp;parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;only&nbsp;once,&nbsp;and&nbsp;it&nbsp;will<br>
+be&nbsp;the&nbsp;last&nbsp;method&nbsp;invoked&nbsp;during&nbsp;the&nbsp;parse.&nbsp;The&nbsp;parser&nbsp;shall<br>
+not&nbsp;invoke&nbsp;this&nbsp;method&nbsp;until&nbsp;it&nbsp;has&nbsp;either&nbsp;abandoned&nbsp;parsing<br>
+(because&nbsp;of&nbsp;an&nbsp;unrecoverable&nbsp;error)&nbsp;or&nbsp;reached&nbsp;the&nbsp;end&nbsp;of<br>
+input.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-endElementNS"><strong>endElementNS</strong></a>(self, name, qname)</dt><dd><tt>Signals&nbsp;the&nbsp;end&nbsp;of&nbsp;an&nbsp;element&nbsp;in&nbsp;namespace&nbsp;mode.<br>
+&nbsp;<br>
+The&nbsp;name&nbsp;parameter&nbsp;contains&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;element&nbsp;type,&nbsp;just<br>
+as&nbsp;with&nbsp;the&nbsp;startElementNS&nbsp;event.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-endPrefixMapping"><strong>endPrefixMapping</strong></a>(self, prefix)</dt><dd><tt>End&nbsp;the&nbsp;scope&nbsp;of&nbsp;a&nbsp;prefix-URI&nbsp;mapping.<br>
+&nbsp;<br>
+See&nbsp;startPrefixMapping&nbsp;for&nbsp;details.&nbsp;This&nbsp;event&nbsp;will&nbsp;always<br>
+occur&nbsp;after&nbsp;the&nbsp;corresponding&nbsp;endElement&nbsp;event,&nbsp;but&nbsp;the&nbsp;order<br>
+of&nbsp;endPrefixMapping&nbsp;events&nbsp;is&nbsp;not&nbsp;otherwise&nbsp;guaranteed.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-ignorableWhitespace"><strong>ignorableWhitespace</strong></a>(self, whitespace)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;ignorable&nbsp;whitespace&nbsp;in&nbsp;element&nbsp;content.<br>
+&nbsp;<br>
+Validating&nbsp;Parsers&nbsp;must&nbsp;use&nbsp;this&nbsp;method&nbsp;to&nbsp;report&nbsp;each&nbsp;chunk<br>
+of&nbsp;ignorable&nbsp;whitespace&nbsp;(see&nbsp;the&nbsp;W3C&nbsp;XML&nbsp;1.0&nbsp;recommendation,<br>
+section&nbsp;2.10):&nbsp;non-validating&nbsp;parsers&nbsp;may&nbsp;also&nbsp;use&nbsp;this&nbsp;method<br>
+if&nbsp;they&nbsp;are&nbsp;capable&nbsp;of&nbsp;parsing&nbsp;and&nbsp;using&nbsp;content&nbsp;models.<br>
+&nbsp;<br>
+SAX&nbsp;parsers&nbsp;may&nbsp;return&nbsp;all&nbsp;contiguous&nbsp;whitespace&nbsp;in&nbsp;a&nbsp;single<br>
+chunk,&nbsp;or&nbsp;they&nbsp;may&nbsp;split&nbsp;it&nbsp;into&nbsp;several&nbsp;chunks;&nbsp;however,&nbsp;all<br>
+of&nbsp;the&nbsp;characters&nbsp;in&nbsp;any&nbsp;single&nbsp;event&nbsp;must&nbsp;come&nbsp;from&nbsp;the&nbsp;same<br>
+external&nbsp;entity,&nbsp;so&nbsp;that&nbsp;the&nbsp;Locator&nbsp;provides&nbsp;useful<br>
+information.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-processingInstruction"><strong>processingInstruction</strong></a>(self, target, data)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;a&nbsp;processing&nbsp;instruction.<br>
+&nbsp;<br>
+The&nbsp;Parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;once&nbsp;for&nbsp;each&nbsp;processing<br>
+instruction&nbsp;found:&nbsp;note&nbsp;that&nbsp;processing&nbsp;instructions&nbsp;may&nbsp;occur<br>
+before&nbsp;or&nbsp;after&nbsp;the&nbsp;main&nbsp;document&nbsp;element.<br>
+&nbsp;<br>
+A&nbsp;SAX&nbsp;parser&nbsp;should&nbsp;never&nbsp;report&nbsp;an&nbsp;XML&nbsp;declaration&nbsp;(XML&nbsp;1.0,<br>
+section&nbsp;2.8)&nbsp;or&nbsp;a&nbsp;text&nbsp;declaration&nbsp;(XML&nbsp;1.0,&nbsp;section&nbsp;4.3.1)<br>
+using&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-setDocumentLocator"><strong>setDocumentLocator</strong></a>(self, locator)</dt><dd><tt>Called&nbsp;by&nbsp;the&nbsp;parser&nbsp;to&nbsp;give&nbsp;the&nbsp;application&nbsp;a&nbsp;locator&nbsp;for<br>
+locating&nbsp;the&nbsp;origin&nbsp;of&nbsp;document&nbsp;events.<br>
+&nbsp;<br>
+SAX&nbsp;parsers&nbsp;are&nbsp;strongly&nbsp;encouraged&nbsp;(though&nbsp;not&nbsp;absolutely<br>
+required)&nbsp;to&nbsp;supply&nbsp;a&nbsp;locator:&nbsp;if&nbsp;it&nbsp;does&nbsp;so,&nbsp;it&nbsp;must&nbsp;supply<br>
+the&nbsp;locator&nbsp;to&nbsp;the&nbsp;application&nbsp;by&nbsp;invoking&nbsp;this&nbsp;method&nbsp;before<br>
+invoking&nbsp;any&nbsp;of&nbsp;the&nbsp;other&nbsp;methods&nbsp;in&nbsp;the&nbsp;DocumentHandler<br>
+interface.<br>
+&nbsp;<br>
+The&nbsp;locator&nbsp;allows&nbsp;the&nbsp;application&nbsp;to&nbsp;determine&nbsp;the&nbsp;end<br>
+position&nbsp;of&nbsp;any&nbsp;document-related&nbsp;event,&nbsp;even&nbsp;if&nbsp;the&nbsp;parser&nbsp;is<br>
+not&nbsp;reporting&nbsp;an&nbsp;error.&nbsp;Typically,&nbsp;the&nbsp;application&nbsp;will&nbsp;use<br>
+this&nbsp;information&nbsp;for&nbsp;reporting&nbsp;its&nbsp;own&nbsp;errors&nbsp;(such&nbsp;as<br>
+character&nbsp;content&nbsp;that&nbsp;does&nbsp;not&nbsp;match&nbsp;an&nbsp;application's<br>
+business&nbsp;rules).&nbsp;The&nbsp;information&nbsp;returned&nbsp;by&nbsp;the&nbsp;locator&nbsp;is<br>
+probably&nbsp;not&nbsp;sufficient&nbsp;for&nbsp;use&nbsp;with&nbsp;a&nbsp;search&nbsp;engine.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;the&nbsp;locator&nbsp;will&nbsp;return&nbsp;correct&nbsp;information&nbsp;only<br>
+during&nbsp;the&nbsp;invocation&nbsp;of&nbsp;the&nbsp;events&nbsp;in&nbsp;this&nbsp;interface.&nbsp;The<br>
+application&nbsp;should&nbsp;not&nbsp;attempt&nbsp;to&nbsp;use&nbsp;it&nbsp;at&nbsp;any&nbsp;other&nbsp;time.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-skippedEntity"><strong>skippedEntity</strong></a>(self, name)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;a&nbsp;skipped&nbsp;entity.<br>
+&nbsp;<br>
+The&nbsp;Parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;once&nbsp;for&nbsp;each&nbsp;entity<br>
+skipped.&nbsp;Non-validating&nbsp;processors&nbsp;may&nbsp;skip&nbsp;entities&nbsp;if&nbsp;they<br>
+have&nbsp;not&nbsp;seen&nbsp;the&nbsp;declarations&nbsp;(because,&nbsp;for&nbsp;example,&nbsp;the<br>
+entity&nbsp;was&nbsp;declared&nbsp;in&nbsp;an&nbsp;external&nbsp;DTD&nbsp;subset).&nbsp;All&nbsp;processors<br>
+may&nbsp;skip&nbsp;external&nbsp;entities,&nbsp;depending&nbsp;on&nbsp;the&nbsp;values&nbsp;of&nbsp;the<br>
+<a href="http://xml.org/sax/features/external-general-entities">http://xml.org/sax/features/external-general-entities</a>&nbsp;and&nbsp;the<br>
+<a href="http://xml.org/sax/features/external-parameter-entities">http://xml.org/sax/features/external-parameter-entities</a><br>
+properties.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-startDocument"><strong>startDocument</strong></a>(self)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;the&nbsp;beginning&nbsp;of&nbsp;a&nbsp;document.<br>
+&nbsp;<br>
+The&nbsp;SAX&nbsp;parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;only&nbsp;once,&nbsp;before&nbsp;any<br>
+other&nbsp;methods&nbsp;in&nbsp;this&nbsp;interface&nbsp;or&nbsp;in&nbsp;DTDHandler&nbsp;(except&nbsp;for<br>
+setDocumentLocator).</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-startElementNS"><strong>startElementNS</strong></a>(self, name, qname, attrs)</dt><dd><tt>Signals&nbsp;the&nbsp;start&nbsp;of&nbsp;an&nbsp;element&nbsp;in&nbsp;namespace&nbsp;mode.<br>
+&nbsp;<br>
+The&nbsp;name&nbsp;parameter&nbsp;contains&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;element&nbsp;type&nbsp;as&nbsp;a<br>
+(uri,&nbsp;localname)&nbsp;tuple,&nbsp;the&nbsp;qname&nbsp;parameter&nbsp;the&nbsp;raw&nbsp;XML&nbsp;1.0<br>
+name&nbsp;used&nbsp;in&nbsp;the&nbsp;source&nbsp;document,&nbsp;and&nbsp;the&nbsp;attrs&nbsp;parameter<br>
+holds&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Attributes&nbsp;class&nbsp;containing&nbsp;the<br>
+attributes&nbsp;of&nbsp;the&nbsp;element.<br>
+&nbsp;<br>
+The&nbsp;uri&nbsp;part&nbsp;of&nbsp;the&nbsp;name&nbsp;tuple&nbsp;is&nbsp;None&nbsp;for&nbsp;elements&nbsp;which&nbsp;have<br>
+no&nbsp;namespace.</tt></dd></dl>
+
+<dl><dt><a name="HydrogenHandler-startPrefixMapping"><strong>startPrefixMapping</strong></a>(self, prefix, uri)</dt><dd><tt>Begin&nbsp;the&nbsp;scope&nbsp;of&nbsp;a&nbsp;prefix-URI&nbsp;Namespace&nbsp;mapping.<br>
+&nbsp;<br>
+The&nbsp;information&nbsp;from&nbsp;this&nbsp;event&nbsp;is&nbsp;not&nbsp;necessary&nbsp;for&nbsp;normal<br>
+Namespace&nbsp;processing:&nbsp;the&nbsp;SAX&nbsp;XML&nbsp;reader&nbsp;will&nbsp;automatically<br>
+replace&nbsp;prefixes&nbsp;for&nbsp;element&nbsp;and&nbsp;attribute&nbsp;names&nbsp;when&nbsp;the<br>
+<a href="http://xml.org/sax/features/namespaces">http://xml.org/sax/features/namespaces</a>&nbsp;feature&nbsp;is&nbsp;true&nbsp;(the<br>
+default).<br>
+&nbsp;<br>
+There&nbsp;are&nbsp;cases,&nbsp;however,&nbsp;when&nbsp;applications&nbsp;need&nbsp;to&nbsp;use<br>
+prefixes&nbsp;in&nbsp;character&nbsp;data&nbsp;or&nbsp;in&nbsp;attribute&nbsp;values,&nbsp;where&nbsp;they<br>
+cannot&nbsp;safely&nbsp;be&nbsp;expanded&nbsp;automatically;&nbsp;the<br>
+start/endPrefixMapping&nbsp;event&nbsp;supplies&nbsp;the&nbsp;information&nbsp;to&nbsp;the<br>
+application&nbsp;to&nbsp;expand&nbsp;prefixes&nbsp;in&nbsp;those&nbsp;contexts&nbsp;itself,&nbsp;if<br>
+necessary.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;start/endPrefixMapping&nbsp;events&nbsp;are&nbsp;not&nbsp;guaranteed&nbsp;to<br>
+be&nbsp;properly&nbsp;nested&nbsp;relative&nbsp;to&nbsp;each-other:&nbsp;all<br>
+startPrefixMapping&nbsp;events&nbsp;will&nbsp;occur&nbsp;before&nbsp;the&nbsp;corresponding<br>
+startElement&nbsp;event,&nbsp;and&nbsp;all&nbsp;endPrefixMapping&nbsp;events&nbsp;will&nbsp;occur<br>
+after&nbsp;the&nbsp;corresponding&nbsp;endElement&nbsp;event,&nbsp;but&nbsp;their&nbsp;order&nbsp;is<br>
+not&nbsp;guaranteed.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="OptimizationHolder">class <strong>OptimizationHolder</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;holder&nbsp;class&nbsp;for&nbsp;the&nbsp;XML&nbsp;parser.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="OptimizationHolder-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;the&nbsp;class.</tt></dd></dl>
+
+<dl><dt><a name="OptimizationHolder-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>A&nbsp;basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Optimize">class <strong>Optimize</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;holder&nbsp;class&nbsp;for&nbsp;the&nbsp;hydrogen&nbsp;optimization<br>
+routines.&nbsp;Individual&nbsp;optimization&nbsp;types&nbsp;inherit&nbsp;off&nbsp;of&nbsp;this<br>
+class.&nbsp;&nbsp;Any&nbsp;functions&nbsp;used&nbsp;by&nbsp;multiple&nbsp;types&nbsp;appear&nbsp;here.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Optimize-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;the&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="Optimize-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>String&nbsp;output&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Optimize-debug"><strong>debug</strong></a>(self, txt)</dt><dd><tt>Easy&nbsp;way&nbsp;to&nbsp;turn&nbsp;on/off&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Optimize-getHbondangle"><strong>getHbondangle</strong></a>(self, atom1, atom2, atom3)</dt><dd><tt>Get&nbsp;the&nbsp;angle&nbsp;between&nbsp;three&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;(vertex)&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom3:&nbsp;&nbsp;The&nbsp;third&nbsp;atom&nbsp;(atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;angle&nbsp;between&nbsp;the&nbsp;atoms&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Optimize-getPairEnergy"><strong>getPairEnergy</strong></a>(self, donor, acceptor)</dt><dd><tt>Get&nbsp;the&nbsp;energy&nbsp;between&nbsp;two&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;donor:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;acceptor:&nbsp;The&nbsp;second&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;energy:&nbsp;&nbsp;&nbsp;The&nbsp;energy&nbsp;of&nbsp;the&nbsp;pair&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Optimize-getPositionWithThreeBonds"><strong>getPositionWithThreeBonds</strong></a>(self, atom)</dt><dd><tt>If&nbsp;there's&nbsp;three&nbsp;bonds&nbsp;in&nbsp;a&nbsp;tetrahedral&nbsp;geometry,<br>
+there's&nbsp;only&nbsp;one&nbsp;available&nbsp;position.&nbsp;&nbsp;Find&nbsp;that<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-getPositionsWithTwoBonds"><strong>getPositionsWithTwoBonds</strong></a>(self, atom)</dt><dd><tt>Given&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with&nbsp;two<br>
+existing&nbsp;bonds,&nbsp;return&nbsp;the&nbsp;two&nbsp;potential<br>
+sets&nbsp;of&nbsp;coordinates&nbsp;that&nbsp;are&nbsp;possible&nbsp;for<br>
+a&nbsp;new&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-isHbond"><strong>isHbond</strong></a>(self, donor, acc)</dt><dd><tt>Determine&nbsp;whether&nbsp;this&nbsp;donor&nbsp;acceptor&nbsp;pair&nbsp;is&nbsp;a<br>
+hydrogen&nbsp;bond</tt></dd></dl>
+
+<dl><dt><a name="Optimize-makeAtomWithNoBonds"><strong>makeAtomWithNoBonds</strong></a>(self, atom, closeatom, addname)</dt><dd><tt>Called&nbsp;for&nbsp;water&nbsp;oxygen&nbsp;atoms&nbsp;with&nbsp;no&nbsp;current&nbsp;bonds.<br>
+Uses&nbsp;the&nbsp;closeatom&nbsp;to&nbsp;place&nbsp;the&nbsp;new&nbsp;atom&nbsp;directly<br>
+colinear&nbsp;with&nbsp;the&nbsp;atom&nbsp;and&nbsp;the&nbsp;closeatom.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;oxygen&nbsp;atom&nbsp;of&nbsp;the&nbsp;water<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closeatom:&nbsp;The&nbsp;nearby&nbsp;atom&nbsp;(donor/acceptor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;addname:&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add</tt></dd></dl>
+
+<dl><dt><a name="Optimize-makeAtomWithOneBondH"><strong>makeAtomWithOneBondH</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-makeAtomWithOneBondLP"><strong>makeAtomWithOneBondLP</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;lone&nbsp;pair&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-makeWaterWithOneBond"><strong>makeWaterWithOneBond</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;water&nbsp;residue&nbsp;that&nbsp;already&nbsp;has<br>
+one&nbsp;bond.&nbsp;&nbsp;Uses&nbsp;the&nbsp;water&nbsp;reference&nbsp;structure&nbsp;to<br>
+align&nbsp;the&nbsp;new&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-tryPositionsWithThreeBondsH"><strong>tryPositionsWithThreeBondsH</strong></a>(self, donor, acc, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;with&nbsp;the&nbsp;lone&nbsp;available<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-tryPositionsWithThreeBondsLP"><strong>tryPositionsWithThreeBondsLP</strong></a>(self, acc, donor, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;using&nbsp;the&nbsp;lone<br>
+available&nbsp;hydrogen&nbsp;position.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-tryPositionsWithTwoBondsH"><strong>tryPositionsWithTwoBondsH</strong></a>(self, donor, acc, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;adding&nbsp;a&nbsp;new&nbsp;hydrogen&nbsp;two&nbsp;the&nbsp;two&nbsp;potential<br>
+locations.&nbsp;&nbsp;If&nbsp;both&nbsp;form&nbsp;hydrogen&nbsp;bonds,&nbsp;place&nbsp;at<br>
+whatever&nbsp;returns&nbsp;the&nbsp;best&nbsp;bond&nbsp;as&nbsp;determined&nbsp;by<br>
+getPairEnergy.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-tryPositionsWithTwoBondsLP"><strong>tryPositionsWithTwoBondsLP</strong></a>(self, acc, donor, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;placing&nbsp;an&nbsp;LP&nbsp;on&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with<br>
+two&nbsp;existing&nbsp;bonds.&nbsp;&nbsp;If&nbsp;this&nbsp;isn't&nbsp;a&nbsp;hydrogen&nbsp;bond<br>
+it&nbsp;can&nbsp;return&nbsp;-&nbsp;otherwise&nbsp;ensure&nbsp;that&nbsp;the&nbsp;H(D)-A-LP<br>
+angle&nbsp;is&nbsp;minimized.</tt></dd></dl>
+
+<dl><dt><a name="Optimize-trySingleAlcoholicH"><strong>trySingleAlcoholicH</strong></a>(self, donor, acc, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;try&nbsp;to&nbsp;find&nbsp;the&nbsp;best&nbsp;orientation<br>
+by&nbsp;rotating&nbsp;to&nbsp;form&nbsp;a&nbsp;hydrogen&nbsp;bond.&nbsp;&nbsp;If&nbsp;a&nbsp;bond<br>
+cannot&nbsp;be&nbsp;formed,&nbsp;remove&nbsp;the&nbsp;newatom&nbsp;(thereby<br>
+returning&nbsp;to&nbsp;a&nbsp;single&nbsp;bond).</tt></dd></dl>
+
+<dl><dt><a name="Optimize-trySingleAlcoholicLP"><strong>trySingleAlcoholicLP</strong></a>(self, acc, donor, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;ensure&nbsp;that&nbsp;a<br>
+hydrogen&nbsp;bond&nbsp;has&nbsp;been&nbsp;made.&nbsp;&nbsp;If&nbsp;so,&nbsp;try&nbsp;to<br>
+minimze&nbsp;the&nbsp;H(D)-A-LP&nbsp;angle.&nbsp;&nbsp;If&nbsp;that&nbsp;cannot<br>
+be&nbsp;minimized,&nbsp;ignore&nbsp;the&nbsp;bond&nbsp;and&nbsp;remove&nbsp;the<br>
+atom.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="PotentialBond">class <strong>PotentialBond</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;small&nbsp;class&nbsp;containing&nbsp;the&nbsp;hbond&nbsp;structure<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="PotentialBond-__init__"><strong>__init__</strong></a>(self, atom1, atom2, dist)</dt><dd><tt>Initialize&nbsp;the&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;in&nbsp;the&nbsp;potential&nbsp;bond&nbsp;(Atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;atom&nbsp;in&nbsp;the&nbsp;potential&nbsp;bond&nbsp;(Atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dist:&nbsp;&nbsp;The&nbsp;distance&nbsp;between&nbsp;the&nbsp;two&nbsp;atoms&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="PotentialBond-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>String&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Water">class <strong>Water</strong></a>(<a href="src.hydrogens.html#Optimize">Optimize</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;class&nbsp;for&nbsp;water&nbsp;residues<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Water-__init__"><strong>__init__</strong></a>(self, residue, optinstance, routines)</dt><dd><tt>Initialize&nbsp;the&nbsp;water&nbsp;optimization&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="Water-complete"><strong>complete</strong></a>(self)</dt><dd><tt>Complete&nbsp;the&nbsp;water&nbsp;optimization&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="Water-finalize"><strong>finalize</strong></a>(self)</dt><dd><tt>Finalize&nbsp;a&nbsp;water&nbsp;residue.&nbsp;&nbsp;Try&nbsp;to&nbsp;minimize<br>
+conflict&nbsp;with&nbsp;nearby&nbsp;atoms&nbsp;by&nbsp;building&nbsp;away<br>
+from&nbsp;them.&nbsp;&nbsp;Called&nbsp;when&nbsp;LPs&nbsp;are&nbsp;still&nbsp;present<br>
+so&nbsp;as&nbsp;to&nbsp;account&nbsp;for&nbsp;their&nbsp;bonds.</tt></dd></dl>
+
+<dl><dt><a name="Water-tryAcceptor"><strong>tryAcceptor</strong></a>(self, acc, donor)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;adding&nbsp;an&nbsp;LP&nbsp;to&nbsp;an&nbsp;optimizeable<br>
+residue.</tt></dd></dl>
+
+<dl><dt><a name="Water-tryBoth"><strong>tryBoth</strong></a>(self, donor, acc, accobj)</dt><dd><tt>Called&nbsp;when&nbsp;both&nbsp;the&nbsp;donor&nbsp;and&nbsp;acceptor&nbsp;are&nbsp;optimizeable;<br>
+If&nbsp;one&nbsp;is&nbsp;fixed,&nbsp;we&nbsp;only&nbsp;need&nbsp;to&nbsp;try&nbsp;one&nbsp;side.&nbsp;&nbsp;Otherwise<br>
+first&nbsp;try&nbsp;to&nbsp;satisfy&nbsp;the&nbsp;donor&nbsp;-&nbsp;if&nbsp;that's&nbsp;succesful,<br>
+try&nbsp;to&nbsp;satisfy&nbsp;the&nbsp;acceptor.&nbsp;&nbsp;An&nbsp;undo&nbsp;may&nbsp;be&nbsp;necessary<br>
+if&nbsp;the&nbsp;donor&nbsp;is&nbsp;satisfied&nbsp;and&nbsp;the&nbsp;acceptor&nbsp;isn't.</tt></dd></dl>
+
+<dl><dt><a name="Water-tryDonor"><strong>tryDonor</strong></a>(self, donor, acc)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;adding&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an<br>
+optimizeable&nbsp;residue.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.hydrogens.html#Optimize">Optimize</a>:<br>
+<dl><dt><a name="Water-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>String&nbsp;output&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Water-debug"><strong>debug</strong></a>(self, txt)</dt><dd><tt>Easy&nbsp;way&nbsp;to&nbsp;turn&nbsp;on/off&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Water-getHbondangle"><strong>getHbondangle</strong></a>(self, atom1, atom2, atom3)</dt><dd><tt>Get&nbsp;the&nbsp;angle&nbsp;between&nbsp;three&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;(vertex)&nbsp;atom&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom3:&nbsp;&nbsp;The&nbsp;third&nbsp;atom&nbsp;(atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;angle&nbsp;between&nbsp;the&nbsp;atoms&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Water-getPairEnergy"><strong>getPairEnergy</strong></a>(self, donor, acceptor)</dt><dd><tt>Get&nbsp;the&nbsp;energy&nbsp;between&nbsp;two&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;donor:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;acceptor:&nbsp;The&nbsp;second&nbsp;atom&nbsp;in&nbsp;the&nbsp;pair&nbsp;(Atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;energy:&nbsp;&nbsp;&nbsp;The&nbsp;energy&nbsp;of&nbsp;the&nbsp;pair&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Water-getPositionWithThreeBonds"><strong>getPositionWithThreeBonds</strong></a>(self, atom)</dt><dd><tt>If&nbsp;there's&nbsp;three&nbsp;bonds&nbsp;in&nbsp;a&nbsp;tetrahedral&nbsp;geometry,<br>
+there's&nbsp;only&nbsp;one&nbsp;available&nbsp;position.&nbsp;&nbsp;Find&nbsp;that<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Water-getPositionsWithTwoBonds"><strong>getPositionsWithTwoBonds</strong></a>(self, atom)</dt><dd><tt>Given&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with&nbsp;two<br>
+existing&nbsp;bonds,&nbsp;return&nbsp;the&nbsp;two&nbsp;potential<br>
+sets&nbsp;of&nbsp;coordinates&nbsp;that&nbsp;are&nbsp;possible&nbsp;for<br>
+a&nbsp;new&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Water-isHbond"><strong>isHbond</strong></a>(self, donor, acc)</dt><dd><tt>Determine&nbsp;whether&nbsp;this&nbsp;donor&nbsp;acceptor&nbsp;pair&nbsp;is&nbsp;a<br>
+hydrogen&nbsp;bond</tt></dd></dl>
+
+<dl><dt><a name="Water-makeAtomWithNoBonds"><strong>makeAtomWithNoBonds</strong></a>(self, atom, closeatom, addname)</dt><dd><tt>Called&nbsp;for&nbsp;water&nbsp;oxygen&nbsp;atoms&nbsp;with&nbsp;no&nbsp;current&nbsp;bonds.<br>
+Uses&nbsp;the&nbsp;closeatom&nbsp;to&nbsp;place&nbsp;the&nbsp;new&nbsp;atom&nbsp;directly<br>
+colinear&nbsp;with&nbsp;the&nbsp;atom&nbsp;and&nbsp;the&nbsp;closeatom.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;oxygen&nbsp;atom&nbsp;of&nbsp;the&nbsp;water<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closeatom:&nbsp;The&nbsp;nearby&nbsp;atom&nbsp;(donor/acceptor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;addname:&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add</tt></dd></dl>
+
+<dl><dt><a name="Water-makeAtomWithOneBondH"><strong>makeAtomWithOneBondH</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;hydrogen&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Water-makeAtomWithOneBondLP"><strong>makeAtomWithOneBondLP</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;a&nbsp;lone&nbsp;pair&nbsp;to&nbsp;an&nbsp;alcoholic&nbsp;donor&nbsp;with&nbsp;one<br>
+existing&nbsp;bond.</tt></dd></dl>
+
+<dl><dt><a name="Water-makeWaterWithOneBond"><strong>makeWaterWithOneBond</strong></a>(self, atom, addname)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;water&nbsp;residue&nbsp;that&nbsp;already&nbsp;has<br>
+one&nbsp;bond.&nbsp;&nbsp;Uses&nbsp;the&nbsp;water&nbsp;reference&nbsp;structure&nbsp;to<br>
+align&nbsp;the&nbsp;new&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="Water-tryPositionsWithThreeBondsH"><strong>tryPositionsWithThreeBondsH</strong></a>(self, donor, acc, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;with&nbsp;the&nbsp;lone&nbsp;available<br>
+position.</tt></dd></dl>
+
+<dl><dt><a name="Water-tryPositionsWithThreeBondsLP"><strong>tryPositionsWithThreeBondsLP</strong></a>(self, acc, donor, newname, loc)</dt><dd><tt>Try&nbsp;making&nbsp;a&nbsp;hydrogen&nbsp;bond&nbsp;using&nbsp;the&nbsp;lone<br>
+available&nbsp;hydrogen&nbsp;position.</tt></dd></dl>
+
+<dl><dt><a name="Water-tryPositionsWithTwoBondsH"><strong>tryPositionsWithTwoBondsH</strong></a>(self, donor, acc, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;adding&nbsp;a&nbsp;new&nbsp;hydrogen&nbsp;two&nbsp;the&nbsp;two&nbsp;potential<br>
+locations.&nbsp;&nbsp;If&nbsp;both&nbsp;form&nbsp;hydrogen&nbsp;bonds,&nbsp;place&nbsp;at<br>
+whatever&nbsp;returns&nbsp;the&nbsp;best&nbsp;bond&nbsp;as&nbsp;determined&nbsp;by<br>
+getPairEnergy.</tt></dd></dl>
+
+<dl><dt><a name="Water-tryPositionsWithTwoBondsLP"><strong>tryPositionsWithTwoBondsLP</strong></a>(self, acc, donor, newname, loc1, loc2)</dt><dd><tt>Try&nbsp;placing&nbsp;an&nbsp;LP&nbsp;on&nbsp;a&nbsp;tetrahedral&nbsp;geometry&nbsp;with<br>
+two&nbsp;existing&nbsp;bonds.&nbsp;&nbsp;If&nbsp;this&nbsp;isn't&nbsp;a&nbsp;hydrogen&nbsp;bond<br>
+it&nbsp;can&nbsp;return&nbsp;-&nbsp;otherwise&nbsp;ensure&nbsp;that&nbsp;the&nbsp;H(D)-A-LP<br>
+angle&nbsp;is&nbsp;minimized.</tt></dd></dl>
+
+<dl><dt><a name="Water-trySingleAlcoholicH"><strong>trySingleAlcoholicH</strong></a>(self, donor, acc, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;try&nbsp;to&nbsp;find&nbsp;the&nbsp;best&nbsp;orientation<br>
+by&nbsp;rotating&nbsp;to&nbsp;form&nbsp;a&nbsp;hydrogen&nbsp;bond.&nbsp;&nbsp;If&nbsp;a&nbsp;bond<br>
+cannot&nbsp;be&nbsp;formed,&nbsp;remove&nbsp;the&nbsp;newatom&nbsp;(thereby<br>
+returning&nbsp;to&nbsp;a&nbsp;single&nbsp;bond).</tt></dd></dl>
+
+<dl><dt><a name="Water-trySingleAlcoholicLP"><strong>trySingleAlcoholicLP</strong></a>(self, acc, donor, newatom)</dt><dd><tt>After&nbsp;a&nbsp;new&nbsp;bond&nbsp;has&nbsp;been&nbsp;added&nbsp;using<br>
+makeAtomWithOneBond*,&nbsp;ensure&nbsp;that&nbsp;a<br>
+hydrogen&nbsp;bond&nbsp;has&nbsp;been&nbsp;made.&nbsp;&nbsp;If&nbsp;so,&nbsp;try&nbsp;to<br>
+minimze&nbsp;the&nbsp;H(D)-A-LP&nbsp;angle.&nbsp;&nbsp;If&nbsp;that&nbsp;cannot<br>
+be&nbsp;minimized,&nbsp;ignore&nbsp;the&nbsp;bond&nbsp;and&nbsp;remove&nbsp;the<br>
+atom.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="hydrogenRoutines">class <strong>hydrogenRoutines</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;main&nbsp;routines&nbsp;for&nbsp;hydrogen&nbsp;optimization.&nbsp;&nbsp;This&nbsp;could<br>
+potentially&nbsp;be&nbsp;extended&nbsp;from&nbsp;the&nbsp;routines&nbsp;object...<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="hydrogenRoutines-__init__"><strong>__init__</strong></a>(self, routines)</dt><dd><tt>Parse&nbsp;the&nbsp;XML&nbsp;file&nbsp;and&nbsp;store&nbsp;the&nbsp;data&nbsp;in&nbsp;a&nbsp;map</tt></dd></dl>
+
+<dl><dt><a name="hydrogenRoutines-debug"><strong>debug</strong></a>(self, text)</dt><dd><tt>Print&nbsp;text&nbsp;to&nbsp;stdout&nbsp;for&nbsp;debugging&nbsp;purposes.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text:&nbsp;&nbsp;The&nbsp;text&nbsp;to&nbsp;output&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="hydrogenRoutines-initializeFullOptimization"><strong>initializeFullOptimization</strong></a>(self)</dt><dd><tt>Initialize&nbsp;the&nbsp;full&nbsp;optimization.&nbsp;&nbsp;Detects&nbsp;all<br>
+optimizeable&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;and&nbsp;sets&nbsp;the&nbsp;internal<br>
+optlist.</tt></dd></dl>
+
+<dl><dt><a name="hydrogenRoutines-initializeWaterOptimization"><strong>initializeWaterOptimization</strong></a>(self)</dt><dd><tt>Initialize&nbsp;optimization&nbsp;for&nbsp;waters&nbsp;only.&nbsp;&nbsp;Detects&nbsp;all<br>
+optimizeable&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;and&nbsp;sets&nbsp;the&nbsp;internal<br>
+optlist.</tt></dd></dl>
+
+<dl><dt><a name="hydrogenRoutines-isOptimizeable"><strong>isOptimizeable</strong></a>(self, residue)</dt><dd><tt>Check&nbsp;to&nbsp;see&nbsp;if&nbsp;the&nbsp;given&nbsp;residue&nbsp;is&nbsp;optimizeable<br>
+There&nbsp;are&nbsp;three&nbsp;ways&nbsp;to&nbsp;identify&nbsp;a&nbsp;residue:<br>
+&nbsp;<br>
+1.&nbsp;&nbsp;By&nbsp;name&nbsp;(i.e.&nbsp;HIS)<br>
+2.&nbsp;&nbsp;By&nbsp;reference&nbsp;name&nbsp;-&nbsp;a&nbsp;PDB&nbsp;file&nbsp;HSP&nbsp;has<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;HIS&nbsp;reference&nbsp;name<br>
+3.&nbsp;&nbsp;By&nbsp;patch&nbsp;-&nbsp;applied&nbsp;by&nbsp;PropKa,&nbsp;terminal&nbsp;selection<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;in&nbsp;question&nbsp;(Residue)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;optinstance:&nbsp;None&nbsp;if&nbsp;not&nbsp;optimizeable,&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;<a href="#OptimizationHolder">OptimizationHolder</a>&nbsp;instance&nbsp;that<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;corresponds&nbsp;to&nbsp;the&nbsp;residue.</tt></dd></dl>
+
+<dl><dt><a name="hydrogenRoutines-optimizeHydrogens"><strong>optimizeHydrogens</strong></a>(self)</dt><dd><tt>The&nbsp;main&nbsp;driver&nbsp;for&nbsp;the&nbsp;optimization.&nbsp;&nbsp;Should&nbsp;be<br>
+called&nbsp;only&nbsp;after&nbsp;the&nbsp;optlist&nbsp;has&nbsp;been&nbsp;initialized.</tt></dd></dl>
+
+<dl><dt><a name="hydrogenRoutines-setOptimizeableHydrogens"><strong>setOptimizeableHydrogens</strong></a>(self)</dt><dd><tt>Set&nbsp;any&nbsp;hydrogen&nbsp;listed&nbsp;in&nbsp;HYDROGENS.xml&nbsp;that<br>
+is&nbsp;optimizeable.&nbsp;&nbsp;Used&nbsp;BEFORE&nbsp;hydrogen&nbsp;optimization<br>
+to&nbsp;label&nbsp;atoms&nbsp;so&nbsp;that&nbsp;they&nbsp;won't&nbsp;be&nbsp;debumped&nbsp;-&nbsp;i.e.<br>
+if&nbsp;SER&nbsp;HG&nbsp;is&nbsp;too&nbsp;close&nbsp;to&nbsp;another&nbsp;atom,&nbsp;don't&nbsp;debump<br>
+but&nbsp;wait&nbsp;for&nbsp;optimization.&nbsp;&nbsp;This&nbsp;function&nbsp;should&nbsp;not<br>
+be&nbsp;used&nbsp;if&nbsp;full&nbsp;optimization&nbsp;is&nbsp;not&nbsp;taking&nbsp;place.</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>AAPATH</strong> = 'dat/AA.xml'<br>
+<strong>ANGLE_CUTOFF</strong> = 20.0<br>
+<strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>BONDED_SS_LIMIT</strong> = 2.5<br>
+<strong>BUMP_DIST</strong> = 2.0<br>
+<strong>BUMP_HDIST</strong> = 1.5<br>
+<strong>CELL_SIZE</strong> = 2<br>
+<strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>DIST_CUTOFF</strong> = 3.2999999999999998<br>
+<strong>HDEBUG</strong> = 0<br>
+<strong>HYDPATH</strong> = 'dat/HYDROGENS.xml'<br>
+<strong>NAPATH</strong> = 'dat/NA.xml'<br>
+<strong>PATCHPATH</strong> = 'dat/PATCHES.xml'<br>
+<strong>PEPTIDE_DIST</strong> = 1.7<br>
+<strong>REPAIR_LIMIT</strong> = 10<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Todd Dolinsky, Jens Erik Nielsen'<br>
+<strong>__date__</strong> = '16 May 2006'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky,&nbsp;Jens&nbsp;Erik&nbsp;Nielsen</td></tr></table>
+</body></html>

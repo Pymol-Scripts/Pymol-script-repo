@@ -1,0 +1,176 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.protein</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.protein</strong></big></big> (28 February 2006)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/protein.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/protein.py</a></font></td></tr></table>
+    <p><tt>Routines&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;contains&nbsp;the&nbsp;protein&nbsp;object&nbsp;used&nbsp;in&nbsp;PDB2PQR&nbsp;and&nbsp;associated<br>
+methods<br>
+&nbsp;<br>
+----------------------------<br>
+&nbsp;<br>
+PDB2PQR&nbsp;--&nbsp;An&nbsp;automated&nbsp;pipeline&nbsp;for&nbsp;the&nbsp;setup,&nbsp;execution,&nbsp;and&nbsp;analysis&nbsp;of<br>
+Poisson-Boltzmann&nbsp;electrostatics&nbsp;calculations<br>
+&nbsp;<br>
+Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Dept.&nbsp;of&nbsp;Biochemistry&nbsp;and&nbsp;Molecular&nbsp;Biophysics<br>
+Center&nbsp;for&nbsp;Computational&nbsp;Biology<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Jens&nbsp;Nielsen&nbsp;(Jens.Nielsen@ucd.ie)<br>
+University&nbsp;College&nbsp;Dublin<br>
+&nbsp;<br>
+Additional&nbsp;contributing&nbsp;authors&nbsp;listed&nbsp;in&nbsp;documentation&nbsp;and&nbsp;supporting<br>
+package&nbsp;licenses.<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2003-2007.&nbsp;&nbsp;Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis.&nbsp;&nbsp;<br>
+All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+along&nbsp;with&nbsp;PDB2PQR;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software<br>
+Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307&nbsp;&nbsp;USA<br>
+&nbsp;<br>
+----------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="copy.html">copy</a><br>
+<a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="src.protein.html#Protein">Protein</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Protein">class <strong>Protein</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Protein">Protein</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;protein&nbsp;class&nbsp;represents&nbsp;the&nbsp;parsed&nbsp;PDB,&nbsp;and&nbsp;provides&nbsp;a<br>
+hierarchy&nbsp;of&nbsp;information&nbsp;-&nbsp;each&nbsp;<a href="#Protein">Protein</a>&nbsp;contains&nbsp;a&nbsp;list&nbsp;of&nbsp;Chain<br>
+objects&nbsp;as&nbsp;provided&nbsp;in&nbsp;the&nbsp;PDB&nbsp;file.&nbsp;&nbsp;Each&nbsp;Chain&nbsp;then&nbsp;contains&nbsp;its<br>
+associated&nbsp;list&nbsp;of&nbsp;Residue&nbsp;objects,&nbsp;and&nbsp;each&nbsp;Residue&nbsp;contains&nbsp;a&nbsp;list<br>
+of&nbsp;Atom&nbsp;objects,&nbsp;completing&nbsp;the&nbsp;hierarchy.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Protein-__init__"><strong>__init__</strong></a>(self, pdblist, definition)</dt><dd><tt>Initialize&nbsp;using&nbsp;parsed&nbsp;PDB&nbsp;file<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pdblist:&nbsp;List&nbsp;of&nbsp;Classes&nbsp;of&nbsp;PDB&nbsp;lines&nbsp;as&nbsp;created</tt></dd></dl>
+
+<dl><dt><a name="Protein-createHTMLTypeMap"><strong>createHTMLTypeMap</strong></a>(self, definition, outfilename)</dt><dd><tt>Create&nbsp;an&nbsp;HTML&nbsp;typemap&nbsp;file&nbsp;at&nbsp;the&nbsp;desired&nbsp;location.&nbsp;If&nbsp;a<br>
+type&nbsp;cannot&nbsp;be&nbsp;found&nbsp;for&nbsp;an&nbsp;atom&nbsp;a&nbsp;blank&nbsp;is&nbsp;listed.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;definition:&nbsp;The&nbsp;definition&nbsp;objects.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;outfilename:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;file&nbsp;to&nbsp;write&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="Protein-createResidue"><strong>createResidue</strong></a>(self, residue, resname)</dt><dd><tt>Create&nbsp;a&nbsp;residue&nbsp;object.&nbsp;&nbsp;If&nbsp;the&nbsp;resname&nbsp;is&nbsp;a&nbsp;known&nbsp;residue<br>
+type,&nbsp;try&nbsp;to&nbsp;make&nbsp;that&nbsp;specific&nbsp;object,&nbsp;otherwise&nbsp;just&nbsp;make<br>
+a&nbsp;standard&nbsp;residue&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atoms&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;(string)<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;object&nbsp;(Residue)</tt></dd></dl>
+
+<dl><dt><a name="Protein-getAtoms"><strong>getAtoms</strong></a>(self)</dt><dd><tt>Return&nbsp;all&nbsp;Atom&nbsp;objects&nbsp;in&nbsp;list&nbsp;format<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomlist:&nbsp;&nbsp;List&nbsp;of&nbsp;Atom&nbsp;objects&nbsp;in&nbsp;the&nbsp;protein&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Protein-getChains"><strong>getChains</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;chains&nbsp;object<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chains:&nbsp;The&nbsp;list&nbsp;of&nbsp;chains&nbsp;in&nbsp;the&nbsp;protein&nbsp;(chain)</tt></dd></dl>
+
+<dl><dt><a name="Protein-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;on&nbsp;the&nbsp;protein<br>
+NOTE:&nbsp;&nbsp;Since&nbsp;the&nbsp;misslist&nbsp;is&nbsp;used&nbsp;to&nbsp;identify&nbsp;incorrect<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charge&nbsp;assignments,&nbsp;this&nbsp;routine&nbsp;does&nbsp;not&nbsp;list&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;and&nbsp;5&nbsp;termini&nbsp;of&nbsp;nucleic&nbsp;acid&nbsp;chains&nbsp;as&nbsp;having<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-integer&nbsp;charge&nbsp;even&nbsp;though&nbsp;they&nbsp;are&nbsp;(correctly)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-integer.<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;misslist:&nbsp;List&nbsp;of&nbsp;residues&nbsp;with&nbsp;non-integer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charges&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;&nbsp;The&nbsp;total&nbsp;charge&nbsp;on&nbsp;the&nbsp;protein&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Protein-getResidues"><strong>getResidues</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;list&nbsp;of&nbsp;residues&nbsp;in&nbsp;the&nbsp;entire&nbsp;protein</tt></dd></dl>
+
+<dl><dt><a name="Protein-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;entire&nbsp;protein(including<br>
+multiple&nbsp;chains)</tt></dd></dl>
+
+<dl><dt><a name="Protein-numResidues"><strong>numResidues</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;residues&nbsp;for&nbsp;the&nbsp;entire&nbsp;protein&nbsp;(including<br>
+multiple&nbsp;chains)<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;residues&nbsp;in&nbsp;the&nbsp;protein&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="Protein-printAtoms"><strong>printAtoms</strong></a>(self, atomlist, chainflag<font color="#909090">=0</font>)</dt><dd><tt>Get&nbsp;the&nbsp;text&nbsp;for&nbsp;the&nbsp;entire&nbsp;protein<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomlist:&nbsp;&nbsp;The&nbsp;list&nbsp;of&nbsp;atoms&nbsp;to&nbsp;include&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainflag:&nbsp;Flag&nbsp;whether&nbsp;to&nbsp;print&nbsp;chainid&nbsp;or&nbsp;not&nbsp;-<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Defaults&nbsp;to&nbsp;0&nbsp;(int)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;list&nbsp;of&nbsp;(stringed)&nbsp;atoms&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Protein-reSerialize"><strong>reSerialize</strong></a>(self)</dt><dd><tt>Generate&nbsp;new&nbsp;serial&nbsp;numbers&nbsp;for&nbsp;atoms&nbsp;in&nbsp;the&nbsp;protein</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Todd Dolinsky'<br>
+<strong>__date__</strong> = '28 February 2006'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

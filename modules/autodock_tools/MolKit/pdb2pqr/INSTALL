@@ -1,0 +1,19 @@
+Installation on most systems is rather straightforward - as the bulk of the 
+PDB2PQR code is written in Python, the PDB2PQR code itself is 
+architecture/compiler independent. PDB2PQR has been tested using Python 
+versions 2.2 through 2.4 - problems may occur with older versions. 
+The PropKa code, however, is written in Fortran - and thus to use it with 
+PDB2PQR a two step installation is necessary, making use of available C and 
+Fortran compilers:
+
+    $ ./configure
+    $ make
+
+This should compile the PropKa wrappers necessary to interface with PDB2PQR.
+
+No additional steps are needed to install PDB2PQR without propka support - 
+just make sure that a version of Python is found in your system path.
+
+Please see the main documentation at doc/userguide.html for a complete
+look at installation, compiler/architecture support, and a general FAQ.
+

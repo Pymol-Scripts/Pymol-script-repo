@@ -1,0 +1,177 @@
+<html>
+	<head> 
+		<title>PDB2PQR</title>
+		<link rel="stylesheet" href="http://agave.wustl.edu/css/baker.css"
+		type="text/css">
+
+	</head>
+	<body>
+		<center>
+			<h1>PDB2PQR</h1>
+			<h3>An automated pipeline for the setup, execution, and analysis of Poisson-Boltzmann electrostatics calculations.</h3>
+		</center>
+		<HR>
+
+		<p> PDB2PQR is a Python software package that automates many of the
+		common tasks of preparing structures for continuum electrostatics
+		calculations, providing a platform-independent utility for converting
+		protein files in <a href="http://www.rcsb.org/pdb/">PDB format</a> to
+		PQR format.  These tasks include:
+		<ul>
+			<li> Adding a limited number of missing heavy atoms to
+			biomolecular structures
+			<li> Determining side-chain pKas 
+			<li> Placing missing hydrogens
+			<li> Optimizing the protein for favorable hydrogen bonding
+			<li> Assigning charge and radius parameters from a variety of
+			force fields 
+		</ul>
+
+		<p> PDB2PQR was ported to Python by Todd Dolinsky while working with <a
+			href="http://agave.wustl.edu">Nathan Baker</a> at Washington
+		University in St. Louis.  The PDB2PQR code is based on C++ design and
+		algorithms by <a href="http://enzyme.ucd.ie/">Jens Erik Nielsen</a>.
+		PDB2PQR was originally designed to facilitate structure preparation for
+		<a href="http://apbs.sourceforge.net">APBS</a>.
+
+		<p> PDB2PQR uses <a href="http://propka.ki.ku.dk">PROPKA</a> to
+		determine protein pKa values.  PROPKA is developed by the <a
+			href="http://propka.ki.ku.dk/~jhjensen/">Jensen Research
+			Group</a> at the University of Copenhagen.  More information
+		about PROPKA can be found at <a
+			href="http://propka.ki.ku.dk/">http://propka.ki.ku.dk/</a>.<P>
+
+		<p> PEOE_PB charges for 
+		<!--biomolecue and -->
+		ligand parameterization were
+		developed by Paul Czodrowski in the <a
+			href="http://www.agklebe.de">Klebe Group</a> at the Philipps University Marburg.
+
+
+		<p> Please visit the following links for more information about PDB2PQR:
+		<ul>
+			<li>Documentation:
+			<ul>
+				<li> <a href="userguide.html">User
+					Guide</a> </li>
+				<li> <a href="programmerguide.html">Programmer
+					Guide</a> </li>
+				<li> <a href="examples/">Examples</a> </li>
+			</ul>
+			<li><a href="#availability">Availability</a>
+			<li><a href="#mailing">Mailing lists</a>
+			<li><a href="#citing">Further Reading/Citing PDB2PQR</a>
+			<li><a href="#support">Supporting organizations</a>
+			<li><a href="license.txt">License</a>
+			<li> <a href="http://agave.wustl.edu/pdb2pqr/usage/">PDB2PQR
+				Usage Statistics</a> (WUSTL Mirror) </li>
+		</ul>
+		<hr>
+
+		<a name="availability"></a>
+		<h3>Availability</h3>
+
+		<P> PDB2PQR is available as both a web service and as command-line
+		software for download.  The PDB2PQR web server can be found at three
+		mirrors:
+		<ul> 
+			<li> <a href="http://agave.wustl.edu/pdb2pqr/server.html">Washington
+				University in St. Louis</a> (currently running
+			version 1.2.1)
+			<li><a href="http://nbcr.net/pdb2pqr">NBCR (UCSD)</a>
+			(currently running
+			version 1.1.2)
+			<li><a
+				href="http://enzyme.ucd.ie/Services/pdb2pqr/">University
+				College Dublin, Ireland.</a> (currently running 1.2.0)
+		</ul>
+
+		<P>  The command line PDB2PQR tool is freely available for <a
+			href="http://agave.wustl.edu/pdb2pqr/register.html">download</a>. 
+
+		<hr/>
+
+		<a name="mailing"></a>
+		<h3>Mailing Lists</h3>
+
+		<P> There are two mailing lists associated with the PDB2PQR
+		software:
+		<ul>
+			<li>pdb2pqr-announce, a low-traffic list for announcements
+			regarding bugs and new versions of the software:  <a
+				href="http://lists.sourceforge.net/lists/listinfo/pdb2pqr-announce">List
+				web page</a>, <a
+				href="http://sourceforge.net/mailarchive/forum.php?forum=pdb2pqr-announce">List
+				archives</a> 
+			<li>pdb2pqr-users, a list for discussion of PDB2PQR,
+			troubleshooting, and reporting potential bugs:   <a
+				href="http://lists.sourceforge.net/lists/listinfo/pdb2pqr-users">List
+				web page</a>, <a
+				href="http://sourceforge.net/mailarchive/forum.php?forum=pdb2pqr-users">List
+				archives</a>
+		</ul>
+
+		<HR/>
+
+		<a name="citing"></a> <h3>Further Reading/Citing PDB2PQR</h3><P>
+
+		<p>Please acknowledge your use of PDB2PQR by citing:
+		<blockquote>
+			<a
+				href="http://nar.oupjournals.org/cgi/content/abstract/32/suppl_2/W665">Dolinsky
+				TJ, Nielsen JE, McCammon JA, Baker NA. PDB2PQR: an
+				automated pipeline for the setup, execution, and
+				analysis of Poisson-Boltzmann electrostatics
+				calculations. <i>Nucleic Acids Research</i>,
+				<b>32</b>, W665-W667 (2004).</a>
+		</blockquote>
+
+		<p>Please acknowledge your use of PropKa by citing:
+		<blockquote>
+			<a href="http://dx.doi.org/10.1002/prot.20660">Li H, Robertson
+				AD, Jensen JH. Very Fast Empirical Prediction and
+				Rationalization of Protein pKa Values. <i>Proteins</i>,
+				<b>61</b>, 704-721 (2005).</a>
+		</blockquote>
+
+		<p>Please acknowledge your use of PEOE_PB charges by citing:
+		<blockquote>
+			<a href="http://dx.doi.org/10.1002/prot.21110">Czodrowski P,
+				Dramburg I, Sotriffer CA, Klebe G.  Development,
+				validation, and application of adapted PEOE charges to
+				estimate pKa values of functional groups in
+				protein-ligand complexes. <i>Proteins</i>, <b>65</b>, 
+				424-437 (2006).</a>
+		</blockquote>
+		<HR/>
+
+		<a name="support"></a>
+		<h3>Supporting Organizations</h3>
+
+		<P> The development of PDB2PQR has been supported financially by:
+		<ul>
+			<li><a href="http://www.nih.gov/">National Institutes of
+				Health</a> (grant GM069702-01)
+			<li><a href="http://www.npaci.edu/">National Partnership for
+				Advanced Computational Infrastructure</a> Alpha Project
+			program
+			<li><a href="http://nbcr.sdsc.edu/">National Biomedical
+				Computation Resource</a>
+		</ul>
+
+		<hr/>
+
+		<center>
+			<a href="http://sourceforge.net"><img align="middle" src="http://sourceforge.net/sflogo.php?group_id=144228&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>&nbsp;&nbsp;&nbsp;<a href="http://sourceforge.net/projects/pdb2pqr">SourceForge Project Page</a>
+		</center>
+
+		<hr/>
+		<center>
+			<small>
+				Last changed on: $Date: 2007/08/03 20:59:24 $
+			</small>
+		</center>
+
+
+	</body>
+</html>

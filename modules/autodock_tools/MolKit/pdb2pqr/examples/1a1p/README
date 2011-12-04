@@ -1,0 +1,94 @@
+This directory contains a basic example of how to use PDB2PQR.
+
+This directory contains the following files:
+
+    1a1p.pdb - The first model of 1A1P from the PDB.
+    example.dat - A user-defined forcefield for the missing Amino group.
+    README -  This file
+
+1.  Make sure you configure PDB2PQR/compile PropKa before continuing.  This 
+    can generally be done by 
+
+    ./configure; make
+
+    from the main PDB2PQR directory.  Please see the user guide for more 
+    information.
+
+2.  Basic Usage
+
+    Let's start with the most basic PDB2PQR usage.  The following command
+    will run PDB2PQR on the 1a1p.pdb file using the AMBER forcefield, 
+    outputting the results to 1a1p.pqr:
+
+    python ../../pdb2pqr.py --ff=amber 1a1p.pdb 1a1p.pqr
+
+    Pretty fast!  The temperature and occupancy columns in the PDB file have
+    been replaced by charge and radius columns from the AMBER forcefield.
+    Note the results also include a warning (we'll get to that in a second) and
+    the total charge on the protein (1.0 e).
+
+3.  Generating a APBS input file
+
+    Once again we'll apply the AMBER forcefield to 1a1p.pdb, this time using
+    the -v option to display additional information to the screen and the 
+    --apbs-input option to create an APBS input file:
+  
+    python ../../pdb2pqr.py --ff=amber -v --apbs-input 1a1p.pdb 1a1p.pqr
+    
+    A lot more information was printed to the screen - the -v flag is useful
+    for check the progress of larger files.  Note that we now also have a 
+    1a1p.in file for use with APBS - example grid parameters (dime/cglen/fglen)
+    have been set based on the size of 1a1p.
+
+4.  Using PropKa
+
+    Let's try using the AMBER forcefield and PropKa to get a PQR file at pH
+    5.0:
+
+    python ../../pdb2pqr.py --ff=amber -v --with-ph=5.0 1a1p.pdb 1a1p-propka.pqr
+    Notice that the total charge on the protein is now 3.0 e!  The two HIS 
+    residues (9 and 10) have an additional proton.  The side-chain pKas 
+    that were used are listed in 1a1p.propka.
+
+5.  Output using the forcefield naming scheme
+
+    This step makes use of the --ffout flag:
+
+    python ../../pdb2pqr.py --ff=amber -v --ffout=parse 1a1p.pdb 1a1p-ff.pqr
+
+    While the per-atom charge and radius remain the same, note that the atom
+    and residue names are now different!  This is because we have opted to
+    use the PARSE forcefield naming scheme with the AMBER forcefield
+    parameters. 
+
+6.  Adding parameters to a forcefield/creating your own XML file
+
+    This step shows how to add parameters to a forcefield.
+
+    a.  First copy the amber.DAT and amber.names files to the current 
+        directory:
+        
+               cp ../../dat/AMBER.DAT test.dat
+               cp ../../dat/AMBER.names test.names
+
+    b.  Using a text editor, add the following lines to the end of test.dat:
+              
+               NH2 N   1.0         1.0
+               NH2 1HN -0.5        1.0
+               NH2 2HN -0.5        1.0
+ 
+    c.  Now run PDB2PQR using your newly-adapted test forcefield:
+
+        python ../../pdb2pqr.py --ff=test -v 1a1p.pdb test.pqr
+
+    As you can see by examining test.pqr, the dummy parameters for NH2 have
+    made it into the PQR file (and the warning is gone as well).  This 
+    feature can be used to add/modify parameters for ligands, ions, and 
+    any other desired parameters that are not present in PDB2PQR.
+              
+7.  That's it!  For further questions please see the user guide and the 
+    programmer's guide.
+
+
+
+

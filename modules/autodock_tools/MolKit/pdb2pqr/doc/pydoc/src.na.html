@@ -1,0 +1,1018 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.na</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.na</strong></big></big> (28 February 2006)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/na.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/na.py</a></font></td></tr></table>
+    <p><tt><a href="#Nucleic">Nucleic</a>&nbsp;Acid&nbsp;Structures&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;contains&nbsp;the&nbsp;base&nbsp;nucleic&nbsp;acid&nbsp;structures&nbsp;for<br>
+pdb2pqr.<br>
+&nbsp;<br>
+----------------------------<br>
+&nbsp;<br>
+PDB2PQR&nbsp;--&nbsp;An&nbsp;automated&nbsp;pipeline&nbsp;for&nbsp;the&nbsp;setup,&nbsp;execution,&nbsp;and&nbsp;analysis&nbsp;of<br>
+Poisson-Boltzmann&nbsp;electrostatics&nbsp;calculations<br>
+&nbsp;<br>
+Nathan&nbsp;<a href="#A">A</a>.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Dept.&nbsp;of&nbsp;Biochemistry&nbsp;and&nbsp;Molecular&nbsp;Biophysics<br>
+Center&nbsp;for&nbsp;Computational&nbsp;Biology<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Jens&nbsp;Nielsen&nbsp;(Jens.Nielsen@ucd.ie)<br>
+University&nbsp;College&nbsp;Dublin<br>
+&nbsp;<br>
+Additional&nbsp;contributing&nbsp;authors&nbsp;listed&nbsp;in&nbsp;documentation&nbsp;and&nbsp;supporting<br>
+package&nbsp;licenses.<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2003-2007.&nbsp;&nbsp;Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis.&nbsp;&nbsp;<br>
+All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;<a href="#A">A</a>&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+along&nbsp;with&nbsp;PDB2PQR;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software<br>
+Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307&nbsp;&nbsp;USA<br>
+&nbsp;<br>
+----------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="copy.html">copy</a><br>
+<a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="src.structures.html#Residue">src.structures.Residue</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="src.na.html#Nucleic">Nucleic</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="src.na.html#A">A</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.na.html#C">C</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.na.html#G">G</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.na.html#T">T</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.na.html#U">U</a>
+</font></dt></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="A">class <strong>A</strong></a>(<a href="src.na.html#Nucleic">Nucleic</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Adenosine&nbsp;class<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;gives&nbsp;data&nbsp;about&nbsp;the&nbsp;Adenosine&nbsp;object,&nbsp;and&nbsp;inherits<br>
+off&nbsp;the&nbsp;base&nbsp;residue&nbsp;class.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="src.na.html#A">A</a></dd>
+<dd><a href="src.na.html#Nucleic">Nucleic</a></dd>
+<dd><a href="src.structures.html#Residue">src.structures.Residue</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="A-__init__"><strong>__init__</strong></a>(self, atoms, ref)</dt><dd><tt>Initialize&nbsp;the&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#A">A</a>&nbsp;list&nbsp;of&nbsp;Atom&nbsp;objects&nbsp;to&nbsp;be&nbsp;stored&nbsp;in&nbsp;this&nbsp;class<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="A-setState"><strong>setState</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;state&nbsp;to&nbsp;distinguish&nbsp;RNA&nbsp;from&nbsp;DNA.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.na.html#Nucleic">Nucleic</a>:<br>
+<dl><dt><a name="A-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Override&nbsp;the&nbsp;existing&nbsp;addAtom&nbsp;-&nbsp;include&nbsp;the&nbsp;link&nbsp;to&nbsp;the<br>
+reference&nbsp;object</tt></dd></dl>
+
+<dl><dt><a name="A-addDihedralAngle"><strong>addDihedralAngle</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;chiangles<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;value&nbsp;to&nbsp;be&nbsp;added&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="A-createAtom"><strong>createAtom</strong></a>(self, atomname, newcoords)</dt><dd><tt>Create&nbsp;an&nbsp;atom.&nbsp;&nbsp;Overrides&nbsp;the&nbsp;generic&nbsp;residue's&nbsp;<a href="#A-createAtom">createAtom</a>().<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;atom&nbsp;(list)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.structures.html#Residue">src.structures.Residue</a>:<br>
+<dl><dt><a name="A-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="A-addMissing"><strong>addMissing</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;missing&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;missing&nbsp;atom&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="A-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missing:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;missing&nbsp;atoms&nbsp;of&nbsp;the&nbsp;residue<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="A-getAtom"><strong>getAtom</strong></a>(self, name)</dt><dd><tt>Retrieve&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;mapping<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;to&nbsp;retrieve&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="A-getAtoms"><strong>getAtoms</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="A-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue.&nbsp;&nbsp;In&nbsp;order&nbsp;to&nbsp;get&nbsp;rid<br>
+of&nbsp;floating&nbsp;point&nbsp;rounding&nbsp;error,&nbsp;do&nbsp;the&nbsp;string<br>
+transformation.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;The&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="A-hasAtom"><strong>hasAtom</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="A-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;residue<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="A-removeAtom"><strong>removeAtom</strong></a>(self, atomname)</dt><dd><tt>Remove&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;residue&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;be&nbsp;removed&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="A-renameAtom"><strong>renameAtom</strong></a>(self, oldname, newname)</dt><dd><tt>Rename&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;new&nbsp;name<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldname:&nbsp;The&nbsp;old&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newname:&nbsp;The&nbsp;new&nbsp;atom&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="A-renameResidue"><strong>renameResidue</strong></a>(self, name)</dt><dd><tt>Rename&nbsp;a&nbsp;given&nbsp;residue<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;new&nbsp;name&nbsp;of&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="A-reorder"><strong>reorder</strong></a>(self)</dt><dd><tt>Reorder&nbsp;the&nbsp;atoms&nbsp;to&nbsp;start&nbsp;with&nbsp;N,&nbsp;CA,&nbsp;<a href="#C">C</a>,&nbsp;O&nbsp;if&nbsp;they&nbsp;exist</tt></dd></dl>
+
+<dl><dt><a name="A-rotateTetrahedral"><strong>rotateTetrahedral</strong></a>(self, atom1, atom2, angle)</dt><dd><tt>Rotate&nbsp;about&nbsp;the&nbsp;atom1-atom2&nbsp;bond&nbsp;by&nbsp;a&nbsp;given&nbsp;angle<br>
+All&nbsp;atoms&nbsp;connected&nbsp;to&nbsp;atom2&nbsp;will&nbsp;rotate.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;degrees&nbsp;to&nbsp;rotate&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="A-set"><strong>set</strong></a>(self, name, value)</dt><dd><tt>Set&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class&nbsp;to&nbsp;a&nbsp;specific&nbsp;value&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;set&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;object&nbsp;to&nbsp;append<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chain:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isDirty:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;not&nbsp;missing&nbsp;atoms,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;otherwise<br>
+Notes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;points&nbsp;to&nbsp;the&nbsp;residue.setResSeq&nbsp;function<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="A-setChainID"><strong>setChainID</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;chainID&nbsp;field&nbsp;to&nbsp;a&nbsp;certain&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="A-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="A-setResSeq"><strong>setResSeq</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;atom&nbsp;field&nbsp;resSeq&nbsp;to&nbsp;a&nbsp;certain&nbsp;value&nbsp;and<br>
+change&nbsp;the&nbsp;residue's&nbsp;information.&nbsp;&nbsp;The&nbsp;icode&nbsp;field&nbsp;is&nbsp;no&nbsp;longer<br>
+useful.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;The&nbsp;new&nbsp;value&nbsp;of&nbsp;resSeq&nbsp;(int)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="C">class <strong>C</strong></a>(<a href="src.na.html#Nucleic">Nucleic</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Cytidine&nbsp;class<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;gives&nbsp;data&nbsp;about&nbsp;the&nbsp;Cytidine&nbsp;object,&nbsp;and&nbsp;inherits<br>
+off&nbsp;the&nbsp;base&nbsp;residue&nbsp;class.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="src.na.html#C">C</a></dd>
+<dd><a href="src.na.html#Nucleic">Nucleic</a></dd>
+<dd><a href="src.structures.html#Residue">src.structures.Residue</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="C-__init__"><strong>__init__</strong></a>(self, atoms, ref)</dt><dd><tt>Initialize&nbsp;the&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#A">A</a>&nbsp;list&nbsp;of&nbsp;Atom&nbsp;objects&nbsp;to&nbsp;be&nbsp;stored&nbsp;in&nbsp;this&nbsp;class<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="C-setState"><strong>setState</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;state&nbsp;to&nbsp;distinguish&nbsp;RNA&nbsp;from&nbsp;DNA.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.na.html#Nucleic">Nucleic</a>:<br>
+<dl><dt><a name="C-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Override&nbsp;the&nbsp;existing&nbsp;addAtom&nbsp;-&nbsp;include&nbsp;the&nbsp;link&nbsp;to&nbsp;the<br>
+reference&nbsp;object</tt></dd></dl>
+
+<dl><dt><a name="C-addDihedralAngle"><strong>addDihedralAngle</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;chiangles<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;value&nbsp;to&nbsp;be&nbsp;added&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="C-createAtom"><strong>createAtom</strong></a>(self, atomname, newcoords)</dt><dd><tt>Create&nbsp;an&nbsp;atom.&nbsp;&nbsp;Overrides&nbsp;the&nbsp;generic&nbsp;residue's&nbsp;<a href="#C-createAtom">createAtom</a>().<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;atom&nbsp;(list)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.structures.html#Residue">src.structures.Residue</a>:<br>
+<dl><dt><a name="C-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="C-addMissing"><strong>addMissing</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;missing&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;missing&nbsp;atom&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="C-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missing:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;missing&nbsp;atoms&nbsp;of&nbsp;the&nbsp;residue<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="C-getAtom"><strong>getAtom</strong></a>(self, name)</dt><dd><tt>Retrieve&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;mapping<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;to&nbsp;retrieve&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="C-getAtoms"><strong>getAtoms</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="C-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue.&nbsp;&nbsp;In&nbsp;order&nbsp;to&nbsp;get&nbsp;rid<br>
+of&nbsp;floating&nbsp;point&nbsp;rounding&nbsp;error,&nbsp;do&nbsp;the&nbsp;string<br>
+transformation.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;The&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="C-hasAtom"><strong>hasAtom</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="C-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;residue<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="C-removeAtom"><strong>removeAtom</strong></a>(self, atomname)</dt><dd><tt>Remove&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;residue&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;be&nbsp;removed&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="C-renameAtom"><strong>renameAtom</strong></a>(self, oldname, newname)</dt><dd><tt>Rename&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;new&nbsp;name<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldname:&nbsp;The&nbsp;old&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newname:&nbsp;The&nbsp;new&nbsp;atom&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="C-renameResidue"><strong>renameResidue</strong></a>(self, name)</dt><dd><tt>Rename&nbsp;a&nbsp;given&nbsp;residue<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;new&nbsp;name&nbsp;of&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="C-reorder"><strong>reorder</strong></a>(self)</dt><dd><tt>Reorder&nbsp;the&nbsp;atoms&nbsp;to&nbsp;start&nbsp;with&nbsp;N,&nbsp;CA,&nbsp;<a href="#C">C</a>,&nbsp;O&nbsp;if&nbsp;they&nbsp;exist</tt></dd></dl>
+
+<dl><dt><a name="C-rotateTetrahedral"><strong>rotateTetrahedral</strong></a>(self, atom1, atom2, angle)</dt><dd><tt>Rotate&nbsp;about&nbsp;the&nbsp;atom1-atom2&nbsp;bond&nbsp;by&nbsp;a&nbsp;given&nbsp;angle<br>
+All&nbsp;atoms&nbsp;connected&nbsp;to&nbsp;atom2&nbsp;will&nbsp;rotate.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;degrees&nbsp;to&nbsp;rotate&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="C-set"><strong>set</strong></a>(self, name, value)</dt><dd><tt>Set&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class&nbsp;to&nbsp;a&nbsp;specific&nbsp;value&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;set&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;object&nbsp;to&nbsp;append<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chain:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isDirty:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;not&nbsp;missing&nbsp;atoms,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;otherwise<br>
+Notes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;points&nbsp;to&nbsp;the&nbsp;residue.setResSeq&nbsp;function<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="C-setChainID"><strong>setChainID</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;chainID&nbsp;field&nbsp;to&nbsp;a&nbsp;certain&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="C-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="C-setResSeq"><strong>setResSeq</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;atom&nbsp;field&nbsp;resSeq&nbsp;to&nbsp;a&nbsp;certain&nbsp;value&nbsp;and<br>
+change&nbsp;the&nbsp;residue's&nbsp;information.&nbsp;&nbsp;The&nbsp;icode&nbsp;field&nbsp;is&nbsp;no&nbsp;longer<br>
+useful.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;The&nbsp;new&nbsp;value&nbsp;of&nbsp;resSeq&nbsp;(int)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="G">class <strong>G</strong></a>(<a href="src.na.html#Nucleic">Nucleic</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Guanosine&nbsp;class<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;gives&nbsp;data&nbsp;about&nbsp;the&nbsp;Guanosine&nbsp;object,&nbsp;and&nbsp;inherits<br>
+off&nbsp;the&nbsp;base&nbsp;residue&nbsp;class.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="src.na.html#G">G</a></dd>
+<dd><a href="src.na.html#Nucleic">Nucleic</a></dd>
+<dd><a href="src.structures.html#Residue">src.structures.Residue</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="G-__init__"><strong>__init__</strong></a>(self, atoms, ref)</dt><dd><tt>Initialize&nbsp;the&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#A">A</a>&nbsp;list&nbsp;of&nbsp;Atom&nbsp;objects&nbsp;to&nbsp;be&nbsp;stored&nbsp;in&nbsp;this&nbsp;class<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="G-setState"><strong>setState</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;state&nbsp;to&nbsp;distinguish&nbsp;RNA&nbsp;from&nbsp;DNA.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.na.html#Nucleic">Nucleic</a>:<br>
+<dl><dt><a name="G-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Override&nbsp;the&nbsp;existing&nbsp;addAtom&nbsp;-&nbsp;include&nbsp;the&nbsp;link&nbsp;to&nbsp;the<br>
+reference&nbsp;object</tt></dd></dl>
+
+<dl><dt><a name="G-addDihedralAngle"><strong>addDihedralAngle</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;chiangles<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;value&nbsp;to&nbsp;be&nbsp;added&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="G-createAtom"><strong>createAtom</strong></a>(self, atomname, newcoords)</dt><dd><tt>Create&nbsp;an&nbsp;atom.&nbsp;&nbsp;Overrides&nbsp;the&nbsp;generic&nbsp;residue's&nbsp;<a href="#G-createAtom">createAtom</a>().<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;atom&nbsp;(list)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.structures.html#Residue">src.structures.Residue</a>:<br>
+<dl><dt><a name="G-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="G-addMissing"><strong>addMissing</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;missing&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;missing&nbsp;atom&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="G-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missing:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;missing&nbsp;atoms&nbsp;of&nbsp;the&nbsp;residue<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="G-getAtom"><strong>getAtom</strong></a>(self, name)</dt><dd><tt>Retrieve&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;mapping<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;to&nbsp;retrieve&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="G-getAtoms"><strong>getAtoms</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="G-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue.&nbsp;&nbsp;In&nbsp;order&nbsp;to&nbsp;get&nbsp;rid<br>
+of&nbsp;floating&nbsp;point&nbsp;rounding&nbsp;error,&nbsp;do&nbsp;the&nbsp;string<br>
+transformation.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;The&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="G-hasAtom"><strong>hasAtom</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="G-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;residue<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="G-removeAtom"><strong>removeAtom</strong></a>(self, atomname)</dt><dd><tt>Remove&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;residue&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;be&nbsp;removed&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="G-renameAtom"><strong>renameAtom</strong></a>(self, oldname, newname)</dt><dd><tt>Rename&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;new&nbsp;name<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldname:&nbsp;The&nbsp;old&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newname:&nbsp;The&nbsp;new&nbsp;atom&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="G-renameResidue"><strong>renameResidue</strong></a>(self, name)</dt><dd><tt>Rename&nbsp;a&nbsp;given&nbsp;residue<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;new&nbsp;name&nbsp;of&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="G-reorder"><strong>reorder</strong></a>(self)</dt><dd><tt>Reorder&nbsp;the&nbsp;atoms&nbsp;to&nbsp;start&nbsp;with&nbsp;N,&nbsp;CA,&nbsp;<a href="#C">C</a>,&nbsp;O&nbsp;if&nbsp;they&nbsp;exist</tt></dd></dl>
+
+<dl><dt><a name="G-rotateTetrahedral"><strong>rotateTetrahedral</strong></a>(self, atom1, atom2, angle)</dt><dd><tt>Rotate&nbsp;about&nbsp;the&nbsp;atom1-atom2&nbsp;bond&nbsp;by&nbsp;a&nbsp;given&nbsp;angle<br>
+All&nbsp;atoms&nbsp;connected&nbsp;to&nbsp;atom2&nbsp;will&nbsp;rotate.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;degrees&nbsp;to&nbsp;rotate&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="G-set"><strong>set</strong></a>(self, name, value)</dt><dd><tt>Set&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class&nbsp;to&nbsp;a&nbsp;specific&nbsp;value&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;set&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;object&nbsp;to&nbsp;append<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chain:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isDirty:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;not&nbsp;missing&nbsp;atoms,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;otherwise<br>
+Notes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;points&nbsp;to&nbsp;the&nbsp;residue.setResSeq&nbsp;function<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="G-setChainID"><strong>setChainID</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;chainID&nbsp;field&nbsp;to&nbsp;a&nbsp;certain&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="G-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="G-setResSeq"><strong>setResSeq</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;atom&nbsp;field&nbsp;resSeq&nbsp;to&nbsp;a&nbsp;certain&nbsp;value&nbsp;and<br>
+change&nbsp;the&nbsp;residue's&nbsp;information.&nbsp;&nbsp;The&nbsp;icode&nbsp;field&nbsp;is&nbsp;no&nbsp;longer<br>
+useful.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;The&nbsp;new&nbsp;value&nbsp;of&nbsp;resSeq&nbsp;(int)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Nucleic">class <strong>Nucleic</strong></a>(<a href="src.structures.html#Residue">src.structures.Residue</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Nucleic">Nucleic</a>&nbsp;class<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;provides&nbsp;standard&nbsp;features&nbsp;of&nbsp;the&nbsp;nucleic&nbsp;acids&nbsp;listed<br>
+below<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;<a href="#A">A</a>&nbsp;list&nbsp;of&nbsp;Atom&nbsp;objects&nbsp;to&nbsp;be&nbsp;stored&nbsp;in&nbsp;this&nbsp;class<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ref:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;reference&nbsp;object&nbsp;for&nbsp;the&nbsp;amino&nbsp;acid.&nbsp;&nbsp;Used&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;convert&nbsp;from&nbsp;the&nbsp;alternate&nbsp;naming&nbsp;scheme&nbsp;to&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;main&nbsp;naming&nbsp;scheme.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Nucleic-__init__"><strong>__init__</strong></a>(self, atoms, ref)</dt></dl>
+
+<dl><dt><a name="Nucleic-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Override&nbsp;the&nbsp;existing&nbsp;addAtom&nbsp;-&nbsp;include&nbsp;the&nbsp;link&nbsp;to&nbsp;the<br>
+reference&nbsp;object</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-addDihedralAngle"><strong>addDihedralAngle</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;chiangles<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;value&nbsp;to&nbsp;be&nbsp;added&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-createAtom"><strong>createAtom</strong></a>(self, atomname, newcoords)</dt><dd><tt>Create&nbsp;an&nbsp;atom.&nbsp;&nbsp;Overrides&nbsp;the&nbsp;generic&nbsp;residue's&nbsp;<a href="#Nucleic-createAtom">createAtom</a>().<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;atom&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-setState"><strong>setState</strong></a>(self)</dt><dd><tt>Adds&nbsp;the&nbsp;termini&nbsp;for&nbsp;all&nbsp;inherited&nbsp;objects</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.structures.html#Residue">src.structures.Residue</a>:<br>
+<dl><dt><a name="Nucleic-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-addMissing"><strong>addMissing</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;missing&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;missing&nbsp;atom&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missing:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;missing&nbsp;atoms&nbsp;of&nbsp;the&nbsp;residue<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-getAtom"><strong>getAtom</strong></a>(self, name)</dt><dd><tt>Retrieve&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;mapping<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;to&nbsp;retrieve&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-getAtoms"><strong>getAtoms</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Nucleic-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue.&nbsp;&nbsp;In&nbsp;order&nbsp;to&nbsp;get&nbsp;rid<br>
+of&nbsp;floating&nbsp;point&nbsp;rounding&nbsp;error,&nbsp;do&nbsp;the&nbsp;string<br>
+transformation.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;The&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-hasAtom"><strong>hasAtom</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="Nucleic-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;residue<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-removeAtom"><strong>removeAtom</strong></a>(self, atomname)</dt><dd><tt>Remove&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;residue&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;be&nbsp;removed&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-renameAtom"><strong>renameAtom</strong></a>(self, oldname, newname)</dt><dd><tt>Rename&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;new&nbsp;name<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldname:&nbsp;The&nbsp;old&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newname:&nbsp;The&nbsp;new&nbsp;atom&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-renameResidue"><strong>renameResidue</strong></a>(self, name)</dt><dd><tt>Rename&nbsp;a&nbsp;given&nbsp;residue<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;new&nbsp;name&nbsp;of&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-reorder"><strong>reorder</strong></a>(self)</dt><dd><tt>Reorder&nbsp;the&nbsp;atoms&nbsp;to&nbsp;start&nbsp;with&nbsp;N,&nbsp;CA,&nbsp;<a href="#C">C</a>,&nbsp;O&nbsp;if&nbsp;they&nbsp;exist</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-rotateTetrahedral"><strong>rotateTetrahedral</strong></a>(self, atom1, atom2, angle)</dt><dd><tt>Rotate&nbsp;about&nbsp;the&nbsp;atom1-atom2&nbsp;bond&nbsp;by&nbsp;a&nbsp;given&nbsp;angle<br>
+All&nbsp;atoms&nbsp;connected&nbsp;to&nbsp;atom2&nbsp;will&nbsp;rotate.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;degrees&nbsp;to&nbsp;rotate&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-set"><strong>set</strong></a>(self, name, value)</dt><dd><tt>Set&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class&nbsp;to&nbsp;a&nbsp;specific&nbsp;value&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;set&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;object&nbsp;to&nbsp;append<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chain:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isDirty:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;not&nbsp;missing&nbsp;atoms,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;otherwise<br>
+Notes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;points&nbsp;to&nbsp;the&nbsp;residue.setResSeq&nbsp;function<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-setChainID"><strong>setChainID</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;chainID&nbsp;field&nbsp;to&nbsp;a&nbsp;certain&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="Nucleic-setResSeq"><strong>setResSeq</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;atom&nbsp;field&nbsp;resSeq&nbsp;to&nbsp;a&nbsp;certain&nbsp;value&nbsp;and<br>
+change&nbsp;the&nbsp;residue's&nbsp;information.&nbsp;&nbsp;The&nbsp;icode&nbsp;field&nbsp;is&nbsp;no&nbsp;longer<br>
+useful.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;The&nbsp;new&nbsp;value&nbsp;of&nbsp;resSeq&nbsp;(int)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="T">class <strong>T</strong></a>(<a href="src.na.html#Nucleic">Nucleic</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Thymine&nbsp;class<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;gives&nbsp;data&nbsp;about&nbsp;the&nbsp;Thymine&nbsp;object,&nbsp;and&nbsp;inherits<br>
+off&nbsp;the&nbsp;base&nbsp;residue&nbsp;class.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="src.na.html#T">T</a></dd>
+<dd><a href="src.na.html#Nucleic">Nucleic</a></dd>
+<dd><a href="src.structures.html#Residue">src.structures.Residue</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="T-__init__"><strong>__init__</strong></a>(self, atoms, ref)</dt><dd><tt>Initialize&nbsp;the&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#A">A</a>&nbsp;list&nbsp;of&nbsp;Atom&nbsp;objects&nbsp;to&nbsp;be&nbsp;stored&nbsp;in&nbsp;this&nbsp;class<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="T-setState"><strong>setState</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;state&nbsp;to&nbsp;distinguish&nbsp;RNA&nbsp;from&nbsp;DNA.&nbsp;&nbsp;In&nbsp;this&nbsp;case&nbsp;it&nbsp;is<br>
+always&nbsp;DNA.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.na.html#Nucleic">Nucleic</a>:<br>
+<dl><dt><a name="T-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Override&nbsp;the&nbsp;existing&nbsp;addAtom&nbsp;-&nbsp;include&nbsp;the&nbsp;link&nbsp;to&nbsp;the<br>
+reference&nbsp;object</tt></dd></dl>
+
+<dl><dt><a name="T-addDihedralAngle"><strong>addDihedralAngle</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;chiangles<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;value&nbsp;to&nbsp;be&nbsp;added&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="T-createAtom"><strong>createAtom</strong></a>(self, atomname, newcoords)</dt><dd><tt>Create&nbsp;an&nbsp;atom.&nbsp;&nbsp;Overrides&nbsp;the&nbsp;generic&nbsp;residue's&nbsp;<a href="#T-createAtom">createAtom</a>().<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;atom&nbsp;(list)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.structures.html#Residue">src.structures.Residue</a>:<br>
+<dl><dt><a name="T-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="T-addMissing"><strong>addMissing</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;missing&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;missing&nbsp;atom&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="T-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missing:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;missing&nbsp;atoms&nbsp;of&nbsp;the&nbsp;residue<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="T-getAtom"><strong>getAtom</strong></a>(self, name)</dt><dd><tt>Retrieve&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;mapping<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;to&nbsp;retrieve&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="T-getAtoms"><strong>getAtoms</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="T-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue.&nbsp;&nbsp;In&nbsp;order&nbsp;to&nbsp;get&nbsp;rid<br>
+of&nbsp;floating&nbsp;point&nbsp;rounding&nbsp;error,&nbsp;do&nbsp;the&nbsp;string<br>
+transformation.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;The&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="T-hasAtom"><strong>hasAtom</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="T-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;residue<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="T-removeAtom"><strong>removeAtom</strong></a>(self, atomname)</dt><dd><tt>Remove&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;residue&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;be&nbsp;removed&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="T-renameAtom"><strong>renameAtom</strong></a>(self, oldname, newname)</dt><dd><tt>Rename&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;new&nbsp;name<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldname:&nbsp;The&nbsp;old&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newname:&nbsp;The&nbsp;new&nbsp;atom&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="T-renameResidue"><strong>renameResidue</strong></a>(self, name)</dt><dd><tt>Rename&nbsp;a&nbsp;given&nbsp;residue<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;new&nbsp;name&nbsp;of&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="T-reorder"><strong>reorder</strong></a>(self)</dt><dd><tt>Reorder&nbsp;the&nbsp;atoms&nbsp;to&nbsp;start&nbsp;with&nbsp;N,&nbsp;CA,&nbsp;<a href="#C">C</a>,&nbsp;O&nbsp;if&nbsp;they&nbsp;exist</tt></dd></dl>
+
+<dl><dt><a name="T-rotateTetrahedral"><strong>rotateTetrahedral</strong></a>(self, atom1, atom2, angle)</dt><dd><tt>Rotate&nbsp;about&nbsp;the&nbsp;atom1-atom2&nbsp;bond&nbsp;by&nbsp;a&nbsp;given&nbsp;angle<br>
+All&nbsp;atoms&nbsp;connected&nbsp;to&nbsp;atom2&nbsp;will&nbsp;rotate.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;degrees&nbsp;to&nbsp;rotate&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="T-set"><strong>set</strong></a>(self, name, value)</dt><dd><tt>Set&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class&nbsp;to&nbsp;a&nbsp;specific&nbsp;value&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;set&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;object&nbsp;to&nbsp;append<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chain:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isDirty:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;not&nbsp;missing&nbsp;atoms,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;otherwise<br>
+Notes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;points&nbsp;to&nbsp;the&nbsp;residue.setResSeq&nbsp;function<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="T-setChainID"><strong>setChainID</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;chainID&nbsp;field&nbsp;to&nbsp;a&nbsp;certain&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="T-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="T-setResSeq"><strong>setResSeq</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;atom&nbsp;field&nbsp;resSeq&nbsp;to&nbsp;a&nbsp;certain&nbsp;value&nbsp;and<br>
+change&nbsp;the&nbsp;residue's&nbsp;information.&nbsp;&nbsp;The&nbsp;icode&nbsp;field&nbsp;is&nbsp;no&nbsp;longer<br>
+useful.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;The&nbsp;new&nbsp;value&nbsp;of&nbsp;resSeq&nbsp;(int)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="U">class <strong>U</strong></a>(<a href="src.na.html#Nucleic">Nucleic</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Uridine&nbsp;class<br>
+&nbsp;<br>
+This&nbsp;class&nbsp;gives&nbsp;data&nbsp;about&nbsp;the&nbsp;Uridine&nbsp;object,&nbsp;and&nbsp;inherits<br>
+off&nbsp;the&nbsp;base&nbsp;residue&nbsp;class.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="src.na.html#U">U</a></dd>
+<dd><a href="src.na.html#Nucleic">Nucleic</a></dd>
+<dd><a href="src.structures.html#Residue">src.structures.Residue</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="U-__init__"><strong>__init__</strong></a>(self, atoms, ref)</dt><dd><tt>Initialize&nbsp;the&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#A">A</a>&nbsp;list&nbsp;of&nbsp;Atom&nbsp;objects&nbsp;to&nbsp;be&nbsp;stored&nbsp;in&nbsp;this&nbsp;class<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="U-setState"><strong>setState</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;state&nbsp;to&nbsp;distinguish&nbsp;RNA&nbsp;from&nbsp;DNA.&nbsp;&nbsp;In&nbsp;this&nbsp;case&nbsp;it&nbsp;is<br>
+always&nbsp;RNA.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.na.html#Nucleic">Nucleic</a>:<br>
+<dl><dt><a name="U-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Override&nbsp;the&nbsp;existing&nbsp;addAtom&nbsp;-&nbsp;include&nbsp;the&nbsp;link&nbsp;to&nbsp;the<br>
+reference&nbsp;object</tt></dd></dl>
+
+<dl><dt><a name="U-addDihedralAngle"><strong>addDihedralAngle</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;chiangles<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;value&nbsp;to&nbsp;be&nbsp;added&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="U-createAtom"><strong>createAtom</strong></a>(self, atomname, newcoords)</dt><dd><tt>Create&nbsp;an&nbsp;atom.&nbsp;&nbsp;Overrides&nbsp;the&nbsp;generic&nbsp;residue's&nbsp;<a href="#U-createAtom">createAtom</a>().<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;add&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;atom&nbsp;(list)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.structures.html#Residue">src.structures.Residue</a>:<br>
+<dl><dt><a name="U-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="U-addMissing"><strong>addMissing</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;missing&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;missing&nbsp;atom&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="U-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missing:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;missing&nbsp;atoms&nbsp;of&nbsp;the&nbsp;residue<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="U-getAtom"><strong>getAtom</strong></a>(self, name)</dt><dd><tt>Retrieve&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;mapping<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;to&nbsp;retrieve&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="U-getAtoms"><strong>getAtoms</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="U-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue.&nbsp;&nbsp;In&nbsp;order&nbsp;to&nbsp;get&nbsp;rid<br>
+of&nbsp;floating&nbsp;point&nbsp;rounding&nbsp;error,&nbsp;do&nbsp;the&nbsp;string<br>
+transformation.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;The&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="U-hasAtom"><strong>hasAtom</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="U-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;residue<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="U-removeAtom"><strong>removeAtom</strong></a>(self, atomname)</dt><dd><tt>Remove&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;residue&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;be&nbsp;removed&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="U-renameAtom"><strong>renameAtom</strong></a>(self, oldname, newname)</dt><dd><tt>Rename&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;new&nbsp;name<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldname:&nbsp;The&nbsp;old&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newname:&nbsp;The&nbsp;new&nbsp;atom&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="U-renameResidue"><strong>renameResidue</strong></a>(self, name)</dt><dd><tt>Rename&nbsp;a&nbsp;given&nbsp;residue<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;new&nbsp;name&nbsp;of&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="U-reorder"><strong>reorder</strong></a>(self)</dt><dd><tt>Reorder&nbsp;the&nbsp;atoms&nbsp;to&nbsp;start&nbsp;with&nbsp;N,&nbsp;CA,&nbsp;<a href="#C">C</a>,&nbsp;O&nbsp;if&nbsp;they&nbsp;exist</tt></dd></dl>
+
+<dl><dt><a name="U-rotateTetrahedral"><strong>rotateTetrahedral</strong></a>(self, atom1, atom2, angle)</dt><dd><tt>Rotate&nbsp;about&nbsp;the&nbsp;atom1-atom2&nbsp;bond&nbsp;by&nbsp;a&nbsp;given&nbsp;angle<br>
+All&nbsp;atoms&nbsp;connected&nbsp;to&nbsp;atom2&nbsp;will&nbsp;rotate.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;degrees&nbsp;to&nbsp;rotate&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="U-set"><strong>set</strong></a>(self, name, value)</dt><dd><tt>Set&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class&nbsp;to&nbsp;a&nbsp;specific&nbsp;value&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;set&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;object&nbsp;to&nbsp;append<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chain:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;<a href="#C">C</a>-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isDirty:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;not&nbsp;missing&nbsp;atoms,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;otherwise<br>
+Notes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;points&nbsp;to&nbsp;the&nbsp;residue.setResSeq&nbsp;function<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="U-setChainID"><strong>setChainID</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;chainID&nbsp;field&nbsp;to&nbsp;a&nbsp;certain&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="U-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="U-setResSeq"><strong>setResSeq</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;atom&nbsp;field&nbsp;resSeq&nbsp;to&nbsp;a&nbsp;certain&nbsp;value&nbsp;and<br>
+change&nbsp;the&nbsp;residue's&nbsp;information.&nbsp;&nbsp;The&nbsp;icode&nbsp;field&nbsp;is&nbsp;no&nbsp;longer<br>
+useful.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;The&nbsp;new&nbsp;value&nbsp;of&nbsp;resSeq&nbsp;(int)</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Todd Dolinsky'<br>
+<strong>__date__</strong> = '28 February 2006'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

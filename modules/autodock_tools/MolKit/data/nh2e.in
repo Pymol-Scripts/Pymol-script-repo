@@ -1,0 +1,22 @@
+    1    1    2
+db4.dat
+  NH2 ENDING GROUP
+
+ NHE  INT     1
+ CORRECT OMIT DU  BEG
+   0.00000
+   1   DUMM  DU    M      0  -1  -2       0.0000      0.0000      0.0000
+   2   DUMM  DU    M      1   0  -1       1.0000      0.0000      0.0000
+   3   DUMM  DU    M      2   1   0       1.0000     90.0000      0.0000
+   4   N     N     M      3   2   1       1.3350    116.6000    180.0000
+   5   HN1   H     E      4   3   2       1.0100    119.8000      0.0000
+   6   HN2   H     E      4   3   2       1.0100    119.8000    180.0000
+    
+CHARGE
+  -0.46300   0.23150   0.23150 
+    
+IMPROPER
+ -M   HN1  N    HN2 
+
+DONE
+STOP    

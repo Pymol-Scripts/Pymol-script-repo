@@ -1,0 +1,44 @@
+/.packager.py/1.15/Thu Dec 18 21:52:07 2003/-kkv/Trc-1-5-4
+/APBSParameters.py/1.21/Mon Mar 31 17:58:20 2008/-kkv/Trc-1-5-4
+/GapFinder.py/1.6/Tue Jul 24 17:30:40 2007/-kkv/Trc-1-5-4
+/LICENSE/1.1/Thu Jul  3 20:28:27 2008/-kkv/Trc-1-5-4
+/MolecularDescriptor.py/1.3/Thu Jul 17 17:27:07 2003/-kkv/Trc-1-5-4
+/PDBdict.py/1.2/Wed May 23 18:26:29 2001/-kkv/Trc-1-5-4
+/RELNOTES/1.8.6.1/Thu Oct 30 18:43:38 2008/-kkv/Trc-1-5-4
+/__init__.py/1.22.4.1/Thu Aug 20 23:29:54 2009/-kkv/Trc-1-5-4
+/amberPrmTop.py/1.32/Tue Jul 24 17:30:40 2007/-kkv/Trc-1-5-4
+/bondClassifier.py/1.3/Tue Apr  6 23:29:50 2004/-kkv/Trc-1-5-4
+/bondSelector.py/1.25/Wed Aug 13 18:43:53 2008/-kkv/Trc-1-5-4
+/chargeCalculator.py/1.5/Wed Aug 11 15:17:53 2004/-kkv/Trc-1-5-4
+/chargeMass.py/1.1/Fri May 21 03:27:05 2004/-kkv/Trc-1-5-4
+/distanceSelector.py/1.10/Tue Jul 24 17:30:40 2007/-kkv/Trc-1-5-4
+/genPdbParser.py/1.2/Tue Dec  4 17:53:42 2007/-kkv/Trc-1-5-4
+/getsecondarystructure.py/1.18.8.2/Thu Jun 11 20:10:52 2009/-kkv/Trc-1-5-4
+/groParser.py/1.11/Fri Dec 15 19:53:29 2006/-kkv/Trc-1-5-4
+/hydrogenBondBuilder.py/1.5/Tue Jul 24 17:30:40 2007/-kkv/Trc-1-5-4
+/hydrogenBuilder.py/1.5/Fri Oct  7 17:43:00 2005/-kkv/Trc-1-5-4
+/interactionDescriptor.py/1.19.4.1/Tue Mar 31 17:28:00 2009/-kkv/Trc-1-5-4
+/introduction.py/1.1.1.1/Tue Apr  3 19:47:52 2001/-kkv/Trc-1-5-4
+/listSet.py/1.26/Mon Jun 12 18:28:35 2006/-kkv/Trc-1-5-4
+/mmcifParser.py/1.20/Wed Oct 29 17:04:35 2008/-kkv/Trc-1-5-4
+/mmcifWriter.py/1.9/Tue Apr 25 22:05:20 2006/-kkv/Trc-1-5-4
+/mol2Parser.py/1.11/Fri Aug 22 16:55:37 2008/-kkv/Trc-1-5-4
+/molecule.py/1.77.4.1/Mon Nov 24 21:01:13 2008/-kkv/Trc-1-5-4
+/moleculeParser.py/1.9/Thu Sep 11 17:00:57 2008/-kkv/Trc-1-5-4
+/moleculeWriter.py/1.1.1.1/Tue Apr  3 19:47:52 2001/-kkv/Trc-1-5-4
+/oxtBuilder.py/1.1/Thu Sep 15 16:02:04 2005/-kkv/Trc-1-5-4
+/parm94_dat.py/1.2/Thu Jan 10 21:50:53 2002/-kkv/Trc-1-5-4
+/pdbParser.py/1.97.4.2/Thu Aug 20 23:34:37 2009/-kkv/Trc-1-5-4
+/pdbWriter.py/1.22.4.1/Mon Nov 24 20:08:17 2008/-kkv/Trc-1-5-4
+/pqrWriter.py/1.5/Wed Apr 19 19:09:26 2006/-kkv/Trc-1-5-4
+/protein.py/1.43.4.2/Mon Nov 24 21:00:16 2008/-kkv/Trc-1-5-4
+/radii_patterns.py/1.1/Fri Apr  5 05:39:20 2002/-kkv/Trc-1-5-4
+/sets.py/1.2/Mon Jun 12 18:28:35 2006/-kkv/Trc-1-5-4
+/stringSelector.py/1.40/Wed Apr  5 01:02:53 2006/-kkv/Trc-1-5-4
+/torTree.py/1.23.4.3/Fri Dec 12 20:06:56 2008/-kkv/Trc-1-5-4
+/trajParser.py/1.2/Tue Oct 17 18:22:13 2006/-kkv/Trc-1-5-4
+/tree.py/1.69.2.1/Mon Sep 14 21:37:18 2009/-kkv/Trc-1-5-4
+D/Tests////
+D/VisionInterface////
+D/data////
+D/pdb2pqr////

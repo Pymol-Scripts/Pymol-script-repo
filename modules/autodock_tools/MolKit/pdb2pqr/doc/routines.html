@@ -1,0 +1,355 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module routines</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>routines</strong></big></big> (22 October 2003)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/todd/release/pdb2pqr/routines.py">/home/todd/release/pdb2pqr/routines.py</a></font></td></tr></table>
+    <p><tt><a href="#Routines">Routines</a>&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;contains&nbsp;the&nbsp;protein&nbsp;object&nbsp;used&nbsp;in&nbsp;PDB2PQR&nbsp;and&nbsp;methods<br>
+used&nbsp;to&nbsp;correct,&nbsp;analyze,&nbsp;and&nbsp;optimize&nbsp;that&nbsp;protein.<br>
+&nbsp;<br>
+Based&nbsp;on&nbsp;C&nbsp;code&nbsp;from&nbsp;Jens&nbsp;Erik&nbsp;Nielsen<br>
+UCSD/HHMI<br>
+&nbsp;<br>
+Ported&nbsp;to&nbsp;Python&nbsp;by&nbsp;Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis</tt></p>
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="getopt.html">getopt</a><br>
+<a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="routines.html#Routines">Routines</a>
+</font></dt></dl>
+ 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Routines">class <strong>Routines</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2>&nbsp;</td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Routines-__init__"><strong>__init__</strong></a>(self, protein, verbose, definition<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="Routines-addCell"><strong>addCell</strong></a>(self, atom)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;the&nbsp;cell<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;The&nbsp;atom&nbsp;to&nbsp;add&nbsp;(atom)</tt></dd></dl>
+
+<dl><dt><a name="Routines-addHydrogens"><strong>addHydrogens</strong></a>(self)</dt><dd><tt>Add&nbsp;hydrogens&nbsp;to&nbsp;the&nbsp;residue&nbsp;by&nbsp;using&nbsp;the&nbsp;definition.</tt></dd></dl>
+
+<dl><dt><a name="Routines-applyForcefield"><strong>applyForcefield</strong></a>(self, forcefield)</dt><dd><tt>Apply&nbsp;the&nbsp;forcefield&nbsp;to&nbsp;the&nbsp;atoms&nbsp;within&nbsp;the&nbsp;protein<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;forcefield:&nbsp;The&nbsp;forcefield&nbsp;object&nbsp;(forcefield)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hitlist:&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atoms&nbsp;that&nbsp;were&nbsp;found&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;forcefield&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;misslist:&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atoms&nbsp;that&nbsp;were&nbsp;not&nbsp;found&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;forcefield&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Routines-calculateChiangles"><strong>calculateChiangles</strong></a>(self)</dt><dd><tt>Calculate&nbsp;the&nbsp;dihedral&nbsp;angle&nbsp;for&nbsp;every&nbsp;residue&nbsp;within&nbsp;the&nbsp;protein,<br>
+using&nbsp;the&nbsp;Amino&nbsp;Acid&nbsp;definition.</tt></dd></dl>
+
+<dl><dt><a name="Routines-correctNames"><strong>correctNames</strong></a>(self)</dt><dd><tt>Correct&nbsp;atom&nbsp;names&nbsp;so&nbsp;that&nbsp;they&nbsp;match&nbsp;those&nbsp;listed&nbsp;in<br>
+the&nbsp;amino&nbsp;acid&nbsp;definition.&nbsp;&nbsp;Handles&nbsp;C-Terminal&nbsp;Oxygens<br>
+and&nbsp;various&nbsp;Hydrogen&nbsp;naming&nbsp;schemes.</tt></dd></dl>
+
+<dl><dt><a name="Routines-createCells"><strong>createCells</strong></a>(self)</dt><dd><tt>Place&nbsp;each&nbsp;atom&nbsp;in&nbsp;a&nbsp;virtual&nbsp;cell&nbsp;for&nbsp;easy&nbsp;neighbor&nbsp;comparison</tt></dd></dl>
+
+<dl><dt><a name="Routines-debumpProtein"><strong>debumpProtein</strong></a>(self)</dt><dd><tt>Ensure&nbsp;that&nbsp;an&nbsp;added&nbsp;atom&nbsp;is&nbsp;not&nbsp;on&nbsp;top&nbsp;of&nbsp;another&nbsp;atom.&nbsp;&nbsp;If&nbsp;it<br>
+is,&nbsp;debump&nbsp;the&nbsp;residue.&nbsp;&nbsp;A&nbsp;threshold&nbsp;is&nbsp;used&nbsp;to&nbsp;determine<br>
+all&nbsp;nearby&nbsp;atoms&nbsp;so&nbsp;the&nbsp;entire&nbsp;protein&nbsp;need&nbsp;not&nbsp;be&nbsp;searched&nbsp;for<br>
+every&nbsp;new&nbsp;dihedral&nbsp;angle.</tt></dd></dl>
+
+<dl><dt><a name="Routines-debumpResidue"><strong>debumpResidue</strong></a>(self, residue, causenames, defresidue)</dt><dd><tt>Ensure&nbsp;that&nbsp;an&nbsp;added&nbsp;atom&nbsp;was&nbsp;not&nbsp;added&nbsp;on&nbsp;top&nbsp;of&nbsp;another<br>
+atom&nbsp;by&nbsp;rotating&nbsp;certain&nbsp;atoms&nbsp;about&nbsp;a&nbsp;dihedral&nbsp;angle.&nbsp;&nbsp;Finds<br>
+a&nbsp;working&nbsp;angle&nbsp;with&nbsp;no&nbsp;conflicts&nbsp;from&nbsp;other&nbsp;residues&nbsp;and&nbsp;sets<br>
+the&nbsp;new&nbsp;atom&nbsp;coordinates.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;to&nbsp;be&nbsp;debumped&nbsp;(Residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;causenames:&nbsp;A&nbsp;list&nbsp;of&nbsp;atom&nbsp;names&nbsp;that&nbsp;must&nbsp;be&nbsp;moved&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defresidue:&nbsp;The&nbsp;definition&nbsp;for&nbsp;this&nbsp;residue&nbsp;(DefinitionResidue)</tt></dd></dl>
+
+<dl><dt><a name="Routines-findMissingHeavy"><strong>findMissingHeavy</strong></a>(self)</dt><dd><tt>Repair&nbsp;residues&nbsp;that&nbsp;contain&nbsp;missing&nbsp;heavy&nbsp;(non-Hydrogen)&nbsp;atoms</tt></dd></dl>
+
+<dl><dt><a name="Routines-getMovenames"><strong>getMovenames</strong></a>(self, residue, defresidue, rootname)</dt><dd><tt>Determine&nbsp;the&nbsp;names&nbsp;of&nbsp;the&nbsp;atoms&nbsp;that&nbsp;are&nbsp;to&nbsp;be&nbsp;moved&nbsp;based<br>
+on&nbsp;the&nbsp;chiangle's&nbsp;root&nbsp;atom.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;that&nbsp;is&nbsp;being&nbsp;debumped&nbsp;(Residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defresidue:&nbsp;The&nbsp;definition&nbsp;of&nbsp;the&nbsp;residue&nbsp;(DefinitionResidue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rootname:&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;root&nbsp;atom&nbsp;used&nbsp;to&nbsp;calculate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;distance.<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;movenames:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atom&nbsp;names&nbsp;to&nbsp;move&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Routines-getNearCells"><strong>getNearCells</strong></a>(self, atom)</dt><dd><tt>Find&nbsp;all&nbsp;atoms&nbsp;in&nbsp;bordering&nbsp;cells&nbsp;to&nbsp;an&nbsp;atom<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;The&nbsp;atom&nbsp;to&nbsp;use&nbsp;(atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closeatoms:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;nearby&nbsp;atoms&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Routines-getWarnings"><strong>getWarnings</strong></a>(self)</dt><dd><tt>Get&nbsp;all&nbsp;warnings&nbsp;generated&nbsp;from&nbsp;routines</tt></dd></dl>
+
+<dl><dt><a name="Routines-optimizeHydrogens"><strong>optimizeHydrogens</strong></a>(self)</dt><dd><tt>Wrapper&nbsp;function&nbsp;for&nbsp;hydrogen&nbsp;optimizing&nbsp;routines.&nbsp;&nbsp;The&nbsp;routines<br>
+were&nbsp;too&nbsp;extensive&nbsp;to&nbsp;properly&nbsp;fit&nbsp;within&nbsp;this&nbsp;file.</tt></dd></dl>
+
+<dl><dt><a name="Routines-optimizeWaters"><strong>optimizeWaters</strong></a>(self)</dt><dd><tt>Wrapper&nbsp;function&nbsp;for&nbsp;water&nbsp;optimizing&nbsp;routines.</tt></dd></dl>
+
+<dl><dt><a name="Routines-pickChiangle"><strong>pickChiangle</strong></a>(self, residue, defresidue, causenames, oldnum)</dt><dd><tt>Choose&nbsp;a&nbsp;chiangle&nbsp;number&nbsp;to&nbsp;use&nbsp;in&nbsp;debumping<br>
+&nbsp;<br>
+Algorithm<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Instead&nbsp;of&nbsp;simply&nbsp;picking&nbsp;a&nbsp;random&nbsp;chiangle,&nbsp;this&nbsp;function<br>
+&nbsp;&nbsp;&nbsp;&nbsp;uses&nbsp;a&nbsp;more&nbsp;intelligent&nbsp;method&nbsp;to&nbsp;improve&nbsp;efficiency.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;algorithm&nbsp;uses&nbsp;the&nbsp;names&nbsp;of&nbsp;the&nbsp;conflicting&nbsp;atoms<br>
+&nbsp;&nbsp;&nbsp;&nbsp;within&nbsp;the&nbsp;residue&nbsp;to&nbsp;determine&nbsp;which&nbsp;chiangle&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;has&nbsp;the&nbsp;best&nbsp;chance&nbsp;of&nbsp;fixing&nbsp;the&nbsp;problem(s).&nbsp;&nbsp;If&nbsp;more&nbsp;than<br>
+&nbsp;&nbsp;&nbsp;&nbsp;one&nbsp;chiangle&nbsp;number&nbsp;resolves&nbsp;the&nbsp;same&nbsp;number&nbsp;of&nbsp;atoms,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;new&nbsp;number&nbsp;is&nbsp;picked&nbsp;randomly.&nbsp;&nbsp;The&nbsp;method&nbsp;also<br>
+&nbsp;&nbsp;&nbsp;&nbsp;insures&nbsp;that&nbsp;the&nbsp;same&nbsp;chiangle&nbsp;will&nbsp;not&nbsp;be&nbsp;run&nbsp;twice<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;a&nbsp;row.<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;that&nbsp;is&nbsp;being&nbsp;debumped&nbsp;(Residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defresidue:&nbsp;The&nbsp;definition&nbsp;of&nbsp;the&nbsp;residue&nbsp;(DefinitionResidue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;causenames:&nbsp;A&nbsp;list&nbsp;of&nbsp;atom&nbsp;names&nbsp;that&nbsp;are&nbsp;currently<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conflicts&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldnum&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;old&nbsp;chiangle&nbsp;number&nbsp;(int)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chinum&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;new&nbsp;chiangle&nbsp;number&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="Routines-printHbond"><strong>printHbond</strong></a>(self)</dt><dd><tt>Print&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;hydrogen&nbsp;bonds&nbsp;to&nbsp;stdout.&nbsp;&nbsp;A&nbsp;hydrogen&nbsp;bond<br>
+is&nbsp;defined&nbsp;when&nbsp;a&nbsp;donor&nbsp;has&nbsp;a&nbsp;hydrogen&nbsp;within&nbsp;3.3&nbsp;Angstroms,&nbsp;and<br>
+the&nbsp;Hyd-Donor-Accepor&nbsp;angle&nbsp;is&nbsp;less&nbsp;than&nbsp;20&nbsp;degrees.</tt></dd></dl>
+
+<dl><dt><a name="Routines-randomizeWaters"><strong>randomizeWaters</strong></a>(self)</dt><dd><tt>Instead&nbsp;of&nbsp;optimizing,&nbsp;find&nbsp;each&nbsp;WAT&nbsp;O&nbsp;and&nbsp;place&nbsp;H1&nbsp;and&nbsp;H2<br>
+while&nbsp;giving&nbsp;it&nbsp;a&nbsp;random&nbsp;orientation</tt></dd></dl>
+
+<dl><dt><a name="Routines-rebuildMethyl"><strong>rebuildMethyl</strong></a>(self, atomname, residue, defresidue)</dt><dd><tt>Rebuild&nbsp;the&nbsp;final&nbsp;methyl&nbsp;hydrogen&nbsp;atom&nbsp;using&nbsp;equations&nbsp;from&nbsp;its<br>
+tetrahedral&nbsp;geometry.&nbsp;&nbsp;The&nbsp;normal&nbsp;quaternion/reference&nbsp;frame<br>
+method&nbsp;does&nbsp;NOT&nbsp;work,&nbsp;since<br>
+&nbsp;&nbsp;&nbsp;&nbsp;A.&nbsp;&nbsp;It&nbsp;only&nbsp;works&nbsp;with&nbsp;3&nbsp;reference&nbsp;atoms,&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;B.&nbsp;&nbsp;For&nbsp;methyl&nbsp;hydrogens,&nbsp;3&nbsp;reference&nbsp;atoms&nbsp;provide&nbsp;TWO<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;possible&nbsp;locations,&nbsp;where&nbsp;only&nbsp;one&nbsp;is&nbsp;potentially&nbsp;correct.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;rebuild&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;(residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defresidue:&nbsp;The&nbsp;definition&nbsp;residue&nbsp;(definitionResidue)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords&nbsp;:&nbsp;&nbsp;The&nbsp;new&nbsp;coords&nbsp;of&nbsp;the&nbsp;atom&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Routines-removeCell"><strong>removeCell</strong></a>(self, atom)</dt><dd><tt>Remove&nbsp;the&nbsp;atom&nbsp;from&nbsp;a&nbsp;cell<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;to&nbsp;add&nbsp;(atom)</tt></dd></dl>
+
+<dl><dt><a name="Routines-repairAA"><strong>repairAA</strong></a>(self, residues, resnum)</dt><dd><tt>Repair&nbsp;heavy&nbsp;atoms&nbsp;in&nbsp;Amino&nbsp;Acid&nbsp;(type&nbsp;1)&nbsp;residues<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residues:&nbsp;The&nbsp;list&nbsp;of&nbsp;residues&nbsp;in&nbsp;the&nbsp;chain&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resnum:&nbsp;&nbsp;&nbsp;The&nbsp;index&nbsp;of&nbsp;the&nbsp;residue&nbsp;to&nbsp;fix&nbsp;(int)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sgadded:&nbsp;&nbsp;1&nbsp;if&nbsp;an&nbsp;CYS&nbsp;SG&nbsp;is&nbsp;added,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Used&nbsp;to&nbsp;detect&nbsp;if&nbsp;updateSSbridges&nbsp;must&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;called</tt></dd></dl>
+
+<dl><dt><a name="Routines-repairHeavy"><strong>repairHeavy</strong></a>(self)</dt><dd><tt>Repair&nbsp;all&nbsp;heavy&nbsp;atoms&nbsp;in&nbsp;residues&nbsp;with&nbsp;missing&nbsp;atoms<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sgadded:&nbsp;&nbsp;1&nbsp;if&nbsp;an&nbsp;CYS&nbsp;SG&nbsp;is&nbsp;added,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Used&nbsp;to&nbsp;detect&nbsp;if&nbsp;updateSSbridges&nbsp;must&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;called.</tt></dd></dl>
+
+<dl><dt><a name="Routines-repairNA"><strong>repairNA</strong></a>(self, residue)</dt><dd><tt>Repair&nbsp;heavy&nbsp;atoms&nbsp;in&nbsp;Nucleic&nbsp;Acid&nbsp;(type&nbsp;4)&nbsp;residues<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;to&nbsp;repair&nbsp;(residue)</tt></dd></dl>
+
+<dl><dt><a name="Routines-setChiangle"><strong>setChiangle</strong></a>(self, residue, chinum, chiangle, defresidue, causenames<font color="#909090">=[]</font>)</dt><dd><tt>Set&nbsp;the&nbsp;chiangle&nbsp;and&nbsp;move&nbsp;the&nbsp;appropriate&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue&nbsp;:&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;that&nbsp;is&nbsp;being&nbsp;debumped&nbsp;(Residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chinum&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;The&nbsp;chi&nbsp;number&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chiangle:&nbsp;&nbsp;&nbsp;The&nbsp;new&nbsp;angle&nbsp;to&nbsp;set&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defresidue:&nbsp;The&nbsp;definition&nbsp;of&nbsp;the&nbsp;residue&nbsp;(DefinitionResidue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;causenames:&nbsp;The&nbsp;atom&nbsp;names&nbsp;that&nbsp;must&nbsp;be&nbsp;moved&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;A&nbsp;value&nbsp;indicating&nbsp;whether&nbsp;any&nbsp;atoms&nbsp;are&nbsp;too<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;close&nbsp;or&nbsp;not&nbsp;-&nbsp;any&nbsp;non-zero&nbsp;value&nbsp;means&nbsp;that<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;there&nbsp;is&nbsp;still&nbsp;a&nbsp;conflict.</tt></dd></dl>
+
+<dl><dt><a name="Routines-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;protein</tt></dd></dl>
+
+<dl><dt><a name="Routines-updateExtraBonds"><strong>updateExtraBonds</strong></a>(self)</dt><dd><tt>Update&nbsp;peptide&nbsp;bonds&nbsp;between&nbsp;amino&nbsp;acids.</tt></dd></dl>
+
+<dl><dt><a name="Routines-updateIntraBonds"><strong>updateIntraBonds</strong></a>(self)</dt><dd><tt>Update&nbsp;the&nbsp;bonds&nbsp;within&nbsp;a&nbsp;residue&nbsp;of&nbsp;the&nbsp;protein</tt></dd></dl>
+
+<dl><dt><a name="Routines-updateResidueTypes"><strong>updateResidueTypes</strong></a>(self)</dt><dd><tt>Find&nbsp;the&nbsp;type&nbsp;of&nbsp;residue&nbsp;as&nbsp;notated&nbsp;in&nbsp;the&nbsp;Amino&nbsp;Acid&nbsp;definition</tt></dd></dl>
+
+<dl><dt><a name="Routines-updateSSbridges"><strong>updateSSbridges</strong></a>(self)</dt><dd><tt>Check&nbsp;for&nbsp;SS-bridge&nbsp;partners,&nbsp;and&nbsp;if&nbsp;present,&nbsp;set&nbsp;appropriate<br>
+partners</tt></dd></dl>
+
+<dl><dt><a name="Routines-write"><strong>write</strong></a>(self, message, indent<font color="#909090">=0</font>)</dt><dd><tt>Write&nbsp;a&nbsp;message&nbsp;to&nbsp;stderr&nbsp;for&nbsp;debugging&nbsp;if&nbsp;verbose<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;message:&nbsp;The&nbsp;message&nbsp;to&nbsp;write&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;indent&nbsp;:&nbsp;The&nbsp;indent&nbsp;level&nbsp;(int,&nbsp;default=0)</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = None</dl>
+
+<dl><dt><strong>__module__</strong> = 'routines'</dl>
+
+</td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl><dt><a name="-acos"><strong>acos</strong></a>(...)</dt><dd><tt><a href="#-acos">acos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;cosine&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-asin"><strong>asin</strong></a>(...)</dt><dd><tt><a href="#-asin">asin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;sine&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-atan"><strong>atan</strong></a>(...)</dt><dd><tt><a href="#-atan">atan</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;tangent&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-atan2"><strong>atan2</strong></a>(...)</dt><dd><tt><a href="#-atan2">atan2</a>(y,&nbsp;x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;tangent&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;y/x.<br>
+Unlike&nbsp;<a href="#-atan">atan</a>(y/x),&nbsp;the&nbsp;signs&nbsp;of&nbsp;both&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;considered.</tt></dd></dl>
+ <dl><dt><a name="-ceil"><strong>ceil</strong></a>(...)</dt><dd><tt><a href="#-ceil">ceil</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;ceiling&nbsp;of&nbsp;x&nbsp;as&nbsp;a&nbsp;float.<br>
+This&nbsp;is&nbsp;the&nbsp;smallest&nbsp;integral&nbsp;value&nbsp;&gt;=&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-cos"><strong>cos</strong></a>(...)</dt><dd><tt><a href="#-cos">cos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;cosine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-cosh"><strong>cosh</strong></a>(...)</dt><dd><tt><a href="#-cosh">cosh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;cosine&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-exp"><strong>exp</strong></a>(...)</dt><dd><tt><a href="#-exp">exp</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;e&nbsp;raised&nbsp;to&nbsp;the&nbsp;power&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-fabs"><strong>fabs</strong></a>(...)</dt><dd><tt><a href="#-fabs">fabs</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;absolute&nbsp;value&nbsp;of&nbsp;the&nbsp;float&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-floor"><strong>floor</strong></a>(...)</dt><dd><tt><a href="#-floor">floor</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;floor&nbsp;of&nbsp;x&nbsp;as&nbsp;a&nbsp;float.<br>
+This&nbsp;is&nbsp;the&nbsp;largest&nbsp;integral&nbsp;value&nbsp;&lt;=&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-fmod"><strong>fmod</strong></a>(...)</dt><dd><tt><a href="#-fmod">fmod</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;<a href="#-fmod">fmod</a>(x,&nbsp;y),&nbsp;according&nbsp;to&nbsp;platform&nbsp;C.&nbsp;&nbsp;x&nbsp;%&nbsp;y&nbsp;may&nbsp;differ.</tt></dd></dl>
+ <dl><dt><a name="-frexp"><strong>frexp</strong></a>(...)</dt><dd><tt><a href="#-frexp">frexp</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;mantissa&nbsp;and&nbsp;exponent&nbsp;of&nbsp;x,&nbsp;as&nbsp;pair&nbsp;(m,&nbsp;e).<br>
+m&nbsp;is&nbsp;a&nbsp;float&nbsp;and&nbsp;e&nbsp;is&nbsp;an&nbsp;int,&nbsp;such&nbsp;that&nbsp;x&nbsp;=&nbsp;m&nbsp;*&nbsp;2.**e.<br>
+If&nbsp;x&nbsp;is&nbsp;0,&nbsp;m&nbsp;and&nbsp;e&nbsp;are&nbsp;both&nbsp;0.&nbsp;&nbsp;Else&nbsp;0.5&nbsp;&lt;=&nbsp;abs(m)&nbsp;&lt;&nbsp;1.0.</tt></dd></dl>
+ <dl><dt><a name="-hypot"><strong>hypot</strong></a>(...)</dt><dd><tt><a href="#-hypot">hypot</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;Euclidean&nbsp;distance,&nbsp;<a href="#-sqrt">sqrt</a>(x*x&nbsp;+&nbsp;y*y).</tt></dd></dl>
+ <dl><dt><a name="-ldexp"><strong>ldexp</strong></a>(...)</dt><dd><tt><a href="#-ldexp">ldexp</a>(x,&nbsp;i)&nbsp;-&gt;&nbsp;x&nbsp;*&nbsp;(2**i)</tt></dd></dl>
+ <dl><dt><a name="-log"><strong>log</strong></a>(...)</dt><dd><tt><a href="#-log">log</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;natural&nbsp;logarithm&nbsp;(base&nbsp;e)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-log10"><strong>log10</strong></a>(...)</dt><dd><tt><a href="#-log10">log10</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;base&nbsp;10&nbsp;logarithm&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-modf"><strong>modf</strong></a>(...)</dt><dd><tt><a href="#-modf">modf</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;fractional&nbsp;and&nbsp;integer&nbsp;parts&nbsp;of&nbsp;x.&nbsp;&nbsp;Both&nbsp;results&nbsp;carry&nbsp;the&nbsp;sign<br>
+of&nbsp;x.&nbsp;&nbsp;The&nbsp;integer&nbsp;part&nbsp;is&nbsp;returned&nbsp;as&nbsp;a&nbsp;real.</tt></dd></dl>
+ <dl><dt><a name="-pow"><strong>pow</strong></a>(...)</dt><dd><tt><a href="#-pow">pow</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;x**y&nbsp;(x&nbsp;to&nbsp;the&nbsp;power&nbsp;of&nbsp;y).</tt></dd></dl>
+ <dl><dt><a name="-sin"><strong>sin</strong></a>(...)</dt><dd><tt><a href="#-sin">sin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;sine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-sinh"><strong>sinh</strong></a>(...)</dt><dd><tt><a href="#-sinh">sinh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;sine&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-sqrt"><strong>sqrt</strong></a>(...)</dt><dd><tt><a href="#-sqrt">sqrt</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;square&nbsp;root&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-tan"><strong>tan</strong></a>(...)</dt><dd><tt><a href="#-tan">tan</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;tangent&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-tanh"><strong>tanh</strong></a>(...)</dt><dd><tt><a href="#-tanh">tanh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;tangent&nbsp;of&nbsp;x.</tt></dd></dl>
+</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>AAFILE</strong> = 'AA.DAT'<br>
+<strong>AAS</strong> = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLH', 'GLY', 'HIS', 'HID', 'HIE', 'HIP', 'HSD', 'HSE', 'HSP', 'ILE', 'LEU', 'LYS', 'MET', ...]<br>
+<strong>AMBER_FILE</strong> = 'AMBER.DAT'<br>
+<strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>BONDED_SS_LIMIT</strong> = 2.5<br>
+<strong>BUMP_DIST</strong> = 2.0<br>
+<strong>BUMP_HDIST</strong> = 1.5<br>
+<strong>CELL_SIZE</strong> = 2<br>
+<strong>CHARMM_FILE</strong> = 'CHARMM.DAT'<br>
+<strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>HYDRO_BONDCOORDS</strong> = [[7.5810000000000004, 2.0899999999999999, 12.506], [6.4580000000000002, 2.1619999999999999, 13.159000000000001], [5.1449999999999996, 2.2090000000000001, 12.452999999999999]]<br>
+<strong>HYDRO_COORDS</strong> = [6.476, 2.1859999999999999, 14.159000000000001]<br>
+<strong>LARGE_TORSION_ANGLE</strong> = 1000.0<br>
+<strong>NAFILE</strong> = 'NA.DAT'<br>
+<strong>NAS</strong> = ['A', 'A5', 'A3', 'C', 'C5', 'C3', 'G', 'G5', 'G3', 'T', 'T5', 'T3', 'U', 'U5', 'U3']<br>
+<strong>NTERM2_COORDS</strong> = [-24.001000000000001, 50.223999999999997, -22.225999999999999]<br>
+<strong>NTERM3_COORDS</strong> = [-24.869, 48.845999999999997, -22.77]<br>
+<strong>NTERM_COORDS</strong> = [[-24.196000000000002, 48.789999999999999, -20.800000000000001], [-25.552, 49.881, -21.847999999999999], [-24.645, 49.491, -22.007000000000001]]<br>
+<strong>OXT_COORDS</strong> = [-1.5289999999999999, 1.8580000000000001, 0.69499999999999995]<br>
+<strong>PARSE_FILE</strong> = 'PARSE.DAT'<br>
+<strong>PEPTIDE_DIST</strong> = 1.7<br>
+<strong>PEP_TRANS_CA</strong> = [-2.3130000000000002, 2.7839999999999998, 1.0229999999999999]<br>
+<strong>PEP_TRANS_N</strong> = [-1.252, 1.877, 0.88300000000000001]<br>
+<strong>REFATOM_SIZE</strong> = 3<br>
+<strong>REPAIR_LIMIT</strong> = 10<br>
+<strong>ROTAMERFILE</strong> = 'ROTAMER.DAT'<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Jens Erik Nielsen, Todd Dolinsky'<br>
+<strong>__date__</strong> = '22 October 2003'<br>
+<strong>__file__</strong> = './routines.pyc'<br>
+<strong>__name__</strong> = 'routines'<br>
+<strong>e</strong> = 2.7182818284590451<br>
+<strong>pi</strong> = 3.1415926535897931</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%">Jens&nbsp;Erik&nbsp;Nielsen,&nbsp;Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>
