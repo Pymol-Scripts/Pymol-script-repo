@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
     # process command arguments
     try:
-        opt_list, args = getopt.getopt(sys.argv[1:], 'l:vo:d:A:Cp:U:B:R:MFI:Zgh')
+        opt_list, args = getopt.getopt(sys.argv[2:], 'l:vo:d:A:Cp:U:B:R:MFI:Zgh')
     except getopt.GetoptError, msg:
         print 'prepare_ligand4.py: %s' %msg
         usage()
