@@ -4,7 +4,8 @@
 #
 # $Header: /opt/cvs/python/packages/share1.5/AutoDockTools/Utilities24/prepare_receptor4.py,v 1.11 2007/11/28 22:40:22 rhuey Exp $
 #
-import os 
+import os,sys
+sys.path.append(sys.argv[1])
 
 from MolKit import Read
 import MolKit.molecule
@@ -61,7 +62,7 @@ if __name__ == '__main__':
 
     # process command arguments
     try:
-        opt_list, args = getopt.getopt(sys.argv[1:], 'r:vo:A:Cp:U:eM:')
+        opt_list, args = getopt.getopt(sys.argv[2:], 'r:vo:A:Cp:U:eM:')
 
     except getopt.GetoptError, msg:
         print 'prepare_receptor4.py: %s' %msg
