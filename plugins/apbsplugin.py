@@ -225,6 +225,8 @@ def get_default_location(name):
                 return False
         return True
     searchDirs = []
+    searchDirs.append(add_to_path()[0])
+    searchDirs.append(add_to_path()[1])
     # Previous order was A B C D
     #D
     for x in 'APBS_BINARY_DIR APBS_WEB_DIR APBS_PSIZE_DIR APBS_PDB2PQR_DIR'.split():
