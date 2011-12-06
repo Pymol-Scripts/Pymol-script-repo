@@ -1,6 +1,6 @@
 '''
 See more here: http://www.pymolwiki.org/index.php/apbsplugin
-'''
+
 
 # TODO:
 
@@ -128,6 +128,7 @@ Known hacks:
    .bashrc.
 
 """
+'''
 from __future__ import division
 from __future__ import generators
 
@@ -274,10 +275,11 @@ def get_default_location(name):
         searchDirs.append("/tmp")
         searchDirs.append(".")
 
-    print "Search dirs",searchDirs
+    #print "Search dirs",searchDirs
 
     if DEBUG:
-        print "get_default_location will search the following: ", searchDirs
+        #print "get_default_location will search the following: ", searchDirs
+        pass
     for d in searchDirs:
         if name=="temp":
             f = d           # just search for the directory
