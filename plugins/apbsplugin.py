@@ -1,4 +1,6 @@
-#!/usr/bin/env python
+'''
+See more here: http://www.pymolwiki.org/index.php/apbsplugin
+'''
 
 # TODO:
 
