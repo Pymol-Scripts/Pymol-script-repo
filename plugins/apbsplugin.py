@@ -2440,3 +2440,21 @@ If you have a molecule and a map loaded, please click "Update"''',
         pymol.cmd.color(self.getRampName(),self.getGradName())
         print "set colors"
         pymol.cmd.show('mesh',self.getGradName())
+
+def add_to_path():
+    for path in sys.path:
+        if 'Pymol-script-repo' in path:
+            if platform.system() == 'Windows':
+                psize_string = path + "\\modules\\pdb2pqr\\src"
+                pdb2pqr_string = path + "\\modules\\pdb2pqr"
+                pdb2pqr_string_short = "\\pdb2pqr"
+            if platform.system() == 'Linux':
+                psize_string = path + "/modules/pdb2pqr/src"
+                pdb2pqr_string = path + "/modules/pdb2pqr"
+                pdb2pqr_string_short = "/pdb2pqr"
+            break
+        else:
+            psize_string = None
+            pdb2pqr_string = None
+            pdb2pqr_string_short = None
+    return(psize_string,pdb2pqr_string,pdb2pqr_string_short)
