@@ -1,0 +1,216 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module time</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>time</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/sw/lib/python2.5/lib-dynload/time.so">/sw/lib/python2.5/lib-dynload/time.so</a><br><a href="http://www.python.org/doc/current/lib/module-time.html">Module Docs</a></font></td></tr></table>
+    <p><tt>This&nbsp;module&nbsp;provides&nbsp;various&nbsp;functions&nbsp;to&nbsp;manipulate&nbsp;time&nbsp;values.<br>
+&nbsp;<br>
+There&nbsp;are&nbsp;two&nbsp;standard&nbsp;representations&nbsp;of&nbsp;time.&nbsp;&nbsp;One&nbsp;is&nbsp;the&nbsp;number<br>
+of&nbsp;seconds&nbsp;since&nbsp;the&nbsp;Epoch,&nbsp;in&nbsp;UTC&nbsp;(a.k.a.&nbsp;GMT).&nbsp;&nbsp;It&nbsp;may&nbsp;be&nbsp;an&nbsp;integer<br>
+or&nbsp;a&nbsp;floating&nbsp;point&nbsp;number&nbsp;(to&nbsp;represent&nbsp;fractions&nbsp;of&nbsp;seconds).<br>
+The&nbsp;Epoch&nbsp;is&nbsp;system-defined;&nbsp;on&nbsp;Unix,&nbsp;it&nbsp;is&nbsp;generally&nbsp;January&nbsp;1st,&nbsp;1970.<br>
+The&nbsp;actual&nbsp;value&nbsp;can&nbsp;be&nbsp;retrieved&nbsp;by&nbsp;calling&nbsp;<a href="#-gmtime">gmtime</a>(0).<br>
+&nbsp;<br>
+The&nbsp;other&nbsp;representation&nbsp;is&nbsp;a&nbsp;tuple&nbsp;of&nbsp;9&nbsp;integers&nbsp;giving&nbsp;local&nbsp;time.<br>
+The&nbsp;tuple&nbsp;items&nbsp;are:<br>
+&nbsp;&nbsp;year&nbsp;(four&nbsp;digits,&nbsp;e.g.&nbsp;1998)<br>
+&nbsp;&nbsp;month&nbsp;(1-12)<br>
+&nbsp;&nbsp;day&nbsp;(1-31)<br>
+&nbsp;&nbsp;hours&nbsp;(0-23)<br>
+&nbsp;&nbsp;minutes&nbsp;(0-59)<br>
+&nbsp;&nbsp;seconds&nbsp;(0-59)<br>
+&nbsp;&nbsp;weekday&nbsp;(0-6,&nbsp;Monday&nbsp;is&nbsp;0)<br>
+&nbsp;&nbsp;Julian&nbsp;day&nbsp;(day&nbsp;in&nbsp;the&nbsp;year,&nbsp;1-366)<br>
+&nbsp;&nbsp;DST&nbsp;(Daylight&nbsp;Savings&nbsp;Time)&nbsp;flag&nbsp;(-1,&nbsp;0&nbsp;or&nbsp;1)<br>
+If&nbsp;the&nbsp;DST&nbsp;flag&nbsp;is&nbsp;0,&nbsp;the&nbsp;time&nbsp;is&nbsp;given&nbsp;in&nbsp;the&nbsp;regular&nbsp;time&nbsp;zone;<br>
+if&nbsp;it&nbsp;is&nbsp;1,&nbsp;the&nbsp;time&nbsp;is&nbsp;given&nbsp;in&nbsp;the&nbsp;DST&nbsp;time&nbsp;zone;<br>
+if&nbsp;it&nbsp;is&nbsp;-1,&nbsp;<a href="#-mktime">mktime</a>()&nbsp;should&nbsp;guess&nbsp;based&nbsp;on&nbsp;the&nbsp;date&nbsp;and&nbsp;time.<br>
+&nbsp;<br>
+Variables:<br>
+&nbsp;<br>
+timezone&nbsp;--&nbsp;difference&nbsp;in&nbsp;seconds&nbsp;between&nbsp;UTC&nbsp;and&nbsp;local&nbsp;standard&nbsp;time<br>
+altzone&nbsp;--&nbsp;difference&nbsp;in&nbsp;&nbsp;seconds&nbsp;between&nbsp;UTC&nbsp;and&nbsp;local&nbsp;DST&nbsp;time<br>
+daylight&nbsp;--&nbsp;whether&nbsp;local&nbsp;time&nbsp;should&nbsp;reflect&nbsp;DST<br>
+tzname&nbsp;--&nbsp;tuple&nbsp;of&nbsp;(standard&nbsp;time&nbsp;zone&nbsp;name,&nbsp;DST&nbsp;time&nbsp;zone&nbsp;name)<br>
+&nbsp;<br>
+Functions:<br>
+&nbsp;<br>
+<a href="#-time">time</a>()&nbsp;--&nbsp;return&nbsp;current&nbsp;time&nbsp;in&nbsp;seconds&nbsp;since&nbsp;the&nbsp;Epoch&nbsp;as&nbsp;a&nbsp;float<br>
+<a href="#-clock">clock</a>()&nbsp;--&nbsp;return&nbsp;CPU&nbsp;time&nbsp;since&nbsp;process&nbsp;start&nbsp;as&nbsp;a&nbsp;float<br>
+<a href="#-sleep">sleep</a>()&nbsp;--&nbsp;delay&nbsp;for&nbsp;a&nbsp;number&nbsp;of&nbsp;seconds&nbsp;given&nbsp;as&nbsp;a&nbsp;float<br>
+<a href="#-gmtime">gmtime</a>()&nbsp;--&nbsp;convert&nbsp;seconds&nbsp;since&nbsp;Epoch&nbsp;to&nbsp;UTC&nbsp;tuple<br>
+<a href="#-localtime">localtime</a>()&nbsp;--&nbsp;convert&nbsp;seconds&nbsp;since&nbsp;Epoch&nbsp;to&nbsp;local&nbsp;time&nbsp;tuple<br>
+<a href="#-asctime">asctime</a>()&nbsp;--&nbsp;convert&nbsp;time&nbsp;tuple&nbsp;to&nbsp;string<br>
+<a href="#-ctime">ctime</a>()&nbsp;--&nbsp;convert&nbsp;time&nbsp;in&nbsp;seconds&nbsp;to&nbsp;string<br>
+<a href="#-mktime">mktime</a>()&nbsp;--&nbsp;convert&nbsp;local&nbsp;time&nbsp;tuple&nbsp;to&nbsp;seconds&nbsp;since&nbsp;Epoch<br>
+<a href="#-strftime">strftime</a>()&nbsp;--&nbsp;convert&nbsp;time&nbsp;tuple&nbsp;to&nbsp;string&nbsp;according&nbsp;to&nbsp;format&nbsp;specification<br>
+<a href="#-strptime">strptime</a>()&nbsp;--&nbsp;parse&nbsp;string&nbsp;to&nbsp;time&nbsp;tuple&nbsp;according&nbsp;to&nbsp;format&nbsp;specification<br>
+<a href="#-tzset">tzset</a>()&nbsp;--&nbsp;change&nbsp;the&nbsp;local&nbsp;timezone</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="__builtin__.html#object">__builtin__.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="time.html#struct_time">struct_time</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="struct_time">class <strong>struct_time</strong></a>(<a href="__builtin__.html#object">__builtin__.object</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="struct_time-__add__"><strong>__add__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__add__">__add__</a>(y)&nbsp;&lt;==&gt;&nbsp;x+y</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__contains__"><strong>__contains__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__contains__">__contains__</a>(y)&nbsp;&lt;==&gt;&nbsp;y&nbsp;in&nbsp;x</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__eq__"><strong>__eq__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__eq__">__eq__</a>(y)&nbsp;&lt;==&gt;&nbsp;x==y</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__ge__"><strong>__ge__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__ge__">__ge__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;=y</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__getslice__"><strong>__getslice__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__getslice__">__getslice__</a>(i,&nbsp;j)&nbsp;&lt;==&gt;&nbsp;x[i:j]<br>
+&nbsp;<br>
+Use&nbsp;of&nbsp;negative&nbsp;indices&nbsp;is&nbsp;not&nbsp;supported.</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__gt__"><strong>__gt__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__gt__">__gt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&gt;y</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__hash__"><strong>__hash__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__hash__">__hash__</a>()&nbsp;&lt;==&gt;&nbsp;hash(x)</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__le__"><strong>__le__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__le__">__le__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;=y</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__len__"><strong>__len__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__len__">__len__</a>()&nbsp;&lt;==&gt;&nbsp;len(x)</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__lt__"><strong>__lt__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__lt__">__lt__</a>(y)&nbsp;&lt;==&gt;&nbsp;x&lt;y</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__mul__"><strong>__mul__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__mul__">__mul__</a>(n)&nbsp;&lt;==&gt;&nbsp;x*n</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__ne__"><strong>__ne__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__ne__">__ne__</a>(y)&nbsp;&lt;==&gt;&nbsp;x!=y</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="struct_time-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="struct_time-__rmul__"><strong>__rmul__</strong></a>(...)</dt><dd><tt>x.<a href="#struct_time-__rmul__">__rmul__</a>(n)&nbsp;&lt;==&gt;&nbsp;n*x</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>tm_hour</strong></dt>
+</dl>
+<dl><dt><strong>tm_isdst</strong></dt>
+</dl>
+<dl><dt><strong>tm_mday</strong></dt>
+</dl>
+<dl><dt><strong>tm_min</strong></dt>
+</dl>
+<dl><dt><strong>tm_mon</strong></dt>
+</dl>
+<dl><dt><strong>tm_sec</strong></dt>
+</dl>
+<dl><dt><strong>tm_wday</strong></dt>
+</dl>
+<dl><dt><strong>tm_yday</strong></dt>
+</dl>
+<dl><dt><strong>tm_year</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object at 0x5f7280&gt;<dd><tt>T.<a href="#struct_time-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;<a href="__builtin__.html#object">object</a>&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<dl><dt><strong>n_fields</strong> = 9</dl>
+
+<dl><dt><strong>n_sequence_fields</strong> = 9</dl>
+
+<dl><dt><strong>n_unnamed_fields</strong> = 0</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-asctime"><strong>asctime</strong></a>(...)</dt><dd><tt><a href="#-asctime">asctime</a>([tuple])&nbsp;-&gt;&nbsp;string<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;time&nbsp;tuple&nbsp;to&nbsp;a&nbsp;string,&nbsp;e.g.&nbsp;'Sat&nbsp;Jun&nbsp;06&nbsp;16:26:11&nbsp;1998'.<br>
+When&nbsp;the&nbsp;time&nbsp;tuple&nbsp;is&nbsp;not&nbsp;present,&nbsp;current&nbsp;time&nbsp;as&nbsp;returned&nbsp;by&nbsp;<a href="#-localtime">localtime</a>()<br>
+is&nbsp;used.</tt></dd></dl>
+ <dl><dt><a name="-clock"><strong>clock</strong></a>(...)</dt><dd><tt><a href="#-clock">clock</a>()&nbsp;-&gt;&nbsp;floating&nbsp;point&nbsp;number<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;CPU&nbsp;time&nbsp;or&nbsp;real&nbsp;time&nbsp;since&nbsp;the&nbsp;start&nbsp;of&nbsp;the&nbsp;process&nbsp;or&nbsp;since<br>
+the&nbsp;first&nbsp;call&nbsp;to&nbsp;<a href="#-clock">clock</a>().&nbsp;&nbsp;This&nbsp;has&nbsp;as&nbsp;much&nbsp;precision&nbsp;as&nbsp;the&nbsp;system<br>
+records.</tt></dd></dl>
+ <dl><dt><a name="-ctime"><strong>ctime</strong></a>(...)</dt><dd><tt><a href="#-ctime">ctime</a>(seconds)&nbsp;-&gt;&nbsp;string<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;time&nbsp;in&nbsp;seconds&nbsp;since&nbsp;the&nbsp;Epoch&nbsp;to&nbsp;a&nbsp;string&nbsp;in&nbsp;local&nbsp;time.<br>
+This&nbsp;is&nbsp;equivalent&nbsp;to&nbsp;<a href="#-asctime">asctime</a>(<a href="#-localtime">localtime</a>(seconds)).&nbsp;When&nbsp;the&nbsp;time&nbsp;tuple&nbsp;is<br>
+not&nbsp;present,&nbsp;current&nbsp;time&nbsp;as&nbsp;returned&nbsp;by&nbsp;<a href="#-localtime">localtime</a>()&nbsp;is&nbsp;used.</tt></dd></dl>
+ <dl><dt><a name="-gmtime"><strong>gmtime</strong></a>(...)</dt><dd><tt><a href="#-gmtime">gmtime</a>([seconds])&nbsp;-&gt;&nbsp;(tm_year,&nbsp;tm_mon,&nbsp;tm_day,&nbsp;tm_hour,&nbsp;tm_min,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tm_sec,&nbsp;tm_wday,&nbsp;tm_yday,&nbsp;tm_isdst)<br>
+&nbsp;<br>
+Convert&nbsp;seconds&nbsp;since&nbsp;the&nbsp;Epoch&nbsp;to&nbsp;a&nbsp;time&nbsp;tuple&nbsp;expressing&nbsp;UTC&nbsp;(a.k.a.<br>
+GMT).&nbsp;&nbsp;When&nbsp;'seconds'&nbsp;is&nbsp;not&nbsp;passed&nbsp;in,&nbsp;convert&nbsp;the&nbsp;current&nbsp;time&nbsp;instead.</tt></dd></dl>
+ <dl><dt><a name="-localtime"><strong>localtime</strong></a>(...)</dt><dd><tt><a href="#-localtime">localtime</a>([seconds])&nbsp;-&gt;&nbsp;(tm_year,tm_mon,tm_day,tm_hour,tm_min,tm_sec,tm_wday,tm_yday,tm_isdst)<br>
+&nbsp;<br>
+Convert&nbsp;seconds&nbsp;since&nbsp;the&nbsp;Epoch&nbsp;to&nbsp;a&nbsp;time&nbsp;tuple&nbsp;expressing&nbsp;local&nbsp;time.<br>
+When&nbsp;'seconds'&nbsp;is&nbsp;not&nbsp;passed&nbsp;in,&nbsp;convert&nbsp;the&nbsp;current&nbsp;time&nbsp;instead.</tt></dd></dl>
+ <dl><dt><a name="-mktime"><strong>mktime</strong></a>(...)</dt><dd><tt><a href="#-mktime">mktime</a>(tuple)&nbsp;-&gt;&nbsp;floating&nbsp;point&nbsp;number<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;time&nbsp;tuple&nbsp;in&nbsp;local&nbsp;time&nbsp;to&nbsp;seconds&nbsp;since&nbsp;the&nbsp;Epoch.</tt></dd></dl>
+ <dl><dt><a name="-sleep"><strong>sleep</strong></a>(...)</dt><dd><tt><a href="#-sleep">sleep</a>(seconds)<br>
+&nbsp;<br>
+Delay&nbsp;execution&nbsp;for&nbsp;a&nbsp;given&nbsp;number&nbsp;of&nbsp;seconds.&nbsp;&nbsp;The&nbsp;argument&nbsp;may&nbsp;be<br>
+a&nbsp;floating&nbsp;point&nbsp;number&nbsp;for&nbsp;subsecond&nbsp;precision.</tt></dd></dl>
+ <dl><dt><a name="-strftime"><strong>strftime</strong></a>(...)</dt><dd><tt><a href="#-strftime">strftime</a>(format[,&nbsp;tuple])&nbsp;-&gt;&nbsp;string<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;time&nbsp;tuple&nbsp;to&nbsp;a&nbsp;string&nbsp;according&nbsp;to&nbsp;a&nbsp;format&nbsp;specification.<br>
+See&nbsp;the&nbsp;library&nbsp;reference&nbsp;manual&nbsp;for&nbsp;formatting&nbsp;codes.&nbsp;When&nbsp;the&nbsp;time&nbsp;tuple<br>
+is&nbsp;not&nbsp;present,&nbsp;current&nbsp;time&nbsp;as&nbsp;returned&nbsp;by&nbsp;<a href="#-localtime">localtime</a>()&nbsp;is&nbsp;used.</tt></dd></dl>
+ <dl><dt><a name="-strptime"><strong>strptime</strong></a>(...)</dt><dd><tt><a href="#-strptime">strptime</a>(string,&nbsp;format)&nbsp;-&gt;&nbsp;<a href="#struct_time">struct_time</a><br>
+&nbsp;<br>
+Parse&nbsp;a&nbsp;string&nbsp;to&nbsp;a&nbsp;time&nbsp;tuple&nbsp;according&nbsp;to&nbsp;a&nbsp;format&nbsp;specification.<br>
+See&nbsp;the&nbsp;library&nbsp;reference&nbsp;manual&nbsp;for&nbsp;formatting&nbsp;codes&nbsp;(same&nbsp;as&nbsp;<a href="#-strftime">strftime</a>()).</tt></dd></dl>
+ <dl><dt><a name="-time"><strong>time</strong></a>(...)</dt><dd><tt><a href="#-time">time</a>()&nbsp;-&gt;&nbsp;floating&nbsp;point&nbsp;number<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;current&nbsp;time&nbsp;in&nbsp;seconds&nbsp;since&nbsp;the&nbsp;Epoch.<br>
+Fractions&nbsp;of&nbsp;a&nbsp;second&nbsp;may&nbsp;be&nbsp;present&nbsp;if&nbsp;the&nbsp;system&nbsp;clock&nbsp;provides&nbsp;them.</tt></dd></dl>
+ <dl><dt><a name="-tzset"><strong>tzset</strong></a>(...)</dt><dd><tt><a href="#-tzset">tzset</a>(zone)<br>
+&nbsp;<br>
+Initialize,&nbsp;or&nbsp;reinitialize,&nbsp;the&nbsp;local&nbsp;timezone&nbsp;to&nbsp;the&nbsp;value&nbsp;stored&nbsp;in<br>
+os.environ['TZ'].&nbsp;The&nbsp;TZ&nbsp;environment&nbsp;variable&nbsp;should&nbsp;be&nbsp;specified&nbsp;in<br>
+standard&nbsp;Unix&nbsp;timezone&nbsp;format&nbsp;as&nbsp;documented&nbsp;in&nbsp;the&nbsp;tzset&nbsp;man&nbsp;page<br>
+(eg.&nbsp;'US/Eastern',&nbsp;'Europe/Amsterdam').&nbsp;Unknown&nbsp;timezones&nbsp;will&nbsp;silently<br>
+fall&nbsp;back&nbsp;to&nbsp;UTC.&nbsp;If&nbsp;the&nbsp;TZ&nbsp;environment&nbsp;variable&nbsp;is&nbsp;not&nbsp;set,&nbsp;the&nbsp;local<br>
+timezone&nbsp;is&nbsp;set&nbsp;to&nbsp;the&nbsp;systems&nbsp;best&nbsp;guess&nbsp;of&nbsp;wallclock&nbsp;time.<br>
+Changing&nbsp;the&nbsp;TZ&nbsp;environment&nbsp;variable&nbsp;without&nbsp;calling&nbsp;tzset&nbsp;*may*&nbsp;change<br>
+the&nbsp;local&nbsp;timezone&nbsp;used&nbsp;by&nbsp;methods&nbsp;such&nbsp;as&nbsp;localtime,&nbsp;but&nbsp;this&nbsp;behaviour<br>
+should&nbsp;not&nbsp;be&nbsp;relied&nbsp;on.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>accept2dyear</strong> = 1<br>
+<strong>altzone</strong> = 18000<br>
+<strong>daylight</strong> = 1<br>
+<strong>timezone</strong> = 21600<br>
+<strong>tzname</strong> = ('CST', 'CDT')</td></tr></table>
+</body></html>

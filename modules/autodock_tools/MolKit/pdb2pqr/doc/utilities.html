@@ -1,0 +1,280 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module utilities</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>utilities</strong></big></big> (23 September 2003)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/todd/release/pdb2pqr/utilities.py">/home/todd/release/pdb2pqr/utilities.py</a></font></td></tr></table>
+    <p><tt>Utilities&nbsp;for&nbsp;PDB2PQR&nbsp;Suite<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;provides&nbsp;various&nbsp;utilities&nbsp;for&nbsp;the&nbsp;PDB2PQR&nbsp;suite&nbsp;to&nbsp;be<br>
+imported&nbsp;into&nbsp;other&nbsp;Python&nbsp;scripts.<br>
+&nbsp;<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis</tt></p>
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="utilities.html#Matrix">Matrix</a>
+</font></dt></dl>
+ 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Matrix">class <strong>Matrix</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Matrix">Matrix</a>&nbsp;class<br>
+&nbsp;<br>
+A&nbsp;class&nbsp;for&nbsp;handling&nbsp;matrices<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Matrix-LU"><strong>LU</strong></a>(self, b)</dt><dd><tt>Solve&nbsp;the&nbsp;matrix&nbsp;Ax&nbsp;=&nbsp;b&nbsp;by&nbsp;LU&nbsp;decomposition:<br>
+Given&nbsp;Ax&nbsp;=&nbsp;b&nbsp;and&nbsp;LU&nbsp;=&nbsp;A,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Ax&nbsp;=&nbsp;(LU)x&nbsp;=&nbsp;L(Ux)&nbsp;=&nbsp;b<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Solve&nbsp;Ly&nbsp;=&nbsp;b,&nbsp;and&nbsp;then&nbsp;Ux&nbsp;=&nbsp;y.&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;=&nbsp;1&nbsp;x&nbsp;N&nbsp;matrix,&nbsp;where&nbsp;N&nbsp;is&nbsp;the&nbsp;number&nbsp;of&nbsp;variables<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#Matrix">Matrix</a>)<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&nbsp;The&nbsp;solved&nbsp;N-element&nbsp;list&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Matrix-__init__"><strong>__init__</strong></a>(self, lists)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;matrix&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lists:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;lists&nbsp;containing&nbsp;the&nbsp;matrix&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Matrix-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Print&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;matrix<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out:&nbsp;&nbsp;The&nbsp;printed&nbsp;matrix&nbsp;(string)</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = '<font color="#c040c0">\n</font>        Matrix class<font color="#c040c0">\n\n</font>        A class for handling matrices<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'utilities'</dl>
+
+</td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl><dt><a name="-acos"><strong>acos</strong></a>(...)</dt><dd><tt><a href="#-acos">acos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;cosine&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-add"><strong>add</strong></a>(coords1, coords2)</dt><dd><tt>Add&nbsp;one&nbsp;3-dimensional&nbsp;point&nbsp;to&nbsp;another<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;&nbsp;List&nbsp;of&nbsp;coordinates&nbsp;equal&nbsp;to&nbsp;coords2&nbsp;+&nbsp;coords1&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-analyzeMap"><strong>analyzeMap</strong></a>(map, value, list<font color="#909090">=[]</font>)</dt><dd><tt>Analyze&nbsp;a&nbsp;map&nbsp;of&nbsp;interactions&nbsp;to&nbsp;determine&nbsp;the&nbsp;overall<br>
+connectivity.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;map&nbsp;&nbsp;&nbsp;:&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;lists&nbsp;which&nbsp;contain&nbsp;the&nbsp;connections<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;the&nbsp;key&nbsp;(dictionary)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;:&nbsp;The&nbsp;key&nbsp;value&nbsp;to&nbsp;analyze&nbsp;(variable)<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;&nbsp;:&nbsp;A&nbsp;connectivity&nbsp;list&nbsp;of&nbsp;the&nbsp;map&nbsp;(list)<br>
+&nbsp;<br>
+Example<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Given&nbsp;map&nbsp;{1:&nbsp;[2],&nbsp;4:&nbsp;[5],&nbsp;7:&nbsp;[5,9],&nbsp;9:&nbsp;[14]}&nbsp;list&nbsp;will&nbsp;return<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;1:&nbsp;&nbsp;[1,2]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;4,5,7,9,14:&nbsp;[4,5,7,9,14]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;all&nbsp;other&nbsp;X:&nbsp;[X]</tt></dd></dl>
+ <dl><dt><a name="-asin"><strong>asin</strong></a>(...)</dt><dd><tt><a href="#-asin">asin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;sine&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-atan"><strong>atan</strong></a>(...)</dt><dd><tt><a href="#-atan">atan</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;tangent&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-atan2"><strong>atan2</strong></a>(...)</dt><dd><tt><a href="#-atan2">atan2</a>(y,&nbsp;x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;tangent&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;y/x.<br>
+Unlike&nbsp;<a href="#-atan">atan</a>(y/x),&nbsp;the&nbsp;signs&nbsp;of&nbsp;both&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;considered.</tt></dd></dl>
+ <dl><dt><a name="-ceil"><strong>ceil</strong></a>(...)</dt><dd><tt><a href="#-ceil">ceil</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;ceiling&nbsp;of&nbsp;x&nbsp;as&nbsp;a&nbsp;float.<br>
+This&nbsp;is&nbsp;the&nbsp;smallest&nbsp;integral&nbsp;value&nbsp;&gt;=&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-cos"><strong>cos</strong></a>(...)</dt><dd><tt><a href="#-cos">cos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;cosine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-cosh"><strong>cosh</strong></a>(...)</dt><dd><tt><a href="#-cosh">cosh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;cosine&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-cross"><strong>cross</strong></a>(coords1, coords2)</dt><dd><tt>Find&nbsp;the&nbsp;cross&nbsp;product&nbsp;of&nbsp;two&nbsp;3-dimensional&nbsp;points<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;&nbsp;Cross&nbsp;product&nbsp;coords2&nbsp;and&nbsp;coords1&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-distance"><strong>distance</strong></a>(coords1, coords2)</dt><dd><tt>Calculate&nbsp;the&nbsp;distance&nbsp;between&nbsp;two&nbsp;coordinates,&nbsp;as&nbsp;denoted&nbsp;by<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dist&nbsp;=&nbsp;<a href="#-sqrt">sqrt</a>((x2-&nbsp;x1)^2&nbsp;+&nbsp;(y2&nbsp;-&nbsp;y1)^2&nbsp;+&nbsp;(z2&nbsp;-&nbsp;z1)^2))<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;Coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;Coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dist:&nbsp;&nbsp;Distance&nbsp;between&nbsp;the&nbsp;two&nbsp;coordinates&nbsp;(float)</tt></dd></dl>
+ <dl><dt><a name="-dot"><strong>dot</strong></a>(coords1, coords2)</dt><dd><tt>Find&nbsp;the&nbsp;dot&nbsp;product&nbsp;of&nbsp;two&nbsp;3-dimensional&nbsp;points<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;Dot&nbsp;product&nbsp;coords2&nbsp;and&nbsp;coords1&nbsp;(float)</tt></dd></dl>
+ <dl><dt><a name="-exp"><strong>exp</strong></a>(...)</dt><dd><tt><a href="#-exp">exp</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;e&nbsp;raised&nbsp;to&nbsp;the&nbsp;power&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-fabs"><strong>fabs</strong></a>(...)</dt><dd><tt><a href="#-fabs">fabs</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;absolute&nbsp;value&nbsp;of&nbsp;the&nbsp;float&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-floor"><strong>floor</strong></a>(...)</dt><dd><tt><a href="#-floor">floor</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;floor&nbsp;of&nbsp;x&nbsp;as&nbsp;a&nbsp;float.<br>
+This&nbsp;is&nbsp;the&nbsp;largest&nbsp;integral&nbsp;value&nbsp;&lt;=&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-fmod"><strong>fmod</strong></a>(...)</dt><dd><tt><a href="#-fmod">fmod</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;<a href="#-fmod">fmod</a>(x,&nbsp;y),&nbsp;according&nbsp;to&nbsp;platform&nbsp;C.&nbsp;&nbsp;x&nbsp;%&nbsp;y&nbsp;may&nbsp;differ.</tt></dd></dl>
+ <dl><dt><a name="-frexp"><strong>frexp</strong></a>(...)</dt><dd><tt><a href="#-frexp">frexp</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;mantissa&nbsp;and&nbsp;exponent&nbsp;of&nbsp;x,&nbsp;as&nbsp;pair&nbsp;(m,&nbsp;e).<br>
+m&nbsp;is&nbsp;a&nbsp;float&nbsp;and&nbsp;e&nbsp;is&nbsp;an&nbsp;int,&nbsp;such&nbsp;that&nbsp;x&nbsp;=&nbsp;m&nbsp;*&nbsp;2.**e.<br>
+If&nbsp;x&nbsp;is&nbsp;0,&nbsp;m&nbsp;and&nbsp;e&nbsp;are&nbsp;both&nbsp;0.&nbsp;&nbsp;Else&nbsp;0.5&nbsp;&lt;=&nbsp;abs(m)&nbsp;&lt;&nbsp;1.0.</tt></dd></dl>
+ <dl><dt><a name="-getDihedral"><strong>getDihedral</strong></a>(coords1, coords2, coords3, coords4)</dt><dd><tt>Calculate&nbsp;the&nbsp;angle&nbsp;using&nbsp;the&nbsp;four&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;First&nbsp;of&nbsp;four&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;Second&nbsp;of&nbsp;four<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords3:&nbsp;Third&nbsp;of&nbsp;four<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords4:&nbsp;Fourth&nbsp;of&nbsp;four<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;Size&nbsp;of&nbsp;the&nbsp;angle&nbsp;(float)</tt></dd></dl>
+ <dl><dt><a name="-getFile"><strong>getFile</strong></a>(path)</dt><dd><tt>Obtain&nbsp;a&nbsp;PDB&nbsp;file.&nbsp;&nbsp;First&nbsp;check&nbsp;the&nbsp;path&nbsp;given&nbsp;on&nbsp;the&nbsp;command<br>
+line&nbsp;-&nbsp;if&nbsp;that&nbsp;file&nbsp;is&nbsp;not&nbsp;available,&nbsp;obtain&nbsp;the&nbsp;file&nbsp;from&nbsp;the<br>
+PDB&nbsp;webserver&nbsp;at&nbsp;<a href="http://www.rcsb.org/pdb/">http://www.rcsb.org/pdb/</a>&nbsp;.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;&nbsp;Name&nbsp;of&nbsp;PDB&nbsp;file&nbsp;to&nbsp;obtain&nbsp;(string)<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;file:&nbsp;&nbsp;File&nbsp;object&nbsp;containing&nbsp;PDB&nbsp;file&nbsp;(file&nbsp;object)</tt></dd></dl>
+ <dl><dt><a name="-hypot"><strong>hypot</strong></a>(...)</dt><dd><tt><a href="#-hypot">hypot</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;Euclidean&nbsp;distance,&nbsp;<a href="#-sqrt">sqrt</a>(x*x&nbsp;+&nbsp;y*y).</tt></dd></dl>
+ <dl><dt><a name="-ldexp"><strong>ldexp</strong></a>(...)</dt><dd><tt><a href="#-ldexp">ldexp</a>(x,&nbsp;i)&nbsp;-&gt;&nbsp;x&nbsp;*&nbsp;(2**i)</tt></dd></dl>
+ <dl><dt><a name="-log"><strong>log</strong></a>(...)</dt><dd><tt><a href="#-log">log</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;natural&nbsp;logarithm&nbsp;(base&nbsp;e)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-log10"><strong>log10</strong></a>(...)</dt><dd><tt><a href="#-log10">log10</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;base&nbsp;10&nbsp;logarithm&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-modf"><strong>modf</strong></a>(...)</dt><dd><tt><a href="#-modf">modf</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;fractional&nbsp;and&nbsp;integer&nbsp;parts&nbsp;of&nbsp;x.&nbsp;&nbsp;Both&nbsp;results&nbsp;carry&nbsp;the&nbsp;sign<br>
+of&nbsp;x.&nbsp;&nbsp;The&nbsp;integer&nbsp;part&nbsp;is&nbsp;returned&nbsp;as&nbsp;a&nbsp;real.</tt></dd></dl>
+ <dl><dt><a name="-normalize"><strong>normalize</strong></a>(coords)</dt><dd><tt>Normalize&nbsp;a&nbsp;set&nbsp;of&nbsp;coordinates<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;normalized&nbsp;coordinates&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-placeOxygen"><strong>placeOxygen</strong></a>(CA, C, N)</dt><dd><tt>Place&nbsp;an&nbsp;oxygen&nbsp;according&nbsp;to&nbsp;the&nbsp;planar&nbsp;atoms&nbsp;CA,&nbsp;C,&nbsp;and&nbsp;N&nbsp;using<br>
+a&nbsp;trans-peptide&nbsp;geometry.&nbsp;&nbsp;Allows&nbsp;for&nbsp;a&nbsp;more&nbsp;accurate&nbsp;method&nbsp;of<br>
+adding&nbsp;oxygen&nbsp;atoms.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;CA:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;CA&nbsp;atom&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;C:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;C&nbsp;atom&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;N:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;peptide&nbsp;bonded&nbsp;N&nbsp;atom&nbsp;from&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next&nbsp;residue&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;location:&nbsp;&nbsp;The&nbsp;location&nbsp;of&nbsp;the&nbsp;residue&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-pow"><strong>pow</strong></a>(...)</dt><dd><tt><a href="#-pow">pow</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;x**y&nbsp;(x&nbsp;to&nbsp;the&nbsp;power&nbsp;of&nbsp;y).</tt></dd></dl>
+ <dl><dt><a name="-shortestPath"><strong>shortestPath</strong></a>(graph, start, end, path<font color="#909090">=[]</font>)</dt><dd><tt>Uses&nbsp;recursion&nbsp;to&nbsp;find&nbsp;the&nbsp;shortest&nbsp;path&nbsp;from&nbsp;one&nbsp;node&nbsp;to<br>
+another&nbsp;in&nbsp;an&nbsp;unweighted&nbsp;graph.&nbsp;&nbsp;Adapted&nbsp;from<br>
+<a href="http://www.python.org/doc/essays/graphs.html">http://www.python.org/doc/essays/graphs.html</a>&nbsp;.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;graph:&nbsp;A&nbsp;mapping&nbsp;of&nbsp;the&nbsp;graph&nbsp;to&nbsp;analyze,&nbsp;of&nbsp;the&nbsp;form<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0:&nbsp;[1,2],&nbsp;1:[3,4],&nbsp;...}&nbsp;.&nbsp;Each&nbsp;key&nbsp;has&nbsp;a&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;edges.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;start:&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;key&nbsp;to&nbsp;start&nbsp;the&nbsp;analysis&nbsp;from<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end:&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;key&nbsp;to&nbsp;end&nbsp;the&nbsp;analysis<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;&nbsp;Optional&nbsp;argument&nbsp;used&nbsp;during&nbsp;the&nbsp;recursive&nbsp;step<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;keep&nbsp;the&nbsp;current&nbsp;path&nbsp;up&nbsp;to&nbsp;that&nbsp;point<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(variable):&nbsp;Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;shortest&nbsp;path&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;None&nbsp;if&nbsp;start&nbsp;and&nbsp;end&nbsp;are&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connected</tt></dd></dl>
+ <dl><dt><a name="-sin"><strong>sin</strong></a>(...)</dt><dd><tt><a href="#-sin">sin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;sine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-sinh"><strong>sinh</strong></a>(...)</dt><dd><tt><a href="#-sinh">sinh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;sine&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-sqrt"><strong>sqrt</strong></a>(...)</dt><dd><tt><a href="#-sqrt">sqrt</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;square&nbsp;root&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-subtract"><strong>subtract</strong></a>(coords1, coords2)</dt><dd><tt>Subtract&nbsp;one&nbsp;3-dimensional&nbsp;point&nbsp;from&nbsp;another<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;&nbsp;List&nbsp;of&nbsp;coordinates&nbsp;equal&nbsp;to&nbsp;coords1&nbsp;-&nbsp;coords2&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-tan"><strong>tan</strong></a>(...)</dt><dd><tt><a href="#-tan">tan</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;tangent&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-tanh"><strong>tanh</strong></a>(...)</dt><dd><tt><a href="#-tanh">tanh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;tangent&nbsp;of&nbsp;x.</tt></dd></dl>
+</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Todd Dolinsky'<br>
+<strong>__date__</strong> = '23 September 2003'<br>
+<strong>__file__</strong> = './utilities.pyc'<br>
+<strong>__name__</strong> = 'utilities'<br>
+<strong>e</strong> = 2.7182818284590451<br>
+<strong>pi</strong> = 3.1415926535897931</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

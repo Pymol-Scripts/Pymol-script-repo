@@ -1,0 +1,217 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module getopt</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>getopt</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/sw/lib/python2.5/getopt.py">/sw/lib/python2.5/getopt.py</a><br><a href="http://www.python.org/doc/current/lib/module-getopt.html">Module Docs</a></font></td></tr></table>
+    <p><tt>Parser&nbsp;for&nbsp;command&nbsp;line&nbsp;options.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;helps&nbsp;scripts&nbsp;to&nbsp;parse&nbsp;the&nbsp;command&nbsp;line&nbsp;arguments&nbsp;in<br>
+sys.argv.&nbsp;&nbsp;It&nbsp;supports&nbsp;the&nbsp;same&nbsp;conventions&nbsp;as&nbsp;the&nbsp;Unix&nbsp;<a href="#-getopt">getopt</a>()<br>
+function&nbsp;(including&nbsp;the&nbsp;special&nbsp;meanings&nbsp;of&nbsp;arguments&nbsp;of&nbsp;the&nbsp;form&nbsp;`-'<br>
+and&nbsp;`--').&nbsp;&nbsp;Long&nbsp;options&nbsp;similar&nbsp;to&nbsp;those&nbsp;supported&nbsp;by&nbsp;GNU&nbsp;software<br>
+may&nbsp;be&nbsp;used&nbsp;as&nbsp;well&nbsp;via&nbsp;an&nbsp;optional&nbsp;third&nbsp;argument.&nbsp;&nbsp;This&nbsp;module<br>
+provides&nbsp;two&nbsp;functions&nbsp;and&nbsp;an&nbsp;exception:<br>
+&nbsp;<br>
+<a href="#-getopt">getopt</a>()&nbsp;--&nbsp;Parse&nbsp;command&nbsp;line&nbsp;options<br>
+<a href="#-gnu_getopt">gnu_getopt</a>()&nbsp;--&nbsp;Like&nbsp;<a href="#-getopt">getopt</a>(),&nbsp;but&nbsp;allow&nbsp;option&nbsp;and&nbsp;non-option&nbsp;arguments<br>
+to&nbsp;be&nbsp;intermixed.<br>
+<a href="#GetoptError">GetoptError</a>&nbsp;--&nbsp;exception&nbsp;(class)&nbsp;raised&nbsp;with&nbsp;'opt'&nbsp;attribute,&nbsp;which&nbsp;is&nbsp;the<br>
+option&nbsp;involved&nbsp;with&nbsp;the&nbsp;exception.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="exceptions.html#Exception">exceptions.Exception</a>(<a href="exceptions.html#BaseException">exceptions.BaseException</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="getopt.html#GetoptError">GetoptError</a>
+</font></dt><dt><font face="helvetica, arial"><a href="getopt.html#GetoptError">GetoptError</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="GetoptError">class <strong>GetoptError</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="getopt.html#GetoptError">GetoptError</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="GetoptError-__init__"><strong>__init__</strong></a>(self, msg, opt<font color="#909090">=''</font>)</dt></dl>
+
+<dl><dt><a name="GetoptError-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>msg</strong> = ''</dl>
+
+<dl><dt><strong>opt</strong> = ''</dl>
+
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object at 0xefb60&gt;<dd><tt>T.<a href="#GetoptError-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;object&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="GetoptError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#GetoptError-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#GetoptError-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#GetoptError-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="GetoptError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#GetoptError-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#GetoptError-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+<dd><tt>exception&nbsp;message</tt></dd>
+</dl>
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><strong>error</strong> = <a name="error">class GetoptError</a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="getopt.html#GetoptError">GetoptError</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="GetoptError-__init__"><strong>__init__</strong></a>(self, msg, opt<font color="#909090">=''</font>)</dt></dl>
+
+<dl><dt><a name="GetoptError-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>msg</strong> = ''</dl>
+
+<dl><dt><strong>opt</strong> = ''</dl>
+
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object at 0xefb60&gt;<dd><tt>T.<a href="#error-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;object&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="GetoptError-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#error-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#error-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#error-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="GetoptError-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#error-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#error-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="GetoptError-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+<dd><tt>exception&nbsp;message</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-getopt"><strong>getopt</strong></a>(args, shortopts, longopts<font color="#909090">=[]</font>)</dt><dd><tt><a href="#-getopt">getopt</a>(args,&nbsp;options[,&nbsp;long_options])&nbsp;-&gt;&nbsp;opts,&nbsp;args<br>
+&nbsp;<br>
+Parses&nbsp;command&nbsp;line&nbsp;options&nbsp;and&nbsp;parameter&nbsp;list.&nbsp;&nbsp;args&nbsp;is&nbsp;the<br>
+argument&nbsp;list&nbsp;to&nbsp;be&nbsp;parsed,&nbsp;without&nbsp;the&nbsp;leading&nbsp;reference&nbsp;to&nbsp;the<br>
+running&nbsp;program.&nbsp;&nbsp;Typically,&nbsp;this&nbsp;means&nbsp;"sys.argv[1:]".&nbsp;&nbsp;shortopts<br>
+is&nbsp;the&nbsp;string&nbsp;of&nbsp;option&nbsp;letters&nbsp;that&nbsp;the&nbsp;script&nbsp;wants&nbsp;to<br>
+recognize,&nbsp;with&nbsp;options&nbsp;that&nbsp;require&nbsp;an&nbsp;argument&nbsp;followed&nbsp;by&nbsp;a<br>
+colon&nbsp;(i.e.,&nbsp;the&nbsp;same&nbsp;format&nbsp;that&nbsp;Unix&nbsp;<a href="#-getopt">getopt</a>()&nbsp;uses).&nbsp;&nbsp;If<br>
+specified,&nbsp;longopts&nbsp;is&nbsp;a&nbsp;list&nbsp;of&nbsp;strings&nbsp;with&nbsp;the&nbsp;names&nbsp;of&nbsp;the<br>
+long&nbsp;options&nbsp;which&nbsp;should&nbsp;be&nbsp;supported.&nbsp;&nbsp;The&nbsp;leading&nbsp;'--'<br>
+characters&nbsp;should&nbsp;not&nbsp;be&nbsp;included&nbsp;in&nbsp;the&nbsp;option&nbsp;name.&nbsp;&nbsp;Options<br>
+which&nbsp;require&nbsp;an&nbsp;argument&nbsp;should&nbsp;be&nbsp;followed&nbsp;by&nbsp;an&nbsp;equal&nbsp;sign<br>
+('=').<br>
+&nbsp;<br>
+The&nbsp;return&nbsp;value&nbsp;consists&nbsp;of&nbsp;two&nbsp;elements:&nbsp;the&nbsp;first&nbsp;is&nbsp;a&nbsp;list&nbsp;of<br>
+(option,&nbsp;value)&nbsp;pairs;&nbsp;the&nbsp;second&nbsp;is&nbsp;the&nbsp;list&nbsp;of&nbsp;program&nbsp;arguments<br>
+left&nbsp;after&nbsp;the&nbsp;option&nbsp;list&nbsp;was&nbsp;stripped&nbsp;(this&nbsp;is&nbsp;a&nbsp;trailing&nbsp;slice<br>
+of&nbsp;the&nbsp;first&nbsp;argument).&nbsp;&nbsp;Each&nbsp;option-and-value&nbsp;pair&nbsp;returned&nbsp;has<br>
+the&nbsp;option&nbsp;as&nbsp;its&nbsp;first&nbsp;element,&nbsp;prefixed&nbsp;with&nbsp;a&nbsp;hyphen&nbsp;(e.g.,<br>
+'-x'),&nbsp;and&nbsp;the&nbsp;option&nbsp;argument&nbsp;as&nbsp;its&nbsp;second&nbsp;element,&nbsp;or&nbsp;an&nbsp;empty<br>
+string&nbsp;if&nbsp;the&nbsp;option&nbsp;has&nbsp;no&nbsp;argument.&nbsp;&nbsp;The&nbsp;options&nbsp;occur&nbsp;in&nbsp;the<br>
+list&nbsp;in&nbsp;the&nbsp;same&nbsp;order&nbsp;in&nbsp;which&nbsp;they&nbsp;were&nbsp;found,&nbsp;thus&nbsp;allowing<br>
+multiple&nbsp;occurrences.&nbsp;&nbsp;Long&nbsp;and&nbsp;short&nbsp;options&nbsp;may&nbsp;be&nbsp;mixed.</tt></dd></dl>
+ <dl><dt><a name="-gnu_getopt"><strong>gnu_getopt</strong></a>(args, shortopts, longopts<font color="#909090">=[]</font>)</dt><dd><tt><a href="#-getopt">getopt</a>(args,&nbsp;options[,&nbsp;long_options])&nbsp;-&gt;&nbsp;opts,&nbsp;args<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;works&nbsp;like&nbsp;<a href="#-getopt">getopt</a>(),&nbsp;except&nbsp;that&nbsp;GNU&nbsp;style&nbsp;scanning<br>
+mode&nbsp;is&nbsp;used&nbsp;by&nbsp;default.&nbsp;This&nbsp;means&nbsp;that&nbsp;option&nbsp;and&nbsp;non-option<br>
+arguments&nbsp;may&nbsp;be&nbsp;intermixed.&nbsp;The&nbsp;<a href="#-getopt">getopt</a>()&nbsp;function&nbsp;stops<br>
+processing&nbsp;options&nbsp;as&nbsp;soon&nbsp;as&nbsp;a&nbsp;non-option&nbsp;argument&nbsp;is<br>
+encountered.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;first&nbsp;character&nbsp;of&nbsp;the&nbsp;option&nbsp;string&nbsp;is&nbsp;`+',&nbsp;or&nbsp;if&nbsp;the<br>
+environment&nbsp;variable&nbsp;POSIXLY_CORRECT&nbsp;is&nbsp;set,&nbsp;then&nbsp;option<br>
+processing&nbsp;stops&nbsp;as&nbsp;soon&nbsp;as&nbsp;a&nbsp;non-option&nbsp;argument&nbsp;is&nbsp;encountered.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__all__</strong> = ['GetoptError', 'error', 'getopt', 'gnu_getopt']</td></tr></table>
+</body></html>

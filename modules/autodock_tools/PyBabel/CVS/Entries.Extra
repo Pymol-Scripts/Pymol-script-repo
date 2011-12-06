@@ -1,0 +1,17 @@
+/.packager.py///
+/LICENSE///
+/RELNOTES///
+/__init__.py///
+/addh.py///
+/aromatic.py///
+/atomTypes.py///
+/babelAtomTypes.py///
+/babelElements.py///
+/bo.py///
+/cycle.py///
+/gasteiger.py///
+/source.list///
+/tools.py///
+/util.py///
+D/Tests///
+D/regression///

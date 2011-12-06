@@ -1,0 +1,66 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: package xml.sax</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="xml.html"><font color="#ffffff">xml</font></a>.sax</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/sw/lib/python2.5/xml/sax/__init__.py">/sw/lib/python2.5/xml/sax/__init__.py</a><br><a href="http://www.python.org/doc/current/lib/module-xml.sax.html">Module Docs</a></font></td></tr></table>
+    <p><tt>Simple&nbsp;API&nbsp;for&nbsp;XML&nbsp;(SAX)&nbsp;implementation&nbsp;for&nbsp;Python.<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;provides&nbsp;an&nbsp;implementation&nbsp;of&nbsp;the&nbsp;SAX&nbsp;2&nbsp;interface;<br>
+information&nbsp;about&nbsp;the&nbsp;Java&nbsp;version&nbsp;of&nbsp;the&nbsp;interface&nbsp;can&nbsp;be&nbsp;found&nbsp;at<br>
+<a href="http://www.megginson.com/SAX/">http://www.megginson.com/SAX/</a>.&nbsp;&nbsp;The&nbsp;Python&nbsp;version&nbsp;of&nbsp;the&nbsp;interface&nbsp;is<br>
+documented&nbsp;at&nbsp;&lt;...&gt;.<br>
+&nbsp;<br>
+This&nbsp;package&nbsp;contains&nbsp;the&nbsp;following&nbsp;modules:<br>
+&nbsp;<br>
+handler&nbsp;--&nbsp;Base&nbsp;classes&nbsp;and&nbsp;constants&nbsp;which&nbsp;define&nbsp;the&nbsp;SAX&nbsp;2&nbsp;API&nbsp;for<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;'client-side'&nbsp;of&nbsp;SAX&nbsp;for&nbsp;Python.<br>
+&nbsp;<br>
+saxutils&nbsp;--&nbsp;Implementation&nbsp;of&nbsp;the&nbsp;convenience&nbsp;classes&nbsp;commonly&nbsp;used&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;work&nbsp;with&nbsp;SAX.<br>
+&nbsp;<br>
+xmlreader&nbsp;--&nbsp;Base&nbsp;classes&nbsp;and&nbsp;constants&nbsp;which&nbsp;define&nbsp;the&nbsp;SAX&nbsp;2&nbsp;API&nbsp;for<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;parsers&nbsp;used&nbsp;with&nbsp;SAX&nbsp;for&nbsp;Python.<br>
+&nbsp;<br>
+expatreader&nbsp;--&nbsp;Driver&nbsp;that&nbsp;allows&nbsp;use&nbsp;of&nbsp;the&nbsp;Expat&nbsp;parser&nbsp;with&nbsp;SAX.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="xml.sax._exceptions.html">_exceptions</a><br>
+<a href="xml.sax.expatreader.html">expatreader</a><br>
+</td><td width="25%" valign=top><a href="xml.sax.handler.html">handler</a><br>
+<a href="xml.sax.saxutils.html">saxutils</a><br>
+</td><td width="25%" valign=top><a href="xml.sax.xmlreader.html">xmlreader</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-make_parser"><strong>make_parser</strong></a>(parser_list<font color="#909090">=[]</font>)</dt><dd><tt>Creates&nbsp;and&nbsp;returns&nbsp;a&nbsp;SAX&nbsp;parser.<br>
+&nbsp;<br>
+Creates&nbsp;the&nbsp;first&nbsp;parser&nbsp;it&nbsp;is&nbsp;able&nbsp;to&nbsp;instantiate&nbsp;of&nbsp;the&nbsp;ones<br>
+given&nbsp;in&nbsp;the&nbsp;list&nbsp;created&nbsp;by&nbsp;doing&nbsp;parser_list&nbsp;+<br>
+default_parser_list.&nbsp;&nbsp;The&nbsp;lists&nbsp;must&nbsp;contain&nbsp;the&nbsp;names&nbsp;of&nbsp;Python<br>
+modules&nbsp;containing&nbsp;both&nbsp;a&nbsp;SAX&nbsp;parser&nbsp;and&nbsp;a&nbsp;create_parser&nbsp;function.</tt></dd></dl>
+ <dl><dt><a name="-parse"><strong>parse</strong></a>(source, handler, errorHandler<font color="#909090">=&lt;xml.sax.handler.ErrorHandler instance at 0x5b07d8&gt;</font>)</dt></dl>
+ <dl><dt><a name="-parseString"><strong>parseString</strong></a>(string, handler, errorHandler<font color="#909090">=&lt;xml.sax.handler.ErrorHandler instance at 0x5b08a0&gt;</font>)</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>default_parser_list</strong> = ['xml.sax.expatreader']</td></tr></table>
+</body></html>

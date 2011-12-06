@@ -1,0 +1,137 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module protein</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>protein</strong></big></big> (14 November 2003)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/todd/release/pdb2pqr/protein.py">/home/todd/release/pdb2pqr/protein.py</a></font></td></tr></table>
+    <p><tt>Routines&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;contains&nbsp;the&nbsp;protein&nbsp;object&nbsp;used&nbsp;in&nbsp;PDB2PQR&nbsp;and&nbsp;associated<br>
+methods<br>
+&nbsp;<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis</tt></p>
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="protein.html#Protein">Protein</a>
+</font></dt></dl>
+ 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Protein">class <strong>Protein</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Protein">Protein</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;protein&nbsp;class&nbsp;represents&nbsp;the&nbsp;parsed&nbsp;PDB,&nbsp;and&nbsp;provides&nbsp;a<br>
+hierarchy&nbsp;of&nbsp;information&nbsp;-&nbsp;each&nbsp;<a href="#Protein">Protein</a>&nbsp;contains&nbsp;a&nbsp;list&nbsp;of&nbsp;Chain<br>
+objects&nbsp;as&nbsp;provided&nbsp;in&nbsp;the&nbsp;PDB&nbsp;file.&nbsp;&nbsp;Each&nbsp;Chain&nbsp;then&nbsp;contains&nbsp;its<br>
+associated&nbsp;list&nbsp;of&nbsp;Residue&nbsp;objects,&nbsp;and&nbsp;each&nbsp;Residue&nbsp;contains&nbsp;a&nbsp;list<br>
+of&nbsp;Atom&nbsp;objects,&nbsp;completing&nbsp;the&nbsp;hierarchy.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Protein-__init__"><strong>__init__</strong></a>(self, pdblist)</dt><dd><tt>Initialize&nbsp;using&nbsp;parsed&nbsp;PDB&nbsp;file<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pdblist:&nbsp;List&nbsp;of&nbsp;Classes&nbsp;of&nbsp;PDB&nbsp;lines&nbsp;as&nbsp;created<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;pdb.py-&gt;readPDB</tt></dd></dl>
+
+<dl><dt><a name="Protein-createProtein"><strong>createProtein</strong></a>(self, pdblist)</dt><dd><tt>Fill&nbsp;the&nbsp;<a href="#Protein">Protein</a>&nbsp;with&nbsp;chains,&nbsp;residues,&nbsp;and&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pdblist:&nbsp;List&nbsp;of&nbsp;Classes&nbsp;of&nbsp;PDB&nbsp;lines&nbsp;as&nbsp;created<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;pdb.py-&gt;readPDB&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;&nbsp;&nbsp;&nbsp;Mapping&nbsp;of&nbsp;chain&nbsp;ID&nbsp;to&nbsp;chain&nbsp;object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;chain&nbsp;objects&nbsp;sorted&nbsp;by&nbsp;chain&nbsp;ID&nbsp;(dict)</tt></dd></dl>
+
+<dl><dt><a name="Protein-getAtoms"><strong>getAtoms</strong></a>(self)</dt><dd><tt>Return&nbsp;all&nbsp;Atom&nbsp;objects&nbsp;in&nbsp;list&nbsp;format<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomlist:&nbsp;&nbsp;List&nbsp;of&nbsp;Atom&nbsp;objects&nbsp;in&nbsp;the&nbsp;protein&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Protein-getChains"><strong>getChains</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;chains&nbsp;object<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chains:&nbsp;The&nbsp;list&nbsp;of&nbsp;chains&nbsp;in&nbsp;the&nbsp;protein&nbsp;(chain)</tt></dd></dl>
+
+<dl><dt><a name="Protein-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;on&nbsp;the&nbsp;protein<br>
+NOTE:&nbsp;&nbsp;Since&nbsp;the&nbsp;misslist&nbsp;is&nbsp;used&nbsp;to&nbsp;identify&nbsp;incorrect<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charge&nbsp;assignments,&nbsp;this&nbsp;routine&nbsp;does&nbsp;not&nbsp;list&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;and&nbsp;5&nbsp;termini&nbsp;of&nbsp;nucleic&nbsp;acid&nbsp;chains&nbsp;as&nbsp;having<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-integer&nbsp;charge&nbsp;even&nbsp;though&nbsp;they&nbsp;are&nbsp;(correctly)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-integer.<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;misslist:&nbsp;List&nbsp;of&nbsp;residues&nbsp;with&nbsp;non-integer<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charges&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;&nbsp;The&nbsp;total&nbsp;charge&nbsp;on&nbsp;the&nbsp;protein&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Protein-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;entire&nbsp;<a href="#Protein-__module__">protein</a>(including<br>
+multiple&nbsp;chains)<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;atoms&nbsp;in&nbsp;the&nbsp;protein&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="Protein-numResidues"><strong>numResidues</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;residues&nbsp;for&nbsp;the&nbsp;entire&nbsp;protein&nbsp;(including<br>
+multiple&nbsp;chains)<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;residues&nbsp;in&nbsp;the&nbsp;protein&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="Protein-printAtoms"><strong>printAtoms</strong></a>(self, atomlist)</dt><dd><tt>Get&nbsp;the&nbsp;text&nbsp;for&nbsp;the&nbsp;entire&nbsp;protein<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomlist:&nbsp;The&nbsp;list&nbsp;of&nbsp;atoms&nbsp;to&nbsp;include&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;list&nbsp;of&nbsp;(stringed)&nbsp;atoms&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Protein-reSerialize"><strong>reSerialize</strong></a>(self)</dt><dd><tt>Generate&nbsp;new&nbsp;serial&nbsp;numbers&nbsp;for&nbsp;atoms&nbsp;in&nbsp;the&nbsp;protein</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = '<font color="#c040c0">\n</font>        Protein class<font color="#c040c0">\n\n</font>        The protein clas...  of Atom objects, completing the hierarchy.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'protein'</dl>
+
+</td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>__author__</strong> = 'Todd Dolinsky'<br>
+<strong>__date__</strong> = '14 November 2003'<br>
+<strong>__file__</strong> = './protein.pyc'<br>
+<strong>__name__</strong> = 'protein'</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

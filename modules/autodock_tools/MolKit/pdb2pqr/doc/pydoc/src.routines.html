@@ -1,0 +1,353 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.routines</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.routines</strong></big></big> (28 February 2006)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/routines.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/routines.py</a></font></td></tr></table>
+    <p><tt><a href="#Routines">Routines</a>&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;contains&nbsp;the&nbsp;protein&nbsp;object&nbsp;used&nbsp;in&nbsp;PDB2PQR&nbsp;and&nbsp;methods<br>
+used&nbsp;to&nbsp;correct,&nbsp;analyze,&nbsp;and&nbsp;optimize&nbsp;that&nbsp;protein.<br>
+&nbsp;<br>
+----------------------------<br>
+&nbsp;<br>
+PDB2PQR&nbsp;--&nbsp;An&nbsp;automated&nbsp;pipeline&nbsp;for&nbsp;the&nbsp;setup,&nbsp;execution,&nbsp;and&nbsp;analysis&nbsp;of<br>
+Poisson-Boltzmann&nbsp;electrostatics&nbsp;calculations<br>
+&nbsp;<br>
+Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Dept.&nbsp;of&nbsp;Biochemistry&nbsp;and&nbsp;Molecular&nbsp;Biophysics<br>
+Center&nbsp;for&nbsp;Computational&nbsp;Biology<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Jens&nbsp;Nielsen&nbsp;(Jens.Nielsen@ucd.ie)<br>
+University&nbsp;College&nbsp;Dublin<br>
+&nbsp;<br>
+Additional&nbsp;contributing&nbsp;authors&nbsp;listed&nbsp;in&nbsp;documentation&nbsp;and&nbsp;supporting<br>
+package&nbsp;licenses.<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2003-2007.&nbsp;&nbsp;Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis.&nbsp;&nbsp;<br>
+All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+along&nbsp;with&nbsp;PDB2PQR;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software<br>
+Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307&nbsp;&nbsp;USA<br>
+&nbsp;<br>
+----------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="copy.html">copy</a><br>
+<a href="getopt.html">getopt</a><br>
+</td><td width="25%" valign=top><a href="math.html">math</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="re.html">re</a><br>
+<a href="xml.sax.html">xml.sax</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+<a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="src.routines.html#Cells">Cells</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.routines.html#Routines">Routines</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Cells">class <strong>Cells</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;cells&nbsp;object&nbsp;provides&nbsp;a&nbsp;better&nbsp;way&nbsp;to&nbsp;search&nbsp;for&nbsp;nearby&nbsp;atoms.&nbsp;A<br>
+pure&nbsp;all&nbsp;versus&nbsp;all&nbsp;search&nbsp;is&nbsp;O(n^2)&nbsp;-&nbsp;for&nbsp;every&nbsp;atom,&nbsp;every&nbsp;other&nbsp;atom<br>
+must&nbsp;be&nbsp;searched.&nbsp;&nbsp;This&nbsp;is&nbsp;rather&nbsp;inefficient,&nbsp;especially&nbsp;for&nbsp;large<br>
+proteins&nbsp;where&nbsp;cells&nbsp;may&nbsp;be&nbsp;tens&nbsp;of&nbsp;angstroms&nbsp;apart.&nbsp;&nbsp;The&nbsp;cell&nbsp;class<br>
+breaks&nbsp;down&nbsp;the&nbsp;xyz&nbsp;protein&nbsp;space&nbsp;into&nbsp;several&nbsp;3-D&nbsp;cells&nbsp;of&nbsp;desired<br>
+size&nbsp;-&nbsp;then&nbsp;by&nbsp;simply&nbsp;examining&nbsp;atoms&nbsp;that&nbsp;fall&nbsp;into&nbsp;the&nbsp;adjacent<br>
+cells&nbsp;one&nbsp;can&nbsp;quickly&nbsp;find&nbsp;nearby&nbsp;cells.<br>
+&nbsp;<br>
+NOTE:&nbsp;&nbsp;Ideally&nbsp;this&nbsp;should&nbsp;be&nbsp;somehow&nbsp;separated&nbsp;from&nbsp;the&nbsp;routines<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;object...<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Cells-__init__"><strong>__init__</strong></a>(self, cellsize)</dt><dd><tt>Initialize&nbsp;the&nbsp;cells.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;cellsize:&nbsp;&nbsp;The&nbsp;size&nbsp;of&nbsp;each&nbsp;cell&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="Cells-addCell"><strong>addCell</strong></a>(self, atom)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;the&nbsp;cell<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;The&nbsp;atom&nbsp;to&nbsp;add&nbsp;(atom)</tt></dd></dl>
+
+<dl><dt><a name="Cells-assignCells"><strong>assignCells</strong></a>(self, protein)</dt><dd><tt>Place&nbsp;each&nbsp;atom&nbsp;in&nbsp;a&nbsp;virtual&nbsp;cell&nbsp;for&nbsp;easy&nbsp;neighbor&nbsp;comparison</tt></dd></dl>
+
+<dl><dt><a name="Cells-getNearCells"><strong>getNearCells</strong></a>(self, atom)</dt><dd><tt>Find&nbsp;all&nbsp;atoms&nbsp;in&nbsp;bordering&nbsp;cells&nbsp;to&nbsp;an&nbsp;atom<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;The&nbsp;atom&nbsp;to&nbsp;use&nbsp;(atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;closeatoms:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;nearby&nbsp;atoms&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Cells-removeCell"><strong>removeCell</strong></a>(self, atom)</dt><dd><tt>Remove&nbsp;the&nbsp;atom&nbsp;from&nbsp;a&nbsp;cell<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;to&nbsp;add&nbsp;(atom)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Routines">class <strong>Routines</strong></a></font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Routines-__init__"><strong>__init__</strong></a>(self, protein, verbose)</dt><dd><tt>Initialize&nbsp;the&nbsp;<a href="#Routines">Routines</a>&nbsp;class.&nbsp;&nbsp;The&nbsp;class&nbsp;contains&nbsp;most<br>
+of&nbsp;the&nbsp;main&nbsp;routines&nbsp;that&nbsp;run&nbsp;PDB2PQR<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;protein:&nbsp;&nbsp;The&nbsp;protein&nbsp;to&nbsp;run&nbsp;PDB2PQR&nbsp;on&nbsp;(Protein)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;verbose:&nbsp;&nbsp;A&nbsp;flag&nbsp;to&nbsp;determine&nbsp;whether&nbsp;to&nbsp;write&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stdout</tt></dd></dl>
+
+<dl><dt><a name="Routines-addHydrogens"><strong>addHydrogens</strong></a>(self)</dt><dd><tt>Add&nbsp;the&nbsp;hydrogens&nbsp;to&nbsp;the&nbsp;protein.&nbsp;&nbsp;This&nbsp;requires&nbsp;either<br>
+the&nbsp;rebuildTetrahedral&nbsp;function&nbsp;for&nbsp;tetrahedral&nbsp;geometries<br>
+or&nbsp;the&nbsp;standard&nbsp;quatfit&nbsp;methods.&nbsp;&nbsp;These&nbsp;methods&nbsp;use&nbsp;three<br>
+nearby&nbsp;bonds&nbsp;to&nbsp;rebuild&nbsp;the&nbsp;atom;&nbsp;the&nbsp;closer&nbsp;the&nbsp;bonds,&nbsp;the<br>
+more&nbsp;accurate&nbsp;the&nbsp;results.&nbsp;&nbsp;As&nbsp;such&nbsp;the&nbsp;peptide&nbsp;bonds&nbsp;are<br>
+used&nbsp;when&nbsp;available.</tt></dd></dl>
+
+<dl><dt><a name="Routines-applyForcefield"><strong>applyForcefield</strong></a>(self, forcefield)</dt><dd><tt>Apply&nbsp;the&nbsp;forcefield&nbsp;to&nbsp;the&nbsp;atoms&nbsp;within&nbsp;the&nbsp;protein<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;forcefield:&nbsp;The&nbsp;forcefield&nbsp;object&nbsp;(forcefield)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hitlist:&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atoms&nbsp;that&nbsp;were&nbsp;found&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;forcefield&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;misslist:&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atoms&nbsp;that&nbsp;were&nbsp;not&nbsp;found&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;forcefield&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="Routines-applyNameScheme"><strong>applyNameScheme</strong></a>(self, forcefield)</dt><dd><tt>Apply&nbsp;the&nbsp;naming&nbsp;scheme&nbsp;of&nbsp;the&nbsp;give&nbsp;forcefield&nbsp;to&nbsp;the&nbsp;atoms<br>
+within&nbsp;the&nbsp;protein<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;forcefield:&nbsp;The&nbsp;forcefield&nbsp;object&nbsp;(forcefield)</tt></dd></dl>
+
+<dl><dt><a name="Routines-applyPatch"><strong>applyPatch</strong></a>(self, patchname, residue)</dt><dd><tt>Apply&nbsp;a&nbsp;patch&nbsp;to&nbsp;the&nbsp;given&nbsp;residue.&nbsp;&nbsp;This&nbsp;is&nbsp;one&nbsp;of&nbsp;the&nbsp;key<br>
+functions&nbsp;in&nbsp;PDB2PQR.&nbsp;&nbsp;A&nbsp;similar&nbsp;function&nbsp;appears&nbsp;in<br>
+definitions.py&nbsp;-&nbsp;that&nbsp;version&nbsp;is&nbsp;needed&nbsp;for&nbsp;residue&nbsp;level<br>
+subtitutions&nbsp;so&nbsp;certain&nbsp;protonation&nbsp;states&nbsp;(i.e.&nbsp;CYM,&nbsp;HSE)<br>
+are&nbsp;detectatble&nbsp;on&nbsp;input.<br>
+&nbsp;<br>
+This&nbsp;version&nbsp;looks&nbsp;up&nbsp;the&nbsp;particular&nbsp;patch&nbsp;name&nbsp;in&nbsp;the<br>
+patchmap&nbsp;stored&nbsp;in&nbsp;the&nbsp;protein,&nbsp;and&nbsp;then&nbsp;applies&nbsp;the<br>
+various&nbsp;commands&nbsp;to&nbsp;the&nbsp;reference&nbsp;and&nbsp;actual&nbsp;residue<br>
+structures.<br>
+&nbsp;<br>
+See&nbsp;the&nbsp;inline&nbsp;comments&nbsp;for&nbsp;a&nbsp;more&nbsp;detailed&nbsp;explanation.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;patchname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;patch&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;to&nbsp;apply&nbsp;the&nbsp;patch&nbsp;to&nbsp;(residue)</tt></dd></dl>
+
+<dl><dt><a name="Routines-assignTermini"><strong>assignTermini</strong></a>(self, chain)</dt><dd><tt>Assign&nbsp;the&nbsp;termini&nbsp;for&nbsp;the&nbsp;given&nbsp;chain&nbsp;by&nbsp;looking&nbsp;at<br>
+the&nbsp;start&nbsp;and&nbsp;end&nbsp;residues.</tt></dd></dl>
+
+<dl><dt><a name="Routines-calculateDihedralAngles"><strong>calculateDihedralAngles</strong></a>(self)</dt><dd><tt>Calculate&nbsp;the&nbsp;dihedral&nbsp;angle&nbsp;for&nbsp;every&nbsp;residue&nbsp;within&nbsp;the&nbsp;protein</tt></dd></dl>
+
+<dl><dt><a name="Routines-debumpProtein"><strong>debumpProtein</strong></a>(self)</dt><dd><tt>Make&nbsp;sure&nbsp;that&nbsp;none&nbsp;of&nbsp;the&nbsp;added&nbsp;atoms&nbsp;were&nbsp;rebuilt<br>
+on&nbsp;top&nbsp;of&nbsp;existing&nbsp;atoms.&nbsp;&nbsp;See&nbsp;each&nbsp;called&nbsp;function<br>
+for&nbsp;more&nbsp;information.</tt></dd></dl>
+
+<dl><dt><a name="Routines-debumpResidue"><strong>debumpResidue</strong></a>(self, residue, conflictnames)</dt><dd><tt>Debump&nbsp;a&nbsp;specific&nbsp;residue.&nbsp;&nbsp;Only&nbsp;should&nbsp;be&nbsp;called<br>
+if&nbsp;the&nbsp;residue&nbsp;has&nbsp;been&nbsp;detected&nbsp;to&nbsp;have&nbsp;a&nbsp;conflict.<br>
+If&nbsp;called,&nbsp;try&nbsp;to&nbsp;rotate&nbsp;about&nbsp;dihedral&nbsp;angles&nbsp;to<br>
+resolve&nbsp;the&nbsp;conflict.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;in&nbsp;question<br>
+&nbsp;&nbsp;&nbsp;&nbsp;conflictnames:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atomnames&nbsp;that&nbsp;were<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rebuilt&nbsp;too&nbsp;close&nbsp;to&nbsp;other&nbsp;atoms<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;successful,&nbsp;0&nbsp;otherwise</tt></dd></dl>
+
+<dl><dt><a name="Routines-findMissingHeavy"><strong>findMissingHeavy</strong></a>(self)</dt><dd><tt>Repair&nbsp;residues&nbsp;that&nbsp;contain&nbsp;missing&nbsp;heavy&nbsp;(non-Hydrogen)&nbsp;atoms</tt></dd></dl>
+
+<dl><dt><a name="Routines-findNearbyAtoms"><strong>findNearbyAtoms</strong></a>(self, atom)</dt><dd><tt>Find&nbsp;nearby&nbsp;atoms&nbsp;for&nbsp;conflict-checking.&nbsp;&nbsp;Uses<br>
+neighboring&nbsp;cells&nbsp;to&nbsp;compare&nbsp;atoms&nbsp;rather&nbsp;than&nbsp;an&nbsp;all<br>
+versus&nbsp;all&nbsp;O(n^2)&nbsp;algorithm,&nbsp;which&nbsp;saves&nbsp;a&nbsp;great&nbsp;deal<br>
+of&nbsp;time.&nbsp;&nbsp;There&nbsp;are&nbsp;several&nbsp;instances&nbsp;where&nbsp;we&nbsp;ignore<br>
+potential&nbsp;conflicts;&nbsp;these&nbsp;include&nbsp;donor/acceptor&nbsp;pairs,<br>
+atoms&nbsp;in&nbsp;the&nbsp;same&nbsp;residue,&nbsp;and&nbsp;bonded&nbsp;CYS&nbsp;bridges.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;Find&nbsp;nearby&nbsp;atoms&nbsp;to&nbsp;this&nbsp;atom&nbsp;(Atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nearatoms:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atoms&nbsp;close&nbsp;to&nbsp;the&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="Routines-getClosestAtom"><strong>getClosestAtom</strong></a>(self, atom)</dt><dd><tt>Get&nbsp;the&nbsp;closest&nbsp;atom&nbsp;that&nbsp;does&nbsp;not&nbsp;form&nbsp;a&nbsp;donor/acceptor&nbsp;pair.<br>
+Used&nbsp;to&nbsp;detect&nbsp;potential&nbsp;conflicts.<br>
+&nbsp;<br>
+NOTE:&nbsp;&nbsp;<a href="#Cells">Cells</a>&nbsp;must&nbsp;be&nbsp;set&nbsp;before&nbsp;using&nbsp;this&nbsp;function.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;The&nbsp;atom&nbsp;in&nbsp;question&nbsp;(Atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bestatom:&nbsp;&nbsp;The&nbsp;closest&nbsp;atom&nbsp;to&nbsp;the&nbsp;input&nbsp;atom&nbsp;that&nbsp;does&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;satisfy&nbsp;a&nbsp;donor/acceptor&nbsp;pair.</tt></dd></dl>
+
+<dl><dt><a name="Routines-getMoveableNames"><strong>getMoveableNames</strong></a>(self, residue, pivot)</dt><dd><tt>Return&nbsp;all&nbsp;atomnames&nbsp;that&nbsp;are&nbsp;further&nbsp;away&nbsp;than&nbsp;the<br>
+pivot&nbsp;atom.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;to&nbsp;use<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pivot:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;pivot&nbsp;atomname</tt></dd></dl>
+
+<dl><dt><a name="Routines-getWarnings"><strong>getWarnings</strong></a>(self)</dt><dd><tt>Get&nbsp;all&nbsp;warnings&nbsp;generated&nbsp;from&nbsp;routines</tt></dd></dl>
+
+<dl><dt><a name="Routines-pickDihedralAngle"><strong>pickDihedralAngle</strong></a>(self, residue, conflictnames, oldnum<font color="#909090">=None</font>)</dt><dd><tt>Choose&nbsp;an&nbsp;angle&nbsp;number&nbsp;to&nbsp;use&nbsp;in&nbsp;debumping<br>
+&nbsp;<br>
+Algorithm<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Instead&nbsp;of&nbsp;simply&nbsp;picking&nbsp;a&nbsp;random&nbsp;chiangle,&nbsp;this&nbsp;function<br>
+&nbsp;&nbsp;&nbsp;&nbsp;uses&nbsp;a&nbsp;more&nbsp;intelligent&nbsp;method&nbsp;to&nbsp;improve&nbsp;efficiency.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;algorithm&nbsp;uses&nbsp;the&nbsp;names&nbsp;of&nbsp;the&nbsp;conflicting&nbsp;atoms<br>
+&nbsp;&nbsp;&nbsp;&nbsp;within&nbsp;the&nbsp;residue&nbsp;to&nbsp;determine&nbsp;which&nbsp;angle&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;has&nbsp;the&nbsp;best&nbsp;chance&nbsp;of&nbsp;fixing&nbsp;the&nbsp;problem(s).&nbsp;The&nbsp;method<br>
+&nbsp;&nbsp;&nbsp;&nbsp;also&nbsp;insures&nbsp;that&nbsp;the&nbsp;same&nbsp;chiangle&nbsp;will&nbsp;not&nbsp;be&nbsp;run&nbsp;twice<br>
+&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;a&nbsp;row.<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;that&nbsp;is&nbsp;being&nbsp;debumped&nbsp;(Residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;conflictnames:&nbsp;A&nbsp;list&nbsp;of&nbsp;atom&nbsp;names&nbsp;that&nbsp;are&nbsp;currently<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conflicts&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldnum&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;old&nbsp;dihedral&nbsp;angle&nbsp;number&nbsp;(int)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bestnum&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;new&nbsp;dihedral&nbsp;angle&nbsp;number&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="Routines-rebuildTetrahedral"><strong>rebuildTetrahedral</strong></a>(self, residue, atomname)</dt><dd><tt>Rebuild&nbsp;a&nbsp;tetrahedral&nbsp;hydrogen&nbsp;group.&nbsp;&nbsp;This&nbsp;is&nbsp;necessary<br>
+due&nbsp;to&nbsp;the&nbsp;shortcomings&nbsp;of&nbsp;the&nbsp;quatfit&nbsp;routine&nbsp;-&nbsp;given&nbsp;a<br>
+tetrahedral&nbsp;geometry&nbsp;and&nbsp;two&nbsp;existing&nbsp;hydrogens,&nbsp;the<br>
+quatfit&nbsp;routines&nbsp;have&nbsp;two&nbsp;potential&nbsp;solutions.&nbsp;&nbsp;This&nbsp;function<br>
+uses&nbsp;basic&nbsp;tetrahedral&nbsp;geometry&nbsp;to&nbsp;fix&nbsp;this&nbsp;issue.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;in&nbsp;question&nbsp;(residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;atomname&nbsp;to&nbsp;add&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;successful,&nbsp;0&nbsp;otherwise</tt></dd></dl>
+
+<dl><dt><a name="Routines-repairHeavy"><strong>repairHeavy</strong></a>(self)</dt><dd><tt>Repair&nbsp;all&nbsp;heavy&nbsp;atoms.&nbsp;&nbsp;Unfortunately&nbsp;the&nbsp;first&nbsp;time&nbsp;we<br>
+get&nbsp;to&nbsp;an&nbsp;atom&nbsp;we&nbsp;might&nbsp;not&nbsp;be&nbsp;able&nbsp;to&nbsp;rebuild&nbsp;it&nbsp;-&nbsp;it<br>
+might&nbsp;depend&nbsp;on&nbsp;other&nbsp;atoms&nbsp;to&nbsp;be&nbsp;rebuild&nbsp;first&nbsp;(think&nbsp;side<br>
+chains).&nbsp;&nbsp;As&nbsp;such&nbsp;a&nbsp;'seenmap'&nbsp;is&nbsp;used&nbsp;to&nbsp;keep&nbsp;track&nbsp;of&nbsp;what<br>
+we've&nbsp;already&nbsp;seen&nbsp;and&nbsp;subsequent&nbsp;attempts&nbsp;to&nbsp;rebuild&nbsp;the<br>
+atom.</tt></dd></dl>
+
+<dl><dt><a name="Routines-runPROPKA"><strong>runPROPKA</strong></a>(self, ph, ff, outname)</dt><dd><tt>Run&nbsp;PROPKA&nbsp;on&nbsp;the&nbsp;current&nbsp;protein,&nbsp;setting&nbsp;protonation&nbsp;states&nbsp;to<br>
+the&nbsp;correct&nbsp;values<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;ph:&nbsp;&nbsp;The&nbsp;desired&nbsp;pH&nbsp;of&nbsp;the&nbsp;system<br>
+&nbsp;&nbsp;&nbsp;ff:&nbsp;&nbsp;The&nbsp;forcefield&nbsp;name&nbsp;to&nbsp;be&nbsp;used<br>
+&nbsp;&nbsp;&nbsp;outname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;PQR&nbsp;outfile</tt></dd></dl>
+
+<dl><dt><a name="Routines-setDihedralAngle"><strong>setDihedralAngle</strong></a>(self, residue, anglenum, angle)</dt><dd><tt>Rotate&nbsp;a&nbsp;residue&nbsp;about&nbsp;a&nbsp;given&nbsp;angle.&nbsp;Uses&nbsp;the&nbsp;quatfit<br>
+methods&nbsp;to&nbsp;perform&nbsp;the&nbsp;matrix&nbsp;mathematics.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;The&nbsp;residue&nbsp;to&nbsp;rotate<br>
+&nbsp;&nbsp;&nbsp;&nbsp;anglenum:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;the&nbsp;angle&nbsp;to&nbsp;rotate&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listed&nbsp;in&nbsp;residue.dihedrals<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;desired&nbsp;angle.</tt></dd></dl>
+
+<dl><dt><a name="Routines-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;protein</tt></dd></dl>
+
+<dl><dt><a name="Routines-setReferenceDistance"><strong>setReferenceDistance</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;distance&nbsp;to&nbsp;the&nbsp;CA&nbsp;atom&nbsp;in&nbsp;the&nbsp;residue.<br>
+This&nbsp;is&nbsp;necessary&nbsp;for&nbsp;determining&nbsp;which&nbsp;atoms&nbsp;are<br>
+allowed&nbsp;to&nbsp;move&nbsp;during&nbsp;rotations.&nbsp;&nbsp;Uses&nbsp;the<br>
+shortestPath&nbsp;algorithm&nbsp;found&nbsp;in&nbsp;utilities.py.</tt></dd></dl>
+
+<dl><dt><a name="Routines-setStates"><strong>setStates</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;state&nbsp;of&nbsp;each&nbsp;residue.&nbsp;&nbsp;This&nbsp;is&nbsp;the&nbsp;last&nbsp;step<br>
+before&nbsp;assigning&nbsp;the&nbsp;forcefield,&nbsp;but&nbsp;is&nbsp;necessary&nbsp;so<br>
+as&nbsp;to&nbsp;distinguish&nbsp;between&nbsp;various&nbsp;protonation&nbsp;states.<br>
+&nbsp;<br>
+See&nbsp;aa.py&nbsp;for&nbsp;residue-specific&nbsp;functions.</tt></dd></dl>
+
+<dl><dt><a name="Routines-setTermini"><strong>setTermini</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;termini&nbsp;for&nbsp;the&nbsp;protein.&nbsp;First&nbsp;set&nbsp;all&nbsp;known<br>
+termini&nbsp;by&nbsp;looking&nbsp;at&nbsp;the&nbsp;ends&nbsp;of&nbsp;the&nbsp;chain.&nbsp;Then<br>
+examine&nbsp;each&nbsp;residue,&nbsp;looking&nbsp;for&nbsp;internal&nbsp;chain&nbsp;breaks.</tt></dd></dl>
+
+<dl><dt><a name="Routines-updateBonds"><strong>updateBonds</strong></a>(self)</dt><dd><tt>Update&nbsp;the&nbsp;bonding&nbsp;network&nbsp;of&nbsp;the&nbsp;protein.&nbsp;&nbsp;This&nbsp;happens<br>
+in&nbsp;3&nbsp;steps:<br>
+&nbsp;&nbsp;1.&nbsp;&nbsp;Applying&nbsp;the&nbsp;PEPTIDE&nbsp;patch&nbsp;to&nbsp;all&nbsp;Amino&nbsp;residues<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;so&nbsp;as&nbsp;to&nbsp;add&nbsp;reference&nbsp;for&nbsp;the&nbsp;N(i+1)&nbsp;and&nbsp;C(i-1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;atoms<br>
+&nbsp;&nbsp;2.&nbsp;&nbsp;UpdateInternalBonds&nbsp;for&nbsp;inter-residue&nbsp;linking<br>
+&nbsp;&nbsp;3.&nbsp;&nbsp;Set&nbsp;the&nbsp;links&nbsp;to&nbsp;the&nbsp;N(i+1)&nbsp;and&nbsp;C(i-1)&nbsp;atoms</tt></dd></dl>
+
+<dl><dt><a name="Routines-updateInternalBonds"><strong>updateInternalBonds</strong></a>(self)</dt><dd><tt>Update&nbsp;the&nbsp;internal&nbsp;bonding&nbsp;network&nbsp;using&nbsp;the&nbsp;reference<br>
+objects&nbsp;in&nbsp;each&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="Routines-updateSSbridges"><strong>updateSSbridges</strong></a>(self)</dt><dd><tt>Check&nbsp;for&nbsp;SS-bridge&nbsp;partners,&nbsp;and&nbsp;if&nbsp;present,&nbsp;set&nbsp;appropriate<br>
+partners</tt></dd></dl>
+
+<dl><dt><a name="Routines-write"><strong>write</strong></a>(self, message, indent<font color="#909090">=0</font>)</dt><dd><tt>Write&nbsp;a&nbsp;message&nbsp;to&nbsp;stderr&nbsp;for&nbsp;debugging&nbsp;if&nbsp;verbose<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;message:&nbsp;The&nbsp;message&nbsp;to&nbsp;write&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;indent&nbsp;:&nbsp;The&nbsp;indent&nbsp;level&nbsp;(int,&nbsp;default=0)</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>AAPATH</strong> = 'dat/AA.xml'<br>
+<strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>BONDED_SS_LIMIT</strong> = 2.5<br>
+<strong>BUMP_DIST</strong> = 2.0<br>
+<strong>BUMP_HDIST</strong> = 1.5<br>
+<strong>CELL_SIZE</strong> = 2<br>
+<strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>NAPATH</strong> = 'dat/NA.xml'<br>
+<strong>PATCHPATH</strong> = 'dat/PATCHES.xml'<br>
+<strong>PEPTIDE_DIST</strong> = 1.7<br>
+<strong>REPAIR_LIMIT</strong> = 10<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Jens Erik Nielsen, Todd Dolinsky'<br>
+<strong>__date__</strong> = '28 February 2006'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Jens&nbsp;Erik&nbsp;Nielsen,&nbsp;Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

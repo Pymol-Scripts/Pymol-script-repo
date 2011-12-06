@@ -1,0 +1,8 @@
+*.o
+*.cxx
+*.so
+*~
+*.pyo
+*.pyc
+io.mc
+

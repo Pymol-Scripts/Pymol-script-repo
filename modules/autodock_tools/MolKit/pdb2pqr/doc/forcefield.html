@@ -1,0 +1,215 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module forcefield</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>forcefield</strong></big></big> (6 October 2003)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/todd/release/pdb2pqr/forcefield.py">/home/todd/release/pdb2pqr/forcefield.py</a></font></td></tr></table>
+    <p><tt><a href="#Forcefield">Forcefield</a>&nbsp;script<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;takes&nbsp;a&nbsp;pdblist&nbsp;as&nbsp;input&nbsp;and&nbsp;replaces&nbsp;the&nbsp;occupancy&nbsp;and<br>
+tempfactor&nbsp;fields&nbsp;with&nbsp;charge&nbsp;and&nbsp;radius&nbsp;fields,&nbsp;with&nbsp;values&nbsp;as&nbsp;defined<br>
+by&nbsp;a&nbsp;particular&nbsp;forcefield.&nbsp;&nbsp;The&nbsp;forcefield&nbsp;structure&nbsp;is&nbsp;modeled&nbsp;off&nbsp;of<br>
+the&nbsp;structures.py&nbsp;file,&nbsp;where&nbsp;each&nbsp;forcefield&nbsp;is&nbsp;considered&nbsp;a&nbsp;chain&nbsp;of<br>
+residues&nbsp;of&nbsp;atoms.<br>
+&nbsp;<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis</tt></p>
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="getopt.html">getopt</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="forcefield.html#Forcefield">Forcefield</a>
+</font></dt><dt><font face="helvetica, arial"><a href="forcefield.html#ForcefieldAtom">ForcefieldAtom</a>
+</font></dt><dt><font face="helvetica, arial"><a href="forcefield.html#ForcefieldResidue">ForcefieldResidue</a>
+</font></dt></dl>
+ 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Forcefield">class <strong>Forcefield</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Forcefield">Forcefield</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;forcefield&nbsp;class&nbsp;contains&nbsp;definitions&nbsp;for&nbsp;a&nbsp;given&nbsp;forcefield.<br>
+Each&nbsp;forcefield&nbsp;object&nbsp;contains&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;residues,&nbsp;with&nbsp;each<br>
+residue&nbsp;containing&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;atoms.&nbsp;&nbsp;Dictionaries&nbsp;are&nbsp;used<br>
+instead&nbsp;of&nbsp;lists&nbsp;as&nbsp;the&nbsp;ordering&nbsp;is&nbsp;not&nbsp;important.&nbsp;The&nbsp;forcefield<br>
+definition&nbsp;files&nbsp;are&nbsp;unedited,&nbsp;directly&nbsp;from&nbsp;the&nbsp;forcefield&nbsp;-&nbsp;all<br>
+transformations&nbsp;are&nbsp;done&nbsp;within.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Forcefield-__init__"><strong>__init__</strong></a>(self, ff)</dt><dd><tt>Initialize&nbsp;the&nbsp;class&nbsp;by&nbsp;parsing&nbsp;the&nbsp;definition&nbsp;file<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ff:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;forcefield&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getAmberParams"><strong>getAmberParams</strong></a>(self, residue, name)</dt><dd><tt>Get&nbsp;the&nbsp;forcefield&nbsp;definitions&nbsp;from&nbsp;the&nbsp;Amber&nbsp;database<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;(residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;amber&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;amber&nbsp;atom</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getCharmmParams"><strong>getCharmmParams</strong></a>(self, residue, name)</dt><dd><tt>Get&nbsp;the&nbsp;forcefield&nbsp;definitions&nbsp;from&nbsp;the&nbsp;Charmm&nbsp;database<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;(residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;Charmm&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;Charmm&nbsp;atom</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getParams"><strong>getParams</strong></a>(self, residue, name)</dt><dd><tt>Get&nbsp;the&nbsp;parameters&nbsp;associated&nbsp;with&nbsp;the&nbsp;input&nbsp;fields.<br>
+The&nbsp;residue&nbsp;itself&nbsp;is&nbsp;needed&nbsp;instead&nbsp;of&nbsp;simply&nbsp;its&nbsp;name<br>
+because&nbsp;&nbsp;the&nbsp;forcefield&nbsp;may&nbsp;use&nbsp;a&nbsp;different&nbsp;residue&nbsp;name<br>
+than&nbsp;the&nbsp;standard&nbsp;amino&nbsp;acid&nbsp;name.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;(residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;&nbsp;The&nbsp;charge&nbsp;on&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;atom&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getParseParams"><strong>getParseParams</strong></a>(self, residue, name)</dt><dd><tt>Get&nbsp;the&nbsp;forcefield&nbsp;definitions&nbsp;from&nbsp;the&nbsp;Parse&nbsp;database<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;The&nbsp;residue&nbsp;(residue)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;amber&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;amber&nbsp;atom</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getResidue"><strong>getResidue</strong></a>(self, resname)</dt><dd><tt>Return&nbsp;the&nbsp;residue&nbsp;object&nbsp;with&nbsp;the&nbsp;given&nbsp;resname<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;The&nbsp;residue&nbsp;object&nbsp;(<a href="#ForcefieldResidue">ForcefieldResidue</a>)</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = '<font color="#c040c0">\n</font>        Forcefield class<font color="#c040c0">\n\n</font>        The forcefiel...ll<font color="#c040c0">\n</font>        transformations are done within.<font color="#c040c0">\n\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'forcefield'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForcefieldAtom">class <strong>ForcefieldAtom</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ForcefieldAtom">ForcefieldAtom</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#ForcefieldAtom">ForcefieldAtom</a>&nbsp;object&nbsp;contains&nbsp;fields&nbsp;that&nbsp;are&nbsp;related&nbsp;to&nbsp;the<br>
+forcefield&nbsp;at&nbsp;the&nbsp;atom&nbsp;level<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ForcefieldAtom-__init__"><strong>__init__</strong></a>(self, name, charge, radius)</dt><dd><tt>Initialize&nbsp;the&nbsp;object<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;The&nbsp;charge&nbsp;on&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;atom&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldAtom-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="#ForcefieldAtom">ForcefieldAtom</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;The&nbsp;charge&nbsp;on&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;epsilon:&nbsp;The&nbsp;epsilon&nbsp;assocaited&nbsp;with&nbsp;the&nbsp;atom&nbsp;(float)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = '<font color="#c040c0">\n</font>        ForcefieldAtom class<font color="#c040c0">\n\n</font>        The Force... to the<font color="#c040c0">\n</font>        forcefield at the atom level<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'forcefield'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForcefieldResidue">class <strong>ForcefieldResidue</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ForcefieldResidue">ForcefieldResidue</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;ForceFieldResidue&nbsp;class&nbsp;contains&nbsp;a&nbsp;mapping&nbsp;of&nbsp;all&nbsp;atoms&nbsp;within<br>
+the&nbsp;residue&nbsp;for&nbsp;easy&nbsp;searching.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ForcefieldResidue-__init__"><strong>__init__</strong></a>(self, name)</dt><dd><tt>Initialize&nbsp;the&nbsp;ForceFieldResidue&nbsp;object<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldResidue-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;the&nbsp;<a href="#ForcefieldResidue">ForcefieldResidue</a><br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;The&nbsp;atom&nbsp;to&nbsp;be&nbsp;added&nbsp;(atom)</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldResidue-getAtom"><strong>getAtom</strong></a>(self, atomname)</dt><dd><tt>Return&nbsp;the&nbsp;atom&nbsp;object&nbsp;with&nbsp;the&nbsp;given&nbsp;atomname<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;The&nbsp;atom&nbsp;object&nbsp;(<a href="#ForcefieldAtom">ForcefieldAtom</a>)</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = '<font color="#c040c0">\n</font>        ForcefieldResidue class<font color="#c040c0">\n\n</font>        The Fo...thin<font color="#c040c0">\n</font>        the residue for easy searching.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'forcefield'</dl>
+
+</td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>AMBER_FILE</strong> = 'AMBER.DAT'<br>
+<strong>CHARMM_FILE</strong> = 'CHARMM.DAT'<br>
+<strong>PARSE_FILE</strong> = 'PARSE.DAT'<br>
+<strong>__author__</strong> = 'Todd Dolinsky'<br>
+<strong>__date__</strong> = '6 October 2003'<br>
+<strong>__file__</strong> = './forcefield.pyc'<br>
+<strong>__name__</strong> = 'forcefield'</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

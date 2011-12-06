@@ -1,0 +1,38 @@
+/AA.DAT/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/AMBER.DAT/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/AUTHORS/1.1/Fri Aug  3 20:59:24 2007/-kkv/Trc-1-5-6
+/CHARMM.DAT/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/COPYING/1.1/Fri Aug  3 20:59:24 2007/-kkv/Trc-1-5-6
+/ChangeLog/1.1/Fri Aug  3 20:59:24 2007/-kkv/Trc-1-5-6
+/HYDROGENS.DAT/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/INSTALL/1.1/Fri Aug  3 20:59:24 2007/-kkv/Trc-1-5-6
+/Makefile.am/1.1/Fri Aug  3 20:59:24 2007/-kb/Trc-1-5-6
+/Makefile.in/1.1/Fri Aug  3 20:59:24 2007/-kb/Trc-1-5-6
+/NA.DAT/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/NEWS/1.1/Fri Aug  3 20:59:24 2007/-kkv/Trc-1-5-6
+/PARSE.DAT/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/README/1.3/Fri Aug  3 20:59:24 2007/-kkv/Trc-1-5-6
+/__init__.py/1.4/Fri Aug  3 20:59:24 2007/-kkv/Trc-1-5-6
+/acinclude.m4/1.1/Fri Aug  3 20:59:24 2007/-kb/Trc-1-5-6
+/aclocal.m4/1.1/Fri Aug  3 20:59:24 2007/-kb/Trc-1-5-6
+/configure/1.1/Fri Aug  3 20:59:24 2007/-kb/Trc-1-5-6
+/configure.ac/1.1/Fri Aug  3 20:59:24 2007/-kb/Trc-1-5-6
+/definitions.py/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/forcefield.py/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/hydrogens.py/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/pdb.py/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/pdb2pqr.py/1.4/Thu Dec  6 21:21:19 2007/-kb/Trc-1-5-6
+/protein.py/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/quatfit.py/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/routines.py/1.2/Wed Aug 24 15:31:51 2005/-kkv/Trc-1-5-6
+/structures.py/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+/utilities.py/1.1/Wed Aug 17 17:49:30 2005/-kkv/Trc-1-5-6
+D/config////
+D/dat////
+D/doc////
+D/examples////
+D/extensions////
+D/html////
+D/pdb2pka////
+D/propka////
+D/src////
