@@ -1,0 +1,9 @@
+#!/usr/bin/env python2.5
+#
+
+import sys
+import AutoDockTools
+if '__file__' in locals():
+    AutoDockTools.runADT(sys.argv,__file__)
+else:
+    AutoDockTools.runADT(sys.argv,'')

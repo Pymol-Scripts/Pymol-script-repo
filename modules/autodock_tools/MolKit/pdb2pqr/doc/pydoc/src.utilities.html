@@ -1,0 +1,205 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.utilities</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.utilities</strong></big></big> (28 February 2006)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/utilities.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/utilities.py</a></font></td></tr></table>
+    <p><tt>Utilities&nbsp;for&nbsp;PDB2PQR&nbsp;Suite<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;provides&nbsp;various&nbsp;utilities&nbsp;for&nbsp;the&nbsp;PDB2PQR&nbsp;suite&nbsp;to&nbsp;be<br>
+imported&nbsp;into&nbsp;other&nbsp;Python&nbsp;scripts.<br>
+&nbsp;<br>
+----------------------------<br>
+&nbsp;<br>
+PDB2PQR&nbsp;--&nbsp;An&nbsp;automated&nbsp;pipeline&nbsp;for&nbsp;the&nbsp;setup,&nbsp;execution,&nbsp;and&nbsp;analysis&nbsp;of<br>
+Poisson-Boltzmann&nbsp;electrostatics&nbsp;calculations<br>
+&nbsp;<br>
+Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Dept.&nbsp;of&nbsp;Biochemistry&nbsp;and&nbsp;Molecular&nbsp;Biophysics<br>
+Center&nbsp;for&nbsp;Computational&nbsp;Biology<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Jens&nbsp;Nielsen&nbsp;(Jens.Nielsen@ucd.ie)<br>
+University&nbsp;College&nbsp;Dublin<br>
+&nbsp;<br>
+Additional&nbsp;contributing&nbsp;authors&nbsp;listed&nbsp;in&nbsp;documentation&nbsp;and&nbsp;supporting<br>
+package&nbsp;licenses.<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2003-2007.&nbsp;&nbsp;Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis.&nbsp;&nbsp;<br>
+All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+along&nbsp;with&nbsp;PDB2PQR;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software<br>
+Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307&nbsp;&nbsp;USA<br>
+&nbsp;<br>
+----------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-add"><strong>add</strong></a>(coords1, coords2)</dt><dd><tt>Add&nbsp;one&nbsp;3-dimensional&nbsp;point&nbsp;to&nbsp;another<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;&nbsp;List&nbsp;of&nbsp;coordinates&nbsp;equal&nbsp;to&nbsp;coords2&nbsp;+&nbsp;coords1&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-analyzeConnectivity"><strong>analyzeConnectivity</strong></a>(map, key)</dt><dd><tt>Analyze&nbsp;the&nbsp;connectivity&nbsp;of&nbsp;a&nbsp;given&nbsp;map&nbsp;using&nbsp;the&nbsp;key&nbsp;value.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;map:&nbsp;&nbsp;The&nbsp;map&nbsp;to&nbsp;analyze&nbsp;(dict)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;key:&nbsp;&nbsp;The&nbsp;key&nbsp;value&nbsp;(variable)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;A&nbsp;list&nbsp;of&nbsp;connected&nbsp;values&nbsp;to&nbsp;the&nbsp;key&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-cross"><strong>cross</strong></a>(coords1, coords2)</dt><dd><tt>Find&nbsp;the&nbsp;cross&nbsp;product&nbsp;of&nbsp;two&nbsp;3-dimensional&nbsp;points<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;&nbsp;Cross&nbsp;product&nbsp;coords2&nbsp;and&nbsp;coords1&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-distance"><strong>distance</strong></a>(coords1, coords2)</dt><dd><tt>Calculate&nbsp;the&nbsp;distance&nbsp;between&nbsp;two&nbsp;coordinates,&nbsp;as&nbsp;denoted&nbsp;by<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dist&nbsp;=&nbsp;sqrt((x2-&nbsp;x1)^2&nbsp;+&nbsp;(y2&nbsp;-&nbsp;y1)^2&nbsp;+&nbsp;(z2&nbsp;-&nbsp;z1)^2))<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;Coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;Coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dist:&nbsp;&nbsp;Distance&nbsp;between&nbsp;the&nbsp;two&nbsp;coordinates&nbsp;(float)</tt></dd></dl>
+ <dl><dt><a name="-dot"><strong>dot</strong></a>(coords1, coords2)</dt><dd><tt>Find&nbsp;the&nbsp;dot&nbsp;product&nbsp;of&nbsp;two&nbsp;3-dimensional&nbsp;points<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;Dot&nbsp;product&nbsp;coords2&nbsp;and&nbsp;coords1&nbsp;(float)</tt></dd></dl>
+ <dl><dt><a name="-factorial"><strong>factorial</strong></a>(n)</dt><dd><tt>Returns&nbsp;the&nbsp;factorial&nbsp;of&nbsp;the&nbsp;given&nbsp;number&nbsp;n</tt></dd></dl>
+ <dl><dt><a name="-getAngle"><strong>getAngle</strong></a>(coords1, coords2, coords3)</dt><dd><tt>Get&nbsp;the&nbsp;angle&nbsp;between&nbsp;three&nbsp;coordinates<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;&nbsp;The&nbsp;first&nbsp;coordinate&nbsp;set&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;&nbsp;The&nbsp;second&nbsp;(vertex)&nbsp;coordinate&nbsp;set&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords3:&nbsp;&nbsp;The&nbsp;third&nbsp;coordinate&nbsp;set&nbsp;(atom)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;angle&nbsp;between&nbsp;the&nbsp;atoms&nbsp;(float)</tt></dd></dl>
+ <dl><dt><a name="-getDatFile"><strong>getDatFile</strong></a>(name)</dt><dd><tt>Grab&nbsp;a&nbsp;data&nbsp;file.&nbsp;If&nbsp;the&nbsp;file&nbsp;cannot&nbsp;be&nbsp;found&nbsp;in&nbsp;the<br>
+given&nbsp;directory,&nbsp;try&nbsp;the&nbsp;current&nbsp;system&nbsp;path.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;file&nbsp;to&nbsp;get&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;file&nbsp;(string)</tt></dd></dl>
+ <dl><dt><a name="-getDihedral"><strong>getDihedral</strong></a>(coords1, coords2, coords3, coords4)</dt><dd><tt>Calculate&nbsp;the&nbsp;angle&nbsp;using&nbsp;the&nbsp;four&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;First&nbsp;of&nbsp;four&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;Second&nbsp;of&nbsp;four<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords3:&nbsp;Third&nbsp;of&nbsp;four<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords4:&nbsp;Fourth&nbsp;of&nbsp;four<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;Size&nbsp;of&nbsp;the&nbsp;angle&nbsp;(float)</tt></dd></dl>
+ <dl><dt><a name="-getFFfile"><strong>getFFfile</strong></a>(name)</dt><dd><tt>Grab&nbsp;the&nbsp;forcefield&nbsp;file.&nbsp;&nbsp;May&nbsp;or&nbsp;may&nbsp;not&nbsp;residue&nbsp;in&nbsp;the&nbsp;dat/<br>
+directory.</tt></dd></dl>
+ <dl><dt><a name="-getNamesFile"><strong>getNamesFile</strong></a>(name)</dt><dd><tt>Grab&nbsp;the&nbsp;*.names&nbsp;file&nbsp;that&nbsp;contains&nbsp;the&nbsp;XML&nbsp;mapping.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;forcefield&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;file&nbsp;(string)</tt></dd></dl>
+ <dl><dt><a name="-getPDBFile"><strong>getPDBFile</strong></a>(path)</dt><dd><tt>Obtain&nbsp;a&nbsp;PDB&nbsp;file.&nbsp;&nbsp;First&nbsp;check&nbsp;the&nbsp;path&nbsp;given&nbsp;on&nbsp;the&nbsp;command<br>
+line&nbsp;-&nbsp;if&nbsp;that&nbsp;file&nbsp;is&nbsp;not&nbsp;available,&nbsp;obtain&nbsp;the&nbsp;file&nbsp;from&nbsp;the<br>
+PDB&nbsp;webserver&nbsp;at&nbsp;<a href="http://www.rcsb.org/pdb/">http://www.rcsb.org/pdb/</a>&nbsp;.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;&nbsp;Name&nbsp;of&nbsp;PDB&nbsp;file&nbsp;to&nbsp;obtain&nbsp;(string)<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;file:&nbsp;&nbsp;File&nbsp;object&nbsp;containing&nbsp;PDB&nbsp;file&nbsp;(file&nbsp;object)</tt></dd></dl>
+ <dl><dt><a name="-normalize"><strong>normalize</strong></a>(coords)</dt><dd><tt>Normalize&nbsp;a&nbsp;set&nbsp;of&nbsp;coordinates<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;normalized&nbsp;coordinates&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-shortestPath"><strong>shortestPath</strong></a>(graph, start, end, path<font color="#909090">=[]</font>)</dt><dd><tt>Uses&nbsp;recursion&nbsp;to&nbsp;find&nbsp;the&nbsp;shortest&nbsp;path&nbsp;from&nbsp;one&nbsp;node&nbsp;to<br>
+another&nbsp;in&nbsp;an&nbsp;unweighted&nbsp;graph.&nbsp;&nbsp;Adapted&nbsp;from<br>
+<a href="http://www.python.org/doc/essays/graphs.html">http://www.python.org/doc/essays/graphs.html</a>&nbsp;.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;graph:&nbsp;A&nbsp;mapping&nbsp;of&nbsp;the&nbsp;graph&nbsp;to&nbsp;analyze,&nbsp;of&nbsp;the&nbsp;form<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{0:&nbsp;[1,2],&nbsp;1:[3,4],&nbsp;...}&nbsp;.&nbsp;Each&nbsp;key&nbsp;has&nbsp;a&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;edges.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;start:&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;key&nbsp;to&nbsp;start&nbsp;the&nbsp;analysis&nbsp;from<br>
+&nbsp;&nbsp;&nbsp;&nbsp;end:&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;key&nbsp;to&nbsp;end&nbsp;the&nbsp;analysis<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;&nbsp;Optional&nbsp;argument&nbsp;used&nbsp;during&nbsp;the&nbsp;recursive&nbsp;step<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;keep&nbsp;the&nbsp;current&nbsp;path&nbsp;up&nbsp;to&nbsp;that&nbsp;point<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;(variable):&nbsp;Returns&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;shortest&nbsp;path&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Returns&nbsp;None&nbsp;if&nbsp;start&nbsp;and&nbsp;end&nbsp;are&nbsp;not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;connected</tt></dd></dl>
+ <dl><dt><a name="-sortDictByValue"><strong>sortDictByValue</strong></a>(dict)</dt><dd><tt>Sort&nbsp;a&nbsp;dictionary&nbsp;by&nbsp;its&nbsp;values<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;dict:&nbsp;&nbsp;The&nbsp;dictionary&nbsp;to&nbsp;sort&nbsp;(dict)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;items:&nbsp;The&nbsp;dictionary&nbsp;sorted&nbsp;by&nbsp;value&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-subtract"><strong>subtract</strong></a>(coords1, coords2)</dt><dd><tt>Subtract&nbsp;one&nbsp;3-dimensional&nbsp;point&nbsp;from&nbsp;another<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords1:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;coords2:&nbsp;coordinates&nbsp;of&nbsp;form&nbsp;[x,y,z]<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;&nbsp;List&nbsp;of&nbsp;coordinates&nbsp;equal&nbsp;to&nbsp;coords1&nbsp;-&nbsp;coords2&nbsp;(list)</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Todd Dolinsky'<br>
+<strong>__date__</strong> = '28 February 2006'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

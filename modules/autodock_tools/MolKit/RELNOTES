@@ -1,0 +1,446 @@
+==============================================================================
+                 MolKit Release Notes:
+==============================================================================
+
+-----------------------------
+Release 1.5.4 (November 2008)
+-----------------------------
+bondSelector.py
+  - changed arguments for cycleBondSelector (lines 258,287,290-201,303,518,520,535) so that now bonds between cycles are not non-rotatable by default. this change was prompted by feedback from a user whose ligand had several aromatic cycles bonded to a cyclohexane which he wanted to be rotatable
+
+
+mmcifParser.py
+  -added return  None  in parser
+  -fixed molName
+  -replace raise with print
+  -added _symmetry.space_group_name_H-M
+  -added ftp://ftp.iucr.org/pub/cif_core.dic
+
+mol2Parser.py
+  -bugfix #995
+  -fixed bug #995
+
+tree.py
+  - changed test to avoid exception in comparing array
+
+VisionInterface/
+  MolKitNodes.py
+   -applied old modification of GeometryNodes
+
+
+-----------------------------
+Release 1.5.2 (July 2008)
+-----------------------------
+
+-----------------------------
+Release 1.4.5 (May 2007)
+-----------------------------
+New features and bug fixes:
+
+
+distanceSelector.py
+
+ - added dictToResidues method which simplifies getting atoms from the result dictionary
+
+getsecondarystructure.py
+ - fixed parseSSData for pqr files
+
+hydrogenBondBuilder.py
+ - changed line 366 to use only hydrogen atoms with at least one bond
+
+
+interactionDescriptor.py
+ - changed lines 290+339 to force list of bonds into a BondSet in order to use getAtoms method
+ - improved debug print statements for pi-cation interactions
+ - added support for detecting pi-cation and cation-pi interactions
+ - cleaned up names after discussion with Sandro: 'pi_pi_vert' changed to 'pi_pi', 
+   'pi_cation' to 'cation_pi' and 'pi_pi_perp' to 't_shaped'
+ - added 'use_all_cycles' to detectPiInteractions: when this is True, all cycles are tested 
+   for their 'stacking' with other cycles, not just the aromatic ones
+ - added detectPiInteractions method, first pass!
+ - added code to support using subsets instead of molecules; added initialization of a few 
+   entries in the results: macro_hb_res, macro_hb_gly_res et al
+
+molecule.py
+
+ - added method 'getAtoms' to BondSet
+ - added method 'getAtoms' to BondSet class
+
+
+Release 1.4.4 (December 2006)
+-----------------------------
+New features and bug fixes:
+
+mmcifParser.py
+ -added self.mol.allAtoms = AtomSet([]) to parse() method.
+
+molecule.py
+ -added getNbrAtoms to return atoms within <radius> of <centers>
+ - modified molecule.buildBondsBhtree to use atom.maxBonds to avoid building
+   too many bonds
+ - modified Molecule.buildBondsBhtree() to skip atoms which already have bonds
+ - fixed MolecularSystem.setClass to be None
+ - added MolecularSystem class to hold a list of molecules as the children
+
+pdbParser.py
+ - added self.mol.allAtoms = AtomSet([]) in parse() method.
+ - fixed to apply CONECT records to each model not only the last one
+ - fixed bug where last atom in model was not parsed
+ - modified parse_PDB_atoms to check for TER, ATOM and HETATM
+ - added checks for TER ATOM and HETATM to all parse_PDB_ATOM_record methods
+ - made PdbParser.model False instead of 0 in constructor
+ - added end argument in call to indexOfFirst in findEndChains
+ - modified parse_PDB_ATOM_record to return None when Keyword is not
+   ATOM HETATM, and handle TER records
+ - made single model pdb file be parsed the same as multi model files
+
+protein.py
+ - fixed a bug in isDna by adding if len(residue.type) > 2:
+
+trajParser.py
+ - added this module to parse Gromacs trajectory files.
+
+tree.py
+ - replaced types.StringType with in types.StringTypes to support 'unicode'
+
+
+
+Release 1.4.3 (September 2006):
+-------------------------------
+
+New features
+  -Secondary structure is added for DNA/RNA as coil;
+  -added code to build complicated molecule with several torTrees as an attempt to 
+   deal with flex_res issues;
+  -modified writer.write in VisionInterface/MolKitNodes.py to try to write specified list 
+   of records only; added balloon to add_hydrogen
+  - modified CPKMacro to use radii;
+ Bug fixes
+  Modified findEndChains so that it can read Theoretical models as well.
+  Fixed PQRParser when reading large molecules
+
+
+Release 1.4.2 (May 2006):
+-------------------------
+
+Modifications and bug fixes:
+
+listSet.py
+
+-added check for slice equal to whole set in which case the stringRepr does not change;
+
+
+molecule.py
+
+- added mergeNPH(),buildBrokenBonds(),removeAllHydrogens() methods; 
+- added BondSetSelector class which inherits from TreeNodeSetSelector and 
+  allows use of syntax bnds.get. This selector does not support regexp 
+  (because bonds don't have names or ids)
+
+pdbWriter.py
+-added REMARK   4 XXXX COMPLIES WITH FORMAT V. 2.0 when atomtype is not missing
+
+stringSelector.py
+
+- made CompoundStringSelector.select always return the selection and a string
+-modified CompoundStringSelector by adding support for 'sets', 
+ an instance of a MolKit.sets.Set class
+
+tree.py
+-added code to support escapeCharacters so that string matching can be done to strings containing characters considered 'special' in the python re module such as '*'
+- made TreeNdeSet hashable
+
+VisionInterface/MolKitNodes.py
+-now geometryNode renames and doesn't duplicate
+-added nodes: CalculateGasteigerCharges, AddKollmanCharges, AddHydrogens,
+ AddPolarHydrogens and WriteMolecule which uses the ext of outputfilename 
+ to get appropriate writer
+-added Read MSMS node to read the output produced by MSMS
+-now all the libraries are using UserLibBuild.addTypes() to load types
+
+VisionInterface/MolKitTypes.py
+
+- fixed imports from MolKit in validation functions
+
+
+
+
+Release 1.4.1(March 2006):
+_____________________________________________________________________________
+
+What's new since rel 1.3alpha2?
+------------------------------
+
+* Added GapFinder,to compute Gap between residues which is used in displayBackboneTraceCommand  in Pmv.
+* Added hydrogenBondBuilder for implementing the HydrogenBondBuilder class which builds hydrogen
+  bonds between appropriate atoms.
+* Added 1ent.pdbqs,1ent_rec.pdbqt data files.
+* Added 2EZNsmall.pdb file for parsing pdb file containing NMR structures.
+* In MolKitNodes ,a node is added to compute RMSD between two AtomSets ( the two AtomSet can be in 
+  different order of atoms)
+* In listSet,added setStringRepr, getStringRepr, and copy() method to ListSet,added the stringRepr
+  attribute to TreeNodeSet.  This string can be passed to the constructor or set using 
+  nodeset.setStringRepr.  It can retrieved using using nodeset.getstringRepr. It it used to provide 
+  a concise selection string describing the set,modified ListSet to manage stringRepr for more 
+  operations,added MoleculeSetSelector and AtomSetSelector,added warning when result of readlines is 
+  split using \r,added code to split on \r if only 1 line is found in the PDB file.
+* In stringSelector,rearranged code in MVStringSelector to allow entities of any level to be passed 
+  as the first argument...previously, it was always molecules....; added setting stringRepr on selected objects.
+* Implemented a new MMCIF writer that directly writes MolKit object into cif file
+* Implemented ProteinSetSelector, ChainSetSelector, ResidueSetSelector classes.
+* Added support to CompoundStringSelector to handle lambda expressions which include parentheses 
+  such as "lambda x: len(x.bonds)==1".  Previously this kind of string did not select anything.
+* In tree.py:
+  -added getSelector method so that all derived classes can use the same get method; 
+   changed signature of get method to take sets, caseSensitive, escapeCharacters and returnMsg 
+   as arguments; 
+   changed get method to use the selector returned by a call to self.getSelector;
+Bug Fixes:
+---------
+-distanceSelector:
+*added CloserThanVDWPlusConstantSelector class.
+*expanded comments about return value of select method.
+
+-bondSelector:
+*Modified ListSet to manage stringRepr for more operations
+changed select method so that result of filter is made into a BondSet befroe the previous bondSet is extended by it...
+
+-getsecondarystructure:
+*modified ListSet to manage stringRepr for more operations
+
+-listSet:
+*added 'selector' to properties handled separately; changed line 205 to catch index larger than length of self.data...which happens if slicing in from the end: eg data[-2:]
+*fixed bug of non-initialized 'stringRepr' in inter method when verbose is False.
+*added global 'verbose' set to False: when verbose is True, printing of traceback is turned on....
+*fixed subtract to return a copy of self if self is empty
+*fixed operators in stringRepr of &, ^, and |
+*modified ListSet to manage stringRepr for more operations
+*fixed __or__ to use | instead of + as operator in stringRepr
+
+
+-pdbParser:
+*added check for existence of chainID in parse method line 534 before trying to use it.
+*added pqrRadius to atom when parsing a PQR file to circumvent problems
+*created by APBS radii for MSMS calculation
+*WritePQR checks for prqRadius attribute, else uses radius
+*updated parse_PDB_ATOM_record in pdbq, pdbqs and pdbqt parsers to keep pace with changes in underlying pdbParser class. NOTE*Fixed a bug when parsing file containing NMR structure which was caused by the
+*change made to the way TER records were handled.
+*modified ListSet to manage stringRepr for more operations
+protein.py
+*added getSelector methods to various classes derived from TreeNodeSet; commented out their 'get' methods because they can all use the base class get now.
+*added parameter returnMsg to get method
+*modified ListSet to manage stringRepr for more operations
+*updated ProteinSet, ChainSet and ResidueSet get methods to parallel tree.get
+*put try/except around line 346 which broke many selection tests until residuesetselector can be fixed.*Fixed bug in parse_PDB_HYDBND related to parsing hydrogen atoms
+
+-pdbWriter:
+*repaired incorrect writePDBQS and writePDBQT which used atom.element instead of atom.name for atoms with 2 character-long elements
+-pqrWriter:
+*added pqrRadius to atom when parsing a PQR file to circumvent problems
+*created by APBS radii for MSMS calculation
+*WritePQR checks for prqRadius attribute, else uses radius
+
+-stringSelector:
+*modifications to CompoundStringSelector: changed to use a copy of the initial results [otherwise made changes to the original treenodeset...eg adding mol2's chains to mol1.chains....], also changed 's' op to use stringSelector instead of tns.get... so it can process hsg1:A:PRO1:N.... this may not be what we want
+*fixed return value when it is empty
+*return empty set of level specified in length of selection string.[1 level returns ProteinSet(), 2 returns ChainSet() etc]
+*add check that a selector returns something: if not, break; added call to setStringRepr.
+*new StringSelector class uses ProteinSetSelector,ChainSetSelector,ResidueSetSelector and AtomSetSelector... replaces MVStringSelector.
+*replaced setting stringRepr directly with call to setStringRepr....
+
+-tree:
+*added getSelector method so that all derived classes can use the same get method; changed signature of get method to take sets, caseSensitive, escapeCharacters and returnMsg as arguments; changed get method to use the selector returned by a call to self.getSelector; removed some commented out print statements  in extendStringRepr
+*added setLevel, truncateStrRepr and expandStrRepr methods.
+*added verbose flag so that printing the traceback can be toggled on and off...
+*modified TreeNodeSet.__getattr__ to use compact stringRepr when set.children is returned
+*put import traceback, print stack into 'elif verbose' loop governed by a global verbose which is False by default....
+*modified ListSet to manage stringRepr for more operations
+*changed get to use a TreeNodeSetSelector when called with a string...
+*expanded tests in if statement on line 157 which broke many selection tests until we canfigure out why it was called with inappropriate item.
+*added TreeNodeSetSelector
+
+-protein:
+*add psi and phi properties to Residue class. initialized as None
+  getPsi() and getPhi do the calculation
+
+-test_pdbParser:
+*added tests for parsing 1ent in pdbq, pdbqs, and pdbqt format.
+Added a test to make sure that parsing a file with NMR structure doesn't fail
+
+-test_tree:
+*added tests that trailing semi-colon did not cause problems for NodesFromName.
+
+-MolKitNodes:
+*modified GetMSMStriangles to work for surfaces not computed from atoms, but
+ from spheres.  For some reasons, the msms wrapper has no longer a .atoms
+ attribute
+*replaced msmsc by _msms since SWIG names the .so like this after 1.3.20
+_____________________________________________________________________________
+Release rel 1.3alpha2 (10/20/04):
+_____________________________________________________________________________
+
+What's new since rel 1.2beta1
+- Renames ViPEr Vision and the subdirectory ViPEr is now VisionInterface,
+- Bonds now have a name "
+- More information on the secondary structure element are parsed from the 
+  PDB file and from the result of stride run.
+- The information of Gaps in chains are now stored in a gaps attribute.
+- A number of  new BondSelector have been implemented such as 
+  GuanidiniumBondSelector, PeptideCycleBondSelector: which uses a lookup 
+  dictionary to select aromatic bonds in cycles in std residues; 
+  added AromaticCycleBondSelector2 which uses the autotorsCommands 
+  machinery to determine which bonds in cycles are aromatic based 
+  on the angle between adjacent normals to the atoms in the cycles....
+- Reimplemented the writePDB which allows the user to save the secondary 
+  structure information i.e.
+
+Bug Fixes and Changes since rel 1.2beta1
+
+- bondSelector.py
+  * changed logic of hyrogenRotatorBondSelector.
+  * changed cyclebondselector to use optional parameter maxSize... by default 
+    it is used and  is set to the len(atoms) in bondset which is the base for 
+    the selection.
+  * put 'PRO' in back list of types of residues whose atoms can have peptide 
+    backbone bonds  (the cycle bond is removed ok)...
+  * updated criteria for rotatables and for hydrogenRotators.
+  * fixed bug which caused AromaticCycleBondSelector2 to give variable results 
+    for bonds in fused-rings in indinavir.
+
+- getsecondarystructure
+  * Fixed a bug in GetSecondaryStructureFromStride caused by the fact that the 
+    order of the chains in stride is not allways the same that the order of 
+    the chains in the pdb file.
+    Now we use the chain ID instead of the chain index. 
+  * getCoils now uses the new AARes attribute of a chain to only consider 
+    Amino Acid to compute Coils.
+  * In createSSstructures we are not using the Coil information returned by 
+    stride.
+  * Modified the format of the data describing the secondary structure element 
+    coming from Stride.
+    Modified the buildSecondaryStructureObjects to accept this new format.
+
+- hydrogenBuilder:
+  * New hydrogen atoms now have a "colors" attribute.
+
+- listSet
+  * uniq method has been replaced by a faster set-based method, the order of 
+    the list is now preserved.
+  * Modified the getattr methods of both ListSet and TreeNodeSet to handle 
+    properly attributes starting by '__'
+
+- molecule
+  * Bond object now has an attribute name which is the 
+    'self.atom1.full_name() == self.atom2.full_name()'
+    which allows the user to use get() on BondSet.
+  * The Bond constructor now takes a new argument setClass to specify the 
+    setClass of a Bond object
+    which is a BondSet. The get() method returns now a BondSet instead of a 
+    list when relevant 
+  * molecule has now two new methods addBonds which takes two atoms and creates
+  a bond in between with the given bondOrder and origin and a removeBonds which
+  takes 2 atoms and remove the bond in between.
+  * Replaced type by what in all the findType, isAbove or isBelow methods.
+  * Updated the write method of molecule to reflect the changes made to the
+  pdbWriter
+  * Fixed the progressBar update.
+
+- pdbParser:
+  * Modified the way TER records are handled. A TER record specifies the end 
+    of a chain, and the chain ID is uniq in the molecule.
+  * Replaced the use of NodesFromName by get in section which parses and 
+    builds hydrogen bonds.
+  * When the chain ID is the same on each side of a TER records, the TER 
+    records specifies a GAP. This information is stored in the gaps attribute 
+    of the chain.  
+  * Parse more secondary structure information from the file such as helix 
+    class, nbStrand in a sheet and sense of a strand in a sheet....
+
+- pdbWriter:
+  * Repaired writing of autodock_element in pdbqtWriter.
+  * Re-implemented the PdbWriter and all classes derived.
+    Now able to write secondary structure records etc....
+  * fixed bug which occurred when atoms had names longer than 4 characters by 
+   truncating the name at 4 characters which are written lastchar first for 
+   hydrogens, as is for 2-character long elements and truncated at 3 
+   characters for 1 character long elements.... for instance HN611 is written 
+   "1HN6", CL223 is written "CL22" and N1234 is written " N12".
+
+- protein:
+  * Added new information to the Secondary Structure element class (Helix, Turn ,Sheet and Coil)
+  * The Chain object now has a gaps attribute to store information on gaps that may be described 
+    in PDB file.
+  * Modified the isProteic method of a chain to store the AA residue in a ResidueSet.
+
+- stringSelector:
+  * Now when selecting backbone atoms the O of HOH molecules are not returned.
+
+- tortree
+  * worked on the printXMLTree method.
+
+- tree:
+  * Modified the get method to handle properly comma separated list and not consider leading space.
+    Now handles properly "ILEU3, PHE24".
+  * Modified ReturnType to return a BondSet instead of a list of Bond.
+
+
+
+Release rel 1.2beta1 (12/15/2003)
+_____________________________________________________________________________
+
+What's new since rel 1.2alpha (09/18/2003):
+- Removed all the __del__ method which was preventing garbage collection
+  of objects with circular references.
+- bondSelector: Added GuanidiniumBondSelector class.
+- molecule: Added a new argument to the Bond __init__ setClass to specify the 
+  setClass of a Bond object. This is used in the get method to return a 
+  BondSet instead of a simple list of Bond object.
+- pdbWriter: added pdbqtWriter
+- tree: In ReturnType added a new case where the result[0] has a setClass 
+  but is not a TreeNode (i.e. Bond) to return a BondSet instead of a list of 
+  Bond objects
+- tree: added __str__ method to TreeNode class so that print atom works again
+- Tests: Implemented some new tests.
+- ViPEr/MolKitNodes: added addType and addWidget methods to NodeLibrary 
+  object and updated all libraries to use these methods rather than just 
+  defining a list
+- ViPEr/MolKitNodes: Widget class has now to be a string and can't be a 
+  class any longer.
+- ViPEr/MolKitNodes: assignRadii node now outputs radii, not just the molecule
+
+
+Bug Fixes since rel 1.2alpha (09/18/2003):
+
+- Fixed the findType to deal with Molecule and Protein as if they were the same
+- getsecondarystructure: Simplified the code.
+- molecule: fixed bug in defaultRadii.
+- pdbParser: corrected 'if hAt' in parsing hbonds; corrections to pdbqt parser.
+- pdbParser: Fixed a bug in PQRParser.parse_PDB_ATOM_record where atom.hetatm 
+  was always set to 1 causing problem in computing the secondarystructure 
+  with stride later on.
+- pdbWriter: repaired writing of autodock_element in pdbqtWriter.
+- pdbWriter: fixed bug in PdbqWriter which didn't properly output Br->b 
+  convention; fixed bug in PdbqsWriter which didn't properly output Br->Mr 
+  conversion.
+- pqrWriter: fixed bug in PQR writer. It was writting the chain ID which 
+  caused the residue number to be used as X coordinate
+- ViPEr/MolKitNodes: fixed some indentations and a typo in BondGeometry node
+
+
+Changes since rel 1.2alpha (09/18/2003):
+- chargeCalculator: made kollman return list of charges.
+- molecule: Modified the syntax in buildBondsByDistanceOnAtoms when computing 
+  the distance between the two atoms. 
+- pdbWriter: removed tabs and removed mandatory records missing output 
+  from pdbq, pdbqs pdbqt types.
+- ViPEr/MolKitNodes: updated CPK Macro to reflect recent changes in macros.py. 
+  Note: this is still
+  Work In Progress (the macro business). More updates to the code here are
+  expected.
+- ViPEr/MolKitNodes: changed defaultRadii method to append radius to list if 
+  radius already existed
+
+Known Issues:
+
+Backwards INCOMPATIBLE Changes since rel 1.2alpha (09/18/2003):
+

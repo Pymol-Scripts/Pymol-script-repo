@@ -1,0 +1,127 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module psize</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>psize</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/todd/release/pdb2pqr/psize.py">/home/todd/release/pdb2pqr/psize.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;You&nbsp;may&nbsp;need&nbsp;to&nbsp;edit&nbsp;the&nbsp;above&nbsp;to&nbsp;point&nbsp;to&nbsp;your&nbsp;version&nbsp;of&nbsp;Python&nbsp;2.0</tt></p>
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="psize.html#Psize">Psize</a>
+</font></dt></dl>
+ 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Psize">class <strong>Psize</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2>&nbsp;</td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Psize-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getCenter"><strong>getCenter</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getCharge"><strong>getCharge</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getCoarseGridDims"><strong>getCoarseGridDims</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getConstant"><strong>getConstant</strong></a>(self, name)</dt><dd><tt>&nbsp;Get&nbsp;a&nbsp;constant&nbsp;value;&nbsp;raises&nbsp;KeyError&nbsp;if&nbsp;constant&nbsp;not&nbsp;found</tt></dd></dl>
+
+<dl><dt><a name="Psize-getFineGridDims"><strong>getFineGridDims</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getFineGridPoints"><strong>getFineGridPoints</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getFocus"><strong>getFocus</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getLength"><strong>getLength</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getMax"><strong>getMax</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getMin"><strong>getMin</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getProcGrid"><strong>getProcGrid</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-getSmallest"><strong>getSmallest</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="Psize-parseInput"><strong>parseInput</strong></a>(self, filename)</dt><dd><tt>&nbsp;Parse&nbsp;input&nbsp;structure&nbsp;file&nbsp;in&nbsp;PDB&nbsp;or&nbsp;PQR&nbsp;format</tt></dd></dl>
+
+<dl><dt><a name="Psize-printResults"><strong>printResults</strong></a>(self)</dt><dd><tt>&nbsp;Return&nbsp;a&nbsp;string&nbsp;with&nbsp;the&nbsp;formatted&nbsp;results</tt></dd></dl>
+
+<dl><dt><a name="Psize-runPsize"><strong>runPsize</strong></a>(self, filename)</dt><dd><tt>&nbsp;Parse&nbsp;input&nbsp;PQR&nbsp;file&nbsp;and&nbsp;set&nbsp;parameters</tt></dd></dl>
+
+<dl><dt><a name="Psize-setAll"><strong>setAll</strong></a>(self)</dt><dd><tt>&nbsp;Set&nbsp;up&nbsp;all&nbsp;of&nbsp;the&nbsp;things&nbsp;calculated&nbsp;individually&nbsp;above</tt></dd></dl>
+
+<dl><dt><a name="Psize-setCenter"><strong>setCenter</strong></a>(self, maxlen, minlen)</dt><dd><tt>&nbsp;Compute&nbsp;molecule&nbsp;center</tt></dd></dl>
+
+<dl><dt><a name="Psize-setCoarseGridDims"><strong>setCoarseGridDims</strong></a>(self, olen)</dt><dd><tt>&nbsp;Compute&nbsp;coarse&nbsp;mesh&nbsp;dimensions</tt></dd></dl>
+
+<dl><dt><a name="Psize-setConstant"><strong>setConstant</strong></a>(self, name, value)</dt><dd><tt>&nbsp;Set&nbsp;a&nbsp;constant&nbsp;to&nbsp;a&nbsp;value;&nbsp;returns&nbsp;0&nbsp;if&nbsp;constant&nbsp;not&nbsp;found</tt></dd></dl>
+
+<dl><dt><a name="Psize-setFineGridDims"><strong>setFineGridDims</strong></a>(self, olen, clen)</dt><dd><tt>&nbsp;Compute&nbsp;fine&nbsp;mesh&nbsp;dimensions</tt></dd></dl>
+
+<dl><dt><a name="Psize-setFineGridPoints"><strong>setFineGridPoints</strong></a>(self, flen)</dt><dd><tt>&nbsp;Compute&nbsp;mesh&nbsp;grid&nbsp;points,&nbsp;assuming&nbsp;4&nbsp;levels&nbsp;in&nbsp;MG&nbsp;hierarchy</tt></dd></dl>
+
+<dl><dt><a name="Psize-setFocus"><strong>setFocus</strong></a>(self, flen, np, clen)</dt><dd><tt>&nbsp;Calculate&nbsp;the&nbsp;number&nbsp;of&nbsp;levels&nbsp;of&nbsp;focusing&nbsp;required&nbsp;for&nbsp;each<br>
+processor&nbsp;subdomain</tt></dd></dl>
+
+<dl><dt><a name="Psize-setLength"><strong>setLength</strong></a>(self, maxlen, minlen)</dt><dd><tt>&nbsp;Compute&nbsp;molecule&nbsp;dimensions</tt></dd></dl>
+
+<dl><dt><a name="Psize-setProcGrid"><strong>setProcGrid</strong></a>(self, n, nsmall)</dt><dd><tt>&nbsp;Calculate&nbsp;the&nbsp;number&nbsp;of&nbsp;processors&nbsp;required&nbsp;to&nbsp;span&nbsp;each&nbsp;<br>
+dimension</tt></dd></dl>
+
+<dl><dt><a name="Psize-setSmallest"><strong>setSmallest</strong></a>(self, n)</dt><dd><tt>&nbsp;Compute&nbsp;parallel&nbsp;division&nbsp;in&nbsp;case&nbsp;memory&nbsp;requirement&nbsp;above&nbsp;ceiling<br>
+Find&nbsp;the&nbsp;smallest&nbsp;dimension&nbsp;and&nbsp;see&nbsp;if&nbsp;the&nbsp;number&nbsp;of&nbsp;grid&nbsp;points&nbsp;in<br>
+that&nbsp;dimension&nbsp;will&nbsp;fit&nbsp;below&nbsp;the&nbsp;memory&nbsp;ceiling<br>
+Reduce&nbsp;nsmall&nbsp;until&nbsp;an&nbsp;nsmall^3&nbsp;domain&nbsp;will&nbsp;fit&nbsp;into&nbsp;memory</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = None</dl>
+
+<dl><dt><strong>__module__</strong> = 'psize'</dl>
+
+</td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl><dt><a name="-log"><strong>log</strong></a>(...)</dt><dd><tt><a href="#-log">log</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;natural&nbsp;logarithm&nbsp;(base&nbsp;e)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt></dl>
+ <dl><dt><a name="-usage"><strong>usage</strong></a>()</dt></dl>
+</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>__file__</strong> = './psize.pyc'<br>
+<strong>__name__</strong> = 'psize'<br>
+<strong>stdout</strong> = &lt;open file '&lt;stdout&gt;', mode 'w'&gt;</td></tr></table>
+</body></html>

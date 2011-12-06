@@ -1,0 +1,178 @@
+#!/usr/bin/env python2.5
+#
+from optparse import OptionParser
+import time, sys, os, string
+
+##########################################################################
+#   CREATE THE OPTIONS LIST
+##########################################################################
+parser = OptionParser()
+
+# option to specify what is going to be printed out:
+
+# Nothing
+parser.add_option("-q", "--quiet",
+                  action="store_const", const=0, default=1, dest="verbose", help="quiet")
+# Something
+parser.add_option("-v", "--verbose",
+                  action="store_const", const=1, default=1, dest="verbose", help="verbose, default behavior")
+# Everything
+parser.add_option("-V","--noisy",
+                  action="store_const", const=2, default=1, dest="verbose", help="noisy" )
+
+# option to specify the test directory name
+parser.add_option("-t","--testdir", dest="testDir", default="Tests",
+                  help="specifies the name of the directory containing \
+the tests",
+                  metavar="TESTDIR")
+# option to specify the function prefix for tests functions.
+parser.add_option("-f","--funcPrefix", dest="funcPrefix", default=None,
+                  help="specifies the prefix a method or a function needs \
+to be included in the list of tests.")
+
+# option to specify the prefix to get the test modules.
+parser.add_option("-m","--modPrefix", dest="modPrefix", default=None,
+                  help="specifies the prefix a tests module needs to be \
+                  included in the list of tests.")
+
+# option to redirect the stderr.
+parser.add_option("-o", "--output",
+                  dest="stream", default=sys.stderr, metavar='OUTPUT',
+                  help="name of an output file")
+
+# option to run each testModule in a subprocess.
+parser.add_option("-s", "--subprocess",
+                  dest="usesubprocess", default=False, action="store_true",
+                  help="run each test module in a subprocess")
+
+#########################################################################
+#   UTILISTY FUNCTIONS
+#########################################################################
+
+def getTesterCmdStr(options):
+    # Command to create the "tester" command line
+    # Certain options are mandatory such as the -r and -e
+    cmd = "tester -re "
+    # Verbose status
+    if options.verbose == 0:
+        cmd = cmd +"-q "
+
+    elif options.verbose == 1:
+        cmd = cmd + "-v "
+
+    elif options.verbose == 2:
+        cmd = cmd + "-V "
+
+    # subprocess
+    if options.usesubprocess:
+        cmd = cmd + "-s "
+
+    # TestDirectory
+    if options.testDir != 'Tests':
+        cmd = cmd + "-t%s "%options.testDir
+
+    # FuncPrefix
+    if not options.funcPrefix is None:
+        cmd = cmd + "-f%s "%options.funcPrefix
+
+    # modPrefix
+    if not options.modPrefix is None:
+        cmd = cmd + "-m%s "%options.modPrefix
+
+    # output
+    if options.stream != sys.stderr:
+        cmd = cmd + "-o%s "%options.stream
+
+    return cmd
+
+def isPackFromName(name):
+    if name[-3:] == '.py':
+        name = name[:-3]
+    if '/' in name:
+        parts = name.split('/')
+    else:
+        parts = name.split('.')
+
+    if not parts:
+        raise ValueError, "incomplete test name: %s" % name
+    else:
+        parts_copy = parts[:]
+        while parts_copy:
+            try:
+                module = __import__(string.join(parts_copy,'.'))
+                break
+            except ImportError:
+                del parts_copy[-1]
+                if not parts_copy: raise
+        parts = parts[1:]
+    obj = module
+    for part in parts:
+        obj = getattr(obj, part)
+    if type(obj) is types.ModuleType and hasattr(obj, '__path__'):
+        return obj, True
+    else:
+        return obj, False
+    
+
+##########################################################################
+#   PUBLISH SCRIPT
+##########################################################################
+# retrieve the options and arguments from the command line
+(options, args) = parser.parse_args()
+
+import os,sys,unittest, types, popen2
+import gc
+
+# Creates the lockfile...
+lockfile = "/mgl/temp/bat2e09dfjk90-0kkjad98"
+if os.path.exists(lockfile):
+    sys.exit("ERROR: LOCKFILE ALREADY EXISTS")
+out = os.system("touch %s"%lockfile)
+if out:
+    sys.exit("ERROR: FAILED TO CREATE LOCKFILE")
+
+# Get the tester command line string
+cmd = getTesterCmdStr(options)
+outputs = {}
+import mglutil.TestUtil
+from NormalDate.normalDate import NormalDate
+publishPath = os.path.join(mglutil.TestUtil.__path__[0], 'publishPack.csh')
+for arg in args:
+    obj, isPack = isPackFromName(arg)
+    # Can only publish a package
+    if not isPack:
+        continue
+    cmdline = cmd + arg
+    print "Executing: ", cmdline
+    outptr, inptr, errptr = popen2.popen3(cmdline, bufsize=0)
+    inptr.flush()
+    err = errptr.readlines()
+    output = outptr.readlines()
+    outputs[arg] = (output, err)
+    failed=filter(lambda x: "FAILED" in x, err)
+    if len(failed) != 0:
+        continue
+    
+    print "Publishing the %s"%arg
+    nd = NormalDate()
+    # SC 2003
+    newtag= "mgltest-%s%s%s"%(nd.day(), nd.month(), nd.year())
+    # The publishPack.csh will do the following as the user mgltools:
+    # cd /usr/local/home/sophiec/MGL
+    # cvs tag -r mgl mgl-DATE PACKNAME
+    # cvs update -r py-2-3 PACKNAME
+    # cvs tag -F mgl PACKNAME
+    # 
+    resPub = os.system("ssh mgltools@levi %s %s %s"%(publishPath,
+                                                     newtag, arg))
+    if resPub:
+        # NEED TO RELEASE THE LOCKFILE BEFORE EXITING
+        relbat = os.system("rm -f %s"%lockfile)
+        if relbat:
+            sys.exit("ERROR: COULD NOT PUBLISH %s AND COULD NOT RELEASE THE LOCK FILE %s"%(arg, lockfile))
+        else:
+            sys.exit("ERROR: COULD NOT PUBLISH %s"%arg)
+        
+    relBat = os.system("rm -f %s"%lockfile)
+    if relBat:
+        sys.exit("COULD NOT RELEASE LOCKFILE %s"%lockfile )

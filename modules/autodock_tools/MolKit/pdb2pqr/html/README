@@ -1,0 +1,6 @@
+server.html -- The main server page; needs to be modified to reflect location
+of local directories.
+master-index.html -- The source code for the http://pdb2pqr.sf.net/ page; needs
+to be modified to reflect location of local directories.
+index.php -- Automagic redirect to http://pdb2pqr.sf.net/ for PHP-enabled web
+servers.

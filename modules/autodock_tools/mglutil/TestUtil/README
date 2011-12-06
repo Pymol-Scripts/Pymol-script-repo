@@ -1,0 +1,106 @@
+
+========================================================================
+                                   TESTER
+========================================================================
+
+This tool allows the user to run series of tests for Python packages. The 
+tests can be written either as simple python function or as unittest subclass.
+The tester can either:
+  - execute a test function
+  - all the test contained in a test class (subclass of unittest.TestCase)
+  - a test module which is a python file implementing either test functions
+    or test Class.
+  - all the test modules contained in the Tests package of a Python package
+  - recursively all the Tests packages contained in a Python package and its
+    sub packages.
+
+(see example later)
+
+1- Tester options:
+-----------------------------------------------
+  -h, --help            show this help message and exit
+  -q, --quiet           quiet
+  -v, --verbose         verbose, default behavior
+  -V, --noisy           noisy
+  -r, --recursive       option to get tests from package recursively
+                        (default=false)
+  -tTESTDIR, --testdir=TESTDIR
+                        option to specify the name of the directory containing
+                        the tests (default='Tests')
+  -fFUNCPREFIX, --funcPrefix=FUNCPREFIX
+                        option to specify the prefix a method or a function
+                        needs, to be included in the list of tests.
+                        (default='test_')
+  -mMODPREFIX, --modPrefix=MODPREFIX
+                        option to specify the prefix a test module needs, to be
+                        included in the list of tests. (default= no prefix)
+  -oOUTPUT, --output=OUTPUT
+                        name of an output file
+  -s, --subprocess      option to specify whether or not to run each test
+                        module in a subprocess (default=False)
+  --noreport            option to specify whether or not a report file will be
+                        created. When the option is given no report will be
+                        created otherwise a report will be created in a
+                        TESTREPORT subdirectory. (default=a report will be
+                        created)
+  -e, --exitOnFail      option to specify whether or not the tester should exit
+                        after the first failed test. (default=False)
+
+
+2- Organizing and implementing tests.
+----------------------------------------------------
+
+- Each python package should have a Tests subpackage which will contain all 
+the python module. By default the tester considers all python module to be 
+test modules. This behavior can be changed by using the --modPrefix. 
+It is better to use the "test_" as a module prefix.
+
+The "setUp" and "tearDown" method/function will be called before and after 
+each testt method/function. example Pmv.Tests.test_SSCommands
+Each test method/function is self contained and should not depend on any result
+from a previous test.
+If implementing functions you can also implement a setUpSuite and tearDownSuite
+method to be executed before and after all the test functions.
+
+Functions or methods in the test module need to have "test" as a prefix 
+otherwise they will be ignored by the tester unless the --funcPrefix option
+is specified.
+
+The __init__.py of the Tests package can implement some variable that will 
+affect the tester behavior:
+
+- ignore dictionary specifies which tests to be ignored.
+  The key is the name of the test module and the value is the list of test 
+  functions to be ignored. If an empty list is provided then the whole module
+  will be ignored.
+  example:
+    ignore = {'test_Misc':[]}
+    all the tests of the test_Misc module will be ignored
+    ignore = {'test_Misc':['test_SourceLogBug_1']}
+    the test_SourceLogBug_1 from the test_Misc module will be ignored
+
+- modPrefix : Same than the --modPrefix option which specifies the prefix of
+              the test module. Only the module with the modPrefix will be 
+              considered by the tester.
+	      This will be overwritten by the --modPrefix option if specified
+
+- funcPrefix: Same than the --funcPrefix option which specifies the prefix
+	      of the test functions/methods. Only the method/functionw with
+	      this prefix will be considered by the tester. It will be 
+	      overwritten by --funcPrefix options if specified.
+
+EXAMPLES:
+  
+  1- Run all the tests in the Pmv package:
+     tester Pmv
+     
+     tester Pmv.Tests will crash because tester tries to find the "Tests" subpackage in the Tests package.
+
+  2- tester Pmv.Tests.test_fileCommands will run all the tests in test_fileCommands module
+
+  3- tester Pmv.Tests.test_fileCommands.test_ReadMolecule_1 will only run this test function.
+
+  4- tester -r mglutil will run all the tests from the mglutil package but also all its subpackage.
+
+  
+

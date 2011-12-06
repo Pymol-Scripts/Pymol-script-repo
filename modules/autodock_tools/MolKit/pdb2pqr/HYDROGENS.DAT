@@ -1,0 +1,380 @@
+//
+// $Id: HYDROGENS.DAT,v 1.1 2005/08/17 17:49:30 sargis Exp $
+// 
+// Jens Erik Nielsen, UCSD/HHMI 2003
+//
+// Hydrogen topolgy file for nonstandard protonation states
+//
+// Format:
+// *
+// <Residue name> <grouping (acid, base or none)> <Number of hydrogens that can be added>  <#conformations> <standard conformations (as many as needed. -1 if absent)> <Type of hydrogen> <chiangle to be changed> <Standard opt-method 0,10,20 or 30 - see below>
+//
+// The standard optimisation methods are:
+// 00: Fix protonation state and use only that conformation
+// 10: Fix protonation state, but do geometry optimisation
+// 20: Change protonation state, but do not do geometry optimisation
+// 30: Optimise both protonation state and geometry optimisation
+//
+// The optimisation method follows this key
+//
+// 00: Fix protonation state and use only that conformation
+// 10: Fix protonation state, but do geometry optimisation
+// 20: Change protonation state, but do not do geometry optimisation
+// 30: Optimise both protonation state and geometry optimisation
+//
+// The lay-out for the information on H-conformations is the following:
+//
+// >1
+// <H-name> <bound-to> <bondlength> (for conformation #1)
+// N coordinates for defining conformation #1 (The coordinates for the hydrogen to be added must be the first)
+// >2
+// <H-name> <bound-to> <bondlenght> (for conformation #2) (First set of coordinates must be for the hydrogen to be added)
+// N coordinates for defining conformation #2
+//
+// The type of hydrogens are the following:
+// 1. Carboxyl present/not present + trans/cis conformation (e.g. Asp HD1)  (donor/acceptor)
+// atom is the C of the carboxyl group
+// 2. Freely rotatable primary alcohol (e.g. Ser HG) atom is the H itself   (donor/acceptor)
+// 3. Primary amine - here we do nothing right now.                         (donor)
+// 4. Secondary amine: present/not present (e.g. His HD1 & HE2) atom is the heavy atom that the H is bound to (donor/acceptor)
+// 5. Backbone Carbonyl group/ASN/GLN carbonyl  (acceptor)
+// 6. Backbone amide  (donor)
+// 7. Asn/Gln amide (donor)
+// 8. Positive ion - behaves like a donor (donor)
+// 9. Negative ion - behaves like an acceptor (acceptor)
+// 10. Tertiary amine (Pro N-terminal)
+// 11. Flip Hydrogen (i.e. not a hydrogen at all)
+//
+// All lines starting with '//' are ignored
+// Spaces must be used to separate numbers. No blank lines at the end of the file!!
+//
+// Special reserved names:
+// APR: all protein resiudues
+// APP: all protein resiude except proline
+//
+// Jens Erik Nielsen UCSD/HHMI 2002-2003
+//
+// Backbone H-bond donors and acceptors
+//
+*
+APP base 1 1 1 6 -1 00
+>1
+// Backbone amide proton
+// Dummy coordinates for now
+H   N  1.0
+H   0.000   0.000  0.000  
+N   0.000   0.000  0.000   
+C-1 0.000   0.000  0.000 
+*
+APR acid 1 1 -1 5 -1 00
+>1
+// Backbone carbonyl oxygen
+// Dummy coordinates for now
+HO  O  1.0
+H   0.000   0.000  0.000  
+O   0.000   0.000  0.000   
+CA  0.000   0.000  0.000   
+//
+// Termini
+//
+*
+NTR base 2 2 -1 3 1 20
+//
+// Nterminal 
+//
+>1
+// H3
+H3 N 1.0
+H3 -24.689  48.846 -22.770
+CA -24.196  48.790 -20.800
+H  -25.552  49.881 -21.848 
+N  -24.645  49.491 -22.007
+>2
+// H2
+H2 N 1.0
+H2 -24.001  50.224 -22.226
+CA -24.196  48.790 -20.800
+H  -25.552  49.881 -21.848 
+N  -24.645  49.491 -22.007
+*
+PNTR base 2 2 1 10 0 20
+//
+// N-terminal PRO
+//
+>1
+//H3
+H3 N 1.0
+H3   0.936   1.783  -0.234 
+CA   0.001   0.001   0.001
+CD   1.875   0.863   1.307
+C   -1.249   0.882   0.001
+>2
+//H2
+H2 N 1.0
+H2   1.840   0.500  -0.686
+CA   0.001   0.001   0.001
+CD   1.875   0.863   1.307
+C   -1.249   0.882   0.001
+*
+CTR acid 1 4 -1 1 -1 30
+>1
+// H on O' cis 
+HO O 1.0 
+HO     14.246  15.203  17.799
+O      14.109  14.303  18.212
+C      13.140  14.094  18.958
+OXT    12.267  14.963  19.265
+>2
+// H on O' trans
+HO O 1.0
+HO     14.797  13.618  17.970
+O      14.109  14.303  18.212
+C      13.140  14.094  18.958
+OXT    12.267  14.963  19.265
+>3
+// H on OXT cis
+HO OXT 1.0 
+HO    12.404  15.863  18.852  
+O     14.109  14.303  18.212  
+C     13.140  14.094  18.958  
+OXT   12.267  14.963  19.265  
+>4
+// H on OXT trans
+HO OXT 1.0
+HO    11.486  14.795  19.866    
+O     14.109  14.303  18.212 
+C     13.140  14.094  18.958 
+OXT   12.267  14.963  19.265 
+//
+// Normal amino acid residues
+//
+//
+// Non titratable groups
+//
+//
+// Ions
+//
+//  *
+//  CA None 0 1 -1 8 0 00
+//  >1
+//  XX CA 0.0
+//  *
+//  ZN None 0 1 -1 8 0 00
+//  >1
+//  XX ZN 0.0
+//  *
+//  CU None 0 1 -1 8 0 00
+//  >1
+//  XX CU 0.0
+//
+// Amino acid residues
+//
+*
+ASN None 0 1 -1 5 0 00
+>1
+XX OD1 0.0
+*
+ASN None 0 1 -1 7 0 00
+>1
+XX ND2 0.0
+*
+GLN None 0 1 -1 5 0 00
+>1
+XX OE1 0.0
+*
+GLN None 0 1 -1 7 0 00
+>1
+XX NE2 0.0
+//
+// ARG - should create a special type for Arg, but this will do for now
+//
+*
+ARG None 0 4 -1 7 0 00
+>1
+HH11 NH1 1.0
+>2
+HH12 NH1 1.0
+>3
+HH21 NH2 1.0
+>4
+HH22 NH2 1.0
+*
+ARG None 0 1 -1 4 0 00
+>1
+HE  NE  1.0
+//
+// Potential Titratable groups
+//
+// Alcoholic HG on SER OG
+//
+*
+SER acid 1 1 1 2 2 10
+>1
+HG OG 1.0
+HG  0.067   0.691   2.262
+OG  0.056  -0.296   2.418
+CB  0.014  -0.971   1.174
+//
+// Alcoholic HG1 on THR OG1
+//
+*
+THR acid 1 1 1 2 2 10
+>1
+HG1 OG1 1.0
+HG1 1.735  -1.497   0.321
+OG1 1.226  -1.775   1.136 
+CB  0.001  -0.981   1.242
+//
+// Alcoholic HH on TYR OH
+//
+*
+TYR acid 1 1 1 2 3 10
+>1
+HH OH 1.0
+HH   4.215  -5.298   0.603
+OH   4.469  -4.494   1.141
+CZ   3.404  -3.644   1.219
+//
+// Primary amine: HZ3 on LYS
+//
+*
+LYS base 1 1 1 3 5 00
+>1
+HZ3 NZ 1.0
+HZ3 13.265  -2.660  16.286 
+HZ1 11.724  -2.526  16.808 
+HZ2 12.040  -3.218  15.362 
+ NZ 12.319  -2.504  16.004  
+//
+// HIS: HD1 on ND1 and HE2 on NE2
+//
+*
+HIS base 2 2 2 4 -1 30
+>1
+HD1 ND1 1.0
+HD1 -9.427  13.018  15.624 
+ND1 -9.975  12.423  16.211 
+CG -10.649  12.795  17.345
+CE1 -10.141  11.139  15.977 
+>2
+HE2 NE2 1.0
+HE2 -11.174   9.716  16.906
+NE2 -10.895  10.676  16.891 
+CE1 -10.141  11.139  15.977 
+CD2 -11.226  11.671  17.782
+//
+// ASP - four protonation conformations
+//
+*
+ASP acid 1 4 -1 1 -1 30
+>1
+// H on OD1 cis 
+HD1 OD1 1.0 
+HD1    14.246  15.203  17.799
+OD1    14.109  14.303  18.212
+CG     13.140  14.094  18.958
+OD2    12.267  14.963  19.265
+>2
+// H on OD1 trans
+HD1 OD1 1.0
+HD1    14.797  13.618  17.970
+OD1    14.109  14.303  18.212
+CG     13.140  14.094  18.958
+OD2    12.267  14.963  19.265
+>3
+// H on OD2 cis
+HD2 OD2 1.0 
+HD2   12.404  15.863  18.852  
+OD1   14.109  14.303  18.212  
+CG    13.140  14.094  18.958  
+OD2   12.267  14.963  19.265  
+>4
+// H on OD2 trans
+HD2 OD2 1.0
+HD2   11.486  14.795  19.866    
+OD1   14.109  14.303  18.212 
+CG    13.140  14.094  18.958 
+OD2   12.267  14.963  19.265 
+//
+// Glu - four protonated conformations
+//
+*
+GLU acid 1 4 -1 1 -1 30
+>1
+// H on OE1 cis 
+HE1 OE1 1.0 
+HE1    14.246  15.203  17.799
+OE1    14.109  14.303  18.212
+CD     13.140  14.094  18.958
+OE2    12.267  14.963  19.265
+>2
+// H on OE1 trans
+HE1 OE1 1.0
+HE1    14.797  13.618  17.970
+OE1    14.109  14.303  18.212
+CD     13.140  14.094  18.958
+OE2    12.267  14.963  19.265
+>3
+// H on OE2 cis
+HE2 OE2 1.0 
+HE2   12.404  15.863  18.852  
+OE1   14.109  14.303  18.212  
+CD    13.140  14.094  18.958  
+OE2   12.267  14.963  19.265  
+>4
+// H on OE2 trans
+HE2 OE2 1.0
+HE2   11.486  14.795  19.866 
+OE1   14.109  14.303  18.212 
+CD    13.140  14.094  18.958 
+OE2   12.267  14.963  19.265 
+*
+//
+// Glh - four protonated conformations
+//    Same as GLU, but must have a hydrogen
+//
+*
+GLH acid 1 4 -1 13 -1 30
+>1
+// H on OE1 cis 
+HE1 OE1 1.0 
+HE1    14.246  15.203  17.799
+OE1    14.109  14.303  18.212
+CD     13.140  14.094  18.958
+OE2    12.267  14.963  19.265
+>2
+// H on OE1 trans
+HE1 OE1 1.0
+HE1    14.797  13.618  17.970
+OE1    14.109  14.303  18.212
+CD     13.140  14.094  18.958
+OE2    12.267  14.963  19.265
+>3
+// H on OE2 cis
+HE2 OE2 1.0 
+HE2   12.404  15.863  18.852  
+OE1   14.109  14.303  18.212  
+CD    13.140  14.094  18.958  
+OE2   12.267  14.963  19.265  
+>4
+// H on OE2 trans
+HE2 OE2 1.0
+HE2   11.486  14.795  19.866    
+OE1   14.109  14.303  18.212 
+CD    13.140  14.094  18.958 
+OE2   12.267  14.963  19.265 
+*
+HISFLIP none 0 0 -1 11 2 10
+*
+ASNFLIP none 0 0 -1 11 2 10
+*
+GLNFLIP none 0 0 -1 11 3 10
+*
+WAT none 0 0 -1 12 -1 10
+>1
+// H1
+H1 O 1.0
+>2
+// H2
+H2 O 1.0
+!

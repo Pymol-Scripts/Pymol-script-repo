@@ -1,0 +1,3 @@
+SOURCE= ./__init__.py ./atomTypes.py ./cycle.py ./bo.py ./aromatic.py \
+         ./addh.py ./gasteiger.py ./util.py ./tools.py ./babelAtomTypes.py \
+	./babelElements.py 
