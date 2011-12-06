@@ -2,7 +2,7 @@
 See more here: http://www.pymolwiki.org/index.php/dynoplot
 
 ###############################################
-#  File:          DynoPlot.py
+#  File:          dynoplot.py
 #  Author:        Dan Kulp
 #  Creation Date: 8/29/05
 #
