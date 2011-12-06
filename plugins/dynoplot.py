@@ -1,3 +1,6 @@
+'''
+See more here: http://www.pymolwiki.org/index.php/dynoplot
+
 ###############################################
 #  File:          DynoPlot.py
 #  Author:        Dan Kulp
@@ -9,7 +12,7 @@
 #  Draw plots that display interactive data.
 #   Phi,Psi plot shown.
 ###############################################
- 
+'''
  
 from __future__ import division
 from __future__ import generators
