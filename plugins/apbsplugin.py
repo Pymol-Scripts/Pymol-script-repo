@@ -138,7 +138,7 @@ DEBUG = 1
 
 APBS_DEFAULT=True
 
-import os,math,re
+import os,math,re,platform
 import string
 import Tkinter
 from Tkinter import *
