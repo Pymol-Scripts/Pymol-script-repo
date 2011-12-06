@@ -1954,12 +1954,13 @@ class Autodock:
 #        self.status_line.configure(text = "Selected %d flexible residues for receptor %s" \
 #                                   % (len(receptor_object.flexible_residues), rec))
         util_program = os.path.join(self.autodock_tools_path.get(),"prepare_flexreceptor4.py")
+        module_path = add_to_path()
         flex_res_string = receptor_object.flex_res_string()
         receptor_filename = receptor_object.receptor_pdbqt
         rec_rigid = receptor_filename[:-6]+'.rigid.pdbqt'
         rec_flexible = receptor_filename[:-6]+'.flexible.pdbqt'
-        command = "%s -r %s -s %s -g %s -x %s" % \
-                  (util_program, receptor_filename, flex_res_string, rec_rigid, rec_flexible)
+        command = "%s %s -r %s -s %s -g %s -x %s" % \
+                  (util_program, module_path, receptor_filename, flex_res_string, rec_rigid, rec_flexible)
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
 #        result = os.system(command)
@@ -1985,7 +1986,8 @@ class Autodock:
         fn = self.receptor_pdbqt_location.getvalue()
         outfile = os.path.join(self.work_dir(), os.path.basename(fn).split('.')[0]+'_pdb.pdb')
         util_program = os.path.join(self.autodock_tools_path.get(),"pdbqt_to_pdb.py")
-        command = "%s -f %s -o %s " % (util_program, fn, outfile)
+        module_path = add_to_path()
+        command = "%s %s -f %s -o %s " % (util_program, module_path, fn, outfile)
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
         result, output = getstatusoutput(command)
@@ -2234,7 +2236,8 @@ class Autodock:
         print >>fp, 'gridcenter  %8.3f %8.3f %8.3f' % (center_X, center_Y, center_Z)
         fp.close()
         util_program = os.path.join(self.autodock_tools_path.get(),"prepare_gpf4.py")
-        command = "%s -r %s -i %s -o %s" % (util_program, rigid_receptor_file, template_gpf, outfile_gpf)
+        module_path = add_to_path()
+        command = "%s %s -r %s -i %s -o %s" % (util_program, module_path, rigid_receptor_file, template_gpf, outfile_gpf)
         if flex_receptor_file is not None:
             command+=' -x %s' % flex_receptor_file
         if hasattr(self, "multiple_ligands"):
@@ -2310,9 +2313,10 @@ class Autodock:
         fp.close()
 
         util_program = os.path.join(self.autodock_tools_path.get(),"prepare_dpf4.py")
+        module_path = add_to_path()
         if ligands!='All':
             outfile_dpf = ligands+'.dpf'
-            command = "%s -r %s -i %s -o %s " % (util_program, rigid_receptor_file, template_dpf, outfile_dpf)
+            command = "%s %s -r %s -i %s -o %s " % (util_program, module_path, rigid_receptor_file, template_dpf, outfile_dpf)
             if flex_receptor_file is not None:
                 command+=' -x %s' % flex_receptor_file
             else:
