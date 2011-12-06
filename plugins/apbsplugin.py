@@ -139,7 +139,7 @@ DEBUG = 1
 
 APBS_DEFAULT=True
 
-import os,math,re,platform
+import os,math,re
 import string
 import Tkinter
 from Tkinter import *
@@ -147,7 +147,10 @@ import Pmw
 import distutils.spawn # used for find_executable
 import traceback
 import pymol
+###!!! Edited for Pymol-script-repo !!!###
+import platform
 from commands import getstatusoutput
+###!!!------------------------------!!!###
 
 #
 # Global config variables
@@ -159,7 +162,8 @@ APBS_BINARY_LOCATION = None # corresponding environment variable: APBS_BINARY_DI
 APBS_WEB_LOCATION = None # corresponding environment variable: APBS_WEB_DIR
 APBS_PSIZE_LOCATION = None # corresponding environment variable: APBS_PSIZE_DIR
 APBS_PDB2PQR_LOCATION = None # corresponding environment variable: APBS_PDB2PQR_DIR
-TEMPORARY_FILE_DIR = None # corresponding environment variable: TEMP
+#TEMPORARY_FILE_DIR = None # corresponding environment variable: TEMP
+TEMPORARY_FILE_DIR = os.getcwd() # corresponding environment variable: TEMP
 
 apbs_plea = ("IMPORTANT REQUEST: If you have not already done so, please register\n"
              "your use of the open-source Adaptive Poisson-Boltzmann Solver (APBS) at\n"
@@ -227,8 +231,10 @@ def get_default_location(name):
                 return False
         return True
     searchDirs = []
+###!!! Edited for Pymol-script-repo !!!###
     searchDirs.append(add_to_path()[0])
     searchDirs.append(add_to_path()[1])
+###!!!------------------------------!!!###
     # Previous order was A B C D
     #D
     for x in 'APBS_BINARY_DIR APBS_WEB_DIR APBS_PSIZE_DIR APBS_PDB2PQR_DIR'.split():
@@ -276,11 +282,11 @@ def get_default_location(name):
         searchDirs.append("/tmp")
         searchDirs.append(".")
 
-    #print "Search dirs",searchDirs
+    #print "Search dirs",searchDirs  ###!!!
 
     if DEBUG:
-        #print "get_default_location will search the following: ", searchDirs
-        pass
+        #print "get_default_location will search the following: ", searchDirs   ###!!!
+        pass  ###!!!
     for d in searchDirs:
         if name=="temp":
             f = d           # just search for the directory
@@ -288,17 +294,17 @@ def get_default_location(name):
                 return f
         else:
             f = os.path.join( d, name )  # make path/name.py
-            print "trying",f
+            #print "trying",f     ###!!! 
             if os.path.exists(f) and verify(name,f):
                 return f
             elif name.endswith('.exe'):
                 f = os.path.join( d, name[:-4] )  # make path/name.exe
-                print "trying",f
+                #print "trying",f    ###!!!
                 if os.path.exists(f) and verify(name,f):
                     return f
             elif name.endswith('.py'):
                 f = os.path.join( d, name[:-3] )  # make path/name
-                print "trying",f
+                #print "trying",f    ###!!!
                 if os.path.exists(f) and verify(name,f):
                     return f
     print "Could not find default location for file: %s" % name
@@ -1011,7 +1017,7 @@ by setting the environment variable TEMP.
 Documentation may be found at
 http://pymolwiki.org/index.php/APBS
 and
-http://apbs.wustl.edu/MediaWiki/index.php/APBS_electrostatics_in_PyMOL
+http://www.pymolwiki.org/index.php/Apbsplugin
 
 It requires APBS version >= 0.5.0.
 
@@ -1102,7 +1108,7 @@ Citation for PDB2PQR:
     def execute(self, result, refocus=True):
         if result == 'Register APBS Use':
             import webbrowser
-            webbrowser.open("http://agave.wustl.edu/apbs/download")
+            webbrowser.open("http://www.poissonboltzmann.org/apbs/downloads")
         elif result == 'Register PDB2PQR Use':
             import webbrowser
             webbrowser.open("http://www.poissonboltzmann.org/pdb2pqr/d/downloads")
@@ -1673,8 +1679,10 @@ Citation for PDB2PQR:
             # This allows us to import pdb2pqr
             sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue())))
             print "Appended", os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))
+###!!! Edited for Pymol-script-repo !!!###
             sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))+add_to_path()[2])
             print "Appended", os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))+add_to_path()[2]
+###!!!------------------------------!!!###
             import pdb2pqr.pdb2pqr
             # This allows pdb2pqr to correctly find the dat directory with AMBER.DAT.
             sys.path.append(os.path.dirname(self.pdb2pqr.getvalue()))
@@ -1684,6 +1692,7 @@ Citation for PDB2PQR:
             from pdb2pqr import main
             print "Imported main"
             try:
+###!!! Edited for Pymol-script-repo !!!###
                 args = ' '.join( map( str, args ) )
                 print "args are now converted to string: ", args
                 retval, output_main = getstatusoutput(args)
@@ -1697,6 +1706,7 @@ Citation for PDB2PQR:
 #                elif retval == None:
 #                    retval = 0 # When PDB2PQR does not explicitly
 #                               # return anything, it's a success.
+###!!!-------------------------------!!!###
             except:
                 print "Exception raised by main.mainCommand!"
                 print sys.exc_info()
@@ -2452,6 +2462,7 @@ If you have a molecule and a map loaded, please click "Update"''',
         print "set colors"
         pymol.cmd.show('mesh',self.getGradName())
 
+###!!! Edited for Pymol-script-repo !!!###
 def add_to_path():
     for path in sys.path:
         if 'Pymol-script-repo' in path:
@@ -2469,3 +2480,4 @@ def add_to_path():
             pdb2pqr_string = None
             pdb2pqr_string_short = None
     return(psize_string,pdb2pqr_string,pdb2pqr_string_short)
+###!!!-------------------------------!!!###
