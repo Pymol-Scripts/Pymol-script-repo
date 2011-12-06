@@ -147,6 +147,7 @@ import Pmw
 import distutils.spawn # used for find_executable
 import traceback
 import pymol
+from commands import getstatusoutput
 
 #
 # Global config variables
@@ -1683,15 +1684,19 @@ Citation for PDB2PQR:
             from pdb2pqr import main
             print "Imported main"
             try:
-                retval = main.mainCommand(args)
+                args = ' '.join( map( str, args ) )
+                print "args are now converted to string: ", args
+                retval, output_main = getstatusoutput(args)
+#                retval = main.mainCommand(args)
                 print "PDB2PQR's mainCommand returned",retval
-                if retval == 1:
-                    retval = 0 # success condition is backwards in pdb2pqr
-                elif retval == 0:
-                    retval = 1 # success condition is backwards in pdb2pqr
-                elif retval == None:
-                    retval = 0 # When PDB2PQR does not explicitly
-                               # return anything, it's a success.
+                print output_main
+#                if retval == 1:
+#                    retval = 0 # success condition is backwards in pdb2pqr
+#                elif retval == 0:
+#                    retval = 1 # success condition is backwards in pdb2pqr
+#                elif retval == None:
+#                    retval = 0 # When PDB2PQR does not explicitly
+#                               # return anything, it's a success.
             except:
                 print "Exception raised by main.mainCommand!"
                 print sys.exc_info()
