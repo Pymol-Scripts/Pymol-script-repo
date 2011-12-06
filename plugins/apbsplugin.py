@@ -1672,6 +1672,8 @@ Citation for PDB2PQR:
             # This allows us to import pdb2pqr
             sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue())))
             print "Appended", os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))
+            sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))+add_to_path()[2])
+            print "Appended", os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))+add_to_path()[2]
             import pdb2pqr.pdb2pqr
             # This allows pdb2pqr to correctly find the dat directory with AMBER.DAT.
             sys.path.append(os.path.dirname(self.pdb2pqr.getvalue()))
