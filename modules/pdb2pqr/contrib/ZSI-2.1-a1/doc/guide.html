@@ -1,0 +1,1271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<link rel="STYLESHEET" href="guide.css" type='text/css' />
+<link rel="first" href="guide.html" title='ZSI: the Zolera soap Infrastructure 
+<BR>
+User's Guide' />
+<link rel='contents' href='guide.html' title="Contents" />
+<link rel='last' href='about.html' title='About this document...' />
+<link rel='help' href='about.html' title='About this document...' />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name='aesop' content='information' />
+<title>ZSI: The Zolera Soap Infrastructure User's Guide</title>
+</head>
+<body>
+<div class="navigation">
+<div id='top-navigation-panel' xml:id='top-navigation-panel'>
+<table align="center" width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td class='online-navigation'><img src='previous.png'
+  border='0' height='32'  alt='Previous Page' width='32' /></td>
+<td class='online-navigation'><img src='up.png'
+  border='0' height='32'  alt='Up one Level' width='32' /></td>
+<td class='online-navigation'><img src='next.png'
+  border='0' height='32'  alt='Next Page' width='32' /></td>
+<td align="center" width="100%">ZSI: The Zolera Soap Infrastructure 
+<br>
+User's Guide</td>
+<td class='online-navigation'><img src='blank.png'
+  border='0' height='32'  alt='' width='32' /></td>
+<td class='online-navigation'><img src='blank.png'
+  border='0' height='32'  alt='' width='32' /></td>
+<td class='online-navigation'><img src='blank.png'
+  border='0' height='32'  alt='' width='32' /></td>
+</tr></table>
+<div class='online-navigation'>
+</div>
+<hr /></div>
+</div>
+<!--End of Navigation Panel-->
+
+<p>
+
+<div class="titlepage">
+<div class='center'>
+<h1>ZSI: The Zolera Soap Infrastructure 
+<br>
+User's Guide</h1>
+<p><b><font size="+2">Joshua Boverhof,</font></b></p>
+<p>
+  <span class="email">jrboverhof@lbl.gov</span>
+</p>
+<p><i>    Charles Moad</i></p>
+<p><strong>Release 2.1.0</strong><br />
+<strong>November 01, 2007</strong></p>
+<p></p>
+</div>
+</div>
+
+<p>
+<div class="centerline" id="par1150" align="CENTER">
+<strong>COPYRIGHT</strong></div>
+
+<p>
+Copyright © 2001, Zolera Systems, Inc.
+<br>
+All Rights Reserved.
+
+<p>
+Copyright © 2002-2003, Rich Salz.
+<br>
+All Rights Reserved.
+
+<p>
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, and/or
+sell copies of the Software, and to permit persons to whom the Software
+is furnished to do so, provided that the above copyright notice(s) and
+this permission notice appear in all copies of the Software and that
+both the above copyright notice(s) and this permission notice appear in
+supporting documentation.
+
+<p>
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF THIRD PARTY RIGHTS. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS
+INCLUDED IN THIS NOTICE BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT
+OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
+OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
+OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE
+OR PERFORMANCE OF THIS SOFTWARE.
+
+<p>
+Except as contained in this notice, the name of a copyright holder
+shall not be used in advertising or otherwise to promote the sale, use
+or other dealings in this Software without prior written authorization
+of the copyright holder.
+
+<p>
+Copyright © (c) 2003, The Regents of the University of California,
+through Lawrence Berkeley National Laboratory (subject to receipt of
+any required approvals from the U.S. Dept. of Energy). All rights
+reserved. Redistribution and use in source and binary forms, with or
+without modification, are permitted provided that the following
+conditions are met:
+
+<p>
+(1) Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+(2) Redistributions in binary form must reproduce the above copyright
+notice, this list of conditions and the following disclaimer in the
+documentation and/or other materials provided with the distribution.
+(3) Neither the name of the University of California, Lawrence Berkeley
+National Laboratory, U.S. Dept. of Energy nor the names of its contributors
+may be used to endorse or promote products derived from this software without
+specific prior written permission.
+
+<p>
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGE.
+
+<p>
+You are under no obligation whatsoever to provide any bug fixes,
+patches, or upgrades to the features, functionality or performance of
+the source code ("Enhancements") to anyone; however, if you choose to
+make your Enhancements available either publicly, or directly to
+Lawrence Berkeley National Laboratory, without imposing a separate
+written license agreement for such Enhancements, then you hereby grant
+the following license: a non-exclusive, royalty-free perpetual license
+to install, use, modify, prepare derivative works, incorporate into
+other computer software, distribute, and sublicense such Enhancements
+or derivative works thereof, in binary and source code form.
+
+<p>
+<br><h2><a name="SECTION001000000000000000000">
+Contents</a>
+</h2>
+<!--Table of Contents-->
+
+<ul class="TofC">
+<li><a href="guide.html#SECTION002000000000000000000">1. Introduction</a>
+<ul>
+<li><a href="guide.html#SECTION002100000000000000000">1.1 Acronyms and Terminology</a>
+<li><a href="guide.html#SECTION002200000000000000000">1.2 Overview</a>
+<ul>
+<li><a href="guide.html#SECTION002210000000000000000">1.2.1 soap bindings</a>
+<li><a href="guide.html#SECTION002220000000000000000">1.2.2 python tools</a>
+</ul>
+<li><a href="guide.html#SECTION002300000000000000000">1.3 Not Covered</a>
+<li><a href="guide.html#SECTION002400000000000000000">1.4 References</a>
+</ul>
+<li><a href="guide.html#SECTION003000000000000000000">2. wsdl2py basics</a>
+<ul>
+<li><a href="guide.html#SECTION003100000000000000000">2.1 Modules</a>
+<ul>
+<li><a href="guide.html#SECTION003110000000000000000">2.1.1 client stub module</a>
+<li><a href="guide.html#SECTION003120000000000000000">2.1.2 types module</a>
+<li><a href="guide.html#SECTION003130000000000000000">2.1.3 service module</a>
+</ul>
+<li><a href="guide.html#SECTION003200000000000000000">2.2 Generated TypeCodes</a>
+<ul>
+<li><a href="guide.html#SECTION003210000000000000000">2.2.1 special handling of instance attributes</a>
+<li><a href="guide.html#SECTION003220000000000000000">2.2.2 Metaclass Magic: pyclass_type</a>
+</ul>
+</ul>
+<li><a href="guide.html#SECTION004000000000000000000">3. Security</a>
+<ul>
+<li><a href="guide.html#SECTION004100000000000000000">3.1 HTTP Basic Authorization</a>
+<li><a href="guide.html#SECTION004200000000000000000">3.2 HTTP Digest Authorization</a>
+<li><a href="guide.html#SECTION004300000000000000000">3.3 Message Security</a>
+</ul>
+<li><a href="guide.html#SECTION005000000000000000000">4. SOAP Headers</a>
+<li><a href="guide.html#SECTION006000000000000000000">5. Type Substitution</a>
+<li><a href="guide.html#SECTION007000000000000000000">A. wsdl2py scrpt</a>
+<ul>
+<li><a href="guide.html#SECTION007100000000000000000">A.1 Command Line Flags</a>
+<ul>
+<li><a href="guide.html#SECTION007110000000000000000">A.1.1 General Flags</a>
+<li><a href="guide.html#SECTION007120000000000000000">A.1.2 Typecode Extensions (Stable)</a>
+<li><a href="guide.html#SECTION007130000000000000000">A.1.3 Development Extensions (Unstable)</a>
+<li><a href="guide.html#SECTION007140000000000000000">A.1.4 Customizations (Unstable)</a>
+</ul>
+</ul>
+<li><a href="guide.html#SECTION008000000000000000000">B. Example: WolframSearch</a>
+<ul>
+<li><a href="guide.html#SECTION008100000000000000000">B.1 Code Generation from WSDL and XML Schema</a>
+<ul>
+<li><a href="guide.html#SECTION008110000000000000000">B.1.1 Example Use of Generated Code</a>
+</ul></ul></ul>
+<!--End of Table of Contents-->
+
+<p>
+
+<h1><a name="SECTION002000000000000000000">
+1. Introduction</a>
+</h1>
+
+<p>
+<tt class="module">ZSI</tt>, the Zolera SOAP Infrastructure, is a Python package that
+provides an implementation of the SOAP specification, as described in
+<em class="citetitle"><a
+ href="http://www.w3.org/TR/soap"
+ title="SOAP 1.1 Specification"
+ >SOAP 1.1 Specification</a></em>.
+
+<p>
+This guide demonstrates how to use ZSI to develop <em>Web Service</em> applications from a
+<em class="citetitle"><a
+ href="http://www.w3.org/TR/wsdl"
+ title="Web Services 
+Description Language "
+ >Web Services 
+Description Language </a></em>document.
+
+<p>
+This document is primarily concerned with demonstrating and documenting how to
+use a <em>Web Service</em> by creating and accessing Python data for the purposes of
+sending and receiving SOAP messages.  Typecodes are used to marshall Python
+datatypes into XML, which can be included in a SOAP Envelope.  The typecodes
+are generated from information provided in the WSDL document, and generally
+describe SOAP and XML Schema data types.  For a low-level treatment of
+typecodes, and a description of SOAP-based processing see the ZSI manual.
+
+<p>
+
+<h1><a name="SECTION002100000000000000000">
+1.1 Acronyms and Terminology</a>
+</h1>
+
+<p>
+<dl class="definitions">
+SOAP <br>
+Usually refering to the content and format of a message ultimately
+sent and received by a <em>Web Service</em>, see <em class="citetitle"><a
+ href="http://www.w3.org/TR/soap"
+ title="SOAP 1.1 Specification"
+ >SOAP 1.1 Specification</a></em>
+WSDL <br>
+A document describing a <em>Web Service</em>'s interface, see
+<em class="citetitle"><a
+ href="http://www.w3.org/TR/wsdl"
+ title="Web Services 
+Description Language "
+ >Web Services 
+Description Language </a></em>
+XMLSchema <br>
+Standard for modeling XML document
+structure.  See <em class="citetitle"
+ >XML Schema Specification</em>
+schema document <br>
+a file containing a schema definition.
+schema (instance)
+<br>
+The set of rules or components contained in the
+assemblage of one or more schema documents. 
+Element Declaration <br>
+A schema component that associates a
+name with a type definition.  eg. <i>&lt;element name="age" type="xsd:int"&gt;, </i>
+GED <br><i>Global Element Declaration, an element declared at the
+top-level of a schema.</i>
+ComplexType <br>
+The parent of all type definitions that can
+specify attributes and children.
+SimpleType <br>
+A simple data type like a string or integer.  The
+<em class="citetitle"
+ >XML Schema Specification</em> defines many built-in types. 
+The XML Schema type library
+<br>
+The <a class="url" href="http://www.w3.org/2001/XMLSchema">http://www.w3.org/2001/XMLSchema</a> namespace, which
+contains definitions of various primitive types like string and integer, as well
+as a compound type <i>complexType used to create aggregate types.  
+Conventionally the <em>xsd</em> prefix is used to map to this schema.</i>
+<i>doc/literal
+<br>
+document style with literal encoding</i>
+<i>rpc/enc
+<br>
+rpc style with specified encoding, not compatible with
+<em class="citetitle"><a
+ href="http://www.ws-i.org/Profiles/BasicProfile-1.1.html"
+ title="Basic Profile (WS-Interop)"
+ >Basic Profile (WS-Interop)</a></em></i>
+<i>rpc/literal
+<br>
+rpc style with literal encoding.</i>
+</dl>
+
+<p>
+
+<h1><a name="SECTION002200000000000000000">
+1.2 Overview</a>
+</h1>
+The ZSI <em>Web Service</em>tools are for top-Down <em>Web Service</em>development, using an existing WSDL
+Document to create client and server applications (see <a href="#section:NC">1.3</a>). A <em>Web Service</em>, in the context of this document, exposes a WSDL Document describing the
+service's interface, this document is typically available at a published URL (see
+<em class="citetitle"
+ >Uniform Resource Locator</em>).  The WSDL document defines SOAP bindings for communicating with the 
+service. These bindings will be used to exchange SOAP messages, the contents of
+these messages must adhere to the document structure specified by the schema. The 
+schema is either included in the WSDL Document, imported by it, or represented
+by the available built-in types (such as <em>xsd:int, xsd:string,
+etc</em>).<a name="tex2html1"
+  href="#foot144"><sup>1.1</sup></a>
+<p>
+
+<h2><a name="SECTION002210000000000000000">
+1.2.1 soap bindings</a>
+</h2>
+The two styles of SOAP bindings are <em>rpc</em> and <em>document</em>.  The use of
+<i>literal encoding is encouraged and the recommended way to develop new <em>Web Service</em>
+applications (see <em class="citetitle"><a
+ href="http://www.ws-i.org/Profiles/BasicProfile-1.1.html"
+ title="Basic Profile (WS-Interop)"
+ >Basic Profile (WS-Interop)</a></em>).  The SOAP <i>encoded support is maintained for use
+with older applications, and other SOAP toolkits restricted to <i>rpc/encdevelopment.  A
+<i>doc/literalservice is typically described as an exchange of documents, while a
+<i>rpc/encor <i>rpc/literalservice is thought of in terms of remote procedure calls.
+Whether this distinction of purpose is meaningful or useful is debatable.  <tt class="module">ZSI</tt>
+supports all three types, but <i>rpc/literaland <i>doc/literalare the focus of ongoing 
+development.
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION002220000000000000000">
+1.2.2 python tools</a>
+</h2><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i>
+<h3><a name="SECTION002221000000000000000">
+1.2.2.1 wsdl2py</a>
+</h3><i><i><i><i><i><i><i><i>
+The <b class="program">wsdl2py </b>script generates python code representing the various components
+defined in a WSDL Document.  Most of the remaining guide focuses on how to use
+this tool and understand its output.
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION002300000000000000000"></a>
+<a name="section:NC"></a>
+<br>
+1.3 Not Covered
+</h1><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i>
+<ol>
+<li>How to create a WSDL document
+</li>
+<li>How to write XML Schema
+</li>
+<li>Interoperability
+</li>
+<li>How to use Web Services without WSDL
+</li>
+</ol><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION002400000000000000000">
+1.4 References</a>
+</h1><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i>
+<ol>
+<li>Web services development patterns 
+ <a class="url" href="http://www-128.ibm.com/developerworks/websphere/library/techarticles/0511_flurry/0511_flurry.html">http://www-128.ibm.com/developerworks/websphere/library/techarticles/0511_flurry/0511_flurry.html</a>
+</li>
+</ol><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION003000000000000000000">
+2. <i>wsdl2py basics</i></a>
+</h1><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i>The <b class="program">wsdl2py </b>script is used to generate all the code needed to access a Web Service
+through an exposed WSDL document, usually this description is available at a URL
+which is provided to the script. 
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><b class="program">wsdl2py </b>will generate a client, types, and service module.   From the the WSDL
+SOAP Bindings, the client and service modules are created.  The types module
+contains typecodes for the schema defined by the WSDL.
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION003100000000000000000"></a>
+<a name="subsection:_Modules"></a>
+<br>
+2.1 Modules
+</h1><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION003110000000000000000">
+2.1.1 client stub module</a>
+</h2><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003111000000000000000">
+2.1.1.1 classes</a>
+</h3><i><i><i><i><i><i><i><i>
+The <i>service item in the  <em class="citetitle"><a
+ href="http://www.w3.org/TR/wsdl"
+ title="Web Services 
+Description Language "
+ >Web Services 
+Description Language </a></em>definition contains one or more <i>port 
+items.
+</i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003111100000000000000">
+2.1.1.1.1 locator</a>
+</h4><i><i><i><i><i><i><i><i><i><i>
+Defines a factory method for each <i>port item, and stores the service's
+address.  Use to grab a client(port) to the <em>Web Service</em>.
+</i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+# Example Locator
+class WhiteMesaSoapRpcLitTestSvcLocator:
+    SoapTestPortTypeRpc_address = "http://www.whitemesa.net/test-rpc-lit"
+    def getSoapTestPortTypeRpcAddress(self):
+        return WhiteMesaSoapRpcLitTestSvcLocator.SoapTestPortTypeRpc_address
+    def getSoapTestPortTypeRpc(self, url=None, **kw):
+        return Soap11TestRpcLitBindingSOAP(url or WhiteMesaSoapRpcLitTestSvcLocator.SoapTestPortTypeRpc_address, **kw)
+}
+</pre></div><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003111200000000000000">
+2.1.1.1.2 port</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i>
+Each <i>port item will be represented by a single class definition, grab a
+port through one of the locator's factory methods.
+</i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+loc = WhiteMesaSoapRpcLitTestSvcLocator()
+port = loc.getSoapTestPortTypeRpc(tracefile=sys.stdout)
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003111300000000000000">
+2.1.1.1.3 message</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i> classes that represent the SOAP and XML Schema
+data types. A <i>Message instance is serialized as a XML instance.  A
+<i>Message passed as an argument to a <i>port method is then serialized into
+a SOAP Envelope and transported to the <em>Web Service</em>, the client will then wait for an
+expected response, and finally the SOAP response is marshalled back into the
+<i>Message returned to the user.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+msg = echoBooleanRequest()
+msg.InputBoolean = True
+rsp = port.echoBoolean(msg)
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION003120000000000000000">
+2.1.2 types module</a>
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+Defines typecodes for all components of all schema specified by the target WSDL
+Document (not including built-in types).  Each schema component declared at the
+top-level, the immediate children of the <i>schema tag, are global in scope
+and by importing the "types" module an application has access to the GEDs and
+global type definitions either directly or with the unique  
+<i>(namespace,name) combination thru convenience functions.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003121000000000000000">
+2.1.2.1 classes</a>
+</h3><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003121100000000000000">
+2.1.2.1.1 Global Type Definition</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+class ns1:
+    ..
+    ..
+    class HelpRequest_Def(ZSI.TCcompound.ComplexType, TypeDefinition):
+        schema = "http://webservices.amazon.com/AWSECommerceService/2006-11-14"
+        type = (schema, "HelpRequest")
+        def __init__(self, pname, ofwhat=(), attributes=None, extend=False, restrict=False, **kw):
+            ..
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003121200000000000000">
+2.1.2.1.2 Global Element Declaration</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+class ns1:
+    ..
+    ..
+    class Help_Dec(ZSI.TCcompound.ComplexType, ElementDeclaration):
+        literal = "Help"
+        schema = "http://webservices.amazon.com/AWSECommerceService/2006-11-14"
+        def __init__(self, **kw):
+            ..
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003122000000000000000">
+2.1.2.2 helper functions</a>
+</h3><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003122100000000000000">
+2.1.2.2.1 Global Type Definition</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+    klass = ZSI.schema.GTD(\
+        "http://webservices.amazon.com/AWSECommerceService/2006-11-14", 
+        "HelpRequest")
+    typecode = klass("Help")
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003122200000000000000">
+2.1.2.2.2 Global Element Declaration</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+    typecode = ZSI.schema.GED(\
+        "http://webservices.amazon.com/AWSECommerceService/2006-11-14", 
+        "Help")
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Each module level class defintion represents a unique namespace, they're simply
+wrappers of individual namespaces.  In the example above, the two inner classes
+of <tt class="class">ns1</tt> are the typecode representations of a global <i>type
+definition</i> <i><b>HelpRequest_Def</b></i>, and a global <i>element
+declaration</i> <i><b>Help_Dec</b></i>.  In most cases a <tt class="class">TypeCode</tt>
+instance represents either a global or local element declaration.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>In the example <tt class="function">GED</tt> returns a <tt class="class">Help_Dec</tt> instance
+while <tt class="function">GTD</tt> returns the class definition <tt class="class">HelpRequest_Def</tt>.  Why
+this asymmetry?  
+The element name is serialized as the XML tag name, while the type definition
+describes the contents (children, text node).  
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>In the generated code an element declaration either defines all its content in
+its contructor or it subclasses a global type definition, which is another
+generated class.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION003130000000000000000">
+2.1.3 service module</a>
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+skeleton class, normally subclassed and invoked by implementation code.  The
+skeleton defines a callback method for each operation defined in the SOAP
+<i>Binding.  These methods marshal/unmarshall XML into python types.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003131000000000000000">
+2.1.3.1 example: DateService</a>
+</h3><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003131100000000000000">
+2.1.3.1.1 server skeleton code</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+class simple_Date_Service(ServiceSOAPBinding):
+    ..
+    ..
+    def soap_getCurrentDate(self, ps):
+        self.request = ps.Parse(getCurrentDateRequest.typecode)
+        return getCurrentDateResponse()
+
+    soapAction['urn:DateService.wsdl#getCurrentDate'] = 'soap_getCurrentDate'
+    root[(getCurrentDateRequest.typecode.nspname,getCurrentDateRequest.typecode.pname)] = 'soap_getCurrentDate'
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003131200000000000000">
+2.1.3.1.2 server implementation code</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+DS = simple_Date_Service
+class Service(DS):
+    def soap_getCurrentDate(self, ps):
+        response = DS.soap_getCurrentDate(self, ps)
+        response.Today = today = response.new_today()
+        self.request.Input
+        dt = time.localtime(time.time())
+        today.Year = dt[0]
+        today.Month = dt[1]
+        today.Day = dt[2]
+        today.Hour = dt[3]
+        today.Minute = dt[4]
+        today.Second = dt[5]
+        today.Weekday = dt[6]
+        today.DayOfYear = dt[7]
+        today.Dst = dt[8]
+        return response
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION003200000000000000000">
+2.2 Generated TypeCodes</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+The generated inner typecode classes come in two flavors, as mentioned above. 
+<i>element declarations</i> can be serialized into XML, generally <i>type
+definitions</i> cannot.<a name="tex2html2"
+  href="#foot396"><sup>2.1</sup></a>   Basically, the <i>name</i>
+attribute of an <i>element declaration</i> is serialized into an XML tag, but
+<i>type definitions</i> lack this information so they cannot be directly
+serialized into an XML instance.  
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Most <i>element declaration</i>s declare a <i>type</i> attribute, this must
+reference a <i>type definition</i>.  Considering the above scenario, a
+generated <i>TypeCode</i> class representing an <i>element declaration</i> will
+subclass the generated <i>TypeCode</i> class representing the <i>type 
+definition</i>.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION003210000000000000000">
+2.2.1 special handling of instance attributes</a>
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+The attributes discussed below are common to all TypeCodes, for more information
+see the ZSI manual.  I'm reintroducing them to point out certain conventions
+adhered to in the generated code, necessary for reliably dealing with WSDL and
+various messaging patterns and usages.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003211000000000000000">
+2.2.1.1 pyclass</a>
+</h3><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+All instances of generated <i>TypeCode</i> classes will have a <i>pyclass</i>
+attribute, instances of the <i>pyclass</i> can be created to store the data
+representing an <i>element declaration</i>.<a name="tex2html3"
+  href="#foot336"><sup>2.2</sup></a>. The <i>pyclass</i>
+itself has a <i>typecode</i> attribute, which is a reference to
+the <i>TypeCode</i> instance describing the data, thus making <i>pyclass</i>
+instances self-describing. 
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>When parsing an XML instance the data will be marshalled into an instance of the
+class specified in the typecode's <i>pyclass</i> attribute.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+    typecode = ZSI.schema.GED(\
+        "http://webservices.amazon.com/AWSECommerceService/2006-11-14", 
+        "Help")
+    msg = typecode.pyclass()
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003212000000000000000">
+2.2.1.2 aname</a>
+</h3><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+The <i>aname</i> is a <i>TypeCode</i> instance attribute, its value is a string
+representing  the attribute name used to reference data representing an element
+declartion. The set  of <i>XMLSchema</i> element names is <i>NCName</i>, this is
+a superset of ordinary identifiers in <i>python</i>. Keywords like <i>return
+and <i>class are legal NCNames.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><em class="citetitle"><a
+ href="http://www.w3.org/TR/REC-xml-names/"
+ title="Namespaces in XML"
+ >Namespaces in XML</a></em>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+From Namespaces in XML
+	NCName	 ::=	(Letter | '_') (NCNameChar)*
+	NCNameChar	 ::=	Letter | Digit | '.' | '-' | '_' | CombiningChar | Extender
+
+From Python Reference Manual (2.3 Identifiers and keywords)
+	identifier	::=	(letter|"_") (letter | digit | "_")*
+
+Default set of anames
+	ANAME	::=	("_") (letter | digit | "_")*
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003212100000000000000">
+2.2.1.2.1 transform</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i> <i>NCName</i> into an <i>ANAME</i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<ol>
+<li>preprend "_"
+</li>
+<li>character not in set (letter <code>|</code> digit <code>|</code> "_") change to "_"
+</li>
+</ol><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003213000000000000000">
+2.2.1.3 Attribute Declarations: attrs_aname</a>
+</h3><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+The <i>attrs_aname</i> is a <i>TypeCode</i> instance attribute, its value is a string representing the
+attribute name used to reference a dictionary, containing data representing 
+attribute declarations.  The keys of this dictionary are the  
+<code>(namespace,name)</code> tuples, the value of each key represents the value of
+the attribute.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003214000000000000000">
+2.2.1.4 Mixed Text Content: mixed_aname</a>
+</h3><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+Its value represents the attribute name used to store text content that some
+<i>ComplexType definitions allow.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION003220000000000000000"></a>
+<a name="subsection:MM"></a>
+<br>
+2.2.2 Metaclass Magic: pyclass_type
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+The <i>-complexType</i> flag provides many conveniences to the programmer. This 
+option is tested and reliable, and highly recommended by the authors.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>When <i>-complexType</i> is enabled the <code>__metaclass__</code> attribute will be
+set on all generated <i>pyclass</i>es.  The metaclass will introspect the <i>typecode</i> attribute of <i>pyclass</i>, and create a set of helper methods for
+each element and attribute declared in the <i>complexType</i> definition.  This
+option simply adds wrappers for dealing with content, it doesn't modify the
+generation scheme.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Use <i>help in a python interpreter to view all the properties and methods of
+these typecodes.  Looking at the generated code is not very helpful.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><dl>
+<dt><strong>Getters/Setters</strong></dt>
+<dd>A getter and setter function is defined for each element
+of a complex type.  The functions are named <code>get_element_ANAME</code> and
+<code>set_element_ANAME</code> respectively.  In this example, variable <var>msg</var>
+has functions named <code>get_element__Options</code> and <code>set_element__Options</code>.
+ In addition to elements, getters and setters are generated for the attributes
+ of a complex type.  For attributes, just the name of the attribute is used in
+ determining the method names, so get_attribute_NAME and set_attribute_NAME are
+ created.
+
+<p>
+</dd>
+<dt><strong>Factory Methods</strong></dt>
+<dd>If an element of a complex type is a complex type itself,
+then a conveniece factory method is created to get an instance of that types
+holder class.  The factory method is named, <code>newANAME</code>.
+
+<p>
+</dd>
+<dt><strong>Properties</strong></dt>
+<dd><em class="citetitle"><a
+ href="http://www.python.org/download/releases/2.2/descrintro/#property"
+ title="Python class properties"
+ >Python class properties</a></em>
+are created for each element of the complex type.  They are initialized with the
+corresponding getter and setter for that element.  To avoid name collisions the
+properties are named, <code>PNAME</code>, where the first letter of the type's pname
+attribute is capitalized.  In our running example, <var>msg</var> has class
+property, <code>Options</code>, which calls functions <code>get_element__Options</code> and
+<code>set_element__Options</code> under the hood.
+
+<p>
+</dd>
+</dl><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h3><a name="SECTION003221000000000000000">
+2.2.2.1 example</a>
+</h3><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003221100000000000000">
+2.2.2.1.1 schema</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i> 
+Taken from the WolframSearch WSDL.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+&lt;xsd:complexType name='WolframSearchOptions'&gt;
+  &lt;xsd:sequence&gt;
+    &lt;xsd:element name='Query' minOccurs='0' maxOccurs='1' type='xsd:string'/&gt;
+    &lt;xsd:element name='Limit' minOccurs='0' maxOccurs='1' type='xsd:int'/&gt;
+  &lt;/xsd:sequence&gt;
+  &lt;xsd:attribute name='timeout' type='xsd:double' /&gt;
+&lt;/xsd:complexType&gt;
+&lt;xsd:element name='WolframSearch'&gt;
+  &lt;xsd:complexType&gt;
+    &lt;xsd:sequence&gt;
+      &lt;xsd:element name='Options' minOccurs='0' maxOccurs='1' type='ns1:WolframSearchOptions'/&gt;
+    &lt;/xsd:sequence&gt;
+  &lt;/xsd:complexType&gt;
+&lt;/xsd:element&gt;
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003221200000000000000">
+2.2.2.1.2 help</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>(WolframSearchRequest)
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+Help on WolframSearch_Holder in module WolframSearchService_types object:
+
+class WolframSearch_Holder(__builtin__.object)
+ |  Methods defined here:
+ |  
+ |  __init__(self)
+ |  
+ |  get_element_Options(self)
+ |  
+ |  new_Options(self)
+ |      returns a mutable type
+ |  
+ |  set_element_Options(self, value)
+ |  
+ |  ----------------------------------------------------------------------
+ |  Properties defined here:
+ |  
+ |  Options
+ |      property for element (None,Options), minOccurs="0" maxOccurs="1" nillable="False"
+ |  
+ |      &lt;get&gt; = get_element_Options(self)
+ |  
+ |      &lt;set&gt; = set_element_Options(self, value)
+ |
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003221300000000000000">
+2.2.2.1.3 request</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+from WolframSearchService_client import *
+msg = WolframSearchRequest()
+# get an instance of a Options holder class using factory method
+msg.Options = opts = msg.new_Options()
+
+# assign values using the properties or methods
+opts.Query = 'Newton'
+opts.set_element_Limit(10)
+
+# don't forget the attribute
+opts.set_attribute_timeout(1.0)
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003221400000000000000">
+2.2.2.1.4 invoke</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+port = WolframSearchServiceLocator().getWolframSearchmyPortType()
+rsp = port.WolframSearch(msg)
+print 'SearchTime:', rsp.Result.SearchTime
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h4><a name="SECTION003221500000000000000">
+2.2.2.1.5 XML</a>
+</h4><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+XML approximation of our WolframSearchRequest instance.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+ &lt;WolframSearch&gt;
+   &lt;Options timeout="1.0" xsi:type="tns:WolframSearchOptions"&gt;
+     &lt;Query xsi:type="xsd:string"&gt;Newton&lt;/Query&gt;
+     &lt;Limit xsi:type="xsd:double"&gt;10.0&lt;/Limit&gt;
+   &lt;/Options&gt;
+ &lt;/WolframSearch&gt;
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION004000000000000000000">
+3. Security</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION004100000000000000000">
+3.1 HTTP Basic Authorization</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+auth=dict(style=ZSI.AUTH.httpbasic, user=USERNAME, password=PASSWORD)
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION004200000000000000000">
+3.2 HTTP Digest Authorization</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+auth=dict(style=ZSI.AUTH.httpdigest, user=USERNAME„ password=PASSWORD)
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION004300000000000000000">
+3.3 Message Security</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION005000000000000000000">
+4. SOAP Headers</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION006000000000000000000">
+5. Type Substitution</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION007000000000000000000">
+A. wsdl2py scrpt</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION007100000000000000000">
+A.1 Command Line Flags</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION007110000000000000000">
+A.1.1 General Flags</a>
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><dl>
+<dt><strong>-h, --help</strong></dt>
+<dd>Display the help message and available command line
+flags that can be passed to wsdl2py.
+</dd>
+<dt><strong>-f FILE, --file=FILE</strong></dt>
+<dd>Create bindings for the WSDL which is located at
+the local file path.
+</dd>
+<dt><strong>-u URL, --url=URL</strong></dt>
+<dd>Create bindings for the remote WSDL which is located
+at the provided URL.
+</dd>
+<dt><strong>-x, --schema</strong></dt>
+<dd>Just process a schema (xsd) file and generate the types
+mapping file.
+</dd>
+<dt><strong>-d, --debug</strong></dt>
+<dd>Output verbose debugging messages during code generation.
+</dd>
+<dt><strong>-o OUTPUT_DIR, --output-dir=OUTPUT_DIR</strong></dt>
+<dd>Write generated files to OUTPUT_DIR.
+</dd>
+</dl><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION007120000000000000000">
+A.1.2 Typecode Extensions (Stable) </a>
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><dl>
+<dt><strong>-b, --complexType (more in section&nbsp;<a name="subsubsection:complexType"></a>)</strong></dt>
+<dd>Generate convenience functions for complexTypes.  This includes getters,
+setters, factory methods, and properties.  ** Do NOT use with -simple-naming **
+</dd>
+</dl><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION007130000000000000000">
+A.1.3 Development Extensions (Unstable) </a>
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><dl>
+<dt><strong>-a, --address</strong></dt>
+<dd>WS-Addressing support.  The WS-Addressing schema must be
+included in the corresponding WSDL.
+</dd>
+<dt><strong>-w, --twisted</strong></dt>
+<dd>Generate a twisted.web client.  Dependencies: 
+python<code>&gt;=</code>2.4, Twisted<code>&gt;=</code>2.0.0, TwistedWeb<code>&gt;=</code>0.5.0
+</dd>
+</dl><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION007140000000000000000">
+A.1.4 Customizations (Unstable) </a>
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><dl>
+<dt><strong>-e, --extended</strong></dt>
+<dd>Do extended code generation.
+</dd>
+<dt><strong>-z ANAME, --aname=ANAME</strong></dt>
+<dd>Use a custom function, ANAME, for attribute name
+creation.
+</dd>
+<dt><strong>-t TYPES, --types=TYPES</strong></dt>
+<dd>Dump the generated type mappings to a file
+named, ``TYPES.py''.
+</dd>
+<dt><strong>-s, --simple-naming</strong></dt>
+<dd>Simplify the generated naming.
+</dd>
+<dt><strong>-c CLIENTCLASSSUFFIX, --clientClassSuffix=CLIENTCLASSSUFFIX</strong></dt>
+<dd>The suffic
+to use for service client class. (default ``SOAP'')
+</dd>
+<dt><strong>-m PYCLASSMAPMODULE, --pyclassMapModule=PYCLASSMAPMODULE</strong></dt>
+<dd>Use the
+existing existing type mapping file to determine the ``pyclass'' objects to be
+used.  The module should contain an attribute, ``mapping'', which is a
+dictionary of form, schemaTypeName: (moduleName.py, className).
+</dd>
+</dl><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION008000000000000000000">
+B. Example: WolframSearch</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION008100000000000000000">
+B.1 Code Generation from WSDL and XML Schema</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>This section covers wsdl2py, the second way ZSI provides to access WSDL
+services.  Given the path to a WSDL service, two files are generated, a 
+'service' file and a 'types' file, that one can then use to access the
+service.  As an example, we will use the search service provided by Wolfram
+Research Inc.©, <a class="url" href="http://webservices.wolfram.com/wolframsearch/">http://webservices.wolfram.com/wolframsearch/</a>, 
+which provides a service for searching the popular MathWorld site, 
+<a class="url" href="http://mathworld.wolfram.com/">http://mathworld.wolfram.com/</a>, among others.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+wsdl2py --complexType http://webservices.wolfram.com/services/SearchServices/WolframSearch2.wsdl
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Run the above command to generate the service and type files.  wsdl2py uses
+the <i>name</i> attribute of the <i>wsdl:service</i> element to name the resulting files.
+In this example, the service name is <i>WolframSearchService</i>.  Therefore the files
+<i>WolframSearchService_services.py</i> and <i>WolframSearchService_services_types.py</i>
+should be generated.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>The 'service' file contains locator, portType, and message classes.  
+A locator instance is used to get an instance of a portType class, 
+which is a remote proxy object. Message instances are sent and received 
+through the methods of the portType instance.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>The 'types' file contains class representations of the definitions and
+declarations defined by all schema instances imported by the WSDL definition.
+XML Schema attributes, wildcards, and derived types are not fully
+handled.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h2><a name="SECTION008110000000000000000">
+B.1.1 Example Use of Generated Code</a>
+</h2><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>The following shows how to call a proxy method for <i>WolframSearch</i>.  It
+assumes wsdl2py has already been run as shown in the section above.  The example
+will be explained in greater detail below.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+# import the generated class stubs
+from WolframSearchService_client import *
+
+# get a port proxy instance
+loc = WolframSearchServiceLocator()
+port = loc.getWolframSearchmyPortType()
+
+# create a new request
+req = WolframSearchRequest()
+req.Options = req.new_Options()
+req.Options.Query = 'newton'
+
+# call the remote method
+resp = port.WolframSearch(req)
+
+# print results
+print 'Search Time:', resp.Result.SearchTime
+print 'Total Matches:', resp.Result.TotalMatches
+for hit in resp.Result.Matches.Item:
+    print '--', hit.Title
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Now each section of the code above will be explained.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+from WolframSearchService_client import *
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>We are primarily interested in the service locator that is imported.  The 
+binding proxy and classes for all the messages are additionally imported.
+Look at the <i>WolframSearchService_services.py</i> file for more information.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+loc = WolframSearchServiceLocator()
+port = loc.getWolframSearchmyPortType()
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Using an instance of the locator, we fetch an instance of the port proxy
+which is used for invoking the remote methods provided by the service.  In
+this case the default <i>location</i> specified in the <i>wsdlsoap:address</i>
+element is used.  You can optionally pass a url to the port getter method to
+specify an alternate location to be used.  The <i>portType</i> - <i>name</i> 
+attribute is used to determine the method name to fetch a port proxy instance.
+In this example, the port name is <i>WolframSearchmyPortType</i>, hence the 
+method of the locator for fetching the proxy is <i>getWolframSearchmyPortType</i>.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>The first step in calling <i>WolframSearch</i> is to create a request object
+corresponding to the input message of the method.  In this case, the name of
+the message is <i>WolframSearchRequest</i>.  A class representing this message
+was imported from the service module.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+req = WolframSearchRequest()
+req.Options = req.new_Options()
+req.Options.Query = 'newton'
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Once a request object is created we need to populate the instance with the
+information we want to use in our request.  This is where the <tt>-complexType</tt>
+option we passed to wsdl2py will come in handy.  This caused the creation of 
+functions for getting and setting elements and attributes of the type, class 
+properties for each element, and convenience functions for creating new instances
+of elements of complex types.  This functionality is explained in detail in 
+subsection&nbsp;<a href="#subsubsection:complexType">A.1.2</a>.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Once the request instance is populated, calling the remote service is easy.  Using
+the port proxy we call the method we are interested in.  An instance of the python
+class representing the return type is returned by this call.  The <var>resp</var> object
+can be used to introspect the result of the remote call.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+resp = port.WolframSearch(req)
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Here we see that the response message, <var>resp</var>, represents type <i>WolframSearchReturn</i>.
+This object has one element, <i>Result</i> which contains the search results for our
+search of the keyword, <tt>newton</tt>.
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><div class="verbatim"><pre>
+print 'Search Time:', resp.Result.SearchTime
+...
+</pre></div><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>Refer to the wsdl for <i>WolframSearchService</i> for more details on the
+returned information. 
+</i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<h1><a name="SECTION009000000000000000000">
+About this document ...</a>
+</h1><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i>
+ </i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i><strong>ZSI: The Zolera Soap Infrastructure 
+<br>
+User's Guide</strong>,
+November 01, 2007, Release 2.1.0
+<p> This document was generated using the <a
+    href="http://saftsack.fs.uni-bayreuth.de/~latex2ht/">
+    <strong>LaTeX</strong>2<tt>HTML</tt></a> translator.
+</p>
+
+<p> <a
+    href="http://saftsack.fs.uni-bayreuth.de/~latex2ht/">
+    <strong>LaTeX</strong>2<tt>HTML</tt></a> is Copyright &copy;
+  1993, 1994, 1995, 1996, 1997, <a
+    href="http://cbl.leeds.ac.uk/nikos/personal.html">Nikos
+    Drakos</a>, Computer Based Learning Unit, University of
+  Leeds, and Copyright &copy; 1997, 1998, <a
+    href="http://www.maths.mq.edu.au/~ross/">Ross
+    Moore</a>, Mathematics Department, Macquarie University,
+  Sydney.
+</p>
+
+<p> The application of <a
+    href="http://saftsack.fs.uni-bayreuth.de/~latex2ht/">
+    <strong>LaTeX</strong>2<tt>HTML</tt></a> to the Python
+  documentation has been heavily tailored by Fred L. Drake,
+  Jr.  Original navigation icons were contributed by Christopher
+  Petrilli.
+</p>
+<i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i><i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i></i>
+<br><hr><h4>Footnotes</h4>
+<dl>
+<dt><a name="foot144">...
+etc).</a><A
+ HREF="guide.html#tex2html1"><sup>1.1</sup></a></dt>
+<dd>The xsd prefix refers to namespace <i>"http://www.w3.org/2001/XMLSchema"</i>
+
+</dd>
+<dt><a name="foot396">... cannot.</a><A
+ HREF="guide.html#tex2html2"><sup>2.1</sup></a></dt>
+<dd>The <i>pname can be set to <i>None when a XML
+tag name is not needed (eg. attributes).</i></i>
+
+</dd>
+<dt><a name="foot336">... declaration</i>.</a><A
+ HREF="guide.html#tex2html3"><sup>2.2</sup></a></dt>
+<dd>Exceptions include the
+Union TypeCode, may need multiple pyclasses to make it work
+
+</dd>
+</dl>
+<div class="navigation">
+<div class='online-navigation'>
+<p></p><hr />
+<table align="center" width="100%" cellpadding="0" cellspacing="2">
+<tr>
+<td class='online-navigation'><img src='previous.png'
+  border='0' height='32'  alt='Previous Page' width='32' /></td>
+<td class='online-navigation'><img src='up.png'
+  border='0' height='32'  alt='Up one Level' width='32' /></td>
+<td class='online-navigation'><img src='next.png'
+  border='0' height='32'  alt='Next Page' width='32' /></td>
+<td align="center" width="100%">ZSI: The Zolera Soap Infrastructure 
+<br>
+User's Guide</td>
+<td class='online-navigation'><img src='blank.png'
+  border='0' height='32'  alt='' width='32' /></td>
+<td class='online-navigation'><img src='blank.png'
+  border='0' height='32'  alt='' width='32' /></td>
+<td class='online-navigation'><img src='blank.png'
+  border='0' height='32'  alt='' width='32' /></td>
+</tr></table>
+<div class='online-navigation'>
+</div>
+</div>
+<hr />
+<span class="release-info">Release 2.1.0, documentation updated on November 01, 2007.</span>
+</div>
+<!--End of Navigation Panel-->
+
+</body>
+</html>

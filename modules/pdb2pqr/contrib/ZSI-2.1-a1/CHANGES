@@ -1,0 +1,189 @@
+Change for xxx released xxx:
+    -   Make XMLSchema.py work in cases where threading isn't built in
+    -   Add client-side Cookie Support (Jorgen Frojk Kjaersgaard)
+    -   For cookies, getheaders() is Python 2.3; use getallmatchingheaders
+    -   In SoapWriter, put nsdecls on body, not envelope
+    -   Record facets (restrictions) in XMLSchema.py <vchen@datapower.com>
+    -   Remove Send()'s kwargs out of _args list <efrain@bogotron.net>
+
+Change for 2.1.0_a1 released 31-Oct-2007:
+    -	No PyXML Dependency, use minidom by default (much faster)
+    -	samples/WSGI, server and client examples using python wsgi and twisted.web2.wsgi
+
+Change for 2.0.0 released xxx:
+    -   no more wsdl2dispatch, wsdl2py does it all
+    -   simplified and consolidated various wsdl2py script options
+    -   wsdl2py added some soapheader support to client code. 
+    -   wsdl2py changed Locator accessors names to match the "port.name" 
+        rather than the "portType.name"
+    -   wsdl2py changed generated Binding class names to match the "binding.name" 
+        rather than the "portType.name"
+
+Change for 2.0.0rc3 released xxx:
+    -   Updated ZSI developers guide
+    -   Added ZSI wsdl2py users guide
+    -   Added support for setuptools in setup script.  If setuptools is installed
+        use it, else revert to distutils.
+    -   Removed "requestclass" keyword argument to Binding.Send
+    -   simplified and retooled Binding/NamedParamBinding and dispatch, added
+        "typesmodule" back into Binding.  Now it's mirror image of dispatch.
+    -   Microseconds to TCtime
+    -   BUG [ 1525567 ] Amazon ECommerce Issues: local element declarations 
+        overriding global element declarations with the same name within the 
+        same namespace.
+    -   new module "schema", contains "all" the code for dealing with global
+        Schema instance.
+        
+Change for 2.0.0rc2 released 28-March-2006:
+    -   Replace many/most id() with _get_idstr() to hide negative numbers
+    -   Added ZSI.twisted package w/client and server, requires Python 2.4
+    -   If Python >= 2.4, build/install ZSI.twisted package
+    -   Add Typecode.typed to control xsi:type data system-wide
+    -   Replace many/most id() with _get_idstr() to hide negative numbers
+
+Changes for 1.7 released 16-Feb-2005:
+    -   Add support for jonpy (http://jonpy.sourceforge.net) FastCGI
+        courtesy of Guan Yang
+    -   Avoid FutureWarning with Python 2.3.x
+    -   Make sure generated ID values are legal IDs under Python 2.3
+        and newer
+    -   Don't need _textunprotect (via Grahame Bowland)
+    -   Fix ZSI.wstools.XMLname.toXMLname() so namespace prefix isn't lost
+
+Changes for 1.5, released 10-Mar-2004:
+    -   TypeCode honoring for response parameters
+    -   String adherence to wsdl for request/response params via ServiceProxy
+    -   wsdl2py bug fixes
+    -   Numerous bug fixes
+
+Changes for 1.4.1 released 11-Nov-2003:
+    -   Make "docstyle" work for returning data, too (Alexis Marrero-Narvaez)
+    -   TC.Struct.typed will output xsi:type parameter now.
+    -   Numerous bug fixes
+
+Changes for 1.4, released 09-Sep-2003:
+    -   Ouput XML prolog in SoapWriter
+    -   Added nsdict parameter to dispatch.AsCGI and dispatch.AsServer
+    -   Fixed bug where xmlns attribute was included in closing elements
+    -   Added support for "wrapped" complexTypes in response messages
+    -   TypeCode enabled classes now support parameters in the constructor
+    -   Automatic parsing of ComplexTypes in response messages 
+    -   WSDL Parsing and operation invocation via ServiceProxy
+    -   Tuple returned from dates and times (instead of a list)
+    -   Arrays of ComplexTypes can now be deserialized
+    -   User can specify which module contains complex type definitions
+    -   Mod_Python support for dispatch to multiple functions within a module
+    -   In client.py, try to get port from URL if available (Wichert Akkerman)
+    -   Add ZSIException as parent for ZSI exception classes, FaultException
+        class, and raise that if we get unexpected fault in client (Wichert)
+    -   Add auth_header keyword param to client Send method (Phillip Pearson)
+    -   Added support for conversion between WSDL and Python classes
+
+Changes for 1.3, released xx-May-2002:
+    -	Fixed parsing bug evidenced by dW article
+    -	Style: use defaulted parameters not kw.get()
+    -	Style: avoid __dict__ and use standard attribute fetch
+    -	Fix dispatch to actually dispatch (Laroche Denis)
+    -   Fix some typo's (thanks adalke)
+    -   In TCCompound, include class name in exception, not just object name
+    -   ZSI homepage is at pywebsvcs.sf.net now, not www.zolera.com (sigh...)
+    -   Add nsdict parameter to dispatch's AsServer()
+
+Changes for 1.2, released 05-Mar-2002:
+    -	Replace with X copyright; GNU compatible now
+    -	newver writes date into version.tex
+    -	Use "raise x(a)" always, never "raise x, a" (that's oldschool:)
+    -	Don't delete tb in FaultFromException; add try/except for robustness
+    -	Ignore -1 values for DST, etc., in Python time tuples
+    -	Remove needless __init__ when just calling parent __init__
+    -	Added 'undeclared' parameter to TC.Array
+    -	Added 'repeatable' parameter to TC.TypeCode
+    -	Add 'aname' parameter to TC.Typecode
+    -	Move 'unique' keyword from TC.String up to TC.TypeCode
+    -	Add 'wrapped' keyword to TC.XML
+    -	Added _find_attr lambda
+    -	Had path backwards in backtrace, add [1] to uniqify when needed
+    -	Complain if extra elements in TC.Struct and hasextras=0
+    -	Duration.lex_pattern was wrong (old schema) <grahamd@dscpl.com.au>
+    -	Newline after output gDateTime, not a space
+    -	Newline before Base64string
+    -	Incorrect test in RegisterType <grahamd@dscpl.com.au>
+    -	Add Boolean.serialize <grahamd@dscpl.com.au>
+    -	Anchor all TCtime lex_pattern's <grahamd@dscpl.com.au>
+    -	Allow class object (not just class name) in TC.seriallist
+    -	TC.Void can serialize None (useful for TC.Any)
+    -	RegisterType(TC.Void) <grahamd@dscpl.com.au>
+    -	Fix consistency and interop in dispatching <grahamd@dscpl.com.au>
+    -	Array interop fix <gisle@activestate.com>
+    -	SOAPAction header needs quotes <gisle@activestate.com>
+    -	Add Apache SOAPArray <gisle@activestate.com>
+    -	Properly use 'ns' in client to set default namespace
+    -	Convert client.py to use "new" HTTP objects
+    -	Sign isn't optional on numeric timezones in dates <grahamd@dscpl.com.au>
+    -	Document limits on date/time conversions.
+    -	Add TC.XML.copyit and 'copyit' keyword to constructor
+    -	Spelt EvaluateException wrong in dispatch.py <grahamd@dscpl.com.au>
+    -	xsi:nil not xsi:null in TC.Void <grahamd@dscpl.com.au>
+    -	Address issues with client/dispatch and None <grahamd@dscpl.com.au>
+    -	Use formatted output, not strftime
+    -	TC.Any defaults to optional if not set, for None <grahamd@dscpl.com.au>
+    -	TC.Any tries to serialize its datatype as its tagname
+    -	Add 'typed' support to TC.Any
+    -	Allow keyword args in Fault.AsSOAP, passed to SoapWriter ctor
+    -	SoapWriter's self.memo always uses id() (even for strings)
+    -	Add SoapWriter.Forget()
+    -	Add 'envelope' and 'encoding' keywords to SoapWriter
+    -	Added 'mutable' parameter to TC.Struct
+    -	TC.oname now properly defaults to TC.pname
+    -	Remove "None" if it was second arg to dictionary get() method
+    -	Add 'format' parameter to TC.Decimal and TC.Integer
+    -	Fix TC.Decimal to work where float('INF') doesn't
+    -	Fix TC.Decimal to handle NaN more portably <grahamd@dscpl.com.au>
+    -	Add samples directory
+    -	Binding() omits typing from the outermost RPC wrapper
+    -	Fix HTML docs to include the ZSI schema
+    -	Add readerclass parameter to client Binding
+    -	Ignore <> around Content-ID in resolver; fix test to have it
+    -	Docfix for Placer.typecode (paul@prescod.net)
+    -	TC.Any will call pyobj's typecode if attr exists (paul@prescod.net)
+    -	Binding replytype is optional; standards replytype not replyclass
+    -	Document other tests to-do in interop/README
+    -	Document ZSI typecode naming better.
+    -	Add 'docstyle' to AsServer
+    -	Handle HTTP 100 responses (httplib should...) (aspinei@internal.metawings.com)
+
+Changes for 1.1, released 14-Sep-2001:
+    -	Works with PyXML0.6 now!
+    -	Create this CHANGES file, include it in doc files
+    -	Lots of editing and new material in the documentation
+    -	Fix TC.String to handle empty strings
+    -	Renamed NodeBacktrace to _backtrace
+    -	Renamed HasValidEncoding to _valid_encoding
+    -	Add 'textprotect' keyword argument to TC.String
+    -	TC.Any() can now serialize dictionaries, lists, tuples
+    -	TC.Any() can now parse arrays
+    -	Add aslist to TC.Any()
+    -	Add TC.Apache.Map typecode
+    -	GetMyHeaderElements includes header with no actor attribute
+    -	Fix formatting of error message when TC.Struct caught eval exception
+    -	Fix TC.Struct for case when all kids are optional (could-be-zero-sized)
+    -	Fix SimpleHREF calling sequence; boolean, Gregorian, duration now work
+    -	Fix typo when generating backtrace on EvaluateException
+    -	Exception backtraces are now in XPath syntax
+    -	Fix zsi.xsd to conform to proper XSD-Rec style
+    -	Fix zsi.xsd nits found by free IBM schema quality checker
+    -	Added Z:BasicAuth to zsi.xsd
+    -	CIDResolver now takes an optional "next" parameter, instead of creating
+	a NetworkResolver automatically; the "prefixes" parameter is gone
+	from the CIDResolver constructor
+    -	Rename CIDResolver to MIMEResolver, and add Content-Location handling
+    -	Changed resolver.seekable default from 1 to 0
+    -	Resolvers raise EvaluateException, not TypeError
+    -	Fix FindLocalHREF to search the serialization root, too
+    -	Use and prefer Fault.AsSOAP, although Fault.AsSoap still exists
+    -	Change FindLocalHREF to cache all id's as it finds them
+    -	Add boolean, decimal, and hexbinary to interop server
+    -	Add simple CGI dispatching
+    -	Put version in setup.cfg and make newver use it for version.{py,tex}
+    -	Add ZSI.Version() to retrieve version tuple
+    -	Use len(_children(elt)) not elt.hasChildNodes()

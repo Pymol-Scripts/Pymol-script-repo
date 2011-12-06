@@ -1,0 +1,37 @@
+==================
+WSGI Code is unstable, and currently server-side stubs are NOT generated for you.  
+
+
+==================
+ python wsgi example 
+     run the SimpleEcho service out of python's wsgi
+
+==================
+
+% ./echo_setup.sh
+% python echo_server.py >& server.log &
+[1] 3455
+% python echo_client.py
+INTEGER:  1
+STRING:  HI
+FLOAT:  1.1
+DICT:  {'milk': {'cost': 3.1499999999999999, 'unit': 'gal'}}
+
+
+==================
+ twisted.web2.wsgi example
+     run the SimpleEcho service out of twisted's web2 wsgi
+
+==================
+% ./echo_setup.sh
+% python echo_server.py twisted >& server.log &
+[1] 3459
+% python echo_client.py 
+INTEGER:  1
+STRING:  HI
+FLOAT:  1.1
+DICT:  {'milk': {'cost': 3.1499999999999999, 'unit': 'gal'}}
+
+
+
+

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions 
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/03/addressing"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="urn:zsitest"
+  targetNamespace="urn:zsitest" >
+  <types>
+  <xsd:schema elementFormDefault="qualified" targetNamespace="urn:zsitest">
+
+      <xsd:import namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing"
+          schemaLocation="http://schemas.xmlsoap.org/ws/2004/03/addressing"/>
+
+      <xsd:element name="Echo">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EchoIn" type="xsd:any" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="EchoResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="EchoResult" type="xsd:any" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+  </xsd:schema>
+  </types>
+
+  <message name="EchoRequest">
+    <part name="parameters" element="tns:Echo" />
+  </message>
+  <message name="EchoResponse">
+    <part name="parameters" element="tns:EchoResponse"/>
+  </message>
+
+  <portType name="EchoServer">
+    <operation name="Echo">
+      <input message="tns:EchoRequest"/>
+      <output message="tns:EchoResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="EchoServer" type="tns:EchoServer">
+    <soap:binding style="document" 
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="Echo">
+      <soap:operation soapAction=""/>
+	<input>
+   	  <soap:body use="literal"/> 
+	</input>
+	<output>
+	  <soap:body use="literal"/> 
+	</output>
+    </operation>
+  </binding>
+
+  <service name="EchoWSAddr200403Server">
+    <port name="port" binding="tns:EchoServer">
+      <soap:address location="http://localhost:7000"/>
+    </port>
+  </service>
+
+</definitions>

@@ -1,0 +1,32 @@
+Please see http://www.poissonboltzmann.org/pdb2pqr/release-history
+
+# These are notes for the current version of PDB2PQR
+
+- NEW FEATURES
+ * Switched Opal service urls from sccne.wustl.edu to NBCR.
+ * Added more JMol controls for visualization, JMol code and applets provided by Bob Hanson.
+ * Changed default forcefield to PARSE in web interface.
+ * Improved interface to extensions. Extensions may now add their own command line options. 
+ 
+- NEW FEATURES (1.7.1a)
+ *Added force field example.
+
+- BUG FIXES (1.7.1)
+
+ *Fixed crash when opal returns an error.
+ *Fixed specific combinations of commandline arguments causing pdb2pqr.py to crash.
+ *Fixed opal job failing when filenames have spaces or dashs.
+ *Fixed gap in backbone causing irrationally placed hydrogens.
+ *Fixed crash when too many fixes are needed when setting termini.
+ *Corrected web and command line error handling in many cases.
+ *Fixed --username command line option.
+ *Fixed ambiguous user created forcefield and name handling. Now --username is required if --userff is used. 
+ *Fixed querystatus.py not redirecting to generated error page.
+ 
+ - BUG FIXES (1.7.1a)
+ *Fixed ligand command line option.
+ *Fixed capitalization of force field in PQR header.
+ *Fixed error handling for opal errors.
+ *Fixed web logging error when using ligand files, user force fields, and name files.
+ *Fixed extension template in documentation.
+ *Fixed 1a1p example README to reflect command line changes.

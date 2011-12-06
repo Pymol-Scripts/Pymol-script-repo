@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<definitions name="DateService"
+  targetNamespace="http://dev-b.handel-dev.local:8080/DateService.wsdl"
+  xmlns:tns="http://dev-b.handel-dev.local:8080/DateService.wsdl"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:myType="DateType_NS"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema"
+      targetNamespace="DateType_NS" >
+      <complexType name="Date">
+            <sequence>
+              <element name="year" nillable="true" type="xsd:integer"/>
+              <element name="month" nillable="true" type="xsd:integer"/>
+              <element name="day" nillable="true" type="xsd:integer"/>
+              <element name="hour" nillable="true" type="xsd:integer"/>
+              <element name="minute" nillable="true" type="xsd:integer"/>
+              <element name="second" nillable="true" type="xsd:integer"/>
+              <element name="weekday" nillable="true" type="xsd:integer"/>
+              <element name="dayOfYear" nillable="true" type="xsd:integer"/>
+              <element name="dst" nillable="true" type="xsd:integer"/>
+            </sequence>
+      </complexType>  
+    </schema>
+  </types>
+
+  <message name="getCurrentDateRequest">
+    <part name="input" type="xsd:string"/>
+  </message>
+  <message name="getCurrentDateResponse">
+    <part name="today" type="myType:Date"/>
+  </message>
+  <message name="getDateRequest">
+    <part name="offset" type="xsd:integer"/>
+    <part name="someday" type="myType:Date"/>
+  </message>
+  <message name="getDateResponse">
+    <part name="day" type="myType:Date"/>
+  </message>
+
+  <portType name="DateService_PortType">
+    <operation name="getCurrentDate">
+      <input message="tns:getCurrentDateRequest"/>
+      <output message="tns:getCurrentDateResponse"/>
+    </operation>
+    <operation name="getDate">
+      <input message="tns:getDateRequest"/>
+      <output message="tns:getDateResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="DateService_Binding" type="tns:DateService_PortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getCurrentDate">
+      <soap:operation soapAction="urn:DateService.wsdl#getCurrentDate"/>
+      <input>
+        <soap:body use="literal" namespace="urn:DateService.wsdl"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="urn:DateService.wsdl"/>
+      </output>
+    </operation>
+    <operation name="getDate">
+      <soap:operation soapAction="urn:DateService.wsdl#getDate"/>
+      <input>
+        <soap:body parts="offset someday" use="literal" namespace="urn:DateService.wsdl"/>
+      </input>
+      <output>
+        <soap:body use="literal" namespace="urn:DateService.wsdl"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="simple Date Service">
+    <documentation>Date Web Service</documentation>
+    <port name="DateService_Port" binding="tns:DateService_Binding">
+      <soap:address location="http://dev-b.handel-dev.local:8080/DateService"/>
+    </port>
+  </service>
+
+</definitions>

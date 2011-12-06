@@ -1,0 +1,833 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://direct.tab.com.au/LiveOdds/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://direct.tab.com.au/LiveOdds/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+   <wsdl:types>
+      <s:schema elementFormDefault="qualified" targetNamespace="http://direct.tab.com.au/LiveOdds/">
+         <s:element name="MeetingSummary">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Date" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="TypeCode" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="MeetingSummaryResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="MeetingSummaryResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="NextEvent">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="TypeCode" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="NextEventResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="NextEventResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="NextTenEvents">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="TypeCode" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="NextTenEventsResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="NextTenEventsResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="SummaryMeetInfo">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="MeetingID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="SummaryMeetInfoResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="SummaryMeetInfoResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventSummaryRaceInfo">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="MeetingID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventSummaryRaceInfoResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventSummaryRaceInfoResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventSummaryRunnerInfo">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="MeetingID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventSummaryRunnerInfoResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventSummaryRunnerInfoResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventSummaryJDT">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="MeetingID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventSummaryJDTResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventSummaryJDTResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventSummary">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="MeetingID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventSummaryResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventSummaryResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="Event">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="RaceID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventRaceInfo">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="RaceID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventRaceInfoResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventRaceInfoResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventRunnerInfo">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="RaceID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventRunnerInfoResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventRunnerInfoResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventApproximates">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="RaceID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventApproximatesResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventApproximatesResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventQuinellaApproximates">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="RaceID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventQuinellaApproximatesResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventQuinellaApproximatesResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventExactaApproximates">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="RaceID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventExactaApproximatesResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventExactaApproximatesResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventResultsDividends">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="Jurisdiction" type="s:string" />
+
+                  <s:element minOccurs="0" maxOccurs="1" name="RaceID" type="s:string" />
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+
+         <s:element name="EventResultsDividendsResponse">
+            <s:complexType>
+               <s:sequence>
+                  <s:element minOccurs="0" maxOccurs="1" name="EventResultsDividendsResult">
+                     <s:complexType>
+                        <s:sequence>
+                           <s:any />
+                        </s:sequence>
+                     </s:complexType>
+                  </s:element>
+               </s:sequence>
+            </s:complexType>
+         </s:element>
+      </s:schema>
+   </wsdl:types>
+
+   <wsdl:message name="MeetingSummarySoapIn">
+      <wsdl:part name="parameters" element="tns:MeetingSummary" />
+   </wsdl:message>
+
+   <wsdl:message name="MeetingSummarySoapOut">
+      <wsdl:part name="parameters" element="tns:MeetingSummaryResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="NextEventSoapIn">
+      <wsdl:part name="parameters" element="tns:NextEvent" />
+   </wsdl:message>
+
+   <wsdl:message name="NextEventSoapOut">
+      <wsdl:part name="parameters" element="tns:NextEventResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="NextTenEventsSoapIn">
+      <wsdl:part name="parameters" element="tns:NextTenEvents" />
+   </wsdl:message>
+
+   <wsdl:message name="NextTenEventsSoapOut">
+      <wsdl:part name="parameters" element="tns:NextTenEventsResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="SummaryMeetInfoSoapIn">
+      <wsdl:part name="parameters" element="tns:SummaryMeetInfo" />
+   </wsdl:message>
+
+   <wsdl:message name="SummaryMeetInfoSoapOut">
+      <wsdl:part name="parameters" element="tns:SummaryMeetInfoResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSummaryRaceInfoSoapIn">
+      <wsdl:part name="parameters" element="tns:EventSummaryRaceInfo" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSummaryRaceInfoSoapOut">
+      <wsdl:part name="parameters" element="tns:EventSummaryRaceInfoResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSummaryRunnerInfoSoapIn">
+      <wsdl:part name="parameters" element="tns:EventSummaryRunnerInfo" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSummaryRunnerInfoSoapOut">
+      <wsdl:part name="parameters" element="tns:EventSummaryRunnerInfoResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSummaryJDTSoapIn">
+      <wsdl:part name="parameters" element="tns:EventSummaryJDT" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSummaryJDTSoapOut">
+      <wsdl:part name="parameters" element="tns:EventSummaryJDTResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSummarySoapIn">
+      <wsdl:part name="parameters" element="tns:EventSummary" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSummarySoapOut">
+      <wsdl:part name="parameters" element="tns:EventSummaryResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSoapIn">
+      <wsdl:part name="parameters" element="tns:Event" />
+   </wsdl:message>
+
+   <wsdl:message name="EventSoapOut">
+      <wsdl:part name="parameters" element="tns:EventResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventRaceInfoSoapIn">
+      <wsdl:part name="parameters" element="tns:EventRaceInfo" />
+   </wsdl:message>
+
+   <wsdl:message name="EventRaceInfoSoapOut">
+      <wsdl:part name="parameters" element="tns:EventRaceInfoResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventRunnerInfoSoapIn">
+      <wsdl:part name="parameters" element="tns:EventRunnerInfo" />
+   </wsdl:message>
+
+   <wsdl:message name="EventRunnerInfoSoapOut">
+      <wsdl:part name="parameters" element="tns:EventRunnerInfoResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventApproximatesSoapIn">
+      <wsdl:part name="parameters" element="tns:EventApproximates" />
+   </wsdl:message>
+
+   <wsdl:message name="EventApproximatesSoapOut">
+      <wsdl:part name="parameters" element="tns:EventApproximatesResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventQuinellaApproximatesSoapIn">
+      <wsdl:part name="parameters" element="tns:EventQuinellaApproximates" />
+   </wsdl:message>
+
+   <wsdl:message name="EventQuinellaApproximatesSoapOut">
+      <wsdl:part name="parameters" element="tns:EventQuinellaApproximatesResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventExactaApproximatesSoapIn">
+      <wsdl:part name="parameters" element="tns:EventExactaApproximates" />
+   </wsdl:message>
+
+   <wsdl:message name="EventExactaApproximatesSoapOut">
+      <wsdl:part name="parameters" element="tns:EventExactaApproximatesResponse" />
+   </wsdl:message>
+
+   <wsdl:message name="EventResultsDividendsSoapIn">
+      <wsdl:part name="parameters" element="tns:EventResultsDividends" />
+   </wsdl:message>
+
+   <wsdl:message name="EventResultsDividendsSoapOut">
+      <wsdl:part name="parameters" element="tns:EventResultsDividendsResponse" />
+   </wsdl:message>
+
+   <wsdl:portType name="RacingSoap">
+      <wsdl:operation name="MeetingSummary">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Meeting Summary :- Provides a list of all Meeting Identifiers for either the current or a nominated day and the Race Identifiers for each Meeting Identifier returned. In addition, summary meeting level information is provided.</documentation>
+
+         <wsdl:input message="tns:MeetingSummarySoapIn" />
+
+         <wsdl:output message="tns:MeetingSummarySoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="NextEvent">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Next Event :- Provides all meeting, race, runner, pool and odds information for the next event to jump.</documentation>
+
+         <wsdl:input message="tns:NextEventSoapIn" />
+
+         <wsdl:output message="tns:NextEventSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="NextTenEvents">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Next Ten Events :- Provides the Race Identifiers and summary race details for the next 10 races to jump.</documentation>
+
+         <wsdl:input message="tns:NextTenEventsSoapIn" />
+
+         <wsdl:output message="tns:NextTenEventsSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="SummaryMeetInfo">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Summary Meeting Information :- Provides the Meeting level information including multi-leg pools for a specified meeting.</documentation>
+
+         <wsdl:input message="tns:SummaryMeetInfoSoapIn" />
+
+         <wsdl:output message="tns:SummaryMeetInfoSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventSummaryRaceInfo">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Summary Race Information :- Provides the details of all races, including pools, for a specified meeting.</documentation>
+
+         <wsdl:input message="tns:EventSummaryRaceInfoSoapIn" />
+
+         <wsdl:output message="tns:EventSummaryRaceInfoSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventSummaryRunnerInfo">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Summary Runner Information :- Provides runner information including the name of the jockey (Galloping), driver (Harness) and trainer (Greyhounds) including amendments, barrier and handicap for all races at a specified meeting.</documentation>
+
+         <wsdl:input message="tns:EventSummaryRunnerInfoSoapIn" />
+
+         <wsdl:output message="tns:EventSummaryRunnerInfoSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventSummaryJDT">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Summary (Jockey, Driver, Trainer) :- Provides jockey (Galloping), driver (Harness), trainer (Greyhounds) information, listed alphabetically by surname, including name, racenumber and runner number, for all races at a specified meeting.</documentation>
+
+         <wsdl:input message="tns:EventSummaryJDTSoapIn" />
+
+         <wsdl:output message="tns:EventSummaryJDTSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventSummary">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Summary :- Provides a combination of the information in the Summary Meeting Information, Event Summary Race Information and the Event Summary Runner Information services for a specified meeting.</documentation>
+
+         <wsdl:input message="tns:EventSummarySoapIn" />
+
+         <wsdl:output message="tns:EventSummarySoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="Event">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event :- Provides all information, including meeting information, pools, runners, approximate dividends, results and final dividends, for a specified race.</documentation>
+
+         <wsdl:input message="tns:EventSoapIn" />
+
+         <wsdl:output message="tns:EventSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventRaceInfo">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Race Information :- Provides a combination of the information in the Summary Meeting Information, Event Summary Race Information and Event Summary Runner Information for a specified race.</documentation>
+
+         <wsdl:input message="tns:EventRaceInfoSoapIn" />
+
+         <wsdl:output message="tns:EventRaceInfoSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventRunnerInfo">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Runner Information :- Provides runner information including the name of the jockey (Galloping), driver (Harness) and trainer (Greyhounds) including amendments, barrier and handicap for a specified race.</documentation>
+
+         <wsdl:input message="tns:EventRunnerInfoSoapIn" />
+
+         <wsdl:output message="tns:EventRunnerInfoSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventApproximates">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Approximates :- Provides the latest Win and Place approximate dividends and all pool values for a specified race.</documentation>
+
+         <wsdl:input message="tns:EventApproximatesSoapIn" />
+
+         <wsdl:output message="tns:EventApproximatesSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventQuinellaApproximates">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Quinella Approximates :- Provides a maximum of 60 combinations and associated approximate dividends for the Quinella pool of a specified race.</documentation>
+
+         <wsdl:input message="tns:EventQuinellaApproximatesSoapIn" />
+
+         <wsdl:output message="tns:EventQuinellaApproximatesSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventExactaApproximates">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Exacta Approximates :- Provides a maximum of 60 combinations and associated approximate dividends for the Exacta pool of a specified race.</documentation>
+
+         <wsdl:input message="tns:EventExactaApproximatesSoapIn" />
+
+         <wsdl:output message="tns:EventExactaApproximatesSoapOut" />
+      </wsdl:operation>
+
+      <wsdl:operation name="EventResultsDividends">
+         <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Event Results Dividends :- Provides the results and all dividends for a specified race.</documentation>
+
+         <wsdl:input message="tns:EventResultsDividendsSoapIn" />
+
+         <wsdl:output message="tns:EventResultsDividendsSoapOut" />
+      </wsdl:operation>
+   </wsdl:portType>
+
+   <wsdl:binding name="RacingSoap" type="tns:RacingSoap">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+
+      <wsdl:operation name="MeetingSummary">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/MeetingSummary" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="NextEvent">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/NextEvent" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="NextTenEvents">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/NextTenEvents" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="SummaryMeetInfo">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/SummaryMeetInfo" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventSummaryRaceInfo">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventSummaryRaceInfo" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventSummaryRunnerInfo">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventSummaryRunnerInfo" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventSummaryJDT">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventSummaryJDT" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventSummary">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventSummary" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="Event">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/Event" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventRaceInfo">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventRaceInfo" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventRunnerInfo">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventRunnerInfo" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventApproximates">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventApproximates" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventQuinellaApproximates">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventQuinellaApproximates" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventExactaApproximates">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventExactaApproximates" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="EventResultsDividends">
+         <soap:operation soapAction="http://direct.tab.com.au/LiveOdds/EventResultsDividends" style="document" />
+
+         <wsdl:input>
+            <soap:body use="literal" />
+         </wsdl:input>
+
+         <wsdl:output>
+            <soap:body use="literal" />
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+
+   <wsdl:service name="Racing">
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/" />
+
+      <wsdl:port name="RacingSoap" binding="tns:RacingSoap">
+         <soap:address location="http://direct.tab.com.au/liveodds/services/racing/racing.asmx" />
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
+

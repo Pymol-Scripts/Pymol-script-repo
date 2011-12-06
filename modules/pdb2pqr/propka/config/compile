@@ -1,0 +1,104 @@
+#! /bin/sh
+
+# Wrapper for compilers which do not understand `-c -o'.
+
+# Copyright 1999, 2000 Free Software Foundation, Inc.
+# Written by Tom Tromey <tromey@cygnus.com>.
+#
+# All rights reserved.
+# 
+# Redistribution and use in source and binary forms, with or without 
+# modification, are permitted provided that the following conditions 
+# are met:
+# 
+# * Redistributions of source code must retain the above copyright
+#   notice, this list of conditions and the following disclaimer.
+# * Redistributions in binary form must reproduce the above copyright
+#   notice, this list of conditions and the following disclaimer in the
+#   documentation and/or other materials provided with the distribution.
+# * Neither the name of the University of Copenhagen nor the names of its
+#   contributors may be used to endorse or promote products derived from 
+#   this software without specific prior written permission.
+# 
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED 
+# TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+# LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+# NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+# SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+
+prog=$1
+shift
+
+ofile=
+cfile=
+args=
+while test $# -gt 0; do
+   case "$1" in
+    -o)
+       # configure might choose to run compile as `compile cc -o foo foo.c'.
+       # So we do something ugly here.
+       ofile=$2
+       shift
+       case "$ofile" in
+	*.o | *.obj)
+	   ;;
+	*)
+	   args="$args -o $ofile"
+	   ofile=
+	   ;;
+       esac
+       ;;
+    *.c)
+       cfile=$1
+       args="$args $1"
+       ;;
+    *)
+       args="$args $1"
+       ;;
+   esac
+   shift
+done
+
+if test -z "$ofile" || test -z "$cfile"; then
+   # If no `-o' option was seen then we might have been invoked from a
+   # pattern rule where we don't need one.  That is ok -- this is a
+   # normal compilation that the losing compiler can handle.  If no
+   # `.c' file was seen then we are probably linking.  That is also
+   # ok.
+   exec "$prog" $args
+fi
+
+# Name of file we expect compiler to create.
+cofile=`echo $cfile | sed -e 's|^.*/||' -e 's/\.c$/.o/'`
+
+# Create the lock directory.
+# Note: use `[/.-]' here to ensure that we don't use the same name
+# that we are using for the .o file.  Also, base the name on the expected
+# object file name, since that is what matters with a parallel build.
+lockdir=`echo $cofile | sed -e 's|[/.-]|_|g'`.d
+while true; do
+   if mkdir $lockdir > /dev/null 2>&1; then
+      break
+   fi
+   sleep 1
+done
+# FIXME: race condition here if user kills between mkdir and trap.
+trap "rmdir $lockdir; exit 1" 1 2 15
+
+# Run the compile.
+"$prog" $args
+status=$?
+
+if test -f "$cofile"; then
+   mv "$cofile" "$ofile"
+fi
+
+rmdir $lockdir
+exit $status

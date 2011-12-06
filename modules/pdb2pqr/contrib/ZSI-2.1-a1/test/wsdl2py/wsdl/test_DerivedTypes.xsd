@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+      targetNamespace="urn:test"
+      xmlns="urn:test"
+      xmlns:typens="urn:test">
+
+ <!-- base actor type with no special options -->
+ <xs:complexType name="BaseActor">
+   <xs:sequence>
+     <xs:element name="element1" type="xs:string"/>
+   </xs:sequence>
+   <xs:attribute name="attr1" type="xs:string"/>
+ </xs:complexType>
+
+ <xs:complexType name="MiddleActor">
+   <xs:complexContent>
+     <xs:extension base="typens:BaseActor">
+         <xs:sequence>
+           <xs:element name="element2" type="xs:string"/>
+         </xs:sequence>
+         <xs:attribute name="attr2" type="xs:string"/>
+     </xs:extension>
+   </xs:complexContent>
+ </xs:complexType>
+
+ <xs:complexType name="TopActor">
+   <xs:complexContent>
+     <xs:extension base="typens:MiddleActor">
+         <xs:sequence>
+           <xs:element name="element3" type="xs:string"/>
+         </xs:sequence>
+         <xs:attribute name="attr3" type="xs:string"/>
+     </xs:extension>
+   </xs:complexContent>
+ </xs:complexType>
+
+ <xs:complexType name="test">
+   <xs:sequence>
+     <xs:element name="actor" type="typens:BaseActor"/>
+   </xs:sequence>
+ </xs:complexType>
+
+ <xs:complexType name="test2">
+   <xs:sequence>
+     <xs:element name="actor" type="typens:BaseActor" maxOccurs="unbounded"/>
+   </xs:sequence>
+ </xs:complexType>
+
+ <xs:element name="test" type="typens:test"/>
+ <xs:element name="test2" type="typens:test2"/>
+ <xs:element name="TopActor" type="typens:TopActor"/>
+ <xs:element name="MiddleActor" type="typens:MiddleActor"/>
+ <xs:element name="BaseActor" type="typens:BaseActor"/>
+
+</xs:schema>

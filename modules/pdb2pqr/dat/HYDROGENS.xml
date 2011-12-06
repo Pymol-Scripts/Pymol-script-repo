@@ -1,0 +1,149 @@
+<?xml version='1.0'?>
+<!--
+Copyright (c) 2002-2011, Jens Erik Nielsen, University College Dublin; 
+Nathan A. Baker, Battelle Memorial Institute, Developed at the Pacific 
+Northwest National Laboratory, operated by Battelle Memorial Institute, 
+Pacific Northwest Division for the U.S. Department Energy.; 
+Paul Czodrowski & Gerhard Klebe, University of Marburg.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice, 
+      this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, 
+      this list of conditions and the following disclaimer in the documentation 
+      and/or other materials provided with the distribution.
+    * Neither the names of University College Dublin, Battelle Memorial Institute,
+      Pacific Northwest National Laboratory, US Department of Energy, or University
+      of Marburg nor the names of its contributors may be used to endorse or promote
+      products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<hydrogens>
+    <class>
+        <name>HIS</name>
+        <opttype>Flip</opttype>
+        <optangle>CA CB CG ND1</optangle>
+        <atom>
+           <name>HD1</name>
+        </atom>
+        <atom>
+           <name>HD2</name>
+        </atom>
+        <atom>
+           <name>HE1</name>
+        </atom>
+        <atom>
+           <name>HE2</name>
+        </atom>
+    </class>
+    <class>
+        <name>ASN</name>
+        <opttype>Flip</opttype>
+        <optangle>CA CB CG OD1</optangle>
+        <atom>
+           <name>HD21</name>
+        </atom>
+        <atom>
+           <name>HD22</name>
+        </atom>
+    </class>
+    <class>
+        <name>GLN</name>
+        <opttype>Flip</opttype>
+        <optangle>CB CG CD OE1</optangle>
+        <atom>
+           <name>HE21</name>
+        </atom>
+        <atom>
+           <name>HE22</name>
+        </atom>
+    </class>
+    <class>
+        <name>ASH</name>
+        <opttype>Carboxylic</opttype>
+        <optangle>CA CB CG OD1</optangle>
+        <atom>
+           <name>HD2</name>
+           <bond>OD2</bond>
+        </atom>
+        <atom>
+           <name>HD1</name>
+           <bond>OD1</bond>
+        </atom>
+    </class>
+    <class>
+        <name>GLH</name>
+        <opttype>Carboxylic</opttype>
+        <optangle>CB CG CD OE1</optangle>
+        <atom>
+           <name>HE2</name>
+           <bond>OE2</bond>
+        </atom>
+        <atom>
+           <name>HE1</name>
+           <bond>OE1</bond>
+        </atom>
+    </class>
+    <class>
+        <name>CYS</name>
+        <opttype>Alcoholic</opttype>
+        <atom>
+           <name>HG</name>
+        </atom>
+    </class>
+    <class>
+        <name>SER</name>
+        <opttype>Alcoholic</opttype>
+        <atom>
+           <name>HG</name>
+        </atom>
+    </class>
+    <class>
+        <name>THR</name>
+        <opttype>Alcoholic</opttype>
+        <atom>
+           <name>HG1</name>
+        </atom>
+    </class>
+    <class>
+        <name>TYR</name>
+        <opttype>Alcoholic</opttype>
+        <atom>
+           <name>HH</name>
+        </atom>
+    </class>
+    <class>
+        <name>WAT</name>
+        <opttype>Water</opttype>
+    </class>
+    <class>
+        <name>ARG</name>
+        <opttype>Generic</opttype>
+    </class>
+    <class>
+        <name>LYS</name>
+        <opttype>Generic</opttype>
+    </class>
+    <class>
+        <name>NTR</name>
+        <opttype>Generic</opttype>
+    </class>
+    <class>
+        <name>CTR</name>
+        <opttype>Carboxylic</opttype>
+    </class>
+</hydrogens>

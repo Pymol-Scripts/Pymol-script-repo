@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+
+
+
+<definitions name="SquareService" 
+
+ targetNamespace="http://dev-b.handel-dev.local:8080/SquareService"  
+
+ xmlns:tns="http://dev-b.handel-dev.local:8080/SquareService"   
+
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+
+
+    <message name="getSquareRequest">
+
+        <part name="x" type="xsd:double"/>
+
+    </message>
+
+    <message name="getSquareResponse">
+
+        <part name="return" type="xsd:double"/>
+
+    </message>
+
+
+
+    <portType name="SquarePortType">
+
+        <operation name="getSquare">
+
+            <documentation> the square method </documentation>
+
+            <input message="tns:getSquareRequest"/>
+
+            <output message="tns:getSquareResponse"/>
+
+        </operation>
+
+    </portType>
+
+
+
+    <binding name="SquareBinding" type="tns:SquarePortType">
+
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <operation name="getSquare">
+
+            <soap:operation
+
+             soapAction="http://dev-b.handel-dev.local:8080/SquareService/getSquare"/>
+
+            <input>
+
+                <soap:body use="literal" 
+
+                 namespace="http://dev-b.handel-dev.local:8080/SquareService"/>
+
+            </input>
+
+            <output>
+
+                <soap:body use="literal" 
+
+                 namespace="http://dev-b.handel-dev.local:8080/SquareService"/>
+
+            </output>
+
+        </operation>
+
+    </binding>
+
+
+
+    <service name="SquareService">
+
+        <documentation>Returns x^2 (x**2, square(x)) for a given float x</documentation>
+
+        <port name="SquarePort" binding="tns:SquareBinding">
+
+            <soap:address location="http://dev-b.handel-dev.local:8080/SquareService"/>
+
+        </port>
+
+    </service>
+
+
+
+</definitions>

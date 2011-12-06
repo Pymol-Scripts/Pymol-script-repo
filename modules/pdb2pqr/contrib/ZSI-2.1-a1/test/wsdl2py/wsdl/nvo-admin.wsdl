@@ -1,0 +1,2426 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<wsdl:definitions xmlns:s1="http://www.ivoa.net/xml/VOResource/v0.10" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s6="http://www.ivoa.net/xml/OpenSkyNode/v0.1" xmlns:s3="http://www.ivoa.net/xml/VORegistry/v0.3" xmlns:s2="http://www.ivoa.net/xml/VODataService/v0.5" xmlns:s5="http://www.ivoa.net/xml/ConeSearch/v0.3" xmlns:s4="http://www.ivoa.net/xml/SIA/v0.7" xmlns:s7="http://www.openarchives.org/OAI/2.0/oai_dc/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://www.us-vo.org" xmlns:s8="http://purl.org/dc/elements/1.1/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://www.us-vo.org" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"> 
+  <wsdl:types> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.us-vo.org"> 
+      <!--s:import namespace="http://www.w3.org/2001/XMLSchema" /--> 
+      <s:import namespace="http://www.ivoa.net/xml/VOResource/v0.10" /> 
+      <s:import namespace="http://www.openarchives.org/OAI/2.0/oai_dc/" /> 
+      <s:element name="Load"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="resources" type="tns:ArrayOfDBResource" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="PassPhrase" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:complexType name="ArrayOfDBResource"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="DBResource" nillable="true" type="tns:DBResource" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="DBResource"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="dbid" type="s:long" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="status" type="s:int" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ShortName" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationPublisherName" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationPublisherIdentifier" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationPublisherDescription" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationPublisherReferenceUrl" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationCreatorName" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationCreatorLogo" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationContributor" type="s:string" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="CurationDate" type="s:dateTime" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationVersion" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationContactName" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationContactEmail" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationContactAddress" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CurationContactPhone" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ReferenceURL" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Facility" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Instrument" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ContentLevel" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="ModificationDate" type="s:dateTime" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceURL" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageSpatial" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageSpectral" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageTemporal" type="s:string" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="CoverageRegionOfRegard" type="s:double" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ResourceType" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="resourceRelations" type="tns:ArrayOfResourceRelation" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="resourceInterfaces" type="tns:ArrayOfResourceInterface" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="harvestedfrom" type="s:string" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="harvestedfromDate" type="s:dateTime" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="footprint" type="s:string" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="validationLevel" type="s:int" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ArrayOfString"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="s:string" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ArrayOfResourceRelation"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ResourceRelation" nillable="true" type="tns:ResourceRelation" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ResourceRelation"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="relatedResourceIvoId" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="relationshipType" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="relatedResourceName" type="s:string" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ArrayOfResourceInterface"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ResourceInterface" nillable="true" type="tns:ResourceInterface" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ResourceInterface"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="interfaceNum" type="s:int" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="type" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="qtype" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="accessURL" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="resultType" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="interfaceParams" type="tns:ArrayOfInterfaceParam" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ArrayOfInterfaceParam"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="InterfaceParam" nillable="true" type="tns:InterfaceParam" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="InterfaceParam"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="interfaceNum" type="s:int" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="datatype" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="unit" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ucd" type="s:string" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ServiceSimpleImageAccess"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="tns:DBResource"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="1" name="ImageServiceType" type="s:string" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxQueryRegionSizeLong" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxQueryRegionSizeLat" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxImageExtentLong" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxImageExtentLat" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxImageSizeLong" type="s:int" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxImageSizeLat" type="s:int" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxFileSize" type="s:long" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxRecords" type="s:long" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="Format" type="tns:ArrayOfString" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="VOTableColumns" type="s:string" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="ServiceCone"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="tns:DBResource"> 
+            <s:sequence> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxSearchRadius" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxRecords" type="s:long" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="VOTableColumns" type="s:string" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="ServiceSkyNode"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="tns:DBResource"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="1" name="Compliance" type="s:string" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="Latitude" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="Longitude" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxRecords" type="s:long" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="PrimaryTable" type="s:string" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="PrimaryKey" type="s:string" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:element name="LoadResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="LoadResult" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="LoadFlatResource"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="ShortName" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Publisher" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Creator" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Contributor" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Version" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="ReferenceURL" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="ServiceURL" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="ContactName" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="ContactEmail" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="CoverageSpatial" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="CoverageSpectral" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="CoverageTemporal" type="s:string" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="EntrySize" type="s:float" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxSR" type="s:float" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxRecords" type="s:int" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="ContentLevel" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Facility" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Instrument" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Format" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="ResourceType" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="Compliance" type="s:string" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="Longitude" type="s:double" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="Latitude" type="s:double" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="PrimaryTable" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="PrimaryKey" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="ImageServiceType" type="s:string" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxQueryRegionSizeLat" type="s:float" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxQueryRegionSizeLong" type="s:float" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxImageExtentLat" type="s:int" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxImageExtentLong" type="s:int" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxFileSize" type="s:int" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxImageSizeLat" type="s:int" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="MaxImageSizeLong" type="s:int" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="VOTableColumns" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="harvestedfrom" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="footprint" type="s:string" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="validationLevel" type="s:int" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="PassPhrase" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="LoadFlatResourceResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="LoadFlatResourceResult" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DSQueryRegistry"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="predicate" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DSQueryRegistryResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="DSQueryRegistryResult"> 
+              <s:complexType> 
+                <s:sequence> 
+                  <s:element ref="s:schema" /> 
+                  <s:any /> 
+                </s:sequence> 
+              </s:complexType> 
+            </s:element> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DSQuery"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="sqlStmnt" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="password" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DSQueryResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="DSQueryResult"> 
+              <s:complexType> 
+                <s:sequence> 
+                  <s:element ref="s:schema" /> 
+                  <s:any /> 
+                </s:sequence> 
+              </s:complexType> 
+            </s:element> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="HarvestOAI"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="from" type="s:dateTime" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="passphrase" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="HarvestOAIResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="HarvestOAIResult" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="HarvestVizier"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="passphrase" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="resumptionTokenID" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="HarvestVizierResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="HarvestVizierResult" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="HarvestRecord"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="url" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="IVOA_id" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="passphrase" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="HarvestRecordResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="HarvestRecordResult" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="HarvestAstroGrid"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="passphrase" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="HarvestAstroGridResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="HarvestAstroGridResult" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DeleteEntry"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:string" /> 
+            <s:element minOccurs="0" maxOccurs="1" name="passPhrase" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DeleteEntryResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteEntryResult" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DSKeywordSearch"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="keywords" type="s:string" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="andKeys" type="s:boolean" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DSKeywordSearchResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="DSKeywordSearchResult"> 
+              <s:complexType> 
+                <s:sequence> 
+                  <s:element ref="s:schema" /> 
+                  <s:any /> 
+                </s:sequence> 
+              </s:complexType> 
+            </s:element> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="ListDBColumns"> 
+        <s:complexType /> 
+      </s:element> 
+      <s:element name="ListDBColumnsResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="ListDBColumnsResult" type="tns:ArrayOfString" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="DumpRegistry"> 
+        <s:complexType /> 
+      </s:element> 
+      <s:element name="DumpRegistryResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="DumpRegistryResult" type="tns:ArrayOfSimpleResource" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:complexType name="ArrayOfSimpleResource"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="SimpleResource" nillable="true" type="tns:SimpleResource" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="SimpleResource"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="Title" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ShortName" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Publisher" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Creator" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Subject" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Description" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Contributor" type="s:string" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="Date" type="s:dateTime" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Version" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Identifier" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ReferenceURL" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceURL" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ContactName" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ContactEmail" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Type" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageSpatial" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageSpectral" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="CoverageTemporal" type="s:string" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="EntrySize" type="s:double" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="MaxSR" type="s:double" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="MaxRecords" type="s:int" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ContentLevel" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Facility" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Instrument" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="Format" type="tns:ArrayOfString" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ServiceType" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="xml" type="s:string" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="validationLevel" type="s:int" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:element name="DumpVOResources"> 
+        <s:complexType /> 
+      </s:element> 
+      <s:element name="DumpVOResourcesResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="DumpVOResourcesResult" type="s1:ArrayOfResource" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="Resource" nillable="true" type="s1:Resource" /> 
+      <s:element name="QueryVOResource"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="predicate" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="QueryVOResourceResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="QueryVOResourceResult" type="s1:ArrayOfResource" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="QueryFullVOResource"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="predicate" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="QueryFullVOResourceResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="QueryFullVOResourceResult" type="s1:ArrayOfResource" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="QueryOAIDC"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="predicate" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="QueryOAIDCResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="QueryOAIDCResult" type="s7:ArrayOfOai_dcType" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="oai_dcType" nillable="true" type="s7:oai_dcType" /> 
+      <s:element name="QueryResource"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="predicate" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="QueryResourceResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="QueryResourceResult" type="tns:ArrayOfDBResource" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="QueryRegistry"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="predicate" type="s:string" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="QueryRegistryResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="QueryRegistryResult" type="tns:ArrayOfSimpleResource" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="KeywordSearch"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="keywords" type="s:string" /> 
+            <s:element minOccurs="1" maxOccurs="1" name="andKeys" type="s:boolean" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="KeywordSearchResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="KeywordSearchResult" type="s1:ArrayOfResource" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="Revisions"> 
+        <s:complexType /> 
+      </s:element> 
+      <s:element name="RevisionsResponse"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element minOccurs="0" maxOccurs="1" name="RevisionsResult" type="tns:ArrayOfString" /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="string" nillable="true" type="s:string" /> 
+      <s:element name="DataSet" nillable="true"> 
+        <s:complexType> 
+          <s:sequence> 
+            <s:element ref="s:schema" /> 
+            <s:any /> 
+          </s:sequence> 
+        </s:complexType> 
+      </s:element> 
+      <s:element name="ArrayOfString" nillable="true" type="tns:ArrayOfString" /> 
+      <s:element name="ArrayOfSimpleResource" nillable="true" type="tns:ArrayOfSimpleResource" /> 
+      <s:element name="ArrayOfResource" nillable="true" type="s1:ArrayOfResource" /> 
+      <s:element name="ArrayOfOai_dcType" nillable="true" type="s7:ArrayOfOai_dcType" /> 
+      <s:element name="ArrayOfDBResource" nillable="true" type="tns:ArrayOfDBResource" /> 
+    </s:schema> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ivoa.net/xml/VOResource/v0.10"> 
+      <s:import namespace="http://www.us-vo.org" /> 
+      <s:import namespace="http://www.ivoa.net/xml/VODataService/v0.5" /> 
+      <s:import namespace="http://www.ivoa.net/xml/VORegistry/v0.3" /> 
+      <s:import namespace="http://www.ivoa.net/xml/ConeSearch/v0.3" /> 
+      <s:import namespace="http://www.ivoa.net/xml/OpenSkyNode/v0.1" /> 
+      <s:import namespace="http://www.ivoa.net/xml/SIA/v0.7" /> 
+      <s:complexType name="ArrayOfResource"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" ref="tns:Resource" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Resource"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="title" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="shortName" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="identifier" type="s:anyURI" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="curation" type="s1:Curation" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="content" type="s1:Content" /> 
+        </s:sequence> 
+        <s:attribute name="created" type="s:date" /> 
+        <s:attribute name="updated" type="s:date" /> 
+        <s:attribute default="active" name="status" type="s1:ResourceStatus" /> 
+      </s:complexType> 
+      <s:complexType name="Curation"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="publisher" type="s1:ResourceName" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="creator" type="s1:Creator" /> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="contributor" type="s1:ResourceName" /> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="date" type="s1:Date" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="version" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="contact" type="s1:Contact" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ResourceName"> 
+        <s:simpleContent> 
+          <s:extension base="s:string"> 
+            <s:attribute name="ivo-id" type="s:anyURI" /> 
+          </s:extension> 
+        </s:simpleContent> 
+      </s:complexType> 
+      <s:complexType name="Creator"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s1:ResourceName" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="logo" type="s:anyURI" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Date"> 
+        <s:simpleContent> 
+          <s:extension base="s:date"> 
+            <s:attribute default="representative" name="role" type="s:string" /> 
+          </s:extension> 
+        </s:simpleContent> 
+      </s:complexType> 
+      <s:complexType name="Contact"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s1:ResourceName" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="address" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="email" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="telephone" type="s:string" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Content"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="subject" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="source" type="s1:Source" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="referenceURL" type="s:anyURI" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="type" type="s1:Type" /> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="contentLevel" type="s1:ContentLevel" /> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="relationship" type="s1:Relationship" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Source"> 
+        <s:simpleContent> 
+          <s:extension base="s:string"> 
+            <s:attribute name="format" type="s:string" /> 
+          </s:extension> 
+        </s:simpleContent> 
+      </s:complexType> 
+      <s:simpleType name="Type"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="Other" /> 
+          <s:enumeration value="Archive" /> 
+          <s:enumeration value="Bibliography" /> 
+          <s:enumeration value="Catalog" /> 
+          <s:enumeration value="Journal" /> 
+          <s:enumeration value="Library" /> 
+          <s:enumeration value="Simulation" /> 
+          <s:enumeration value="Survey" /> 
+          <s:enumeration value="Transformation" /> 
+          <s:enumeration value="Education" /> 
+          <s:enumeration value="Outreach" /> 
+          <s:enumeration value="EPOResource" /> 
+          <s:enumeration value="Animation" /> 
+          <s:enumeration value="Artwork" /> 
+          <s:enumeration value="Background" /> 
+          <s:enumeration value="BasicData" /> 
+          <s:enumeration value="Historical" /> 
+          <s:enumeration value="Photographic" /> 
+          <s:enumeration value="Press" /> 
+          <s:enumeration value="Organisation" /> 
+          <s:enumeration value="Project" /> 
+          <s:enumeration value="Registry" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:simpleType name="ContentLevel"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="General" /> 
+          <s:enumeration value="Elementary Education" /> 
+          <s:enumeration value="Middle School Education" /> 
+          <s:enumeration value="Secondary Education" /> 
+          <s:enumeration value="Community College" /> 
+          <s:enumeration value="University" /> 
+          <s:enumeration value="Research" /> 
+          <s:enumeration value="Amateur" /> 
+          <s:enumeration value="Informal Education" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:complexType name="Relationship"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="relationshipType" type="s1:RelationshipType" /> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="relatedResource" type="s1:ResourceName" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:simpleType name="RelationshipType"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="mirror-of" /> 
+          <s:enumeration value="service-for" /> 
+          <s:enumeration value="derived-from" /> 
+          <s:enumeration value="related-to" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:simpleType name="ResourceStatus"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="active" /> 
+          <s:enumeration value="inactive" /> 
+          <s:enumeration value="deleted" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:complexType name="AccessURL"> 
+        <s:simpleContent> 
+          <s:extension base="s:anyURI"> 
+            <s:attribute name="use" type="s1:AccessURLUse" /> 
+          </s:extension> 
+        </s:simpleContent> 
+      </s:complexType> 
+      <s:simpleType name="AccessURLUse"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="full" /> 
+          <s:enumeration value="base" /> 
+          <s:enumeration value="dir" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:complexType name="Organisation"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Resource"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="facility" type="s1:ResourceName" /> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="instrument" type="s1:ResourceName" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="Service"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Resource"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="interface" type="s1:Interface" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="Interface" abstract="true"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="accessURL" type="s1:AccessURL" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="WebBrowser"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Interface" /> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="Capability"> 
+        <s:attribute name="standardID" type="s:anyURI" /> 
+        <s:attribute name="standardURL" type="s:anyURI" /> 
+      </s:complexType> 
+    </s:schema> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ivoa.net/xml/VODataService/v0.5"> 
+      <s:import namespace="http://www.ivoa.net/xml/VOResource/v0.10" /> 
+      <s:import namespace="http://www.ivoa.net/xml/SIA/v0.7" /> 
+      <s:import namespace="http://www.ivoa.net/xml/OpenSkyNode/v0.1" /> 
+      <s:import namespace="http://www.ivoa.net/xml/ConeSearch/v0.3" /> 
+      <s:complexType name="DataCollection"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Resource"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="facility" type="s1:ResourceName" /> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="instrument" type="s1:ResourceName" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="coverage" type="s2:Coverage" /> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="format" type="s2:Format" /> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="rights" type="s2:Rights" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="accessURL" type="s1:AccessURL" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="Coverage"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="spatial" type="s2:Spatial" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="spectral" type="s2:Spectral" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="temporal" type="s2:Temporal" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Spatial"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="region" type="s2:Region" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="resolution" type="s:float" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="regionOfRegard" type="s:float" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Region" abstract="true" /> 
+      <s:complexType name="AllSky"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s2:Region" /> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="CircleRegion"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s2:Region"> 
+            <s:sequence> 
+              <s:element minOccurs="1" maxOccurs="1" name="coordFrame" type="s2:CoordFrame" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="center" type="s2:Position" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="radius" type="s:float" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:simpleType name="CoordFrame"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="ICRS" /> 
+          <s:enumeration value="FK5" /> 
+          <s:enumeration value="FK4" /> 
+          <s:enumeration value="ECL" /> 
+          <s:enumeration value="GAL" /> 
+          <s:enumeration value="SGAL" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:complexType name="Position"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="long" type="s:double" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="lat" type="s:double" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="CoordRange"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s2:Region"> 
+            <s:sequence> 
+              <s:element minOccurs="1" maxOccurs="1" name="coordFrame" type="s2:CoordFrame" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="long" type="s2:AngleRange" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="lat" type="s2:AngleRange" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="AngleRange"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="min" type="s:double" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="max" type="s:double" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Spectral"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="waveband" type="s2:Waveband" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="range" type="s2:WavelengthRange" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="resolution" type="s:float" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:simpleType name="Waveband"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="Radio" /> 
+          <s:enumeration value="Millimeter" /> 
+          <s:enumeration value="Infrared" /> 
+          <s:enumeration value="Optical" /> 
+          <s:enumeration value="UV" /> 
+          <s:enumeration value="EUV" /> 
+          <s:enumeration value="X-ray" /> 
+          <s:enumeration value="Gamma-ray" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:complexType name="WavelengthRange"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="min" type="s:float" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="max" type="s:float" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Temporal"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="startTime" type="s:date" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="endTime" type="s:date" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="resolution" type="s:float" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="Format"> 
+        <s:simpleContent> 
+          <s:extension base="s:string"> 
+            <s:attribute default="false" name="isMIMEType" type="s:boolean" /> 
+          </s:extension> 
+        </s:simpleContent> 
+      </s:complexType> 
+      <s:simpleType name="Rights"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="public" /> 
+          <s:enumeration value="secure" /> 
+          <s:enumeration value="proprietary" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:complexType name="WebService"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Interface" /> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="GLUService"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Interface" /> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="ParamHTTP"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Interface"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="1" name="resultType" type="s:string" /> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="param" type="s2:Param" /> 
+            </s:sequence> 
+            <s:attribute name="qtype" type="s2:HTTPQueryType" /> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="Param"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="dataType" type="s2:DataType" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="unit" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="ucd" type="s:string" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="DataType"> 
+        <s:simpleContent> 
+          <s:extension base="s2:ScalarDataType"> 
+            <s:attribute default="1" name="arraysize" type="s:token" /> 
+          </s:extension> 
+        </s:simpleContent> 
+      </s:complexType> 
+      <s:simpleType name="ScalarDataType"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="boolean" /> 
+          <s:enumeration value="bit" /> 
+          <s:enumeration value="unsignedByte" /> 
+          <s:enumeration value="short" /> 
+          <s:enumeration value="int" /> 
+          <s:enumeration value="long" /> 
+          <s:enumeration value="char" /> 
+          <s:enumeration value="unicodeChar" /> 
+          <s:enumeration value="float" /> 
+          <s:enumeration value="double" /> 
+          <s:enumeration value="floatComplex" /> 
+          <s:enumeration value="doubleComplex" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:simpleType name="HTTPQueryType"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="GET" /> 
+          <s:enumeration value="POST" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:complexType name="SkyService"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Service"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="facility" type="s1:ResourceName" /> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="instrument" type="s1:ResourceName" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="coverage" type="s2:Coverage" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="TabularSkyService"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s2:SkyService"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="table" type="s2:Table" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="Table"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="1" name="name" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="1" name="description" type="s:string" /> 
+          <s:element minOccurs="0" maxOccurs="unbounded" name="column" type="s2:Param" /> 
+        </s:sequence> 
+        <s:attribute name="role" type="s:string" /> 
+      </s:complexType> 
+    </s:schema> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ivoa.net/xml/VORegistry/v0.3"> 
+      <s:import namespace="http://www.ivoa.net/xml/VOResource/v0.10" /> 
+      <s:complexType name="Authority"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Resource"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="1" name="managingOrg" type="s1:ResourceName" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="Registry"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Service"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="unbounded" name="managedAuthority" type="s:string" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+    </s:schema> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ivoa.net/xml/SIA/v0.7"> 
+      <s:import namespace="http://www.ivoa.net/xml/VODataService/v0.5" /> 
+      <s:import namespace="http://www.ivoa.net/xml/VOResource/v0.10" /> 
+      <s:complexType name="SimpleImageAccess"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s2:TabularSkyService"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="1" name="capability" type="s4:SIACapability" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="SIACapability"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s4:SIACapRestriction"> 
+            <s:sequence> 
+              <s:element minOccurs="1" maxOccurs="1" name="imageServiceType" type="s4:ImageServiceType" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="maxQueryRegionSize" type="s4:SkySize" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="maxImageExtent" type="s4:SkySize" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="maxImageSize" type="s4:ImageSize" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="maxFileSize" type="s:int" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="maxRecords" type="s:int" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="SIACapRestriction" abstract="true"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Capability" /> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:simpleType name="ImageServiceType"> 
+        <s:restriction base="s:string"> 
+          <s:enumeration value="Cutout" /> 
+          <s:enumeration value="Mosaic" /> 
+          <s:enumeration value="Atlas" /> 
+          <s:enumeration value="Pointed" /> 
+        </s:restriction> 
+      </s:simpleType> 
+      <s:complexType name="SkySize"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="long" type="s:float" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="lat" type="s:float" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="ImageSize"> 
+        <s:sequence> 
+          <s:element minOccurs="1" maxOccurs="1" name="long" type="s:int" /> 
+          <s:element minOccurs="1" maxOccurs="1" name="lat" type="s:int" /> 
+        </s:sequence> 
+      </s:complexType> 
+    </s:schema> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ivoa.net/xml/ConeSearch/v0.3"> 
+      <s:import namespace="http://www.ivoa.net/xml/VOResource/v0.10" /> 
+      <s:import namespace="http://www.ivoa.net/xml/VODataService/v0.5" /> 
+      <s:complexType name="CSCapRestriction" abstract="true"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Capability" /> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="ConeSearchCapability"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s5:CSCapRestriction"> 
+            <s:sequence> 
+              <s:element minOccurs="1" maxOccurs="1" name="maxSR" type="s:float" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="maxRecords" type="s:int" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="verbosity" type="s:boolean" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="ConeSearch"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s2:TabularSkyService"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="1" name="capability" type="s5:ConeSearchCapability" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+    </s:schema> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.ivoa.net/xml/OpenSkyNode/v0.1"> 
+      <s:import namespace="http://www.ivoa.net/xml/VOResource/v0.10" /> 
+      <s:import namespace="http://www.ivoa.net/xml/VODataService/v0.5" /> 
+      <s:complexType name="OSNCapRestriction" abstract="true"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s1:Capability" /> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="OSNCapability"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s6:OSNCapRestriction"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="1" name="Compliance" type="s:string" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="Latitude" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="Longitude" type="s:double" /> 
+              <s:element minOccurs="1" maxOccurs="1" name="MaxRecords" type="s:long" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="PrimaryTable" type="s:string" /> 
+              <s:element minOccurs="0" maxOccurs="1" name="PrimaryKey" type="s:string" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+      <s:complexType name="OpenSkyNode"> 
+        <s:complexContent mixed="false"> 
+          <s:extension base="s2:TabularSkyService"> 
+            <s:sequence> 
+              <s:element minOccurs="0" maxOccurs="1" name="capability" type="s6:OSNCapability" /> 
+            </s:sequence> 
+          </s:extension> 
+        </s:complexContent> 
+      </s:complexType> 
+    </s:schema> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.openarchives.org/OAI/2.0/oai_dc/"> 
+      <s:import namespace="http://www.us-vo.org" /> 
+      <s:import namespace="http://purl.org/dc/elements/1.1/" /> 
+      <s:complexType name="ArrayOfOai_dcType"> 
+        <s:sequence> 
+          <s:element minOccurs="0" maxOccurs="unbounded" ref="tns:oai_dcType" /> 
+        </s:sequence> 
+      </s:complexType> 
+      <s:complexType name="oai_dcType"> 
+        <s:sequence> 
+          <s:choice minOccurs="0" maxOccurs="unbounded"> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:subject" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:rights" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:source" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:relation" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:creator" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:type" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:contributor" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:date" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:title" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:description" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:language" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:identifier" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:coverage" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:publisher" /> 
+            <s:element minOccurs="0" maxOccurs="1" ref="s8:format" /> 
+          </s:choice> 
+        </s:sequence> 
+      </s:complexType> 
+    </s:schema> 
+    <s:schema elementFormDefault="qualified" targetNamespace="http://purl.org/dc/elements/1.1/"> 
+      <!--s:import namespace="http://www.w3.org/XML/1998/namespace" /--> 
+      <s:element name="subject" type="s8:elementType" /> 
+      <s:complexType name="elementType"> 
+        <s:simpleContent> 
+          <s:extension base="s:string"> 
+            <s:attribute ref="xml:lang" use="optional" /> 
+          </s:extension> 
+        </s:simpleContent> 
+      </s:complexType> 
+      <s:element name="rights" type="s8:elementType" /> 
+      <s:element name="source" type="s8:elementType" /> 
+      <s:element name="relation" type="s8:elementType" /> 
+      <s:element name="creator" type="s8:elementType" /> 
+      <s:element name="type" type="s8:elementType" /> 
+      <s:element name="contributor" type="s8:elementType" /> 
+      <s:element name="date" type="s8:elementType" /> 
+      <s:element name="title" type="s8:elementType" /> 
+      <s:element name="description" type="s8:elementType" /> 
+      <s:element name="language" type="s8:elementType" /> 
+      <s:element name="identifier" type="s8:elementType" /> 
+      <s:element name="coverage" type="s8:elementType" /> 
+      <s:element name="publisher" type="s8:elementType" /> 
+      <s:element name="format" type="s8:elementType" /> 
+    </s:schema> 
+  </wsdl:types> 
+  <wsdl:message name="LoadSoapIn"> 
+    <wsdl:part name="parameters" element="tns:Load" /> 
+  </wsdl:message> 
+  <wsdl:message name="LoadSoapOut"> 
+    <wsdl:part name="parameters" element="tns:LoadResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="LoadFlatResourceSoapIn"> 
+    <wsdl:part name="parameters" element="tns:LoadFlatResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="LoadFlatResourceSoapOut"> 
+    <wsdl:part name="parameters" element="tns:LoadFlatResourceResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryRegistrySoapIn"> 
+    <wsdl:part name="parameters" element="tns:DSQueryRegistry" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryRegistrySoapOut"> 
+    <wsdl:part name="parameters" element="tns:DSQueryRegistryResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQuerySoapIn"> 
+    <wsdl:part name="parameters" element="tns:DSQuery" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQuerySoapOut"> 
+    <wsdl:part name="parameters" element="tns:DSQueryResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestOAISoapIn"> 
+    <wsdl:part name="parameters" element="tns:HarvestOAI" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestOAISoapOut"> 
+    <wsdl:part name="parameters" element="tns:HarvestOAIResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestVizierSoapIn"> 
+    <wsdl:part name="parameters" element="tns:HarvestVizier" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestVizierSoapOut"> 
+    <wsdl:part name="parameters" element="tns:HarvestVizierResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestRecordSoapIn"> 
+    <wsdl:part name="parameters" element="tns:HarvestRecord" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestRecordSoapOut"> 
+    <wsdl:part name="parameters" element="tns:HarvestRecordResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestAstroGridSoapIn"> 
+    <wsdl:part name="parameters" element="tns:HarvestAstroGrid" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestAstroGridSoapOut"> 
+    <wsdl:part name="parameters" element="tns:HarvestAstroGridResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="DeleteEntrySoapIn"> 
+    <wsdl:part name="parameters" element="tns:DeleteEntry" /> 
+  </wsdl:message> 
+  <wsdl:message name="DeleteEntrySoapOut"> 
+    <wsdl:part name="parameters" element="tns:DeleteEntryResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSKeywordSearchSoapIn"> 
+    <wsdl:part name="parameters" element="tns:DSKeywordSearch" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSKeywordSearchSoapOut"> 
+    <wsdl:part name="parameters" element="tns:DSKeywordSearchResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="ListDBColumnsSoapIn"> 
+    <wsdl:part name="parameters" element="tns:ListDBColumns" /> 
+  </wsdl:message> 
+  <wsdl:message name="ListDBColumnsSoapOut"> 
+    <wsdl:part name="parameters" element="tns:ListDBColumnsResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="DumpRegistrySoapIn"> 
+    <wsdl:part name="parameters" element="tns:DumpRegistry" /> 
+  </wsdl:message> 
+  <wsdl:message name="DumpRegistrySoapOut"> 
+    <wsdl:part name="parameters" element="tns:DumpRegistryResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="DumpVOResourcesSoapIn"> 
+    <wsdl:part name="parameters" element="tns:DumpVOResources" /> 
+  </wsdl:message> 
+  <wsdl:message name="DumpVOResourcesSoapOut"> 
+    <wsdl:part name="parameters" element="tns:DumpVOResourcesResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryVOResourceSoapIn"> 
+    <wsdl:part name="parameters" element="tns:QueryVOResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryVOResourceSoapOut"> 
+    <wsdl:part name="parameters" element="tns:QueryVOResourceResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryFullVOResourceSoapIn"> 
+    <wsdl:part name="parameters" element="tns:QueryFullVOResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryFullVOResourceSoapOut"> 
+    <wsdl:part name="parameters" element="tns:QueryFullVOResourceResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryOAIDCSoapIn"> 
+    <wsdl:part name="parameters" element="tns:QueryOAIDC" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryOAIDCSoapOut"> 
+    <wsdl:part name="parameters" element="tns:QueryOAIDCResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryResourceSoapIn"> 
+    <wsdl:part name="parameters" element="tns:QueryResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryResourceSoapOut"> 
+    <wsdl:part name="parameters" element="tns:QueryResourceResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryRegistrySoapIn"> 
+    <wsdl:part name="parameters" element="tns:QueryRegistry" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryRegistrySoapOut"> 
+    <wsdl:part name="parameters" element="tns:QueryRegistryResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="KeywordSearchSoapIn"> 
+    <wsdl:part name="parameters" element="tns:KeywordSearch" /> 
+  </wsdl:message> 
+  <wsdl:message name="KeywordSearchSoapOut"> 
+    <wsdl:part name="parameters" element="tns:KeywordSearchResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="RevisionsSoapIn"> 
+    <wsdl:part name="parameters" element="tns:Revisions" /> 
+  </wsdl:message> 
+  <wsdl:message name="RevisionsSoapOut"> 
+    <wsdl:part name="parameters" element="tns:RevisionsResponse" /> 
+  </wsdl:message> 
+  <wsdl:message name="LoadFlatResourceHttpGetIn"> 
+    <wsdl:part name="Title" type="s:string" /> 
+    <wsdl:part name="ShortName" type="s:string" /> 
+    <wsdl:part name="Publisher" type="s:string" /> 
+    <wsdl:part name="Creator" type="s:string" /> 
+    <wsdl:part name="Subject" type="s:string" /> 
+    <wsdl:part name="Description" type="s:string" /> 
+    <wsdl:part name="Contributor" type="s:string" /> 
+    <wsdl:part name="Version" type="s:string" /> 
+    <wsdl:part name="Identifier" type="s:string" /> 
+    <wsdl:part name="ReferenceURL" type="s:string" /> 
+    <wsdl:part name="ServiceURL" type="s:string" /> 
+    <wsdl:part name="ContactName" type="s:string" /> 
+    <wsdl:part name="ContactEmail" type="s:string" /> 
+    <wsdl:part name="Type" type="s:string" /> 
+    <wsdl:part name="CoverageSpatial" type="s:string" /> 
+    <wsdl:part name="CoverageSpectral" type="s:string" /> 
+    <wsdl:part name="CoverageTemporal" type="s:string" /> 
+    <wsdl:part name="EntrySize" type="s:string" /> 
+    <wsdl:part name="MaxSR" type="s:string" /> 
+    <wsdl:part name="MaxRecords" type="s:string" /> 
+    <wsdl:part name="ContentLevel" type="s:string" /> 
+    <wsdl:part name="Facility" type="s:string" /> 
+    <wsdl:part name="Instrument" type="s:string" /> 
+    <wsdl:part name="Format" type="s:string" /> 
+    <wsdl:part name="ResourceType" type="s:string" /> 
+    <wsdl:part name="Compliance" type="s:string" /> 
+    <wsdl:part name="Longitude" type="s:string" /> 
+    <wsdl:part name="Latitude" type="s:string" /> 
+    <wsdl:part name="PrimaryTable" type="s:string" /> 
+    <wsdl:part name="PrimaryKey" type="s:string" /> 
+    <wsdl:part name="ImageServiceType" type="s:string" /> 
+    <wsdl:part name="MaxQueryRegionSizeLat" type="s:string" /> 
+    <wsdl:part name="MaxQueryRegionSizeLong" type="s:string" /> 
+    <wsdl:part name="MaxImageExtentLat" type="s:string" /> 
+    <wsdl:part name="MaxImageExtentLong" type="s:string" /> 
+    <wsdl:part name="MaxFileSize" type="s:string" /> 
+    <wsdl:part name="MaxImageSizeLat" type="s:string" /> 
+    <wsdl:part name="MaxImageSizeLong" type="s:string" /> 
+    <wsdl:part name="Date" type="s:string" /> 
+    <wsdl:part name="VOTableColumns" type="s:string" /> 
+    <wsdl:part name="harvestedfrom" type="s:string" /> 
+    <wsdl:part name="footprint" type="s:string" /> 
+    <wsdl:part name="validationLevel" type="s:string" /> 
+    <wsdl:part name="PassPhrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="LoadFlatResourceHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryRegistryHttpGetIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryRegistryHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:DataSet" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryHttpGetIn"> 
+    <wsdl:part name="sqlStmnt" type="s:string" /> 
+    <wsdl:part name="password" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:DataSet" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestOAIHttpGetIn"> 
+    <wsdl:part name="url" type="s:string" /> 
+    <wsdl:part name="from" type="s:string" /> 
+    <wsdl:part name="passphrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestOAIHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestVizierHttpGetIn"> 
+    <wsdl:part name="passphrase" type="s:string" /> 
+    <wsdl:part name="resumptionTokenID" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestVizierHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestRecordHttpGetIn"> 
+    <wsdl:part name="url" type="s:string" /> 
+    <wsdl:part name="IVOA_id" type="s:string" /> 
+    <wsdl:part name="passphrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestRecordHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestAstroGridHttpGetIn"> 
+    <wsdl:part name="passphrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestAstroGridHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DeleteEntryHttpGetIn"> 
+    <wsdl:part name="identifier" type="s:string" /> 
+    <wsdl:part name="passPhrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DeleteEntryHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSKeywordSearchHttpGetIn"> 
+    <wsdl:part name="keywords" type="s:string" /> 
+    <wsdl:part name="andKeys" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSKeywordSearchHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:DataSet" /> 
+  </wsdl:message> 
+  <wsdl:message name="ListDBColumnsHttpGetIn" /> 
+  <wsdl:message name="ListDBColumnsHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfString" /> 
+  </wsdl:message> 
+  <wsdl:message name="DumpRegistryHttpGetIn" /> 
+  <wsdl:message name="DumpRegistryHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfSimpleResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="DumpVOResourcesHttpGetIn" /> 
+  <wsdl:message name="DumpVOResourcesHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryVOResourceHttpGetIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryVOResourceHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryFullVOResourceHttpGetIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryFullVOResourceHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryOAIDCHttpGetIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryOAIDCHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfOai_dcType" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryResourceHttpGetIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryResourceHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfDBResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryRegistryHttpGetIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryRegistryHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfSimpleResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="KeywordSearchHttpGetIn"> 
+    <wsdl:part name="keywords" type="s:string" /> 
+    <wsdl:part name="andKeys" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="KeywordSearchHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="RevisionsHttpGetIn" /> 
+  <wsdl:message name="RevisionsHttpGetOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfString" /> 
+  </wsdl:message> 
+  <wsdl:message name="LoadFlatResourceHttpPostIn"> 
+    <wsdl:part name="Title" type="s:string" /> 
+    <wsdl:part name="ShortName" type="s:string" /> 
+    <wsdl:part name="Publisher" type="s:string" /> 
+    <wsdl:part name="Creator" type="s:string" /> 
+    <wsdl:part name="Subject" type="s:string" /> 
+    <wsdl:part name="Description" type="s:string" /> 
+    <wsdl:part name="Contributor" type="s:string" /> 
+    <wsdl:part name="Version" type="s:string" /> 
+    <wsdl:part name="Identifier" type="s:string" /> 
+    <wsdl:part name="ReferenceURL" type="s:string" /> 
+    <wsdl:part name="ServiceURL" type="s:string" /> 
+    <wsdl:part name="ContactName" type="s:string" /> 
+    <wsdl:part name="ContactEmail" type="s:string" /> 
+    <wsdl:part name="Type" type="s:string" /> 
+    <wsdl:part name="CoverageSpatial" type="s:string" /> 
+    <wsdl:part name="CoverageSpectral" type="s:string" /> 
+    <wsdl:part name="CoverageTemporal" type="s:string" /> 
+    <wsdl:part name="EntrySize" type="s:string" /> 
+    <wsdl:part name="MaxSR" type="s:string" /> 
+    <wsdl:part name="MaxRecords" type="s:string" /> 
+    <wsdl:part name="ContentLevel" type="s:string" /> 
+    <wsdl:part name="Facility" type="s:string" /> 
+    <wsdl:part name="Instrument" type="s:string" /> 
+    <wsdl:part name="Format" type="s:string" /> 
+    <wsdl:part name="ResourceType" type="s:string" /> 
+    <wsdl:part name="Compliance" type="s:string" /> 
+    <wsdl:part name="Longitude" type="s:string" /> 
+    <wsdl:part name="Latitude" type="s:string" /> 
+    <wsdl:part name="PrimaryTable" type="s:string" /> 
+    <wsdl:part name="PrimaryKey" type="s:string" /> 
+    <wsdl:part name="ImageServiceType" type="s:string" /> 
+    <wsdl:part name="MaxQueryRegionSizeLat" type="s:string" /> 
+    <wsdl:part name="MaxQueryRegionSizeLong" type="s:string" /> 
+    <wsdl:part name="MaxImageExtentLat" type="s:string" /> 
+    <wsdl:part name="MaxImageExtentLong" type="s:string" /> 
+    <wsdl:part name="MaxFileSize" type="s:string" /> 
+    <wsdl:part name="MaxImageSizeLat" type="s:string" /> 
+    <wsdl:part name="MaxImageSizeLong" type="s:string" /> 
+    <wsdl:part name="Date" type="s:string" /> 
+    <wsdl:part name="VOTableColumns" type="s:string" /> 
+    <wsdl:part name="harvestedfrom" type="s:string" /> 
+    <wsdl:part name="footprint" type="s:string" /> 
+    <wsdl:part name="validationLevel" type="s:string" /> 
+    <wsdl:part name="PassPhrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="LoadFlatResourceHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryRegistryHttpPostIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryRegistryHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:DataSet" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryHttpPostIn"> 
+    <wsdl:part name="sqlStmnt" type="s:string" /> 
+    <wsdl:part name="password" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSQueryHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:DataSet" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestOAIHttpPostIn"> 
+    <wsdl:part name="url" type="s:string" /> 
+    <wsdl:part name="from" type="s:string" /> 
+    <wsdl:part name="passphrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestOAIHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestVizierHttpPostIn"> 
+    <wsdl:part name="passphrase" type="s:string" /> 
+    <wsdl:part name="resumptionTokenID" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestVizierHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestRecordHttpPostIn"> 
+    <wsdl:part name="url" type="s:string" /> 
+    <wsdl:part name="IVOA_id" type="s:string" /> 
+    <wsdl:part name="passphrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestRecordHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestAstroGridHttpPostIn"> 
+    <wsdl:part name="passphrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="HarvestAstroGridHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DeleteEntryHttpPostIn"> 
+    <wsdl:part name="identifier" type="s:string" /> 
+    <wsdl:part name="passPhrase" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DeleteEntryHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSKeywordSearchHttpPostIn"> 
+    <wsdl:part name="keywords" type="s:string" /> 
+    <wsdl:part name="andKeys" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="DSKeywordSearchHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:DataSet" /> 
+  </wsdl:message> 
+  <wsdl:message name="ListDBColumnsHttpPostIn" /> 
+  <wsdl:message name="ListDBColumnsHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfString" /> 
+  </wsdl:message> 
+  <wsdl:message name="DumpRegistryHttpPostIn" /> 
+  <wsdl:message name="DumpRegistryHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfSimpleResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="DumpVOResourcesHttpPostIn" /> 
+  <wsdl:message name="DumpVOResourcesHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryVOResourceHttpPostIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryVOResourceHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryFullVOResourceHttpPostIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryFullVOResourceHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryOAIDCHttpPostIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryOAIDCHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfOai_dcType" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryResourceHttpPostIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryResourceHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfDBResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryRegistryHttpPostIn"> 
+    <wsdl:part name="predicate" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="QueryRegistryHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfSimpleResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="KeywordSearchHttpPostIn"> 
+    <wsdl:part name="keywords" type="s:string" /> 
+    <wsdl:part name="andKeys" type="s:string" /> 
+  </wsdl:message> 
+  <wsdl:message name="KeywordSearchHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfResource" /> 
+  </wsdl:message> 
+  <wsdl:message name="RevisionsHttpPostIn" /> 
+  <wsdl:message name="RevisionsHttpPostOut"> 
+    <wsdl:part name="Body" element="tns:ArrayOfString" /> 
+  </wsdl:message> 
+  <wsdl:portType name="RegistryAdminSoap"> 
+    <wsdl:operation name="Load"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Create or update each of the given resources</documentation> 
+      <wsdl:input message="tns:LoadSoapIn" /> 
+      <wsdl:output message="tns:LoadSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="LoadFlatResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Update or insert record - if it exist  PassPhrase must match</documentation> 
+      <wsdl:input message="tns:LoadFlatResourceSoapIn" /> 
+      <wsdl:output message="tns:LoadFlatResourceSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQueryRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Input WHERE predicate for SQL Query like e.g. 
+ MAXSR &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:DSQueryRegistrySoapIn" /> 
+      <wsdl:output message="tns:DSQueryRegistrySoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQuery"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Input SQL Query</documentation> 
+      <wsdl:input message="tns:DSQuerySoapIn" /> 
+      <wsdl:output message="tns:DSQuerySoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestOAI"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest OAI repository given URL</documentation> 
+      <wsdl:input message="tns:HarvestOAISoapIn" /> 
+      <wsdl:output message="tns:HarvestOAISoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestVizier"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest Vizier with optional ResumptionTokenID, e.g. !!!ivo_vor!100</documentation> 
+      <wsdl:input message="tns:HarvestVizierSoapIn" /> 
+      <wsdl:output message="tns:HarvestVizierSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestRecord"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest Single OAI Record</documentation> 
+      <wsdl:input message="tns:HarvestRecordSoapIn" /> 
+      <wsdl:output message="tns:HarvestRecordSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestAstroGrid"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest from Astrogrid Registry</documentation> 
+      <wsdl:input message="tns:HarvestAstroGridSoapIn" /> 
+      <wsdl:output message="tns:HarvestAstroGridSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DeleteEntry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Delete an individual record - return number of rows deleted</documentation> 
+      <wsdl:input message="tns:DeleteEntrySoapIn" /> 
+      <wsdl:output message="tns:DeleteEntrySoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSKeywordSearch"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">searches registry for keyword.  To AND keywords, set andKeys true otherwise OR'd</documentation> 
+      <wsdl:input message="tns:DSKeywordSearchSoapIn" /> 
+      <wsdl:output message="tns:DSKeywordSearchSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="ListDBColumns"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">return string list of searchable columns</documentation> 
+      <wsdl:input message="tns:ListDBColumnsSoapIn" /> 
+      <wsdl:output message="tns:ListDBColumnsSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Retrieve All Records from Registry, returns SimpleResources</documentation> 
+      <wsdl:input message="tns:DumpRegistrySoapIn" /> 
+      <wsdl:output message="tns:DumpRegistrySoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpVOResources"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Retrieve All VOResources from Registry</documentation> 
+      <wsdl:input message="tns:DumpVOResourcesSoapIn" /> 
+      <wsdl:output message="tns:DumpVOResourcesSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryVOResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns VOResources: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryVOResourceSoapIn" /> 
+      <wsdl:output message="tns:QueryVOResourceSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryFullVOResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns VOResources with status=1 and 3: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryFullVOResourceSoapIn" /> 
+      <wsdl:output message="tns:QueryFullVOResourceSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryOAIDC"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns OAI_DC: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryOAIDCSoapIn" /> 
+      <wsdl:output message="tns:QueryOAIDCSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns custom simplified Resources: Input WHERE predicate for SQL Query like e.g. 
+ ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryResourceSoapIn" /> 
+      <wsdl:output message="tns:QueryResourceSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns SimpleResource (backward compatibility for DATASCOPE): Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryRegistrySoapIn" /> 
+      <wsdl:output message="tns:QueryRegistrySoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="KeywordSearch"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">searches registry for keyword</documentation> 
+      <wsdl:input message="tns:KeywordSearchSoapIn" /> 
+      <wsdl:output message="tns:KeywordSearchSoapOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="Revisions"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">returns cvs verions of classes in this service</documentation> 
+      <wsdl:input message="tns:RevisionsSoapIn" /> 
+      <wsdl:output message="tns:RevisionsSoapOut" /> 
+    </wsdl:operation> 
+  </wsdl:portType> 
+  <wsdl:portType name="RegistryAdminHttpGet"> 
+    <wsdl:operation name="LoadFlatResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Update or insert record - if it exist  PassPhrase must match</documentation> 
+      <wsdl:input message="tns:LoadFlatResourceHttpGetIn" /> 
+      <wsdl:output message="tns:LoadFlatResourceHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQueryRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Input WHERE predicate for SQL Query like e.g. 
+ MAXSR &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:DSQueryRegistryHttpGetIn" /> 
+      <wsdl:output message="tns:DSQueryRegistryHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQuery"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Input SQL Query</documentation> 
+      <wsdl:input message="tns:DSQueryHttpGetIn" /> 
+      <wsdl:output message="tns:DSQueryHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestOAI"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest OAI repository given URL</documentation> 
+      <wsdl:input message="tns:HarvestOAIHttpGetIn" /> 
+      <wsdl:output message="tns:HarvestOAIHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestVizier"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest Vizier with optional ResumptionTokenID, e.g. !!!ivo_vor!100</documentation> 
+      <wsdl:input message="tns:HarvestVizierHttpGetIn" /> 
+      <wsdl:output message="tns:HarvestVizierHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestRecord"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest Single OAI Record</documentation> 
+      <wsdl:input message="tns:HarvestRecordHttpGetIn" /> 
+      <wsdl:output message="tns:HarvestRecordHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestAstroGrid"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest from Astrogrid Registry</documentation> 
+      <wsdl:input message="tns:HarvestAstroGridHttpGetIn" /> 
+      <wsdl:output message="tns:HarvestAstroGridHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DeleteEntry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Delete an individual record - return number of rows deleted</documentation> 
+      <wsdl:input message="tns:DeleteEntryHttpGetIn" /> 
+      <wsdl:output message="tns:DeleteEntryHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSKeywordSearch"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">searches registry for keyword.  To AND keywords, set andKeys true otherwise OR'd</documentation> 
+      <wsdl:input message="tns:DSKeywordSearchHttpGetIn" /> 
+      <wsdl:output message="tns:DSKeywordSearchHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="ListDBColumns"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">return string list of searchable columns</documentation> 
+      <wsdl:input message="tns:ListDBColumnsHttpGetIn" /> 
+      <wsdl:output message="tns:ListDBColumnsHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Retrieve All Records from Registry, returns SimpleResources</documentation> 
+      <wsdl:input message="tns:DumpRegistryHttpGetIn" /> 
+      <wsdl:output message="tns:DumpRegistryHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpVOResources"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Retrieve All VOResources from Registry</documentation> 
+      <wsdl:input message="tns:DumpVOResourcesHttpGetIn" /> 
+      <wsdl:output message="tns:DumpVOResourcesHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryVOResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns VOResources: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryVOResourceHttpGetIn" /> 
+      <wsdl:output message="tns:QueryVOResourceHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryFullVOResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns VOResources with status=1 and 3: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryFullVOResourceHttpGetIn" /> 
+      <wsdl:output message="tns:QueryFullVOResourceHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryOAIDC"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns OAI_DC: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryOAIDCHttpGetIn" /> 
+      <wsdl:output message="tns:QueryOAIDCHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns custom simplified Resources: Input WHERE predicate for SQL Query like e.g. 
+ ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryResourceHttpGetIn" /> 
+      <wsdl:output message="tns:QueryResourceHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns SimpleResource (backward compatibility for DATASCOPE): Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryRegistryHttpGetIn" /> 
+      <wsdl:output message="tns:QueryRegistryHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="KeywordSearch"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">searches registry for keyword</documentation> 
+      <wsdl:input message="tns:KeywordSearchHttpGetIn" /> 
+      <wsdl:output message="tns:KeywordSearchHttpGetOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="Revisions"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">returns cvs verions of classes in this service</documentation> 
+      <wsdl:input message="tns:RevisionsHttpGetIn" /> 
+      <wsdl:output message="tns:RevisionsHttpGetOut" /> 
+    </wsdl:operation> 
+  </wsdl:portType> 
+  <wsdl:portType name="RegistryAdminHttpPost"> 
+    <wsdl:operation name="LoadFlatResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Update or insert record - if it exist  PassPhrase must match</documentation> 
+      <wsdl:input message="tns:LoadFlatResourceHttpPostIn" /> 
+      <wsdl:output message="tns:LoadFlatResourceHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQueryRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Input WHERE predicate for SQL Query like e.g. 
+ MAXSR &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:DSQueryRegistryHttpPostIn" /> 
+      <wsdl:output message="tns:DSQueryRegistryHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQuery"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Input SQL Query</documentation> 
+      <wsdl:input message="tns:DSQueryHttpPostIn" /> 
+      <wsdl:output message="tns:DSQueryHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestOAI"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest OAI repository given URL</documentation> 
+      <wsdl:input message="tns:HarvestOAIHttpPostIn" /> 
+      <wsdl:output message="tns:HarvestOAIHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestVizier"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest Vizier with optional ResumptionTokenID, e.g. !!!ivo_vor!100</documentation> 
+      <wsdl:input message="tns:HarvestVizierHttpPostIn" /> 
+      <wsdl:output message="tns:HarvestVizierHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestRecord"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest Single OAI Record</documentation> 
+      <wsdl:input message="tns:HarvestRecordHttpPostIn" /> 
+      <wsdl:output message="tns:HarvestRecordHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestAstroGrid"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Harvest from Astrogrid Registry</documentation> 
+      <wsdl:input message="tns:HarvestAstroGridHttpPostIn" /> 
+      <wsdl:output message="tns:HarvestAstroGridHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DeleteEntry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Delete an individual record - return number of rows deleted</documentation> 
+      <wsdl:input message="tns:DeleteEntryHttpPostIn" /> 
+      <wsdl:output message="tns:DeleteEntryHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSKeywordSearch"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">searches registry for keyword.  To AND keywords, set andKeys true otherwise OR'd</documentation> 
+      <wsdl:input message="tns:DSKeywordSearchHttpPostIn" /> 
+      <wsdl:output message="tns:DSKeywordSearchHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="ListDBColumns"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">return string list of searchable columns</documentation> 
+      <wsdl:input message="tns:ListDBColumnsHttpPostIn" /> 
+      <wsdl:output message="tns:ListDBColumnsHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Retrieve All Records from Registry, returns SimpleResources</documentation> 
+      <wsdl:input message="tns:DumpRegistryHttpPostIn" /> 
+      <wsdl:output message="tns:DumpRegistryHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpVOResources"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Retrieve All VOResources from Registry</documentation> 
+      <wsdl:input message="tns:DumpVOResourcesHttpPostIn" /> 
+      <wsdl:output message="tns:DumpVOResourcesHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryVOResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns VOResources: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryVOResourceHttpPostIn" /> 
+      <wsdl:output message="tns:QueryVOResourceHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryFullVOResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns VOResources with status=1 and 3: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryFullVOResourceHttpPostIn" /> 
+      <wsdl:output message="tns:QueryFullVOResourceHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryOAIDC"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns OAI_DC: Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryOAIDCHttpPostIn" /> 
+      <wsdl:output message="tns:QueryOAIDCHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryResource"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns custom simplified Resources: Input WHERE predicate for SQL Query like e.g. 
+ ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryResourceHttpPostIn" /> 
+      <wsdl:output message="tns:QueryResourceHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryRegistry"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">Returns SimpleResource (backward compatibility for DATASCOPE): Input WHERE predicate for SQL Query like e.g. 
+ maxSearchRadius &gt; 1 and ResourceType like 'CONE'</documentation> 
+      <wsdl:input message="tns:QueryRegistryHttpPostIn" /> 
+      <wsdl:output message="tns:QueryRegistryHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="KeywordSearch"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">searches registry for keyword</documentation> 
+      <wsdl:input message="tns:KeywordSearchHttpPostIn" /> 
+      <wsdl:output message="tns:KeywordSearchHttpPostOut" /> 
+    </wsdl:operation> 
+    <wsdl:operation name="Revisions"> 
+      <documentation xmlns="http://schemas.xmlsoap.org/wsdl/">returns cvs verions of classes in this service</documentation> 
+      <wsdl:input message="tns:RevisionsHttpPostIn" /> 
+      <wsdl:output message="tns:RevisionsHttpPostOut" /> 
+    </wsdl:operation> 
+  </wsdl:portType> 
+  <wsdl:binding name="RegistryAdminSoap" type="tns:RegistryAdminSoap"> 
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" /> 
+    <wsdl:operation name="Load"> 
+      <soap:operation soapAction="http://www.us-vo.org/Load" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="LoadFlatResource"> 
+      <soap:operation soapAction="http://www.us-vo.org/LoadFlatResource" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQueryRegistry"> 
+      <soap:operation soapAction="http://www.us-vo.org/DSQueryRegistry" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQuery"> 
+      <soap:operation soapAction="http://www.us-vo.org/DSQuery" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestOAI"> 
+      <soap:operation soapAction="http://www.us-vo.org/HarvestOAI" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestVizier"> 
+      <soap:operation soapAction="http://www.us-vo.org/HarvestVizier" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestRecord"> 
+      <soap:operation soapAction="http://www.us-vo.org/HarvestRecord" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestAstroGrid"> 
+      <soap:operation soapAction="http://www.us-vo.org/HarvestAstroGrid" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DeleteEntry"> 
+      <soap:operation soapAction="http://www.us-vo.org/DeleteEntry" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSKeywordSearch"> 
+      <soap:operation soapAction="http://www.us-vo.org/DSKeywordSearch" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="ListDBColumns"> 
+      <soap:operation soapAction="http://www.us-vo.org/ListDBColumns" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpRegistry"> 
+      <soap:operation soapAction="http://www.us-vo.org/DumpRegistry" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpVOResources"> 
+      <soap:operation soapAction="http://www.us-vo.org/DumpVOResources" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryVOResource"> 
+      <soap:operation soapAction="http://www.us-vo.org/QueryVOResource" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryFullVOResource"> 
+      <soap:operation soapAction="http://www.us-vo.org/QueryFullVOResource" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryOAIDC"> 
+      <soap:operation soapAction="http://www.us-vo.org/QueryOAIDC" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryResource"> 
+      <soap:operation soapAction="http://www.us-vo.org/QueryResource" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryRegistry"> 
+      <soap:operation soapAction="http://www.us-vo.org/QueryRegistry" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="KeywordSearch"> 
+      <soap:operation soapAction="http://www.us-vo.org/KeywordSearch" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="Revisions"> 
+      <soap:operation soapAction="http://www.us-vo.org/Revisions" style="document" /> 
+      <wsdl:input> 
+        <soap:body use="literal" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <soap:body use="literal" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+  </wsdl:binding> 
+  <wsdl:binding name="RegistryAdminHttpGet" type="tns:RegistryAdminHttpGet"> 
+    <http:binding verb="GET" /> 
+    <wsdl:operation name="LoadFlatResource"> 
+      <http:operation location="/LoadFlatResource" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQueryRegistry"> 
+      <http:operation location="/DSQueryRegistry" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQuery"> 
+      <http:operation location="/DSQuery" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestOAI"> 
+      <http:operation location="/HarvestOAI" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestVizier"> 
+      <http:operation location="/HarvestVizier" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestRecord"> 
+      <http:operation location="/HarvestRecord" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestAstroGrid"> 
+      <http:operation location="/HarvestAstroGrid" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DeleteEntry"> 
+      <http:operation location="/DeleteEntry" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSKeywordSearch"> 
+      <http:operation location="/DSKeywordSearch" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="ListDBColumns"> 
+      <http:operation location="/ListDBColumns" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpRegistry"> 
+      <http:operation location="/DumpRegistry" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpVOResources"> 
+      <http:operation location="/DumpVOResources" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryVOResource"> 
+      <http:operation location="/QueryVOResource" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryFullVOResource"> 
+      <http:operation location="/QueryFullVOResource" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryOAIDC"> 
+      <http:operation location="/QueryOAIDC" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryResource"> 
+      <http:operation location="/QueryResource" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryRegistry"> 
+      <http:operation location="/QueryRegistry" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="KeywordSearch"> 
+      <http:operation location="/KeywordSearch" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="Revisions"> 
+      <http:operation location="/Revisions" /> 
+      <wsdl:input> 
+        <http:urlEncoded /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+  </wsdl:binding> 
+  <wsdl:binding name="RegistryAdminHttpPost" type="tns:RegistryAdminHttpPost"> 
+    <http:binding verb="POST" /> 
+    <wsdl:operation name="LoadFlatResource"> 
+      <http:operation location="/LoadFlatResource" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQueryRegistry"> 
+      <http:operation location="/DSQueryRegistry" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSQuery"> 
+      <http:operation location="/DSQuery" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestOAI"> 
+      <http:operation location="/HarvestOAI" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestVizier"> 
+      <http:operation location="/HarvestVizier" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestRecord"> 
+      <http:operation location="/HarvestRecord" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="HarvestAstroGrid"> 
+      <http:operation location="/HarvestAstroGrid" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DeleteEntry"> 
+      <http:operation location="/DeleteEntry" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DSKeywordSearch"> 
+      <http:operation location="/DSKeywordSearch" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="ListDBColumns"> 
+      <http:operation location="/ListDBColumns" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpRegistry"> 
+      <http:operation location="/DumpRegistry" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="DumpVOResources"> 
+      <http:operation location="/DumpVOResources" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryVOResource"> 
+      <http:operation location="/QueryVOResource" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryFullVOResource"> 
+      <http:operation location="/QueryFullVOResource" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryOAIDC"> 
+      <http:operation location="/QueryOAIDC" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryResource"> 
+      <http:operation location="/QueryResource" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="QueryRegistry"> 
+      <http:operation location="/QueryRegistry" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="KeywordSearch"> 
+      <http:operation location="/KeywordSearch" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+    <wsdl:operation name="Revisions"> 
+      <http:operation location="/Revisions" /> 
+      <wsdl:input> 
+        <mime:content type="application/x-www-form-urlencoded" /> 
+      </wsdl:input> 
+      <wsdl:output> 
+        <mime:mimeXml part="Body" /> 
+      </wsdl:output> 
+    </wsdl:operation> 
+  </wsdl:binding> 
+  <wsdl:service name="RegistryAdmin"> 
+    <wsdl:port name="RegistryAdminSoap" binding="tns:RegistryAdminSoap"> 
+      <soap:address location="http://nvo.stsci.edu/VORegistry/registryadmin.asmx" /> 
+    </wsdl:port> 
+    <wsdl:port name="RegistryAdminHttpGet" binding="tns:RegistryAdminHttpGet"> 
+      <http:address location="http://nvo.stsci.edu/VORegistry/registryadmin.asmx" /> 
+    </wsdl:port> 
+    <wsdl:port name="RegistryAdminHttpPost" binding="tns:RegistryAdminHttpPost"> 
+      <http:address location="http://nvo.stsci.edu/VORegistry/registryadmin.asmx" /> 
+    </wsdl:port> 
+  </wsdl:service> 
+</wsdl:definitions>
