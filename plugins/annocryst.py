@@ -21,6 +21,7 @@ from urllib2 import URLError, HTTPError
 from xml.dom.minidom import parseString
 from datetime import datetime
 from user import home
+import platform
 
 def __init__(self):
     self.annotationService = None
@@ -62,15 +63,33 @@ def readRemotePDB(pdbCode, app):
         createAnnotationService(app)
     app.annotationService.openRemoteByPDBCode(pdbCode)
 
+def add_to_path():
+    for path in sys.path:
+        if 'Pymol-script-repo' in path:
+            if platform.system() == 'Windows':
+                pathstring = path + "\\modules\\autodock_tools"
+            if platform.system() == 'Linux':
+                pathstring = path + "/modules/autodock_tools"
+            break
+    return(pathstring)
+
 class AnnotationService:
     def __init__(self,app):
+        print("\nWrite the following in the PyMOL command window:")
+        print("remotepdb 3ait")
         parent = app.root
         self.parent = parent
         filepath = home
-        if filepath == '' or filepath == None:
-            filepath = "C:\\"
-        if filepath[-1] != "\\":
-            filepath += "\\"
+        if platform.system() == 'Windows':
+            if filepath == '' or filepath == None:
+                filepath = "C:\\"
+            if filepath[-1] != "\\":
+                filepath += "\\"
+        if platform.system() == 'Linux':
+            if filepath == '' or filepath == None:
+                filepath = "~/"
+            if filepath[-1] != "/":
+                filepath += "/"
         self.settingsFile = "%sannocryst-settings.xml" % filepath
         self.createSettingsDialog()
         self.createMainWindow()
@@ -100,8 +119,10 @@ class AnnotationService:
                 hull_width = 380,
                 hull_height = 20)
         self.status.configure(text_state = 'disabled')
+#        self.status.component('text').configure(relief='flat', 
+#                                                background='SystemMenu')
         self.status.component('text').configure(relief='flat', 
-                                                background='SystemMenu')
+                                                background='white')
         self.status.pack(padx = 5, pady = 5, fill = 'both', expand = 1)
         
         page = self.notebook.add('Open Model')
@@ -120,8 +141,10 @@ class AnnotationService:
                 hull_width = 380,
                 hull_height = 30)
         self.current.configure(text_state = 'disabled')
+#        self.current.component('text').configure(relief='flat', 
+#                                                 background='SystemMenu')
         self.current.component('text').configure(relief='flat', 
-                                                 background='SystemMenu')
+                                                 background='white')
         self.current.pack(padx = 5, pady = 5, fill = 'both', expand = 1)
         self.tree_item = AnnotationTreeItem("",isTopLevel=True)
         self.sc = Pmw.ScrolledCanvas(page,
