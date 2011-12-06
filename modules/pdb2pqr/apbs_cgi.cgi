@@ -1,4 +1,4 @@
-#!@WHICHPYTHON@
+#!/usr/bin/python
 """
     APBS input form [fill in later]
 """
