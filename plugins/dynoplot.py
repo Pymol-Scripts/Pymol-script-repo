@@ -370,7 +370,7 @@ cmd.auto_arg[0]['ramachandran'] = cmd.auto_arg[0]['zoom']
  
 # Add to plugin menu
 def __init_plugin__(self):
-    self.menuBar.addcascademenu('Plugin', 'PlotTools', 'Plot Tools', label='Plot Tools')
+    self.menuBar.addcascademenu('Plugin', 'PlotTools', 'Plot Tools', label='DynoPlot Tools')
     self.menuBar.addmenuitem('PlotTools', 'command', 'Launch Rama Plot', label='Rama Plot',
             command = lambda: DynoRamaObject('(enabled)'))
  
