@@ -47,12 +47,15 @@ class RenderPlugin:
                                 )
         w.pack(expand = 1, fill = 'both', padx = 4, pady = 4)
  
-        self.notebook = Pmw.NoteBook(self.dialog.interior())
-        self.notebook.pack(fill='both',expand=1,padx=10,pady=10)
+        #self.notebook = Pmw.NoteBook(self.dialog.interior())
+        #self.notebook.pack(fill='both',expand=1,padx=10,pady=10)
  
         # Set up the Main page
-        page = self.notebook.add('Main')
-        group = Pmw.Group(page,tag_text='Main options')
+        #page = self.notebook.add('Main')
+        #group = Pmw.Group(page,tag_text='Main options')
+
+        group = Pmw.Group(self.dialog.interior())
+
         group.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
         self.filename = Pmw.EntryField(group.interior(),
                                         labelpos='w',
@@ -60,7 +63,7 @@ class RenderPlugin:
                                         value='picture.png',
                                         )
         self.height = Pmw.EntryField(group.interior(),labelpos='w',
-                                   label_text = 'Height (inches):',
+                                   label_text = 'Height:',
                                    value = str(4.0),
                                    validate = {'validator' : 'real',
                                                'min':0,}
@@ -68,22 +71,26 @@ class RenderPlugin:
  
  
         self.width = Pmw.EntryField(group.interior(),labelpos='w',
-                                   label_text = 'Width (inches):',
+                                   label_text = 'Width:',
                                    value = str(4.0),
                                    validate = {'validator' : 'real',
                                                'min':0,}
                                    )
+        self.units = Pmw.OptionMenu(group.interior(), labelpos='w',
+                                   label_text = 'Units',
+                                   items = ('inch','cm',),
+                                   )
         self.dpi = Pmw.EntryField(group.interior(),labelpos='w',
                                    label_text = 'DPI:',
                                    value = str(300),
-                                   validate = {'validator' : 'integer',
+                                   validate = {'validator' : 'real',
                                                'min':0,}
                                    )
-        entries = (self.height,self.width,self.filename,self.dpi)
+        entries = (self.height,self.width, self.units, self.filename,self.dpi)
         for entry in entries:
             #entry.pack(side='left',fill='both',expand=1,padx=4) # side-by-side
             entry.pack(fill='x',expand=1,padx=4,pady=1) # vertical
-        self.notebook.setnaturalsize()
+        # self.notebook.setnaturalsize()
         self.showAppModal()
  
     def showAppModal(self):
@@ -92,16 +99,19 @@ class RenderPlugin:
         #self.dialog.activate(geometry = 'centerscreenalways')
  
     def execute(self, result):
+        dpi = float(self.dpi.getvalue())
+        if self.units.getvalue() == 'cm':
+            dp_unit = dpi/2.54
+        else:
+            dp_unit = dpi
+        h = int(float(self.height.getvalue()) * dp_unit)
+        w = int(float(self.width.getvalue()) * dp_unit)
         if result == 'Ray':
-            h = int(float(self.height.getvalue()) * int(self.dpi.getvalue()))
-            w = int(float(self.width.getvalue()) * int(self.dpi.getvalue()))
             pymol.cmd.ray(w,h)
-            pymol.cmd.png(self.filename.getvalue(), dpi=int(self.dpi.getvalue()))
+            pymol.cmd.png(self.filename.getvalue(), dpi=dpi)
         elif result == 'Draw':
-            h = int(float(self.height.getvalue()) * int(self.dpi.getvalue()))
-            w = int(float(self.width.getvalue()) * int(self.dpi.getvalue()))
             pymol.cmd.draw(w,h)
-            pymol.cmd.png(self.filename.getvalue(), dpi=int(self.dpi.getvalue()))
+            pymol.cmd.png(self.filename.getvalue(), dpi=dpi)
         else:
             #
             # Doing it this way takes care of clicking on the x in the top of the
