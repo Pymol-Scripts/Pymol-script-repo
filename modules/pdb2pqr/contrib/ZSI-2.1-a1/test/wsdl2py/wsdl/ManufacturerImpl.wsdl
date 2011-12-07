@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	targetNamespace="http://www.ws-i.org/SampleApplications/SupplyChainManagement/2002-10/Manufacturer.wsdl"
+	xmlns:tns="http://www.ws-i.org/SampleApplications/SupplyChainManagement/2002-10/Manufacturer.wsdl"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
+	<import
+		namespace="http://www.ws-i.org/SampleApplications/SupplyChainManagement/2002-10/Manufacturer.wsdl"
+		location="http://www.ws-i.org/SampleApplications/SupplyChainManagement/2002-10/Manufacturer.wsdl"/>
+	<types/>
+	<service name="ManufacturerService">
+		<port name="ManufacturerAPort" binding="tns:ManufacturerSoapBinding">
+			<soap:address location="http://localhost:8080/axis/services/ManufacturerAPort" />
+		</port>
+		<port name="ManufacturerBPort" binding="tns:ManufacturerSoapBinding">
+			<soap:address location="http://localhost:8080/axis/services/ManufacturerBPort" />
+		</port>
+		<port name="ManufacturerCPort" binding="tns:ManufacturerSoapBinding">
+			<soap:address location="http://localhost:8080/axis/services/ManufacturerCPort" />
+		</port>
+		<port name="WarehouseCallbackPort" binding="tns:WarehouseCallbackSoapBinding">
+			<soap:address location="http://localhost:8080/axis/services/WarehouseCallbackPort"/>
+		</port>
+	</service>
+</definitions>
+

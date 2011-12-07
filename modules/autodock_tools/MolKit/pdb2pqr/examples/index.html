@@ -1,0 +1,302 @@
+<html>
+	<head> 
+		<title>PDB2PQR examples</title>
+		<link rel="stylesheet" href="http://agave.wustl.edu/css/baker.css"
+		type="text/css">
+
+	</head>
+	<body>
+		<center>
+			<h1>PDB2PQR examples</h1>
+		</center>
+
+		<hr/>
+
+		<center>
+			<small>Back to the <a
+					href="http://pdb2pqr.sourceforge.net/">main
+					PDB2PQR page</a>.</small>
+		</center>
+
+		<hr/>
+
+		<p> This page provides some very basic examples on the features
+		of PDB2PQR.  It is under continual development and <a
+			href="http://sourceforge.net/tracker/?group_id=144228&atid=758146">suggestions</a>
+		are appreciated! </p>
+
+		<hr/>
+
+		<h2>Basic PDB file operations</h2>
+
+		<p>This section outlines the basic process of adding hydrogens
+		and assigning charge/radius parameters to an otherwise complete
+		PDB structure.</p>
+
+		<h3>Fasciculin-1 (<a
+				href="http://www.pdb.org/pdb/explore.do?structureId=1FAS">1FAS</a>)
+		</h3>
+		<p>  This 3-finger toxin structure is <a
+			href="http://www.pdb.org/pdb/explore.do?structureId=1FAS">available</a> at high
+		resolution (1.9 &Aring;) and has all its heavy atoms present in
+		the PDB file.  We'll use one of the <a
+			href="http://pdb2pqr.sourceforge.net/#availability">PDB2PQR
+			servers</a> to add hydrogens to this protein and
+		optimize their positions. </p>
+		<ol>
+			<li> From the PDB2PQR server web page, enter
+			<code>1FAS</code> into the PDB ID field. </li>
+			<li> Choose whichever forcefield and naming schemes you
+			prefer. </li>
+			<li> Under options, be sure the "Ensure that new atoms
+			are not rebuilt too close to existing atoms" and
+			"Optimize the hydrogen bonding network" options are
+			selected.  You can select other options as well, if
+			interested. </li>
+			<li> Hit the "Submit" button. </li>
+		</ol>
+		<p> Once the calculations are complete, you should get a web
+		page with a link to the new PQR file.  You can download this
+		PQR file and view it in your favorite molecular visualization
+		package (e.g., <a
+			href=http://www.ks.uiuc.edu/Research/vmd/">VMD</a>, <a
+			href="http://pymol.sourceforge.net/">PyMOL</a>, or <a
+			href="http://www.scripps.edu/~sanner/python/pmv/index.html">PMV</a>).
+		For comparison, you might download the <a
+			href="http://www.pdb.org/pdb/explore.do?structureId=1FAS">the
+			original PDB file</a> and compare the PDB2PQR-generated
+		structure with the original to see where hydrogens were placed.
+		</p>
+
+		<h3>Calmodulin-dependent protein kinase (<a
+				href="http://www.pdb.org/pdb/explore.do?structureId=1A06">1A06</a>)</h3>
+
+
+		<p> This kinase structure is <a
+			href="http://www.pdb.org/pdb/explore.do?structureId=1A06">available
+		</a> at somewhat lower (2.5 &Aring;) resolution and is missing
+		several sidechain atoms as well as portions of its sequence.
+		We'll use this example to demonstrate how PDB2PQR <i>can</i>
+		add missing sidechain atoms to an imcomplete structure but
+		<i>cannot</i> fill in missing regions of the backbone.  In
+		particular, we'll use PDB2PQR to add/optimize hydrogens,
+		reconstruct sidechains K53, N65, R140, E154, Q192, Y195, E221,
+		N222, K225, E228, K232, and Q272 from model geometries, and
+		assign parameters.
+		<ol>
+			<li> From the PDB2PQR server web page, enter
+			<code>1A06</code> into the PDB ID field. </li>
+			<li> Choose whichever forcefield and naming schemes you
+			prefer. </li>
+			<li> Under options, be sure the "Ensure that new atoms
+			are not rebuilt too close to existing atoms" and
+			"Optimize the hydrogen bonding network" options are
+			selected.  You can select other options as well, if
+			interested. </li>
+			<li> Hit the "Submit" button. </li>
+		</ol>
+		<p> Once the calculations are complete, you should see a web
+		page with a link to the new PQR file and warnings about
+		incomplete and poorly-positioned portions of the PQR structure.
+		In particular, PDB2PQR will complain about missing regions
+		between K53 and E64 and between F163 and P182.  PDB2PQR may
+		also complain "Unable to debump VAL A 189", referring to bad
+		contacts between V189 and other residues that it was unable to
+		resolve.  You can download the resulting PQR file and view it
+		in your favorite molecular visualization package (e.g., <a
+			href=http://www.ks.uiuc.edu/Research/vmd/">VMD</a>, <a
+			href="http://pymol.sourceforge.net/">PyMOL</a>, or <a
+			href="http://www.scripps.edu/~sanner/python/pmv/index.html">PMV</a>).
+		For comparison, you might download the <a
+			href="http://www.pdb.org/pdb/explore.do?structureId=1A06">the
+			original PDB file</a> and compare the PDB2PQR-generated
+		structure with the original to see where hydrogens were placed.
+		</p>
+
+		<hr/>
+
+		<h2>Assigning titration states with <a
+				href="http://propka.ki.ku.dk/">PROPKA</a></h2>
+
+		<p>Interested users should read <a
+			href="http://dx.doi.org/10.1002/prot.20660">Li
+			H, Robertson AD, Jensen JH. Very Fast Empirical
+			Prediction and Rationalization of Protein pKa
+			Values. <i>Proteins</i>, <b>61</b>, 704-721
+			(2005).</a> for a much more complete
+		description and analysis of titration state assignment
+		using <a href="http://propka.ki.ku.dk/">PROPKA</a>.  The
+		examples here are taken from this paper.  Nearly all of these
+		examples can be reproduced using PDB2PQR/PROPKA, we give a
+		single example here for demonstration purposes.</p>
+
+		<h3>HIV-1 protease (<a
+				href="http://www.pdb.org/pdb/explore/explore.do?structureId=1HPX">1HPX</a>)</h3>
+		<a name="hiv1pka"></a>
+
+		<p> The PDB structure <a
+			href="http://www.pdb.org/pdb/explore/explore.do?structureId=1HPX">1HPX</a>
+		includes HIV-1 protease complexed with an inhibitor at 2.0
+		&Aring; resolution.  HIV-1 protease has two chains; residue D25
+		is anionic on one chain and neutral on the other -- these
+		titration states are important in the role of D25 as an acid in
+		the catalytic mechanism. </p>
+		<ol>
+			<li> From the PDB2PQR server web page, enter
+			<code>1HPX</code> into the PDB ID field. </li>
+			<li> Choose whichever forcefield and naming schemes you
+			prefer. </li>
+			<li> Under options, be sure the "Ensure that new atoms
+			are not rebuilt too close to existing atoms",
+			"Optimize the hydrogen bonding network", and "Use
+			PROPKA to assign protonation states at pH" options are
+			selected.  Choose pH 7 for your initial calculations.
+			You can select other options as well, if interested.
+			</li>
+			<li> Hit the "Submit" button. </li>
+		</ol>
+		<p> Once the calculations are complete, you should see a web
+		page with a link to the PROPKA output, a new PQR file, and warnings about
+		the ligand KNI (since we didn't choose to parameterize it in
+		this calculation -- see <a href="#hiv1lig">below</a>).
+		You can download the resulting PQR file and view it
+		in your favorite molecular visualization package (e.g., <a
+			href=http://www.ks.uiuc.edu/Research/vmd/">VMD</a>, <a
+			href="http://pymol.sourceforge.net/">PyMOL</a>, or <a
+			href="http://www.scripps.edu/~sanner/python/pmv/index.html">PMV</a>).
+		For comparison, you might download the <a
+			href="http://www.pdb.org/pdb/explore.do?structureId=1HPX">the
+			original PDB file</a> and compare the PDB2PQR-generated
+		structure with the original to see where hydrogens were placed.
+		</p>
+
+		<hr/>
+
+		<h2>Ligand parameterization</h2>
+
+		<p>This section outlines the parameterization of ligands using
+		the PEOE_PB methods (see <a
+			href="http://dx.doi.org/10.1002/prot.21110">Czodrowski P,
+			Dramburg I, Sotriffer CA, Klebe G.  Development, validation,
+			and application of adapted peoe charges to estimate pka values
+			of functional groups in protein-ligand complexes.
+			<i>Proteins</i>.  <b>65</b> (2), 424-37, 2006</a> for more
+		information).</p>  As described in the <a
+			href="http://pdb2pqr.sourceforge.net/userguide.html">PDB2PQR
+			user guide</a> and on the <a
+			href="http://agave.wustl.edu/pdb2pqr/server.html">PDB2PQR
+			server page</a>, ligand parameterization currently
+		requires a MOL2-format representation of the ligand to provide
+		the necessary bonding information.  MOL2-format files can be
+		obtained through the free 
+		<a
+			href="http://davapc1.bioch.dundee.ac.uk/programs/prodrg/">PRODRG
+			web server</a> or some molecular modeling software
+		packages.  Please note that
+		<a href="http://davapc1.bioch.dundee.ac.uk/programs/prodrg/">PRODRG</a>
+		provides documentation as well as several examples on ligand
+		preparation on its 
+		<a
+			href="http://davapc1.bioch.dundee.ac.uk/programs/prodrg/">web
+			page</a>; please refer to the PRODRG documentation for
+		questions about ligand MOL2 file preparation.</p>
+
+		<h3>HIV-1 protease (<a
+				href="http://www.pdb.org/pdb/explore/explore.do?structureId=1HPX">1HPX</a>)</h3>
+
+		<a name="hiv1lig"> </a>
+
+		<p>Mixing things up a little bit from <a
+			href="#hiv1pka">above</a>, we're now ready to look at the <a
+			href="http://www.pdb.org/pdb/explore/explore.do?structureId=1HPX">1HPV</a>
+		crystal structure (HIV-1 protease) and parameterize its ligand,
+		KNI-272.  
+		We're going
+		to 
+		</p>
+		<ol>
+			<li> From the PDB2PQR server web page, enter
+			<code>1HPX</code> into the PDB ID field. </li>
+			<li> Choose whichever forcefield and naming schemes you
+			prefer. </li>
+			<li> Under options, be sure the "Ensure that new atoms
+			are not rebuilt too close to existing atoms",
+			"Optimize the hydrogen bonding network", and "Assign
+			charges to the ligand specified in a MOL2 file" options
+			are
+			selected.  The necessary MOL2 file can be downloaded <a
+				href="ligands/LIG_1HPX.mol2">here</a>.
+			You can select other options as well, if interested.
+			</li>
+			<li> Hit the "Submit" button. </li>
+		</ol>
+		<p> Once the calculations are complete, you should see a web
+		page with a link to the new PQR file with a  warning about
+		debumping P81 (but no warnings about ligand parameterization!).
+		You can download the resulting PQR file and view it
+		in your favorite molecular visualization package (e.g., <a
+			href=http://www.ks.uiuc.edu/Research/vmd/">VMD</a>, <a
+			href="http://pymol.sourceforge.net/">PyMOL</a>, or <a
+			href="http://www.scripps.edu/~sanner/python/pmv/index.html">PMV</a>).
+		For comparison, you might download the <a
+			href="http://www.pdb.org/pdb/explore.do?structureId=1HPX">the
+			original PDB file</a> and compare the PDB2PQR-generated
+		structure with the original to see where hydrogens were placed
+		and how the ligand is bound to the active site.
+		</p>
+
+		<h3>L-Arabinose binding protein (<a
+				href="http://www.pdb.org/pdb/explore/explore.do?structureId=1ABF">1ABF</a>)</h3>
+
+		<p>Our next example uses PDB structure <a 
+			href="http://www.pdb.org/pdb/explore/explore.do?structureId=1ABF">1ABF</a>
+		of L-arabinose binding protein in complex with a sugar ligand
+		at 1.90 &Aring; resolution.  To parameterize both this protein
+		and its ligand:
+		</p>
+		<ol>
+			<li> From the PDB2PQR server web page, enter
+			<code>1ABF</code> into the PDB ID field. </li>
+			<li> Choose whichever forcefield and naming schemes you
+			prefer. </li>
+			<li> Under options, be sure the "Ensure that new atoms
+			are not rebuilt too close to existing atoms",
+			"Optimize the hydrogen bonding network", and "Assign
+			charges to the ligand specified in a MOL2 file" options
+			are
+			selected.  The necessary MOL2 file can be downloaded <a
+				href="ligands/LIG_1ABF.mol2">here</a>.
+			You can select other options as well, if interested.
+			</li>
+			<li> Hit the "Submit" button. </li>
+		</ol>
+		<p> Once the calculations are complete, you should see a web
+		page with a link to the new PQR file with a  warning about
+		debumping P66, K295, and K306 (but no warnings about ligand
+		parameterization!).  You can download the resulting PQR file
+		and view it in your favorite molecular visualization package
+		(e.g., <a href=http://www.ks.uiuc.edu/Research/vmd/">VMD</a>,
+		<a href="http://pymol.sourceforge.net/">PyMOL</a>, or <a
+			href="http://www.scripps.edu/~sanner/python/pmv/index.html">PMV</a>).
+		For comparison, you might download the <a
+			href="http://www.pdb.org/pdb/explore.do?structureId=1ABF">the
+			original PDB file</a> and compare the PDB2PQR-generated
+		structure with the original to see where hydrogens were placed
+		and how the ligand is bound to the active site.
+		</p>
+		<hr/>
+
+		<center>
+			<a href="http://sourceforge.net"><img align="middle" src="http://sourceforge.net/sflogo.php?group_id=144228&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" /></a>&nbsp;&nbsp;&nbsp;<a href="http://sourceforge.net/projects/pdb2pqr">SourceForge Project Page</a>
+		</center>
+
+		<hr/>
+
+		<center>
+			<small>
+				Last changed on:  $Date: 2007/08/03 20:59:24 $
+			</small>
+		</center>
+
+	</body>
+</html>

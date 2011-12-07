@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<definitions name="Registration"
+  targetNamespace="http://pycon.org/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns="http://pycon.org/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:types="http://pycon.org/types"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <import namespace="http://pycon.org/types" location="types.xsd"/>
+
+  <message name="GetUserResponse">
+    <part name="User" type="types:User"/>
+  </message>
+
+  <message name="GetUserRequest">
+    <part name="UserId" type="xsd:string"/>
+  </message>
+
+  
+  <portType name="Registration">
+    <operation name="GetUser">
+      <input message="tns:GetUserRequest"/>
+      <output message="tns:GetUserResponse"/>
+    </operation>
+  </portType>
+
+</definitions>

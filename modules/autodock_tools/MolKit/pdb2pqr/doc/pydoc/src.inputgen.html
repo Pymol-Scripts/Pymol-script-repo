@@ -1,0 +1,142 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.inputgen</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.inputgen</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/inputgen.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/inputgen.py</a></font></td></tr></table>
+    <p><tt>inputgen&nbsp;class<br>
+&nbsp;<br>
+Create&nbsp;an&nbsp;APBS&nbsp;input&nbsp;file&nbsp;using&nbsp;psize&nbsp;data<br>
+&nbsp;<br>
+Written&nbsp;by&nbsp;Todd&nbsp;Dolinsky&nbsp;based&nbsp;on&nbsp;original&nbsp;sed&nbsp;script&nbsp;by&nbsp;Nathan&nbsp;Baker<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;----------------------------<br>
+&nbsp;<br>
+PDB2PQR&nbsp;--&nbsp;An&nbsp;automated&nbsp;pipeline&nbsp;for&nbsp;the&nbsp;setup,&nbsp;execution,&nbsp;and&nbsp;analysis&nbsp;of<br>
+Poisson-Boltzmann&nbsp;electrostatics&nbsp;calculations<br>
+&nbsp;<br>
+Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Dept.&nbsp;of&nbsp;Biochemistry&nbsp;and&nbsp;Molecular&nbsp;Biophysics<br>
+Center&nbsp;for&nbsp;Computational&nbsp;Biology<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Jens&nbsp;Nielsen&nbsp;(Jens.Nielsen@ucd.ie)<br>
+University&nbsp;College&nbsp;Dublin<br>
+&nbsp;<br>
+Additional&nbsp;contributing&nbsp;authors&nbsp;listed&nbsp;in&nbsp;documentation&nbsp;and&nbsp;supporting<br>
+package&nbsp;licenses.<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2003-2007.&nbsp;&nbsp;Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis.&nbsp;&nbsp;<br>
+All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+along&nbsp;with&nbsp;PDB2PQR;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software<br>
+Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307&nbsp;&nbsp;USA<br>
+&nbsp;<br>
+----------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="src.psize.html">src.psize</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="src.inputgen.html#Elec">Elec</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.inputgen.html#Input">Input</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Elec">class <strong>Elec</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>An&nbsp;object&nbsp;for&nbsp;the&nbsp;ELEC&nbsp;section&nbsp;of&nbsp;an&nbsp;APBS&nbsp;input&nbsp;file<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Elec-__init__"><strong>__init__</strong></a>(self, size, method, asyncflag)</dt><dd><tt>Initialize&nbsp;the&nbsp;variables&nbsp;that&nbsp;can&nbsp;be&nbsp;set&nbsp;in&nbsp;this&nbsp;object<br>
+Users&nbsp;can&nbsp;modify&nbsp;any&nbsp;of&nbsp;these&nbsp;variables&nbsp;(that's&nbsp;why<br>
+they're&nbsp;here!)</tt></dd></dl>
+
+<dl><dt><a name="Elec-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;elec&nbsp;statement&nbsp;as&nbsp;a&nbsp;string.&nbsp;Check&nbsp;the&nbsp;method<br>
+to&nbsp;see&nbsp;which&nbsp;keywords&nbsp;to&nbsp;use.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Input">class <strong>Input</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>The&nbsp;input&nbsp;class.&nbsp;&nbsp;Each&nbsp;input&nbsp;object&nbsp;is&nbsp;one&nbsp;APBS&nbsp;input&nbsp;file.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Input-__init__"><strong>__init__</strong></a>(self, pqrpath, size, method, asyncflag)</dt><dd><tt>Initialize&nbsp;the&nbsp;input&nbsp;file&nbsp;class.&nbsp;&nbsp;Each&nbsp;input&nbsp;file&nbsp;contains<br>
+a&nbsp;PQR&nbsp;name,&nbsp;a&nbsp;list&nbsp;of&nbsp;elec&nbsp;objects,&nbsp;and&nbsp;a&nbsp;list&nbsp;of&nbsp;strings<br>
+containing&nbsp;print&nbsp;statements.&nbsp;&nbsp;For&nbsp;starters&nbsp;assume&nbsp;two<br>
+ELEC&nbsp;statements&nbsp;are&nbsp;needed,&nbsp;one&nbsp;for&nbsp;the&nbsp;inhomgenous&nbsp;and<br>
+the&nbsp;other&nbsp;for&nbsp;the&nbsp;homogenous&nbsp;dielectric&nbsp;calculations.<br>
+&nbsp;<br>
+Users&nbsp;can&nbsp;edit&nbsp;the&nbsp;elec&nbsp;statements&nbsp;and&nbsp;the&nbsp;print&nbsp;statements.<br>
+&nbsp;<br>
+This&nbsp;assumes&nbsp;you&nbsp;have&nbsp;already&nbsp;run&nbsp;psize,&nbsp;either&nbsp;by<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size.runPsize(/path/to/pqr)&nbsp;or<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size.parseString(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;size.setAll()<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pqrpath:&nbsp;&nbsp;&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;PQR&nbsp;file&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;Psize&nbsp;object&nbsp;(psize)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;method:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;method&nbsp;(para,&nbsp;auto,&nbsp;manual,&nbsp;async)&nbsp;to&nbsp;use<br>
+&nbsp;&nbsp;&nbsp;&nbsp;asyncflag:&nbsp;1&nbsp;if&nbsp;async&nbsp;is&nbsp;desired,&nbsp;0&nbsp;otherwise</tt></dd></dl>
+
+<dl><dt><a name="Input-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;text&nbsp;of&nbsp;the&nbsp;input&nbsp;file</tt></dd></dl>
+
+<dl><dt><a name="Input-printInputFiles"><strong>printInputFiles</strong></a>(self)</dt><dd><tt>Make&nbsp;the&nbsp;input&nbsp;file(s)&nbsp;associated&nbsp;with&nbsp;this&nbsp;object</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-main"><strong>main</strong></a>()</dt></dl>
+ <dl><dt><a name="-splitInput"><strong>splitInput</strong></a>(filename)</dt><dd><tt>Split&nbsp;the&nbsp;parallel&nbsp;input&nbsp;file&nbsp;into&nbsp;multiple&nbsp;async&nbsp;file&nbsp;names<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;filename:&nbsp;&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;original&nbsp;parallel&nbsp;input<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;file&nbsp;(string)</tt></dd></dl>
+ <dl><dt><a name="-usage"><strong>usage</strong></a>()</dt><dd><tt>Display&nbsp;the&nbsp;usage&nbsp;information&nbsp;for&nbsp;this&nbsp;script</tt></dd></dl>
+</td></tr></table>
+</body></html>

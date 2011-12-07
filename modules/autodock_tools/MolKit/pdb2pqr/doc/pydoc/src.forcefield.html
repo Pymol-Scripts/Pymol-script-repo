@@ -1,0 +1,410 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.forcefield</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.forcefield</strong></big></big> (28 February 2006)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/forcefield.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/forcefield.py</a></font></td></tr></table>
+    <p><tt><a href="#Forcefield">Forcefield</a>.py<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;takes&nbsp;a&nbsp;pdblist&nbsp;as&nbsp;input&nbsp;and&nbsp;replaces&nbsp;the&nbsp;occupancy&nbsp;and<br>
+tempfactor&nbsp;fields&nbsp;with&nbsp;charge&nbsp;and&nbsp;radius&nbsp;fields,&nbsp;with&nbsp;values&nbsp;as&nbsp;defined<br>
+by&nbsp;a&nbsp;particular&nbsp;forcefield.&nbsp;&nbsp;The&nbsp;forcefield&nbsp;structure&nbsp;is&nbsp;modeled&nbsp;off&nbsp;of<br>
+the&nbsp;structures.py&nbsp;file,&nbsp;where&nbsp;each&nbsp;forcefield&nbsp;is&nbsp;considered&nbsp;a&nbsp;chain&nbsp;of<br>
+residues&nbsp;of&nbsp;atoms.<br>
+&nbsp;<br>
+----------------------------<br>
+&nbsp;<br>
+PDB2PQR&nbsp;--&nbsp;An&nbsp;automated&nbsp;pipeline&nbsp;for&nbsp;the&nbsp;setup,&nbsp;execution,&nbsp;and&nbsp;analysis&nbsp;of<br>
+Poisson-Boltzmann&nbsp;electrostatics&nbsp;calculations<br>
+&nbsp;<br>
+Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Dept.&nbsp;of&nbsp;Biochemistry&nbsp;and&nbsp;Molecular&nbsp;Biophysics<br>
+Center&nbsp;for&nbsp;Computational&nbsp;Biology<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Jens&nbsp;Nielsen&nbsp;(Jens.Nielsen@ucd.ie)<br>
+University&nbsp;College&nbsp;Dublin<br>
+&nbsp;<br>
+Additional&nbsp;contributing&nbsp;authors&nbsp;listed&nbsp;in&nbsp;documentation&nbsp;and&nbsp;supporting<br>
+package&nbsp;licenses.<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2003-2007.&nbsp;&nbsp;Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis.&nbsp;&nbsp;<br>
+All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+along&nbsp;with&nbsp;PDB2PQR;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software<br>
+Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307&nbsp;&nbsp;USA<br>
+&nbsp;<br>
+----------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="getopt.html">getopt</a><br>
+<a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="re.html">re</a><br>
+</td><td width="25%" valign=top><a href="xml.sax.html">xml.sax</a><br>
+<a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="src.forcefield.html#Forcefield">Forcefield</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.forcefield.html#ForcefieldAtom">ForcefieldAtom</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.forcefield.html#ForcefieldResidue">ForcefieldResidue</a>
+</font></dt><dt><font face="helvetica, arial"><a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="src.forcefield.html#ForcefieldHandler">ForcefieldHandler</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Forcefield">class <strong>Forcefield</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Forcefield">Forcefield</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;forcefield&nbsp;class&nbsp;contains&nbsp;definitions&nbsp;for&nbsp;a&nbsp;given&nbsp;forcefield.<br>
+Each&nbsp;forcefield&nbsp;object&nbsp;contains&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;residues,&nbsp;with&nbsp;each<br>
+residue&nbsp;containing&nbsp;a&nbsp;dictionary&nbsp;of&nbsp;atoms.&nbsp;&nbsp;Dictionaries&nbsp;are&nbsp;used<br>
+instead&nbsp;of&nbsp;lists&nbsp;as&nbsp;the&nbsp;ordering&nbsp;is&nbsp;not&nbsp;important.&nbsp;The&nbsp;forcefield<br>
+definition&nbsp;files&nbsp;are&nbsp;unedited,&nbsp;directly&nbsp;from&nbsp;the&nbsp;forcefield&nbsp;-&nbsp;all<br>
+transformations&nbsp;are&nbsp;done&nbsp;within.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Forcefield-__init__"><strong>__init__</strong></a>(self, ff, definition, userff)</dt><dd><tt>Initialize&nbsp;the&nbsp;class&nbsp;by&nbsp;parsing&nbsp;the&nbsp;definition&nbsp;file<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ff:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;forcefield&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;definition:&nbsp;The&nbsp;definition&nbsp;objects<br>
+&nbsp;&nbsp;&nbsp;&nbsp;userff:&nbsp;&nbsp;A&nbsp;link&nbsp;to&nbsp;the&nbsp;file&nbsp;for&nbsp;CGI&nbsp;based&nbsp;user-defined<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;forcefields</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getGroup"><strong>getGroup</strong></a>(self, resname, atomname)</dt><dd><tt>Get&nbsp;the&nbsp;group/type&nbsp;associated&nbsp;with&nbsp;the&nbsp;input<br>
+fields.&nbsp;&nbsp;If&nbsp;not&nbsp;found,&nbsp;return&nbsp;a&nbsp;null&nbsp;string.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;&nbsp;The&nbsp;residue&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getNames"><strong>getNames</strong></a>(self, resname, atomname)</dt><dd><tt>Get&nbsp;the&nbsp;actual&nbsp;names&nbsp;associated&nbsp;with&nbsp;the&nbsp;input&nbsp;fields.<br>
+The&nbsp;names&nbsp;passed&nbsp;in&nbsp;point&nbsp;to&nbsp;<a href="#ForcefieldResidue">ForcefieldResidue</a>&nbsp;and<br>
+<a href="#ForcefieldAtom">ForcefieldAtom</a>&nbsp;objects&nbsp;which&nbsp;may&nbsp;have&nbsp;different&nbsp;names;<br>
+grab&nbsp;these&nbsp;names&nbsp;and&nbsp;return.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;&nbsp;The&nbsp;residue&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rname:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;forcefield's&nbsp;name&nbsp;for&nbsp;this&nbsp;residue&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;aname:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;forcefield's&nbsp;name&nbsp;for&nbsp;this&nbsp;atom&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getParams"><strong>getParams</strong></a>(self, resname, atomname)</dt><dd><tt>Get&nbsp;the&nbsp;parameters&nbsp;associated&nbsp;with&nbsp;the&nbsp;input&nbsp;fields.<br>
+The&nbsp;residue&nbsp;itself&nbsp;is&nbsp;needed&nbsp;instead&nbsp;of&nbsp;simply&nbsp;its&nbsp;name<br>
+because&nbsp;&nbsp;the&nbsp;forcefield&nbsp;may&nbsp;use&nbsp;a&nbsp;different&nbsp;residue&nbsp;name<br>
+than&nbsp;the&nbsp;standard&nbsp;amino&nbsp;acid&nbsp;name.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;&nbsp;The&nbsp;residue&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;&nbsp;The&nbsp;charge&nbsp;on&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;atom&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-getResidue"><strong>getResidue</strong></a>(self, resname)</dt><dd><tt>Return&nbsp;the&nbsp;residue&nbsp;object&nbsp;with&nbsp;the&nbsp;given&nbsp;resname<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;The&nbsp;residue&nbsp;object&nbsp;(<a href="#ForcefieldResidue">ForcefieldResidue</a>)</tt></dd></dl>
+
+<dl><dt><a name="Forcefield-hasResidue"><strong>hasResidue</strong></a>(self, resname)</dt><dd><tt>Check&nbsp;if&nbsp;the&nbsp;residue&nbsp;name&nbsp;is&nbsp;in&nbsp;the&nbsp;map&nbsp;or&nbsp;not.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;&nbsp;The&nbsp;name&nbsp;to&nbsp;search&nbsp;for&nbsp;(string)<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;resname&nbsp;is&nbsp;in&nbsp;the&nbsp;map,&nbsp;0&nbsp;otherwise.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForcefieldAtom">class <strong>ForcefieldAtom</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ForcefieldAtom">ForcefieldAtom</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#ForcefieldAtom">ForcefieldAtom</a>&nbsp;object&nbsp;contains&nbsp;fields&nbsp;that&nbsp;are&nbsp;related&nbsp;to&nbsp;the<br>
+forcefield&nbsp;at&nbsp;the&nbsp;atom&nbsp;level<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ForcefieldAtom-__init__"><strong>__init__</strong></a>(self, name, charge, radius, resname, group<font color="#909090">=''</font>)</dt><dd><tt>Initialize&nbsp;the&nbsp;object<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;The&nbsp;charge&nbsp;on&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;residue&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;group:&nbsp;&nbsp;&nbsp;The&nbsp;group&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldAtom-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>String&nbsp;representation&nbsp;of&nbsp;the&nbsp;forcefield&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldAtom-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="#ForcefieldAtom">ForcefieldAtom</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;The&nbsp;charge&nbsp;on&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;atom&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;epsilon:&nbsp;The&nbsp;epsilon&nbsp;assocaited&nbsp;with&nbsp;the&nbsp;atom&nbsp;(float)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForcefieldHandler">class <strong>ForcefieldHandler</strong></a>(<a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ForcefieldHandler-__init__"><strong>__init__</strong></a>(self, map, reference)</dt></dl>
+
+<dl><dt><a name="ForcefieldHandler-characters"><strong>characters</strong></a>(self, text)</dt><dd><tt>Store&nbsp;the&nbsp;information&nbsp;in&nbsp;the&nbsp;object&nbsp;for&nbsp;future&nbsp;use/<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text:&nbsp;&nbsp;The&nbsp;text&nbsp;value&nbsp;between&nbsp;the&nbsp;XML&nbsp;tags</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-endElement"><strong>endElement</strong></a>(self, name)</dt><dd><tt>At&nbsp;the&nbsp;end&nbsp;of&nbsp;the&nbsp;element,&nbsp;act&nbsp;on&nbsp;the&nbsp;stored&nbsp;information.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;element&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-findMatchingNames"><strong>findMatchingNames</strong></a>(self, regname, map)</dt><dd><tt>Find&nbsp;a&nbsp;list&nbsp;of&nbsp;strings&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;regular<br>
+expression.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;regname:&nbsp;The&nbsp;regular&nbsp;expression&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;map:&nbsp;&nbsp;The&nbsp;dictionary&nbsp;to&nbsp;search&nbsp;(dict)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;list:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;regular&nbsp;expression&nbsp;objects&nbsp;that&nbsp;match<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;regular&nbsp;expression.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-startElement"><strong>startElement</strong></a>(self, name, attributes)</dt><dd><tt>Override&nbsp;the&nbsp;startElement&nbsp;function&nbsp;to&nbsp;keep&nbsp;track&nbsp;of&nbsp;the&nbsp;current<br>
+element.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-updateMap"><strong>updateMap</strong></a>(self, toname, fromname, map)</dt><dd><tt>Update&nbsp;the&nbsp;given&nbsp;map&nbsp;by&nbsp;adding&nbsp;a&nbsp;pointer&nbsp;from&nbsp;a&nbsp;new<br>
+name&nbsp;to&nbsp;an&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;toname:&nbsp;&nbsp;The&nbsp;new&nbsp;name&nbsp;for&nbsp;the&nbsp;object&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;fromname:&nbsp;&nbsp;The&nbsp;old&nbsp;name&nbsp;for&nbsp;the&nbsp;object&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;map:&nbsp;&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;items&nbsp;(dict)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>:<br>
+<dl><dt><a name="ForcefieldHandler-endDocument"><strong>endDocument</strong></a>(self)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;document.<br>
+&nbsp;<br>
+The&nbsp;SAX&nbsp;parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;only&nbsp;once,&nbsp;and&nbsp;it&nbsp;will<br>
+be&nbsp;the&nbsp;last&nbsp;method&nbsp;invoked&nbsp;during&nbsp;the&nbsp;parse.&nbsp;The&nbsp;parser&nbsp;shall<br>
+not&nbsp;invoke&nbsp;this&nbsp;method&nbsp;until&nbsp;it&nbsp;has&nbsp;either&nbsp;abandoned&nbsp;parsing<br>
+(because&nbsp;of&nbsp;an&nbsp;unrecoverable&nbsp;error)&nbsp;or&nbsp;reached&nbsp;the&nbsp;end&nbsp;of<br>
+input.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-endElementNS"><strong>endElementNS</strong></a>(self, name, qname)</dt><dd><tt>Signals&nbsp;the&nbsp;end&nbsp;of&nbsp;an&nbsp;element&nbsp;in&nbsp;namespace&nbsp;mode.<br>
+&nbsp;<br>
+The&nbsp;name&nbsp;parameter&nbsp;contains&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;element&nbsp;type,&nbsp;just<br>
+as&nbsp;with&nbsp;the&nbsp;startElementNS&nbsp;event.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-endPrefixMapping"><strong>endPrefixMapping</strong></a>(self, prefix)</dt><dd><tt>End&nbsp;the&nbsp;scope&nbsp;of&nbsp;a&nbsp;prefix-URI&nbsp;mapping.<br>
+&nbsp;<br>
+See&nbsp;startPrefixMapping&nbsp;for&nbsp;details.&nbsp;This&nbsp;event&nbsp;will&nbsp;always<br>
+occur&nbsp;after&nbsp;the&nbsp;corresponding&nbsp;endElement&nbsp;event,&nbsp;but&nbsp;the&nbsp;order<br>
+of&nbsp;endPrefixMapping&nbsp;events&nbsp;is&nbsp;not&nbsp;otherwise&nbsp;guaranteed.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-ignorableWhitespace"><strong>ignorableWhitespace</strong></a>(self, whitespace)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;ignorable&nbsp;whitespace&nbsp;in&nbsp;element&nbsp;content.<br>
+&nbsp;<br>
+Validating&nbsp;Parsers&nbsp;must&nbsp;use&nbsp;this&nbsp;method&nbsp;to&nbsp;report&nbsp;each&nbsp;chunk<br>
+of&nbsp;ignorable&nbsp;whitespace&nbsp;(see&nbsp;the&nbsp;W3C&nbsp;XML&nbsp;1.0&nbsp;recommendation,<br>
+section&nbsp;2.10):&nbsp;non-validating&nbsp;parsers&nbsp;may&nbsp;also&nbsp;use&nbsp;this&nbsp;method<br>
+if&nbsp;they&nbsp;are&nbsp;capable&nbsp;of&nbsp;parsing&nbsp;and&nbsp;using&nbsp;content&nbsp;models.<br>
+&nbsp;<br>
+SAX&nbsp;parsers&nbsp;may&nbsp;return&nbsp;all&nbsp;contiguous&nbsp;whitespace&nbsp;in&nbsp;a&nbsp;single<br>
+chunk,&nbsp;or&nbsp;they&nbsp;may&nbsp;split&nbsp;it&nbsp;into&nbsp;several&nbsp;chunks;&nbsp;however,&nbsp;all<br>
+of&nbsp;the&nbsp;characters&nbsp;in&nbsp;any&nbsp;single&nbsp;event&nbsp;must&nbsp;come&nbsp;from&nbsp;the&nbsp;same<br>
+external&nbsp;entity,&nbsp;so&nbsp;that&nbsp;the&nbsp;Locator&nbsp;provides&nbsp;useful<br>
+information.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-processingInstruction"><strong>processingInstruction</strong></a>(self, target, data)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;a&nbsp;processing&nbsp;instruction.<br>
+&nbsp;<br>
+The&nbsp;Parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;once&nbsp;for&nbsp;each&nbsp;processing<br>
+instruction&nbsp;found:&nbsp;note&nbsp;that&nbsp;processing&nbsp;instructions&nbsp;may&nbsp;occur<br>
+before&nbsp;or&nbsp;after&nbsp;the&nbsp;main&nbsp;document&nbsp;element.<br>
+&nbsp;<br>
+A&nbsp;SAX&nbsp;parser&nbsp;should&nbsp;never&nbsp;report&nbsp;an&nbsp;XML&nbsp;declaration&nbsp;(XML&nbsp;1.0,<br>
+section&nbsp;2.8)&nbsp;or&nbsp;a&nbsp;text&nbsp;declaration&nbsp;(XML&nbsp;1.0,&nbsp;section&nbsp;4.3.1)<br>
+using&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-setDocumentLocator"><strong>setDocumentLocator</strong></a>(self, locator)</dt><dd><tt>Called&nbsp;by&nbsp;the&nbsp;parser&nbsp;to&nbsp;give&nbsp;the&nbsp;application&nbsp;a&nbsp;locator&nbsp;for<br>
+locating&nbsp;the&nbsp;origin&nbsp;of&nbsp;document&nbsp;events.<br>
+&nbsp;<br>
+SAX&nbsp;parsers&nbsp;are&nbsp;strongly&nbsp;encouraged&nbsp;(though&nbsp;not&nbsp;absolutely<br>
+required)&nbsp;to&nbsp;supply&nbsp;a&nbsp;locator:&nbsp;if&nbsp;it&nbsp;does&nbsp;so,&nbsp;it&nbsp;must&nbsp;supply<br>
+the&nbsp;locator&nbsp;to&nbsp;the&nbsp;application&nbsp;by&nbsp;invoking&nbsp;this&nbsp;method&nbsp;before<br>
+invoking&nbsp;any&nbsp;of&nbsp;the&nbsp;other&nbsp;methods&nbsp;in&nbsp;the&nbsp;DocumentHandler<br>
+interface.<br>
+&nbsp;<br>
+The&nbsp;locator&nbsp;allows&nbsp;the&nbsp;application&nbsp;to&nbsp;determine&nbsp;the&nbsp;end<br>
+position&nbsp;of&nbsp;any&nbsp;document-related&nbsp;event,&nbsp;even&nbsp;if&nbsp;the&nbsp;parser&nbsp;is<br>
+not&nbsp;reporting&nbsp;an&nbsp;error.&nbsp;Typically,&nbsp;the&nbsp;application&nbsp;will&nbsp;use<br>
+this&nbsp;information&nbsp;for&nbsp;reporting&nbsp;its&nbsp;own&nbsp;errors&nbsp;(such&nbsp;as<br>
+character&nbsp;content&nbsp;that&nbsp;does&nbsp;not&nbsp;match&nbsp;an&nbsp;application's<br>
+business&nbsp;rules).&nbsp;The&nbsp;information&nbsp;returned&nbsp;by&nbsp;the&nbsp;locator&nbsp;is<br>
+probably&nbsp;not&nbsp;sufficient&nbsp;for&nbsp;use&nbsp;with&nbsp;a&nbsp;search&nbsp;engine.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;the&nbsp;locator&nbsp;will&nbsp;return&nbsp;correct&nbsp;information&nbsp;only<br>
+during&nbsp;the&nbsp;invocation&nbsp;of&nbsp;the&nbsp;events&nbsp;in&nbsp;this&nbsp;interface.&nbsp;The<br>
+application&nbsp;should&nbsp;not&nbsp;attempt&nbsp;to&nbsp;use&nbsp;it&nbsp;at&nbsp;any&nbsp;other&nbsp;time.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-skippedEntity"><strong>skippedEntity</strong></a>(self, name)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;a&nbsp;skipped&nbsp;entity.<br>
+&nbsp;<br>
+The&nbsp;Parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;once&nbsp;for&nbsp;each&nbsp;entity<br>
+skipped.&nbsp;Non-validating&nbsp;processors&nbsp;may&nbsp;skip&nbsp;entities&nbsp;if&nbsp;they<br>
+have&nbsp;not&nbsp;seen&nbsp;the&nbsp;declarations&nbsp;(because,&nbsp;for&nbsp;example,&nbsp;the<br>
+entity&nbsp;was&nbsp;declared&nbsp;in&nbsp;an&nbsp;external&nbsp;DTD&nbsp;subset).&nbsp;All&nbsp;processors<br>
+may&nbsp;skip&nbsp;external&nbsp;entities,&nbsp;depending&nbsp;on&nbsp;the&nbsp;values&nbsp;of&nbsp;the<br>
+<a href="http://xml.org/sax/features/external-general-entities">http://xml.org/sax/features/external-general-entities</a>&nbsp;and&nbsp;the<br>
+<a href="http://xml.org/sax/features/external-parameter-entities">http://xml.org/sax/features/external-parameter-entities</a><br>
+properties.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-startDocument"><strong>startDocument</strong></a>(self)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;the&nbsp;beginning&nbsp;of&nbsp;a&nbsp;document.<br>
+&nbsp;<br>
+The&nbsp;SAX&nbsp;parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;only&nbsp;once,&nbsp;before&nbsp;any<br>
+other&nbsp;methods&nbsp;in&nbsp;this&nbsp;interface&nbsp;or&nbsp;in&nbsp;DTDHandler&nbsp;(except&nbsp;for<br>
+setDocumentLocator).</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-startElementNS"><strong>startElementNS</strong></a>(self, name, qname, attrs)</dt><dd><tt>Signals&nbsp;the&nbsp;start&nbsp;of&nbsp;an&nbsp;element&nbsp;in&nbsp;namespace&nbsp;mode.<br>
+&nbsp;<br>
+The&nbsp;name&nbsp;parameter&nbsp;contains&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;element&nbsp;type&nbsp;as&nbsp;a<br>
+(uri,&nbsp;localname)&nbsp;tuple,&nbsp;the&nbsp;qname&nbsp;parameter&nbsp;the&nbsp;raw&nbsp;XML&nbsp;1.0<br>
+name&nbsp;used&nbsp;in&nbsp;the&nbsp;source&nbsp;document,&nbsp;and&nbsp;the&nbsp;attrs&nbsp;parameter<br>
+holds&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Attributes&nbsp;class&nbsp;containing&nbsp;the<br>
+attributes&nbsp;of&nbsp;the&nbsp;element.<br>
+&nbsp;<br>
+The&nbsp;uri&nbsp;part&nbsp;of&nbsp;the&nbsp;name&nbsp;tuple&nbsp;is&nbsp;None&nbsp;for&nbsp;elements&nbsp;which&nbsp;have<br>
+no&nbsp;namespace.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldHandler-startPrefixMapping"><strong>startPrefixMapping</strong></a>(self, prefix, uri)</dt><dd><tt>Begin&nbsp;the&nbsp;scope&nbsp;of&nbsp;a&nbsp;prefix-URI&nbsp;Namespace&nbsp;mapping.<br>
+&nbsp;<br>
+The&nbsp;information&nbsp;from&nbsp;this&nbsp;event&nbsp;is&nbsp;not&nbsp;necessary&nbsp;for&nbsp;normal<br>
+Namespace&nbsp;processing:&nbsp;the&nbsp;SAX&nbsp;XML&nbsp;reader&nbsp;will&nbsp;automatically<br>
+replace&nbsp;prefixes&nbsp;for&nbsp;element&nbsp;and&nbsp;attribute&nbsp;names&nbsp;when&nbsp;the<br>
+<a href="http://xml.org/sax/features/namespaces">http://xml.org/sax/features/namespaces</a>&nbsp;feature&nbsp;is&nbsp;true&nbsp;(the<br>
+default).<br>
+&nbsp;<br>
+There&nbsp;are&nbsp;cases,&nbsp;however,&nbsp;when&nbsp;applications&nbsp;need&nbsp;to&nbsp;use<br>
+prefixes&nbsp;in&nbsp;character&nbsp;data&nbsp;or&nbsp;in&nbsp;attribute&nbsp;values,&nbsp;where&nbsp;they<br>
+cannot&nbsp;safely&nbsp;be&nbsp;expanded&nbsp;automatically;&nbsp;the<br>
+start/endPrefixMapping&nbsp;event&nbsp;supplies&nbsp;the&nbsp;information&nbsp;to&nbsp;the<br>
+application&nbsp;to&nbsp;expand&nbsp;prefixes&nbsp;in&nbsp;those&nbsp;contexts&nbsp;itself,&nbsp;if<br>
+necessary.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;start/endPrefixMapping&nbsp;events&nbsp;are&nbsp;not&nbsp;guaranteed&nbsp;to<br>
+be&nbsp;properly&nbsp;nested&nbsp;relative&nbsp;to&nbsp;each-other:&nbsp;all<br>
+startPrefixMapping&nbsp;events&nbsp;will&nbsp;occur&nbsp;before&nbsp;the&nbsp;corresponding<br>
+startElement&nbsp;event,&nbsp;and&nbsp;all&nbsp;endPrefixMapping&nbsp;events&nbsp;will&nbsp;occur<br>
+after&nbsp;the&nbsp;corresponding&nbsp;endElement&nbsp;event,&nbsp;but&nbsp;their&nbsp;order&nbsp;is<br>
+not&nbsp;guaranteed.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ForcefieldResidue">class <strong>ForcefieldResidue</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#ForcefieldResidue">ForcefieldResidue</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;ForceFieldResidue&nbsp;class&nbsp;contains&nbsp;a&nbsp;mapping&nbsp;of&nbsp;all&nbsp;atoms&nbsp;within<br>
+the&nbsp;residue&nbsp;for&nbsp;easy&nbsp;searching.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ForcefieldResidue-__init__"><strong>__init__</strong></a>(self, name)</dt><dd><tt>Initialize&nbsp;the&nbsp;ForceFieldResidue&nbsp;object<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldResidue-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Add&nbsp;an&nbsp;atom&nbsp;to&nbsp;the&nbsp;<a href="#ForcefieldResidue">ForcefieldResidue</a><br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;&nbsp;The&nbsp;atom&nbsp;to&nbsp;be&nbsp;added&nbsp;(atom)</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldResidue-getAtom"><strong>getAtom</strong></a>(self, atomname)</dt><dd><tt>Return&nbsp;the&nbsp;atom&nbsp;object&nbsp;with&nbsp;the&nbsp;given&nbsp;atomname<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;The&nbsp;atom&nbsp;object&nbsp;(<a href="#ForcefieldAtom">ForcefieldAtom</a>)</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldResidue-getAtoms"><strong>getAtoms</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;list&nbsp;of&nbsp;atoms&nbsp;in&nbsp;this&nbsp;residue.</tt></dd></dl>
+
+<dl><dt><a name="ForcefieldResidue-hasAtom"><strong>hasAtom</strong></a>(self, atomname)</dt><dd><tt>Check&nbsp;to&nbsp;see&nbsp;if&nbsp;the&nbsp;atomname&nbsp;is&nbsp;in&nbsp;the&nbsp;current&nbsp;residue.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;search&nbsp;for<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;atom&nbsp;is&nbsp;present&nbsp;in&nbsp;the&nbsp;residue,&nbsp;0&nbsp;otherwise</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Todd Dolinsky'<br>
+<strong>__date__</strong> = '28 February 2006'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

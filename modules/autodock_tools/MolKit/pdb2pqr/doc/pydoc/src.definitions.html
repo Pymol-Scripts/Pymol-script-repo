@@ -1,0 +1,553 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.definitions</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.definitions</strong></big></big> (28 February 2006)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/definitions.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/definitions.py</a></font></td></tr></table>
+    <p><tt>Definitions&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;contains&nbsp;classes&nbsp;associated&nbsp;with&nbsp;Amino&nbsp;Acid&nbsp;and&nbsp;Rotamer<br>
+definitions&nbsp;as&nbsp;used&nbsp;by&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+----------------------------<br>
+&nbsp;<br>
+PDB2PQR&nbsp;--&nbsp;An&nbsp;automated&nbsp;pipeline&nbsp;for&nbsp;the&nbsp;setup,&nbsp;execution,&nbsp;and&nbsp;analysis&nbsp;of<br>
+Poisson-Boltzmann&nbsp;electrostatics&nbsp;calculations<br>
+&nbsp;<br>
+Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Dept.&nbsp;of&nbsp;Biochemistry&nbsp;and&nbsp;Molecular&nbsp;Biophysics<br>
+Center&nbsp;for&nbsp;Computational&nbsp;Biology<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Jens&nbsp;Nielsen&nbsp;(Jens.Nielsen@ucd.ie)<br>
+University&nbsp;College&nbsp;Dublin<br>
+&nbsp;<br>
+Additional&nbsp;contributing&nbsp;authors&nbsp;listed&nbsp;in&nbsp;documentation&nbsp;and&nbsp;supporting<br>
+package&nbsp;licenses.<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2003-2007.&nbsp;&nbsp;Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis.&nbsp;&nbsp;<br>
+All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+along&nbsp;with&nbsp;PDB2PQR;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software<br>
+Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307&nbsp;&nbsp;USA</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="copy.html">copy</a><br>
+<a href="getopt.html">getopt</a><br>
+</td><td width="25%" valign=top><a href="math.html">math</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="re.html">re</a><br>
+<a href="xml.sax.html">xml.sax</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+<a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="src.definitions.html#Definition">Definition</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.definitions.html#Patch">Patch</a>
+</font></dt><dt><font face="helvetica, arial"><a href="src.structures.html#Atom">src.structures.Atom</a>(<a href="src.pdb.html#ATOM">src.pdb.ATOM</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="src.definitions.html#DefinitionAtom">DefinitionAtom</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="src.structures.html#Residue">src.structures.Residue</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="src.definitions.html#DefinitionResidue">DefinitionResidue</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="src.definitions.html#DefinitionHandler">DefinitionHandler</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Definition">class <strong>Definition</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Definition">Definition</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#Definition">Definition</a>&nbsp;class&nbsp;contains&nbsp;the&nbsp;structured&nbsp;definitions&nbsp;found<br>
+in&nbsp;the&nbsp;files&nbsp;and&nbsp;several&nbsp;mappings&nbsp;for&nbsp;easy&nbsp;access&nbsp;to&nbsp;the&nbsp;information.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Definition-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;<a href="#Definition">Definition</a>&nbsp;Object</tt></dd></dl>
+
+<dl><dt><a name="Definition-addPatch"><strong>addPatch</strong></a>(self, patch, refname, newname)</dt><dd><tt>Add&nbsp;a&nbsp;patch&nbsp;to&nbsp;a&nbsp;definition&nbsp;residue.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;patch:&nbsp;&nbsp;The&nbsp;patch&nbsp;object&nbsp;to&nbsp;add&nbsp;(<a href="#Patch">Patch</a>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;add&nbsp;the&nbsp;patch&nbsp;to&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newname:&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;new&nbsp;(patched)&nbsp;object&nbsp;(string)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DefinitionAtom">class <strong>DefinitionAtom</strong></a>(<a href="src.structures.html#Atom">src.structures.Atom</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>A&nbsp;trimmed&nbsp;down&nbsp;version&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;class<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="src.definitions.html#DefinitionAtom">DefinitionAtom</a></dd>
+<dd><a href="src.structures.html#Atom">src.structures.Atom</a></dd>
+<dd><a href="src.pdb.html#ATOM">src.pdb.ATOM</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="DefinitionAtom-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;the&nbsp;class</tt></dd></dl>
+
+<dl><dt><a name="DefinitionAtom-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>A&nbsp;basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="DefinitionAtom-isBackbone"><strong>isBackbone</strong></a>(self)</dt><dd><tt>Return&nbsp;true&nbsp;if&nbsp;atom&nbsp;name&nbsp;is&nbsp;in&nbsp;backbone,&nbsp;otherwise&nbsp;false<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;state:&nbsp;1&nbsp;if&nbsp;true,&nbsp;0&nbsp;if&nbsp;false</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.structures.html#Atom">src.structures.Atom</a>:<br>
+<dl><dt><a name="DefinitionAtom-addBond"><strong>addBond</strong></a>(self, bondedatom)</dt><dd><tt>Add&nbsp;a&nbsp;bond&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;bonds<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bondedatom:&nbsp;The&nbsp;atom&nbsp;to&nbsp;bond&nbsp;to&nbsp;(<a href="src.structures.html#Atom">Atom</a>)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionAtom-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;of&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;(either&nbsp;ATOM&nbsp;or&nbsp;HETATM)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;serial:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;serial&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;altLoc:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resName:&nbsp;&nbsp;&nbsp;&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;sequence&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;iCode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code&nbsp;for&nbsp;insertion&nbsp;of&nbsp;residues<br>
+&nbsp;&nbsp;&nbsp;&nbsp;x:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;X&nbsp;in&nbsp;Angstroms.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;y:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Y&nbsp;in&nbsp;Angstroms.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;z:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Z&nbsp;in&nbsp;Angstroms.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;occupancy:&nbsp;&nbsp;Occupancy<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tempFactor:&nbsp;Temperature&nbsp;Factor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;segID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier<br>
+&nbsp;&nbsp;&nbsp;&nbsp;element:&nbsp;&nbsp;&nbsp;&nbsp;Element&nbsp;symbol<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bonds:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;bonds&nbsp;associated&nbsp;with&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;interbonds:&nbsp;The&nbsp;intrabonds&nbsp;associated&nbsp;with&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;extrabonds:&nbsp;The&nbsp;extrabonds&nbsp;assocaited&nbsp;with&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;parent&nbsp;residue&nbsp;of&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ffcharge:&nbsp;&nbsp;&nbsp;The&nbsp;forcefield&nbsp;charge&nbsp;on&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hdonor:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;the&nbsp;atom&nbsp;is&nbsp;a&nbsp;hydrogen&nbsp;donor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hacceptor:&nbsp;&nbsp;Whether&nbsp;the&nbsp;atom&nbsp;is&nbsp;a&nbsp;hydrogen&nbsp;acceptor<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="DefinitionAtom-getCoords"><strong>getCoords</strong></a>(self)</dt><dd><tt>Return&nbsp;the&nbsp;x,y,z&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;atom&nbsp;in&nbsp;list&nbsp;form<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;the&nbsp;coordinates&nbsp;(list)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionAtom-hasReference"><strong>hasReference</strong></a>(self)</dt><dd><tt>Determine&nbsp;if&nbsp;the&nbsp;atom&nbsp;object&nbsp;has&nbsp;a&nbsp;reference&nbsp;object&nbsp;or&nbsp;not.<br>
+All&nbsp;known&nbsp;atoms&nbsp;should&nbsp;have&nbsp;reference&nbsp;objects.<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;atom&nbsp;has&nbsp;a&nbsp;reference&nbsp;object,&nbsp;0&nbsp;otherwise.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionAtom-isHydrogen"><strong>isHydrogen</strong></a>(self)</dt><dd><tt>Is&nbsp;this&nbsp;atom&nbsp;a&nbsp;Hydrogen&nbsp;atom?<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;1&nbsp;if&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;is&nbsp;a&nbsp;Hydrogen,&nbsp;0&nbsp;otherwise</tt></dd></dl>
+
+<dl><dt><a name="DefinitionAtom-set"><strong>set</strong></a>(self, name, value)</dt><dd><tt>Set&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;to&nbsp;set&nbsp;the&nbsp;member&nbsp;to<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;of&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;(either&nbsp;ATOM&nbsp;or&nbsp;HETATM)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;serial:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;serial&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="src.structures.html#Atom">Atom</a>&nbsp;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;altLoc:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resName:&nbsp;&nbsp;&nbsp;&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;sequence&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;iCode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code&nbsp;for&nbsp;insertion&nbsp;of&nbsp;residues<br>
+&nbsp;&nbsp;&nbsp;&nbsp;x:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;X&nbsp;in&nbsp;Angstroms.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;y:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Y&nbsp;in&nbsp;Angstroms.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;z:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Z&nbsp;in&nbsp;Angstroms.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;occupancy:&nbsp;&nbsp;Occupancy<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tempFactor:&nbsp;Temperature&nbsp;Factor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;segID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier<br>
+&nbsp;&nbsp;&nbsp;&nbsp;element:&nbsp;&nbsp;&nbsp;&nbsp;Element&nbsp;symbol<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;residue:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;parent&nbsp;residue&nbsp;of&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ffcharge:&nbsp;&nbsp;&nbsp;The&nbsp;forcefield&nbsp;charge&nbsp;on&nbsp;the&nbsp;atom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hdonor:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Whether&nbsp;the&nbsp;atom&nbsp;is&nbsp;a&nbsp;hydrogen&nbsp;donor<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hacceptor:&nbsp;&nbsp;Whether&nbsp;the&nbsp;atom&nbsp;is&nbsp;a&nbsp;hydrogen&nbsp;acceptor<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DefinitionHandler">class <strong>DefinitionHandler</strong></a>(<a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="DefinitionHandler-__init__"><strong>__init__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="DefinitionHandler-characters"><strong>characters</strong></a>(self, text)</dt></dl>
+
+<dl><dt><a name="DefinitionHandler-endElement"><strong>endElement</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="DefinitionHandler-startElement"><strong>startElement</strong></a>(self, name, attributes)</dt></dl>
+
+<hr>
+Methods inherited from <a href="xml.sax.handler.html#ContentHandler">xml.sax.handler.ContentHandler</a>:<br>
+<dl><dt><a name="DefinitionHandler-endDocument"><strong>endDocument</strong></a>(self)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;document.<br>
+&nbsp;<br>
+The&nbsp;SAX&nbsp;parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;only&nbsp;once,&nbsp;and&nbsp;it&nbsp;will<br>
+be&nbsp;the&nbsp;last&nbsp;method&nbsp;invoked&nbsp;during&nbsp;the&nbsp;parse.&nbsp;The&nbsp;parser&nbsp;shall<br>
+not&nbsp;invoke&nbsp;this&nbsp;method&nbsp;until&nbsp;it&nbsp;has&nbsp;either&nbsp;abandoned&nbsp;parsing<br>
+(because&nbsp;of&nbsp;an&nbsp;unrecoverable&nbsp;error)&nbsp;or&nbsp;reached&nbsp;the&nbsp;end&nbsp;of<br>
+input.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-endElementNS"><strong>endElementNS</strong></a>(self, name, qname)</dt><dd><tt>Signals&nbsp;the&nbsp;end&nbsp;of&nbsp;an&nbsp;element&nbsp;in&nbsp;namespace&nbsp;mode.<br>
+&nbsp;<br>
+The&nbsp;name&nbsp;parameter&nbsp;contains&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;element&nbsp;type,&nbsp;just<br>
+as&nbsp;with&nbsp;the&nbsp;startElementNS&nbsp;event.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-endPrefixMapping"><strong>endPrefixMapping</strong></a>(self, prefix)</dt><dd><tt>End&nbsp;the&nbsp;scope&nbsp;of&nbsp;a&nbsp;prefix-URI&nbsp;mapping.<br>
+&nbsp;<br>
+See&nbsp;startPrefixMapping&nbsp;for&nbsp;details.&nbsp;This&nbsp;event&nbsp;will&nbsp;always<br>
+occur&nbsp;after&nbsp;the&nbsp;corresponding&nbsp;endElement&nbsp;event,&nbsp;but&nbsp;the&nbsp;order<br>
+of&nbsp;endPrefixMapping&nbsp;events&nbsp;is&nbsp;not&nbsp;otherwise&nbsp;guaranteed.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-ignorableWhitespace"><strong>ignorableWhitespace</strong></a>(self, whitespace)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;ignorable&nbsp;whitespace&nbsp;in&nbsp;element&nbsp;content.<br>
+&nbsp;<br>
+Validating&nbsp;Parsers&nbsp;must&nbsp;use&nbsp;this&nbsp;method&nbsp;to&nbsp;report&nbsp;each&nbsp;chunk<br>
+of&nbsp;ignorable&nbsp;whitespace&nbsp;(see&nbsp;the&nbsp;W3C&nbsp;XML&nbsp;1.0&nbsp;recommendation,<br>
+section&nbsp;2.10):&nbsp;non-validating&nbsp;parsers&nbsp;may&nbsp;also&nbsp;use&nbsp;this&nbsp;method<br>
+if&nbsp;they&nbsp;are&nbsp;capable&nbsp;of&nbsp;parsing&nbsp;and&nbsp;using&nbsp;content&nbsp;models.<br>
+&nbsp;<br>
+SAX&nbsp;parsers&nbsp;may&nbsp;return&nbsp;all&nbsp;contiguous&nbsp;whitespace&nbsp;in&nbsp;a&nbsp;single<br>
+chunk,&nbsp;or&nbsp;they&nbsp;may&nbsp;split&nbsp;it&nbsp;into&nbsp;several&nbsp;chunks;&nbsp;however,&nbsp;all<br>
+of&nbsp;the&nbsp;characters&nbsp;in&nbsp;any&nbsp;single&nbsp;event&nbsp;must&nbsp;come&nbsp;from&nbsp;the&nbsp;same<br>
+external&nbsp;entity,&nbsp;so&nbsp;that&nbsp;the&nbsp;Locator&nbsp;provides&nbsp;useful<br>
+information.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-processingInstruction"><strong>processingInstruction</strong></a>(self, target, data)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;a&nbsp;processing&nbsp;instruction.<br>
+&nbsp;<br>
+The&nbsp;Parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;once&nbsp;for&nbsp;each&nbsp;processing<br>
+instruction&nbsp;found:&nbsp;note&nbsp;that&nbsp;processing&nbsp;instructions&nbsp;may&nbsp;occur<br>
+before&nbsp;or&nbsp;after&nbsp;the&nbsp;main&nbsp;document&nbsp;element.<br>
+&nbsp;<br>
+A&nbsp;SAX&nbsp;parser&nbsp;should&nbsp;never&nbsp;report&nbsp;an&nbsp;XML&nbsp;declaration&nbsp;(XML&nbsp;1.0,<br>
+section&nbsp;2.8)&nbsp;or&nbsp;a&nbsp;text&nbsp;declaration&nbsp;(XML&nbsp;1.0,&nbsp;section&nbsp;4.3.1)<br>
+using&nbsp;this&nbsp;method.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-setDocumentLocator"><strong>setDocumentLocator</strong></a>(self, locator)</dt><dd><tt>Called&nbsp;by&nbsp;the&nbsp;parser&nbsp;to&nbsp;give&nbsp;the&nbsp;application&nbsp;a&nbsp;locator&nbsp;for<br>
+locating&nbsp;the&nbsp;origin&nbsp;of&nbsp;document&nbsp;events.<br>
+&nbsp;<br>
+SAX&nbsp;parsers&nbsp;are&nbsp;strongly&nbsp;encouraged&nbsp;(though&nbsp;not&nbsp;absolutely<br>
+required)&nbsp;to&nbsp;supply&nbsp;a&nbsp;locator:&nbsp;if&nbsp;it&nbsp;does&nbsp;so,&nbsp;it&nbsp;must&nbsp;supply<br>
+the&nbsp;locator&nbsp;to&nbsp;the&nbsp;application&nbsp;by&nbsp;invoking&nbsp;this&nbsp;method&nbsp;before<br>
+invoking&nbsp;any&nbsp;of&nbsp;the&nbsp;other&nbsp;methods&nbsp;in&nbsp;the&nbsp;DocumentHandler<br>
+interface.<br>
+&nbsp;<br>
+The&nbsp;locator&nbsp;allows&nbsp;the&nbsp;application&nbsp;to&nbsp;determine&nbsp;the&nbsp;end<br>
+position&nbsp;of&nbsp;any&nbsp;document-related&nbsp;event,&nbsp;even&nbsp;if&nbsp;the&nbsp;parser&nbsp;is<br>
+not&nbsp;reporting&nbsp;an&nbsp;error.&nbsp;Typically,&nbsp;the&nbsp;application&nbsp;will&nbsp;use<br>
+this&nbsp;information&nbsp;for&nbsp;reporting&nbsp;its&nbsp;own&nbsp;errors&nbsp;(such&nbsp;as<br>
+character&nbsp;content&nbsp;that&nbsp;does&nbsp;not&nbsp;match&nbsp;an&nbsp;application's<br>
+business&nbsp;rules).&nbsp;The&nbsp;information&nbsp;returned&nbsp;by&nbsp;the&nbsp;locator&nbsp;is<br>
+probably&nbsp;not&nbsp;sufficient&nbsp;for&nbsp;use&nbsp;with&nbsp;a&nbsp;search&nbsp;engine.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;the&nbsp;locator&nbsp;will&nbsp;return&nbsp;correct&nbsp;information&nbsp;only<br>
+during&nbsp;the&nbsp;invocation&nbsp;of&nbsp;the&nbsp;events&nbsp;in&nbsp;this&nbsp;interface.&nbsp;The<br>
+application&nbsp;should&nbsp;not&nbsp;attempt&nbsp;to&nbsp;use&nbsp;it&nbsp;at&nbsp;any&nbsp;other&nbsp;time.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-skippedEntity"><strong>skippedEntity</strong></a>(self, name)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;a&nbsp;skipped&nbsp;entity.<br>
+&nbsp;<br>
+The&nbsp;Parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;once&nbsp;for&nbsp;each&nbsp;entity<br>
+skipped.&nbsp;Non-validating&nbsp;processors&nbsp;may&nbsp;skip&nbsp;entities&nbsp;if&nbsp;they<br>
+have&nbsp;not&nbsp;seen&nbsp;the&nbsp;declarations&nbsp;(because,&nbsp;for&nbsp;example,&nbsp;the<br>
+entity&nbsp;was&nbsp;declared&nbsp;in&nbsp;an&nbsp;external&nbsp;DTD&nbsp;subset).&nbsp;All&nbsp;processors<br>
+may&nbsp;skip&nbsp;external&nbsp;entities,&nbsp;depending&nbsp;on&nbsp;the&nbsp;values&nbsp;of&nbsp;the<br>
+<a href="http://xml.org/sax/features/external-general-entities">http://xml.org/sax/features/external-general-entities</a>&nbsp;and&nbsp;the<br>
+<a href="http://xml.org/sax/features/external-parameter-entities">http://xml.org/sax/features/external-parameter-entities</a><br>
+properties.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-startDocument"><strong>startDocument</strong></a>(self)</dt><dd><tt>Receive&nbsp;notification&nbsp;of&nbsp;the&nbsp;beginning&nbsp;of&nbsp;a&nbsp;document.<br>
+&nbsp;<br>
+The&nbsp;SAX&nbsp;parser&nbsp;will&nbsp;invoke&nbsp;this&nbsp;method&nbsp;only&nbsp;once,&nbsp;before&nbsp;any<br>
+other&nbsp;methods&nbsp;in&nbsp;this&nbsp;interface&nbsp;or&nbsp;in&nbsp;DTDHandler&nbsp;(except&nbsp;for<br>
+setDocumentLocator).</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-startElementNS"><strong>startElementNS</strong></a>(self, name, qname, attrs)</dt><dd><tt>Signals&nbsp;the&nbsp;start&nbsp;of&nbsp;an&nbsp;element&nbsp;in&nbsp;namespace&nbsp;mode.<br>
+&nbsp;<br>
+The&nbsp;name&nbsp;parameter&nbsp;contains&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;element&nbsp;type&nbsp;as&nbsp;a<br>
+(uri,&nbsp;localname)&nbsp;tuple,&nbsp;the&nbsp;qname&nbsp;parameter&nbsp;the&nbsp;raw&nbsp;XML&nbsp;1.0<br>
+name&nbsp;used&nbsp;in&nbsp;the&nbsp;source&nbsp;document,&nbsp;and&nbsp;the&nbsp;attrs&nbsp;parameter<br>
+holds&nbsp;an&nbsp;instance&nbsp;of&nbsp;the&nbsp;Attributes&nbsp;class&nbsp;containing&nbsp;the<br>
+attributes&nbsp;of&nbsp;the&nbsp;element.<br>
+&nbsp;<br>
+The&nbsp;uri&nbsp;part&nbsp;of&nbsp;the&nbsp;name&nbsp;tuple&nbsp;is&nbsp;None&nbsp;for&nbsp;elements&nbsp;which&nbsp;have<br>
+no&nbsp;namespace.</tt></dd></dl>
+
+<dl><dt><a name="DefinitionHandler-startPrefixMapping"><strong>startPrefixMapping</strong></a>(self, prefix, uri)</dt><dd><tt>Begin&nbsp;the&nbsp;scope&nbsp;of&nbsp;a&nbsp;prefix-URI&nbsp;Namespace&nbsp;mapping.<br>
+&nbsp;<br>
+The&nbsp;information&nbsp;from&nbsp;this&nbsp;event&nbsp;is&nbsp;not&nbsp;necessary&nbsp;for&nbsp;normal<br>
+Namespace&nbsp;processing:&nbsp;the&nbsp;SAX&nbsp;XML&nbsp;reader&nbsp;will&nbsp;automatically<br>
+replace&nbsp;prefixes&nbsp;for&nbsp;element&nbsp;and&nbsp;attribute&nbsp;names&nbsp;when&nbsp;the<br>
+<a href="http://xml.org/sax/features/namespaces">http://xml.org/sax/features/namespaces</a>&nbsp;feature&nbsp;is&nbsp;true&nbsp;(the<br>
+default).<br>
+&nbsp;<br>
+There&nbsp;are&nbsp;cases,&nbsp;however,&nbsp;when&nbsp;applications&nbsp;need&nbsp;to&nbsp;use<br>
+prefixes&nbsp;in&nbsp;character&nbsp;data&nbsp;or&nbsp;in&nbsp;attribute&nbsp;values,&nbsp;where&nbsp;they<br>
+cannot&nbsp;safely&nbsp;be&nbsp;expanded&nbsp;automatically;&nbsp;the<br>
+start/endPrefixMapping&nbsp;event&nbsp;supplies&nbsp;the&nbsp;information&nbsp;to&nbsp;the<br>
+application&nbsp;to&nbsp;expand&nbsp;prefixes&nbsp;in&nbsp;those&nbsp;contexts&nbsp;itself,&nbsp;if<br>
+necessary.<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;start/endPrefixMapping&nbsp;events&nbsp;are&nbsp;not&nbsp;guaranteed&nbsp;to<br>
+be&nbsp;properly&nbsp;nested&nbsp;relative&nbsp;to&nbsp;each-other:&nbsp;all<br>
+startPrefixMapping&nbsp;events&nbsp;will&nbsp;occur&nbsp;before&nbsp;the&nbsp;corresponding<br>
+startElement&nbsp;event,&nbsp;and&nbsp;all&nbsp;endPrefixMapping&nbsp;events&nbsp;will&nbsp;occur<br>
+after&nbsp;the&nbsp;corresponding&nbsp;endElement&nbsp;event,&nbsp;but&nbsp;their&nbsp;order&nbsp;is<br>
+not&nbsp;guaranteed.</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DefinitionResidue">class <strong>DefinitionResidue</strong></a>(<a href="src.structures.html#Residue">src.structures.Residue</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#DefinitionResidue">DefinitionResidue</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#DefinitionResidue">DefinitionResidue</a>&nbsp;class&nbsp;extends&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class&nbsp;to&nbsp;allow&nbsp;for&nbsp;a<br>
+trimmed&nbsp;down&nbsp;initializing&nbsp;function.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="DefinitionResidue-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;the&nbsp;class&nbsp;using&nbsp;a&nbsp;few&nbsp;parameters<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;The&nbsp;abbreviated&nbsp;amino&nbsp;acid&nbsp;name&nbsp;of&nbsp;the&nbsp;<a href="#DefinitionResidue">DefinitionResidue</a></tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>A&nbsp;basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-addDihedral"><strong>addDihedral</strong></a>(self, atom)</dt><dd><tt>Add&nbsp;the&nbsp;atom&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;dihedral&nbsp;bonds<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;The&nbsp;atom&nbsp;to&nbsp;be&nbsp;added</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-getNearestBonds"><strong>getNearestBonds</strong></a>(self, atomname)</dt><dd><tt>Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number:&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;bonds&nbsp;to&nbsp;get<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;bonds:&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;atomnames&nbsp;that&nbsp;are&nbsp;within&nbsp;three&nbsp;bonds&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;atom&nbsp;and&nbsp;present&nbsp;in&nbsp;residue&nbsp;(list)</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="src.structures.html#Residue">src.structures.Residue</a>:<br>
+<dl><dt><a name="DefinitionResidue-addAtom"><strong>addAtom</strong></a>(self, atom)</dt><dd><tt>Add&nbsp;the&nbsp;atom&nbsp;object&nbsp;to&nbsp;the&nbsp;residue.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom:&nbsp;The&nbsp;object&nbsp;to&nbsp;be&nbsp;added&nbsp;(ATOM)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-addMissing"><strong>addMissing</strong></a>(self, value)</dt><dd><tt>Add&nbsp;the&nbsp;value&nbsp;to&nbsp;the&nbsp;list&nbsp;of&nbsp;missing&nbsp;atoms<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;missing&nbsp;atom&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-createAtom"><strong>createAtom</strong></a>(self, name, newcoords, type)</dt><dd><tt>Add&nbsp;a&nbsp;new&nbsp;atom&nbsp;object&nbsp;to&nbsp;the&nbsp;residue.&nbsp;Uses&nbsp;an&nbsp;atom<br>
+currently&nbsp;in&nbsp;the&nbsp;residue&nbsp;to&nbsp;seed&nbsp;the&nbsp;new&nbsp;atom<br>
+object,&nbsp;then&nbsp;replaces&nbsp;the&nbsp;coordinates&nbsp;and&nbsp;name&nbsp;accordingly.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;new&nbsp;atom&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;The&nbsp;x,y,z&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;new&nbsp;atom&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;of&nbsp;atom,&nbsp;ATOM&nbsp;or&nbsp;HETATM</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-get"><strong>get</strong></a>(self, name)</dt><dd><tt>Get&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;member&nbsp;(string)<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chainID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;C-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missing:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;missing&nbsp;atoms&nbsp;of&nbsp;the&nbsp;residue<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-getAtom"><strong>getAtom</strong></a>(self, name)</dt><dd><tt>Retrieve&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;mapping<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue&nbsp;to&nbsp;retrieve&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-getAtoms"><strong>getAtoms</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="DefinitionResidue-getCharge"><strong>getCharge</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;total&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue.&nbsp;&nbsp;In&nbsp;order&nbsp;to&nbsp;get&nbsp;rid<br>
+of&nbsp;floating&nbsp;point&nbsp;rounding&nbsp;error,&nbsp;do&nbsp;the&nbsp;string<br>
+transformation.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;The&nbsp;charge&nbsp;of&nbsp;the&nbsp;residue&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-hasAtom"><strong>hasAtom</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="DefinitionResidue-numAtoms"><strong>numAtoms</strong></a>(self)</dt><dd><tt>Get&nbsp;the&nbsp;number&nbsp;of&nbsp;atoms&nbsp;for&nbsp;the&nbsp;residue<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;count:&nbsp;&nbsp;Number&nbsp;of&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue&nbsp;(int)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-removeAtom"><strong>removeAtom</strong></a>(self, atomname)</dt><dd><tt>Remove&nbsp;an&nbsp;atom&nbsp;from&nbsp;the&nbsp;residue&nbsp;object.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;atom&nbsp;to&nbsp;be&nbsp;removed&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-renameAtom"><strong>renameAtom</strong></a>(self, oldname, newname)</dt><dd><tt>Rename&nbsp;an&nbsp;atom&nbsp;to&nbsp;a&nbsp;new&nbsp;name<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;oldname:&nbsp;The&nbsp;old&nbsp;atom&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newname:&nbsp;The&nbsp;new&nbsp;atom&nbsp;name&nbsp;(string)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-renameResidue"><strong>renameResidue</strong></a>(self, name)</dt><dd><tt>Rename&nbsp;a&nbsp;given&nbsp;residue<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;new&nbsp;name&nbsp;of&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-reorder"><strong>reorder</strong></a>(self)</dt><dd><tt>Reorder&nbsp;the&nbsp;atoms&nbsp;to&nbsp;start&nbsp;with&nbsp;N,&nbsp;CA,&nbsp;C,&nbsp;O&nbsp;if&nbsp;they&nbsp;exist</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-rotateTetrahedral"><strong>rotateTetrahedral</strong></a>(self, atom1, atom2, angle)</dt><dd><tt>Rotate&nbsp;about&nbsp;the&nbsp;atom1-atom2&nbsp;bond&nbsp;by&nbsp;a&nbsp;given&nbsp;angle<br>
+All&nbsp;atoms&nbsp;connected&nbsp;to&nbsp;atom2&nbsp;will&nbsp;rotate.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom1:&nbsp;&nbsp;The&nbsp;first&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atom2:&nbsp;&nbsp;The&nbsp;second&nbsp;atom&nbsp;of&nbsp;the&nbsp;bond&nbsp;to&nbsp;rotate&nbsp;about&nbsp;(atom)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;angle:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;degrees&nbsp;to&nbsp;rotate&nbsp;(float)</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-set"><strong>set</strong></a>(self, name, value)</dt><dd><tt>Set&nbsp;a&nbsp;member&nbsp;of&nbsp;the&nbsp;<a href="src.structures.html#Residue">Residue</a>&nbsp;class&nbsp;to&nbsp;a&nbsp;specific&nbsp;value&nbsp;<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;object&nbsp;to&nbsp;set&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;object&nbsp;to&nbsp;append<br>
+Possible&nbsp;Values<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atoms:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;atoms&nbsp;in&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chain:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;chainID&nbsp;associated&nbsp;with&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;icode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;iCode&nbsp;of&nbsp;the&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbonded:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;has&nbsp;a&nbsp;SS&nbsp;bond,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;SSbondpartner:&nbsp;The&nbsp;residue&nbsp;of&nbsp;the&nbsp;bond&nbsp;partner<br>
+&nbsp;&nbsp;&nbsp;&nbsp;type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;type&nbsp;associated&nbsp;with&nbsp;this&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isNterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;of&nbsp;hydrogens&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;N-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isCterm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;the&nbsp;C-Terminus,&nbsp;0&nbsp;otherwise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;isDirty:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;if&nbsp;the&nbsp;residue&nbsp;is&nbsp;not&nbsp;missing&nbsp;atoms,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;otherwise<br>
+Notes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;points&nbsp;to&nbsp;the&nbsp;residue.setResSeq&nbsp;function<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;item:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;value&nbsp;of&nbsp;the&nbsp;member</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-setChainID"><strong>setChainID</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;chainID&nbsp;field&nbsp;to&nbsp;a&nbsp;certain&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-setDonorsAndAcceptors"><strong>setDonorsAndAcceptors</strong></a>(self)</dt><dd><tt>Set&nbsp;the&nbsp;donors&nbsp;and&nbsp;acceptors&nbsp;within&nbsp;the&nbsp;residue</tt></dd></dl>
+
+<dl><dt><a name="DefinitionResidue-setResSeq"><strong>setResSeq</strong></a>(self, value)</dt><dd><tt>Set&nbsp;the&nbsp;atom&nbsp;field&nbsp;resSeq&nbsp;to&nbsp;a&nbsp;certain&nbsp;value&nbsp;and<br>
+change&nbsp;the&nbsp;residue's&nbsp;information.&nbsp;&nbsp;The&nbsp;icode&nbsp;field&nbsp;is&nbsp;no&nbsp;longer<br>
+useful.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;value:&nbsp;&nbsp;The&nbsp;new&nbsp;value&nbsp;of&nbsp;resSeq&nbsp;(int)</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Patch">class <strong>Patch</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt><a href="#Patch">Patch</a>&nbsp;the&nbsp;definitionResidue&nbsp;class<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="Patch-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;the&nbsp;<a href="#Patch">Patch</a>&nbsp;object.</tt></dd></dl>
+
+<dl><dt><a name="Patch-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>A&nbsp;basic&nbsp;string&nbsp;representation&nbsp;for&nbsp;debugging</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>AAPATH</strong> = 'dat/AA.xml'<br>
+<strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>BONDED_SS_LIMIT</strong> = 2.5<br>
+<strong>BUMP_DIST</strong> = 2.0<br>
+<strong>BUMP_HDIST</strong> = 1.5<br>
+<strong>CELL_SIZE</strong> = 2<br>
+<strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>NAPATH</strong> = 'dat/NA.xml'<br>
+<strong>PATCHPATH</strong> = 'dat/PATCHES.xml'<br>
+<strong>PEPTIDE_DIST</strong> = 1.7<br>
+<strong>REPAIR_LIMIT</strong> = 10<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'Jens Erik Nielsen, Todd Dolinsky'<br>
+<strong>__date__</strong> = '28 February 2006'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Jens&nbsp;Erik&nbsp;Nielsen,&nbsp;Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

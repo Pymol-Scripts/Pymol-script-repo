@@ -1,0 +1,137 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pdb2pqr</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pdb2pqr</strong></big></big> (version 1.2.1, 17 March 2007)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/pdb2pqr.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/pdb2pqr.py</a></font></td></tr></table>
+    <p><tt>Driver&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;takes&nbsp;a&nbsp;PDB&nbsp;file&nbsp;as&nbsp;input&nbsp;and&nbsp;performs&nbsp;optimizations<br>
+before&nbsp;yielding&nbsp;a&nbsp;new&nbsp;PDB-style&nbsp;file&nbsp;as&nbsp;output.<br>
+&nbsp;<br>
+Ported&nbsp;to&nbsp;Python&nbsp;by&nbsp;Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Parsing&nbsp;utilities&nbsp;provided&nbsp;by&nbsp;Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="copy.html">copy</a><br>
+<a href="getopt.html">getopt</a><br>
+<a href="math.html">math</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="src.pdb.html">src.pdb</a><br>
+<a href="src.protein.html">src.protein</a><br>
+<a href="re.html">re</a><br>
+<a href="src.routines.html">src.routines</a><br>
+</td><td width="25%" valign=top><a href="xml.sax.html">xml.sax</a><br>
+<a href="src.server.html">src.server</a><br>
+<a href="string.html">string</a><br>
+<a href="src.structures.html">src.structures</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+<a href="time.html">time</a><br>
+<a href="src.utilities.html">src.utilities</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-getAvailableExtensions"><strong>getAvailableExtensions</strong></a>(displayflag<font color="#909090">=0</font>)</dt><dd><tt>Grab&nbsp;available&nbsp;extensions&nbsp;from&nbsp;the&nbsp;extensions&nbsp;directory<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;displayflag:&nbsp;Display&nbsp;the&nbsp;error&nbsp;message&nbsp;if&nbsp;1<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;extensions:&nbsp;A&nbsp;map&nbsp;containing&nbsp;the&nbsp;extensions&nbsp;name&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;module&nbsp;instance.</tt></dd></dl>
+ <dl><dt><a name="-mainCGI"><strong>mainCGI</strong></a>()</dt><dd><tt>Main&nbsp;driver&nbsp;for&nbsp;running&nbsp;PDB2PQR&nbsp;from&nbsp;a&nbsp;web&nbsp;page</tt></dd></dl>
+ <dl><dt><a name="-mainCommand"><strong>mainCommand</strong></a>()</dt><dd><tt>Main&nbsp;driver&nbsp;for&nbsp;running&nbsp;program&nbsp;from&nbsp;the&nbsp;command&nbsp;line.</tt></dd></dl>
+ <dl><dt><a name="-printHeader"><strong>printHeader</strong></a>(atomlist, reslist, charge, ff, warnings, options)</dt><dd><tt>Print&nbsp;the&nbsp;header&nbsp;for&nbsp;the&nbsp;PQR&nbsp;file<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomlist:&nbsp;A&nbsp;list&nbsp;of&nbsp;atoms&nbsp;that&nbsp;were&nbsp;unable&nbsp;to&nbsp;have<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charges&nbsp;assigned&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reslist:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;residues&nbsp;with&nbsp;non-integral&nbsp;charges<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;&nbsp;The&nbsp;total&nbsp;charge&nbsp;on&nbsp;the&nbsp;protein&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ff:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;forcefield&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;warnings:&nbsp;A&nbsp;list&nbsp;of&nbsp;warnings&nbsp;generated&nbsp;from&nbsp;routines&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;options:&nbsp;&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;command&nbsp;lnie&nbsp;options&nbsp;(float)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;header:&nbsp;&nbsp;&nbsp;The&nbsp;header&nbsp;for&nbsp;the&nbsp;PQR&nbsp;file&nbsp;(string)</tt></dd></dl>
+ <dl><dt><a name="-runPDB2PQR"><strong>runPDB2PQR</strong></a>(pdblist, ff, options)</dt><dd><tt>Run&nbsp;the&nbsp;PDB2PQR&nbsp;Suite<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pdblist:&nbsp;The&nbsp;list&nbsp;of&nbsp;objects&nbsp;that&nbsp;was&nbsp;read&nbsp;from&nbsp;the&nbsp;PDB&nbsp;file<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;given&nbsp;as&nbsp;input&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ff:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;forcefield&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;options:&nbsp;A&nbsp;dictionary&nbsp;of&nbsp;PDB2PQR&nbsp;options,&nbsp;including:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;verbose:&nbsp;When&nbsp;1,&nbsp;script&nbsp;will&nbsp;print&nbsp;information&nbsp;to&nbsp;stdout<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When&nbsp;0,&nbsp;no&nbsp;detailed&nbsp;information&nbsp;will&nbsp;be&nbsp;printed&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;debump:&nbsp;&nbsp;When&nbsp;1,&nbsp;debump&nbsp;heavy&nbsp;atoms&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;opt:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When&nbsp;1,&nbsp;run&nbsp;hydrogen&nbsp;optimization&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ph:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;desired&nbsp;ph&nbsp;of&nbsp;the&nbsp;system&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;outname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;desired&nbsp;output&nbsp;file<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;header:&nbsp;&nbsp;The&nbsp;PQR&nbsp;file&nbsp;header&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lines:&nbsp;&nbsp;&nbsp;The&nbsp;PQR&nbsp;file&nbsp;atoms&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missedligandresidues:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;ligand&nbsp;residue&nbsp;names&nbsp;whose&nbsp;charges&nbsp;could<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;not&nbsp;be&nbsp;assigned&nbsp;(ligand)</tt></dd></dl>
+ <dl><dt><a name="-usage"><strong>usage</strong></a>(rc)</dt><dd><tt>Print&nbsp;usage&nbsp;for&nbsp;this&nbsp;script&nbsp;to&nbsp;stdout.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc:&nbsp;&nbsp;Exit&nbsp;status&nbsp;(int)</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>AAPATH</strong> = 'dat/AA.xml'<br>
+<strong>ANGLE_CUTOFF</strong> = 20.0<br>
+<strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>BONDED_SS_LIMIT</strong> = 2.5<br>
+<strong>BUMP_DIST</strong> = 2.0<br>
+<strong>BUMP_HDIST</strong> = 1.5<br>
+<strong>CELL_SIZE</strong> = 2<br>
+<strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>DIST_CUTOFF</strong> = 3.2999999999999998<br>
+<strong>HDEBUG</strong> = 0<br>
+<strong>HYDPATH</strong> = 'dat/HYDROGENS.xml'<br>
+<strong>LIMIT</strong> = 500.0<br>
+<strong>LOADPATH</strong> = '/proc/loadavg'<br>
+<strong>LOCALPATH</strong> = '/export/home/www/html/pdb2pqr/'<br>
+<strong>LOGPATH</strong> = '/export/home/www/html/pdb2pqr//tmp//usage.txt'<br>
+<strong>NAPATH</strong> = 'dat/NA.xml'<br>
+<strong>PATCHPATH</strong> = 'dat/PATCHES.xml'<br>
+<strong>PEPTIDE_DIST</strong> = 1.7<br>
+<strong>REFRESHTIME</strong> = 20<br>
+<strong>REPAIR_LIMIT</strong> = 10<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>STYLESHEET</strong> = 'http://agave.wustl.edu/css/baker.css'<br>
+<strong>TMPDIR</strong> = 'tmp/'<br>
+<strong>WEBNAME</strong> = 'server.html'<br>
+<strong>WEBSITE</strong> = 'http://agave.wustl.edu/pdb2pqr/'<br>
+<strong>__author__</strong> = 'Todd Dolinsky, Nathan Baker'<br>
+<strong>__date__</strong> = '17 March 2007'<br>
+<strong>__version__</strong> = '1.2.1'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky,&nbsp;Nathan&nbsp;Baker</td></tr></table>
+</body></html>

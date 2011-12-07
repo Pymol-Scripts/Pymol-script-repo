@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+
+
+<definitions name="Registration"
+  targetNamespace="http://pycon.org/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:tns="http://pycon.org/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <import namespace="http://pycon.org/" location="interface.wsdl"/>
+
+  <binding name="Binding" type="tns:Registration">
+    <soap:binding style="rpc" 
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="GetUser">
+      <soap:operation soapAction="urn:Registration#GetUser"/>
+      <input>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                    namespace="urn:Registration" use="encoded"/>
+      </input>
+      <output>
+        <soap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+                    namespace="urn:Registration" use="encoded"/>
+      </output> 
+    </operation>
+  </binding>
+
+  <service name="RegistrationService">
+    <documentation>Registration web service</documentation>
+    <port name="Registration" binding="tns:Binding">
+      <soap:address location="http://127.0.0.1:8080/example.py"/>
+    </port>
+  </service>
+</definitions>

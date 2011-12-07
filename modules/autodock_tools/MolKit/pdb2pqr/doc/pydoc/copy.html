@@ -1,0 +1,149 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module copy</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>copy</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/sw/lib/python2.5/copy.py">/sw/lib/python2.5/copy.py</a><br><a href="http://www.python.org/doc/current/lib/module-copy.html">Module Docs</a></font></td></tr></table>
+    <p><tt>Generic&nbsp;(shallow&nbsp;and&nbsp;deep)&nbsp;copying&nbsp;operations.<br>
+&nbsp;<br>
+Interface&nbsp;summary:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;import&nbsp;copy<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&nbsp;copy.<a href="#-copy">copy</a>(y)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;make&nbsp;a&nbsp;shallow&nbsp;copy&nbsp;of&nbsp;y<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x&nbsp;=&nbsp;copy.<a href="#-deepcopy">deepcopy</a>(y)&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;make&nbsp;a&nbsp;deep&nbsp;copy&nbsp;of&nbsp;y<br>
+&nbsp;<br>
+For&nbsp;module&nbsp;specific&nbsp;errors,&nbsp;copy.<a href="#Error">Error</a>&nbsp;is&nbsp;raised.<br>
+&nbsp;<br>
+The&nbsp;difference&nbsp;between&nbsp;shallow&nbsp;and&nbsp;deep&nbsp;copying&nbsp;is&nbsp;only&nbsp;relevant&nbsp;for<br>
+compound&nbsp;objects&nbsp;(objects&nbsp;that&nbsp;contain&nbsp;other&nbsp;objects,&nbsp;like&nbsp;lists&nbsp;or<br>
+class&nbsp;instances).<br>
+&nbsp;<br>
+-&nbsp;A&nbsp;shallow&nbsp;copy&nbsp;constructs&nbsp;a&nbsp;new&nbsp;compound&nbsp;object&nbsp;and&nbsp;then&nbsp;(to&nbsp;the<br>
+&nbsp;&nbsp;extent&nbsp;possible)&nbsp;inserts&nbsp;*the&nbsp;same&nbsp;objects*&nbsp;into&nbsp;it&nbsp;that&nbsp;the<br>
+&nbsp;&nbsp;original&nbsp;contains.<br>
+&nbsp;<br>
+-&nbsp;A&nbsp;deep&nbsp;copy&nbsp;constructs&nbsp;a&nbsp;new&nbsp;compound&nbsp;object&nbsp;and&nbsp;then,&nbsp;recursively,<br>
+&nbsp;&nbsp;inserts&nbsp;*copies*&nbsp;into&nbsp;it&nbsp;of&nbsp;the&nbsp;objects&nbsp;found&nbsp;in&nbsp;the&nbsp;original.<br>
+&nbsp;<br>
+Two&nbsp;problems&nbsp;often&nbsp;exist&nbsp;with&nbsp;deep&nbsp;copy&nbsp;operations&nbsp;that&nbsp;don't&nbsp;exist<br>
+with&nbsp;shallow&nbsp;copy&nbsp;operations:<br>
+&nbsp;<br>
+&nbsp;a)&nbsp;recursive&nbsp;objects&nbsp;(compound&nbsp;objects&nbsp;that,&nbsp;directly&nbsp;or&nbsp;indirectly,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;contain&nbsp;a&nbsp;reference&nbsp;to&nbsp;themselves)&nbsp;may&nbsp;cause&nbsp;a&nbsp;recursive&nbsp;loop<br>
+&nbsp;<br>
+&nbsp;b)&nbsp;because&nbsp;deep&nbsp;copy&nbsp;copies&nbsp;*everything*&nbsp;it&nbsp;may&nbsp;copy&nbsp;too&nbsp;much,&nbsp;e.g.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;administrative&nbsp;data&nbsp;structures&nbsp;that&nbsp;should&nbsp;be&nbsp;shared&nbsp;even&nbsp;between<br>
+&nbsp;&nbsp;&nbsp;&nbsp;copies<br>
+&nbsp;<br>
+Python's&nbsp;deep&nbsp;copy&nbsp;operation&nbsp;avoids&nbsp;these&nbsp;problems&nbsp;by:<br>
+&nbsp;<br>
+&nbsp;a)&nbsp;keeping&nbsp;a&nbsp;table&nbsp;of&nbsp;objects&nbsp;already&nbsp;copied&nbsp;during&nbsp;the&nbsp;current<br>
+&nbsp;&nbsp;&nbsp;&nbsp;copying&nbsp;pass<br>
+&nbsp;<br>
+&nbsp;b)&nbsp;letting&nbsp;user-defined&nbsp;classes&nbsp;override&nbsp;the&nbsp;copying&nbsp;operation&nbsp;or&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;set&nbsp;of&nbsp;components&nbsp;copied<br>
+&nbsp;<br>
+This&nbsp;version&nbsp;does&nbsp;not&nbsp;copy&nbsp;types&nbsp;like&nbsp;module,&nbsp;class,&nbsp;function,&nbsp;method,<br>
+nor&nbsp;stack&nbsp;trace,&nbsp;stack&nbsp;frame,&nbsp;nor&nbsp;file,&nbsp;socket,&nbsp;window,&nbsp;nor&nbsp;array,&nbsp;nor<br>
+any&nbsp;similar&nbsp;types.<br>
+&nbsp;<br>
+Classes&nbsp;can&nbsp;use&nbsp;the&nbsp;same&nbsp;interfaces&nbsp;to&nbsp;control&nbsp;copying&nbsp;that&nbsp;they&nbsp;use<br>
+to&nbsp;control&nbsp;pickling:&nbsp;they&nbsp;can&nbsp;define&nbsp;methods&nbsp;called&nbsp;__getinitargs__(),<br>
+__getstate__()&nbsp;and&nbsp;__setstate__().&nbsp;&nbsp;See&nbsp;the&nbsp;documentation&nbsp;for&nbsp;module<br>
+"pickle"&nbsp;for&nbsp;information&nbsp;on&nbsp;these&nbsp;methods.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="exceptions.html#Exception">exceptions.Exception</a>(<a href="exceptions.html#BaseException">exceptions.BaseException</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="copy.html#Error">Error</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Error">class <strong>Error</strong></a>(<a href="exceptions.html#Exception">exceptions.Exception</a>)</font></td></tr>
+    
+<tr><td bgcolor="#ffc8d8"><tt>&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="copy.html#Error">Error</a></dd>
+<dd><a href="exceptions.html#Exception">exceptions.Exception</a></dd>
+<dd><a href="exceptions.html#BaseException">exceptions.BaseException</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><a name="Error-__init__"><strong>__init__</strong></a>(...)</dt><dd><tt>x.<a href="#Error-__init__">__init__</a>(...)&nbsp;initializes&nbsp;x;&nbsp;see&nbsp;x.__class__.__doc__&nbsp;for&nbsp;signature</tt></dd></dl>
+
+<hr>
+Data and other attributes inherited from <a href="exceptions.html#Exception">exceptions.Exception</a>:<br>
+<dl><dt><strong>__new__</strong> = &lt;built-in method __new__ of type object at 0xefb60&gt;<dd><tt>T.<a href="#Error-__new__">__new__</a>(S,&nbsp;...)&nbsp;-&gt;&nbsp;a&nbsp;new&nbsp;object&nbsp;with&nbsp;type&nbsp;S,&nbsp;a&nbsp;subtype&nbsp;of&nbsp;T</tt></dl>
+
+<hr>
+Methods inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><a name="Error-__delattr__"><strong>__delattr__</strong></a>(...)</dt><dd><tt>x.<a href="#Error-__delattr__">__delattr__</a>('name')&nbsp;&lt;==&gt;&nbsp;del&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="Error-__getattribute__"><strong>__getattribute__</strong></a>(...)</dt><dd><tt>x.<a href="#Error-__getattribute__">__getattribute__</a>('name')&nbsp;&lt;==&gt;&nbsp;x.name</tt></dd></dl>
+
+<dl><dt><a name="Error-__getitem__"><strong>__getitem__</strong></a>(...)</dt><dd><tt>x.<a href="#Error-__getitem__">__getitem__</a>(y)&nbsp;&lt;==&gt;&nbsp;x[y]</tt></dd></dl>
+
+<dl><dt><a name="Error-__reduce__"><strong>__reduce__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Error-__repr__"><strong>__repr__</strong></a>(...)</dt><dd><tt>x.<a href="#Error-__repr__">__repr__</a>()&nbsp;&lt;==&gt;&nbsp;repr(x)</tt></dd></dl>
+
+<dl><dt><a name="Error-__setattr__"><strong>__setattr__</strong></a>(...)</dt><dd><tt>x.<a href="#Error-__setattr__">__setattr__</a>('name',&nbsp;value)&nbsp;&lt;==&gt;&nbsp;x.name&nbsp;=&nbsp;value</tt></dd></dl>
+
+<dl><dt><a name="Error-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="Error-__str__"><strong>__str__</strong></a>(...)</dt><dd><tt>x.<a href="#Error-__str__">__str__</a>()&nbsp;&lt;==&gt;&nbsp;str(x)</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="exceptions.html#BaseException">exceptions.BaseException</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+<dl><dt><strong>message</strong></dt>
+<dd><tt>exception&nbsp;message</tt></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-copy"><strong>copy</strong></a>(x)</dt><dd><tt>Shallow&nbsp;copy&nbsp;operation&nbsp;on&nbsp;arbitrary&nbsp;Python&nbsp;objects.<br>
+&nbsp;<br>
+See&nbsp;the&nbsp;module's&nbsp;__doc__&nbsp;string&nbsp;for&nbsp;more&nbsp;info.</tt></dd></dl>
+ <dl><dt><a name="-deepcopy"><strong>deepcopy</strong></a>(x, memo<font color="#909090">=None</font>, _nil<font color="#909090">=[]</font>)</dt><dd><tt>Deep&nbsp;copy&nbsp;operation&nbsp;on&nbsp;arbitrary&nbsp;Python&nbsp;objects.<br>
+&nbsp;<br>
+See&nbsp;the&nbsp;module's&nbsp;__doc__&nbsp;string&nbsp;for&nbsp;more&nbsp;info.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__all__</strong> = ['Error', 'copy', 'deepcopy']</td></tr></table>
+</body></html>

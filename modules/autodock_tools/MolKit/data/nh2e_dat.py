@@ -1,0 +1,16 @@
+nh2e_dat = {
+"filename":'nh2e.in',
+"NAMDBF":'db4.dat',
+"IDBGEN,IREST,ITYPF":['1', '1', '2'],
+"NHE": {	"N":{'torsion': 180.0, 'tree': 'M', 'NC': 1, 'NB': 2, 'NA': 3, 'I': 4, 'angle': 116.6, 'blen': 1.335, 'charge': -0.463, 'type': 'N'},
+	"INTX,KFORM":['INT', '1'],
+	"atNameList":['N', 'HN1', 'HN2'],
+	"DUMM":[['1', 'DUMM', 'DU', 'M', '0', '-1', '-2', '0.0000', '0.0000', '0.0000'], ['2', 'DUMM', 'DU', 'M', '1', '0', '-1', '1.0000', '0.0000', '0.0000'], ['3', 'DUMM', 'DU', 'M', '2', '1', '0', '1.0000', '90.0000', '0.0000']],
+	"IFIXC,IOMIT,ISYMDU,IPOS":['CORRECT', 'OMIT', 'DU', 'BEG'],
+	"HN2":{'torsion': 180.0, 'tree': 'E', 'NC': 2, 'NB': 3, 'NA': 4, 'I': 6, 'angle': 119.8, 'blen': 1.01, 'charge': 0.2315, 'type': 'H'},
+	"impropTors":[['-M', 'HN1', 'N', 'HN2']],
+	"CUT":['0.00000'],
+	"HN1":{'torsion': 0.0, 'tree': 'E', 'NC': 2, 'NB': 3, 'NA': 4, 'I': 5, 'angle': 119.8, 'blen': 1.01, 'charge': 0.2315, 'type': 'H'},
+	"NAMRES":'NH2 ENDING GROUP',
+},
+}

@@ -1,0 +1,202 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pdb2pqr</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pdb2pqr</strong></big></big> (14 April 2004)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/todd/release/pdb2pqr/pdb2pqr.py">/home/todd/release/pdb2pqr/pdb2pqr.py</a></font></td></tr></table>
+    <p><tt>Driver&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;takes&nbsp;a&nbsp;PDB&nbsp;file&nbsp;as&nbsp;input&nbsp;and&nbsp;performs&nbsp;optimizations<br>
+before&nbsp;yielding&nbsp;a&nbsp;new&nbsp;PDB-style&nbsp;file&nbsp;as&nbsp;output.<br>
+&nbsp;<br>
+Ported&nbsp;to&nbsp;Python&nbsp;by&nbsp;Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Parsing&nbsp;utilities&nbsp;provided&nbsp;by&nbsp;Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis</tt></p>
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="getopt.html">getopt</a><br>
+<a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl><dt><a name="-acos"><strong>acos</strong></a>(...)</dt><dd><tt><a href="#-acos">acos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;cosine&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-asin"><strong>asin</strong></a>(...)</dt><dd><tt><a href="#-asin">asin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;sine&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-atan"><strong>atan</strong></a>(...)</dt><dd><tt><a href="#-atan">atan</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;tangent&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-atan2"><strong>atan2</strong></a>(...)</dt><dd><tt><a href="#-atan2">atan2</a>(y,&nbsp;x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;tangent&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;y/x.<br>
+Unlike&nbsp;<a href="#-atan">atan</a>(y/x),&nbsp;the&nbsp;signs&nbsp;of&nbsp;both&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;considered.</tt></dd></dl>
+ <dl><dt><a name="-ceil"><strong>ceil</strong></a>(...)</dt><dd><tt><a href="#-ceil">ceil</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;ceiling&nbsp;of&nbsp;x&nbsp;as&nbsp;a&nbsp;float.<br>
+This&nbsp;is&nbsp;the&nbsp;smallest&nbsp;integral&nbsp;value&nbsp;&gt;=&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-cos"><strong>cos</strong></a>(...)</dt><dd><tt><a href="#-cos">cos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;cosine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-cosh"><strong>cosh</strong></a>(...)</dt><dd><tt><a href="#-cosh">cosh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;cosine&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-exp"><strong>exp</strong></a>(...)</dt><dd><tt><a href="#-exp">exp</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;e&nbsp;raised&nbsp;to&nbsp;the&nbsp;power&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-fabs"><strong>fabs</strong></a>(...)</dt><dd><tt><a href="#-fabs">fabs</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;absolute&nbsp;value&nbsp;of&nbsp;the&nbsp;float&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-floor"><strong>floor</strong></a>(...)</dt><dd><tt><a href="#-floor">floor</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;floor&nbsp;of&nbsp;x&nbsp;as&nbsp;a&nbsp;float.<br>
+This&nbsp;is&nbsp;the&nbsp;largest&nbsp;integral&nbsp;value&nbsp;&lt;=&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-fmod"><strong>fmod</strong></a>(...)</dt><dd><tt><a href="#-fmod">fmod</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;<a href="#-fmod">fmod</a>(x,&nbsp;y),&nbsp;according&nbsp;to&nbsp;platform&nbsp;C.&nbsp;&nbsp;x&nbsp;%&nbsp;y&nbsp;may&nbsp;differ.</tt></dd></dl>
+ <dl><dt><a name="-frexp"><strong>frexp</strong></a>(...)</dt><dd><tt><a href="#-frexp">frexp</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;mantissa&nbsp;and&nbsp;exponent&nbsp;of&nbsp;x,&nbsp;as&nbsp;pair&nbsp;(m,&nbsp;e).<br>
+m&nbsp;is&nbsp;a&nbsp;float&nbsp;and&nbsp;e&nbsp;is&nbsp;an&nbsp;int,&nbsp;such&nbsp;that&nbsp;x&nbsp;=&nbsp;m&nbsp;*&nbsp;2.**e.<br>
+If&nbsp;x&nbsp;is&nbsp;0,&nbsp;m&nbsp;and&nbsp;e&nbsp;are&nbsp;both&nbsp;0.&nbsp;&nbsp;Else&nbsp;0.5&nbsp;&lt;=&nbsp;abs(m)&nbsp;&lt;&nbsp;1.0.</tt></dd></dl>
+ <dl><dt><a name="-hypot"><strong>hypot</strong></a>(...)</dt><dd><tt><a href="#-hypot">hypot</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;Euclidean&nbsp;distance,&nbsp;<a href="#-sqrt">sqrt</a>(x*x&nbsp;+&nbsp;y*y).</tt></dd></dl>
+ <dl><dt><a name="-ldexp"><strong>ldexp</strong></a>(...)</dt><dd><tt><a href="#-ldexp">ldexp</a>(x,&nbsp;i)&nbsp;-&gt;&nbsp;x&nbsp;*&nbsp;(2**i)</tt></dd></dl>
+ <dl><dt><a name="-log"><strong>log</strong></a>(...)</dt><dd><tt><a href="#-log">log</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;natural&nbsp;logarithm&nbsp;(base&nbsp;e)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-log10"><strong>log10</strong></a>(...)</dt><dd><tt><a href="#-log10">log10</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;base&nbsp;10&nbsp;logarithm&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-mainCGI"><strong>mainCGI</strong></a>()</dt><dd><tt>Main&nbsp;driver&nbsp;for&nbsp;running&nbsp;PDB2PQR&nbsp;from&nbsp;a&nbsp;web&nbsp;page</tt></dd></dl>
+ <dl><dt><a name="-mainCommand"><strong>mainCommand</strong></a>()</dt><dd><tt>Main&nbsp;driver&nbsp;for&nbsp;running&nbsp;program&nbsp;from&nbsp;the&nbsp;command&nbsp;line.</tt></dd></dl>
+ <dl><dt><a name="-modf"><strong>modf</strong></a>(...)</dt><dd><tt><a href="#-modf">modf</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;fractional&nbsp;and&nbsp;integer&nbsp;parts&nbsp;of&nbsp;x.&nbsp;&nbsp;Both&nbsp;results&nbsp;carry&nbsp;the&nbsp;sign<br>
+of&nbsp;x.&nbsp;&nbsp;The&nbsp;integer&nbsp;part&nbsp;is&nbsp;returned&nbsp;as&nbsp;a&nbsp;real.</tt></dd></dl>
+ <dl><dt><a name="-pow"><strong>pow</strong></a>(...)</dt><dd><tt><a href="#-pow">pow</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;x**y&nbsp;(x&nbsp;to&nbsp;the&nbsp;power&nbsp;of&nbsp;y).</tt></dd></dl>
+ <dl><dt><a name="-printHeader"><strong>printHeader</strong></a>(atomlist, reslist, charge, ff, warnings)</dt><dd><tt>Print&nbsp;the&nbsp;header&nbsp;for&nbsp;the&nbsp;PQR&nbsp;file<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;atomlist:&nbsp;A&nbsp;list&nbsp;of&nbsp;atoms&nbsp;that&nbsp;were&nbsp;unable&nbsp;to&nbsp;have<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;charges&nbsp;assigned&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reslist:&nbsp;&nbsp;A&nbsp;list&nbsp;of&nbsp;residues&nbsp;with&nbsp;non-integral&nbsp;charges<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;charge:&nbsp;&nbsp;&nbsp;The&nbsp;total&nbsp;charge&nbsp;on&nbsp;the&nbsp;protein&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ff:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;forcefield&nbsp;name&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;warnings:&nbsp;A&nbsp;list&nbsp;of&nbsp;warnings&nbsp;generated&nbsp;from&nbsp;routines&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;header:&nbsp;&nbsp;&nbsp;The&nbsp;header&nbsp;for&nbsp;the&nbsp;PQR&nbsp;file&nbsp;(string)</tt></dd></dl>
+ <dl><dt><a name="-runPDB2PQR"><strong>runPDB2PQR</strong></a>(pdblist, verbose, ff, debump, hopt, hdebump, watopt, hbond)</dt><dd><tt>Run&nbsp;the&nbsp;PDB2PQR&nbsp;Suite<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pdblist:&nbsp;The&nbsp;list&nbsp;of&nbsp;objects&nbsp;that&nbsp;was&nbsp;read&nbsp;from&nbsp;the&nbsp;PDB&nbsp;file<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;given&nbsp;as&nbsp;input&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;verbose:&nbsp;When&nbsp;1,&nbsp;script&nbsp;will&nbsp;print&nbsp;information&nbsp;to&nbsp;stdout<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When&nbsp;0,&nbsp;no&nbsp;detailed&nbsp;information&nbsp;will&nbsp;be&nbsp;printed&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ff:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;forcefield&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;debump:&nbsp;&nbsp;When&nbsp;1,&nbsp;debump&nbsp;heavy&nbsp;atoms&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hopt:&nbsp;&nbsp;&nbsp;&nbsp;When&nbsp;1,&nbsp;run&nbsp;hydrogen&nbsp;optimization&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hdebump:&nbsp;When&nbsp;1,&nbsp;debump&nbsp;hydrogens&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;watopt:&nbsp;&nbsp;When&nbsp;1,&nbsp;optimize&nbsp;water&nbsp;hydrogens&nbsp;(int)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;header:&nbsp;&nbsp;The&nbsp;PQR&nbsp;file&nbsp;header&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lines:&nbsp;&nbsp;&nbsp;The&nbsp;PQR&nbsp;file&nbsp;atoms&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-sin"><strong>sin</strong></a>(...)</dt><dd><tt><a href="#-sin">sin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;sine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-sinh"><strong>sinh</strong></a>(...)</dt><dd><tt><a href="#-sinh">sinh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;sine&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-sqrt"><strong>sqrt</strong></a>(...)</dt><dd><tt><a href="#-sqrt">sqrt</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;square&nbsp;root&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-tan"><strong>tan</strong></a>(...)</dt><dd><tt><a href="#-tan">tan</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;tangent&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-tanh"><strong>tanh</strong></a>(...)</dt><dd><tt><a href="#-tanh">tanh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;tangent&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-usage"><strong>usage</strong></a>(rc)</dt><dd><tt>Print&nbsp;usage&nbsp;for&nbsp;this&nbsp;script&nbsp;to&nbsp;stdout.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rc:&nbsp;&nbsp;Exit&nbsp;status&nbsp;(int)</tt></dd></dl>
+</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>AAFILE</strong> = 'AA.DAT'<br>
+<strong>AAS</strong> = ['ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLH', 'GLY', 'HIS', 'HID', 'HIE', 'HIP', 'HSD', 'HSE', 'HSP', 'ILE', 'LEU', 'LYS', 'MET', ...]<br>
+<strong>AMBER_FILE</strong> = 'AMBER.DAT'<br>
+<strong>BACKBONE</strong> = ['N', 'CA', 'C', 'O', 'O2', 'HA', 'HN', 'H', 'tN']<br>
+<strong>BONDED_SS_LIMIT</strong> = 2.5<br>
+<strong>BUMP_DIST</strong> = 2.0<br>
+<strong>BUMP_HDIST</strong> = 1.5<br>
+<strong>CELL_SIZE</strong> = 2<br>
+<strong>CHARMM_FILE</strong> = 'CHARMM.DAT'<br>
+<strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>HYDRO_BONDCOORDS</strong> = [[7.5810000000000004, 2.0899999999999999, 12.506], [6.4580000000000002, 2.1619999999999999, 13.159000000000001], [5.1449999999999996, 2.2090000000000001, 12.452999999999999]]<br>
+<strong>HYDRO_COORDS</strong> = [6.476, 2.1859999999999999, 14.159000000000001]<br>
+<strong>LARGE_TORSION_ANGLE</strong> = 1000.0<br>
+<strong>LIMIT</strong> = 500.0<br>
+<strong>LOADPATH</strong> = '/proc/loadavg'<br>
+<strong>LOCALPATH</strong> = '/home/todd/public_html/pdb2pqr/'<br>
+<strong>LOGPATH</strong> = '/home/todd/public_html/pdb2pqr/log/pdb2pqr.log'<br>
+<strong>NAFILE</strong> = 'NA.DAT'<br>
+<strong>NAS</strong> = ['A', 'A5', 'A3', 'C', 'C5', 'C3', 'G', 'G5', 'G3', 'T', 'T5', 'T3', 'U', 'U5', 'U3']<br>
+<strong>NTERM2_COORDS</strong> = [-24.001000000000001, 50.223999999999997, -22.225999999999999]<br>
+<strong>NTERM3_COORDS</strong> = [-24.869, 48.845999999999997, -22.77]<br>
+<strong>NTERM_COORDS</strong> = [[-24.196000000000002, 48.789999999999999, -20.800000000000001], [-25.552, 49.881, -21.847999999999999], [-24.645, 49.491, -22.007000000000001]]<br>
+<strong>OXT_COORDS</strong> = [-1.5289999999999999, 1.8580000000000001, 0.69499999999999995]<br>
+<strong>PARSE_FILE</strong> = 'PARSE.DAT'<br>
+<strong>PEPTIDE_DIST</strong> = 1.7<br>
+<strong>PEP_TRANS_CA</strong> = [-2.3130000000000002, 2.7839999999999998, 1.0229999999999999]<br>
+<strong>PEP_TRANS_N</strong> = [-1.252, 1.877, 0.88300000000000001]<br>
+<strong>REFATOM_SIZE</strong> = 3<br>
+<strong>REFRESHTIME</strong> = 20<br>
+<strong>REPAIR_LIMIT</strong> = 10<br>
+<strong>ROTAMERFILE</strong> = 'ROTAMER.DAT'<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>STYLESHEET</strong> = 'http://agave.wustl.edu/css/baker.css'<br>
+<strong>TMPDIR</strong> = 'tmp/'<br>
+<strong>WEBSITE</strong> = 'http://ocotillo.wustl.edu/~todd/pdb2pqr/'<br>
+<strong>__author__</strong> = 'Todd Dolinsky, Nathan Baker'<br>
+<strong>__date__</strong> = '14 April 2004'<br>
+<strong>__file__</strong> = './pdb2pqr.pyc'<br>
+<strong>__name__</strong> = 'pdb2pqr'<br>
+<strong>e</strong> = 2.7182818284590451<br>
+<strong>pi</strong> = 3.1415926535897931</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky,&nbsp;Nathan&nbsp;Baker</td></tr></table>
+</body></html>

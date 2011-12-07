@@ -1,0 +1,11 @@
+Ugh.  I hate paperwork. :)
+
+Most of ZSI is covered by an MIT/X Consortium copyright, as found
+in doc/zsi.tex.
+
+The wsdl2python tools are covered by an LBNL BSD-style license, as found
+in ZSI/LBNLCopyright.
+
+Most of the code in wstools is covered by the Zope Public License,
+which is a certified open source license that is GPL compatible.
+See ZSI/wstools/ZPL for details.

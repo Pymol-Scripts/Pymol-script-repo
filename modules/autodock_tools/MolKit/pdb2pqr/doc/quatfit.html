@@ -1,0 +1,245 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module quatfit</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>quatfit</strong></big></big> (30 September 2003)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/todd/release/pdb2pqr/quatfit.py">/home/todd/release/pdb2pqr/quatfit.py</a></font></td></tr></table>
+    <p><tt>Quatfit&nbsp;routines&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;is&nbsp;used&nbsp;to&nbsp;find&nbsp;the&nbsp;coordinates&nbsp;of&nbsp;a&nbsp;new<br>
+atom&nbsp;based&nbsp;on&nbsp;a&nbsp;reference&nbsp;set&nbsp;of<br>
+coordinates&nbsp;and&nbsp;a&nbsp;definition&nbsp;set&nbsp;of&nbsp;coordinates.<br>
+&nbsp;<br>
+Original&nbsp;Code&nbsp;by&nbsp;David&nbsp;J.&nbsp;Heisterberg<br>
+The&nbsp;Ohio&nbsp;Supercomputer&nbsp;Center<br>
+1224&nbsp;Kinnear&nbsp;Rd.<br>
+Columbus,&nbsp;OH&nbsp;&nbsp;43212-1163<br>
+(614)292-6036<br>
+djh@osc.edu&nbsp;&nbsp;&nbsp;&nbsp;djh@ohstpy.bitnet&nbsp;&nbsp;&nbsp;&nbsp;ohstpy::djh<br>
+&nbsp;<br>
+Translated&nbsp;to&nbsp;C&nbsp;from&nbsp;fitest.f&nbsp;program&nbsp;and&nbsp;interfaced&nbsp;with<br>
+Xmol&nbsp;program&nbsp;by&nbsp;Jan&nbsp;Labanowski,&nbsp;&nbsp;jkl@osc.edu&nbsp;&nbsp;&nbsp;jkl@ohstpy.bitnet<br>
+ohstpy::jkl<br>
+&nbsp;<br>
+Adapted&nbsp;for&nbsp;PDB2PQR&nbsp;by&nbsp;Jens&nbsp;Erik&nbsp;Nielsen<br>
+UCSD/HHMI<br>
+&nbsp;<br>
+Ported&nbsp;to&nbsp;Python&nbsp;by&nbsp;Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis</tt></p>
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl><dt><a name="-acos"><strong>acos</strong></a>(...)</dt><dd><tt><a href="#-acos">acos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;cosine&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-asin"><strong>asin</strong></a>(...)</dt><dd><tt><a href="#-asin">asin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;sine&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-atan"><strong>atan</strong></a>(...)</dt><dd><tt><a href="#-atan">atan</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;tangent&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-atan2"><strong>atan2</strong></a>(...)</dt><dd><tt><a href="#-atan2">atan2</a>(y,&nbsp;x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;arc&nbsp;tangent&nbsp;(measured&nbsp;in&nbsp;radians)&nbsp;of&nbsp;y/x.<br>
+Unlike&nbsp;<a href="#-atan">atan</a>(y/x),&nbsp;the&nbsp;signs&nbsp;of&nbsp;both&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;considered.</tt></dd></dl>
+ <dl><dt><a name="-ceil"><strong>ceil</strong></a>(...)</dt><dd><tt><a href="#-ceil">ceil</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;ceiling&nbsp;of&nbsp;x&nbsp;as&nbsp;a&nbsp;float.<br>
+This&nbsp;is&nbsp;the&nbsp;smallest&nbsp;integral&nbsp;value&nbsp;&gt;=&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-center"><strong>center</strong></a>(numpoints, refcoords)</dt><dd><tt>Center&nbsp;a&nbsp;molecule&nbsp;using&nbsp;equally&nbsp;weighted&nbsp;points<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numpoints:&nbsp;Number&nbsp;of&nbsp;points<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refcoords:&nbsp;List&nbsp;of&nbsp;reference&nbsp;coordinates,&nbsp;with&nbsp;each&nbsp;set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;list&nbsp;of&nbsp;form&nbsp;[x,y,z]&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refcenter:&nbsp;Center&nbsp;of&nbsp;the&nbsp;set&nbsp;of&nbsp;points&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;relcoords:&nbsp;Moved&nbsp;refcoords&nbsp;relative&nbsp;to&nbsp;refcenter&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-cos"><strong>cos</strong></a>(...)</dt><dd><tt><a href="#-cos">cos</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;cosine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-cosh"><strong>cosh</strong></a>(...)</dt><dd><tt><a href="#-cosh">cosh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;cosine&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-exp"><strong>exp</strong></a>(...)</dt><dd><tt><a href="#-exp">exp</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;e&nbsp;raised&nbsp;to&nbsp;the&nbsp;power&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-fabs"><strong>fabs</strong></a>(...)</dt><dd><tt><a href="#-fabs">fabs</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;absolute&nbsp;value&nbsp;of&nbsp;the&nbsp;float&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-findCoordinates"><strong>findCoordinates</strong></a>(numpoints, refcoords, defcoords, defatomcoords)</dt><dd><tt>Driver&nbsp;for&nbsp;the&nbsp;quaternion&nbsp;file.&nbsp;&nbsp;Provide&nbsp;the&nbsp;coordinates&nbsp;as&nbsp;inputs<br>
+and&nbsp;obtain&nbsp;the&nbsp;coordinates&nbsp;for&nbsp;the&nbsp;new&nbsp;atom&nbsp;as&nbsp;output.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numpoints:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;points&nbsp;in&nbsp;each&nbsp;list&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refcoords:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;reference&nbsp;coordinates,&nbsp;a&nbsp;list&nbsp;of&nbsp;lists&nbsp;of&nbsp;form<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[x,y,z]&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defcoords:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;definition&nbsp;coordinates,&nbsp;a&nbsp;list&nbsp;of&nbsp;lists&nbsp;of&nbsp;form<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[x,y,z]&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defatomcoords:&nbsp;The&nbsp;definition&nbsp;coordinates&nbsp;for&nbsp;the&nbsp;atom&nbsp;to&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;placed&nbsp;in&nbsp;the&nbsp;reference&nbsp;frame&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;new&nbsp;atom&nbsp;in&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reference&nbsp;frame&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-floor"><strong>floor</strong></a>(...)</dt><dd><tt><a href="#-floor">floor</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;floor&nbsp;of&nbsp;x&nbsp;as&nbsp;a&nbsp;float.<br>
+This&nbsp;is&nbsp;the&nbsp;largest&nbsp;integral&nbsp;value&nbsp;&lt;=&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-fmod"><strong>fmod</strong></a>(...)</dt><dd><tt><a href="#-fmod">fmod</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;<a href="#-fmod">fmod</a>(x,&nbsp;y),&nbsp;according&nbsp;to&nbsp;platform&nbsp;C.&nbsp;&nbsp;x&nbsp;%&nbsp;y&nbsp;may&nbsp;differ.</tt></dd></dl>
+ <dl><dt><a name="-frexp"><strong>frexp</strong></a>(...)</dt><dd><tt><a href="#-frexp">frexp</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;mantissa&nbsp;and&nbsp;exponent&nbsp;of&nbsp;x,&nbsp;as&nbsp;pair&nbsp;(m,&nbsp;e).<br>
+m&nbsp;is&nbsp;a&nbsp;float&nbsp;and&nbsp;e&nbsp;is&nbsp;an&nbsp;int,&nbsp;such&nbsp;that&nbsp;x&nbsp;=&nbsp;m&nbsp;*&nbsp;2.**e.<br>
+If&nbsp;x&nbsp;is&nbsp;0,&nbsp;m&nbsp;and&nbsp;e&nbsp;are&nbsp;both&nbsp;0.&nbsp;&nbsp;Else&nbsp;0.5&nbsp;&lt;=&nbsp;abs(m)&nbsp;&lt;&nbsp;1.0.</tt></dd></dl>
+ <dl><dt><a name="-hypot"><strong>hypot</strong></a>(...)</dt><dd><tt><a href="#-hypot">hypot</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;Euclidean&nbsp;distance,&nbsp;<a href="#-sqrt">sqrt</a>(x*x&nbsp;+&nbsp;y*y).</tt></dd></dl>
+ <dl><dt><a name="-jacobi"><strong>jacobi</strong></a>(a, nrot)</dt><dd><tt>Jacobi&nbsp;diagonalizer&nbsp;with&nbsp;sorted&nbsp;output,&nbsp;only&nbsp;good&nbsp;for&nbsp;4x4&nbsp;matrices<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;a:&nbsp;&nbsp;&nbsp;&nbsp;Matrix&nbsp;to&nbsp;diagonalize&nbsp;(4x4&nbsp;list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nrot:&nbsp;Maximum&nbsp;number&nbsp;of&nbsp;sweeps<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;d:&nbsp;&nbsp;&nbsp;&nbsp;Eigenvalues<br>
+&nbsp;&nbsp;&nbsp;&nbsp;v:&nbsp;&nbsp;&nbsp;&nbsp;Eigenvectors</tt></dd></dl>
+ <dl><dt><a name="-ldexp"><strong>ldexp</strong></a>(...)</dt><dd><tt><a href="#-ldexp">ldexp</a>(x,&nbsp;i)&nbsp;-&gt;&nbsp;x&nbsp;*&nbsp;(2**i)</tt></dd></dl>
+ <dl><dt><a name="-log"><strong>log</strong></a>(...)</dt><dd><tt><a href="#-log">log</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;natural&nbsp;logarithm&nbsp;(base&nbsp;e)&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-log10"><strong>log10</strong></a>(...)</dt><dd><tt><a href="#-log10">log10</a>(x)&nbsp;-&gt;&nbsp;the&nbsp;base&nbsp;10&nbsp;logarithm&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-modf"><strong>modf</strong></a>(...)</dt><dd><tt><a href="#-modf">modf</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;fractional&nbsp;and&nbsp;integer&nbsp;parts&nbsp;of&nbsp;x.&nbsp;&nbsp;Both&nbsp;results&nbsp;carry&nbsp;the&nbsp;sign<br>
+of&nbsp;x.&nbsp;&nbsp;The&nbsp;integer&nbsp;part&nbsp;is&nbsp;returned&nbsp;as&nbsp;a&nbsp;real.</tt></dd></dl>
+ <dl><dt><a name="-pow"><strong>pow</strong></a>(...)</dt><dd><tt><a href="#-pow">pow</a>(x,y)<br>
+&nbsp;<br>
+Return&nbsp;x**y&nbsp;(x&nbsp;to&nbsp;the&nbsp;power&nbsp;of&nbsp;y).</tt></dd></dl>
+ <dl><dt><a name="-q2mat"><strong>q2mat</strong></a>(q)</dt><dd><tt>Generate&nbsp;a&nbsp;left&nbsp;rotation&nbsp;matrix&nbsp;from&nbsp;a&nbsp;normalized&nbsp;quaternion<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;q:&nbsp;&nbsp;The&nbsp;normalized&nbsp;quaternion&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;u:&nbsp;&nbsp;The&nbsp;rotation&nbsp;matrix&nbsp;(2-dimensional&nbsp;list)</tt></dd></dl>
+ <dl><dt><a name="-qchichange"><strong>qchichange</strong></a>(initcoords, refcoords, angle)</dt><dd><tt>Change&nbsp;the&nbsp;chiangle&nbsp;of&nbsp;the&nbsp;reference&nbsp;coordinate&nbsp;using&nbsp;the<br>
+initcoords&nbsp;and&nbsp;the&nbsp;given&nbsp;angle<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;initcoords:&nbsp;Coordinates&nbsp;based&nbsp;on&nbsp;the&nbsp;point&nbsp;and&nbsp;basis&nbsp;atoms<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(one&nbsp;dimensional&nbsp;list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;difchi&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;angle&nbsp;to&nbsp;use&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refcoords&nbsp;:&nbsp;The&nbsp;atoms&nbsp;to&nbsp;analyze&nbsp;(list&nbsp;of&nbsp;many&nbsp;coordinates)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords&nbsp;:&nbsp;The&nbsp;new&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;atoms&nbsp;(list&nbsp;of&nbsp;many&nbsp;coords)</tt></dd></dl>
+ <dl><dt><a name="-qfit"><strong>qfit</strong></a>(numpoints, refcoords, defcoords)</dt><dd><tt>Method&nbsp;for&nbsp;getting&nbsp;new&nbsp;atom&nbsp;coordinates&nbsp;from&nbsp;sets&nbsp;of&nbsp;reference<br>
+and&nbsp;definition&nbsp;coordinates.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numpoints:&nbsp;The&nbsp;number&nbsp;of&nbsp;points&nbsp;in&nbsp;each&nbsp;list&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refcoords:&nbsp;List&nbsp;of&nbsp;reference&nbsp;coordinates,&nbsp;with&nbsp;each&nbsp;set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;list&nbsp;of&nbsp;form&nbsp;[x,y,z]&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defcoords:&nbsp;List&nbsp;of&nbsp;definition&nbsp;coordinates,&nbsp;with&nbsp;each&nbsp;set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;list&nbsp;of&nbsp;form&nbsp;[x,y,z]&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-qtransform"><strong>qtransform</strong></a>(numpoints, defcoords, refcenter, fitcenter, rotation)</dt><dd><tt>Transform&nbsp;the&nbsp;set&nbsp;of&nbsp;defcoords&nbsp;using&nbsp;the&nbsp;reference&nbsp;center,&nbsp;the&nbsp;fit<br>
+center,&nbsp;and&nbsp;a&nbsp;rotation&nbsp;matrix.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numpoints:&nbsp;The&nbsp;number&nbsp;of&nbsp;points&nbsp;in&nbsp;each&nbsp;list&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defcoords:&nbsp;Definition&nbsp;coordinates&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refcenter:&nbsp;The&nbsp;reference&nbsp;center&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defcenter:&nbsp;The&nbsp;definition&nbsp;center&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rotation:&nbsp;&nbsp;The&nbsp;rotation&nbsp;matrix&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;newcoords:&nbsp;The&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;new&nbsp;point&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-qtrfit"><strong>qtrfit</strong></a>(numpoints, defcoords, refcoords, nrot)</dt><dd><tt>Find&nbsp;the&nbsp;quaternion,&nbsp;q,&nbsp;[and&nbsp;left&nbsp;rotation&nbsp;matrix,&nbsp;u]&nbsp;that&nbsp;minimizes<br>
+&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;qTXq&nbsp;-&nbsp;Y&nbsp;|&nbsp;^&nbsp;2&nbsp;[|uX&nbsp;-&nbsp;Y|&nbsp;^&nbsp;2]<br>
+This&nbsp;is&nbsp;equivalent&nbsp;to&nbsp;maximizing&nbsp;Re&nbsp;(qTXTqY)<br>
+The&nbsp;left&nbsp;rotation&nbsp;matrix,&nbsp;u,&nbsp;is&nbsp;obtained&nbsp;from&nbsp;q&nbsp;by<br>
+&nbsp;&nbsp;&nbsp;&nbsp;u&nbsp;=&nbsp;qT1q<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numpoints:&nbsp;The&nbsp;number&nbsp;of&nbsp;points&nbsp;in&nbsp;each&nbsp;list&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;defcoords:&nbsp;List&nbsp;of&nbsp;definition&nbsp;coordinates,&nbsp;with&nbsp;each&nbsp;set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;list&nbsp;of&nbsp;form&nbsp;[x,y,z]&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refcoords:&nbsp;List&nbsp;of&nbsp;fitted&nbsp;coordinates,&nbsp;with&nbsp;each&nbsp;set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;list&nbsp;of&nbsp;form&nbsp;[x,y,z]&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nrot&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;maximum&nbsp;number&nbsp;of&nbsp;jacobi&nbsp;sweeps<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;q&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;best-fit&nbsp;quaternion<br>
+&nbsp;&nbsp;&nbsp;&nbsp;u&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;The&nbsp;best-fit&nbsp;left&nbsp;rotation&nbsp;matrix</tt></dd></dl>
+ <dl><dt><a name="-rotmol"><strong>rotmol</strong></a>(numpoints, x, u)</dt><dd><tt>Rotate&nbsp;a&nbsp;molecule<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numpoints:&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;points&nbsp;in&nbsp;the&nbsp;list&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;x:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;input&nbsp;coordinates&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;u:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;left&nbsp;rotation&nbsp;matrix&nbsp;(list)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;out:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;rotated&nbsp;coordinates&nbsp;out=u&nbsp;*&nbsp;x&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-sin"><strong>sin</strong></a>(...)</dt><dd><tt><a href="#-sin">sin</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;sine&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-sinh"><strong>sinh</strong></a>(...)</dt><dd><tt><a href="#-sinh">sinh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;sine&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-sqrt"><strong>sqrt</strong></a>(...)</dt><dd><tt><a href="#-sqrt">sqrt</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;square&nbsp;root&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-tan"><strong>tan</strong></a>(...)</dt><dd><tt><a href="#-tan">tan</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;tangent&nbsp;of&nbsp;x&nbsp;(measured&nbsp;in&nbsp;radians).</tt></dd></dl>
+ <dl><dt><a name="-tanh"><strong>tanh</strong></a>(...)</dt><dd><tt><a href="#-tanh">tanh</a>(x)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;hyperbolic&nbsp;tangent&nbsp;of&nbsp;x.</tt></dd></dl>
+ <dl><dt><a name="-translate"><strong>translate</strong></a>(numpoints, refcoords, center, mode)</dt><dd><tt>Translate&nbsp;a&nbsp;molecule&nbsp;using&nbsp;equally&nbsp;weighted&nbsp;points<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numpoints:&nbsp;Number&nbsp;of&nbsp;points<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refcoords:&nbsp;List&nbsp;of&nbsp;reference&nbsp;coordinates,&nbsp;with&nbsp;each&nbsp;set<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;list&nbsp;of&nbsp;form&nbsp;[x,y,z]&nbsp;(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;center:&nbsp;&nbsp;&nbsp;&nbsp;Center&nbsp;of&nbsp;the&nbsp;system(list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;1,&nbsp;center&nbsp;will&nbsp;be&nbsp;subtracted&nbsp;from&nbsp;refcoords<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;2,&nbsp;center&nbsp;will&nbsp;be&nbsp;added&nbsp;to&nbsp;refcoords<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;relcoords:&nbsp;Moved&nbsp;refcoords&nbsp;relative&nbsp;to&nbsp;refcenter&nbsp;(list)</tt></dd></dl>
+</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>DIHEDRAL</strong> = 57.2958<br>
+<strong>SMALL</strong> = 9.9999999999999995e-08<br>
+<strong>__author__</strong> = 'David Heisterberg, Jan Labanowski, Jens Erik Nielsen, Todd Dolinsky'<br>
+<strong>__date__</strong> = '30 September 2003'<br>
+<strong>__file__</strong> = './quatfit.pyc'<br>
+<strong>__name__</strong> = 'quatfit'<br>
+<strong>e</strong> = 2.7182818284590451<br>
+<strong>pi</strong> = 3.1415926535897931</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%">David&nbsp;Heisterberg,&nbsp;Jan&nbsp;Labanowski,&nbsp;Jens&nbsp;Erik&nbsp;Nielsen,&nbsp;Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

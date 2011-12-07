@@ -1,0 +1,18 @@
+This directory contains a basic example of a user defined 
+force field and names files for PDB2PQR. These are based on the
+AMBER force field and AMBER names.
+
+To use a new force field run pdb2pqr with the following command line:
+
+python pdb2pqr.py --userff=userff.dat --usernames=usernames.names 1a1p test.pqr
+
+Replace userff.dat and usernames.names with your own files.
+
+When specifying a user defined force field you must always specify a user 
+defined names file. A names file may be specified with a standard 
+force field.
+
+For more info on how to create names and force field files see the 
+user's guide and programmer's guide.
+
+

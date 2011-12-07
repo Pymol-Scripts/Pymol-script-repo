@@ -1,0 +1,141 @@
+#############################################################################
+BETA PUBLIC RELEASE VERSION 1.2.1       4-1-07
+#############################################################################
+  - NEW FEATURES
+    * Updated documentation to include instructions for pdb2pka support,
+      references, more pydoc documents.
+    * Added ligand examples to examples/ directory
+    * Added native support for the TYL06 forcefield.  For more information
+      on this forcefield please see
+        Tan C, Yang L, Luo R.  How well does Poisson-Boltzmann implicit
+        solvent agree with explicit solvent? A quantitative analysis.
+        Journal of Physical Chemistry B.  110 (37), 18680-7, 2006.1
+    * Added a new HTML output page which relays the different atom types
+      between the AMBER and CHARMM forcefields for a generated PQR file
+     (thanks to the anonymous reviewers of the latest PDB2PQR paper).
+
+  - BUG FIXES
+    * Fixed bug where a segmentation fault would occur in PropKa if the N
+      atom was not the first atom listed in the residue
+    * Fixed error message that occurred when a blank line was found in a
+      parameter file.
+    * Better error handling in MOL2 file parsing.
+    * Fixed bug where ligands were not supported on PDB files with multiple
+      MODEL fields.
+#############################################################################
+BETA PUBLIC RELEASE VERSION 1.2.0       1-31-07
+#############################################################################
+  - NEW FEATURES
+    * Added autoconf support for pdb2pka directory.
+    * Added new support for passing in a single ligand residue in MOL2 format
+      via the --ligand command.  Also available from the web server (with link
+      to PRODRG for unsupported ligands).
+    * Numerous additions to examples directory (see examples/index.html) and 
+      update to User Guide.
+  - BUG FIXES 
+    * Fixed charge assignment error when dealing with LYN in AMBER.
+    * Fixed crash when a chain has a single amino acid residue.  The code
+      now reports the offending chain and residue before exiting.
+    * Fixed hydrogen optimization bug where waters with no nearby atoms at
+      certain orientations caused missing hydrogens.
+#############################################################################
+BETA PUBLIC RELEASE VERSION 1.1.2       6-23-06
+#############################################################################
+  - BUG FIXES 
+    * Fixed a bug in the hydrogen bonding routines where PDB2PQR attempted to 
+      delete an atom that had already been deleted. (thanks to Rachel Burdge)
+    * Fixed a bug in chain detection routines where PDB2PQR was unable to
+      detect multiple chains inside a single unnamed chain (thanks to 
+      Rachel Burdge)
+    * Fixed a second bug in chain detection routines where HETATM residues
+      with names ending in "3" were improperly chosen for termini (thanks to
+      Reut Abramovich)
+    * Fixed a bug where chains were improperly detected when only containing
+      one HETATM residue (thanks to Reut Abramovich)
+#############################################################################
+BETA PUBLIC RELEASE VERSION 1.1.1       5-3-06
+#############################################################################
+  - BUG FIXES 
+    * Fixed a bug which prevented PDB2PQR from recognizing atoms from nucleic 
+      acids with "*" in their atom names. (thanks to Jaichen Wang)
+    * Fixed a bug in the hydrogen bonding routines where a misnamed object
+      led to a crash for very specific cases. (thanks to Josh Swamidass) 
+#############################################################################
+BETA PUBLIC RELEASE VERSION 1.1.0       4-12-06
+#############################################################################
+  - NEW FEATURES
+    * Structural data files have been moved to XML format.  This should make 
+      it easier for users and developers to contribute to the project.
+    * Added an extensions directory for small scripts.  Scripts in this 
+      directory will be automatically loaded into PDB2PQR has command line
+      options for post-processing, and can be easily customized.
+    * Code has been greatly cleaned so as to minimize values hard-coded
+      into functions and to allow greater customizability via external
+      XML files.  This includes a more object-oriented hierarchy of
+      structures.
+    * Improved detection of the termini of chains.
+    * Assign-only now does just that - only assigns parameters to atoms
+      without additions, debumping, or optimizations.
+    * Added a --clean command line option which does no additions,
+      optimizations, or forcefield assignment, but simply aligns the PDB
+      columns on output.  Useful for using post-processing scripts like
+      those in the extensions directory without modifying the original input
+      file.
+    * The --userff flag has been replaced by opening up the --ff option
+      to user-defined files.
+    * Pydoc documentation is now included in html/pydoc.
+    * A programmer's guide has been included to explain programming decisions
+      and ease future development.
+    * A --ffout flag has been added to allow users to output a PQR file in
+      the naming scheme of the desired forcefield.
+    * User guide FAQ updated.
+    * The efficiency of the hydrogen bonding detection script (--hbond) has 
+      been greatly improved. 
+    * Increased the number of options available to users via the PDB2PQR
+      web server.
+  - BUG FIXES
+    * Updated psize.py to use centers and radii when calculating grid sizes
+      (thanks to John Mongan)
+    * Fixed bug where PDB2PQR could not read PropKa results from chains with
+      more than 1000 residues (thanks to Michael Widmann)
+#############################################################################
+BETA PUBLIC RELEASE VERSION 1.0.2       12-15-05
+#############################################################################
+  - NEW FEATURES
+    * Added ability for users to add their own forcefield files.  This
+      should be particularly useful for HETATMs.
+    * Added sdens keyword to inputgen.py to make PDB2PQR compatibile with
+      APBS 0.4.0.
+    * Added a new examples directory with a basic runthrough on how to use
+      the various features in PDB2PQR.
+  - BUG FIXES 
+    * Fixed a bug that was unable to handle N-Terminal PRO residues with
+      hydrogens already present.
+    * Fixed two instances in the PropKa routines where warnings were 
+      improperly handled due to a misspelling.
+    * Fixed instance where chain IDs were unable to be assigned to proteins
+      with more than 26 chains.
+#############################################################################
+BETA PUBLIC RELEASE VERSION 1.0.1       10-7-05
+#############################################################################
+  - NEW FEATURES
+    * Added citation information to PQR output.
+  - BUG FIXES 
+    * Fixed a bug during hydrogen optimization that left out H2 from water
+      if the oxygen in question had already made 3 hydrogen bonds.
+#############################################################################
+BETA PUBLIC RELEASE VERSION 1.0.0       8-23-05
+#############################################################################
+This is the initial version of the PDB2PQR conversion utility.  There are 
+several changes to the various "non-official" versions previously available:
+    * SourceForge has been chosen as a centralized location for all
+      things related to PDB2PQR, including downloads, mailing lists,
+      and bug reports.
+    * Several additions to the code have been made, including pKa support
+      via PropKa, a new hydrogen optimization algorithm which should 
+      increase both accuracy and speed, and general bug fixes.
+
+We plan on continuing to improve PDB2PQR by refining the code, adding more
+advanced options, and encouraging collaborations with other utilities.
+
+Thank you for your time and interest in the PDB2PQR software.

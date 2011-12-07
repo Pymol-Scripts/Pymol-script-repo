@@ -1,0 +1,166 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module src.server</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong><a href="src.html"><font color="#ffffff">src</font></a>.server</strong></big></big> (17 March 2007)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/server.py">/Users/baker/coding/manifold/pdb2pqr/trunk/pdb2pqr/src/server.py</a></font></td></tr></table>
+    <p><tt>CGI&nbsp;Server&nbsp;for&nbsp;PDB2PQR<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;contains&nbsp;the&nbsp;various&nbsp;functions&nbsp;necessary&nbsp;to&nbsp;run&nbsp;PDB2PQR<br>
+from&nbsp;a&nbsp;web&nbsp;server.<br>
+&nbsp;<br>
+----------------------------<br>
+&nbsp;<br>
+PDB2PQR&nbsp;--&nbsp;An&nbsp;automated&nbsp;pipeline&nbsp;for&nbsp;the&nbsp;setup,&nbsp;execution,&nbsp;and&nbsp;analysis&nbsp;of<br>
+Poisson-Boltzmann&nbsp;electrostatics&nbsp;calculations<br>
+&nbsp;<br>
+Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Todd&nbsp;Dolinsky&nbsp;(todd@ccb.wustl.edu)<br>
+Dept.&nbsp;of&nbsp;Biochemistry&nbsp;and&nbsp;Molecular&nbsp;Biophysics<br>
+Center&nbsp;for&nbsp;Computational&nbsp;Biology<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis<br>
+&nbsp;<br>
+Jens&nbsp;Nielsen&nbsp;(Jens.Nielsen@ucd.ie)<br>
+University&nbsp;College&nbsp;Dublin<br>
+&nbsp;<br>
+Additional&nbsp;contributing&nbsp;authors&nbsp;listed&nbsp;in&nbsp;documentation&nbsp;and&nbsp;supporting<br>
+package&nbsp;licenses.<br>
+&nbsp;<br>
+Copyright&nbsp;(c)&nbsp;2003-2007.&nbsp;&nbsp;Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis.&nbsp;&nbsp;<br>
+All&nbsp;Rights&nbsp;Reserved.<br>
+&nbsp;<br>
+This&nbsp;file&nbsp;is&nbsp;part&nbsp;of&nbsp;PDB2PQR.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;free&nbsp;software;&nbsp;you&nbsp;can&nbsp;redistribute&nbsp;it&nbsp;and/or&nbsp;modify<br>
+it&nbsp;under&nbsp;the&nbsp;terms&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;as&nbsp;published&nbsp;by<br>
+the&nbsp;Free&nbsp;Software&nbsp;Foundation;&nbsp;either&nbsp;version&nbsp;2&nbsp;of&nbsp;the&nbsp;License,&nbsp;or<br>
+(at&nbsp;your&nbsp;option)&nbsp;any&nbsp;later&nbsp;version.<br>
+&nbsp;<br>
+PDB2PQR&nbsp;is&nbsp;distributed&nbsp;in&nbsp;the&nbsp;hope&nbsp;that&nbsp;it&nbsp;will&nbsp;be&nbsp;useful,<br>
+but&nbsp;WITHOUT&nbsp;ANY&nbsp;WARRANTY;&nbsp;without&nbsp;even&nbsp;the&nbsp;implied&nbsp;warranty&nbsp;of<br>
+MERCHANTABILITY&nbsp;or&nbsp;FITNESS&nbsp;FOR&nbsp;A&nbsp;PARTICULAR&nbsp;PURPOSE.&nbsp;&nbsp;See&nbsp;the<br>
+GNU&nbsp;General&nbsp;Public&nbsp;License&nbsp;for&nbsp;more&nbsp;details.<br>
+&nbsp;<br>
+You&nbsp;should&nbsp;have&nbsp;received&nbsp;a&nbsp;copy&nbsp;of&nbsp;the&nbsp;GNU&nbsp;General&nbsp;Public&nbsp;License<br>
+along&nbsp;with&nbsp;PDB2PQR;&nbsp;if&nbsp;not,&nbsp;write&nbsp;to&nbsp;the&nbsp;Free&nbsp;Software<br>
+Foundation,&nbsp;Inc.,&nbsp;59&nbsp;Temple&nbsp;Place,&nbsp;Suite&nbsp;330,&nbsp;Boston,&nbsp;MA&nbsp;02111-1307&nbsp;&nbsp;USA<br>
+&nbsp;<br>
+----------------------------</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-cleanTmpdir"><strong>cleanTmpdir</strong></a>()</dt><dd><tt>Clean&nbsp;up&nbsp;the&nbsp;temp&nbsp;directory&nbsp;for&nbsp;CGI.&nbsp;&nbsp;If&nbsp;the&nbsp;size&nbsp;of&nbsp;the&nbsp;directory<br>
+is&nbsp;greater&nbsp;than&nbsp;LIMIT,&nbsp;delete&nbsp;the&nbsp;older&nbsp;half&nbsp;of&nbsp;the&nbsp;files.&nbsp;&nbsp;Since<br>
+the&nbsp;files&nbsp;are&nbsp;stored&nbsp;by&nbsp;system&nbsp;time&nbsp;of&nbsp;creation,&nbsp;this&nbsp;is&nbsp;an<br>
+easier&nbsp;task.</tt></dd></dl>
+ <dl><dt><a name="-createError"><strong>createError</strong></a>(name, details)</dt><dd><tt>Create&nbsp;an&nbsp;error&nbsp;results&nbsp;page&nbsp;for&nbsp;CGI-based&nbsp;runs<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;result&nbsp;file&nbsp;root&nbsp;name,&nbsp;based&nbsp;on&nbsp;local&nbsp;time&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;details:&nbsp;The&nbsp;details&nbsp;of&nbsp;the&nbsp;error&nbsp;(string)</tt></dd></dl>
+ <dl><dt><a name="-createResults"><strong>createResults</strong></a>(header, input, name, time, missedligands<font color="#909090">=[]</font>)</dt><dd><tt>Create&nbsp;the&nbsp;results&nbsp;web&nbsp;page&nbsp;for&nbsp;CGI-based&nbsp;runs<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;header:&nbsp;The&nbsp;header&nbsp;of&nbsp;the&nbsp;PQR&nbsp;file&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input:&nbsp;&nbsp;&nbsp;A&nbsp;flag&nbsp;whether&nbsp;an&nbsp;input&nbsp;file&nbsp;has&nbsp;been&nbsp;created&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tmpdir:&nbsp;&nbsp;The&nbsp;resulting&nbsp;file&nbsp;directory&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;result&nbsp;file&nbsp;root&nbsp;name,&nbsp;based&nbsp;on&nbsp;local&nbsp;time&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;time:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;time&nbsp;taken&nbsp;to&nbsp;run&nbsp;the&nbsp;script&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;missedligands:&nbsp;A&nbsp;list&nbsp;of&nbsp;ligand&nbsp;names&nbsp;whose&nbsp;parameters&nbsp;could<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;not&nbsp;be&nbsp;assigned.&nbsp;Optional.&nbsp;(list)</tt></dd></dl>
+ <dl><dt><a name="-getLoads"><strong>getLoads</strong></a>()</dt><dd><tt>Get&nbsp;the&nbsp;system&nbsp;load&nbsp;information&nbsp;for&nbsp;output&nbsp;and&nbsp;logging<br>
+&nbsp;<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;loads:&nbsp;&nbsp;A&nbsp;three&nbsp;entry&nbsp;list&nbsp;containing&nbsp;the&nbsp;1,&nbsp;5,&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;minute&nbsp;loads.&nbsp;If&nbsp;the&nbsp;load&nbsp;file&nbsp;is&nbsp;not&nbsp;found,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-getQuote"><strong>getQuote</strong></a>(path)</dt><dd><tt>Get&nbsp;a&nbsp;quote&nbsp;to&nbsp;display&nbsp;for&nbsp;the&nbsp;refresh&nbsp;page.<br>
+Uses&nbsp;fortune&nbsp;to&nbsp;generate&nbsp;a&nbsp;quote.<br>
+&nbsp;<br>
+Parameters:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;path:&nbsp;&nbsp;&nbsp;The&nbsp;path&nbsp;to&nbsp;the&nbsp;fortune&nbsp;script&nbsp;(str)<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;quote:&nbsp;&nbsp;&nbsp;The&nbsp;quote&nbsp;to&nbsp;display&nbsp;(str)</tt></dd></dl>
+ <dl><dt><a name="-logRun"><strong>logRun</strong></a>(options, nettime, size, ff, ip)</dt><dd><tt>Log&nbsp;the&nbsp;CGI&nbsp;run&nbsp;for&nbsp;data&nbsp;analysis.&nbsp;&nbsp;Log&nbsp;file&nbsp;format&nbsp;is&nbsp;as&nbsp;follows:<br>
+&nbsp;<br>
+DATE&nbsp;&nbsp;FF&nbsp;&nbsp;SIZE&nbsp;&nbsp;OPTIONS&nbsp;&nbsp;&nbsp;TIME<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;options:&nbsp;The&nbsp;options&nbsp;used&nbsp;for&nbsp;this&nbsp;run&nbsp;(dict)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;nettime:&nbsp;The&nbsp;total&nbsp;time&nbsp;taken&nbsp;for&nbsp;the&nbsp;run&nbsp;(float)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;size:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;final&nbsp;number&nbsp;of&nbsp;non-HETATM&nbsp;atoms&nbsp;in&nbsp;the&nbsp;PDB&nbsp;file&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ff:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;ff&nbsp;used<br>
+&nbsp;&nbsp;&nbsp;&nbsp;ip:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ip&nbsp;address&nbsp;of&nbsp;the&nbsp;user</tt></dd></dl>
+ <dl><dt><a name="-printAcceptance"><strong>printAcceptance</strong></a>(name)</dt><dd><tt>Print&nbsp;the&nbsp;first&nbsp;message&nbsp;to&nbsp;stdout&nbsp;(web&nbsp;browser)&nbsp;-&nbsp;set&nbsp;the<br>
+refresh&nbsp;to&nbsp;the&nbsp;&lt;id&gt;-tmp.html&nbsp;file.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;HTML&nbsp;page&nbsp;to&nbsp;redirect&nbsp;to&nbsp;(string)</tt></dd></dl>
+ <dl><dt><a name="-printProgress"><strong>printProgress</strong></a>(name, refreshname, reftime, starttime)</dt><dd><tt>Print&nbsp;the&nbsp;progress&nbsp;of&nbsp;the&nbsp;server<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;of&nbsp;the&nbsp;HTML&nbsp;page&nbsp;to&nbsp;write&nbsp;to&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refreshname:&nbsp;The&nbsp;name&nbsp;of&nbsp;the&nbsp;HTML&nbsp;page&nbsp;to&nbsp;refresh&nbsp;to&nbsp;(string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reftime:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;length&nbsp;of&nbsp;time&nbsp;to&nbsp;set&nbsp;the&nbsp;refresh&nbsp;wait&nbsp;to&nbsp;(int)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;starttime:&nbsp;&nbsp;&nbsp;The&nbsp;time&nbsp;as&nbsp;returned&nbsp;by&nbsp;time.time()&nbsp;that&nbsp;the&nbsp;run&nbsp;started&nbsp;(float)</tt></dd></dl>
+ <dl><dt><a name="-setID"><strong>setID</strong></a>(time)</dt><dd><tt>Given&nbsp;a&nbsp;floating&nbsp;point&nbsp;time.time(),&nbsp;generate&nbsp;an&nbsp;ID.<br>
+Use&nbsp;the&nbsp;tenths&nbsp;of&nbsp;a&nbsp;second&nbsp;to&nbsp;differentiate.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;time:&nbsp;&nbsp;The&nbsp;current&nbsp;time.time()&nbsp;(float)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;:&nbsp;&nbsp;The&nbsp;file&nbsp;id&nbsp;(string)</tt></dd></dl>
+ <dl><dt><a name="-startServer"><strong>startServer</strong></a>(name)</dt><dd><tt>Start&nbsp;the&nbsp;PDB2PQR&nbsp;server.&nbsp;&nbsp;This&nbsp;function&nbsp;is&nbsp;necessary&nbsp;so<br>
+that&nbsp;useful&nbsp;information&nbsp;can&nbsp;be&nbsp;displayed&nbsp;to&nbsp;the&nbsp;user&nbsp;-&nbsp;otherwise<br>
+nothing&nbsp;would&nbsp;be&nbsp;returned&nbsp;until&nbsp;the&nbsp;complete&nbsp;run&nbsp;finishes.<br>
+&nbsp;<br>
+Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;name:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;ID&nbsp;name&nbsp;of&nbsp;the&nbsp;final&nbsp;file&nbsp;to&nbsp;create&nbsp;(string)<br>
+Returns<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pqrpath:&nbsp;The&nbsp;complete&nbsp;path&nbsp;to&nbsp;the&nbsp;pqr&nbsp;file&nbsp;(string)</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>LIMIT</strong> = 500.0<br>
+<strong>LOADPATH</strong> = '/proc/loadavg'<br>
+<strong>LOCALPATH</strong> = '/export/home/www/html/pdb2pqr/'<br>
+<strong>LOGPATH</strong> = '/export/home/www/html/pdb2pqr//tmp//usage.txt'<br>
+<strong>REFRESHTIME</strong> = 20<br>
+<strong>STYLESHEET</strong> = 'http://agave.wustl.edu/css/baker.css'<br>
+<strong>TMPDIR</strong> = 'tmp/'<br>
+<strong>WEBNAME</strong> = 'server.html'<br>
+<strong>WEBSITE</strong> = 'http://agave.wustl.edu/pdb2pqr/'<br>
+<strong>__author__</strong> = 'Todd Dolinsky'<br>
+<strong>__date__</strong> = '17 March 2007'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Todd&nbsp;Dolinsky</td></tr></table>
+</body></html>

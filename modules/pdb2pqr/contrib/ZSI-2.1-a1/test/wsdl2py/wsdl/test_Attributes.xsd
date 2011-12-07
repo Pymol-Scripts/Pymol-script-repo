@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="urn:example"
+    xmlns:bt="urn:example">
+<!-- test all xsd simple types,
+test local and global attributes,
+test attribute groups
+-->
+
+<xs:element name="Test1" type="bt:Test1"/>
+
+<xs:attribute name="myName" type="xs:string"/>
+<xs:attribute name="myDouble" type="xs:double"/>
+<xs:attribute name="myString" type="xs:string"/>
+
+<xs:attributeGroup name="common">
+    <xs:attribute ref="bt:myString"/>
+    <xs:attribute name="myFloat" type="xs:float"/>
+    <xs:attribute name="myDecimal" type="xs:decimal"/>
+    <xs:attribute name="myDuration" type="xs:duration"/>
+    <xs:attribute name="myDateTime" type="xs:dateTime"/>
+    <xs:attribute name="myTime" type="xs:time"/>
+    <xs:attribute name="myDate" type="xs:date"/>
+    <xs:attribute name="myGYearMonth" type="xs:gYearMonth"/>
+    <xs:attribute name="myGYear" type="xs:gYear"/>
+    <xs:attribute name="myGMonthDay" type="xs:gMonthDay"/>
+    <xs:attribute name="myGDay" type="xs:gDay"/>
+    <xs:attribute name="myGMonth" type="xs:gMonth"/>
+    <xs:attribute name="myHexBinary" type="xs:hexBinary"/>
+    <xs:attribute name="myBase64Binary" type="xs:base64Binary"/>
+    <xs:attribute name="myAnyURI" type="xs:anyURI"/>
+    <xs:attribute name="myQName" type="xs:QName"/>
+    <xs:attribute name="myNOTATION" type="xs:NOTATION"/>
+</xs:attributeGroup>
+
+<xs:complexType name="Test1">
+  <xs:sequence/>
+  <xs:attribute name="myInt" type="xs:int"/>
+  <xs:attribute ref="bt:myDouble"/>
+  <xs:attributeGroup ref="bt:common"/>
+</xs:complexType>  
+
+</xs:schema>

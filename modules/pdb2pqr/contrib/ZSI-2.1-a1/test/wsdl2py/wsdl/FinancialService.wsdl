@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+
+<definitions name="FinancialService"
+
+  targetNamespace="http://dev-b.handel-dev.local:8080/FinancialService.wsdl"
+
+  xmlns:tns="http://dev-b.handel-dev.local:8080/FinancialService.wsdl"
+
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+
+  xmlns:finType="http://dev-b.handel-dev.local:8080/FinancialService_NS"
+
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+
+
+  <types>
+
+    <schema xmlns="http://www.w3.org/2001/XMLSchema"
+
+      targetNamespace="http://dev-b.handel-dev.local:8080/FinancialService_NS" >
+
+      <!-- the getPV operation request message content, in doc-wrapped manner
+
+        (with toplevel element that explicitly names the operation) -->
+
+      <element name="getPV">
+
+        <complexType>
+
+          <sequence>
+
+            <element name="irate" type="xsd:float"/>
+
+            <element name="CFSequence">
+
+              <complexType>
+
+                <sequence>
+
+                  <element name="CF" minOccurs="0" maxOccurs="unbounded" type="xsd:float"/>
+
+                </sequence>
+
+              </complexType>
+
+            </element>
+
+          </sequence>
+
+        </complexType>
+
+      </element>
+
+      <!-- the answer to the getPV operation request -->
+
+      <element name="PV" type="xsd:float"/>
+
+    </schema>
+
+  </types>
+
+
+
+  <message name="getPVRequest">
+
+    <part name="msg" element="finType:getPV"/>
+
+  </message>
+
+
+
+  <message name="getPVResponse">
+
+    <part name="msg" element="finType:PV"/>
+
+  </message>
+
+
+
+  <portType name="FinancialService_PortType">
+
+    <operation name="getPV">
+
+      <input message="tns:getPVRequest"/>
+
+      <output message="tns:getPVResponse"/>
+
+    </operation>
+
+  </portType>
+
+
+
+  <binding name="FinancialService_Binding" type="tns:FinancialService_PortType">
+
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <operation name="getPV">
+
+      <soap:operation soapAction=""/>
+
+      <input>
+
+        <soap:body use="literal"/>
+
+      </input>
+
+      <output>
+
+        <soap:body use="literal"/>
+
+      </output>
+
+    </operation>
+
+  </binding>
+
+
+
+  <service name="FinancialService">
+
+    <documentation>Financial Web Service. Methods: -getPV(irate, CFSequence):
+
+Return present value for given interest rate and Cash Flows.</documentation>
+
+    <port name="FinancialService_Port" binding="tns:FinancialService_Binding">
+
+      <soap:address location="http://dev-b.handel-dev.local:8080/FinancialService"/>
+
+    </port>
+
+  </service>
+
+
+
+</definitions>

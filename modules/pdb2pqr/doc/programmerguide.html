@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title>
+			PDB2PQR Programmer Guide
+		</title>
+		<link rel="stylesheet" href="http://agave.wustl.edu/css/baker.css" type="text/css">
+	</head>
+	<body>
+		<h2>
+			PDB2PQR Programmer Guide
+		</h2>
+		<p>
+			<b>Table of Contents</b>
+		</p>
+		<ul>
+			<li> <a href="#canon">Canonical Naming Scheme</a> </li>
+			<li> <a href="#xml">Using XML Files and Regular Expressions</a> </li>
+			<li> <a href="#opal">Opal web services support</a> </li>
+			<li> <a href="#extensions">Adding User-Defined Functions via the Extensions directory</a> </li>
+			<li> <a href="#pydoc">Python File Documentation (pydoc)</a> </li>
+			<li> <a href="#bug">Bug Reports and Suggestions</a> </li>
+		</p>
+		<hr>
+		<p>
+			<a name="canon" id="canon"></a>
+		</p>
+		<h3>
+			Canonical Naming Scheme
+		</h3>
+		<p>
+			In an ideal world, each individual residue and atom would have a standard, distinct name. Unfortunately <a href="http://www.bmrb.wisc.edu/ref_info/atom_nom.tbl">several naming schemes for atoms</a> exist, particularly for hydrogens. As such, in order to detect the presence/absence of atoms in a protein, an internal canonical naming scheme is used. The naming scheme used in PDB2PQR is the one recommended by the PDB itself, and derives from the IUPAC naming recommendations found in
+		</p>
+		<blockquote>
+			J. L. Markley, et al., "Recommendations for the Presentation of NMR Structures of Proteins and Nucleic Acids," <i>Pure &amp; Appl. Chem.</i>, <b>70</b> (1998): 117-142.
+		</blockquote>
+		<p>
+			This canonical naming scheme is used as the default PDB2PQR output. For a list of standard residue/atom name pairs, please see the <a href="http://www-iphicles.rcsb.org/pdb/lists/pdb-l/199907/msg00013.html">PDB Change Advisory Notice</a> regarding the naming scheme.
+		</p>
+		<p>
+			All conversions in PDB2PQR use the internal canonical naming scheme to determine distinct atom names. In previous versions of PDB2PQR these conversions were stored in long lists of if statements, but for transparency and editing this is a <i>bad thing</i>. Instead, all conversions can now be found in the various XML files found in PDB2PQR - for more discussion on the XML files see the <a href="#xml">xml</a> section below.
+		</p>
+		<p>
+			There are a few additions to the canonical naming scheme, mirrored after the AMBER naming scheme (chosen since for the most part it follows the IUPAC recommendations). These changes are made in PATCHES.xml, and allow any of the following to be patched as necessary as well as detected on input:
+		</p>
+		<pre>
+  Terminal Naming Additions
+     N*         :   N-Terminal Residue (i.e. NALA, NLEU)
+     NEUTRAL-N* :   Neutral N-Terminal Residue
+     C*         :   C-Terminal Residue (i.e. CLYS, CTYR)
+     NEUTRAL-C* :   Neutral C-Terminal Residue
+     *5         :   5-Terminus for Nucleic Acids (i.e. DA5)
+     *3         :   3-Terminus for Nucleic Acids (i.e. DA3)
+
+  Amino Acid Residue Additions (see dat/PATCHES.xml)
+     ASH        :   Neutral ASP
+     CYX        :   SS-bonded CYS
+     CYM        :   Negative CYS
+     GLH        :   Neutral GLU
+     HIP        :   Positive HIS
+     HID        :   Neutral HIS, proton HD1 present
+     HIE        :   Neutral HIS, proton HE2 present
+     LYN        :   Neutral LYS
+     TYM        :   Negative TYR
+</pre>
+		<hr>
+		
+		<p> <a name="opal" id="opal"></a> </p>
+		<h3>Opal web services support</h3>
+		<p>The Opal Toolkit is a set of software produced by the <a href="http://nbcr.net/">National Biomedical Computational Resource (NBCR)</a>. It allows for the computing load for processor-intensive scientific applications to be shifted to a 3rd party and/or generic computing grid. This can be tremendously advantageous in situations where a large amount of computing power is not locally available, but is required, for the task at hand.</p>
+		
+		<p>PDB2PQR adds optional support for the off-loading of PDB2PQR calculations to an Opal service, by use of the <code>--with-opal</code> compile-time flag.  Currently, the Opal service is only available via the PDB2PQR web interface.  Opal support has been integrated into PDB2PQR such that the end user will not be able to tell the difference between the local and web services (Opal) installations of PDB2PQR. The functionality is identical, allowing for Opal installs of PDB2PQR to be implemented with minimum disruption for current users of the PDB2PQR web interface.  By default, the Opal support in PDB2PQR makes use of the NBCR's Opal grid. However, the user can easily substitute in any functional Opal installation by specifying a URL at compile time, like so: 
+			<verbatim>--with-opal=http://www.example.com/services/opal</verbatim>
+		</p>
+		
+		<p>When an Opal job is launched, the relevant files are sent to the Opal servers by means of <a href="http://www.w3c.org/TR/SOAP">SOAP</a>.  	While the calculations are taking place, the user can use a SOAP request to query the Opal servers for the status of the calculation. If the calculation is complete, the server will return a list of URLs at which the resulting files can be found.</p>
+		
+		<p>When the APBS web interface becomes a part of production PDB2PQR installations, using Opal for calculations will become even more important, as APBS has significantly higher computational costs than PDB2PQR. Additionally, command line support for Opal in PDB2PQR is planned for a future release.</p>
+		
+		
+		<p>
+			<a name="xml" id="xml"></a>
+		</p>
+		<h3>
+			Using XML Files and Regular Expressions
+		</h3>
+		<p>
+			As mentioned above, the XML files provide an easy way for PDB2PQR to parse data. PDB2PQR extends the built-in SAX XML parser to allow the code to go from input file to PDB2PQR object without any intermediate steps.
+		</p>
+		<p>
+			The difficulty of adding a new forcefield to PDB2PQR depends on the naming scheme used in that forcefield. To start, either a flat file or XML file containing the desired forcefield's parameters should be made - see <code>AMBER.DAT</code> and <code>AMBER.xml</code> for examples. If the forcefield's naming scheme matches the <a href="#canon">canonical naming scheme</a> used above, that's all that is necessary. If the naming schemes differ, however, conversions must be made. These are made in the *.names file (see <code>CHARMM.names</code> for example). In this file you will see sections like:
+		</p>
+		<pre>
+    &lt;residue&gt;
+        &lt;name&gt;WAT&lt;/name&gt;
+        &lt;useresname&gt;TP3M&lt;/useresname&gt;
+        &lt;atom&gt;
+            &lt;name&gt;O&lt;/name&gt;
+            &lt;useatomname&gt;OH2&lt;/useatomname&gt;
+        &lt;/atom&gt;
+    &lt;/residue&gt;
+</pre>
+		<p>
+			This section tells PDB2PQR that for the oxygen atom O in WAT, CHARMM uses the names OH2 and TP3M, respectively. When the XML file is read in, PDB2PQR ensures that the WAT/O pair points to TP3M/OH2 such that the appropriate parameters are returned.
+		</p>
+		<p>
+			But for naming schemes that <b>greatly</b> differ from the PDB2PQR canonical naming scheme, this could get really ugly. As a result, PDB2PQR can use regular expressions to simplify the renaming process, i.e.:
+		</p>
+		<pre>
+    &lt;residue&gt;
+        &lt;name&gt;[NC]?...$&lt;/name&gt;
+        &lt;atom&gt;
+            &lt;name&gt;H&lt;/name&gt;
+            &lt;useatomname&gt;HN&lt;/useatomname&gt;
+        &lt;/atom&gt;
+    &lt;/residue&gt;
+</pre>
+		<p>
+			This section of code will ensure that the H atom of all canonical residue names that match the <code>[NC]?...$</code> regular expression point to HN instead. This regular expression matches all three-letter residue names, residue names with an 'N' prepended (N-Termini), and residue names with a 'C' prepended (C-Termini). For twenty amino acids that is sixty residue name changes, all done by a single section. The use of regular expressions is therefore a <b>much</b> more powerful method of handling naming scheme differences than working on a one to one basis. For those unfamiliar with using regular expressions, the two following links are quite helpful (and Python specific):
+		</p>
+		<ul>
+			<li>
+				<a href="http://www.amk.ca/python/howto/regex/">Regular Expression HOWTO</a>
+			</li>
+			<li>
+				<a href="http://docs.python.org/lib/module-re.html">Python Library Reference entry on Regular Expressions</a>
+			</li>
+		</ul>
+		<p>
+			There are a few other additional notes when using the *.names file:
+		</p>
+		<ul>
+			<li>The <code>$group</code> variable is used to denote the matching group of a regular expression, for instance:
+				<pre>
+    &lt;residue&gt;
+        &lt;name&gt;HI([PDE])$&lt;/name&gt;
+        &lt;useresname&gt;HS$group&lt;/useresname&gt;
+    &lt;/residue&gt;
+</pre>This section replaces HIP/HID/HIE with HSP/HSD/HSE by first matching the <code>HI([PDE])$</code> regular expression and then using the group that is enclosed by parantheses to fill in the name to use. For more information on grouping in Python please see the Regular Expression HOWTO's <a href="http://www.amk.ca/python/howto/regex/regex.html#SECTION000520000000000000000">section on grouping</a>.
+			</li>
+			<li>Sections are cumulative - since CHARMM, for instance, has a patch-based naming scheme, one single canonical residue name can map to multiple forcefield-scheme names. Let's look at how to map an SS-bonded Cysteine (canonical name CYX) to the CHARMM naming scheme:
+				<pre>
+    &lt;residue&gt;
+        &lt;name&gt;CYX&lt;/name&gt;
+        &lt;useresname&gt;CYS&lt;/useresname&gt;
+    &lt;/residue&gt;
+    &lt;residue&gt;
+        &lt;name&gt;CYX&lt;/name&gt;
+        &lt;useresname&gt;DISU&lt;/useresname&gt;
+        &lt;atom&gt;
+            &lt;name&gt;CB&lt;/name&gt;
+            &lt;useatomname&gt;1CB&lt;/useatomname&gt;
+        &lt;/atom&gt;
+        &lt;atom&gt;
+            &lt;name&gt;SG&lt;/name&gt;
+            &lt;useatomname&gt;1SG&lt;/useatomname&gt;
+        &lt;/atom&gt;
+    &lt;/residue&gt;
+</pre>The CYX residue is first mapped to CHARMM's CYS, and then to CHARMM's DISU object. All atom names that are found in DISU overwrite those found in CYS - in effect, the DISU patch is applied to CYS, yielding the desired CYX. This cumulative can be repeated as necessary.
+			</li>
+		</ul>
+		<hr>
+		<p>
+			<a name="extensions" id="extensions"></a>
+		</p>
+		<h3>
+			Adding User-Defined Functions via the Extensions directory
+		</h3>
+		<p>
+			The extensions directory is a particularly useful feature of PDB2PQR, as it allows users to add their own desired functionality to PDB2PQR and use PDB2PQR's object-oriented hierarchy. All functions in the extensions directory are automatically loaded into PDB2PQR as command line options using the function's name, and are called after all other steps (optimization, atom addition, parameter assignment) have been completed. As a result any available functions are particularly useful for post-processing, or for analysis without any changes to the input structure by using the <code>--clean flag.</code>
+		</p>
+		<p>
+			<code>Please see the <a href="template">extensions template</a> for more information about setting up a new script.</code>
+		</p>
+		<p>
+			<code>One of the advantages of using PDB2PQR in this fashion is the ability to use built-in PDB2PQR functions. While a full and more detailed API can be found in the <a href="#pydoc">pydoc documentation</a>, some useful functions are listed below:</code>
+		</p>
+		<pre>
+<code>  From protein.py:
+      Class Protein:
+          printAtoms(atomlist, flag):  Print a list of atoms
+          getResidues():               Return a list of residues
+          numResidues():               Return the number of residues
+          numAtoms():                  Return the number of atoms
+          getAtoms():                  Return a list of atom objects 
+          getChains():                 Return a list of chains
+
+  From structures.py:
+      Class Chain:
+          getResidues():               Return a list of residues in the chain
+          numResidues():               Return the number of residues in the chain
+          numAtoms():                  Return the number of atoms in the chain
+          getAtoms():                  Return a list of atom objects in the chain
+      Class Residue:
+          numAtoms():                  Return the number of atoms in the residue
+          addAtom(atom):               Add the atom object to the residue
+          removeAtom(name):            Remove a specific atom from the residue
+          renameAtom(old, new):        Rename atom "old" with "new"
+          getAtom(name):               Return a specific atom from the residue
+          hasAtom(name):               Determine if the residue has the atom "name"
+      Class Atom:
+          getCoords():                 Return the x/y/z coordinates of the atom
+          isHydrogen():                Determine if the atom is a hydrogen or not
+          isBackbone():                Determine whether the atom is from the backbone
+
+  From utilities.py:
+      getAngle(c1, c2, c3):            Get the angle between the three coordinate sets
+      getDihedral(c1, c2, c3, c4):     Get the dihedral angle from the four coordinates
+      distance(c1, c2):                Return the distance between the two coordinates
+      add(c1, c2):                     Return c1 + c2
+      subtract(c1, c2):                Return c1 - c2
+      cross(c1, c2):                   Return the cross product of c1 and c2
+      dot(c1, c2):                     Return the dot product of c1 and c2
+      normalize(c1):                   Normalize the c1 coordinates
+</code>
+</pre>
+		<hr>
+		<p>
+			<code><a name="pydoc" id="pydoc"></a></code>
+		</p>
+		<h3>
+			<code>Python File Documentation (pydoc)</code>
+		</h3>
+		<p>
+			<code>A full API can be found in the <a href="pydoc/index.html">Python File Documentation</a>. These files were automatically generated by the useful <a href="http://docs.python.org/lib/module-pydoc.html">pydoc</a> utility.</code>
+		</p>
+		<hr>
+		<p>
+			<code><a name="bug" id="bug"></a></code>
+		</p>
+		<h3>
+			<code>Bug Reports and Suggestions</code>
+		</h3>
+		<p>
+			<code>Before sending a bug report you may want to check the <a href="http://sourceforge.net/mailarchive/forum.php?forum=pdb2pqr-users">pdb2pqr-users mailing list archives</a> or the existing <a href="http://sourceforge.net/tracker/?group_id=144228&amp;atid=758143">PDB2PQR SourceForge Bug List</a> to make sure your question has not already been addressed. Otherwise please post all bug reports, support requests, or feature requests to the appropriate <a href="http://sourceforge.net/tracker/?group_id=144228">PDB2PQR SourceForge Tracker</a>.</code>
+		</p>
+		<p>
+			<code>For additional support you may contact the <a href="http://lists.sourceforge.net/lists/listinfo/pdb2pqr-users">pdb2pqr-users mailing list</a>.</code>
+		</p>
+		<hr>
+		<center>
+			<code><i>Last Updated June 23rd, 2006</i></code>
+		</center>
+	</body>
+</html>

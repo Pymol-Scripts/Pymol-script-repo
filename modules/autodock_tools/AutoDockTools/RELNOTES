@@ -1,0 +1,758 @@
+=======================================================================
+                 AutoDockTools Release Notes:
+=======================================================================
+Release 1.5.4 (November 2008)
+------------------------------
+AD4.1_bound.dat, AD4_parameters.dat
+- replaced with version in autodock cvs repository so that keyword "FE_unbound_model" is specified.
+
+
+AutoDockBondClassifier.py
+- Previous release contained a bug which set all bonds between cycles to non-rotatable. This bug is repaired in this release. This file was modified as part of that repair. Specifically,  lines around 29,34 and 61 were changed so that detectAll is not on by default in cycle detection. This change is in response to a problem encountered by a user whose ligand was comprised of two aromatic carbon rings bonded to a cyclohexane. In that case, the bond between the cyclohexane and the first benzene should be rotatable (and was in v 1.4.6). So now the detectAll option is NOT the default
+
+AutoLigandCommand.py
+- added try/except for pickle
+- added AddObjectEvent and DeleteObjectEvent to ViewerFramework.VF
+
+ConfPlayer.py
+- moved AddAtomsEvent, DeleteAtomsEvent and EditAtomsEvent from ViewerFramework.VF to Pmv.moleculerViewer
+- fixed imports for these classes in all files
+- added AddObjectEvent and DeleteObjectEvent to ViewerFramework.VF
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.IntVar() and Tkinter.stringVar()
+
+DlgParser.py
+- changed lines 511 and 513 to search for ' Run' instead of 'Run' to fix problem arising from a dpf filename which included 'Run'
+
+DockingParameters.py
+- added check line 729 for values[0] before using it. Previous versions autodock expected the filename of the structure to evaluate to follow the keyword "epdb". Current autodock code calculates the energy of the input structure only when the epdb command is specified in the dpf so "epdb" is no longer followed by a filename.
+
+MoleculePreparation.py
+- Added a check whether all the atoms in the molecule have zero charge. If so,  a warning is printed and charges are added.
+- Changes which accompanied fixing the bug which set all bonds between cycles as non-rotatable. This is a stepback (about to version 1.4.6). Now the detectAll option for cycles is NOT the default.
+
+WebServices.py
+- added 'master=self.vf.GUI.ROOT' in calls to Tkinter.StringVar and Tkinter.IntVar enclosed in a 'if hasattr' conditional which checks for existance of vf.GUI.ROOT
+
+XMLParser.py
+-- replace quat by axisangle
+-- added quaternion0 as field save in xml parser
+-- added "xml" xml filename "dlg" dlg filename in parser dictionnary for xml field.
+
+__init__.py
+- solved ipython issues for adt
+- now from Vision import runVision; runVision() will launch the active Vision and deiconifyies it.
+- bringing modifs for ipython and non blocking loop to 1.5.2
+
+
+autoanalyzeCommands.py
+- fixed Warning Message Format test
+- fixed adt_playerGUI
+- replaced adt_playerGUI with Player GUI
+- moved preferences into a pickled file. See the new mgltutil.preferences for details.
+- moved AddAtomsEvent, DeleteAtomsEvent and EditAtomsEvent from ViewerFramework.VF to Pmv.moleculerViewer
+- fixed imports for these classes in all files
+- added AddObjectEvent and DeleteObjectEvent to ViewerFramework.VF
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.IntVar() and Tkinter.stringVar()
+
+
+autodpf41Commands.py
+- added support for new importing and using new SetAutoDock41Parameters command
+
+autodpfCommands.py
+- added SetAutoDock41Parameters command: previously the default parameter file name for AD4.1 was incorrectly initialized to AD4_parameters.dat
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.IntVar() and Tkinter.stringVar()
+
+autoflexCommands.py
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.IntVar() and Tkinter.stringVar()
+
+autogpfCommands.py
+- changed lines 224 and 225, replacing "Choose FlexResMolecule..." with "Choose FlexRes..." and replacing "Open Flexible Residues..." with "Open FlexRes..." 
+- replaced adt_automergeNPHS with Automerge NPHS
+- replaced adt_editHISprotonation with HIS Protonation
+- replaced adt_automergeNPHS with Automerge NPHS
+- moved preferences into a pickled file. See the new mgltutil.preferences for details.
+- moved AddAtomsEvent, DeleteAtomsEvent and EditAtomsEvent from ViewerFramework.VF to Pmv.moleculerViewer
+- fixed imports for these classes in all files
+- added AddObjectEvent and DeleteObjectEvent to ViewerFramework.VF
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.IntVar() and Tkinter.stringVar()
+
+autostartCommands.py
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.IntVar() and Tkinter.stringVar()
+
+autotorsCommands.py
+- replaced adt_automergeNPHS with Automerge NPHS
+- moved preferences into a pickled file. See the new mgltutil.preferences for details.
+- added if condition for showGridIsocontours in updateCmds.
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.IntVar() and Tkinter.stringVar()
+- modified line 413 to set the color of the ADTbar completely
+
+cluster.py
+- added 'flexres' sort option, method _get_distance_flexres and change around lines 176 and178 to use the correct subset (i think!) of coords for the rmsd calculation
+- added 'intermolecular' sort option
+
+Tests/statecoord.dlg
+-- added a test for StatetoCoords
+
+Tests/statecoord.xml
+-- added a test for StatetoCoords
+
+Tests/statecoord_lig.pdbqt
+-- added a test for StatetoCoords
+
+Tests/test_AD.py
+- added test formatting cyclohexanePhePh in repairing rotatable bonds between rings
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.IntVar()
+
+Tests/test_AD3_mode.py
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.StringVar()
+
+Tests/test_AD3analyze.py
+- commented out old tests using Entropia results: it looks like statetocoords did not produce the correct coordinates. This problem was detected in analyzing wcg results which have both xml and dlg results and the problem in statetocoords has been fixed
+
+Tests/test_AD41_mode.py
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.StringVar()
+
+Tests/test_AD41analyze.py
+- commented out old tests using Entropia results: it looks like statetocoords did not produce the correct coordinates. This problem was detected in analyzing wcg results which have both xml and dlg results and the problem in statetocoords has been fixed
+
+Tests/test_AD4_AD3_AD41_mode.py
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.StringVar()
+
+Tests/test_AD4_AD3_mode.py
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.StringVar()
+
+Tests/test_AD4_AD41_mode.py
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.StringVar()
+
+Tests/test_AD4_mode.py
+- added 'master=self.vf.GUI.ROOT' to all calls to Tkinter.StringVar()
+
+Tests/test_AD4analyze.py
+- commented out old tests using Entropia results: it looks like statetocoords did not produce the correct coordinates. This problem was detected in analyzing wcg results which have both xml and dlg results and the problem in statetocoords has been fixed
+
+Tests/test_ADanalyze.py
+- commented out old tests using Entropia results: it looks like statetocoords did not produce the correct coordinates. This problem was detected in analyzing wcg results which have both xml and dlg results and the problem in statetocoords has been fixed
+
+Tests/test_ConfPlayer.py
+- replaced adt_playerGUI with Player GUI
+
+Tests/test_statetocoords.py
+-- added a test for StatetoCoords
+
+Utilities24/prepare_covalent_flexres.py
+- added support for using 3 atoms for superposition; fixed bug in outputting rigd and flex files
+- corrected bug on line 286: check for length of bondSet being 0 not its length being None! (duh)
+- added support for detecting clashes between original atoms in residue and those newly added by this script. Remaining to be done is to add a method to rotate around the bond to find a new position with no clashes
+
+Utilities24/prepare_flexreceptor4.py
+- removed extraneous "-l filename" from usage statement
+
+Utilities24/summarize_results4.py
+- commented out lines 297-299 which limited total number of conformations read to 50
+
+Utilities24/write_conformations_from_dlg.py
+- removed unnecessary import of MolKit read method
+- changed logic to use d.ligMol.parser.write_with_new_coords; cleaned-up addition of newline character
+- fixed off-by-one bug on line 75
+
+bin/runAdt.py
+- solved ipython issues for adt
+- bringing modifs for ipython and non blocking loop to 1.5.2
+
+
+Release 1.5.2 (July 2008 )
+----------------------------
+
+Release 1.4.6(January 2008)
+----------------------------
+
+Release 1.4.5(July 2007 )
+--------------------------
+
+Release 1.4.4 (December 2006)
+-----------------------------
+
+New features and bug fixes
+
+DockingParameters.py
+ - try cast rmsref_flag value..
+  if called from prepare_ligand4.py, rmsref_flag is given as string type
+ -added 'dpf_written_filename' attribute
+ - added reorient keyword
+ -removed compute_unbound_extended from parameter lists and reference files for local search or simanneal dpfs
+ - added missing comma in boolean_param_list
+ - fixed potential problem in read method: if gpf is version4, receptor_types and ligand_types need to end up as strings not lists!
+ - repaired bug in read method which previously resulted in setting ligand_types and receptors_types to a list instead of a string, which caused an error in adt in some cases
+
+WebServices.py
+ -added condition to check if user name or password is empty
+ -replaced os.path.mkdir with os.mkdir
+ -fixed bug when .mgltoos/ws dir does not exists
+ -fixed bugs and added "New User?" option
+ -added AutoDock WS
+ -added download function with progressBar
+ -fixed bug in gpfFile/pdbs, modified status message
+
+autoanalyzeCommands.py
+ -changes to showBindingSite: minor cleanup of redundant atomsets, removed font specification from 
+  call to labelByProperty, added call to msmssurface geometry sortPoly method
+ -added reset method and cleanup onRemoveObjectFromViewer somewhat..still needs straightening out 
+  of various sets in showBindingSite cmd
+ -fixed bug in coloring surface line 1114
+ -moved initialization of Tkinter.IntVars to onAddCmdToViewer method; cleanup close method; set interacting carbon colors to black
+ -moved initialization of residues sets-current_set, current_seq and skipped_set outside conditional; removed ligandLabel and receptorLabel
+ -ADanalyze_showBindingSite: cleaned up by removing print statements; repaired display of closecontact spheres when toggling msms visibility; changed reslabel color to dark gray
+ -added form to show/hide various parts of the binding site to showBindingSite cmd
+ -set idList to docking.ph.all_populations, line 4173
+ -more work on showing binding site, trying to implement suggestions from Lindy and Graham
+ -repaired selecting docking for which to showActiveSite
+ -added checks that docking had a macroMol attribute before trying to show its active site
+ -added ADShowActiveSite and ShowAutoDockpopulation commands
+ -added code which allows user to cancel building a second copy of a ligand molecule when reading a directory of docking logfiles: now the docking logfile is skipped and a pop-up warningMsg informs the user
+ -separated ADanalyze_showClusteringStates into ADanalyze_readClusteringStates and ADanalyze_showClusteringStates for simplicity. Now the user choose to read a clust file instead of being prompted for one
+ -added self.vf.browseCommands('WebServices', package='AutoDockTools')
+ -added check for dlgparser version: if version is 4.0, get grid types from dpo['ligand_types'] instead of dpo['types']
+
+autodpfCommands.py
+ -modified editor to use dpf_written_filename
+ -removed ligandLabel + receptorLabel
+
+autoflexCommands.py
+ -added check for existence of amidebonds (lines 583+591) before changing their color
+ -added missing newline character line 2188
+ -added missing Set(inheritMaterial=False)
+ -added missing Set(inheritMaterial=False)
+ -repaired writeHinge method's call to writeSubtree so that nested torsions in hinges are written in a way which is recognized by autodock
+ -changed writeHinge to use "activeTors" instead of possibleTors + added diagnostic print statements
+ -added including hinge atom types in flex_types
+ -fixed bug lines ~2160 where 'res' variable was overwritten between output of 'BEGIN_RES' and 'END_RES'...
+ -added commands to setup flexible hinges: ADflex_setHinge, ADflex_processHingeResidues and ADflex_editHinge.  These commands are for autodock4 only
+ -removed separatorBelow in chooseMacro and writeRigid commands; removed loading of AF_LigandDirectoryWriter command
+ -removed hinge commands from commands to be loaded automatically
+
+autogpfCommands.py
+ -added code to check for hydrogens with no bonds before invoking the mergeNPHS command: previously an error occurred in referencing h.bonds[0] for hydrogens with no bonds; rearranged code to make listchooser widget disappear sooner in choose macromolecule commands
+ -updated info message for userpref "adt_automergeNPHS"
+ -fixed bug #765 inconsistency in mv.userpref['adt_automergeNPHS']
+ -modified editor to use gpf_written_filename
+ -removed ligandLabel + receptorLabel
+ -replaced box=Box with box=IndexedPolygons
+ - fixed typo on line 3616
+ - added chooseFormattedFlexRes + readFormattedFlexRes commands so that ligand_types would include any 
+   unusual atom types in the flexres file
+ - added chooseFormattedFlexRes + readFormattedFlexRes commands so that ligand_types would include any 
+   unusual atom types in the flexres file
+
+autotorsCommands.py
+ -removed ligandLabel + receptorLabel
+ -added missing Set(inheritMaterial=False)
+ -added two lines to set properties of glfLabels
+
+cluster.py
+ - added 'e' to list of first-letter-codes-for-energy-used-for-clustering-list on line 332 for version 4.0
+
+
+Release 1.4.3 (September 2006)
+------------------------------
+============
+New features
+============
+
+ConformationPlayer: 
+-added more AD4 log information to info message 
+
+DlgParser:
+-added keywords for component energy terms such as 'moving_ligand_fixed_receptor' 
+-forced setting 'run' by index 
+-added support for reporting seeds from AD4 dockinglogs
+-added support for reporting WARNING messages from dockinglogs. 
+
+Docking:
+-Now user can look at WARNING messages from the docking log in ADT
+
+DockingParameters:
+-added rmsatoms, rmsatoms_flag, rmsref_flag, unbound_flag, unbound_intnbp_coeffs, unbound_intnbp_coeffs_flag and flexres keys 
+-added support for setting set_psw1/set_sw1 to DockingParameter class.
+
+MoleculePreparation:
+-added support for not changing names of aromatic carbons for AutoDock4 by adding a new input parameter for the AromaticCarbonManager class: "rename" which is False for v.4
+
+atomTypeTools:
+-now force renameAtoms to always be 0 for an autodock4 atomTyper
+-updated recognition of lonepairs by adding possibility that the element could be 'Lp' or 'lp'
+
+autodpfCommands:
+-added Dpf4FlexResSelector command 
+-changed torsdof4 to be ligand.TORSDOF  
+-added gui support for new DockingParameters which include rmsatoms, rmsatoms_flag, rmsref_flag, unbound_flag, unbound_intnbp_coeffs, unbound_intnpb_coeffs_flag and flexres
+
+autogpfCommands:
+-replaced box.RenderMode with box.Set
+
+autotorsCommands:
+-added code to hide root sphere if ligand deleted and to reset the set torsion widget if the ligand was deleted
+
+
+Utilities24/prepare_dpf.py
+-added:
+--a check that self.ligand is not None after reading ligand file
+--setting ndihe to self.ligand.parser.keys.count("BRANCH") instead of to len(self.ligand.torTree.torsionMap)
+--code to handle setting 'set_sw1'/'set_psw1'
+--'-k' flag which is used to specify a list of parameters to write
+--changed order of setting ligand/receptor vis a vis reading template file
+--ability to set a parameter to a list of values for 'about', 'npts' et al.
+
+Utilities24/prepare_dpf4.py
+-replaced setting torsdof4 to self.ligand.ndihe with setting it to self.ligand.TORSDOF
+-added:
+--code to handle setting 'set_sw1'/'set_psw1'
+--ability to set a parameter to a list of values for 'about', 'npts' et al.
+
+Utilities24/prepare_ligand.py, prepare_ligand4.py, prepare_receptor.py, prepare_receptor4.py
+-added options to preserve input charges of specific atom types
+
+
+=========
+Bug fixes
+=========
+
+DlgParser
+--Now DlgParser is able to read lines with AD4 output "Intermol. Electrostatic Energy" instead of the AD3 pattern "Electrostatic Energy.
+--fixed bug where 'runs' was not set with simanneal algorithm
+
+autodpfCommands:
+--corrected line 386 to be sure flexfilename is written without path info
+
+--fixed rendering of the bounding box;
+
+Tests/1ebg_rec.pdbqt and hsg1_flex.pdbqt:
+--corrected autodock_element for TRP CE3 which should be 'A'
+
+Tests/docked4.pdbqt, ind.pdbqt:
+--changed reference file so that aromatic carbon names are not changed to start with 'A'
+
+Tests/hsg1_rigid.pdbqt
+--replaced with version using gasteiger charges
+
+Tests/ref4_*.dpf
+--removed "unbound 0.0" line   #compute_unbound_extended replaces this for general use
+
+Tests/ref_hsg1.gpf:
+--for AutoDock3 now H-S uses 12-10 hb potential by default.
+
+Utilities24/Tests/ref_hsg1.pdbqt
+-changed charges from Kollman set to gasteiger set. This reference file is used by pdbqs_to_pdbqt which previously did not  correctly set the charges to  gasteiger charges
+-fixed reference files to reflect the fact that TRP CE3 atoms should be type 'A' not 'C'
+
+Utilities24/Tests/test_pdbqs_to_pdbqt.py
+-modified test by ignoring 10th character from the end: ATOM1844 on linux has charge -0.000 while on sgi it has charge 0.000.... so disregard 10th character from end of line
+
+Utilities24/Tests/test_prepare_dpf.py, test_prepare_dpf4.py
+-added tests for setting each individual parameter except 'do_global_only' and 'do_local_only' which i do not understand
+
+bin/runAdt.py
+-now load FlexibleResidues after Grid menu
+
+
+
+Release 1.4.2  (May 2006)
+-------------------------
+Modifications and bug fixes since release  1.4.1 (march 2006):
+ConfPlayer.py
+-fixed bug in showinfo which occurred when the dlg had only one docked result
+-replaced ModificationEvents by EditAtomsEvents
+
+DockingParameters.py
+-added support for desolvmap and elecmap
+-added support for new flexres keyword which is used to specify the name of the file 
+ containing the formatted flexible residues which are to move during the AutoDock4 docking 
+ experiment
+-corrected bug in setting ndihe: previously used the len(ligand.torTree.torsionMap) but 
+ this is gives the wrong value (the length of the last residue's torTree.torsionMap instead 
+ of the total number of rotatable bonds) when there are flexible residues in the ligand file
+-replaced ligand.getCenter() with detecting whether or not 'ligand' included flexible residues;
+-removed writing intelec value (value here is obsolete)
+-moved DockingParameterFileMaker from Utilities24/prepare_dpf4.py to here
+-added support for new parameter: 'compute_unbound_extended'
+-replaced ligand.getCenter() with detecting whether or not 'ligand' included flexible residues; removed writing intelec value (value here is obsolete)
+
+GridParameters.py
+-moved GridParameterFileMaker classes from prepare_gpf scripts to here
+
+ MoleculePreparation.py
+-added AD4FlexibleReceptorPreparation class which results in two input files for the receptor:
+ one for flexibleresidues and the other for the residues which will not move during the docking
+ experiment
+-corrected bug in write_rigid method of ADFLexDockingPreparation class
+-added write method to PrepareReceptor4 class
+-added AD4FlexibleDockingPreparation which simplifies preparing flexible and rigid input 
+ pdbqt files for an autodock4 experiment.
+-added AD4FlexibleReceptorPreparation class which results in two input files for the receptor: one for flexibleresidues and the other for the residues which will not move during the docking experiment
+
+autoanalyzeCommands.py
+-replaced addGeom(sphs,self) by addGeom(sphs); replaced ModificationEvent with EditAtomsEvent
+-changed macromolecule default file extension from pdbqs to pdbqt
+-reorganized menus according to gmm plan
+-changed macromolecule default file extension from pdbqs to pdbqt
+
+autodpfCommands.py
+-removed setting ligand-specific keywords from flexDict values because now the flexresidue
+ file has only receptor residues in it: no more ligand!
+-replaced ligand.getCenter() with detecting whether or not 'ligand' included flexible residues
+
+autoflexCommands.py
+-removed all support for including the ligand in the flexible file
+
+autostartCommands.py
+-updated logstr from 'ADstart..' to 'self.ADstart...' and resourcefilename from '.adtrc' 
+ to '_adtrc'
+
+cluster.py
+-fixed bug which tried to access 'energy_energy' attribute of a conformation when clustered 
+ on new ad4 energy which is type 'energy'
+
+Utilities24/prepare_dpf4.py
+-fixed bug in setting ndihe with flexible residues by replacing len(self.ligand.torTree.torsionMap) with self.ligand.parser.keys.count
+- in Utilities24 added prepare_flexdocking4.py, prepare_flexreceptor4.py, prepare_receptor4.py
+
+VisionInterface/AdtNodes.py
+-added importing PrepareAD4Ligand macro; cleaned-up previous attempts to write macro.
+-added loading of types from molkit
+-added Manage_Rotatable_Bonds, MergeNonPolarHydrogens, MergeLonePairs and ManageAromaticCarbons... plus rough draft for AD4LigPrep MacroNode
+-added 'mapper' nodes based on classes in atomTypeTools; 'output' nodes based on writer objects in MoleculePreparation and reclassified 'prepare' nodes into 'macros'
+-added missing types from molkit
+
+bin/runAdt.py
+-added Splash Screen to ADT;
+
+
+
+Release 1.4.1    ( March 2006)
+-------------------------------
+
+What's new since rel 1.3alpha2 (9/9/2004):
+
+NEW Support for AutoDock4 which involves new input file type preparation 
+        and analysis of new format output
+
+NEW AutoDock4 Specific Commands in ADT:
+ for preparation of the input ligand file:
+     ADtors_readLigand4
+     ADtors_chooseLigand4
+     ADtors_rigidLigand4
+     ADtors_writeFormattedPDBQT
+
+ for preparation of the input receptor file:
+    ADgpf4_readMacromolecule
+    ADgpf4_chooseMacromolecule
+    ADgpf4_initMacro
+
+ for preparation of the grid parameter file:
+    ADgpf4_setMapTypes
+    ADgpf4_chooseFormattedLigand
+    ADgpf4_readFormattedLigand
+    ADgpf4_setAtomTypes
+    ADgpf4_setParameterFilename
+    ADgpf4_writeGPF
+
+ for preparation of the docking parameter file:
+    ADdpf4_readMacromolecule
+    ADdpf4_chooseFormattedLigand   
+    ADdpf4_readFormattedLigand
+    ADdpf4_initLigand
+    ADdpf4_writeSA
+    ADdpf4_writeGA
+    ADdpf4_writeLS
+    ADdpf4_writeGALS
+
+
+ for analysis of the resulting docking log file:
+    #NB: format of dlg is different: 
+    # now docking energy v. binding energy is not reported
+    # instead, a new 'binding' energy is reported 
+    # which is the sum of intermolecular, internal plus torsional
+    -added 'version' to AutoDockTools.DlgParser, which detects it
+    -added 'version' to AutoDockTools.DockingLogObject, which gets it 
+        from parser
+    -added 'version' to AutoDockTools.Docking, which gets it from dlo.
+
+
+NEW support for processing large number of autodock jobs:
+    AutoDock3 Specific Scripts:
+        prepare_ligand.py
+        prepare_receptor.py
+        prepare_ligand_dict.py
+        prepare_gpf.py
+        prepare_dpf.py
+        summarize_results.py
+
+
+    AutoDock4 Specific Scripts:
+        prepare_ligand4.py
+        prepare_gpf4.py
+        prepare_dp4f.py
+        pdbq_to_pdbqt.py
+        pdbqs_to_pdbqt.py
+        gpf3_to_gpf4.py
+        dpf3_to_dpf4.py
+        summarize_results4.py
+
+_______________________________________________________________________
+_______________________________________________________________________
+Other changes:
+
+atomTypeTools.py:
+    -added check for existence of an atom's bonds before trying to use
+    bonds[0] to determine autodock_element for a hydrogen.  If there are no
+    bonds, arbitrarily set autodock_element to 'HD'
+    -added use of aromatic_carbon_manager to AutoDock4_atomTyper...so 
+    that cyclic-aromatic-carbons in small molecules can be detected + 
+    their autodock_element set correctly.  Now the init takes 
+    "set_aromatic_carbon" which is True by default but can be set to 
+    False for large proteins....
+
+autoanalyzeCommands.py
+    -repaired bug in reading a clust file: Previously autoanalyze.readCluster replaced 
+    the cluster's data with a sorted list of Conformations. This resulted in scrambling 
+    the conformations because the cluster uses an argsort to retrieve conformations. 
+    Now the data is not sorted in autoanalyze readCluster and the expected
+    order of the conformations is preserved.
+    -replaced testing for energy=='d' with checking for energy[0]=='d' for the
+    histogram label.... Now Clusters having 'binding' not 'b' or 'docking' not
+    'd' for their energy_used attribute.
+    -use a ConformationPlayer instead of StatesPlayerWidget to 
+    interactively visualize docked results
+    -ConformationPlayer: changed info string to include hydrogen 
+    bond information for current conformation 
+    -added command "ADanalyze_chooseMacromolecule which allows user to 
+    choose a molecule already present in the viewer as the 'receptor' 
+    for the analysis of an AutoDock docking log.
+
+autoflexCommands.py"
+    -redefined sideChain atoms: now it's all atoms whose name is not in ['C', 'N', 'O', 'HN', 'HN1', 'HN2', 'HA', 'H1', 'H2', 'H3', 'HO']
+    -changes for version4 files: torsdof4[0] is now ligand.ndihe instead of ligand.torsdof.
+    -changed filetypes from .pdbq and .pdbqs to .pdbqt
+    -updated AF_SelectResidues class to use MolKit.bondSelectors
+
+autodpfCommands.py:
+    -removed command "ADdpf4_chooseMacromolecule" because it is unnecessary and
+    confusing: all that is needed is the name of the written pdbqt file which
+    can be chosen using ADdpf4_selectoMacromolecule.
+
+autogpfCommands.py:
+    -added support for selecting parameter filename for autogrid4
+    -added gui for Gpf4SetAtomTypes command
+    -added zero_charge_atom warningMsg about atoms other than carbons 
+    with charge==0.00
+
+autotorsCommands.py:
+    -added new commands to be used to format AutoDock4 input ligand files.
+    -if choosen molecule already has a LPO, now check whether it is of 
+    the correct version...ALSO, when writing the ligand file, check that 
+    the molecule's LPO is of the correct version... you cannot write an 
+    autodock3 ligandfile if the ligand is setup for autodock4.
+    -changed names of new AutoDock4 commands so that they follow the convention 
+    used in autogpfCommands and autodpfCommands: ie. ADtors4_
+    -added use of vf.userpref['adt_automergeNPHS']['value'] to initLPO and 
+    initLPO4 so that it is possible to choose to not automatically merge non-polar 
+    hydrogens.... this was missing before....
+    -moved adding geometries out of initModule into onAddCommandToViewer of 
+    SetRoot and MarkRoot so that adt4 can be built just by loading some commands....
+    -added zero_charge_atom warningMsg about atoms other than carbons 
+    with charge==0.00
+
+cluster.py:
+    -repaired read method which lagged behind the write method
+    -added support for writing autodock4 cluster file which uses neither
+      'docking_energy' nor 'binding_energy' but instead 'energy'
+
+Conformation.py
+    -added setting per atom ad4 energy attributes:ad4_estat_energy, 
+    ad4_vdw_energy and ad4_energy
+
+ConfPlayer.py
+    -added ad4_energy, vdw_energy, estat_energy, torsional_energy and unbound_energy to stats
+    -added interface to write either current conformation or all conformations..
+
+DockingParameters.py:
+    -replaced use of ligand.torsdof by ligand.ndihe for torsdof4; also replaced .257 
+    with new .274 but autodock4 will ignore this number anyway; 
+    -added output_pop_file entry
+    -added 'intelec4' entry whose value is 0.1319 by default but which can be set 
+        to other values...
+    -reversed lines in write4 method so that the electrostatics map is written 
+        before the desolvation map...
+    -changed set_ligand_types_from_filename to set ['torsdof4']['value'][0] to 
+    ligand.TORSDOF instead of just ['torsdof']['value'][0] which is handled by 
+    parallel method set_ligand_types_from_filename_v3.
+    -added setting torsdof[0] to ligand.TORSDOF to method set_ligand_types_from_filename
+    -moved 'intelec' near top of AD4 parameter lists.
+    -changed write3 method so that intelec is always ON.
+    -added method "set_ligand_types3_from_ligand_types" to be used when writing 
+    an autodock3 dpf and you have autodock4 ligand_types.
+
+GridParameters.py:
+    -changed default value for estat ff coeff from -.1319 to -.1465 (9/05 value)
+    -added set_ligand_types3 method which builds autogrid3 types from autogrid4 types 
+    -replaced 'rfind' with os.path.splitext when determining the receptor_stem.
+    -added check for unrecognized keyword to the two read methods.
+    -added support for AutoGrid4 parameter files
+    -added check for unrecognized keyword to the two read methods
+
+MoleculePreparation.py:
+    -added code to update torscount just before writing ligand file
+    -force reassigning autodock_elements when initializing a molecule 
+    which already has them...
+    -added "inactivate_all_torsions" option to LigandPreparation object...
+    by default it is False; when true, the rotabilityManager inactivates 
+    all torsions in the ligand..
+    -added code to write the TER records: if these are not written, the 
+    current MolKit/pdbWriter scrambles the order of the chains... which 
+    makes the tests flaky.
+    -added check_for_fragments flag to MoleculePreparation... when this 
+    is on, ligandpreparation includes checking for more than one bonded 
+    fragment in the input ligand...If there are more than one, the fragment 
+    with the largest number of atoms is processed as the ligand...
+    [in 100 files from the NCI diversity set, there were 10 files which 
+    had >1 fragment: 0091, 0246, 0654, 0855, 1253, 1438, 1742, 1954, 1971 
+    and 1974].
+    -corrected design-decision which previously forced adding Kollman 
+    charges to peptide molecules despite the input parameter of which 
+    type of charge to add.
+    NOW, more sanely, if the input parameter 'charges_to_add' is gasteiger, 
+    gasteiger charges are added [even if the molecule is a peptide]. 
+    Similarly, now Kollman charges are added if the input parameter 
+    charges_to_add is Kollman regardless of whether or not the molecule 
+    is a peptide.
+    -fixed bug in outputting torscount: now updates torscount just before
+    writing ligand file
+
+Utilities/prepare_ligand.py:
+    -removed code setting bhtreeFlag to 0: this caused disulfide bonds to be
+    omitted!
+    -added '-Z' option which is used to set the "inactivate_all_torsions" 
+    flag to True. When it is true, a rigid ligand is prepared...
+    -added -I switch which sets parameter "bond_to_inactive", a string 
+    which denotes bonds by the zero-based atom indices for the two atoms 
+    in the bond.
+    -added '-F' option which cause LigandPreparation to including checking 
+    for more than one bonded fragment in the ligand input file AND choosing 
+    the one with the greatest number of atoms to process further.  Also 
+    removed '[' and ']' from usage printout.
+
+
+_______________________________________________________________________
+_______________________________________________________________________
+
+Bug Fixes since rel 1.3alpha2 (9/9/2004)
+_______________________________________________________________________
+
+autoanalyzeCommands:
+    -fixed bug in readMacromolecule: previously if the macromolecule 
+    file was not in the same directory, it could be selected via a 
+    fileBrowser but it would not be read in (v1.129).
+
+atomTypeTools.py:
+    -fixed typo on line 281: nuc_acid_list replaced by self.nuc_acid_list
+
+MoleculePreparation.py:
+    -fixed bug in set_torsion (~line 1111) where the bond was not check 
+    for possibleTors before inactivating activeTors attribute. This bug 
+    resulted in wacky total torscount; also changed mol.torscount to be 
+    initialized to possible_tors_ct...
+     
+Utilities/prepare_ligand.py:
+    removed code which set bhtreeFlag to 0: this caused disulfide bonds 
+    to be omitted
+
+
+Known Issues:
+     (none identified so far)
+
+Backwards INCOMPATIBLE Changes:
+     (none identified so far)
+
+
+_______________________________________________________________________
+_______________________________________________________________________
+Release rel 1.3alpha1   (9/9/2004)
+_______________________________________________________________________
+
+What's new since rel 1.2beta1 (12/15/2003):
+
+Support for molecule preparation not requiring graphical user interface
+    via a new set of Objects and a set of Scripts using the objects:
+ Objects:
+    LigandPreparation
+    ReceptorPreparation 
+    ChargeCalculator
+    HydrogenBuilder
+    SolvationParameterizer
+    AutoDockBondClassifier
+    AromaticCarbonManager
+    Writer
+    GridParameterMaker
+    DockingParameterMaker
+ Scripts:
+    prepare_ligand.py
+    prepare_receptor.py
+    prepare_gpf.py
+    prepare_dpf.py
+    prepare_ligand_dict.py
+
+    input flag convention for scripts:
+           -l ligand
+           -r receptor
+           -i template file
+           -o output file
+           -p parameter 
+           -d dictionary file
+           -s stem [molecule name, not filename]
+
+Bug Fixes since rel 1.2beta1 (12/15/2003)
+
+  Docking.py:
+        -indentation problem in writeConformation
+        -use of clusterRecords of dlo parser
+        -dlo used w/o being initialized
+        -typo 'current_conformation' should have been 'current_conf'
+  EntropiaParser.py: 
+        -removed print statements
+  autoanalyzeCommands.py:
+       -fixed bug so that showMacromolecule can be called from scripts  
+       -corrected code so ligands with HETATM records can be written correctly
+       -corrected ClusterDockingChooser when docked conformation had zero    
+        internal energy
+       -tkFileDialog's cancel button now returns empty tuple instead of None..
+       -bug in reading gridFile if not in current directory
+  autogpfCommands.py:
+       -box geometry now added to DejaVu.Viewer as child of 'miscGeom'
+       -clarified the labels on widget for DefineNewAtomParameters to include 
+        the information that the entry for epsii must include the FE_vdw_Coeff 
+         .1485.
+       -updated use of tkFileDialog to expect empty tuple returned by Cancel button 
+         (before the return value was None).    
+       -corrected logic error in chooseMacromolecule (if filename is not None 
+         should have been if filename is None); removed some print statements.  
+  autotorsCommands.py:    
+       -added check that element is 'C' to aromatic Carbon manipulations.
+       -added use of miscGeom to clean up list of geometries in DejaVu GUI.
+       -added pdbqt type to list of allowed ligandfile types [for AutoDock4].
+       -2 small changes to keep up with changes to MolKit/tree.py get method 
+        which  now returns an empty TreeNodeSet if nothing matches.
+       -updated use of tkFileDialog to expect empty tuple returned by Cancel 
+        button instead of former return value of None.
+  cluster.py:
+       -added rmsd fields and energy to .clust file format.
+  energyCalculator.py:
+       -removed print statements
+
+Known Issues:
+  New scripts do NOT provide support for atom types besides CNOSH in receptor. 
+  Specifically prepare_gpf.py and prepare_receptor.py do not provide mechanisms 
+  for converting other elements to X or M. Nor do they provide a mechanism for 
+  defining Rii and epsii for other elements. 
+  [These conversions will not be necessary in AutoDock4 which is due out at the end of 2004]
+
+Backwards INCOMPATIBLE Changes:
+     (none identified so far)

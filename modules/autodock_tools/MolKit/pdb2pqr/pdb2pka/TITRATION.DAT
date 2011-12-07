@@ -1,0 +1,75 @@
+//
+// Definition file for titratable residues
+//
+// Jens Erik Nielsen, University College Dublin 2004
+//
+// ---------------------------------------------------
+//
+// This file decides which residues are titratable and which aren't
+// All transitions that will be calculated, must be included in this file
+//
+// If a particular residue type has more than one transition, then these other transitions
+// must be stated explicitly. 
+//
+// The format for a single transition is the following:
+// * <Transition name>                                # Start of record, name of this transition
+// Residue: <Residue identifier>                      # The residue type that this transition is associated with
+//                                                    # Simply the residue name or NTR, CTR, PNTR (proline Nterm)
+// Grouptype: <type>                                  # Acid or Base
+// Transition: <state #s start> -> <state #s end>     # Indicate the identifier of the states as
+//                                                    # given in HYDROGENS.DAT. If one of the states
+//                                                    # is 0 hyds, then give the state no. for that state
+//                                                    # is 0. Several state nums are separated with commas.
+// Model pKa: <model pKa value for above transition>
+// # If more transitions are needed then these are simply stated below the first two
+// [Transition: start: <state #s start> end: <state #s end>
+// [Model pKa: <model pKa value for above transition>]
+// END                                           # Record ends
+// END OF FILE                                   # File ends
+* ASP
+Residue: ASP
+Grouptype: Acid
+//Transition: 1,2,3,4 -> 0
+Transition: 1,2,3,4 -> 0
+Model_pKa: 4.0
+END
+
+// *Carboxylic_Acid
+// Residue: UNKNOWN
+// Grouptype: Acid
+// Transition: 1 -> 0
+// Model_pKa: 0.0
+// END 
+
+* GLU
+Residue: GLU
+Grouptype: Acid
+Transition: 1,2,3,4 -> 0
+// Transition: 1 -> 0
+Model_pKa: 4.4
+END
+
+* ARG
+Residue: ARG
+Grouptype: Base
+Transition: 1,2,3,4 -> 0
+Transition: 1 -> 0 
+Model_pKa: 12.0
+END
+
+* LYS
+Residue: LYS
+Grouptype: Base
+Transition: 1 -> 0
+Model_pKa: 9.0
+END 
+
+//* HIS
+//Residue: HIS
+//Grouptype: Base
+//Transition: 1,2->1+2
+//Model_pKa: 6.3
+//END 
+
+END OF FILE
+

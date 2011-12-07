@@ -1,0 +1,4 @@
+These are ligands in MOL2 format for various PDB files.  The file naming scheme
+is LIG_<PDB ID>.mol2, where <PDB ID> is the ID for the relevant PDB entry.
+
+Files provided by Paul Czodrowski <Paul.Czodrowski@staff.uni-marburg.de>.

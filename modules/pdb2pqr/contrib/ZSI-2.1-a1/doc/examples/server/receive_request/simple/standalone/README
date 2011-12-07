@@ -1,0 +1,3 @@
+To run the standalone server, do the following:
+  1.) wsdl2py -f ../binding.wsdl
+  2.) ./standalone.py
