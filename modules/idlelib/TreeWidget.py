@@ -28,14 +28,14 @@ if TTK:
 ICONDIR = "Icons"
 
 # Look for Icons subdirectory in the same directory as this module
-try:
-    _icondir = os.path.join(os.path.dirname(__file__), ICONDIR)
-except NameError:
-    _icondir = ICONDIR
-if os.path.isdir(_icondir):
-    ICONDIR = _icondir
-elif not os.path.isdir(ICONDIR):
-    raise RuntimeError, "can't find icon directory (%r)" % (ICONDIR,)
+#try:
+#    _icondir = os.path.join(os.path.dirname(__file__), ICONDIR)
+#except NameError:
+#    _icondir = ICONDIR
+#if os.path.isdir(_icondir):
+#    ICONDIR = _icondir
+#elif not os.path.isdir(ICONDIR):
+#    raise RuntimeError, "can't find icon directory (%r)" % (ICONDIR,)
 
 def listicons(icondir=ICONDIR):
     """Utility to display the available icons."""
