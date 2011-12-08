@@ -10,7 +10,7 @@ See more here: http://www.pymolwiki.org/index.php/nmr_cnstr
 #                email:evangelos.papadopoulos@gmail.com                                                      #
 #                NOTES: This is a preliminary version.                                                       #
 #                                                                                                            #
-#     '''Reference:''' please if you find this script usefull add the following reference:                   #
+#     Reference: please if you find this script usefull add the following reference:                   #
 #     NMR Solution Structure of the Peptide Fragment 1-30, Derived from Unprocessed Mouse Doppel             #
 #     Protein, in DHPC Micelles. Biochemistry. 2006 Jan 10;45(1):159-166. PMID: 16388591                     #
 #                                                                                                            #
