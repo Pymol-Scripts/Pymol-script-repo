@@ -7,7 +7,7 @@
 from __future__ import division
 from __future__ import generators
 
-import os,math
+import os,math,platform
 import Tkinter
 from Tkinter import *
 import Pmw
@@ -20,6 +20,19 @@ from chempy.models import Indexed
 from chempy import Bond, Atom
 import threading
 
+###!!! Edited for Pymol-script-repo !!!###
+def add_to_path():
+    for path in sys.path:
+        if 'Pymol-script-repo' in path:
+            if platform.system() == 'Windows':
+                jarfile = path + "\\modules\\Caver2_1_2_pymol_plugin\\windows"
+            if platform.system() == 'Linux':
+                jarfile = path + "/modules/Caver2_1_2_pymol_plugin/linux_mac"
+            break
+        else:
+            jarfile = None
+    return(jarfile)
+###!!!-------------------------------!!!###
 
 #
 # Global config variables
@@ -28,7 +41,13 @@ import threading
 #win/linux ========================
 # 1 for windows, 0 for linux
 
-WINDOWZ = 0 
+if platform.system() == 'Windows':
+    WINDOWZ = 1
+elif platform.system() == 'Linux':
+    WINDOWZ = 0
+else:
+    WINDOWZ = 0
+
 VERS = "2"
 JOPTS = "-Xmx400m"
 
@@ -36,22 +55,23 @@ VERSION = ".%s" % (VERS,)
 
 #win/linux
 if WINDOWZ:
-  OUTPUT_LOCATION = "C:\\Caver2_1\\Output"
+#  OUTPUT_LOCATION = "C:\\Caver2_1\\Output"
+  OUTPUT_LOCATION = os.getcwd()
 else: #linux:
-  OUTPUT_LOCATION = "/tmp"
+  OUTPUT_LOCATION = os.getcwd()
 
 if WINDOWZ:
-  PYMOL_LOCATION = "C:\\Program Files\\DeLano Scientific\\PyMol12"
+#  PYMOL_LOCATION = "C:\\Program Files\\DeLano Scientific\\PyMol12"
+  PYMOL_LOCATION = add_to_path()
+
 else: #linux:
-  PYMOL_LOCATION = "directory/where/jar/with/plugin/is/located"
+#  PYMOL_LOCATION = "directory/where/jar/with/plugin/is/located"
+  PYMOL_LOCATION = add_to_path()
 
 if WINDOWZ:
   LABEL_TEXT = "PyMOL location:"
 else:
   LABEL_TEXT = "Directory with plugin .jar:"
-
-
-
 
 # Python backward-compatibility...
 try:
@@ -93,9 +113,6 @@ def __init__(self):
                                  'Launch Caver 2.1'  + VERSION,
                                  label=lbb,
                                  command = lambda s=self: AnBeKoM(s))
-        
-
-   
 
 defaults = {
     "startingpoint": ('-5','-5','-5'),    
@@ -106,7 +123,6 @@ defaults = {
     "startingacids":('117','283','54'),
     "default_block": '10.0'
     }
-
 
 class FileDialogButtonClassFactory:
     def get(fn,filter='*'):
@@ -135,15 +151,7 @@ class MyThread ( threading.Thread ):
   def run ( self ):
     os.system("start http://loschmidt.chemi.muni.cz/caver")
 
-
-
-        
 class AnBeKoM:
-
-		
-			
-        
-    
     def setBinaryLocation(self,value):
         self.binlocation.setvalue(value)
     def setPymolLocation(self,value):
@@ -185,14 +193,10 @@ class AnBeKoM:
         ww = Tkinter.Button(self.dialog.interior(), text = 'WWW and Help', command = self.launchHelp)
         ww.pack()
         
-
         self.stdam_list = [ 'ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL', 'ASX', 'CYX', 'GLX', 'HI0', 'HID', 'HIE', 'HIM', 'HIP', 'MSE', 'ACE', 'ASH', 'CYM', 'GLH', 'LYN', 'NME']
 
-
- 
         #group = Pmw.Group(self.dialog.interior(),tag_text='Main options')
 	#group.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
-
 
         def quickFileValidation(s):
             if s == '': return Pmw.PARTIAL
@@ -206,16 +210,13 @@ class AnBeKoM:
                                        value = PYMOL_LOCATION,
                                        label_text = LABEL_TEXT)
 
-
           self.pymollocation.pack(fill='x',padx=4,pady=1) # vertical
 #win/linux
-
 
         self.binlocation = Pmw.EntryField(self.dialog.interior(),
                                      labelpos='w',                                     
                                      value = OUTPUT_LOCATION,
                                      label_text = 'Output directory:')
-
 
         self.binlocation.pack(fill='x',padx=4,pady=1) # vertical
         
@@ -223,7 +224,6 @@ class AnBeKoM:
                                      labelpos='w',                                     
                                      value = defaults["default_tunnels"],
                                      label_text = 'Number of tunnels:')
-
 
         self.tunnels.pack(fill='x',padx=4,pady=1) # vertical
         
@@ -234,12 +234,9 @@ class AnBeKoM:
 
 
         #self.block.pack(fill='x',padx=4,pady=1) # vertical
-
-
         
 	#labframe0 = Tkinter.Frame(group.interior())
 	#labframe0.pack(fill='x',padx=4,pady=2)
-
         
         labframe0 = Tkinter.Frame(self.dialog.interior())
         labframe0.pack(fill='x',padx=4,pady=2)
@@ -261,9 +258,6 @@ class AnBeKoM:
         self.reloadListButton.pack(side=LEFT)
         self.inModelGroup.pack()
 
-                
-        
-        
         self.filterGroup = Pmw.Group(self.dialog.interior(), tag_text='Input atoms:');
         self.filterGroup.pack()
         self.checklist = []
@@ -282,8 +276,6 @@ class AnBeKoM:
         self.s["AA"] = IntVar();
         self.reinitialise()
         self.inputAnalyse()
-
-        
 
 	groupstart = Pmw.Group(self.dialog.interior(),tag_text='Starting point')
 
@@ -327,9 +319,6 @@ class AnBeKoM:
 #-------------
 	groupstart.pack(side='left',padx=4,pady=1,expand='yes',fill='x')
 
-
-
-	
 	self.xlocvar=DoubleVar()
         self.xlocvar.set(float(defaults["startingpoint"][0]))
 	self.ylocvar=DoubleVar()
@@ -341,7 +330,6 @@ class AnBeKoM:
 	labX = Label(self.xlocfr,text="x");
 	self.xlocation = Entry(self.xlocfr,textvariable=self.xlocvar);
 	self.scrX=Scrollbar(self.xlocfr,orient="horizontal",command=self.changeValueX)
-	
 
         self.ylocfr = Tkinter.Frame(group2.interior())
 	labY = Label(self.ylocfr,text="y");
@@ -398,8 +386,6 @@ class AnBeKoM:
 #        groupMethod.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
 
 # eoblock method ==========================
-
-
         self.showAppModal()
         
     def showCrisscross(self):
@@ -409,7 +395,6 @@ class AnBeKoM:
 	
 #win/linux
     if WINDOWZ:
-
       def changeValueX(self,obj,a,b=0,c=0):
         val=float(self.xlocvar.get())+float(a)*0.2
         self.xlocvar.set(val)
@@ -422,10 +407,7 @@ class AnBeKoM:
         val=float(self.zlocvar.get())+float(a)*0.2
         self.zlocvar.set(val)
         self.showCrisscross()
-
-
     else:
-
       def changeValueX(self,a):
         val=float(self.xlocvar.get())+float(a)*0.2
         self.xlocvar.set(val)
@@ -439,8 +421,6 @@ class AnBeKoM:
         self.zlocvar.set(val)
         self.showCrisscross()
 
-
-         
     def showAppModal(self):        
         self.dialog.show()
                 
@@ -462,8 +442,6 @@ class AnBeKoM:
       else:
         Pmw.MessageDialog(self.parent,title = 'Information',message_text = "see http://loschmidt.chemi.muni.cz/caver")
 
-
-
     def testBinary(self):
             #test
             if WINDOWZ:
@@ -472,7 +450,6 @@ class AnBeKoM:
                           error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',message_text = "ERROR: PyMOL directory incorrectly specified or Caver2_1 not installed, check %s" % anbekomloc ,)
                           junk = error_dialog.activate()
                           return 0
-
             #test
             if not WINDOWZ:
               anbekomloc = "%s/Caver2_1.jar" % (self.pymollocation.getvalue(), )
@@ -481,32 +458,18 @@ class AnBeKoM:
                           junk = error_dialog.activate()
                           return 0
             return 1
-
-
     def execute(self, result):
 	
 	if result == defaults["compute_command"]:
-
-          
             if self.testBinary() == 0:
               return
             self.showCrisscross()
-            
-            
-            
             #input
             sel1index = self.listbox1.curselection()[0]
             sel1text = self.listbox1.get(sel1index)
-            
-            
             self.whichModelSelect = sel1text;
-
             print 'selected ' + self.whichModelSelect
             sel=cmd.get_model(self.whichModelSelect)
-            
-            
-
-              
             cnt=0
             for a in sel.atom:
                cnt+=1
@@ -517,11 +480,7 @@ class AnBeKoM:
                                    message_text = 'ERROR: No molecule loaded.',)
                 junk = error_dialog.activate()
                 return
- 
-               
-               
             outdir = self.binlocation.getvalue()   
-            
             if os.path.isfile(outdir):
                error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
                                    message_text = 'ERROR: Output directory is file.',)
@@ -529,8 +488,6 @@ class AnBeKoM:
                return
             elif not os.path.exists(outdir):
                self.CreateDirectory(outdir)
-               
-
             self.stdamString = string.join(self.stdam_list, "+")
             # jen to zaskrtnute
             generatedString = ""
@@ -552,52 +509,31 @@ class AnBeKoM:
               if generatedString.find(matom.resn) > -1:
                 #print matom.resn
                 newmodel.atom.append(matom)
-            
-
             cmd.load_model(newmodel,"tmpCaverModel")
             #cmd.label("example","name")
-
             #fix outdir slashes
             outdir = outdir.replace("\\","/")
             if (outdir.endswith("/")):
 				outdir = outdir[:-1]
-  
-
             input = "%s/out.pdb" % (outdir)
             #cmd.save(input, self.whichModelSelect) # to by ulozilo cely model whichModelSelect.
             cmd.save(input, "tmpCaverModel") 
-            
             cmd.delete("tmpCaverModel")
-            
             cesta = os.getcwd()
-            
-            
             # set ignore waters to false -- the model is already filtered by input model and aminos
             self.varremovewater.set(0)
-            	    
             if WINDOWZ:
               commandXYZ = "java %s -jar \"%s/modules/Caver2_1_%s/Caver2_1.jar\" \"%s\" %f %f %f %s \"%s\" %d %d %d %s" % (JOPTS, self.pymollocation.getvalue(), VERS, input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()), self.tunnels.getvalue(), outdir, self.varremovewater.get(), 0,self.methodvar.get(), "tun_" + self.whichModelSelect)
             else:
               commandXYZ = "java %s -jar \"%s/Caver2_1.jar\" \"%s\" %f %f %f %s \"%s\" %d %d %d %s" % (JOPTS, self.pymollocation.getvalue(),input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()), self.tunnels.getvalue(), outdir, self.varremovewater.get(),0,self.methodvar.get(), "tun_" + self.whichModelSelect)
-            
-            
             tunnels = int(self.tunnels.getvalue())
-               
-            
             # ted vymazat v output dir vsechny soubory s path_*.py os.path.isfile(string)
             for i in range(tunnels):
               tunpy = "%s/path_%i.py" % (outdir,i)
               if (os.path.isfile(tunpy)):
                 os.remove(tunpy);
-             
             print commandXYZ
             os.system(commandXYZ)
-            
-            
-            
-            
-            
-           
             for i in range(tunnels):
                pathpy = "%s/path_%i.py" % (outdir, i)
                if os.access(pathpy,os.F_OK):
@@ -619,8 +555,6 @@ class AnBeKoM:
                                        message_text = messa,)
                     junk = error_dialog.activate()
                     break
-                  
-            
 	    #pass
 	    #self.deleteTemporaryFiles()
 	else:
@@ -647,7 +581,6 @@ class AnBeKoM:
       os.mkdir(dir)
 
     def convert(self):
-
       sel=cmd.get_model('(all)')
       cnt=0
       for a in sel.atom:
@@ -669,7 +602,6 @@ class AnBeKoM:
       self.ylocvar.set(self.originalY)
       self.zlocvar.set(self.originalZ)
       self.showCrisscross()
-
 		
     def optimize(self):
       if self.testBinary() == 0:
@@ -677,7 +609,6 @@ class AnBeKoM:
       self.originalX = self.xlocvar.get()
       self.originalY = self.ylocvar.get()
       self.originalZ = self.zlocvar.get()
-         
       outdir = self.binlocation.getvalue()   
       if os.path.isfile(outdir):
          error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
@@ -691,9 +622,6 @@ class AnBeKoM:
       outdir = outdir.replace("\\","/")
       if (outdir.endswith("/")):
 			outdir = outdir[:-1]
-      
-      
-      
       input = "%s/outOpti.pdb" % (outdir)
       #input
       sel1index = self.listbox1.curselection()[0]
@@ -708,7 +636,6 @@ class AnBeKoM:
       else:
         commandOPT = "java -classpath \"%s/Caver2_1.jar\" AnBeKoM.ActiveSiteOptimize \"%s\" %f %f %f \"%s\" %f" % (self.pymollocation.getvalue(),input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()), outdir, float(self.optimizeNearValue.get()))
       
-      
       outAsite = "%s/startingPointOptimized.txt" % outdir
       if os.path.exists(outAsite):
         os.remove(outAsite);      
@@ -716,16 +643,13 @@ class AnBeKoM:
       print commandOPT
       os.system(commandOPT)
       
-      
       if not os.path.exists(outAsite):
          error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
                              message_text = 'ERROR: Optimize failed. Check starting point above',)
          junk = error_dialog.activate()
          return
-      
       try:
         optAsite = "";
-        
         file = open(outAsite)
         while 1:
             line = file.readline()
@@ -776,17 +700,13 @@ class AnBeKoM:
 	      self.reinitialise()
 
     def reinitialise(self):
-	        
 	        #TODO: pouzivat zde uz setrideny
 	        ksorted = sorted(self.s.keys())
 	        ksorted.remove("AA")
 	        ksorted = sorted(ksorted)
-	        
 	        stdstrings = ["AA"]  
-	        
 	        #na zacatek dam standardni a pak setrideny zbytek
 	        ksorted = stdstrings + ksorted
-	        
 	        #print "calling initialise"
 	        for xs in self.checklist:
 	          xs.grid_remove()
@@ -818,26 +738,15 @@ class AnBeKoM:
 	            xButton = Tkinter.Button(self.filterGroup.interior(), text='?', command=self.stdamMessage, width = 5)
 	            xButton.grid(sticky=W, row = 0, column=1) # 0,1 = stdam, 0,2 = help
 
-	          	            
 	          cntr = cntr + 1
-
-          
 	        ##print "size: " + str(len(self.checklist))
 	        #aButton = Tkinter.Button(self.filterGroup.interior(), text='Reload', command=self.inputAnalyse)
-
-
-	        
 	        ## zarovnat
 	        #if not cntr % 3 == 0:
 	        #  cntr = cntr + 3 - (cntr % 3)
 	        ##analyse,save,load
 	        #aButton.grid(row = int(cntr/3), column = (cntr % 3))
 	        #self.buttonlist.append(aButton)
-
-
-
-
-
     def computecenter(self,selection="(all)"):
 	gcentx=0
 	gcenty=0
@@ -845,7 +754,6 @@ class AnBeKoM:
 	gcnt=0
 	for selstr in selection.split():
 		sel=cmd.get_model(selstr)
-		
 		centx=0
 		centy=0
 		centz=0
@@ -863,16 +771,11 @@ class AnBeKoM:
 		gcenty+=centy
 		gcentz+=centz
 		gcnt+=1
-	
 	gcentx/=gcnt
 	gcenty/=gcnt
 	gcentz/=gcnt
 	return (gcentx,gcenty,gcentz)
 
-
-
-
-    
     def TestProgram(self,cmd):
 
 #	f1 = os.popen(cmd, 'r');
@@ -927,9 +830,9 @@ class AnBeKoM:
 		]
 	
 		cmd.load_cgo(obj,name)
+
 		
     def crisscross(self,x,y,z,d,name="crisscross"):
-
 		obj = [
 		LINEWIDTH, 3,
 		
@@ -953,7 +856,6 @@ class AnBeKoM:
 		cmd.load_cgo(obj,name)
 		cmd.set_view(view)
 		
-
 #
 # The classes PmwFileDialog and PmwExistingFileDialog and the _errorpop function
 # are taken from the Pmw contrib directory.  The attribution given in that file
@@ -1235,8 +1137,6 @@ class PmwFileDialog(Pmw.Dialog):
 	    self.configure(directory=dir)
 	    self.fillit()
 
-
-
     def askfilename(self,directory=None,filter=None):
 	"""The actual client function. Activates the dialog, and
 	   returns only after a valid filename has been entered 
@@ -1313,11 +1213,6 @@ class PmwExistingFileDialog(PmwFileDialog):
             _errorpop(self.interior(),"Please select an existing file")
             return 0
 
-
-
-
-
-
 # Create demo in root window for testing.
 if __name__ == '__main__':
     class App:
@@ -1332,7 +1227,3 @@ if __name__ == '__main__':
     exitButton = Tkinter.Button(app.root, text = 'Exit', command = app.root.destroy)
     exitButton.pack()
     app.root.mainloop()
-
-
-
-
