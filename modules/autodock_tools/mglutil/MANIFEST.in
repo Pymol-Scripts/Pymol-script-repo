@@ -1,0 +1,56 @@
+include MANIFEST.in
+include mglutil/RELNOTES
+include mglutil/gui/BasicWidgets/Tk/cw.ppm
+include mglutil/gui/BasicWidgets/Tk/icons/*.gif
+include mglutil/gui/BasicWidgets/Tk/TreeWidget/icons/*
+include mglutil/gui/BasicWidgets/Tk/TreeWidget/README
+include mglutil/gui/BasicWidgets/Tk/TreeWidget/RELNOTES
+include mglutil/splashregister/*.gif
+include mglutil/splashregister/*.jpg
+include mglutil/math/julie12019854k.rot
+include mglutil/TestUtil/publishPack.csh
+include mglutil/TestUtil/README
+include mglutil/TestUtil/bin/*
+include mglutil/doc.tar.gz
+include mglutil/web/regression/*html
+include mglutil/web/Tests/Data/*html
+
+# CVS directories
+
+include mglutil/CVS/*
+include mglutil/TestUtil/CVS/*
+include mglutil/TestUtil/Tests/CVS/*
+include mglutil/TestUtil/Tests/Data/CVS/*
+include mglutil/TestUtil/bin/CVS/*
+include mglutil/Tests/CVS/*
+include mglutil/gui/CVS/*
+include mglutil/gui/Misc/CVS/*
+include mglutil/gui/BasicWidgets/CVS/*
+include mglutil/gui/BasicWidgets/Tk/CVS/*
+include mglutil/gui/BasicWidgets/Tk/Tests/CVS/*
+include mglutil/gui/BasicWidgets/Tk/TreeWidget/Tests/CVS/*
+include mglutil/gui/BasicWidgets/Tk/TreeWidget/CVS/*
+include mglutil/gui/BasicWidgets/Tk/TreeWidget/icons/CVS/*
+include mglutil/gui/BasicWidgets/Tk/icons/CVS/*
+include mglutil/gui/InputForm/CVS/*
+include mglutil/gui/InputForm/Tk/CVS/*
+include mglutil/gui/InputForm/Tk/Tests/CVS/*
+include mglutil/gui/Misc/Tk/CVS/*
+include mglutil/math/CVS/*
+include mglutil/math/Tests/CVS/*
+include mglutil/util/CVS/*
+include mglutil/util/Tests/CVS/*
+include mglutil/web/CVS/*
+include mglutil/web/Tests/CVS/*
+include mglutil/web/Tests/Data/CVS/*
+include mglutil/web/regression/CVS/*
+include mglutil/regression/CVS/*
+include mglutil/splashregister/CVS/*
+include mglutil/web/services/CVS/*
+
+include mglutil/gui/BasicWidgets/Tk/trees/CVS/*
+include mglutil/gui/BasicWidgets/Tk/trees/Icons/*
+include mglutil/gui/BasicWidgets/Tk/trees/Icons/CVS/*
+include  mglutil/gui/Spline/CVS/*
+include version.py
+include  mglutil/LICENSE

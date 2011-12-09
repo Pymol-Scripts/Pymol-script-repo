@@ -1,0 +1,75 @@
+/.packager.py/1.14/Thu Dec 18 17:26:12 2003/-kkv/Trc-1-5-6
+/AD4.1_bound.dat/1.4/Wed Apr 15 22:38:29 2009/-kkv/Trc-1-5-6
+/AD4_parameters.dat/1.4/Wed Apr 15 22:38:29 2009/-kkv/Trc-1-5-6
+/AutoDockBondClassifier.py/1.9/Wed Aug 13 19:08:24 2008/-kkv/Trc-1-5-6
+/AutoLigand.py/1.10/Thu Oct  1 17:12:27 2009/-kkv/Trc-1-5-6
+/AutoLigandCommand.py/1.24.4.2/Thu Jan  6 21:18:25 2011/-kkv/Trc-1-5-6
+/ConfPlayer.py/1.48.4.1/Fri Jan  7 19:39:42 2011/-kkv/Trc-1-5-6
+/Conformation.py/1.47/Fri Jan  9 19:53:49 2009/-kkv/Trc-1-5-6
+/DlgFilters.py/1.6/Fri May  7 21:46:28 2010/-kkv/Trc-1-5-6
+/DlgParser.py/1.68.2.2/Fri Jan 28 00:53:25 2011/-kkv/Trc-1-5-6
+/Docking.py/1.70.2.7/Thu May  5 19:34:48 2011/-kkv/Trc-1-5-6
+/DockingFilters.py/1.2/Fri Apr 30 19:53:41 2010/-kkv/Trc-1-5-6
+/DockingParameters.py/1.95/Thu Jul 15 19:09:15 2010/-kkv/Trc-1-5-6
+/EntropiaParser.py/1.7/Thu Mar 11 19:17:04 2004/-kkv/Trc-1-5-6
+/EpdbParser.py/1.7/Wed Feb  3 00:06:39 2010/-kkv/Trc-1-5-6
+/GridParameters.py/1.39/Thu Mar 18 17:01:48 2010/-kkv/Trc-1-5-6
+/InteractionDetector.py/1.17/Wed Oct  6 18:07:19 2010/-kkv/Trc-1-5-6
+/LICENSE/1.1/Thu Jul  3 20:35:47 2008/-kkv/Trc-1-5-6
+/LigandMixin.py/1.4/Fri Nov 21 20:02:01 2008/-kkv/Trc-1-5-6
+/MoleculePreparation.py/1.70/Fri Jun  4 17:28:35 2010/-kkv/Trc-1-5-6
+/RELNOTES/1.8/Fri Nov  7 00:23:14 2008/-kkv/Trc-1-5-6
+/ResultParser.py/1.3/Fri Jan  9 19:53:49 2009/-kkv/Trc-1-5-6
+/TrajParser.py/1.2/Fri Aug 29 17:55:18 2003/-kkv/Trc-1-5-6
+/VSResultFilters.py/1.17/Tue Oct  5 22:48:37 2010/-kkv/Trc-1-5-6
+/WebServices.py/1.21/Wed Aug 12 21:40:05 2009/-kkv/Trc-1-5-6
+/XMLParser.py/1.14/Tue Sep  2 22:30:59 2008/-kkv/Trc-1-5-6
+/__init__.py/1.53/Wed Jun 23 22:04:21 2010/-kkv/Trc-1-5-6
+/adthosts.py/1.2/Thu Apr 17 15:29:25 2008/-kkv/Trc-1-5-6
+/atomTypeTools.py/1.23/Wed Sep 22 21:44:17 2010/-kkv/Trc-1-5-6
+/autoanalyze3Commands.py/1.7/Thu Feb 26 22:14:47 2009/-kkv/Trc-1-5-6
+/autoanalyze41Commands.py/1.11/Thu Jul  8 22:19:50 2010/-kkv/Trc-1-5-6
+/autoanalyze4Commands.py/1.7/Thu Feb 26 22:14:47 2009/-kkv/Trc-1-5-6
+/autoanalyzeCommands.py/1.260.2.7/Mon May  9 20:45:22 2011/-kkv/Trc-1-5-6
+/autodockHosts.py/1.1.1.1/Tue Apr  3 19:47:50 2001/-kkv/Trc-1-5-6
+/autodpf3Commands.py/1.1/Mon Jun  2 23:55:43 2008/-kkv/Trc-1-5-6
+/autodpf41Commands.py/1.3/Mon Jun 28 22:08:55 2010/-kkv/Trc-1-5-6
+/autodpf4Commands.py/1.1/Mon Jun  2 23:55:43 2008/-kkv/Trc-1-5-6
+/autodpfCommands.py/1.78/Thu Jul 15 19:09:15 2010/-kkv/Trc-1-5-6
+/autoflex41Commands.py/1.3/Mon Jun 28 22:08:55 2010/-kkv/Trc-1-5-6
+/autoflex4Commands.py/1.1/Wed Jun  4 15:37:20 2008/-kkv/Trc-1-5-6
+/autoflexCommands.py/1.68.2.1/Thu Dec 30 20:13:26 2010/-kkv/Trc-1-5-6
+/autogpf3Commands.py/1.1/Mon Jun  2 23:55:17 2008/-kkv/Trc-1-5-6
+/autogpf41Commands.py/1.3/Mon Jun 28 22:08:55 2010/-kkv/Trc-1-5-6
+/autogpf4Commands.py/1.1/Mon Jun  2 23:55:17 2008/-kkv/Trc-1-5-6
+/autogpfCommands.py/1.128.4.1/Thu Dec 30 20:13:26 2010/-kkv/Trc-1-5-6
+/autopilotCommands.py/1.3/Wed Jan 12 21:53:52 2005/-kkv/Trc-1-5-6
+/autostart3Commands.py/1.3/Wed Jun 17 00:03:24 2009/-kkv/Trc-1-5-6
+/autostart41Commands.py/1.3/Wed Jun 17 00:03:24 2009/-kkv/Trc-1-5-6
+/autostart4Commands.py/1.3/Wed Jun 17 00:03:24 2009/-kkv/Trc-1-5-6
+/autostartCommands.py/1.37/Tue Nov 23 17:40:27 2010/-kkv/Trc-1-5-6
+/autotors3Commands.py/1.3/Tue Feb 10 17:44:05 2009/-kkv/Trc-1-5-6
+/autotors41Commands.py/1.5/Mon Jun 28 22:05:28 2010/-kkv/Trc-1-5-6
+/autotors4Commands.py/1.3/Tue Feb 10 17:44:05 2009/-kkv/Trc-1-5-6
+/autotorsCommands.py/1.111/Fri Oct 15 21:23:41 2010/-kkv/Trc-1-5-6
+/cluster.py/1.41/Mon Jun 21 15:47:17 2010/-kkv/Trc-1-5-6
+/cluster_ad.py/1.4/Tue Jul 24 17:30:44 2007/-kkv/Trc-1-5-6
+/cmdlib.py/1.4/Wed Feb 18 00:23:02 2009/-kkv/Trc-1-5-6
+/energyCalculator.py/1.5/Tue Jul 24 17:30:44 2007/-kkv/Trc-1-5-6
+/energyConstants.py/1.4/Tue Mar 12 21:24:55 2002/-kkv/Trc-1-5-6
+/filterLigands.py/1.5/Thu Jul  1 00:27:17 2010/-kkv/Trc-1-5-6
+/histogram.py/1.6/Tue Jul 24 17:30:44 2007/-kkv/Trc-1-5-6
+/interactiveHistogramGraph.py/1.16/Tue Dec  4 19:25:53 2007/-kkv/Trc-1-5-6
+/lib_parameter_file_writer.py/1.4/Wed Aug 25 20:44:33 2004/-kkv/Trc-1-5-6
+/modlib.py/1.2/Thu Nov  8 00:26:30 2001/-kkv/Trc-1-5-6
+/pixelMap2D.py/1.4/Mon Oct  8 18:16:25 2007/-kkv/Trc-1-5-6
+/pyAutoDockCommands.py/1.21/Tue Jul 15 22:24:11 2008/-kkv/Trc-1-5-6
+/sol_par.py/1.5/Thu Aug 22 17:57:06 2002/-kkv/Trc-1-5-6
+/waterMapBuilder.py/1.2/Thu Sep 30 17:13:36 2010/-kkv/Trc-1-5-6
+D/CADD////
+D/Objects////
+D/Tests////
+D/Utilities24////
+D/VisionInterface////
+D/bin////
+D/doc////

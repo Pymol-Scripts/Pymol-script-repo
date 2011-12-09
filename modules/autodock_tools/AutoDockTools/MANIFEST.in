@@ -1,0 +1,62 @@
+# This list all other files to be included in the distribution
+# which are not python modules
+# include, exclude.... which are not described in the setup.py.
+include MANIFEST.in
+# list of the non python module to be included in the distribution
+include AutoDockTools/*
+include AutoDockTools/bin/adt*
+include AutoDockTools/Tests/*
+#include AutoDockTools/Tests/ligandfiles/*
+#include AutoDockTools/Utilities/Tests/ligandfiles/*
+#include AutoDockTools/Utilities/Tests/*
+#include AutoDockTools/Utilities24/Tests/*
+#include AutoDockTools/Utilities24/Tests/ligandfiles/*
+
+#include AutoDockTools/RELNOTES
+# include all the CVS directories
+include AutoDockTools/CVS/*
+include AutoDockTools/bin/CVS/*
+include AutoDockTools/Objects/CVS/*
+#include AutoDockTools/Utilities/CVS/*
+include AutoDockTools/Tests/CVS/*
+#include AutoDockTools/Utilities/Tests/CVS/*
+include AutoDockTools/Tests/ligandfiles/CVS/*
+#include AutoDockTools/Utilities/Tests/ligandfiles/CVS/*
+include AutoDockTools/Tests/ligandfiles/CVS/*
+include AutoDockTools/Utilities24/CVS/*
+include AutoDockTools/Utilities24/Tests/CVS/*
+include AutoDockTools/Utilities24/Tests/ligandfiles/CVS/*
+
+include AutoDockTools/VisionInterface/CVS/*
+include AutoDockTools/VisionInterface/Adt/CVS/*
+include AutoDockTools/VisionInterface/Adt/Input/CVS/*
+include AutoDockTools/VisionInterface/Adt/Macro/CVS/*
+include AutoDockTools/VisionInterface/Adt/Mapper/CVS/*
+include AutoDockTools/VisionInterface/Adt/Other/CVS/*
+include AutoDockTools/VisionInterface/Adt/Output/CVS/*
+include AutoDockTools/VisionInterface/Adt/Filter/CVS/*
+
+include version.py
+include AutoDockTools/LICENSE
+
+#exclude files from Tests directories (leaving just empty directories with CVS entries , so the 'setup.py install' command does not fail)
+
+exclude AutoDockTools/Tests/*.py
+exclude AutoDockTools/Tests/*.pdb*
+exclude AutoDockTools/Tests/*map
+exclude AutoDockTools/Tests/*gpf
+exclude AutoDockTools/Tests/*dlg
+exclude AutoDockTools/Tests/*dpf
+exclude AutoDockTools/Tests/*fld
+exclude AutoDockTools/Tests/*.clust
+exclude AutoDockTools/Tests/*.mol*
+exclude AutoDockTools/Tests/*.x*
+exclude AutoDockTools/Tests/*.res
+exclude AutoDockTools/Tests/ligandfiles/*pdb*
+exclude AutoDockTools/Tests/ligandfiles/*mol*
+
+exclude AutoDockTools/Utilities24/Tests/*.p*
+exclude AutoDockTools/Utilities24/Tests/*.dpf
+exclude AutoDockTools/Utilities24/Tests/*gpf
+exclude AutoDockTools/Utilities24/Tests/ligandfiles/*pdb*
+exclude AutoDockTools/Utilities24/Tests/ligandfiles/*mol*
