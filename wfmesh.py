@@ -172,9 +172,4 @@ class WFMesh(Callback):
 #                       glNormal3f(float(norm[0]),float(norm[1]),float(norm[2]))
                 glEnd()
         glPopMatrix()
- 
- 
- 
- 
- 
 cmd.extend("createWFObj", createWFObj)
