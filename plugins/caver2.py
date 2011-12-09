@@ -1,9 +1,12 @@
 #!/usr/bin/env python
 
+'''
+See more here: http://www.pymolwiki.org/index.php/caver2
+
 # CAVER Copyright Notice
 # ============================
 #
-
+'''
 from __future__ import division
 from __future__ import generators
 
