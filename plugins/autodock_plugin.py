@@ -1,3 +1,7 @@
+'''
+Is described at: http://www.pymolwiki.org/index.php/autodock_plugin
+
+
 # Autodock/Vina plugin  Copyright Notice
 # ============================
 #
@@ -29,6 +33,7 @@
 # ----------------------------------------------------------------------
 
 #================================================================
+'''
 import sys,os,math,re, fnmatch, shutil
 from os import stat
 from os.path import abspath
