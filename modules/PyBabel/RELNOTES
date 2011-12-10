@@ -1,0 +1,27 @@
+==============================================================================
+                 Python-based Molecular Viewer Release Notes:
+==============================================================================
+
+Release rel 1.4alpha1(December 2005)
+_____________________________________________________________________________
+What's new since rel 1.3alpha2:
+------------------------------
+Bug Fixes since rel 1.3alpha2:
+-----------------------------
+changes after 1.3alpha2:
+-----------------------
+*previously get_atomic_number broke on MG: corrected in  get_atomic_number method which checked that the constructed "_name" was a key in the babel_elements dictionary but then tried to retrieve the value for "name".
+
+Release rel 1.2beta1 (12/15/2003)
+_____________________________________________________________________________
+
+What's new since rel 1.2alpha (09/18/2003):
+
+Bug Fixes since rel 1.2alpha (09/18/2003):
+
+Changes since rel 1.2alpha (09/18/2003):
+
+Known Issues:
+
+Backwards INCOMPATIBLE Changes since rel 1.2alpha (09/18/2003):
+

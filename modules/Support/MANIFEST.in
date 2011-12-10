@@ -1,0 +1,11 @@
+# This list all other files to be included in the distribution
+# which are not python modules
+# include, exclude.... which are not described in the setup.py.
+include MANIFEST.in
+# list of the non python module to be included in the distribution
+
+# include all the CVS directories
+include Support/CVS/*
+include version.py
+include Support/LICENSE
+

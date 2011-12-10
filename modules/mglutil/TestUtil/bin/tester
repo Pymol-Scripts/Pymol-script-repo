@@ -1,0 +1,323 @@
+#!/usr/bin/env python2.5
+#
+import sys
+print "running Python:", sys.executable
+from optparse import OptionParser
+import time
+import sys
+import warnings
+
+#funcPrefix = 'tests'
+
+##########################################################################
+#   CREATE THE OPTIONS LIST
+##########################################################################
+parser = OptionParser()
+# Nothing is printed on the standard error output
+parser.add_option("-q", "--quiet",
+                  action="store_const", const=0,  dest="verbose", default=1, help="quiet")
+parser.add_option("-v", "--verbose",
+                  action="store_const", const=1,  dest="verbose", default=1,help="verbose, default behavior")
+parser.add_option("-V","--noisy",
+                  action="store_const", const=2,  dest="verbose", default=1,help="noisy")
+# It will go down the subtree and look for test directory
+parser.add_option("-r", "--recursive",
+                  action="store_true", dest="recursive", default=False,
+                  help="option to get tests from package recursively (default=false)")
+
+# Allows the user to specify the test directory name
+parser.add_option("-t","--testdir", dest="testDir", default="Tests",
+                  help="option to specify the name of the directory containing the tests (default='Tests')",
+                  metavar="TESTDIR")
+# Allows the user to specify the function prefix for tests functions.
+parser.add_option("-f","--funcPrefix", dest="funcPrefix", default=None,
+                  help="option to specify the prefix a method or a function needs, to be included in the list of tests. (default='test_')")
+
+# Allows the user to specify the mod prefix for test modules.
+parser.add_option("-m","--modPrefix", dest="modPrefix", default=None,
+                  help="option to specify the prefix a test module needs, to be included in the list of tests. (default= no prefix)")
+
+# Allows the user to give a filename where the standard error will be redirected.
+parser.add_option("-o", "--output",
+                  dest="stream", default=sys.stderr, metavar='OUTPUT',
+                  help="name of an output file")
+
+# Allows the user to chose to run each testModule in a different python subprocess
+parser.add_option("-s", "--subprocess",
+                  dest="usesubprocess", default=False, action="store_true",
+                  help="option to specify whether or not to run each test module in a subprocess (default=False)")
+
+# option to write or not a report file
+parser.add_option("--noreport", dest="noreport", default=False, action="store_true",
+                  help="option to specify whether or not a report file will be created. When the option is given no report will be created otherwise a report will be created in a TESTREPORT subdirectory. (default=a report will be created)")
+                  
+parser.add_option("-e", "--exitOnFail", dest="exitOnFail", default=False, action="store_true",
+                  help="option to specify whether or not the tester should exit after the first failed test. (default=False)")
+
+##########################################################################
+#   FUNCTION TO RECREATE THE OPTIONS STRING
+##########################################################################
+def findTesterPythonScript():
+    """looks for tester in current directory, else looks for it in
+mglutil.TestUtil.bin"""
+    cwd = os.getcwd()
+    # look for tester in current directory
+    if os.path.exists(os.path.join(cwd, 'tester')):
+        return os.path.join(cwd, 'tester')
+    else:
+        # look for tester in mglutil/TestUtil/bin
+        from mglutil import TestUtil
+        tester = os.path.join(os.path.abspath(TestUtil.__path__[0]), 'bin', 'tester')
+        if os.path.exists(tester):
+            return tester
+        else:
+            raise RuntimeError("tester not found in current dir or mglutil package")
+        
+def recreateOptionstr(options):
+    PyInterp = sys.executable
+    relMajor = sys.version[0]
+    relMinor = sys.version[2]
+    assert int(relMajor)>=2, "Python2.3 or higher is needed but not found"
+    assert int(relMinor)>=3, "Python2.3 or higher is needed but not found"
+    tester = findTesterPythonScript()
+    cmd = "%s %s --noreport "%(PyInterp, tester)
+        
+    # Verbose status
+    if options.verbose == 0:
+        cmd = cmd +"-q "
+
+    elif options.verbose == 1:
+        cmd = cmd + "-v "
+
+    elif options.verbose == 2:
+        cmd = cmd + "-V "
+
+    if options.exitOnFail:
+        cmd = cmd + "-e  "
+    
+    # TestDirectory
+    if options.testDir != 'Tests':
+        cmd = cmd + "-t%s "%options.testDir
+
+    # FuncPrefix
+    if not options.funcPrefix is None:
+        cmd = cmd + "-f%s "%options.funcPrefix
+
+    # modPrefix
+    if not options.modPrefix is None:
+        cmd = cmd + "-m%s "%options.modPrefix
+
+    # output
+    if options.stream != sys.stderr:
+        cmd = cmd + "-o%s "%options.stream
+
+
+    return cmd
+
+
+
+##########################################################################
+#   TESTER SCRIPT
+##########################################################################
+
+# retrieve the options and arguments from the command line
+(options, args) = parser.parse_args()
+
+import os,sys,unittest, types
+import gc
+
+# Need to create a baton when wanting to publish a package. This baton will be
+# released when the testing fails or when the publishing succeeds
+# This mechanism will prevent two people trying to publish at the same time.
+## if options.publish:
+##     # Creates the baton...
+##     baton = "bat2e09dfjk90-0kkjad98"
+##     if os.path.exists("/mgl/temp/%s"%baton):
+##         sys.exit("CANNOT GET BATON")
+##     out = os.system("touch /mgl/temp/%s"%baton)
+##     if out:
+##         sys.exit("FAILED TO CREATE BATON")
+##     # Set recursive to True  automatically...
+##     options.recursive = True
+
+sys.path.insert(0, os.getcwd())
+from mglutil.TestUtil.tester import TestLoader
+tl = TestLoader()
+
+# The user wants to run each testmodule of a package in a different subprocess
+if options.usesubprocess:
+    # Need first to get each test module to run them each in a different
+    # python process
+    modlist = []
+    for arg in args:
+        modlist = modlist + tl.getTestsModules(arg, testDirName=options.testDir,
+                                               recursive=options.recursive,
+                                               funcPrefix=options.funcPrefix,
+                                               modPrefix=options.modPrefix)
+    cmd = recreateOptionstr(options)
+    outputs = {}
+    failed = 0
+    tstart = time.time()
+    ntests = 0
+    for mod in modlist:
+        cmdline = cmd + mod
+        print "Executing: ", cmdline
+
+        # This will start the tests.
+        from mglutil.process import Popen, PIPE
+        import sys, os, string
+        
+        try:
+            plist = Popen(cmdline.split(), stdout=PIPE, stderr=PIPE)
+            out, err = plist.communicate()
+            outputs[mod] = (out, err)
+
+            nerr =string.split(err, "\n")
+            for l in nerr:
+                nl = string.split(l)
+                if len(nl) == 5:
+                    if nl[0] == "Ran" and string.count(nl[2], "test")==1 :
+                        ntests = ntests + int (nl[1])
+            
+        except OSError, e:
+            if e.errno == errno.ENOENT:
+                print "The file didn't exist.  I thought so..."
+                print "Child traceback:"
+                print e.child_traceback
+            else:
+                print "Error", e.errno
+        else:
+            pass #print >>sys.stderr, "Gosh.  No error."
+
+            #outptr, inptr, errptr = popen2.popen3(cmdline)#, 1000000)
+            #inptr.flush()
+            #err = errptr.readlines()
+            #outputs[mod] = (outptr.readlines(), err)
+            
+        # All the tests must be successful when trying to publish a module or
+        # package.
+##         if options.publish:
+        if options.exitOnFail:
+            failed=filter(lambda x: "FAILED" in x, err)
+            if len(failed) != 0:
+                failed = 1
+                break
+    tend = time.time()
+    if not options.noreport:
+        if not os.path.exists("./TESTREPORT"):
+            os.mkdir("./TESTREPORT")
+        reportFile = "TESTREPORT/sReport-"
+        for arg in args:
+	    n = arg.replace('/','.')
+            reportFile = reportFile + n
+        reportFile = reportFile + sys.platform + ".txt"
+
+        f = open(reportFile, "w")
+        f.write("RAN %s TESTS IN %f\n"%(ntests, tend-tstart))
+        for modName, val in outputs.items():
+            f.write(modName+"\n")
+            #for l in val[1]:
+            #    f.write(l)
+            f.write(val[1])
+            f.write("##################################\n\n")
+        f.close()
+    if failed:
+        sys.exit("FAILED")                     
+
+else:
+    testSuites = []
+    for arg in args:
+        res = tl.loadTestsFromName(arg, testDirName=options.testDir,
+                                   recursive=options.recursive,
+                                   funcPrefix=options.funcPrefix,
+                                   modPrefix=options.modPrefix)
+	if not res:
+	    warnings.warn('no "%s" nothing found for'%(testDirName,arg))
+	    continue
+        if type(res[0]) is types.TupleType:
+            testSuites.append(res)
+        else:
+            testSuites.append([res,])
+            
+    results = []
+    if options.stream != sys.stderr and \
+           type(options.stream) is types.StringType:
+        output = open(options.stream,'w')
+    else:
+        output = options.stream
+    tr = unittest.TextTestRunner(stream=output, verbosity=options.verbose)
+    tstart = time.time()
+    ntests = 0
+    for ts in testSuites:
+        for p, suite in map(None,ts):
+            os.chdir(p)
+            r = tr.run(suite)
+            ntests = ntests + r.testsRun
+            results.append((p,r))
+            
+    failure = filter(lambda x: not x[1].wasSuccessful(), results)
+    tend = time.time()
+    print "TESTS RAN IN %f s"%(tend-tstart)
+    if len(failure):
+        wasSuccessful="FAILED"
+    else:
+        wasSuccessful="SUCCESS"
+
+    # Writing a report file.
+    if not options.noreport:
+        #report=""" """
+        report="RAN %s TESTS IN %f\n"%(ntests, tend-tstart)
+        for res in results:
+            for test, err in res[1].errors:
+                report = report + res[1].separator1 + "\n"
+                report = report + "ERROR: %s\n" % str(test)
+                report = report + res[1].separator2 + "\n"
+                report = report + "%s\n" % err
+            for test, err in res[1].failures:
+                report = report + res[1].separator1 + "\n"
+                report = report + "FAIL: %s\n" % str(test)
+                report = report + res[1].separator2 + "\n"
+                report = report + "%s\n" % err
+            report = report + res[1].separator2 + "\n"
+            if not res[1].wasSuccessful():
+                report = report + "FAILED ("
+                failed, errored = map(len, (res[1].failures, res[1].errors))
+                if failed:
+                    report = report + "failures=%d" % failed
+                if errored:
+                    if failed:
+                        report = report + ", "
+                    report = report + "errors=%d" % errored
+                report = report + ")\n"
+            else:
+                report = report + "OK\n"
+##             report = report + """%s\n"""%res[0]
+##             #report = report + """test was successful:%s\nFAILURES:\n"""%res[1].wasSuccessful()
+##             report = report + """test was successful:%s\n"""%res[1].wasSuccessful()
+##             if len(res[1].failures):
+##                 report = report + """FAILURES:\n"""
+##                 for failed in res[1].failures:
+##                     report = report + """%s:\n%s\n"""%(str(failed[0]), failed[1])
+##             #report = report + """ERRORS:\n"""
+##             if len(res[1].errors):
+##                 report = report + """ERRORS:\n"""
+##                 for err in res[1].errors:
+##                     report = report + """%s:\n%s\n"""%(str(err[0]), err[1])
+##             report = report + """ -------------------------------------\n"""
+
+        os.chdir(sys.path[0])
+        if not os.path.exists("./TESTREPORT"):
+            os.mkdir("./TESTREPORT")
+        reportFile = "TESTREPORT/report-"
+        for arg in args:
+	    n = arg.replace('/','.')
+            reportFile = reportFile + n
+        reportFile = reportFile + sys.platform + ".txt"
+        f = open(reportFile, 'wa')
+        f.write(report)
+        
+        f.close()
+
+    sys.path = sys.path[1:]
+    sys.exit(wasSuccessful)
+        
