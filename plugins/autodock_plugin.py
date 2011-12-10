@@ -204,8 +204,9 @@ class Thread_run(Thread):
         if self.previous:
             self.previous.join()
 #!!! Tk thread problem in windows
-#!!!        if self.status_line:
-            self.status_line.configure(text = self.log_text)
+            if not sys.platform.startswith('win'):
+                if self.status_line:
+                    self.status_line.configure(text = self.log_text)
         self.status = os.system(self.command)
 
 class Thread_log(Thread):
@@ -218,11 +219,13 @@ class Thread_log(Thread):
             t = Tail(self.logfile)
             line = t.nextline()
 #!!! Tk thread problem in windows
-#!!!            self.page.insert('end',"%s" % line)
+            if not sys.platform.startswith('win'):
+                self.page.insert('end',"%s" % line)
             while line:
                 line = t.nextline()
 #!!! Tk thread problem in windows
-#!!!                self.page.insert('end',"%s" % line)
+                if not sys.platform.startswith('win'):
+                    self.page.insert('end',"%s" % line)
                 self.page.yview('moveto', 1.0)#, 'page')
         else:
             line = 'LOG FILE OUTPUT NOT REDIRECTED'
