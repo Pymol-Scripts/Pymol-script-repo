@@ -23,20 +23,6 @@ from chempy.models import Indexed
 from chempy import Bond, Atom
 import threading
 
-###!!! Edited for Pymol-script-repo !!!###
-def add_to_path():
-    for path in sys.path:
-        if 'Pymol-script-repo' in path:
-            if platform.system() == 'Windows':
-                jarfile = path + "\\modules\\Caver2_1_2_pymol_plugin\\windows"
-            if platform.system() == 'Linux':
-                jarfile = path + "/modules/Caver2_1_2_pymol_plugin/linux_mac"
-            break
-        else:
-            jarfile = None
-    return(jarfile)
-###!!!-------------------------------!!!###
-
 #
 # Global config variables
 #
@@ -44,9 +30,9 @@ def add_to_path():
 #win/linux ========================
 # 1 for windows, 0 for linux
 
-if platform.system() == 'Windows':
+if sys.platform.startswith('win'):
     WINDOWZ = 1
-elif platform.system() == 'Linux':
+elif sys.platform.startswith('linux'):
     WINDOWZ = 0
 else:
     WINDOWZ = 0
@@ -64,12 +50,11 @@ else: #linux:
   OUTPUT_LOCATION = os.getcwd()
 
 if WINDOWZ:
-#  PYMOL_LOCATION = "C:\\Program Files\\DeLano Scientific\\PyMol12"
-  PYMOL_LOCATION = add_to_path()
-
+#    PYMOL_LOCATION = "C:\\Program Files\\DeLano Scientific\\PyMol12"
+    PYMOL_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Caver2_1_2","windows")
 else: #linux:
-#  PYMOL_LOCATION = "directory/where/jar/with/plugin/is/located"
-  PYMOL_LOCATION = add_to_path()
+#    PYMOL_LOCATION = "directory/where/jar/with/plugin/is/located"
+    PYMOL_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Caver2_1_2","linux_mac")
 
 if WINDOWZ:
   LABEL_TEXT = "PyMOL location:"
@@ -443,6 +428,8 @@ class AnBeKoM:
         t = MyThread();
         t.start()
       else:
+        import webbrowser
+        webbrowser.open("http://loschmidt.chemi.muni.cz/caver")
         Pmw.MessageDialog(self.parent,title = 'Information',message_text = "see http://loschmidt.chemi.muni.cz/caver")
 
     def testBinary(self):
