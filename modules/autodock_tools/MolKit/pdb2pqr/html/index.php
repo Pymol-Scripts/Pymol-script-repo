@@ -1,1 +1,0 @@
-<?php header("Location: http://pdb2pqr.sourceforge.net"); exit; ?>

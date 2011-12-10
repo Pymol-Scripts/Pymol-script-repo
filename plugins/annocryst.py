@@ -63,16 +63,6 @@ def readRemotePDB(pdbCode, app):
         createAnnotationService(app)
     app.annotationService.openRemoteByPDBCode(pdbCode)
 
-def add_to_path():
-    for path in sys.path:
-        if 'Pymol-script-repo' in path:
-            if platform.system() == 'Windows':
-                pathstring = path + "\\modules\\autodock_tools"
-            if platform.system() == 'Linux':
-                pathstring = path + "/modules/autodock_tools"
-            break
-    return(pathstring)
-
 class AnnotationService:
     def __init__(self,app):
         print("\nWrite the following in the PyMOL command window:")

@@ -1,0 +1,11 @@
+/__init__.py///
+/test_colorWidgets.py///
+/test_customizedWidgets.py///
+/test_dial.py///
+/test_graphtool.py///
+/test_optionsPanel.py///
+/test_player.py///
+/test_thumbwheel.py///
+/test_toolbarbutton.py///
+/test_vector3DGUI.py///
+/test_xyzGUI.py///

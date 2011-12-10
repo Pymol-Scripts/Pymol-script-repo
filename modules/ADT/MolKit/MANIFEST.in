@@ -1,0 +1,40 @@
+# This list all other files to be included in the distribution
+# which are not python modules
+# include, exclude.... which are not described in the setup.py.
+include MANIFEST.in
+# list of the non python module to be included in the distribution
+include MolKit/data/*
+include MolKit/Tests/Data/*
+include MolKit/RELNOTES
+include MolKit/VisionInterface/Tests/*.pdb
+include MolKit/doc.tar.gz
+include MolKit/pdb2pqr/*
+include MolKit/pdb2pqr/doc/*
+include MolKit/pdb2pqr/config*
+include MolKit/pdb2pqr/examples/*
+include MolKit/pdb2pqr/pdb2pka/ligandclean/*
+# include all the CVS directories
+include MolKit/CVS/*
+include MolKit/data/CVS/*
+include MolKit/Tests/CVS/*
+include MolKit/Tests/Data/CVS/*
+include MolKit/VisionInterface/CVS/*
+include MolKit/VisionInterface/Tests/CVS/*
+include MolKit/VisionInterface/Tests/Data/*
+include MolKit/VisionInterface/Tests/Data/CVS/* 
+include MolKit/pdb2pqr/propka/*
+include MolKit/pdb2pqr/src/*
+include MolKit/pdb2pqr/dat/*
+include MolKit/pdb2pqr/pdb2pka/*
+include MolKit/pdb2pqr/extensions/*
+include MolKit/pdb2pqr/pdb2pka/substruct/*
+include MolKit/pdb2pqr/CVS/*
+include MolKit/pdb2pqr/doc/CVS/*
+include MolKit/pdb2pqr/src/CVS/*
+include MolKit/pdb2pqr/extensions/CVS/*
+include MolKit/pdb2pqr/pdb2pka/CVS/*
+include MolKit/pdb2pqr/propka/CVS/*
+include MolKit/pdb2pqr/pdb2pka/ligandclean/CVS/*
+include MolKit/pdb2pqr/pdb2pka/substruct/CVS/*
+include version.py
+include MolKit/LICENSE
