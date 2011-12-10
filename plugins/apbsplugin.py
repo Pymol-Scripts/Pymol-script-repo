@@ -148,8 +148,7 @@ import distutils.spawn # used for find_executable
 import traceback
 import pymol
 ###!!! Edited for Pymol-script-repo !!!###
-import platform
-from commands import getstatusoutput
+import subprocess
 ###!!!------------------------------!!!###
 
 #
@@ -232,8 +231,8 @@ def get_default_location(name):
         return True
     searchDirs = []
 ###!!! Edited for Pymol-script-repo !!!###
-    searchDirs.append(add_to_path()[0])
-    searchDirs.append(add_to_path()[1])
+    searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr","src"))
+    searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr"))
 ###!!!------------------------------!!!###
     # Previous order was A B C D
     #D
@@ -1677,26 +1676,31 @@ Citation for PDB2PQR:
         args = (self.pdb2pqr.getvalue(),) + args
         try:
             # This allows us to import pdb2pqr
-            sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue())))
-            print "Appended", os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))
+            #sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue())))
+            #print "Appended", os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))
 ###!!! Edited for Pymol-script-repo !!!###
-            sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))+add_to_path()[2])
-            print "Appended", os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))+add_to_path()[2]
+            #sys.path.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr"))
+            #print "Appended", os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr")
 ###!!!------------------------------!!!###
-            import pdb2pqr.pdb2pqr
+            #import pdb2pqr.pdb2pqr
             # This allows pdb2pqr to correctly find the dat directory with AMBER.DAT.
-            sys.path.append(os.path.dirname(self.pdb2pqr.getvalue()))
-            print "Appended", os.path.dirname(self.pdb2pqr.getvalue())
-            print "Imported pdb2pqr"
-            print "args are: ", args
-            from pdb2pqr import main
-            print "Imported main"
+            #sys.path.append(os.path.dirname(self.pdb2pqr.getvalue()))
+            #print "Appended", os.path.dirname(self.pdb2pqr.getvalue())
+            #print "Imported pdb2pqr"
+            #print "args are: ", args
+            #from pdb2pqr import main
+            #print "Imported main"
             try:
 ###!!! Edited for Pymol-script-repo !!!###
                 args = ' '.join( map( str, args ) )
                 print "args are now converted to string: ", args
-                retval, output_main = getstatusoutput(args)
 #                retval = main.mainCommand(args)
+                os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'])+":"+os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr")
+                pymol_env = os.environ
+                callfunc = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+                child_stdout, child_stderr = callfunc.communicate()
+                output_main =  repr(child_stdout)+repr(child_stderr)
+                retval = callfunc.returncode
                 print "PDB2PQR's mainCommand returned",retval
                 print output_main
 #                if retval == 1:
@@ -2461,23 +2465,3 @@ If you have a molecule and a map loaded, please click "Update"''',
         pymol.cmd.color(self.getRampName(),self.getGradName())
         print "set colors"
         pymol.cmd.show('mesh',self.getGradName())
-
-###!!! Edited for Pymol-script-repo !!!###
-def add_to_path():
-    for path in sys.path:
-        if 'Pymol-script-repo' in path:
-            if platform.system() == 'Windows':
-                psize_string = path + "\\modules\\pdb2pqr\\src"
-                pdb2pqr_string = path + "\\modules\\pdb2pqr"
-                pdb2pqr_string_short = "\\pdb2pqr"
-            if platform.system() == 'Linux':
-                psize_string = path + "/modules/pdb2pqr/src"
-                pdb2pqr_string = path + "/modules/pdb2pqr"
-                pdb2pqr_string_short = "/pdb2pqr"
-            break
-        else:
-            psize_string = None
-            pdb2pqr_string = None
-            pdb2pqr_string_short = None
-    return(psize_string,pdb2pqr_string,pdb2pqr_string_short)
-###!!!-------------------------------!!!###
