@@ -1840,7 +1840,7 @@ class Autodock:
         elif sys.platform.startswith('win'):
             self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","win32","autogrid4.exe")
             self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","win32","autodock4.exe")
-        elif:
+        else:
             self.config_settings['autogrid_exe'] = ''
             self.config_settings['autodock_exe'] = '' 
         if sys.platform.startswith('linux'):
