@@ -40,7 +40,8 @@ from Tkinter import *
 import tkMessageBox, tkFileDialog
 import Pmw
 from threading import Thread
-from commands import getstatusoutput
+#from commands import getstatusoutput
+import subprocess
 from pymol import cmd,selector
 from pymol.cmd import _feedback,fb_module,fb_mask,is_list,_cmd
 from pymol.cgo import *
@@ -1904,7 +1905,13 @@ class Autodock:
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
 
-        result, output = getstatusoutput(command)
+        #result, output = getstatusoutput(command)
+        os.environ['PYTHONPATH'] = os.environ['PYMOL_GIT_MOD']
+        pymol_env = os.environ
+        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+        child_stdout, child_stderr = callfunc.communicate()
+        output =  repr(child_stdout)+repr(child_stderr)
+        result = callfunc.returncode
         if result == 0:
             self.receptor_list.insert('end',sel[0])
             self.status_line.configure(text="Successfully generated receptor file receptor.%s.pdbqt" % sel[0])
@@ -1957,7 +1964,13 @@ class Autodock:
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
 #        result = os.system(command)
-        result, output = getstatusoutput(command)
+        #result, output = getstatusoutput(command)
+        os.environ['PYTHONPATH'] = os.environ['PYMOL_GIT_MOD']
+        pymol_env = os.environ
+        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+        child_stdout, child_stderr = callfunc.communicate()
+        output =  repr(child_stdout)+repr(child_stderr)
+        result = callfunc.returncode
         if result == 0:
             receptor_object.receptor_rigid = rec_rigid
             receptor_object.receptor_flexible = rec_flexible
@@ -1982,7 +1995,13 @@ class Autodock:
         command = "%s -f %s -o %s " % (util_program, fn, outfile)
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
-        result, output = getstatusoutput(command)
+        #result, output = getstatusoutput(command)
+        os.environ['PYTHONPATH'] = os.environ['PYMOL_GIT_MOD']
+        pymol_env = os.environ
+        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+        child_stdout, child_stderr = callfunc.communicate()
+        output =  repr(child_stdout)+repr(child_stderr)
+        result = callfunc.returncode
         if result == 0:
             self.status_line.configure(text = "Loading receptor %s" % fn)
             self.receptor_page_log_text.insert('end',output)
@@ -2062,7 +2081,13 @@ class Autodock:
         command = "%s -l %s -o %s -A checkhydrogens" % (util_program,filename,outfile)
         self.ligand_page_log_text.insert('end',"Batch: %s\n" % command)
 #        result = os.system(command)
-        result, output = getstatusoutput(command)
+        #result, output = getstatusoutput(command)
+        os.environ['PYTHONPATH'] = os.environ['PYMOL_GIT_MOD']
+        pymol_env = os.environ
+        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+        child_stdout, child_stderr = callfunc.communicate()
+        output =  repr(child_stdout)+repr(child_stderr)
+        result = callfunc.returncode
         if result == 0:
             self.ligand_pdbqt_list.insert('end',sel)
             self.docking_ligand_list.insert('end',sel)
@@ -2237,7 +2262,13 @@ class Autodock:
             
         self.docking_page_log_text.insert('end',"Batch: %s\n" % command)
         self.docking_page_log_text.yview('moveto',1.0)
-        result, output = getstatusoutput(command)
+        #result, output = getstatusoutput(command)
+        os.environ['PYTHONPATH'] = os.environ['PYMOL_GIT_MOD']
+        pymol_env = os.environ
+        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+        child_stdout, child_stderr = callfunc.communicate()
+        output =  repr(child_stdout)+repr(child_stderr)
+        result = callfunc.returncode
         if result == 0:
             self.status_line.configure(text="Successfully generated AutoGrid input file")
             self.docking_page_log_text.insert('end',output)
@@ -2312,7 +2343,13 @@ class Autodock:
                 command+=' -l %s' % lig_pdbqt
             self.docking_page_log_text.insert('end',"Batch: %s\n" % command)
             self.docking_page_log_text.yview('moveto', 1.0)
-            result, output = getstatusoutput(command)
+            #result, output = getstatusoutput(command)
+            os.environ['PYTHONPATH'] = os.environ['PYMOL_GIT_MOD']
+            pymol_env = os.environ
+            callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+            child_stdout, child_stderr = callfunc.communicate()
+            output =  repr(child_stdout)+repr(child_stderr)
+            result = callfunc.returncode
             if result == 0:
                 self.status_line.configure(text="Wrote AutoDock input file for ligand: %s" % ligands)
 #                self.docking_page_log_text.insert('end',"Running AutoDock.....\n")
