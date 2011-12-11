@@ -1,6 +1,4 @@
 reinitialize
-#You need to make sure you are in the right dir, since we are going to make some datafiles
-cd /home/tlinnet/test
 import rotkit
  
 fetch 1HP1, async=0
@@ -79,3 +77,4 @@ for angle in anglerange:
     for Acc in Acceptor_names:
         rotkit.rotateline("/1HP1//A/423/CG1","/1HP1//A/477/C",(angle-1),Acc[1])
 python end
+mplay
