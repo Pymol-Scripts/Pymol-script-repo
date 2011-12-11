@@ -35,7 +35,7 @@
 
 # python lib
 import os
-import sys
+import sys, platform
 import time
 import tkSimpleDialog
 import tkMessageBox
@@ -99,6 +99,21 @@ class MSMSPlugin:
         self.cleanup_saved_pymol_sel.set(True) # by default, clean up
 
         self.pdb_fn.set('')
+        if 'MSMS_BIN' not in os.environ:
+            if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
+                initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","i86Linux2","msms.i86Linux2.2.6.1")
+                os.environ['MSMS_BIN'] = initialdir_msms
+            elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
+                initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","i64Linux2","msms.x86_64Linux2.2.6.1")
+                os.environ['MSMS_BIN'] = initialdir_msms
+            elif sys.platform.startswith('darwin'):
+                initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","universalDarwin","msms.MacOSX.2.6.1")
+                os.environ['MSMS_BIN'] = initialdir_msms
+            elif sys.platform.startswith('win'):
+                initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","win32","msms_win32_6.2.1","msms.exe")
+                os.environ['MSMS_BIN'] = initialdir_msms
+            else:
+                pass
         if 'MSMS_BIN' in os.environ:
             if VERBOSE: print 'Found MSMS_BIN in environmental variables', os.environ['MSMS_BIN']
             self.msms_bin.set(os.environ['MSMS_BIN'])
@@ -106,9 +121,25 @@ class MSMSPlugin:
             if VERBOSE: print 'MSMS_BIN not found in environmental variables.'
             self.msms_bin.set('')
 ##         self.pdb2xyzr_bin.set('')
+        if 'PDB2XYZRN' not in os.environ:
+            if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
+                initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","i86Linux2","pdb_to_xyzrn")
+                os.environ['PDB2XYZRN'] = initialdir_msms
+            elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
+                initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","i64Linux2","pdb_to_xyzrn")
+                os.environ['PDB2XYZRN'] = initialdir_msms
+            elif sys.platform.startswith('darwin'):
+                initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","universalDarwin","pdb_to_xyzrn")
+                os.environ['PDB2XYZRN'] = initialdir_msms
+            elif sys.platform.startswith('win'):
+                initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","win32","msms_win32_6.2.1","pdb_to_xyzrn")
+                os.environ['PDB2XYZRN'] = initialdir_msms
+            else:
+                pass
         if 'PDB2XYZRN' in os.environ:  self.pdb2xyzrn_bin.set(os.environ['PDB2XYZRN'])
         else:                          self.pdb2xyzrn_bin.set('')
-        self.tmp_dir.set('/tmp')
+        #self.tmp_dir.set('/tmp')
+        self.tmp_dir.set(os.getcwd())
         self.cleanup_msms_output = Tkinter.BooleanVar()
         self.cleanup_msms_output.set(True) # by default, clean up msms output
         
