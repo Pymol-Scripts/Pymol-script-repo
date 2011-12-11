@@ -142,7 +142,7 @@ def propka(molecule="NIL",chain="*",resi="0",resn="NIL",method="upload",logtime=
 	Newdir = createdirs()
 	if method=="upload":
 		### We try to load mechanize. If this fail, one can always get the .pka file manual and the run: method=file
-		try: import modules.mechanize as mechanize; importedmechanize='yes'
+		try: from modules import mechanize; importedmechanize='yes'
 		except ImportError: print("Import error. Is a module missing?"); print(sys.exc_info()); print("Look if missing module is in your python path\n%s")%sys.path;importedmechanize='no'; import modules.mechanize as mechanize
 		### The name for the new molecule
 		newmolecule = "%s%s"%(molecule,logtime)

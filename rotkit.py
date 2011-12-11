@@ -132,7 +132,8 @@ def crosspoint(Pos1, crossprod):
 	return([Imp1[0]+Imp2[0],Imp1[1]+Imp2[1],Imp1[2]+Imp2[2]])
 	
 def VectorToMatrix(Vector,MatColRank=4):
-	import numpy
+	try: import numpy
+    except ImportError: from modules import numpy
 	nextrow = range(MatColRank,MatColRank**2,MatColRank)
 	rowsall = []
 	rowcurrent = []
@@ -166,7 +167,7 @@ def createdirs(dirname):
 	
 def makehistogram(datalist,dataname="Histogram",datalistindex=2,nrbins=100,binrange=[0,0]):
 	try: import numpy
-    except: import ImportError: import modules.numpy
+    except ImportError: from modules import numpy
 	fileout_name= "%s"%dataname +".dat"
 	fileout_write = open(fileout_name, "w")
 	gnuplot_write = open("%s"%dataname +".plt", "w")
