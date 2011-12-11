@@ -50,11 +50,15 @@ else: #linux:
   OUTPUT_LOCATION = os.getcwd()
 
 if WINDOWZ:
-#    PYMOL_LOCATION = "C:\\Program Files\\DeLano Scientific\\PyMol12"
-    PYMOL_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Caver2_1_2","windows")
+    if 'PYMOL_GIT_MOD' in os.environ:
+        PYMOL_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Caver2_1_2","windows")
+    else:
+        PYMOL_LOCATION = "C:\\Program Files\\DeLano Scientific\\PyMol12"
 else: #linux:
-#    PYMOL_LOCATION = "directory/where/jar/with/plugin/is/located"
-    PYMOL_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Caver2_1_2","linux_mac")
+    if 'PYMOL_GIT_MOD' in os.environ:
+        PYMOL_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Caver2_1_2","linux_mac")
+    else:
+        PYMOL_LOCATION = "directory/where/jar/with/plugin/is/located"
 
 if WINDOWZ:
   LABEL_TEXT = "PyMOL location:"
