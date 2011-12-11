@@ -165,7 +165,8 @@ def createdirs(dirname):
 	return(Newdir)
 	
 def makehistogram(datalist,dataname="Histogram",datalistindex=2,nrbins=100,binrange=[0,0]):
-	import numpy
+	try: import numpy
+    except: import ImportError: import modules.numpy
 	fileout_name= "%s"%dataname +".dat"
 	fileout_write = open(fileout_name, "w")
 	gnuplot_write = open("%s"%dataname +".plt", "w")
