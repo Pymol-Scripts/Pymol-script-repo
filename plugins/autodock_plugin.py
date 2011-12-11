@@ -1827,36 +1827,38 @@ class Autodock:
 #        self.config_settings['autogrid_exe'] = ''
 #        self.config_settings['autodock_exe'] = ''
 #        self.config_settings['vina_exe'] = ''
-        self.config_settings['autodock_tools_path'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT","AutoDockTools","Utilities24")
-        if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
-            self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","i86Linux2","autogrid4")
-            self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","i86Linux2","autodock4")
-        elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
-            self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","ia64Linux2","autogrid4")
-            self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","ia64Linux2","autodock4")
-        elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '10':
-            self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin10","autogrid4")
-            self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin10","autodock4")
-        elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '9':
-            self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin9","autogrid4")
-            self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin9","autodock4")
-        elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '8':
-            self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin8","autogrid4")
-            self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin8","autodock4")
-        elif sys.platform.startswith('win'):
-            self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","win32","autogrid4.exe")
-            self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","win32","autodock4.exe")
+        if 'PYMOL_GIT_MOD' in os.environ:
+            self.config_settings['autodock_tools_path'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT","AutoDockTools","Utilities24")
+            if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
+                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","i86Linux2","autogrid4")
+                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","i86Linux2","autodock4")
+            elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
+                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","ia64Linux2","autogrid4")
+                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","ia64Linux2","autodock4")
+            elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '10':
+                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin10","autogrid4")
+                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin10","autodock4")
+            elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '9':
+                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin9","autogrid4")
+                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin9","autodock4")
+            elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '8':
+                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin8","autogrid4")
+                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin8","autodock4")
+            elif sys.platform.startswith('win'):
+                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","win32","autogrid4.exe")
+                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","win32","autodock4.exe")
+            if sys.platform.startswith('linux'):
+                self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_linux_x86","vina")
+            elif sys.platform.startswith('darwin'):
+                self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_mac","vina")
+            elif sys.platform.startswith('win'):
+                self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_win32","vina.exe")
         else:
+            self.config_settings['autodock_tools_path'] = ''
             self.config_settings['autogrid_exe'] = ''
             self.config_settings['autodock_exe'] = ''
-        if sys.platform.startswith('linux'):
-            self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_linux_x86","vina")
-        elif sys.platform.startswith('darwin'):
-            self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_mac","vina")
-        elif sys.platform.startswith('win'):
-            self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_win32","vina.exe")
-        else:
             self.config_settings['vina_exe'] = ''
+
         if os.path.isfile(config_file_name):
             self.status_line.configure(text = 'Reading configuration file: %s' % config_file_name)
             lst = self.fileopen(config_file_name,'r').readlines()

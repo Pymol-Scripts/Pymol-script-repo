@@ -1,0 +1,187 @@
+MSMS v2.5.7 (Michel F. SANNER Jan. 2006)
+
+MSMS computes, for a given probe radius, the reduced surface of a set of
+spheres. An analytical description of the solvent excluded surface is
+computed from the reduced surface. Special attention is paid to the proper
+handling of self-intersecting parts of the surface called singularities.
+This analytical model of the solvent excluded surface can be triangulated
+with a user specified vertex density (see references for more information).
+
+############################################################################
+## LICENSE:
+############################################################################
+
+In a nutshell:  
+     - MSMS is free for academic use, for commercial use please contact me. 
+    (sanner@scripps.edu)
+     
+    - Acknowledge the use of MSMS in any publication by citing:
+    Sanner, M.F., Spehner, J.-C., and Olson, A.J. (1996) Reduced surface:
+    an efficient way to compute molecular surfaces. Biopolymers, Vol. 38.,
+    (3), 305-320.
+
+The full license text is at he end of this file
+
+############################################################################
+## REPORTING PROBLEMS AND ASKING QUESTIONS
+############################################################################
+
+Please send questions and report bugs to the msms mailing list:
+	msms@scripps.edu
+
+You can subscribe to this list at (very low traffic):
+	http://mgldev.scripps.edu/mailman/listinfo/msms
+
+############################################################################
+## INSTALLATION:
+############################################################################
+
+if you read this file, you already un-tar'ed the file and you got the 
+following files:
+
+  - 1crn.pdb  	     : example of PDB file
+  - README           : this file
+  - atmtypenumbers   : data file used by the pdb_to_xyzr script 
+  - msms.1           : unix man page for MSMS. Also available on the WWW
+	 http://www.scripps.edu/sanner/html/msms_man.html
+  - msms.html        : HTML version of the man page for MSMS.
+  - msms."arch"      : Binary version of MSMS compiled for "arch".
+  - pdb_to_xyzr      : Script to convert get XYZR coordinates from a PDB file.
+  - pdb_to_xyzrn     : Script to convert get XYZRN coordinates from a PDB file.
+  - 1crn.xyzr        : Example of XYZR atomic coordinates.
+  - 1crn.xyzrn       : Example of XYZRN atomic coordinates.
+
+
+############################################################################
+## TEST
+############################################################################
+TEST MSMS:
+	To test the program type:
+
+	> ./msms."arch" -if 1crn.xyzr
+
+this is the output:
+
+MSMS 2.5 started on noah
+Copyright M.F. Sanner (1994)
+Compilation flags -Ofast -xansi -DVERBOSE -DTIMING -DFUNCPROTO -fullwarn
+INPUT  ./1crn.xyzr 327 spheres 0 collision only, radii  1.400 to  2.000
+PARAM  Probe_radius  1.500 density  1.000
+REDUCED SURFACE ...
+    RS component 0 identified 211 208 210
+    0 free edge(s) found in component 0
+    RS component  #faces  #edges #free_edges  #vertices   genus
+         0         430      645          0        210      3.5
+    Time Reduced Surface real: 0.20 user: 0.07 sys: 0.00
+ANALYTICAL SOLVENT EXCLUDED SURFACE...
+    Component   0
+    25 probe capable to generate singularities
+        Time Surface real: 0.08 user: 0.01 sys: 0.01
+   SRDF...
+ 0 double edges removed
+        Time Singularities real: 0.00 user: 0.01 sys: 0.00
+    SES comp.  #fac.  #edg. #s_edg. #vert. #s_vert. R_h C_h genus
+         0     1304   2616     12    1314       24   0   0    0
+ANALYTICAL SURFACE AREA :
+    Comp. probe_radius,   reent,    toric,   contact    SES       SAS
+      0       1.500     487.240   907.580   927.972  2322.791  3054.258
+TRIANGULATION...
+    Component 0
+    #components, vertices, edges, face, genus, density:      1   2465   7389   4926 0  1.061
+        Time Triangulation real: 0.12 user: 0.05 sys: 0.00
+NUMERICAL VOLUMES AND AREA
+    Comp. probe_radius SES_volume SES_area)
+       0      1.50     5131.227   2222.982
+    Total ses_volume:  5131.227
+MSMS terminated normally
+Total Time real: 0.47 user: 0.15 sys: 0.02
+
+
+############################################################################
+## converting PDB to xyzr
+############################################################################
+ABOUT PDB_TO_XYZR:
+
+  This c-shell script was written by Mike Pique (The Scripps Research
+Institute) to get XYZR atomic coordinates from a Brookhaven Protein Data
+Bank file (.pdb).
+  It extract x,y,z from PDB file, generate radius of each atom Hydrogens
+are presumed to be missing ("united atom" approach) in this version.
+
+input: pdb file as argument or stdin
+output: new xyzr file to stdout
+
+examples:
+
+   pdb_to_xyzr 1crn.pdb > 1crn.xyzr
+
+
+############################################################################
+## REFERENCES:
+############################################################################
+
+(1) Michel F. Sanner, Arthur J. Olson, Jean-Claude Spehner.(1996) Reduced
+Surface: an efficient way to compute molecule surfaces. Biopolymers. Vol. 38.
+
+(2) Michel F. Sanner, Arthur J. Olson, Jean-Claude Spehner. Fast and Robust
+Computation of Molecular Surfaces. (1995) ACM 11th Symp. Comp. Geom. 
+Vancouver B.C. Canada. C6-C7. (PostScript version available on the net
+http://www.scripps.edu/pub/olson-web/people/sanner/).
+
+
+############################################################################
+## LICENSE
+############################################################################
+
+THIS IS WHAT YOU AGREED TO BY DOWNLOADING THE SOFTWARE:
+
+1) The program (MSMS) received by you will be used only for scientific
+   research. This license is issued to you as an individual. For institution
+   wide use of the software you will have to follow the official registration
+   procedure. To do so you can contact us by e-mail (olson@scripps.edu), mail
+   (TSRI, Molecular Biology Department, TPC 26, 10550 North Torrey Pines Road,
+   92037 La Jolla) or fax (858)-784-2860.
+
+2. WE REQUEST THAT YOU AGREE TO ACKNOWLEDGE THE USE OF THE MSMS SOFTWARE THAT
+   RESULTS IN ANY PUBLISHED WORK, INCLUDING SCIENTIFIC PAPERS, FILMS AND
+   VIDEOTAPES BY CITING THE FOLLOWING REFERENCE:
+
+    Sanner, M.F., Spehner, J.-C., and Olson, A.J. (1996) Reduced surface:
+    an efficient way to compute molecular surfaces. Biopolymers, Vol. 38.,
+    (3), 305-320.
+
+3. You will not sell or otherwise transfer these programs or derivatives to
+   any other party, whether with or without consideration, for any purpose.
+
+4. You will not obtain, and will not attempt to obtain copyright coverage
+   thereon without the express purpose written consent of The Scripps Research
+   Institute.
+
+5. You will hold harmless from all or any expenses you may incur as a result
+   of or arising from your use, direct or indirect, of these materials.  You
+   understand that no other right or license to this program or its derivatives
+   is granted or implied as a result of our transmission of same to you.
+
+
+############################################################################
+## HOW TO CONTACT ME
+############################################################################
+The prefered way to get information, ask questions, or find answers is
+to use the (searchable) mailing list 
+	msms@scripps.edu
+	http://mgldev.scripps.edu/mailman/listinfo/msms
+
+Mail:	Michel F. Sanner
+	The Scripps Research Institute, TPC 26
+	10550 North Torrey Pines Road, 92037 La Jolla
+	CA-92037 USA
+
+E-mail:	sanner@scripps.edu
+WWW:	http://www.scripps.edu/~sanner
+
+Tel.:	(858) 784-2341
+Fax.:	(858) 784-2860
+
+
+
+
