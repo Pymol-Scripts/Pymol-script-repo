@@ -103,7 +103,7 @@ def __init__(self):
                                  command = lambda s=self: AnBeKoM(s))
 
 defaults = {
-    "startingpoint": ('-5','-5','-5'),    
+    "startingpoint": ('-5','-5','-5'),
     "compute_command": 'Compute tunnels',
     "exit_command": 'Exit',
     "default_tunnels": '3',
@@ -143,21 +143,21 @@ class AnBeKoM:
     def setBinaryLocation(self,value):
         self.binlocation.setvalue(value)
     def setPymolLocation(self,value):
-        self.pymollocation.setvalue(value)        
+        self.pymollocation.setvalue(value)
     def __init__(self,app):
         parent = app.root
         self.parent = parent
-        
+
         #by default select all
         self.whichModelSelect = 'all';
         # backup the site
         self.originalX = -5
         self.originalY = -5
         self.originalZ = -5
-        
+
         self.optimizeNearValue = StringVar()
         self.optimizeNearValue.set("4.0")
-        
+
         # Create the dialog.
         self.dialog = Pmw.Dialog(parent,
                                  buttons = (defaults["compute_command"], defaults["exit_command"]),
@@ -167,7 +167,7 @@ class AnBeKoM:
         self.dialog.withdraw()
         #Pmw.setbusycursorattributes(self.dialog.component('hull'))
         lbb = "Caver 2.1%s" % (VERSION,)
-        
+
         #labelfont = ('-weight bold')
         w = Tkinter.Label(self.dialog.interior(),
                                 text = lbb ,
@@ -180,7 +180,7 @@ class AnBeKoM:
         #ww = Tkinter.Label(self.dialog.interior(), background = 'orange', foreground="white", text = 'WWW and Help: http://loschmidt.chemi.muni.cz/caver')
         ww = Tkinter.Button(self.dialog.interior(), text = 'WWW and Help', command = self.launchHelp)
         ww.pack()
-        
+
         self.stdam_list = [ 'ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLN', 'GLU', 'GLY', 'HIS', 'ILE', 'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL', 'ASX', 'CYX', 'GLX', 'HI0', 'HID', 'HIE', 'HIM', 'HIP', 'MSE', 'ACE', 'ASH', 'CYM', 'GLH', 'LYN', 'NME']
 
         #group = Pmw.Group(self.dialog.interior(),tag_text='Main options')
@@ -191,7 +191,7 @@ class AnBeKoM:
             elif os.path.isfile(s): return Pmw.OK
             elif os.path.exists(s): return Pmw.PARTIAL
             else: return Pmw.PARTIAL
-            
+
         if (1):
           self.pymollocation = Pmw.EntryField(self.dialog.interior(),
                                        labelpos='w',
@@ -202,39 +202,39 @@ class AnBeKoM:
 #win/linux
 
         self.binlocation = Pmw.EntryField(self.dialog.interior(),
-                                     labelpos='w',                                     
+                                     labelpos='w',
                                      value = OUTPUT_LOCATION,
                                      label_text = 'Output directory:')
 
         self.binlocation.pack(fill='x',padx=4,pady=1) # vertical
-        
+
         self.tunnels = Pmw.EntryField(self.dialog.interior(),
-                                     labelpos='w',                                     
+                                     labelpos='w',
                                      value = defaults["default_tunnels"],
                                      label_text = 'Number of tunnels:')
 
         self.tunnels.pack(fill='x',padx=4,pady=1) # vertical
-        
+
         #self.block = Pmw.EntryField(group.interior(),
-        #                             labelpos='w',                                     
+        #                             labelpos='w',
         #                             value = defaults["default_block"],
         #                             label_text = 'Blocking radius:')
 
 
         #self.block.pack(fill='x',padx=4,pady=1) # vertical
-        
+
 	#labframe0 = Tkinter.Frame(group.interior())
 	#labframe0.pack(fill='x',padx=4,pady=2)
-        
+
         labframe0 = Tkinter.Frame(self.dialog.interior())
         labframe0.pack(fill='x',padx=4,pady=2)
-        
+
         self.varremovewater = IntVar()
-        
+
         self.removewaterbutton = Checkbutton(labframe0, text="Ignore waters", variable=self.varremovewater)
         self.varremovewater.set(1)
         #self.removewaterbutton.pack(side='left',expand='yes',)
-        
+
         self.inModelGroup = Pmw.Group(self.dialog.interior(), tag_text='Input model:');
         self.listbox1 = Tkinter.Listbox(self.inModelGroup.interior(), width=25, height=6,exportselection=0)
         self.listbox1.bind('<<ListboxSelect>>',self.inputAnalyseWrap)
@@ -257,9 +257,9 @@ class AnBeKoM:
         #self.listbox1.selection_set(0, 0) # Default sel
         #tindex = 1;
         #for item in cmd.get_object_list():
-        #  self.listbox1.insert(tindex,str(item))        
+        #  self.listbox1.insert(tindex,str(item))
         #  tindex = tindex + 1;
-        
+
         self.s = dict()
         self.s["AA"] = IntVar();
         self.reinitialise()
@@ -274,21 +274,21 @@ class AnBeKoM:
 #                              text = "Specify x,y,z of starting point directly or use the conversion\nto get x,y,z from average centers of selection",
 #			      )
 #	label1.pack(side='left')
-	
+
 #-------------
 #        radiogroups = []
         self.surroundingsvar = Tkinter.IntVar()
 #        self.surroundingsvar.set(1)
-        
+
         radioframe = Tkinter.Frame(groupstart.interior())
         group1 = Pmw.Group(radioframe,
                 tag_text='Convert surroundings to x,y,x coordinates of starting point')
-        
+
         group1.pack(side='top',expand = 'yes',fill='x')
 #        cw = Tkinter.Frame(group1.interior())
 #        cw.pack(padx = 2, pady = 2, expand='yes', fill='both')
 #        radiogroups.append(group1)
-	
+
 	self.selectionlist = Pmw.EntryField(group1.interior(),
                                   labelpos='w',
                                   label_text='Specify selection: ',
@@ -341,12 +341,12 @@ class AnBeKoM:
 	self.zlocation.pack(side=LEFT)
 	self.scrZ.pack(side=LEFT)
 	self.zlocfr.pack(fill='x',padx=4,pady=1) # vertical
-	
+
 	self.OpGroup = Pmw.Group(radioframe,tag_text = "Optimize starting point")
 	self.OpGroup.pack(fill='x');
 	self.optimizeLabel = Tkinter.Label(self.OpGroup.interior(),text = 'Neighbourhood:')
 	self.optimizeLabel.pack(side=LEFT)
-	
+
 	self.optimizeNear = Tkinter.Entry(self.OpGroup.interior(),textvariable=self.optimizeNearValue,justify='right')
 	self.optimizeNear.pack(side=LEFT,padx=4,pady=1)
 	self.angstrom = Tkinter.Label(self.OpGroup.interior(),text="(A)")
@@ -355,7 +355,7 @@ class AnBeKoM:
 	self.optimizeButton.pack(side=LEFT,padx=5,pady=1)
 	self.UoptimizeButton = Tkinter.Button(self.OpGroup.interior(), text = 'Undo', command = self.uoptimize)
 	self.UoptimizeButton.pack(side=LEFT,padx=1,pady=1)
-	
+
 # blocking method =========================
 #	groupMethod = Pmw.Group(self.dialog.interior(),tag_text='Choose blocking method')
 
@@ -366,21 +366,21 @@ class AnBeKoM:
 #        methodframe = Tkinter.Frame(groupMethod.interior())
 #        methodframe.pack(expand='yes')
 #        metody=[('Simple normal', 0), ('Simple restrictive', 1), ('Decreasing normal', 2),('Decreasing restrictive', 3), ('Branching normal (default)', 4), ('Branching restrictive', 5), ('Narrowest', 6)]
-#        
+#
 #        for text, value in metody:
-#          Radiobutton(methodframe, text=text, value=value, variable=self.methodvar).pack(anchor=W) 
-          
-        
+#          Radiobutton(methodframe, text=text, value=value, variable=self.methodvar).pack(anchor=W)
+
+
 #        groupMethod.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
 
 # eoblock method ==========================
         self.showAppModal()
-        
+
     def showCrisscross(self):
 	    startpoint=(float(self.xlocvar.get()),float(self.ylocvar.get()),float(self.zlocvar.get()))
             cmd.delete("crisscross")
 	    self.crisscross(startpoint[0],startpoint[1],startpoint[2],0.5,"crisscross")
-	
+
 #win/linux
     if WINDOWZ:
       def changeValueX(self,obj,a,b=0,c=0):
@@ -409,9 +409,9 @@ class AnBeKoM:
         self.zlocvar.set(val)
         self.showCrisscross()
 
-    def showAppModal(self):        
+    def showAppModal(self):
         self.dialog.show()
-                
+
     def updateList(self):
       self.listbox1.delete(0, Tkinter.END)
       #fill with data
@@ -419,7 +419,7 @@ class AnBeKoM:
       self.listbox1.selection_set(0, 0) # Default sel
       tindex = 1;
       for item in cmd.get_object_list():
-        self.listbox1.insert(tindex,str(item))        
+        self.listbox1.insert(tindex,str(item))
         tindex = tindex + 1;
       self.inputAnalyse()
 
@@ -435,7 +435,8 @@ class AnBeKoM:
     def testBinary(self):
             #test
             if WINDOWZ:
-              anbekomloc = "%s\\modules\\Caver2_1_%s\\Caver2_1.jar" % (self.pymollocation.getvalue(), VERS,)
+              #anbekomloc = "%s\\modules\\Caver2_1_%s\\Caver2_1.jar" % (self.pymollocation.getvalue(), VERS,)
+              anbekomloc = "%s\\Caver2_1.jar" % (self.pymollocation.getvalue(), )
               if not os.path.isfile(anbekomloc):
                           error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',message_text = "ERROR: PyMOL directory incorrectly specified or Caver2_1 not installed, check %s" % anbekomloc ,)
                           junk = error_dialog.activate()
@@ -449,7 +450,7 @@ class AnBeKoM:
                           return 0
             return 1
     def execute(self, result):
-	
+
 	if result == defaults["compute_command"]:
             if self.testBinary() == 0:
               return
@@ -464,13 +465,13 @@ class AnBeKoM:
             for a in sel.atom:
                cnt+=1
             print cnt
-            
+
             if cnt == 0:
                 error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
                                    message_text = 'ERROR: No molecule loaded.',)
                 junk = error_dialog.activate()
                 return
-            outdir = self.binlocation.getvalue()   
+            outdir = self.binlocation.getvalue()
             if os.path.isfile(outdir):
                error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
                                    message_text = 'ERROR: Output directory is file.',)
@@ -491,7 +492,7 @@ class AnBeKoM:
 
             generatedString = generatedString[1:]
             print "Checked: " + generatedString
-            
+
             mmodel = cmd.get_model(self.whichModelSelect)
             print self.whichModelSelect + " asize: " + str(len(mmodel.atom))
             newmodel = Indexed()
@@ -507,13 +508,14 @@ class AnBeKoM:
 				outdir = outdir[:-1]
             input = "%s/out.pdb" % (outdir)
             #cmd.save(input, self.whichModelSelect) # to by ulozilo cely model whichModelSelect.
-            cmd.save(input, "tmpCaverModel") 
+            cmd.save(input, "tmpCaverModel")
             cmd.delete("tmpCaverModel")
             cesta = os.getcwd()
             # set ignore waters to false -- the model is already filtered by input model and aminos
             self.varremovewater.set(0)
             if WINDOWZ:
-              commandXYZ = "java %s -jar \"%s/modules/Caver2_1_%s/Caver2_1.jar\" \"%s\" %f %f %f %s \"%s\" %d %d %d %s" % (JOPTS, self.pymollocation.getvalue(), VERS, input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()), self.tunnels.getvalue(), outdir, self.varremovewater.get(), 0,self.methodvar.get(), "tun_" + self.whichModelSelect)
+              #commandXYZ = "java %s -jar \"%s/modules/Caver2_1_%s/Caver2_1.jar\" \"%s\" %f %f %f %s \"%s\" %d %d %d %s" % (JOPTS, self.pymollocation.getvalue(), VERS, input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()), self.tunnels.getvalue(), outdir, self.varremovewater.get(), 0,self.methodvar.get(), "tun_" + self.whichModelSelect)
+              commandXYZ = "java %s -jar \"%s\Caver2_1.jar\" \"%s\" %f %f %f %s \"%s\" %d %d %d %s" % (JOPTS, self.pymollocation.getvalue(),input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()), self.tunnels.getvalue(), outdir, self.varremovewater.get(),0,self.methodvar.get(), "tun_" + self.whichModelSelect)
             else:
               commandXYZ = "java %s -jar \"%s/Caver2_1.jar\" \"%s\" %f %f %f %s \"%s\" %d %d %d %s" % (JOPTS, self.pymollocation.getvalue(),input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()), self.tunnels.getvalue(), outdir, self.varremovewater.get(),0,self.methodvar.get(), "tun_" + self.whichModelSelect)
             tunnels = int(self.tunnels.getvalue())
@@ -536,7 +538,7 @@ class AnBeKoM:
                   if i == 0:
                     error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
                                        message_text = 'Error: No tunnel was found, the starting point is probably outside of the molecule.',)
-                                       
+
                     junk = error_dialog.activate()
                     break
                   else:
@@ -562,7 +564,7 @@ class AnBeKoM:
                 global CAVER_BINARY_LOCATION
                 CAVER_BINARY_LOCATION = self.binlocation.getvalue()
                 self.dialog.withdraw()
-    
+
     def CreateDirectory(self,dir):
       if os.path.isdir(dir):
        return;
@@ -592,14 +594,14 @@ class AnBeKoM:
       self.ylocvar.set(self.originalY)
       self.zlocvar.set(self.originalZ)
       self.showCrisscross()
-		
+
     def optimize(self):
       if self.testBinary() == 0:
         return
       self.originalX = self.xlocvar.get()
       self.originalY = self.ylocvar.get()
       self.originalZ = self.zlocvar.get()
-      outdir = self.binlocation.getvalue()   
+      outdir = self.binlocation.getvalue()
       if os.path.isfile(outdir):
          error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
                              message_text = 'ERROR: Output directory is file.',)
@@ -607,7 +609,7 @@ class AnBeKoM:
          return
       elif not os.path.exists(outdir):
          self.CreateDirectory(outdir)
-      
+
       #fix outdir slashes
       outdir = outdir.replace("\\","/")
       if (outdir.endswith("/")):
@@ -619,20 +621,20 @@ class AnBeKoM:
       self.whichModelSelect = sel1text;
 
       #save selected
-      cmd.save(input, self.whichModelSelect)      
+      cmd.save(input, self.whichModelSelect)
       commandOPT =""
       if WINDOWZ:
         commandOPT = "java -classpath \"%s/modules/Caver2_1_%s/Caver2_1.jar\" AnBeKoM.ActiveSiteOptimize \"%s\" %f %f %f \"%s\" %f" % (self.pymollocation.getvalue(), VERS, input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()),  outdir,float(self.optimizeNearValue.get()))
       else:
         commandOPT = "java -classpath \"%s/Caver2_1.jar\" AnBeKoM.ActiveSiteOptimize \"%s\" %f %f %f \"%s\" %f" % (self.pymollocation.getvalue(),input, float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()), outdir, float(self.optimizeNearValue.get()))
-      
+
       outAsite = "%s/startingPointOptimized.txt" % outdir
       if os.path.exists(outAsite):
-        os.remove(outAsite);      
-      
+        os.remove(outAsite);
+
       print commandOPT
       os.system(commandOPT)
-      
+
       if not os.path.exists(outAsite):
          error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
                              message_text = 'ERROR: Optimize failed. Check starting point above',)
@@ -664,7 +666,7 @@ class AnBeKoM:
 
     def stdamMessage(self):
 	    Pmw.MessageDialog(self.parent,title = 'Information',message_text = 'AA: Standard amino acids: \n ' + string.join(self.stdam_list, ", "))
-	    
+
     def inputAnalyseWrap(self, args):
 	      #print self.listbox1.curselection()[0] # aby to fungovalo, musi byt bindnute na <<ListboxSelect>>
 	      self.inputAnalyse()
@@ -672,9 +674,9 @@ class AnBeKoM:
     def inputAnalyse(self):
 	      sel1index = self.listbox1.curselection()[0]
 	      sel1text = self.listbox1.get(sel1index)
-	      self.whichModelSelect = sel1text;    
+	      self.whichModelSelect = sel1text;
 	      sel=cmd.get_model(self.whichModelSelect)
-	      #pripravit kontrolni strukturu pro nalezene          
+	      #pripravit kontrolni strukturu pro nalezene
 	      self.s = dict()
 	      self.s.clear()
 	      self.s["AA"] = IntVar()
@@ -686,7 +688,7 @@ class AnBeKoM:
 	          else:
 	            self.s[a.resn] = IntVar()
 	            self.s[a.resn].set(0)  # default only standard checked
-    
+
 	      self.reinitialise()
 
     def reinitialise(self):
@@ -694,7 +696,7 @@ class AnBeKoM:
 	        ksorted = sorted(self.s.keys())
 	        ksorted.remove("AA")
 	        ksorted = sorted(ksorted)
-	        stdstrings = ["AA"]  
+	        stdstrings = ["AA"]
 	        #na zacatek dam standardni a pak setrideny zbytek
 	        ksorted = stdstrings + ksorted
 	        #print "calling initialise"
@@ -706,7 +708,7 @@ class AnBeKoM:
 	          xs.grid_remove()
 	        self.buttonlist = []
 
-	        cntr = 0    
+	        cntr = 0
 	        # tady uz setrideny, se STDAM a STDRNA na zacatku
 	        for key in ksorted:
 	          #print "{" + key + "}{" + str(self.s[key].get()) + "}"
@@ -717,11 +719,11 @@ class AnBeKoM:
 	          tmpButton.var = self.s[key]
 	          tmpButton.grid(sticky=W, row = int(cntr/5), column = (cntr % 5))
 	          self.checklist.append(tmpButton)
-	          
+
 	          # zaridit balloon help -- neni potreba kdyz je tlacitko
 	          #if key == "AA":
-	          #  balloon = Pmw.Balloon(self.parent)	
-	          #  balloon.bind(tmpButton, 'STanDard AMino acids: \n ' + string.join(self.stdam_list, ", "), 'STanDard AMino acids')      	      
+	          #  balloon = Pmw.Balloon(self.parent)
+	          #  balloon.bind(tmpButton, 'STanDard AMino acids: \n ' + string.join(self.stdam_list, ", "), 'STanDard AMino acids')
 
 	          # kdyz poprve, je tam pridano STDAM, vlozit tam  tedy i napovedu
 	          if cntr == 0:
@@ -773,11 +775,11 @@ class AnBeKoM:
 #	status = f1.close()
 #	if status is None:
 #	   return (content,0)
-#	else: 
+#	else:
 #	   return ("",1)
 	status = os.system(cmd)
 	return status
-	
+
     def box(self,x1,y1,z1,x2,y2,z2,name="box"):
 
 		obj = [
@@ -785,7 +787,7 @@ class AnBeKoM:
 		VERTEX, float(x1), float(y1), float(z1),
 		VERTEX, float(x2), float(y1), float(z1),
 		VERTEX, float(x2), float(y2), float(z1),
-		VERTEX, float(x1), float(y2), float(z1),	
+		VERTEX, float(x1), float(y2), float(z1),
 		VERTEX, float(x1), float(y1), float(z1),
 		END,
 
@@ -793,10 +795,10 @@ class AnBeKoM:
 		VERTEX, float(x1), float(y1), float(z2),
 		VERTEX, float(x2), float(y1), float(z2),
 		VERTEX, float(x2), float(y2), float(z2),
-		VERTEX, float(x1), float(y2), float(z2),	
+		VERTEX, float(x1), float(y2), float(z2),
 		VERTEX, float(x1), float(y1), float(z2),
 		END,
-	
+
 		BEGIN, LINES,
 		VERTEX, float(x1), float(y1), float(z1),
 		VERTEX, float(x1), float(y1), float(z2),
@@ -818,14 +820,14 @@ class AnBeKoM:
 		END
 
 		]
-	
+
 		cmd.load_cgo(obj,name)
 
-		
+
     def crisscross(self,x,y,z,d,name="crisscross"):
 		obj = [
 		LINEWIDTH, 3,
-		
+
 		BEGIN, LINE_STRIP,
 		VERTEX, float(x-d), float(y), float(z),
 		VERTEX, float(x+d), float(y), float(z),
@@ -845,7 +847,7 @@ class AnBeKoM:
 		view = cmd.get_view()
 		cmd.load_cgo(obj,name)
 		cmd.set_view(view)
-		
+
 #
 # The classes PmwFileDialog and PmwExistingFileDialog and the _errorpop function
 # are taken from the Pmw contrib directory.  The attribution given in that file
@@ -862,7 +864,7 @@ class AnBeKoM:
 #    'info' is specified, the text given will be shown (in blue).
 #    Modified example to show both file and directory-type dialog
 #
-# No Guarantees. Distribute Freely. 
+# No Guarantees. Distribute Freely.
 # Please send bug-fixes/patches/features to <r.hooft@euromail.com>
 #
 ################################################################################
@@ -872,13 +874,13 @@ import Tkinter,Pmw
 
 def _errorpop(master,text):
     d=Pmw.MessageDialog(master,
-                        title="Error", 
+                        title="Error",
                         message_text=text,
                         buttons=("OK",))
     d.component('message').pack(ipadx=15,ipady=15)
     d.activate()
     d.destroy()
-    
+
 class PmwFileDialog(Pmw.Dialog):
     """File Dialog using Pmw"""
     def __init__(self, parent = None, **kw):
@@ -1015,13 +1017,13 @@ class PmwFileDialog(Pmw.Dialog):
 	    selectioncommand=self.setfilename,
 	    labelpos='w',
 	    label_text='Filename:')
-    
+
     def dirvalidate(self,string):
         if os.path.isdir(string):
             return Pmw.OK
         else:
             return Pmw.PARTIAL
-        
+
     def filevalidate(self,string):
         if string=='':
             return Pmw.PARTIAL
@@ -1031,7 +1033,7 @@ class PmwFileDialog(Pmw.Dialog):
             return Pmw.PARTIAL
         else:
             return Pmw.OK
-        
+
     def okbutton(self):
 	"""OK action: user thinks he has input valid data and wants to
            proceed. This is also called by <Return> in the filename entry"""
@@ -1047,7 +1049,7 @@ class PmwFileDialog(Pmw.Dialog):
 	self.deactivate()
 
     def tidy(self,w,v):
-	"""Insert text v into the entry and at the top of the list of 
+	"""Insert text v into the entry and at the top of the list of
            the combobox w, remove duplicates"""
 	if not v:
 	    return
@@ -1071,7 +1073,7 @@ class PmwFileDialog(Pmw.Dialog):
 	value=os.path.join(self['directory'],value)
 	dir,fil=os.path.split(value)
 	self.configure(directory=dir,filename=value)
-        
+
 	c=self['command']
 	if callable(c):
 	    c()
@@ -1079,7 +1081,7 @@ class PmwFileDialog(Pmw.Dialog):
     def newfilename(self):
 	"""Make sure a newly set filename makes it into the combobox list"""
 	self.tidy(self.component('filename'),self['filename'])
-	
+
     def setfilter(self,value):
 	self.configure(filter=value)
 
@@ -1129,8 +1131,8 @@ class PmwFileDialog(Pmw.Dialog):
 
     def askfilename(self,directory=None,filter=None):
 	"""The actual client function. Activates the dialog, and
-	   returns only after a valid filename has been entered 
-           (return value is that filename) or when canceled (return 
+	   returns only after a valid filename has been entered
+           (return value is that filename) or when canceled (return
            value is None)"""
 	if directory!=None:
 	    self.configure(directory=directory)
@@ -1178,11 +1180,11 @@ class PmwFileDialog(Pmw.Dialog):
 		    files.append(f)
 	self.component('filenamebox').setlist(files)
 	self.component('dirnamebox').setlist(dirs)
-    
+
     def validate(self,filename):
-	"""Validation function. Should return 1 if the filename is valid, 
-           0 if invalid. May pop up dialogs to tell user why. Especially 
-           suited to subclasses: i.e. only return 1 if the file does/doesn't 
+	"""Validation function. Should return 1 if the filename is valid,
+           0 if invalid. May pop up dialogs to tell user why. Especially
+           suited to subclasses: i.e. only return 1 if the file does/doesn't
            exist"""
 	return 1
 
@@ -1192,7 +1194,7 @@ class PmwExistingFileDialog(PmwFileDialog):
             return Pmw.OK
         else:
             return Pmw.PARTIAL
-        
+
     def validate(self,filename):
         if os.path.isfile(filename):
             return 1
@@ -1212,7 +1214,7 @@ if __name__ == '__main__':
     app.root = Tkinter.Tk()
     Pmw.initialise(app.root)
     app.root.title('Some Title')
-    
+
     widget = AnBeKoM(app)
     exitButton = Tkinter.Button(app.root, text = 'Exit', command = app.root.destroy)
     exitButton.pack()
