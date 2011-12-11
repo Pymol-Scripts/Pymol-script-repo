@@ -127,31 +127,36 @@ class DSSPPlugin:
         self.sel_obj_list = [] # there may be more than one seletion or object
                                # defined by self.pymol_sel
                                # treat each selection and object separately
-
-        if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
-            initialdir_dssp = os.path.join(os.environ['PYMOL_GIT_MOD'],"DSSP","i86Linux2","dssp-2")
-            initialdir_stride = os.path.join(os.environ['PYMOL_GIT_MOD'],"Stride","i86Linux2","stride")
-            os.environ['DSSP_BIN'] = initialdir_dssp
-            os.environ['STRIDE_BIN'] = initialdir_stride
-        elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
-            initialdir_dssp = os.path.join(os.environ['PYMOL_GIT_MOD'],"DSSP","ia64Linux2","dssp-2")
-            initialdir_stride = os.path.join(os.environ['PYMOL_GIT_MOD'],"Stride","ia64Linux2","stride")
-            os.environ['DSSP_BIN'] = initialdir_dssp
-            os.environ['STRIDE_BIN'] = initialdir_stride
-        elif sys.platform.startswith('win'):
-            initialdir_dssp = os.path.join(os.environ['PYMOL_GIT_MOD'],"DSSP","win32","dssp.exe")
-            initialdir_stride = os.path.join(os.environ['PYMOL_GIT_MOD'],"Stride","win32","stride.exe")
-            os.environ['DSSP_BIN'] = initialdir_dssp
-            os.environ['STRIDE_BIN'] = initialdir_stride
-        else:
-            pass
+        if 'DSSP_BIN' not in os.environ:
+            if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
+                initialdir_dssp = os.path.join(os.environ['PYMOL_GIT_MOD'],"DSSP","i86Linux2","dssp-2")
+                os.environ['DSSP_BIN'] = initialdir_dssp
+            elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
+                initialdir_dssp = os.path.join(os.environ['PYMOL_GIT_MOD'],"DSSP","ia64Linux2","dssp-2")
+                os.environ['DSSP_BIN'] = initialdir_dssp
+            elif sys.platform.startswith('win'):
+                initialdir_dssp = os.path.join(os.environ['PYMOL_GIT_MOD'],"DSSP","win32","dssp.exe")
+                os.environ['DSSP_BIN'] = initialdir_dssp
+            else:
+                pass
         if 'DSSP_BIN' in os.environ:
             if VERBOSE: print 'Found DSSP_BIN in environmental variables', os.environ['DSSP_BIN']
             self.dssp_bin.set(os.environ['DSSP_BIN'])
         else:
             if VERBOSE: print 'DSSP_BIN not found in environmental variables.'
             self.dssp_bin.set('')
-
+        if 'STRIDE_BIN' not in os.environ:
+            if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
+                initialdir_stride = os.path.join(os.environ['PYMOL_GIT_MOD'],"Stride","i86Linux2","stride")
+                os.environ['STRIDE_BIN'] = initialdir_stride
+            elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
+                initialdir_stride = os.path.join(os.environ['PYMOL_GIT_MOD'],"Stride","ia64Linux2","stride")
+                os.environ['STRIDE_BIN'] = initialdir_stride
+            elif sys.platform.startswith('win'):
+                initialdir_stride = os.path.join(os.environ['PYMOL_GIT_MOD'],"Stride","win32","stride.exe")
+                os.environ['STRIDE_BIN'] = initialdir_stride
+            else:
+                pass
         if 'STRIDE_BIN' in os.environ:
             if VERBOSE: print 'Found STRIDE_BIN in environmental variables', os.environ['STRIDE_BIN']
             self.stride_bin.set(os.environ['STRIDE_BIN'])
