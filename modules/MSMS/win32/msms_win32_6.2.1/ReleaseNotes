@@ -1,0 +1,28 @@
+Version 2.6.1
+- modified find_free_edges to continue when an atom is found to
+  be completely inside another atom
+
+Version 2.6.0
+- Dual density support:
+  It is now possible to compute a molecular surface with 2 densities of 
+  vertices.
+  The command line accepts a new keyword "hdensity" for specifying the vertex 
+  density to be used in the high density region.
+  The high density region is specified by a flag for each atom.
+  This modification creates a backwards incompatibility with .xyzrn file 
+  format as the optional high density flag is located before the name field 
+  in the input file.
+
+- Code was added to force subdivision of edges in cycles made of only 2 edges.
+
+- Added the ability to restart the calculation if the reduced surface fails 
+  to build because of numerical instability. 
+
+Version 2.5.7
+
+- Fixed the type field of vertices.  Type 3 for vertices inside reentrant 
+  faces, 2 for vertices in toroidal faces and SES edges and vertices,
+  and 1 for points inside contact faces.
+
+2.5.6
+
