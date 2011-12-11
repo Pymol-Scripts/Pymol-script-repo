@@ -231,8 +231,9 @@ def get_default_location(name):
         return True
     searchDirs = []
 ###!!! Edited for Pymol-script-repo !!!###
-    searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr","src"))
-    searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr"))
+    if 'PYMOL_GIT_MOD' in os.environ:
+        searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr","src"))
+        searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr"))
 ###!!!------------------------------!!!###
     # Previous order was A B C D
     #D
@@ -1695,7 +1696,8 @@ Citation for PDB2PQR:
                 args = ' '.join( map( str, args ) )
                 print "args are now converted to string: ", args
 #                retval = main.mainCommand(args)
-                os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'])+":"+os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr")
+                if 'PYMOL_GIT_MOD' in os.environ:
+                    os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'])+":"+os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr")
                 pymol_env = os.environ
                 callfunc = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
                 child_stdout, child_stderr = callfunc.communicate()
