@@ -47,7 +47,6 @@ import Pmw
 from threading import Thread
 #from commands import getstatusoutput
 def getstatusoutput(command):
-    print >> sys.stderr, 'command = ', command
     from subprocess import Popen, PIPE, STDOUT
     env = dict(os.environ)
     if 'PYMOL_GIT_MOD' in os.environ:
