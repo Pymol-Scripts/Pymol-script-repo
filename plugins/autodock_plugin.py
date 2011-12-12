@@ -46,7 +46,16 @@ import tkMessageBox, tkFileDialog
 import Pmw
 from threading import Thread
 #from commands import getstatusoutput
-import subprocess
+def getstatusoutput(command):
+    print >> sys.stderr, 'command = ', command
+    from subprocess import Popen, PIPE, STDOUT
+    env = dict(os.environ)
+    if 'PYMOL_GIT_MOD' in os.environ:
+        env['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'], "ADT")
+    p = Popen(command.split(), stdout=PIPE, stderr=STDOUT, env=env)
+    output = p.communicate()[0]
+    return p.returncode, output
+
 from pymol import cmd,selector
 from pymol.cmd import _feedback,fb_module,fb_mask,is_list,_cmd
 from pymol.cgo import *
@@ -1823,41 +1832,32 @@ class Autodock:
     def read_plugin_config_file(self):
         config_file_name = os.path.join(tmp_dir,"pymol_autodock_plugin.conf")
         self.config_settings = {}
-#        self.config_settings['autodock_tools_path'] = ''
-#        self.config_settings['autogrid_exe'] = ''
-#        self.config_settings['autodock_exe'] = ''
-#        self.config_settings['vina_exe'] = ''
+        self.config_settings['autodock_tools_path'] = ''
+        self.config_settings['autogrid_exe'] = ''
+        self.config_settings['autodock_exe'] = ''
+        self.config_settings['vina_exe'] = ''
+
         if 'PYMOL_GIT_MOD' in os.environ:
             self.config_settings['autodock_tools_path'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT","AutoDockTools","Utilities24")
-            if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
-                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","i86Linux2","autogrid4")
-                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","i86Linux2","autodock4")
-            elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
-                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","ia64Linux2","autogrid4")
-                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","ia64Linux2","autodock4")
-            elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '10':
-                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin10","autogrid4")
-                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin10","autodock4")
-            elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '9':
-                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin9","autogrid4")
-                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin9","autodock4")
-            elif sys.platform.startswith('darwin') and platform.release().split('.')[0] == '8':
-                self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin8","autogrid4")
-                self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","universalDarwin8","autodock4")
+            if sys.platform.startswith('linux'):
+                if platform.architecture()[0] == '32bit':
+                    self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","i86Linux2","autogrid4")
+                    self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","i86Linux2","autodock4")
+                else:
+                    self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","ia64Linux2","autogrid4")
+                    self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","ia64Linux2","autodock4")
+                self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_linux_x86","vina")
+            elif sys.platform.startswith('darwin'):
+                version = platform.release().split('.')[0]
+                if version in ('10', '9', '8'):
+                    bin_path = os.path.join(os.environ['PYMOL_GIT_MOD'], 'autodock_423', 'universalDarwin' + version)
+                    self.config_settings['autogrid_exe'] = os.path.join(bin_path, 'autogrid4')
+                    self.config_settings['autodock_exe'] = os.path.join(bin_path, 'autodock4')
+                self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_mac","vina")
             elif sys.platform.startswith('win'):
                 self.config_settings['autogrid_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","win32","autogrid4.exe")
                 self.config_settings['autodock_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_423","win32","autodock4.exe")
-            if sys.platform.startswith('linux'):
-                self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_linux_x86","vina")
-            elif sys.platform.startswith('darwin'):
-                self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_mac","vina")
-            elif sys.platform.startswith('win'):
                 self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_win32","vina.exe")
-        else:
-            self.config_settings['autodock_tools_path'] = ''
-            self.config_settings['autogrid_exe'] = ''
-            self.config_settings['autodock_exe'] = ''
-            self.config_settings['vina_exe'] = ''
 
         if os.path.isfile(config_file_name):
             self.status_line.configure(text = 'Reading configuration file: %s' % config_file_name)
@@ -1866,12 +1866,13 @@ class Autodock:
                 if line[0]!='#':
                     entr = line.split('=')
                     self.config_settings[entr[0].strip()] = entr[1].strip()
-            self.autogrid_exe.set(self.config_settings['autogrid_exe'])
-            self.autodock_exe.set(self.config_settings['autodock_exe'])
-            self.vina_exe.set(self.config_settings['vina_exe'])
-            self.autodock_tools_path.set(self.config_settings['autodock_tools_path'])
         else:
             self.status_line.configure(text = 'Configuration file not found')
+
+        self.autogrid_exe.set(self.config_settings['autogrid_exe'])
+        self.autodock_exe.set(self.config_settings['autodock_exe'])
+        self.vina_exe.set(self.config_settings['vina_exe'])
+        self.autodock_tools_path.set(self.config_settings['autodock_tools_path'])
         return self.config_settings
 
     def save_plugin_config_file(self):
@@ -1949,13 +1950,7 @@ class Autodock:
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
 
-        #result, output = getstatusoutput(command)
-        os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT")
-        pymol_env = os.environ
-        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-        child_stdout, child_stderr = callfunc.communicate()
-        output =  repr(child_stdout)+repr(child_stderr)
-        result = callfunc.returncode
+        result, output = getstatusoutput(command)
         if result == 0:
             self.receptor_list.insert('end',sel[0])
             self.status_line.configure(text="Successfully generated receptor file receptor.%s.pdbqt" % sel[0])
@@ -2008,13 +2003,7 @@ class Autodock:
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
 #        result = os.system(command)
-        #result, output = getstatusoutput(command)
-        os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT")
-        pymol_env = os.environ
-        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-        child_stdout, child_stderr = callfunc.communicate()
-        output =  repr(child_stdout)+repr(child_stderr)
-        result = callfunc.returncode
+        result, output = getstatusoutput(command)
         if result == 0:
             receptor_object.receptor_rigid = rec_rigid
             receptor_object.receptor_flexible = rec_flexible
@@ -2039,13 +2028,7 @@ class Autodock:
         command = "%s -f %s -o %s " % (util_program, fn, outfile)
         self.receptor_page_log_text.insert('end',"Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto',1.0)
-        #result, output = getstatusoutput(command)
-        os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT")
-        pymol_env = os.environ
-        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-        child_stdout, child_stderr = callfunc.communicate()
-        output =  repr(child_stdout)+repr(child_stderr)
-        result = callfunc.returncode
+        result, output = getstatusoutput(command)
         if result == 0:
             self.status_line.configure(text = "Loading receptor %s" % fn)
             self.receptor_page_log_text.insert('end',output)
@@ -2125,13 +2108,7 @@ class Autodock:
         command = "%s -l %s -o %s -A checkhydrogens" % (util_program,filename,outfile)
         self.ligand_page_log_text.insert('end',"Batch: %s\n" % command)
 #        result = os.system(command)
-        #result, output = getstatusoutput(command)
-        os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT")
-        pymol_env = os.environ
-        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-        child_stdout, child_stderr = callfunc.communicate()
-        output =  repr(child_stdout)+repr(child_stderr)
-        result = callfunc.returncode
+        result, output = getstatusoutput(command)
         if result == 0:
             self.ligand_pdbqt_list.insert('end',sel)
             self.docking_ligand_list.insert('end',sel)
@@ -2306,13 +2283,7 @@ class Autodock:
 
         self.docking_page_log_text.insert('end',"Batch: %s\n" % command)
         self.docking_page_log_text.yview('moveto',1.0)
-        #result, output = getstatusoutput(command)
-        os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT")
-        pymol_env = os.environ
-        callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-        child_stdout, child_stderr = callfunc.communicate()
-        output =  repr(child_stdout)+repr(child_stderr)
-        result = callfunc.returncode
+        result, output = getstatusoutput(command)
         if result == 0:
             self.status_line.configure(text="Successfully generated AutoGrid input file")
             self.docking_page_log_text.insert('end',output)
@@ -2387,13 +2358,7 @@ class Autodock:
                 command+=' -l %s' % lig_pdbqt
             self.docking_page_log_text.insert('end',"Batch: %s\n" % command)
             self.docking_page_log_text.yview('moveto', 1.0)
-            #result, output = getstatusoutput(command)
-            os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"ADT")
-            pymol_env = os.environ
-            callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-            child_stdout, child_stderr = callfunc.communicate()
-            output =  repr(child_stdout)+repr(child_stderr)
-            result = callfunc.returncode
+            result, output = getstatusoutput(command)
             if result == 0:
                 self.status_line.configure(text="Wrote AutoDock input file for ligand: %s" % ligands)
 #                self.docking_page_log_text.insert('end',"Running AutoDock.....\n")
