@@ -1,3 +1,4 @@
+reinitialize
 import propka
 cmd.bg_color("white")
 cmd.set("auto_zoom","off")

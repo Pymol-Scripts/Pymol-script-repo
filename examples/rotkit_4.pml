@@ -1,9 +1,14 @@
 reinitialize
-cd /home/tlinnet/test
 import rotkit
- 
+
 fetch 1HP1, async=0
-load Atto590.pdb
+python
+if 'PYMOL_GIT_MOD' in os.environ:
+    example_dir = os.path.join(os.path.split(os.environ['PYMOL_GIT_MOD'])[0],"files_for_examples")
+    cmd.load(os.path.join(example_dir,"Atto590.pdb"))
+else:
+    cmd.load("Atto590.pdb")
+python end
 # Make sure everything is loaded before we continue
 cmd.refresh()
  
@@ -154,4 +159,4 @@ cross = rotkit.crossprod(rotkit.vector(molselect13,molselect12),rotkit.vector(mo
 unity_cross = rotkit.unitvector(cross)[0]
 point_cross = rotkit.crosspoint(molselect13,cross)
 rotkit.rotateline(molnameselect13,point_cross,180,molname)
-print("rotateline Pos1=%s, Pos2=%s, degangle=10, molecule=%s"%(molnameselect13, pcross, molname))
+print("rotateline Pos1=%s, Pos2=%s, degangle=10, molecule=%s"%(molnameselect13, point_cross, molname))
