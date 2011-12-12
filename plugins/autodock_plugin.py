@@ -1853,6 +1853,11 @@ class Autodock:
                 self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_mac","vina")
             elif sys.platform.startswith('win'):
                 self.config_settings['vina_exe'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"autodock_vina","autodock_vina_1_1_2_win32","vina.exe")
+            else:
+                self.config_settings['autodock_tools_path'] = ''
+                self.config_settings['autogrid_exe'] = ''
+                self.config_settings['autodock_exe'] = ''
+                self.config_settings['vina_exe'] = ''
         else:
             self.config_settings['autodock_tools_path'] = ''
             self.config_settings['autogrid_exe'] = ''
