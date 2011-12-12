@@ -1,3 +1,4 @@
+reinitialize
 import propka
 fetch 1ohr, async=0
 create 1ohrB3C, 1ohr

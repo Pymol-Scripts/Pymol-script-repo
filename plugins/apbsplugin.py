@@ -190,7 +190,7 @@ def get_default_location(name):
     Some programs are verified with additional tests. In particular,
     some versions of PyMOL ship with a broken apbs.exe, so we verify
     that it can be run.
-    
+
     PARAMS
         name, (string) the basename of the file we're looking for
     EXAMPLE
@@ -234,6 +234,10 @@ def get_default_location(name):
     if 'PYMOL_GIT_MOD' in os.environ:
         searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr","src"))
         searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr"))
+    if sys.platform.startswith('win') and 'PYMOL_GIT_MOD' in os.environ:
+        searchDirs.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"APBS1_3_0"))
+    elif sys.platform.startswith('win'):
+        searchDirs.append("C:\\")
 ###!!!------------------------------!!!###
     # Previous order was A B C D
     #D
@@ -245,7 +249,7 @@ def get_default_location(name):
         if x != None and x != "":
             searchDirs.append(x)
     #A
-    if "FREEMOL" in os.environ: 
+    if "FREEMOL" in os.environ:
         searchDirs.append(os.environ["FREEMOL"])
     #B
     if "PYMOL_PATH" in os.environ:
@@ -294,7 +298,7 @@ def get_default_location(name):
                 return f
         else:
             f = os.path.join( d, name )  # make path/name.py
-            #print "trying",f     ###!!! 
+            #print "trying",f     ###!!!
             if os.path.exists(f) and verify(name,f):
                 return f
             elif name.endswith('.exe'):
@@ -313,7 +317,7 @@ def get_default_location(name):
 def __init__(self):
     """
     Init PyMOL, by adding APBSTools to the GUI under Plugins
-    
+
     Creates the APBS widget/notebook.  Once the event is received,
     we create a new instance of APBSTools2 which is a Pmw, which upon
     creation shows itself.
@@ -343,7 +347,7 @@ def run(prog,args):
     elif type(args) in (type([]),type(())):
         args = tuple(args)
     args = (prog,) + args
-    
+
     try:
         output_file = tempfile.TemporaryFile(mode="w+")  # <-- shouldn't this point to the temp dir
     except IOError:
@@ -418,7 +422,7 @@ def getApbsInputFile(pqr_filename,
     # and dime.
     # This allows people to automate things (e.g. "Alanine scanning")
     #
-    
+
     #
     # New template using mg-auto
     # See http://agave.wustl.edu/apbs/doc/api/html/#mg-auto
@@ -467,7 +471,7 @@ elec
                      #       smoothing
                      #  1 => As 0 with harmoinc average
                      #       smoothing
-                     #  2 => Cubic spline 
+                     #  2 => Cubic spline
     srad %f          # Solvent radius (1.4 for water)
     swin 0.3         # Surface cubic spline window .. default 0.3
     temp %f          # System temperature (298.15 default)
@@ -598,7 +602,7 @@ class APBSTools2:
 
     def __init__(self,app):
         self.parent = app.root
-        
+
         # Create the dialog.
         self.dialog = Pmw.Dialog(self.parent,
                                  buttons = ('Register APBS Use', 'Register PDB2PQR Use', 'Set grid', 'Run APBS', 'Exit APBS tools'),
@@ -656,12 +660,12 @@ class APBSTools2:
                                          label_text='\tChoose Externally Generated PQR:',
                                          )
 
-        
+
 
         for entry in (self.selection,self.map,self.radiobuttons,self.pdb2pqr_options,self.pqr_to_use):
         #for entry in (self.selection,self.map,self.radiobuttons,):
             entry.pack(fill='x',padx=4,pady=1) # vertical
-        
+
 
         # Set up the main "Calculation" page
         page = self.notebook.add('Configuration')
@@ -936,21 +940,21 @@ class APBSTools2:
                               justify=LEFT,
                               text = """
 By default, the PyMOL APBS Tools will use APBS's psize.py to calculate proper grid dimensions and
-spacing. This tool attempts to make the fine mesh spacing approximately 0.5 A, but will make a coarser 
-grid if constrained to do so by the Maximum Memory Allowed setting in the configuration pane. If 
+spacing. This tool attempts to make the fine mesh spacing approximately 0.5 A, but will make a coarser
+grid if constrained to do so by the Maximum Memory Allowed setting in the configuration pane. If
 you wish this behavior, you must ensure that "APBS psize.py location" above points to a valid file.
-This plugin can also calculate grid dimensions and spacing itself. If you wish that behavior, simply 
+This plugin can also calculate grid dimensions and spacing itself. If you wish that behavior, simply
 delete the "APBS psize.py location" above.
 
-By default, the PyMOL APBS Tools will use PDB2PQR to generate PQR files. Command line options for 
-PDB2PQR can be controlled on the Main panel. If you wish to use PDB2PQR, you must ensure that 
-"pdb2pqr location" above points to a valid file. PyMOL can directly generate PQR files using standard 
+By default, the PyMOL APBS Tools will use PDB2PQR to generate PQR files. Command line options for
+PDB2PQR can be controlled on the Main panel. If you wish to use PDB2PQR, you must ensure that
+"pdb2pqr location" above points to a valid file. PyMOL can directly generate PQR files using standard
 protein residues and AMBER charges.  If wish that behavior, simply delete the "pdb2pqr location" above.
 """,
                               )
         label.pack()
 
-        
+
         page = self.notebook.add('Temp File Locations')
         group = Pmw.Group(page,tag_text='Locations')
         group.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
@@ -962,7 +966,7 @@ protein residues and AMBER charges.  If wish that behavior, simply delete the "p
                                                            value = os.path.join(get_default_location('temp'),'pymol-generated.pqr'),
                                                            )
         self.pymol_generated_pqr_filename.pack(fill = 'x', padx = 20, pady = 10)
-        
+
         self.pymol_generated_pdb_filename = Pmw.EntryField(group.interior(),
                                                            labelpos = 'w',
                                                            label_pyclass = FileDialogButtonClassFactory.get(self.setPymolGeneratedPdbFilename),
@@ -1079,7 +1083,7 @@ Citation for PDB2PQR:
         self.dialog.show()
     def generatePqrFile(self):
         ''' Wrapper for all of our PQR generation routines.
-        
+
         - Generate PQR file if necessary
         - Return False if unsuccessful, True if successful.
 
@@ -1201,7 +1205,7 @@ Citation for PDB2PQR:
             # WLD
             sel = "((%s) or (neighbor (%s) and hydro))"%(
                            self.selection.getvalue(), self.selection.getvalue())
-            
+
             if pymol.cmd.count_atoms( self.selection.getvalue() + " and not alt ''")!=0:
                 print "WARNING: You have alternate locations for some of your atoms!"
             # pymol.cmd.save(pqr_filename,sel) # Pretty sure this was a bug. No need to write it when it's externally generated.
@@ -1241,7 +1245,7 @@ Citation for PDB2PQR:
                                                  )
                 junk = error_dialog.activate()
                 return False
-                
+
             box_length = [maxs[i] - mins[i] for i in range(3)]
             center = [(maxs[i] + mins[i])/2.0 for i in range(3)]
             #
@@ -1403,7 +1407,7 @@ Citation for PDB2PQR:
         txt = txt.replace('-',' -')
         f.write(txt)
         f.close()
-                
+
     def getUnassignedAtomsFromPqr(self,fname):
         """
         Here is a comment from Todd Dolinsky via email:
@@ -1420,10 +1424,10 @@ Citation for PDB2PQR:
         REMARK   5          in a protonation state not supported by the
         REMARK   5          charmm forcefield!
         REMARK   5          All were reset to their standard pH 7.0 state.
-        REMARK   5 
+        REMARK   5
         REMARK   5              CYS 61 2 (negative)
         REMARK   5              CYS 79 2 (negative)
-        REMARK   5 
+        REMARK   5
         REMARK   5 WARNING: Unable to debump ALA 1 19
         REMARK   5 WARNING: Unable to debump MET 1 151
         REMARK   5 WARNING: Unable to debump PRO 1 258
@@ -1449,14 +1453,14 @@ Citation for PDB2PQR:
         >>> re.compile('REMARK   5 *(\d)* \w* in').findall(text)  # Text contains PQR output string
         ['6657', '6658', '6659', '6660', '6661', '6662', '6663', '6664']
 
-        Or you can grab any other useful information - I'd say that using a regular expression like this would be the best option to ensure you don't get false positives. 
+        Or you can grab any other useful information - I'd say that using a regular expression like this would be the best option to ensure you don't get false positives.
         """
         f = open(fname)
         unassigned = re.compile('REMARK   5 *(\d+) \w* in').findall(f.read())  # Text contains PQR output string
         f.close()
         return '+'.join(unassigned)
-        
-            
+
+
     def generateApbsInputFile(self):
         if self.checkInput():
             #
@@ -1519,7 +1523,7 @@ Citation for PDB2PQR:
                                                )
             if DEBUG:
                 print "GOT THE APBS INPUT FILE"
-                                                
+
             #
             # write out the input text
             #
@@ -1545,7 +1549,7 @@ Citation for PDB2PQR:
                                              message_text = message,
                                              )
             junk = error_dialog.activate()
-            
+
         #
         # First, check to make sure we have valid locations for apbs and psize
         #
@@ -1556,11 +1560,11 @@ Citation for PDB2PQR:
         # If the path to psize is not correct, that's fine .. we'll
         # do the calculations ourself.
         #
-        
+
         #if not self.psize.valid():
         #    show_error("Please set APBS's psize location")
         #    return False
-        
+
         #
         # Now check the temporary filenames
         #
@@ -1583,8 +1587,8 @@ Citation for PDB2PQR:
         if not self.map.getvalue():
             show_error('Please choose a name for the generated map.')
             return False
-        
-        
+
+
         #
         # Now, the ions
         #
@@ -1602,7 +1606,7 @@ Citation for PDB2PQR:
                 if not getattr(self,'grid_%s_%s'%(grid_type,coord)).valid():
                     show_error('Please correct grid dimensions\nby clicking on the "Set grid" button')
                     return False
-        
+
         #
         # Now other easy things
         #
@@ -1631,7 +1635,7 @@ Citation for PDB2PQR:
                                              message_text = message,
                                              )
             junk = error_dialog.activate()
-        
+
         #
         # First, generate a PDB file
         #
@@ -1738,8 +1742,8 @@ Citation for PDB2PQR:
             return False
         print "I WILL RETURN TRUE from pdb2pqr"
         return True
-        
-        
+
+
     # PQR generation routines are required to call
     # cleanupGeneratedPdbOrPqrFile themselves.
     def _generatePymolPqrFile(self):
@@ -1763,7 +1767,7 @@ Citation for PDB2PQR:
         # WLD
         sel = "((%s) or (neighbor (%s) and hydro))"%(
             self.selection.getvalue(), self.selection.getvalue())
-        
+
         pqr_filename = self.getPqrFilename()
         try:
             print "Erasing previous contents of",pqr_filename
@@ -1776,7 +1780,7 @@ Citation for PDB2PQR:
                                              )
             junk = error_dialog.activate()
             return False
-            
+
         # PyMOL + champ == pqr
         from chempy.champ import assign
         if self.radiobuttons.getvalue() == 'Use PyMOL generated PQR and PyMOL generated Hydrogens and termini':
@@ -1793,11 +1797,11 @@ Citation for PDB2PQR:
         # WLD (code now unnecessary)
         # if not self.selection.getvalue() in '(all) all'.split():
         #     self.selection.setvalue(sel)
-                
+
         #
         # Get rid of chain information
         #
-        # WLD -- PyMOL now does this automatically with PQR files        
+        # WLD -- PyMOL now does this automatically with PQR files
         # pymol.cmd.alter(sel,'chain = ""')
         self.fixColumns(sel)
         pymol.cmd.save(pqr_filename,sel)
@@ -1852,20 +1856,20 @@ import Tkinter,Pmw
 #    'info' is specified, the text given will be shown (in blue).
 #    Modified example to show both file and directory-type dialog
 #
-# No Guarantees. Distribute Freely. 
+# No Guarantees. Distribute Freely.
 # Please send bug-fixes/patches/features to <r.hooft@euromail.com>
 #
 ################################################################################
 
 def _errorpop(master,text):
     d=Pmw.MessageDialog(master,
-                        title="Error", 
+                        title="Error",
                         message_text=text,
                         buttons=("OK",))
     d.component('message').pack(ipadx=15,ipady=15)
     d.activate()
     d.destroy()
-    
+
 class PmwFileDialog(Pmw.Dialog):
     """File Dialog using Pmw"""
     def __init__(self, parent = None, **kw):
@@ -2002,13 +2006,13 @@ class PmwFileDialog(Pmw.Dialog):
 	    selectioncommand=self.setfilename,
 	    labelpos='w',
 	    label_text='Filename:')
-    
+
     def dirvalidate(self,string):
         if os.path.isdir(string):
             return Pmw.OK
         else:
             return Pmw.PARTIAL
-        
+
     def filevalidate(self,string):
         if string=='':
             return Pmw.PARTIAL
@@ -2018,7 +2022,7 @@ class PmwFileDialog(Pmw.Dialog):
             return Pmw.PARTIAL
         else:
             return Pmw.OK
-        
+
     def okbutton(self):
 	"""OK action: user thinks he has input valid data and wants to
            proceed. This is also called by <Return> in the filename entry"""
@@ -2034,7 +2038,7 @@ class PmwFileDialog(Pmw.Dialog):
 	self.deactivate()
 
     def tidy(self,w,v):
-	"""Insert text v into the entry and at the top of the list of 
+	"""Insert text v into the entry and at the top of the list of
            the combobox w, remove duplicates"""
 	if not v:
 	    return
@@ -2058,7 +2062,7 @@ class PmwFileDialog(Pmw.Dialog):
 	value=os.path.join(self['directory'],value)
 	dir,fil=os.path.split(value)
 	self.configure(directory=dir,filename=value)
-        
+
 	c=self['command']
 	if callable(c):
 	    c()
@@ -2066,7 +2070,7 @@ class PmwFileDialog(Pmw.Dialog):
     def newfilename(self):
 	"""Make sure a newly set filename makes it into the combobox list"""
 	self.tidy(self.component('filename'),self['filename'])
-	
+
     def setfilter(self,value):
 	self.configure(filter=value)
 
@@ -2116,8 +2120,8 @@ class PmwFileDialog(Pmw.Dialog):
 
     def askfilename(self,directory=None,filter=None):
 	"""The actual client function. Activates the dialog, and
-	   returns only after a valid filename has been entered 
-           (return value is that filename) or when canceled (return 
+	   returns only after a valid filename has been entered
+           (return value is that filename) or when canceled (return
            value is None)"""
 	if directory!=None:
 	    self.configure(directory=directory)
@@ -2165,11 +2169,11 @@ class PmwFileDialog(Pmw.Dialog):
 		    files.append(f)
 	self.component('filenamebox').setlist(files)
 	self.component('dirnamebox').setlist(dirs)
-    
+
     def validate(self,filename):
-	"""Validation function. Should return 1 if the filename is valid, 
-           0 if invalid. May pop up dialogs to tell user why. Especially 
-           suited to subclasses: i.e. only return 1 if the file does/doesn't 
+	"""Validation function. Should return 1 if the filename is valid,
+           0 if invalid. May pop up dialogs to tell user why. Especially
+           suited to subclasses: i.e. only return 1 if the file does/doesn't
            exist"""
 	return 1
 
@@ -2180,7 +2184,7 @@ class PmwExistingFileDialog(PmwFileDialog):
             return Pmw.OK
         else:
             return Pmw.PARTIAL
-        
+
     def validate(self,filename):
         if os.path.isfile(filename):
             return 1
@@ -2282,7 +2286,7 @@ class VisualizationGroup(Pmw.Group):
             self.sol_checkbutton = Checkbutton(self.ms_group.interior(),
                                                text = "Solvent accessible surface",
                                                variable = self.surface_solvent)
-            self.sol_checkbutton.pack()            
+            self.sol_checkbutton.pack()
             self.potential_at_sas = IntVar()
             self.potential_at_sas.set(APBSTools2.defaults['potential_at_sas'])
             self.pot_checkbutton = Checkbutton(self.ms_group.interior(),
@@ -2390,7 +2394,7 @@ If you have a molecule and a map loaded, please click "Update"''',
 
     def showMolSurface(self):
         self.updateMolSurface()
-            
+
     def hideMolSurface(self):
         pymol.cmd.hide('surface',self.molecule.getvalue())
 
@@ -2410,7 +2414,7 @@ If you have a molecule and a map loaded, please click "Update"''',
     def getIsoNegName(self):
         idx = [i for i in pymol.cmd.get_names() if pymol.cmd.get_type(i)=='object:map'].index(self.map.getvalue())
         return '_'.join(('iso_neg',str(idx),str(self.visgroup_num)))
-        
+
     def updateRamp(self):
         molecule_name = self.molecule.getvalue()
         ramp_name = self.getRampName()
@@ -2435,7 +2439,7 @@ If you have a molecule and a map loaded, please click "Update"''',
         pymol.cmd.show('surface',molecule_name)
         pymol.cmd.refresh()
         pymol.cmd.recolor(molecule_name)
-        
+
     def showPosSurface(self):
         self.updatePosSurface()
     def hidePosSurface(self):
