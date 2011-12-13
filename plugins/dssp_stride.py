@@ -59,7 +59,7 @@
 
 # python lib
 import os
-import sys, platform
+import sys, platform, subprocess
 import math
 import random
 import tempfile
@@ -127,7 +127,7 @@ class DSSPPlugin:
         self.sel_obj_list = [] # there may be more than one seletion or object
                                # defined by self.pymol_sel
                                # treat each selection and object separately
-        if 'DSSP_BIN' not in os.environ:
+        if 'DSSP_BIN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
             if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
                 initialdir_dssp = os.path.join(os.environ['PYMOL_GIT_MOD'],"DSSP","i86Linux2","dssp-2")
                 os.environ['DSSP_BIN'] = initialdir_dssp
@@ -145,7 +145,7 @@ class DSSPPlugin:
         else:
             if VERBOSE: print 'DSSP_BIN not found in environmental variables.'
             self.dssp_bin.set('')
-        if 'STRIDE_BIN' not in os.environ:
+        if 'STRIDE_BIN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
             if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
                 initialdir_stride = os.path.join(os.environ['PYMOL_GIT_MOD'],"Stride","i86Linux2","stride")
                 os.environ['STRIDE_BIN'] = initialdir_stride
@@ -479,7 +479,9 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         dssp_tmpout_os_fh, dssp_tmpout_fn = tempfile.mkstemp(suffix='.dssp')
         os.close(dssp_tmpout_os_fh)
         dssp_cmd = '%s %s > %s' % (self.dssp_bin.get(), pdb_fn, dssp_tmpout_fn)
-        os.system(dssp_cmd)
+        #os.system(dssp_cmd)
+        print dssp_cmd
+        status = subprocess.call(dssp_cmd, shell=True)
         fh = open(dssp_tmpout_fn)
         fd = fh.readlines()
         fh.close()
@@ -664,7 +666,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         stride_tmpout_os_fh, stride_tmpout_fn = tempfile.mkstemp(suffix='.stride')
         os.close(stride_tmpout_os_fh)
         stride_cmd = '%s %s > %s' % (self.stride_bin.get(), pdb_fn, stride_tmpout_fn)
-        os.system(stride_cmd)
+        #os.system(stride_cmd)
+        subprocess.call(stride_cmd, shell=True)
         fh = open(stride_tmpout_fn)
         fd = fh.readlines()
         fh.close()
