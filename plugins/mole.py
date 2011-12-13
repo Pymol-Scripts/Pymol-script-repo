@@ -29,7 +29,8 @@ MOLE_OUTPUT=os.getcwd()
 
 if 'PYMOL_GIT_MOD' in os.environ:
     pymol_env = os.environ.copy()
-    pymol_env['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole") 
+    #pymol_env['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole") 
+    sys.path.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole"))
     if sys.platform.startswith('linux'):
         MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","linux","bin","Mole.exe")
         qhull_dir = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","linux","bin")
@@ -561,30 +562,34 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                 print '\nRunning command:',command
                 status = subprocess.call(command)
             else:
-                #command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2],mole_stdout, mole_stderr);
-                command = [self.binlocation.getvalue(),'--fi','pdb','--input',tmppdb,'--numinterp',str(int(self.pymol_numinterp.getvalue())),'--activesiteradius',str(float(self.pymol_activesiteradius.getvalue())),'--noclustering','--selection','all','--outdir',self.pymol_outdir.getvalue(),'--vmd','--pymol','--numtun',str(int(self.numbertunnels.getvalue())),'--x',str(startpoint[0]),'--y',str(startpoint[1]),'--z',str(startpoint[2])]
-                print '\nRunning command:',command
+                #command = [self.binlocation.getvalue(),'--fi','pdb','--input',tmppdb,'--numinterp',str(int(self.pymol_numinterp.getvalue())),'--activesiteradius',str(float(self.pymol_activesiteradius.getvalue())),'--noclustering','--selection','all','--outdir',self.pymol_outdir.getvalue(),'--vmd','--pymol','--numtun',str(int(self.numbertunnels.getvalue())),'--x',str(startpoint[0]),'--y',str(startpoint[1]),'--z',str(startpoint[2])]
+                #print '\nRunning command:',command
                 #print '\n pyenv is:', pymol_env
-                callfunc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-                child_stdout, child_stderr = callfunc.communicate()
-                callfunc.wait()
-                status= callfunc.returncode
-                print(child_stdout)
-                print(child_stderr)
-                #status = subprocess.call(command)
+                #callfunc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+                #child_stdout, child_stderr = callfunc.communicate()
+                #callfunc.wait()
+                #status= callfunc.returncode
+                #print(child_stdout)
+                #print(child_stderr)
+                
+                #command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2],mole_stdout, mole_stderr);
+                command = '%s --fi pdb --input %s --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir %s --vmd --pymol --numtun %d --x %f --y %f --z %f'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2]);
+                print '\nRunning command:',command
+                status = subprocess.call(command, shell=True)
             print("Result from execution was: %s"%status)
             view = cmd.get_view()
             for i in range(1,int(self.numbertunnels.getvalue())+1):
                 pathpy=os.path.join(outdir,"found_001_%03d.py" % i)
                 if os.access(pathpy,os.F_OK):
+                    cmd.do("run %s"%pathpy)
                     #execfile(pathpy)
-                    callfunc = subprocess.Popen(pathpy, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-                    pymol.finish_launching()
-                    child_stdout, child_stderr = callfunc.communicate()
-                    result = callfunc.returncode
-                    print("Result from execution: %s"%result)
-                    print(child_stdout)
-                    print(child_stderr)
+                    #callfunc = subprocess.Popen(pathpy, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+                    #pymol.finish_launching()
+                    #child_stdout, child_stderr = callfunc.communicate()
+                    #result = callfunc.returncode
+                    #print("Result from execution: %s"%result)
+                    #print(child_stdout)
+                    #print(child_stderr)
                 else:
                     print "Error: Tunnel number %d wasn't found by MOLE." %i
                     if sys.platform.startswith('win'):
