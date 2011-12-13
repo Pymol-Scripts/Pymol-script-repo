@@ -16,7 +16,7 @@ from Tkinter import *
 import Pmw
 import distutils.spawn # used for find_executable
 from pymol import cmd,selector
-import sys
+import sys,subprocess
 from pymol.cmd import _feedback,fb_module,fb_mask,is_list,_cmd
 from pymol.cgo import *
 from chempy.models import Indexed
@@ -111,7 +111,8 @@ defaults = {
     "compute_command": 'Compute tunnels',
     "exit_command": 'Exit',
     "default_tunnels": '3',
-    "surroundings" : '',
+    #"surroundings" : '',
+    "surroundings" : cmd.get_names('objects')[0],
     "startingacids":('117','283','54'),
     "default_block": '10.0'
     }
@@ -529,7 +530,8 @@ class AnBeKoM:
               if (os.path.isfile(tunpy)):
                 os.remove(tunpy);
             print commandXYZ
-            os.system(commandXYZ)
+            #os.system(commandXYZ)
+            status = subprocess.call(commandXYZ, shell=True)
             for i in range(tunnels):
                pathpy = "%s/path_%i.py" % (outdir, i)
                if os.access(pathpy,os.F_OK):
@@ -637,8 +639,8 @@ class AnBeKoM:
         os.remove(outAsite);
 
       print commandOPT
-      os.system(commandOPT)
-
+      #os.system(commandOPT)
+      status = subprocess.call(commandOPT, shell=True)
       if not os.path.exists(outAsite):
          error_dialog = Pmw.MessageDialog(self.parent,title = 'Error',
                              message_text = 'ERROR: Optimize failed. Check starting point above',)
@@ -781,7 +783,8 @@ class AnBeKoM:
 #	   return (content,0)
 #	else:
 #	   return ("",1)
-	status = os.system(cmd)
+    #status = os.system(cmd)
+        status = subprocess.call(cmd, shell=True)
 	return status
 
     def box(self,x1,y1,z1,x2,y2,z2,name="box"):
