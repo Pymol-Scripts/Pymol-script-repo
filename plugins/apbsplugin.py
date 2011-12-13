@@ -1705,10 +1705,10 @@ Citation for PDB2PQR:
                 pymol_env = os.environ
                 callfunc = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
                 child_stdout, child_stderr = callfunc.communicate()
-                output_main =  repr(child_stdout)+repr(child_stderr)
+                print(child_stdout)
+                print(child_stderr)
                 retval = callfunc.returncode
                 print "PDB2PQR's mainCommand returned",retval
-                print output_main
 #                if retval == 1:
 #                    retval = 0 # success condition is backwards in pdb2pqr
 #                elif retval == 0:
