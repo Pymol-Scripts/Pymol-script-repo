@@ -35,7 +35,7 @@
 
 # python lib
 import os
-import sys, platform
+import sys, platform, subprocess
 import time
 import tkSimpleDialog
 import tkMessageBox
@@ -78,7 +78,6 @@ def __init__(self):
 class MSMSPlugin:
   
     def __init__(self, app):
-        
         self.parent = app.root
         self.dialog = Pmw.Dialog(self.parent,
                                  buttons = ('Run MSMS', 'Display Mesh',
@@ -99,7 +98,7 @@ class MSMSPlugin:
         self.cleanup_saved_pymol_sel.set(True) # by default, clean up
 
         self.pdb_fn.set('')
-        if 'MSMS_BIN' not in os.environ:
+        if 'MSMS_BIN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
             if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
                 initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","i86Linux2","msms.i86Linux2.2.6.1")
                 os.environ['MSMS_BIN'] = initialdir_msms
@@ -121,7 +120,7 @@ class MSMSPlugin:
             if VERBOSE: print 'MSMS_BIN not found in environmental variables.'
             self.msms_bin.set('')
 ##         self.pdb2xyzr_bin.set('')
-        if 'PDB2XYZRN' not in os.environ:
+        if 'PDB2XYZRN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
             if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
                 initialdir_msms = os.path.join(os.environ['PYMOL_GIT_MOD'],"MSMS","i86Linux2","pdb_to_xyzrn")
                 os.environ['PDB2XYZRN'] = initialdir_msms
@@ -138,6 +137,9 @@ class MSMSPlugin:
                 pass
         if 'PDB2XYZRN' in os.environ:  self.pdb2xyzrn_bin.set(os.environ['PDB2XYZRN'])
         else:                          self.pdb2xyzrn_bin.set('')
+        cmd.select("protpolymer","polymer")
+        cmd.disable("protpolymer")
+        self.pymol_sel.set(cmd.get_names('selections')[-1]) 
         #self.tmp_dir.set('/tmp')
         self.tmp_dir.set(os.getcwd())
         self.cleanup_msms_output = Tkinter.BooleanVar()
@@ -842,8 +844,8 @@ class Msms:
 ##         cmd = '%s %s > %s' % (self.pdb2xyzr_bin, pdb_fn, xyzr_fname)
 ##         os.system(cmd)
         cmd = '%s %s > %s' % (self.pdb2xyzrn_bin, pdb_fn, xyzrn_fname)
-        os.system(cmd)
-
+        #os.system(cmd)
+        status = subprocess.call(cmd, shell=True)
         # read in .xyzr and .xyzrn data
 ##         try:
 ##             xyzr_fh = open(xyzr_fname)
@@ -884,7 +886,8 @@ class Msms:
             print 'command line for running msms:'
             print cmd
             
-        os.system(cmd)
+        #os.system(cmd)
+        status = subprocess.call(cmd, shell=True)
         os.chdir(old_cwd)
 
 ##         self.output_xyzr_fn  = xyzr_fname
