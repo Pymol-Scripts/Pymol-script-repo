@@ -725,8 +725,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         # clean up pdb_fn and dssp_tmpout_fn created by tempfile.mkstemp()
         if os.path.isfile(pdb_fn):
             os.remove(pdb_fn)
-        if os.path.isfile(stride_tmpout_fn):
-            os.remove(stride_tmpout_fn)        
+##         if os.path.isfile(stride_tmpout_fn):
+##             os.remove(stride_tmpout_fn)        
         
         return True
     
