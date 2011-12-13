@@ -165,7 +165,7 @@ class DSSPPlugin:
         else:
             if VERBOSE: print 'STRIDE_BIN not found in environmental variables.'
             self.stride_bin.set('')
-
+        self.pymol_sel.set(cmd.get_names('objects')[0])
         
         # DSSP visualization color
         # - H        Alpha helix (4-12) 
