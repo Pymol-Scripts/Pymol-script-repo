@@ -111,8 +111,7 @@ defaults = {
     "compute_command": 'Compute tunnels',
     "exit_command": 'Exit',
     "default_tunnels": '3',
-    #"surroundings" : '',
-    "surroundings" : cmd.get_names('objects')[0],
+    "surroundings" : '',
     "startingacids":('117','283','54'),
     "default_block": '10.0'
     }
@@ -293,7 +292,8 @@ class AnBeKoM:
 #        cw = Tkinter.Frame(group1.interior())
 #        cw.pack(padx = 2, pady = 2, expand='yes', fill='both')
 #        radiogroups.append(group1)
-
+	try: defaults['surroundings'] = cmd.get_names('objects')[0]
+	except: defaults['surroundings'] = ''
 	self.selectionlist = Pmw.EntryField(group1.interior(),
                                   labelpos='w',
                                   label_text='Specify selection: ',
