@@ -9,7 +9,7 @@
 from __future__ import division
 from __future__ import generators
 
-import os,math
+import os,math,platform
 import Tkinter
 from Tkinter import *
 import Pmw
@@ -28,18 +28,34 @@ from chempy import Bond, Atom
 MOLE_OUTPUT=os.getcwd()
 
 if 'PYMOL_GIT_MOD' in os.environ:
-    if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
-        MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","i86Linux2","autogrid4")
-    elif sys.platform.startswith('linux') and platform.machine() == 'x86_64':
-        MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","ia64Linux2","autogrid4")
+    pymol_env = os.environ.copy()
+    pymol_env['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole") 
+    if sys.platform.startswith('linux'):
+        MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","linux","bin","Mole.exe")
+        qhull_dir = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","linux","bin")
+        mole_dir = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","linux")
+        pymol_env['PATH'] = pymol_env['PATH'] + ":" +qhull_dir 
+        pymol_env['MOLEDIR'] = mole_dir
     elif sys.platform.startswith('darwin'):
-        MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","universalDarwin8","autogrid4")
+        MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","mac","bin","Mole.exe")
+        qhull_dir = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","mac","bin")
+        mole_dir = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","mac")
+        pymol_env['PATH'] = pymol_env['PATH'] + ":" +qhull_dir 
+        pymol_env['MOLEDIR'] = mole_dir
     elif sys.platform.startswith('win'):
         MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","win32","bin","Mole.exe")
+        qhull_dir = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","win32","bin")
+        mole_dir = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","win32")
+        pymol_env['PATH'] = pymol_env['PATH'] + ":" +qhull_dir 
+        pymol_env['MOLEDIR'] = mole_dir
     else:
         MOLE_BINARY_LOCATION=None
+        qhull_dir =""
+        mole_dir = ""
 else:
     MOLE_BINARY_LOCATION=None
+    qhull_dir =""
+    mole_dir = ""
 
 if MOLE_OUTPUT is None:
     if 'MOLEDIR' in os.environ:
@@ -351,7 +367,7 @@ Many thanks to
 
 Created by Martin Petrek petrek@chemi.muni.cz
 LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
-
+    
         lfre=Frame(group.interior())
         bar=Scrollbar(lfre,)
         ll=Text(lfre,yscrollcommand=bar.set,background="#ddddff",font="Times 12", width=60, height=15,)
@@ -535,43 +551,28 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                 pathpy=os.path.join(outdir,"found_001_%03d.py" % i)
                 self.deleteFileIfExist(pathpy)
                 cmd.delete("tunnel%03d" % i)
-
 #Now, prepare files for MOLE
             self.prepareinput(self.selection.getvalue(),startpoint)
             tmppdb=os.path.join(outdir,"tmp.pdb")
             mole_stdout=os.path.join(outdir,"mole.stdout")
             mole_stderr=os.path.join(outdir,"mole.stderr")
-            if 'PYMOL_GIT_MOD' in os.environ:
-                pymol_env = os.environ.copy()
-                pymol_env['PATH'] = pymol_env['PATH'] + ";" + os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","win32","bin")
-                pymol_env['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole")
-                sys.path.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole"))
-                pymol_env['MOLEDIR'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","win32")
-                if sys.platform.startswith('win'):
-                    command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2],mole_stdout, mole_stderr);
-                    # Set computer envi var to:
-                    # PATH = PATH + ;C:\Users\tlinnet\Documents\pymol\Pymol-script-repo\modules\Mole\win32\bin
-                    # MOLEDIR = C:\Users\tlinnet\Documents\pymol\Pymol-script-repo\modules\Mole\win32
-                    callfunc = subprocess.call(command)
-                else:
-                    print '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2]);
-                    command = [self.binlocation.getvalue(),"--fi","pdb","--input",tmppdb,"--numinterp",str(int(self.pymol_numinterp.getvalue())),"--activesiteradius",str(float(self.pymol_activesiteradius.getvalue())),"--noclustering","--selection",'"all"',"--outdir",self.pymol_outdir.getvalue(),"--vmd","--pymol","--numtun",str(int(self.numbertunnels.getvalue())),"--x",str(startpoint[0]),"--y",str(startpoint[1]),"--z",str(startpoint[2])]
-                    #pymol_env['PATH'] = pymol_env['PATH'] + ";" + os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","win32","bin","qhull.exe").replace('\\','/')
-                    #pymol_env['MOLEDIR'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole","win32").replace('\\','/')
-                    #callfunc = subprocess.call(command)
-                    #print pymol_env, "\n"
-                    print command
-                    callfunc = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
-                    child_stdout, child_stderr = callfunc.communicate()
-                    result = callfunc.returncode
-                    print("Result from execution: %s"%result)
-                    print(child_stdout)
-                    print(child_stderr)
+            if sys.platform.startswith('win'):
+                command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2],mole_stdout, mole_stderr);
+                print '\nRunning command:',command
+                status = subprocess.call(command)
             else:
-                pymol_env = os.environ
-                callfunc = subprocess.call(command)
-            print "\n", command, "\n"
-
+                #command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2],mole_stdout, mole_stderr);
+                command = [self.binlocation.getvalue(),'--fi','pdb','--input',tmppdb,'--numinterp',str(int(self.pymol_numinterp.getvalue())),'--activesiteradius',str(float(self.pymol_activesiteradius.getvalue())),'--noclustering','--selection','all','--outdir',self.pymol_outdir.getvalue(),'--vmd','--pymol','--numtun',str(int(self.numbertunnels.getvalue())),'--x',str(startpoint[0]),'--y',str(startpoint[1]),'--z',str(startpoint[2])]
+                print '\nRunning command:',command
+                #print '\n pyenv is:', pymol_env
+                callfunc = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+                child_stdout, child_stderr = callfunc.communicate()
+                callfunc.wait()
+                status= callfunc.returncode
+                print(child_stdout)
+                print(child_stderr)
+                #status = subprocess.call(command)
+            print("Result from execution was: %s"%status)
             view = cmd.get_view()
             for i in range(1,int(self.numbertunnels.getvalue())+1):
                 pathpy=os.path.join(outdir,"found_001_%03d.py" % i)
@@ -586,6 +587,16 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                     print(child_stderr)
                 else:
                     print "Error: Tunnel number %d wasn't found by MOLE." %i
+                    if sys.platform.startswith('win'):
+                        print("Did you set your variables??")
+                        print("PATH = PATH + ;%s"%qhull_dir)
+                        print("MOLEDIR = %s"%mole_dir)
+                    else:
+                        print("Did you set your variables??")
+                        print("PATH=$PATH:%s"%qhull_dir)
+                        print("export PATH")
+                        print("MOLEDIR=%s"%mole_dir)
+                        print("export MOLEDIR")
             cmd.set_view(view)
             pass
 
@@ -607,8 +618,16 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                 self.dialog.withdraw()
     def TestProgram(self,cmd):
         pathtoprog = os.path.join(os.path.split(MOLE_BINARY_LOCATION)[0],cmd)
-        #status = os.system(pathtoprog)
-        status = subprocess.call(pathtoprog)
+        print '\nTesting command:',pathtoprog
+        if sys.platform.startswith('win'):
+            status = subprocess.call(pathtoprog)
+        else:
+            callfunc = subprocess.Popen(pathtoprog, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
+            child_stdout, child_stderr = callfunc.communicate()
+            status= callfunc.returncode
+            #print(child_stdout)
+            #print(child_stderr)
+        print("Result from test was: %s"%status)
         return status
 
     def box(self,x1,y1,z1,x2,y2,z2,name="box"):
@@ -704,9 +723,16 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
         if sys.platform.startswith('win'):
             err = self.TestProgram("qhull.exe")
         else:
-            err = self.TestProgram("qhull")
+            err = self.TestProgram("qhull -")
         if err:
-            show_error('Can\'t run qhull (needed by MOLE). Please, add qhull in your PATH variable.')
+            print("Result from execution was: %s"%err)
+            if sys.platform.startswith('win'):
+                messgl = "\nDid you set your variables??\nPATH=PATH;%s\nMOLEDIR = %s"%(qhull_dir,mole_dir)
+            else:
+                messgl = "\nDid you set your variables??\nPATH=$PATH:%s\nexport PATH\nMOLEDIR=%s\nexport MOLEDIR"%(qhull_dir,mole_dir)
+            errormessg = ('Can\'t run qhull (needed by MOLE). Please, add qhull in your PATH variable.%s'%messgl)
+            print(errormessg)
+            show_error(errormessg)
             return False
 #
 # Now check the temporary filenames
