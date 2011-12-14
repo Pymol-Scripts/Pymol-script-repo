@@ -1,3 +1,4 @@
+from pymol import cmd
 import re
  
 def parseNCONTContacts( f ):
@@ -79,4 +80,4 @@ def selectNCONTContacts( contactsfile, selName1 = "source", selName2 = "target" 
     atomSel = " or ".join(frozenset(atomNames))
     cmd.select(selName2 + "_atom", atomSel)
  
-cmd.extend("selectNCONTContacts", selectNCONTContacts)
+cmd.extend("ccp4_ncont", selectNCONTContacts)

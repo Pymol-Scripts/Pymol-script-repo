@@ -1,3 +1,4 @@
+from pymol import cmd
 from xml.etree import ElementTree
  
 def parseElement( element ):
@@ -115,7 +116,7 @@ def parsePISAContacts( filename ):
         print number, type[0], ",",
  
 try:
-    cmd.extend("selectPISAContacts", parsePISAContacts)
+    cmd.extend("ccp4_pisa", parsePISAContacts)
 except:
     # for debugging
     parsePISAContacts('../pisa/interfaces_2c7r.pisa')
