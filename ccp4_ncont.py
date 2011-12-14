@@ -28,7 +28,7 @@ def parseNCONTContacts( f ):
         else:
             print "Unknown mode", mode
  
-def selectNCONTContacts( contactsfile, selName1 = "source", selName2 = "target" ):
+def ccp4_ncont( contactsfile, selName1 = "source", selName2 = "target" ):
     """
     selectContacts -- parses CCP4/NCONT log file and selects residues and atoms.
     http://www.ccp4.ac.uk/html/ncont.html
@@ -80,4 +80,4 @@ def selectNCONTContacts( contactsfile, selName1 = "source", selName2 = "target" 
     atomSel = " or ".join(frozenset(atomNames))
     cmd.select(selName2 + "_atom", atomSel)
  
-cmd.extend("ccp4_ncont", selectNCONTContacts)
+cmd.extend("ccp4_ncont", ccp4_ncont)

@@ -55,7 +55,7 @@ def createInterfaceSelection( interface, prefix ):
         print rightname, '\t', rightlist
     return leftname, rightname
  
-def parsePISAContacts( filename ):
+def ccp4_pisa( filename ):
     """ parse a PISA contact file and create atoms selections for all interfaces
  
         For each interface, two selections are created containing the atoms of 
@@ -116,7 +116,7 @@ def parsePISAContacts( filename ):
         print number, type[0], ",",
  
 try:
-    cmd.extend("ccp4_pisa", parsePISAContacts)
+    cmd.extend("ccp4_pisa", ccp4_pisa)
 except:
     # for debugging
-    parsePISAContacts('../pisa/interfaces_2c7r.pisa')
+    ccp4_pisa('../pisa/interfaces_2c7r.pisa')

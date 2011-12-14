@@ -18,9 +18,9 @@ def parseCONTACTContacts( f ):
  
     return (s1, s2)
  
-def selectCONTACTContacts( contactsfile, selName1 = "source", selName2 = "target" ):
+def ccp4_contact( contactsfile, selName1 = "source", selName2 = "target" ):
     """
-    selectCONTACTContacts -- parses CCP4/CONTACT log file and selects residues and atoms.
+    ccp4_contact -- parses CCP4/CONTACT log file and selects residues and atoms.
     http://www.ccp4.ac.uk/html/contact.html
  
     PARAMS
@@ -71,4 +71,4 @@ def selectCONTACTContacts( contactsfile, selName1 = "source", selName2 = "target
     atomSel = " or ".join(frozenset(atomNames))
     cmd.select(selName2 + "_atom", atomSel)
  
-cmd.extend("ccp4_contact", selectCONTACTContacts)
+cmd.extend("ccp4_contact", ccp4_contact)
