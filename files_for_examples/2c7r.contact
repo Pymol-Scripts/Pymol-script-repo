@@ -1,0 +1,619 @@
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<html> <!-- CCP4 HTML LOGFILE -->
+<hr>
+<!--SUMMARY_END--></FONT></B>
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+<pre>
+ 
+ ###############################################################
+ ###############################################################
+ ###############################################################
+ ### CCP4 6.2: CONTACT                  version 6.2 : 08/09/10##
+ ###############################################################
+ User: unknown  Run date: 14/12/2011 Run time: 19:52:34 
+
+
+ Please reference: Collaborative Computational Project, Number 4. 1994.
+ "The CCP4 Suite: Programs for Protein Crystallography". Acta Cryst. D50, 760-763.
+ as well as any specific reference in the program write-up.
+
+<!--SUMMARY_END--></FONT></B>
+ ************** PROGRAM CONTACT *********
+ Data line--- MODE ISUB
+ Data line--- MODE NON-CARBON
+                                                                                 
+ Atoms of all types will be used. 
+
+
+ Atom-atom search will be done within the limits of  0.00 to  3.60 angstroms 
+
+
+  Logical name: XYZIN  File name: 2c7r.pdb
+  PDB file is being opened on unit 1 for INPUT.
+
+  MATRICES DERIVED FROM CRYST1 CARD IN COORDINATE FILE
+
+
+             RF                                  RO
+
+    0.010   0.006  -0.000  -0.000       95.620 -47.810   0.000  -0.000
+   -0.000   0.012  -0.000   0.000        0.000  82.809   0.000   0.000
+    0.000  -0.000   0.003   0.000        0.000   0.000 315.756  -0.000
+   -0.000   0.000  -0.000   1.000       -0.000   0.000  -0.000   1.000
+
+
+ Xmin Xmax Ymin Ymax Zmin Zmax :  -54.03    8.18   12.63   70.87   44.00  116.78
+ NX NY NZ boxes        14      12      15
+
+ LIST OF CONTACTS :
+ ==================
+
+
+   source atoms        target atoms         distance   angle
+
+ Tyr    44A  OH    ...   Dg    402C  C5'    ...   3.20    
+                   ...   Dg    402C  C4'    ...   3.60    
+ Gln    82A  O     ...   Wat  2014D  O      ...   2.96 ***
+ Ser    85A  CA    ...   A1p   427D  O2P    ...   3.30    
+ Ser    85A  C     ...   A1p   427D  O2P    ...   3.56    
+ Ile    86A  N     ...   A1p   427D  O2P    ...   2.86 ***
+                   ...   A1p   427D  P      ...   3.42    
+                   ...   A1p   427D  O1P    ...   3.15 ***
+ Ile    86A  O     ...   Dg    426D  N2     ...   3.21 ***
+ Ile    86A  CG2   ...   Dt    410C  O2     ...   3.14    
+ Ser    87A  N     ...   A1p   427D  O1P    ...   2.80 ***
+ Ser    87A  CA    ...   A1p   427D  O1P    ...   3.58    
+ Ser    87A  C     ...   Dg    428D  O4'    ...   3.28    
+ Ser    87A  O     ...   Dg    428D  O4'    ...   3.48 *  
+                   ...   Dg    428D  C1'    ...   3.44    
+                   ...   Dg    408C  N2     ...   3.31 *  
+                   ...   Wat  2018C  O      ...   3.37 *  
+ Ser    87A  CB    ...   Dg    428D  O4'    ...   3.26    
+                   ...   Dg    428D  C8     ...   3.57    
+                   ...   A1p   427D  O1P    ...   3.25    
+ Ser    87A  OG    ...   A1p   427D  O1P    ...   2.77 ***
+                   ...   Dg    426D  N3     ...   3.44 *  
+ Gly    88A  N     ...   Dg    428D  O4'    ...   3.33 *  
+ Lys    89A  N     ...   Wat  2014D  O      ...   2.97 ***
+ Lys    89A  CD    ...   Wat  2012D  O      ...   3.27    
+ Lys    89A  CE    ...   Wat  2012D  O      ...   3.60    
+                   ...   Dc    429D  O3'    ...   3.46    
+                   ...   Da    430D  OP1    ...   3.52    
+ Lys    89A  NZ    ...   Da    430D  OP1    ...   2.90 ***
+ Gln    90A  OE1   ...   Dt    410C  O3'    ...   3.46 *  
+                   ...   Dg    411C  OP1    ...   3.15 ***
+ Arg    97A  NH1   ...   Dc    429D  OP2    ...   3.01 ***
+ Arg    97A  NH2   ...   Dc    429D  OP1    ...   2.79 ***
+                   ...   Wat  2014D  O      ...   3.59 *  
+ Val   121A  CG2   ...   A1p   427D  O2P    ...   3.46    
+ Lys   122A  NZ    ...   Da    412C  O3'    ...   3.57 *  
+                   ...   Dc    413C  OP1    ...   2.86 ***
+ Lys   162A  O     ...   A1p   427D  N2     ...   3.17 ***
+ Lys   162A  CD    ...   Dg    426D  OP1    ...   3.54    
+ Lys   162A  CE    ...   Dg    426D  OP1    ...   3.07    
+ Lys   162A  NZ    ...   Dg    426D  OP1    ...   3.17 ***
+                   ...   Da    425D  O3'    ...   3.39 *  
+ Arg   163A  CA    ...   A1p   427D  N1     ...   3.43    
+ Arg   163A  CG    ...   A1p   427D  C6     ...   3.29    
+ Arg   163A  CZ    ...   A1p   427D  N7     ...   3.60    
+ Arg   163A  NH2   ...   A1p   427D  N7     ...   3.51 *  
+                   ...   A1p   427D  C8     ...   3.36    
+ Glu   164A  N     ...   A1p   427D  N1     ...   3.29 ***
+                   ...   A1p   427D  C6     ...   3.46    
+ Glu   164A  O     ...   A1p   427D  C6     ...   3.16    
+                   ...   Wat  2009D  O      ...   3.50 *  
+ Glu   164A  CB    ...   Wat  2007D  O      ...   3.57    
+ Glu   164A  CG    ...   Wat  2007D  O      ...   3.54    
+ Glu   164A  CD    ...   Wat  2007D  O      ...   3.56    
+ Glu   164A  OE2   ...   Wat  2007D  O      ...   2.99 ***
+ Arg   165A  CD    ...   A1p   427D  N7     ...   3.60    
+ Arg   165A  NH1   ...   A1p   427D  N7     ...   2.93 ***
+                   ...   A1p   427D  C8     ...   3.54    
+ Arg   209A  NH1   ...   Dg    406C  OP2    ...   2.79 ***
+ Thr   226A  C     ...   Wat  2005D  O      ...   3.47    
+ Thr   226A  O     ...   Wat  2005D  O      ...   3.01 ***
+ Thr   226A  CB    ...   Wat  2005D  O      ...   3.44    
+ Thr   226A  OG1   ...   Wat  2005D  O      ...   2.62 ***
+ Arg   228A  CD    ...   Da    425D  OP2    ...   3.32    
+ Arg   228A  NH1   ...   Da    425D  OP2    ...   3.05 ***
+                   ...   Dc    424D  C2'    ...   3.53    
+ Arg   228A  NH2   ...   Wat  2004D  O      ...   3.18 ***
+ Gly   233A  CA    ...   Wat  2017C  O      ...   3.32    
+ Lys   234A  N     ...   Wat  2017C  O      ...   3.24 ***
+ Lys   234A  NZ    ...   5cm   407C  OP1    ...   3.49 *  
+ Gly   236A  CA    ...   Dg    408C  O6     ...   3.35    
+ Gly   236A  C     ...   Dg    408C  O6     ...   3.58    
+ Gln   237A  N     ...   Dg    408C  O6     ...   2.88 ***
+ Gln   237A  C     ...   5cm   407C  N4     ...   3.58    
+ Gln   237A  O     ...   5cm   407C  N4     ...   2.65 ***
+                   ...   5cm   407C  C5A    ...   3.34    
+ Gln   237A  CB    ...   Dg    428D  O6     ...   3.35    
+ Gln   237A  CG    ...   Dg    426D  N7     ...   3.33    
+                   ...   Dg    426D  C5     ...   3.53    
+ Gln   237A  CD    ...   Dg    426D  N7     ...   3.59    
+                   ...   Dg    426D  C5     ...   3.38    
+ Gln   237A  OE1   ...   Dg    428D  C6     ...   3.36    
+                   ...   Dg    428D  O6     ...   3.51 *  
+                   ...   Dg    408C  N1     ...   2.73 ***
+                   ...   Dg    408C  C2     ...   3.24    
+                   ...   Dg    408C  N2     ...   2.81 ***
+                   ...   Dg    428D  C5     ...   3.48    
+ Gln   237A  NE2   ...   Dg    426D  C8     ...   3.56    
+                   ...   Dg    426D  N7     ...   3.54 *  
+                   ...   Dg    426D  C5     ...   3.50    
+                   ...   Dg    426D  C4     ...   3.55    
+ Glu   239A  CG    ...   Wat  2014C  O      ...   3.59    
+ Glu   239A  CD    ...   Wat  2014C  O      ...   3.58    
+                   ...   5cm   407C  C5A    ...   3.30    
+ Glu   239A  OE1   ...   5cm   407C  C5A    ...   3.54    
+ Glu   239A  OE2   ...   Wat  2014C  O      ...   2.77 ***
+                   ...   Wat  2017C  O      ...   2.94 ***
+                   ...   5cm   407C  C5A    ...   3.53    
+ Arg   240A  CD    ...   Da    425D  OP2    ...   3.53    
+ Arg   240A  CZ    ...   Da    425D  N7     ...   3.59    
+ Arg   240A  NH1   ...   Da    425D  C8     ...   3.49    
+                   ...   Dg    426D  N7     ...   2.93 ***
+ Arg   240A  NH2   ...   Da    425D  N7     ...   3.37 *  
+                   ...   Dg    426D  O6     ...   2.83 ***
+                   ...   Wat  2006D  O      ...   3.54 *  
+ Tyr   242A  CZ    ...   Da    425D  OP2    ...   3.53    
+ Tyr   242A  OH    ...   Da    425D  P      ...   3.57    
+                   ...   Da    425D  OP2    ...   2.61 ***
+ Ile   249A  CG1   ...   Wat  2008D  O      ...   3.44    
+ Ile   249A  CD1   ...   Dg    426D  OP2    ...   3.56    
+                   ...   Wat  2008D  O      ...   3.46    
+ Leu   251A  O     ...   A1p   427D  C1'    ...   3.35    
+ Ser   252A  OG    ...   Dg    428D  OP2    ...   2.87 ***
+ Ala   253A  N     ...   Dg    428D  OP2    ...   3.03 ***
+ Tyr   254A  N     ...   Dg    428D  OP2    ...   2.71 ***
+ Tyr   254A  CA    ...   Dg    428D  OP2    ...   3.57    
+ Tyr   254A  O     ...   Dc    429D  N4     ...   2.90 ***
+                   ...   Dc    429D  C4     ...   3.51    
+                   ...   Dc    429D  C5     ...   3.24    
+ Tyr   254A  CE1   ...   Wat  2001D  O      ...   3.46    
+ Gly   255A  CA    ...   Dg    428D  N7     ...   3.41    
+ Gly   256A  N     ...   Dc    429D  N4     ...   3.54 *  
+                   ...   Dg    428D  O6     ...   3.07 ***
+ Gly   256A  CA    ...   Dg    406C  O6     ...   2.94    
+ Gly   257A  N     ...   Dg    406C  N7     ...   2.96 ***
+ Gly   257A  CA    ...   Wat  2014C  O      ...   3.37    
+ Gly   257A  C     ...   Dt    405C  C2'    ...   3.50    
+                   ...   Wat  2014C  O      ...   3.49    
+ Gly   257A  O     ...   Wat  2011C  O      ...   2.90 ***
+                   ...   Dt    405C  C2'    ...   3.51    
+ Ile   258A  N     ...   Wat  2014C  O      ...   2.88 ***
+ Ala   260A  CB    ...   Wat  2011C  O      ...   3.50    
+                   ...   Dt    405C  C7     ...   3.54    
+ Lys   261A  NZ    ...   Wat  2012C  O      ...   2.71 ***
+ Ser   294A  CB    ...   Dg    403C  OP1    ...   3.57    
+ Ser   294A  OG    ...   Dg    403C  OP1    ...   2.60 ***
+ Thr   295A  OG1   ...   Wat  2010C  O      ...   2.81 ***
+ Ser   296A  N     ...   Wat  2010C  O      ...   3.39 *  
+ Ser   296A  CA    ...   Wat  2010C  O      ...   3.58    
+ Ser   296A  OG    ...   Wat  2008C  O      ...   3.41 *  
+                   ...   Dg    403C  OP2    ...   3.57 *  
+                   ...   Wat  2007C  O      ...   2.85 ***
+ Gln   297A  CG    ...   Dg    403C  OP2    ...   3.58    
+ Gln   297A  CD    ...   Dg    403C  OP2    ...   3.57    
+ Gln   297A  NE2   ...   Dg    403C  OP2    ...   2.67 ***
+ Tyr   299A  CD2   ...   Wat  2001C  O      ...   3.54    
+ Gly   303A  O     ...   Wat  2010D  O      ...   2.96 ***
+ Dg    402C  OP3   ...   Wat  2182A  O      ...   3.55 *  
+ Dg    402C  C5'   ...   Tyr    44A  OH     ...   3.20    
+ Dg    402C  C4'   ...   Tyr    44A  OH     ...   3.60    
+ Dg    402C  C6    ...   Dc    433D  N3     ...   3.52    
+ Dg    402C  O6    ...   Dc    433D  N3     ...   3.32 *  
+                   ...   Dc    433D  C4     ...   3.45    
+                   ...   Dc    433D  N4     ...   2.68 ***
+ Dg    402C  N1    ...   Dc    433D  C2     ...   3.56    
+                   ...   Dc    433D  O2     ...   3.47 *  
+                   ...   Dc    433D  N3     ...   2.81 ***
+ Dg    402C  N2    ...   Dc    433D  O2     ...   2.84 ***
+ Dg    403C  OP1   ...   Ser   294A  CB     ...   3.57    
+                   ...   Ser   294A  OG     ...   2.60 ***
+ Dg    403C  OP2   ...   Gln   297A  CG     ...   3.58    
+                   ...   Gln   297A  CD     ...   3.57    
+                   ...   Gln   297A  NE2    ...   2.67 ***
+                   ...   Ser   296A  OG     ...   3.57 *  
+ Dg    403C  C6    ...   Dc    432D  N3     ...   3.60    
+ Dg    403C  O6    ...   Dc    432D  N3     ...   3.44 *  
+                   ...   Dc    432D  C4     ...   3.59    
+                   ...   Dc    432D  N4     ...   2.82 ***
+ Dg    403C  N1    ...   Dc    432D  O2     ...   3.52 *  
+                   ...   Dc    432D  N3     ...   2.85 ***
+ Dg    403C  N2    ...   Dc    432D  O2     ...   2.77 ***
+                   ...   Dc    433D  O2     ...   3.58 *  
+ Da    404C  N6    ...   Da    430D  N6     ...   3.43 *  
+                   ...   Dt    431D  O4     ...   2.93 ***
+ Da    404C  N1    ...   Dt    431D  N3     ...   2.85 ***
+                   ...   Dt    431D  O2     ...   3.52 *  
+ Da    404C  C2    ...   Dt    431D  O2     ...   3.56    
+ Dt    405C  OP2   ...   Wat  2157A  O      ...   2.78 ***
+ Dt    405C  C2'   ...   Gly   257A  C      ...   3.50    
+                   ...   Gly   257A  O      ...   3.51    
+ Dt    405C  O2    ...   Da    430D  N1     ...   3.55 *  
+                   ...   Da    430D  C2     ...   3.58    
+ Dt    405C  N3    ...   Da    430D  N1     ...   2.97 ***
+ Dt    405C  O4    ...   Da    430D  N6     ...   3.13 ***
+ Dt    405C  C7    ...   Ala   260A  CB     ...   3.54    
+ Dg    406C  OP2   ...   Arg   209A  NH1    ...   2.79 ***
+                   ...   Wat  2126A  O      ...   3.22 ***
+ Dg    406C  O5'   ...   Wat  2126A  O      ...   3.24 ***
+ Dg    406C  N7    ...   Gly   257A  N      ...   2.96 ***
+ Dg    406C  C6    ...   Dc    429D  N3     ...   3.60    
+ Dg    406C  O6    ...   Gly   256A  CA     ...   2.94    
+                   ...   Dc    429D  N4     ...   2.73 ***
+                   ...   Dc    429D  C4     ...   3.53    
+                   ...   Dc    429D  N3     ...   3.40 *  
+ Dg    406C  N1    ...   Da    430D  N1     ...   3.41 *  
+                   ...   Da    430D  C2     ...   3.32    
+                   ...   Dc    429D  O2     ...   3.58 *  
+                   ...   Dc    429D  N3     ...   2.90 ***
+ Dg    406C  C2    ...   Da    430D  C2     ...   3.47    
+ Dg    406C  N2    ...   Da    430D  C2     ...   3.49    
+                   ...   Dc    429D  O2     ...   2.93 ***
+                   ...   Da    430D  N3     ...   3.20 ***
+                   ...   Wat  2013D  O      ...   3.19 ***
+ 5cm   407C  N3    ...   Dg    428D  N1     ...   2.93 ***
+ 5cm   407C  C4    ...   Dg    428D  O6     ...   3.60    
+ 5cm   407C  C5A   ...   Glu   239A  CD     ...   3.30    
+                   ...   Glu   239A  OE2    ...   3.53    
+                   ...   Glu   239A  OE1    ...   3.54    
+                   ...   Gln   237A  O      ...   3.34    
+                   ...   Wat  2147A  O      ...   3.34    
+ 5cm   407C  C6    ...   Wat  2147A  O      ...   3.55    
+ 5cm   407C  O2    ...   Dg    428D  N2     ...   2.80 ***
+                   ...   Wat  2013D  O      ...   2.79 ***
+ 5cm   407C  N4    ...   Gln   237A  C      ...   3.58    
+                   ...   Gln   237A  O      ...   2.65 ***
+                   ...   Dg    428D  O6     ...   2.74 ***
+ 5cm   407C  OP2   ...   Wat  2147A  O      ...   3.22 ***
+ 5cm   407C  OP1   ...   Lys   234A  NZ     ...   3.49 *  
+ Dg    408C  O6    ...   Gln   237A  N      ...   2.88 ***
+                   ...   Gly   236A  CA     ...   3.35    
+                   ...   Gly   236A  C      ...   3.58    
+ Dg    408C  N1    ...   Gln   237A  OE1    ...   2.73 ***
+ Dg    408C  C2    ...   Gln   237A  OE1    ...   3.24    
+ Dg    408C  N2    ...   Ser    87A  O      ...   3.31 *  
+                   ...   Gln   237A  OE1    ...   2.81 ***
+                   ...   Dg    428D  C2     ...   3.41    
+                   ...   Dg    428D  N3     ...   3.54 *  
+ Dc    409C  C2    ...   Dg    426D  N2     ...   3.57    
+ Dc    409C  O2    ...   Dg    426D  C2     ...   3.57    
+                   ...   Dg    426D  N2     ...   2.70 ***
+                   ...   Dg    426D  N1     ...   3.51 *  
+ Dc    409C  N3    ...   Dg    426D  O6     ...   3.53 *  
+                   ...   Dg    426D  N1     ...   2.88 ***
+ Dc    409C  N4    ...   Da    425D  N6     ...   3.57 *  
+                   ...   Dg    426D  O6     ...   2.95 ***
+ Dt    410C  C4'   ...   Wat  2050A  O      ...   3.32    
+ Dt    410C  O3'   ...   Gln    90A  OE1    ...   3.46 *  
+ Dt    410C  C2    ...   Dg    426D  N2     ...   3.52    
+ Dt    410C  O2    ...   Ile    86A  CG2    ...   3.14    
+                   ...   Dg    426D  N2     ...   3.25 ***
+ Dt    410C  N3    ...   Da    425D  N1     ...   2.89 ***
+ Dt    410C  O4    ...   Da    425D  N6     ...   3.01 ***
+                   ...   Da    425D  N1     ...   3.54 *  
+ Dg    411C  OP1   ...   Gln    90A  OE1    ...   3.15 ***
+ Dg    411C  O6    ...   Dc    424D  N3     ...   3.51 *  
+                   ...   Dt    423D  O4     ...   3.30 ***
+                   ...   Dc    424D  N4     ...   2.84 ***
+ Dg    411C  N1    ...   Dc    424D  O2     ...   3.53 *  
+                   ...   Dc    424D  N3     ...   2.82 ***
+ Dg    411C  C2    ...   Dc    424D  O2     ...   3.58    
+                   ...   Da    425D  C2     ...   3.40    
+ Dg    411C  N2    ...   Dc    424D  C2     ...   3.52    
+                   ...   Dc    424D  O2     ...   2.68 ***
+                   ...   Da    425D  C2     ...   3.32    
+                   ...   Da    425D  N3     ...   3.22 ***
+ Da    412C  C5'   ...   Wat  2070A  O      ...   3.12    
+ Da    412C  O3'   ...   Lys   122A  NZ     ...   3.57 *  
+ Da    412C  N6    ...   Dt    423D  O4     ...   2.85 ***
+                   ...   Dg    422D  O6     ...   3.41 *  
+ Da    412C  N1    ...   Dt    423D  N3     ...   2.91 ***
+ Dc    413C  OP1   ...   Lys   122A  NZ     ...   2.86 ***
+                   ...   Wat  2097A  O      ...   3.23 ***
+ Dc    413C  O2    ...   Dg    422D  N2     ...   3.08 ***
+ Dc    413C  N3    ...   Dg    422D  N1     ...   2.80 ***
+                   ...   Dg    422D  C2     ...   3.58    
+                   ...   Dg    422D  N2     ...   3.36 *  
+ Dc    413C  C4    ...   Dg    422D  N1     ...   3.44    
+                   ...   Dg    422D  O6     ...   3.49    
+ Dc    413C  N4    ...   Dg    422D  N1     ...   3.18 ***
+                   ...   Dg    422D  C6     ...   3.18    
+                   ...   Dg    422D  O6     ...   2.42 ***
+ Dg    422D  C6    ...   Dc    413C  N4     ...   3.18    
+ Dg    422D  O6    ...   Dc    413C  C4     ...   3.49    
+                   ...   Da    412C  N6     ...   3.41 *  
+                   ...   Dc    413C  N4     ...   2.42 ***
+ Dg    422D  N1    ...   Dc    413C  N3     ...   2.80 ***
+                   ...   Dc    413C  C4     ...   3.44    
+                   ...   Dc    413C  N4     ...   3.18 ***
+ Dg    422D  C2    ...   Dc    413C  N3     ...   3.58    
+ Dg    422D  N2    ...   Dc    413C  O2     ...   3.08 ***
+                   ...   Dc    413C  N3     ...   3.36 *  
+ Dt    423D  N3    ...   Da    412C  N1     ...   2.91 ***
+ Dt    423D  O4    ...   Dg    411C  O6     ...   3.30 ***
+                   ...   Da    412C  N6     ...   2.85 ***
+ Dc    424D  C2'   ...   Arg   228A  NH1    ...   3.53    
+ Dc    424D  C2    ...   Dg    411C  N2     ...   3.52    
+ Dc    424D  O2    ...   Dg    411C  N1     ...   3.53 *  
+                   ...   Dg    411C  C2     ...   3.58    
+                   ...   Dg    411C  N2     ...   2.68 ***
+ Dc    424D  N3    ...   Dg    411C  O6     ...   3.51 *  
+                   ...   Dg    411C  N1     ...   2.82 ***
+ Dc    424D  N4    ...   Dg    411C  O6     ...   2.84 ***
+ Da    425D  P     ...   Tyr   242A  OH     ...   3.57    
+ Da    425D  OP2   ...   Arg   228A  CD     ...   3.32    
+                   ...   Arg   228A  NH1    ...   3.05 ***
+                   ...   Arg   240A  CD     ...   3.53    
+                   ...   Tyr   242A  CZ     ...   3.53    
+                   ...   Tyr   242A  OH     ...   2.61 ***
+ Da    425D  C5'   ...   Wat  2092A  O      ...   3.44    
+ Da    425D  O3'   ...   Lys   162A  NZ     ...   3.39 *  
+ Da    425D  C8    ...   Arg   240A  NH1    ...   3.49    
+ Da    425D  N7    ...   Arg   240A  CZ     ...   3.59    
+                   ...   Arg   240A  NH2    ...   3.37 *  
+ Da    425D  N6    ...   Dc    409C  N4     ...   3.57 *  
+                   ...   Dt    410C  O4     ...   3.01 ***
+ Da    425D  N1    ...   Dt    410C  N3     ...   2.89 ***
+                   ...   Dt    410C  O4     ...   3.54 *  
+ Da    425D  C2    ...   Dg    411C  C2     ...   3.40    
+                   ...   Dg    411C  N2     ...   3.32    
+ Da    425D  N3    ...   Dg    411C  N2     ...   3.22 ***
+ Dg    426D  OP1   ...   Lys   162A  CD     ...   3.54    
+                   ...   Lys   162A  CE     ...   3.07    
+                   ...   Lys   162A  NZ     ...   3.17 ***
+ Dg    426D  OP2   ...   Ile   249A  CD1    ...   3.56    
+                   ...   Wat  2093A  O      ...   2.74 ***
+ Dg    426D  O3'   ...   Wat  2071A  O      ...   3.51 *  
+ Dg    426D  C8    ...   Gln   237A  NE2    ...   3.56    
+ Dg    426D  N7    ...   Gln   237A  CG     ...   3.33    
+                   ...   Gln   237A  CD     ...   3.59    
+                   ...   Gln   237A  NE2    ...   3.54 *  
+                   ...   Arg   240A  NH1    ...   2.93 ***
+ Dg    426D  C5    ...   Gln   237A  CG     ...   3.53    
+                   ...   Gln   237A  CD     ...   3.38    
+                   ...   Gln   237A  NE2    ...   3.50    
+ Dg    426D  O6    ...   Arg   240A  NH2    ...   2.83 ***
+                   ...   Dc    409C  N4     ...   2.95 ***
+                   ...   Dc    409C  N3     ...   3.53 *  
+ Dg    426D  N1    ...   Dc    409C  O2     ...   3.51 *  
+                   ...   Dc    409C  N3     ...   2.88 ***
+ Dg    426D  C2    ...   Dc    409C  O2     ...   3.57    
+ Dg    426D  N2    ...   Dt    410C  C2     ...   3.52    
+                   ...   Dt    410C  O2     ...   3.25 ***
+                   ...   Dc    409C  C2     ...   3.57    
+                   ...   Dc    409C  O2     ...   2.70 ***
+                   ...   Ile    86A  O      ...   3.21 ***
+ Dg    426D  N3    ...   Ser    87A  OG     ...   3.44 *  
+ Dg    426D  C4    ...   Gln   237A  NE2    ...   3.55    
+ A1p   427D  P     ...   Ile    86A  N      ...   3.42    
+ A1p   427D  O1P   ...   Ser    87A  N      ...   2.80 ***
+                   ...   Ser    87A  CA     ...   3.58    
+                   ...   Ser    87A  CB     ...   3.25    
+                   ...   Ser    87A  OG     ...   2.77 ***
+                   ...   Ile    86A  N      ...   3.15 ***
+ A1p   427D  O2P   ...   Val   121A  CG2    ...   3.46    
+                   ...   Wat  2071A  O      ...   2.80 ***
+                   ...   Ser    85A  CA     ...   3.30    
+                   ...   Ser    85A  C      ...   3.56    
+                   ...   Ile    86A  N      ...   2.86 ***
+ A1p   427D  N3    ...   Wat  2152A  O      ...   3.01 ***
+ A1p   427D  N2    ...   Lys   162A  O      ...   3.17 ***
+                   ...   Wat  2093A  O      ...   3.31 *  
+ A1p   427D  N1    ...   Arg   163A  CA     ...   3.43    
+                   ...   Glu   164A  N      ...   3.29 ***
+ A1p   427D  C6    ...   Arg   163A  CG     ...   3.29    
+                   ...   Glu   164A  N      ...   3.46    
+                   ...   Glu   164A  O      ...   3.16    
+ A1p   427D  N7    ...   Arg   163A  CZ     ...   3.60    
+                   ...   Arg   163A  NH2    ...   3.51 *  
+                   ...   Arg   165A  CD     ...   3.60    
+                   ...   Arg   165A  NH1    ...   2.93 ***
+ A1p   427D  C8    ...   Arg   163A  NH2    ...   3.36    
+                   ...   Arg   165A  NH1    ...   3.54    
+ A1p   427D  C1'   ...   Leu   251A  O      ...   3.35    
+ Dg    428D  OP1   ...   Wat  2190A  O      ...   2.94 ***
+ Dg    428D  OP2   ...   Ser   252A  OG     ...   2.87 ***
+                   ...   Ala   253A  N      ...   3.03 ***
+                   ...   Tyr   254A  N      ...   2.71 ***
+                   ...   Tyr   254A  CA     ...   3.57    
+ Dg    428D  O4'   ...   Ser    87A  CB     ...   3.26    
+                   ...   Ser    87A  C      ...   3.28    
+                   ...   Ser    87A  O      ...   3.48 *  
+                   ...   Gly    88A  N      ...   3.33 *  
+ Dg    428D  C1'   ...   Ser    87A  O      ...   3.44    
+ Dg    428D  C8    ...   Ser    87A  CB     ...   3.57    
+ Dg    428D  N7    ...   Gly   255A  CA     ...   3.41    
+                   ...   Wat  2153A  O      ...   2.98 ***
+ Dg    428D  C5    ...   Gln   237A  OE1    ...   3.48    
+ Dg    428D  C6    ...   Gln   237A  OE1    ...   3.36    
+ Dg    428D  O6    ...   Gly   256A  N      ...   3.07 ***
+                   ...   Gln   237A  CB     ...   3.35    
+                   ...   5cm   407C  C4     ...   3.60    
+                   ...   5cm   407C  N4     ...   2.74 ***
+                   ...   Gln   237A  OE1    ...   3.51 *  
+ Dg    428D  N1    ...   5cm   407C  N3     ...   2.93 ***
+ Dg    428D  C2    ...   Dg    408C  N2     ...   3.41    
+ Dg    428D  N2    ...   Wat  2049A  O      ...   3.52 *  
+                   ...   5cm   407C  O2     ...   2.80 ***
+ Dg    428D  N3    ...   Dg    408C  N2     ...   3.54 *  
+                   ...   Wat  2049A  O      ...   3.12 ***
+ Dc    429D  OP1   ...   Arg    97A  NH2    ...   2.79 ***
+ Dc    429D  OP2   ...   Arg    97A  NH1    ...   3.01 ***
+ Dc    429D  C5'   ...   Wat  2049A  O      ...   3.35    
+ Dc    429D  C4'   ...   Wat  2049A  O      ...   3.25    
+ Dc    429D  O4'   ...   Wat  2049A  O      ...   2.94 ***
+ Dc    429D  O3'   ...   Lys    89A  CE     ...   3.46    
+ Dc    429D  O2    ...   Dg    406C  N1     ...   3.58 *  
+                   ...   Dg    406C  N2     ...   2.93 ***
+ Dc    429D  N3    ...   Dg    406C  C6     ...   3.60    
+                   ...   Dg    406C  O6     ...   3.40 *  
+                   ...   Dg    406C  N1     ...   2.90 ***
+ Dc    429D  C4    ...   Tyr   254A  O      ...   3.51    
+                   ...   Dg    406C  O6     ...   3.53    
+ Dc    429D  N4    ...   Tyr   254A  O      ...   2.90 ***
+                   ...   Gly   256A  N      ...   3.54 *  
+                   ...   Dg    406C  O6     ...   2.73 ***
+ Dc    429D  C5    ...   Tyr   254A  O      ...   3.24    
+ Da    430D  OP1   ...   Lys    89A  CE     ...   3.52    
+                   ...   Lys    89A  NZ     ...   2.90 ***
+ Da    430D  O4'   ...   Wat  2013C  O      ...   3.47 *  
+ Da    430D  N6    ...   Da    404C  N6     ...   3.43 *  
+                   ...   Dt    405C  O4     ...   3.13 ***
+                   ...   Wat  2156A  O      ...   3.49 *  
+ Da    430D  N1    ...   Dt    405C  O2     ...   3.55 *  
+                   ...   Dt    405C  N3     ...   2.97 ***
+                   ...   Dg    406C  N1     ...   3.41 *  
+ Da    430D  C2    ...   Dt    405C  O2     ...   3.58    
+                   ...   Dg    406C  N1     ...   3.32    
+                   ...   Dg    406C  C2     ...   3.47    
+                   ...   Dg    406C  N2     ...   3.49    
+ Da    430D  N3    ...   Dg    406C  N2     ...   3.20 ***
+ Dt    431D  O2    ...   Da    404C  N1     ...   3.52 *  
+                   ...   Da    404C  C2     ...   3.56    
+ Dt    431D  N3    ...   Da    404C  N1     ...   2.85 ***
+ Dt    431D  O4    ...   Da    404C  N6     ...   2.93 ***
+ Dc    432D  O2    ...   Dg    403C  N1     ...   3.52 *  
+                   ...   Dg    403C  N2     ...   2.77 ***
+ Dc    432D  N3    ...   Dg    403C  C6     ...   3.60    
+                   ...   Dg    403C  O6     ...   3.44 *  
+                   ...   Dg    403C  N1     ...   2.85 ***
+ Dc    432D  C4    ...   Dg    403C  O6     ...   3.59    
+ Dc    432D  N4    ...   Dg    403C  O6     ...   2.82 ***
+ Dc    433D  C2    ...   Dg    402C  N1     ...   3.56    
+ Dc    433D  O2    ...   Dg    402C  N1     ...   3.47 *  
+                   ...   Dg    402C  N2     ...   2.84 ***
+                   ...   Dg    403C  N2     ...   3.58 *  
+ Dc    433D  N3    ...   Dg    402C  C6     ...   3.52    
+                   ...   Dg    402C  O6     ...   3.32 *  
+                   ...   Dg    402C  N1     ...   2.81 ***
+ Dc    433D  C4    ...   Dg    402C  O6     ...   3.45    
+ Dc    433D  N4    ...   Dg    402C  O6     ...   2.68 ***
+ Wat  2046A  O     ...   Wat  2014D  O      ...   3.19 ***
+ Wat  2049A  O     ...   Dg    428D  N2     ...   3.52 *  
+                   ...   Dg    428D  N3     ...   3.12 ***
+                   ...   Dc    429D  O4'    ...   2.94 ***
+                   ...   Wat  2018C  O      ...   3.02 ***
+                   ...   Wat  2020C  O      ...   2.41 ***
+                   ...   Dc    429D  C5'    ...   3.35    
+                   ...   Dc    429D  C4'    ...   3.25    
+ Wat  2050A  O     ...   Dt    410C  C4'    ...   3.32    
+ Wat  2054A  O     ...   Wat  2014D  O      ...   2.93 ***
+ Wat  2057A  O     ...   Wat  2001D  O      ...   2.91 ***
+ Wat  2070A  O     ...   Da    412C  C5'    ...   3.12    
+ Wat  2071A  O     ...   Dg    426D  O3'    ...   3.51 *  
+                   ...   A1p   427D  O2P    ...   2.80 ***
+                   ...   Wat  2009D  O      ...   3.02 ***
+ Wat  2092A  O     ...   Da    425D  C5'    ...   3.44    
+ Wat  2093A  O     ...   Dg    426D  OP2    ...   2.74 ***
+                   ...   A1p   427D  N2     ...   3.31 *  
+ Wat  2097A  O     ...   Dc    413C  OP1    ...   3.23 ***
+ Wat  2098A  O     ...   Wat  2010D  O      ...   2.96 ***
+ Wat  2124A  O     ...   Wat  2015C  O      ...   3.18 ***
+ Wat  2126A  O     ...   Dg    406C  OP2    ...   3.22 ***
+                   ...   Dg    406C  O5'    ...   3.24 ***
+                   ...   Wat  2017C  O      ...   2.93 ***
+ Wat  2129A  O     ...   Wat  2004D  O      ...   3.00 ***
+ Wat  2142A  O     ...   Wat  2005D  O      ...   3.24 ***
+ Wat  2145A  O     ...   Wat  2006D  O      ...   2.68 ***
+ Wat  2147A  O     ...   5cm   407C  OP2    ...   3.22 ***
+                   ...   Wat  2017C  O      ...   3.51 *  
+                   ...   5cm   407C  C5A    ...   3.34    
+                   ...   5cm   407C  C6     ...   3.55    
+                   ...   Wat  2019C  O      ...   3.13 ***
+ Wat  2149A  O     ...   Wat  2008D  O      ...   2.60 ***
+ Wat  2152A  O     ...   A1p   427D  N3     ...   3.01 ***
+                   ...   Wat  2008D  O      ...   2.84 ***
+ Wat  2153A  O     ...   Dg    428D  N7     ...   2.98 ***
+ Wat  2156A  O     ...   Wat  2012C  O      ...   2.80 ***
+                   ...   Da    430D  N6     ...   3.49 *  
+ Wat  2157A  O     ...   Dt    405C  OP2    ...   2.78 ***
+ Wat  2163A  O     ...   Wat  2001C  O      ...   2.67 ***
+                   ...   Wat  2008C  O      ...   3.06 ***
+                   ...   Wat  2011C  O      ...   2.90 ***
+ Wat  2164A  O     ...   Wat  2001C  O      ...   2.79 ***
+ Wat  2165A  O     ...   Wat  2010C  O      ...   3.14 ***
+ Wat  2180A  O     ...   Wat  2007C  O      ...   3.58 *  
+                   ...   Wat  2009C  O      ...   3.21 ***
+ Wat  2182A  O     ...   Wat  2007C  O      ...   3.51 *  
+                   ...   Dg    402C  OP3    ...   3.55 *  
+ Wat  2190A  O     ...   Dg    428D  OP1    ...   2.94 ***
+ Wat  2001C  O     ...   Tyr   299A  CD2    ...   3.54    
+                   ...   Wat  2163A  O      ...   2.67 ***
+                   ...   Wat  2164A  O      ...   2.79 ***
+ Wat  2007C  O     ...   Wat  2182A  O      ...   3.51 *  
+                   ...   Ser   296A  OG     ...   2.85 ***
+                   ...   Wat  2180A  O      ...   3.58 *  
+ Wat  2008C  O     ...   Wat  2163A  O      ...   3.06 ***
+                   ...   Ser   296A  OG     ...   3.41 *  
+ Wat  2009C  O     ...   Wat  2180A  O      ...   3.21 ***
+ Wat  2010C  O     ...   Wat  2165A  O      ...   3.14 ***
+                   ...   Thr   295A  OG1    ...   2.81 ***
+                   ...   Ser   296A  N      ...   3.39 *  
+                   ...   Ser   296A  CA     ...   3.58    
+ Wat  2011C  O     ...   Wat  2163A  O      ...   2.90 ***
+                   ...   Gly   257A  O      ...   2.90 ***
+                   ...   Ala   260A  CB     ...   3.50    
+ Wat  2012C  O     ...   Lys   261A  NZ     ...   2.71 ***
+                   ...   Wat  2156A  O      ...   2.80 ***
+ Wat  2013C  O     ...   Da    430D  O4'    ...   3.47 *  
+                   ...   Wat  2013D  O      ...   3.27 ***
+ Wat  2014C  O     ...   Gly   257A  C      ...   3.49    
+                   ...   Glu   239A  CG     ...   3.59    
+                   ...   Gly   257A  CA     ...   3.37    
+                   ...   Ile   258A  N      ...   2.88 ***
+                   ...   Glu   239A  CD     ...   3.58    
+                   ...   Glu   239A  OE2    ...   2.77 ***
+ Wat  2015C  O     ...   Wat  2124A  O      ...   3.18 ***
+ Wat  2016C  O     ...   Wat  2015D  O      ...   3.09 ***
+ Wat  2017C  O     ...   Glu   239A  OE2    ...   2.94 ***
+                   ...   Wat  2126A  O      ...   2.93 ***
+                   ...   Gly   233A  CA     ...   3.32    
+                   ...   Lys   234A  N      ...   3.24 ***
+                   ...   Wat  2147A  O      ...   3.51 *  
+ Wat  2018C  O     ...   Ser    87A  O      ...   3.37 *  
+                   ...   Wat  2049A  O      ...   3.02 ***
+ Wat  2019C  O     ...   Wat  2147A  O      ...   3.13 ***
+ Wat  2020C  O     ...   Wat  2049A  O      ...   2.41 ***
+ Wat  2001D  O     ...   Tyr   254A  CE1    ...   3.46    
+                   ...   Wat  2057A  O      ...   2.91 ***
+ Wat  2004D  O     ...   Arg   228A  NH2    ...   3.18 ***
+                   ...   Wat  2129A  O      ...   3.00 ***
+ Wat  2005D  O     ...   Thr   226A  C      ...   3.47    
+                   ...   Thr   226A  O      ...   3.01 ***
+                   ...   Thr   226A  CB     ...   3.44    
+                   ...   Thr   226A  OG1    ...   2.62 ***
+                   ...   Wat  2142A  O      ...   3.24 ***
+ Wat  2006D  O     ...   Arg   240A  NH2    ...   3.54 *  
+                   ...   Wat  2145A  O      ...   2.68 ***
+ Wat  2007D  O     ...   Glu   164A  CB     ...   3.57    
+                   ...   Glu   164A  CG     ...   3.54    
+                   ...   Glu   164A  CD     ...   3.56    
+                   ...   Glu   164A  OE2    ...   2.99 ***
+ Wat  2008D  O     ...   Ile   249A  CG1    ...   3.44    
+                   ...   Ile   249A  CD1    ...   3.46    
+                   ...   Wat  2152A  O      ...   2.84 ***
+                   ...   Wat  2149A  O      ...   2.60 ***
+ Wat  2009D  O     ...   Glu   164A  O      ...   3.50 *  
+                   ...   Wat  2071A  O      ...   3.02 ***
+ Wat  2010D  O     ...   Gly   303A  O      ...   2.96 ***
+                   ...   Wat  2098A  O      ...   2.96 ***
+ Wat  2012D  O     ...   Lys    89A  CD     ...   3.27    
+                   ...   Lys    89A  CE     ...   3.60    
+ Wat  2013D  O     ...   Dg    406C  N2     ...   3.19 ***
+                   ...   5cm   407C  O2     ...   2.79 ***
+                   ...   Wat  2013C  O      ...   3.27 ***
+ Wat  2014D  O     ...   Gln    82A  O      ...   2.96 ***
+                   ...   Arg    97A  NH2    ...   3.59 *  
+                   ...   Wat  2046A  O      ...   3.19 ***
+                   ...   Lys    89A  N      ...   2.97 ***
+                   ...   Wat  2054A  O      ...   2.93 ***
+ Wat  2015D  O     ...   Wat  2016C  O      ...   3.09 ***
+<B><FONT COLOR="#FF0000"><!--SUMMARY_BEGIN-->
+ CONTACT:  Normal termination
+Times: User:       0.2s System:    0.0s Elapsed:     0:00  
+</pre>
+</html>
+<!--SUMMARY_END--></FONT></B>
