@@ -1,25 +1,6 @@
-from pymol import cmd
-import re
- 
-def parseCONTACTContacts( f ):
-    # Lys    24A  ca  Asp   263D  CG   ...  4.94    [   -1B   ]   3: -X,  Y+1/2,  -Z+1/2
-    conParser = re.compile("(\S*)\s*(\d+)([A-Z])\s*(\w+)")
-    s1 = []
-    s2 = []
-    for line in f:
-        if line.startswith('#'):
-            continue
-        matches = conParser.findall(line)
-        if len(matches) == 2:
-            s1.append(matches[0])
-            s2.append(matches[1])
-        elif len(matches) == 1:
-            s2.append(matches[0])
- 
-    return (s1, s2)
- 
-def ccp4_contact( contactsfile, selName1 = "source", selName2 = "target" ):
-    """
+'''
+See more here: http://www.pymolwiki.org/index.php/ccp4_contact
+
     ccp4_contact -- parses CCP4/CONTACT log file and selects residues and atoms.
     http://www.ccp4.ac.uk/html/contact.html
  
@@ -44,7 +25,28 @@ def ccp4_contact( contactsfile, selName1 = "source", selName2 = "target" ):
  
     AUTHOR
         Gerhard Reitmayr and Dalia Daujotyte, 2011.
-    """
+'''
+from pymol import cmd
+import re
+ 
+def parseCONTACTContacts( f ):
+    # Lys    24A  ca  Asp   263D  CG   ...  4.94    [   -1B   ]   3: -X,  Y+1/2,  -Z+1/2
+    conParser = re.compile("(\S*)\s*(\d+)([A-Z])\s*(\w+)")
+    s1 = []
+    s2 = []
+    for line in f:
+        if line.startswith('#'):
+            continue
+        matches = conParser.findall(line)
+        if len(matches) == 2:
+            s1.append(matches[0])
+            s2.append(matches[1])
+        elif len(matches) == 1:
+            s2.append(matches[0])
+ 
+    return (s1, s2)
+ 
+def ccp4_contact( contactsfile, selName1 = "source", selName2 = "target" ):
     # read and parse contacts file into two lists of contact atoms and contact pair list
     s1, s2 = parseCONTACTContacts(open(contactsfile))
  
