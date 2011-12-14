@@ -1,3 +1,36 @@
+'''
+See more here: http://www.pymolwiki.org/index.php/ccp4_pisa
+
+        parse a PISA contact file and create atoms selections for all interfaces
+ 
+        For each interface, two selections are created containing the atoms of 
+        the interface on each chain. The selection names follow the convention 
+        bondtype_#Id_Chain1Chain2. If Chain1 equals Chain2 then the two selections are 
+        numbered. 
+ 
+        bondtype corresponds to h-bonds, salt-bridges, ss-bonds and cov-bonds and
+        are marked with the prefixes hb, sb, ss and cov.
+ 
+        For example, all h-bonds in interface 3 between chain A and D create the selections
+        hb_3_AD and hb_3_DA.
+ 
+        Salt-bridges in interface 4 between chain A and a symmetry copy of A creates the selections
+        sb_4_AA1 and sb_4_AA2.
+ 
+    PARAMS
+        filename 
+            filename of the PISA contacts file
+ 
+    RETURNS
+        a set of selections in PYMOL. 
+ 
+    REPOSITORY
+        https://github.com/GerhardR/pymol-scripts
+ 
+    AUTHOR
+        Gerhard Reitmayr and Dalia Daujotyte, 2011.
+'''
+
 from pymol import cmd
 from xml.etree import ElementTree
  
@@ -56,36 +89,6 @@ def createInterfaceSelection( interface, prefix ):
     return leftname, rightname
  
 def ccp4_pisa( filename ):
-    """ parse a PISA contact file and create atoms selections for all interfaces
- 
-        For each interface, two selections are created containing the atoms of 
-        the interface on each chain. The selection names follow the convention 
-        bondtype_#Id_Chain1Chain2. If Chain1 equals Chain2 then the two selections are 
-        numbered. 
- 
-        bondtype corresponds to h-bonds, salt-bridges, ss-bonds and cov-bonds and
-        are marked with the prefixes hb, sb, ss and cov.
- 
-        For example, all h-bonds in interface 3 between chain A and D create the selections
-        hb_3_AD and hb_3_DA.
- 
-        Salt-bridges in interface 4 between chain A and a symmetry copy of A creates the selections
-        sb_4_AA1 and sb_4_AA2.
- 
-    PARAMS
-        filename 
-            filename of the PISA contacts file
- 
-    RETURNS
-        a set of selections in PYMOL. 
- 
-    REPOSITORY
-        https://github.com/GerhardR/pymol-scripts
- 
-    AUTHOR
-        Gerhard Reitmayr and Dalia Daujotyte, 2011.
-    """
- 
     bond_types = [
         ('h-bonds', 'h-bonds/bond', 'hb'),
         ('salt-bridges', 'salt-bridges/bond', 'sb'),
