@@ -1,10 +1,22 @@
 '''
+http://pymolwiki.org/index.php/spectrumany
+
 (c) 2010 Thomas Holder
+
+License: BSD-2-Clause
 '''
 
 from pymol import cmd, stored
 
-def spectrumany(expression, color_list, selection='(all)', minimum=None, maximum=None):
+expression_sc = cmd.Shortcut([
+    'count',
+    'resi',
+    'b',
+    'q',
+    'pc',
+])
+
+def spectrumany(expression, color_list, selection='(all)', minimum=None, maximum=None, quiet=1):
     '''
 DESCRIPTION
 
@@ -32,6 +44,7 @@ SEE ALSO
 
     spectrum
     '''
+    quiet = int(quiet)
     colors = color_list.split()
     if len(colors) < 2:
         print 'failed! please provide at least 2 colors'
@@ -40,9 +53,8 @@ SEE ALSO
     colvec = [cmd.get_color_tuple(i) for i in colors]
     parts = len(colvec) - 1
 
-    count_expr = 'index'
     expression = {'pc': 'partial_charge', 'fc': 'formal_charge',
-            'count': count_expr}.get(expression, expression)
+            'count': 'index'}.get(expression, expression)
     minmax_expr = {'resi': 'resv'}.get(expression, expression)
     discrete_expr = ['index', 'resi']
 
@@ -58,7 +70,8 @@ SEE ALSO
         if maximum is None:
             maximum = max(stored.e)
     minimum, maximum = float(minimum), float(maximum)
-    print ' Spectrum: range (%.5f to %.5f)' % (minimum, maximum)
+    if not quiet:
+        print ' Spectrum: range (%.5f to %.5f)' % (minimum, maximum)
 
     if maximum == minimum:
         print 'no spectrum possible, only equal %s values' % (expression)
@@ -87,3 +100,10 @@ SEE ALSO
             val_start = val_end
 
 cmd.extend('spectrumany', spectrumany)
+
+# tab-completion of arguments
+cmd.auto_arg[0]['spectrumany'] = [ expression_sc  , 'expression'      , ', ' ]
+cmd.auto_arg[1]['spectrumany'] = [ cmd.auto_arg[0]['color'][0], 'color', ' ' ]
+cmd.auto_arg[2]['spectrumany'] = cmd.auto_arg[2]['spectrum']
+
+# vi:expandtab:smarttab
