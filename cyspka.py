@@ -17,7 +17,7 @@ from time import localtime, strftime
 # show cartoon, 4AKE-A
 # cyspka 4AKE-A, A, 18
 
-def cyspka(molecule, chain, residue, SeeProgress='yes', cysfilename="cys.pdb", pH=7.2, MoveSGatom ='no', SGatom=str((0,0,0))):
+def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom ='no', SGatom=str((0,0,0))):
 	#If SeeProgress='yes', computation time will take 10-20% extra, but nice to follow.
 	cmd.refresh()
 	RotationRange = 360
@@ -62,10 +62,7 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', cysfilename="cys.pdb", p
 	### Loading an Cys residue, give it a logic name, and aligning it. The oxygen atom can not be aligned in many cases, and are skipped.
 	### We use only this molecule, to find the initial position of the SG atom, and to rotate the SG atom around the CA-CB bond. The molecule atom positions are not used for electric potential calculatons.
 	Cysmolecule = str(molecule)+str(residue)+"Cys"
-	#cmd.load(cysfilename,Cysmolecule)
-	cmd.do("frag cys")
-	cmd.refresh()
-	print("%s"%Cysmolecule)
+	cmd.fragment("cys")
 	cmd.set_name('cys',Cysmolecule)
 	### We use pair_fir, since align and super gets unstable with so few atoms
 	pairfitCys(Cysmolecule, molecule, chain, residue)
@@ -82,7 +79,7 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', cysfilename="cys.pdb", p
 
 	print ""
 	print "# Hello, PyMOLers. It should take around 1 minute per residue."
-	print "# molecule: %s , chain: %s, residue: %s %s, Cysfile: %s pH: %s " % (molecule , chain, residueName, residue, cysfilename, pH)
+	print "# molecule: %s , chain: %s, residue: %s %s, pH: %s " % (molecule , chain, residueName, residue, pH)
 
 	### Determine the range of neighbour residues possible.
 	Maxresidues = cmd.count_atoms("/"+molecule+"//"+chain+" and name CA")
@@ -262,7 +259,7 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', cysfilename="cys.pdb", p
  	outfile = open(filename, "w")
 	timeforlog = strftime("%Y %b %d %a %H:%M:%S", localtime())
 	logfile.write("# " + timeforlog + "\n" )
-	logfile.write("# molecule: %s , chain: %s, residue: %s %s, Cysfile: %s pH: %s " % (molecule , chain, residueName, residue, cysfilename, pH) + "\n")
+	logfile.write("# molecule: %s , chain: %s, residue: %s %s, pH: %s " % (molecule , chain, residueName, residue, pH) + "\n")
 	logfile.write("# BoltzSumNi:  BoltzPartition:  BoltzMCSC" + "\n")
 	logfile.write(("# %.4f  %.4f  %.4f" + '\n') % (BoltzSumNi, BoltzPartition, BoltzMCSC))
 	logfile.write("#    Res  NC    States  pKmcsc  pK1   pKB     pK2  pKm1     pKm2    f(C-)m1   f(C-)m2" + "\n")
@@ -270,7 +267,7 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', cysfilename="cys.pdb", p
 	if nostates == "yes": logfile.write("##### ERROR; No states available ###" + "\n")
 	if breakDimer == "yes": logfile.write("##### ERROR; Dimer formation ###" + "\n")
 	logfile.write('\n')
-	outfile.write("# molecule: %s , chain: %s, residue: %s %s, Cysfile: %s pH: %s " % (molecule , chain, residueName, residue, cysfilename, pH) + "\n")
+	outfile.write("# molecule: %s , chain: %s, residue: %s %s, pH: %s " % (molecule , chain, residueName, residue, pH) + "\n")
 	outfile.write("# BoltzSumNi:  BoltzPartition:  BoltzMCSC" + "\n")
 	outfile.write(("# %.4f  %.4f  %.4f" + '\n') % (BoltzSumNi, BoltzPartition, BoltzMCSC))
 	outfile.write("#    Res  NC    States  pKmcsc  pK1   pKB     pK2  pKm1     pKm2    f(C-)m1   f(C-)m2" + "\n")
@@ -297,7 +294,7 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', cysfilename="cys.pdb", p
 	if breakDimer == "yes": print("##### ERROR; Dimer formation ###")
 cmd.extend("cyspka",cyspka)
 
-def loopcyspka(molecule, chain, residue, SeeProgress='no', cysfilename="cys.pdb", pH=7.2, MoveSGatom = 'no', SGatom=str((0,0,0))):
+def loopcyspka(molecule, chain, residue, SeeProgress='no', pH=7.2, MoveSGatom = 'no', SGatom=str((0,0,0))):
 	residue = residue.split('.')
 	residueList = []
 	for i in residue:
@@ -309,7 +306,7 @@ def loopcyspka(molecule, chain, residue, SeeProgress='no', cysfilename="cys.pdb"
 	print "Looping over residues"
 	print residueList
 	for i in residueList:
-		cyspka(molecule, chain, str(i), SeeProgress, cysfilename, pH, MoveSGatom, SGatom)
+		cyspka(molecule, chain, str(i), SeeProgress, pH, MoveSGatom, SGatom)
 cmd.extend("loopcyspka",loopcyspka)
 
 def fNeighbourCount(molecule, Cysmolecule, chain, residue, DieElecSpheDist):
