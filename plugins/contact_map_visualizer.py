@@ -36,36 +36,55 @@
 ###############################################################################
 
 import Tkinter
-import tkFileDialog
+import tkFileDialog, tkMessageBox
 import Image
 import pygame as pg
 from pymol import cmd, stored
 import os, sys, urllib2, zlib
-import random
+from datetime import datetime
 
 count = 0
 colors = ['red', 'blue', 'green', 'yellow', 'magenta', 'cyan', 'orange', 'marine', 'chartreuse', 'limon']
 colors_value = [(255,0,0), (0,0,255), (0,255,0), (255, 255, 0), (255,0,255), (0, 255, 255), (255, 128, 0), (0, 128,255), (128, 255, 0), (191, 255, 64)]
+dialog = Tkinter.Tk()
+dialog.withdraw()
 
 def __init__(self):
-        self.menuBar.addmenuitem('Plugin', 'command','Contact Map Visualizer',label = 'Contact Map Visualizer',command = lambda imLoc=self : getImageandPDBLocations())
+        self.menuBar.addmenuitem('Plugin', 'command','Contact Map Visualizer',label = 'Contact Map Visualizer',command = lambda s=self : getImageLocation(s))
     
-def getImageandPDBLocations():
-        dialog = Tkinter.Tk()
-        dialog.withdraw()
+def getImageLocation(self):
         myFormats = [('Portable Network Graphics','*.png'),('JPEG / JFIF','*.jpg')]
-        file = tkFileDialog.askopenfile(parent=dialog,mode='rb',filetypes=myFormats, title='Choose the contact map image file')
-        print "Opening...", file.name
-        if file != None:
-            data = file.read()
-            print "Received %d bytes from this file." % len(data)
+        try:
+                self.file = tkFileDialog.askopenfile(parent=dialog,mode='rb',filetypes=myFormats, title='Choose the contact map image file')
+        except:
+                quitProgram(self, "No Contact Map!")
+        
+        if self.file != None:
+                data = self.file.read()
+                print "Opening...", self.file.name
+                print "Received %d bytes from this file." % len(data)
+                getPDBLocation(self)
+        else:
+                quitProgram(self, "No Contact Map!")
 
-        myFormatsPDB = [('Protein Data Bank','*.pdb'), ('MDL mol','*.mol'), ('PyMol Session File','*.pse')]
-        pdbFile = tkFileDialog.askopenfile(parent=dialog,mode='rb',filetypes=myFormatsPDB, title='Choose the corresponding PDB file')
-        print "Opening...", pdbFile.name
-        cmd.load(pdbFile.name, pdbFile.name)
-        preProcessPDB(pdbFile.name)
-        loadImageOnScreen(file.name)
+def getPDBLocation(self):
+	myFormatsPDB = [('Protein Data Bank','*.pdb'), ('MDL mol','*.mol'), ('PyMol Session File','*.pse')]
+	try:
+		self.pdbFile = tkFileDialog.askopenfile(parent=dialog,mode='rb',filetypes=myFormatsPDB, title='Choose the corresponding PDB file')
+	except:
+		quitProgram(self, "No PDB File!")
+	
+	if self.pdbFile != None:
+		cmd.load(self.pdbFile.name, self.pdbFile.name)
+		print "Opening...", self.pdbFile.name
+		preProcessPDB(self.pdbFile.name)
+		loadImageOnScreen(self.file.name)
+	else:
+		quitProgram(self,"No PDB file!")
+		
+	
+def quitProgram(self,tit):
+        tkMessageBox.showinfo(tit, "Quitting now...!")
 
 def preProcessPDB(fname):
         stored.residues = []
@@ -80,18 +99,18 @@ def loadImageOnScreen(image_file):
         #General variables
         global count
         sel = 0
-        rand  = int(random.random()*100000)
+        dtime  = datetime.now().isoformat()
         factor = 2
         gray = (100,100,100)
-        outputname = "%s_%s.png"%("contact-map-selections",rand)
+        BLACK = (0, 0, 0)
+        WHITE = (255, 255, 255)
+        outputname = "%s_%s.png"%("contact-map-selections",dtime)
         print "Output File name : outputname"
         
         #Text related arrays nd variables
         text = []
         textRect = []
         textcount = -1
-        BLACK = (0, 0, 0)
-        WHITE = (255, 255, 255)
 
         # use an image you have (.bmp  .jpg  .png  .gif)
         im = Image.open(image_file)
@@ -108,45 +127,48 @@ def loadImageOnScreen(image_file):
         
         running = True
         while running:
-            event = pg.event.poll()
-            keyinput = pg.key.get_pressed()
-            
-            # exit on corner 'x' click or escape key press
-            if keyinput[pg.K_ESCAPE]:
-                pg.quit()
-            elif event.type == pg.QUIT:
-                running = False
-                pg.quit()
-            elif event.type == pg.MOUSEBUTTONDOWN:
-                sel = 1
-                textcount += 1
-                coor = [event.pos[0]/2,(sh - event.pos[1])/2]
-                updateSelections(coor)
-                if count >= 10:
-                        count = 0
-                pg.draw.circle(image, colors_value[count], event.pos, 3, 0)
+                event = pg.event.poll()
+                keyinput = pg.key.get_pressed()
                 
-                # set up fonts
-                basicFont = pg.font.SysFont("Arial", 12)
-                name = "(%s%s, %s%s)"%(stored.residues[coor[0]], stored.chains[coor[0]],stored.residues[coor[1]], stored.chains[coor[1]])
-                # set up the text
-                text.append(basicFont.render(name, True, WHITE, BLACK))
-                textRect.append(text[textcount].get_rect())
-                textRect[textcount][0] = event.pos[0] + 5
-                textRect[textcount][1] = event.pos[1] + 5
-                
+                # exit on corner 'x' click or escape key press
+                if keyinput[pg.K_ESCAPE]:
+                        running = False
+                        pg.quit()
+                        break
+                elif event.type == pg.QUIT:
+                        running = False
+                        pg.quit()
+                        break
+                elif event.type == pg.MOUSEBUTTONDOWN:
+                        sel = 1
+                        textcount += 1
+                        coor = [event.pos[0]/2,(sh - event.pos[1])/2]
+                        updateSelections(coor)
+                        if count >= 10:
+                                count = 0
+                        pg.draw.circle(image, colors_value[count], event.pos, 3, 0)
+                        
+                        # set up fonts
+                        basicFont = pg.font.SysFont("Arial", 12)
+                        name = "(%s%s, %s%s)"%(stored.residues[coor[0]], stored.chains[coor[0]],stored.residues[coor[1]], stored.chains[coor[1]])
+                        # set up the text
+                        text.append(basicFont.render(name, True, WHITE, BLACK))
+                        textRect.append(text[textcount].get_rect())
+                        textRect[textcount][0] = event.pos[0] + 5
+                        textRect[textcount][1] = event.pos[1] + 5
+                        
+                        screen.blit(image, image_rect)
+                        for a in range(textcount+1):
+                                screen.blit(text[a], textRect[a])
+                        pg.display.flip()
+                        pg.image.save(screen, outputname)
+                        count += 1
+                # update screen
                 screen.blit(image, image_rect)
-                for a in range(textcount+1):
-                        screen.blit(text[a], textRect[a])
+                if sel == 1:
+                        for a in range(textcount+1):
+                                screen.blit(text[a], textRect[a])
                 pg.display.flip()
-                pg.image.save(screen, outputname)
-                count += 1
-            # update screen
-            screen.blit(image, image_rect)
-            if sel == 1:
-                for a in range(textcount+1):
-                        screen.blit(text[a], textRect[a])
-            pg.display.flip()
 
 def updateSelections(residues):
         global count
