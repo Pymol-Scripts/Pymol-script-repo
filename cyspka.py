@@ -1,4 +1,4 @@
-from pymol import cmd, stored
+from pymol import cmd
 import os, platform, sys, math
 from time import localtime, strftime
 
@@ -9,14 +9,12 @@ from time import localtime, strftime
 ### Predicting Reactivities of Protein Surface Cysteines as Part of a Strategy for Selective Multiple Labeling. (Biochemistry 2005, 44, 13664-13672)
 
 ### Example of pymol script: Directory "predict_reactivity" has script file cyspka.py and cysteine residue pdb file: cys.pdb
-# cd /homes/you/mutants/predict_reactivity
-   ### Fetch 4AKE from web. async make sure, we wait to have completed
+# import cyspka
 # fetch 4AKE, async=0
 # create 4AKE-A, /4AKE//A and not resn HOH
-# remove 4AKE
+# delete 4AKE
 # hide everything
 # show cartoon, 4AKE-A
-# run cyspka.py
 # cyspka 4AKE-A, A, 18
 
 def cyspka(molecule, chain, residue, SeeProgress='yes', cysfilename="cys.pdb", pH=7.2, MoveSGatom ='no', SGatom=str((0,0,0))):
@@ -64,7 +62,11 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', cysfilename="cys.pdb", p
 	### Loading an Cys residue, give it a logic name, and aligning it. The oxygen atom can not be aligned in many cases, and are skipped.
 	### We use only this molecule, to find the initial position of the SG atom, and to rotate the SG atom around the CA-CB bond. The molecule atom positions are not used for electric potential calculatons.
 	Cysmolecule = str(molecule)+str(residue)+"Cys"
-	cmd.load(cysfilename,Cysmolecule)
+	#cmd.load(cysfilename,Cysmolecule)
+	cmd.do("frag cys")
+	cmd.refresh()
+	print("%s"%Cysmolecule)
+	cmd.set_name('cys',Cysmolecule)
 	### We use pair_fir, since align and super gets unstable with so few atoms
 	pairfitCys(Cysmolecule, molecule, chain, residue)
 	### Give nice representations quickly
