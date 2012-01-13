@@ -1,11 +1,7 @@
-from pymol import cmd
-from pymol import stored
+'''
+Described at PyMOL wiki:
+http://www.pymolwiki.org/index.php/colorbydisplacement
 
-### Described at PyMOL wiki:
-# http://www.pymolwiki.org/index.php/colorbydisplacement
-
-### Thanks for inspiration from:
-"""
 --- ColorByRMSD: RMSD based coloring ---
 Authors : Shivender Shandilya; Jason Vertrees
 Program : ColorByRMSD
@@ -43,7 +39,9 @@ Date    : January 2011
     SIDE-EFFECTS
         Modifies the B-factor columns in your original structures.
 
-"""
+'''
+from pymol import cmd
+from pymol import stored
 
 def strTrue(p):
     return p[0].upper() == "T"

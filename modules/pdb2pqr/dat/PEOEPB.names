@@ -1,0 +1,66 @@
+<?xml version='1.0'?>
+<peoepb>
+    <residue>
+        <name>WAT</name>
+        <atom>
+            <name>O</name>
+            <useatomname>OW</useatomname>
+        </atom>
+        <atom>
+            <name>H1</name>
+            <useatomname>HW</useatomname>
+        </atom>
+        <atom>
+            <name>H2</name>
+            <useatomname>HW</useatomname>
+        </atom>
+    </residue>
+    <residue>
+        <name>[NC]?...$</name>
+        <atom>
+            <name>H</name>
+            <useatomname>HN</useatomname>
+        </atom>
+        <atom>
+            <name>HA3</name>
+            <useatomname>HA1</useatomname>
+        </atom> 
+        <atom>
+            <name>HG3</name>
+            <useatomname>HG1</useatomname>
+        </atom>
+        <atom>
+            <name>HG</name>
+            <useatomname>HG1</useatomname>
+        </atom>
+    </residue>
+    <residue>
+        <name>[NC]?(?!ALA$)...$</name> <!-- ALA has HB1, HB2, HB3 -->
+        <exclud>ALA</exclud>
+        <atom>   
+            <name>HB3</name>
+            <useatomname>HB1</useatomname>
+        </atom>
+    </residue>
+    <residue>
+        <name>[NC]?(?!ILE$)...$</name> <!-- ILE has HD11, HD12, HD13 -->
+        <atom>   
+            <name>HD3</name>
+            <useatomname>HD1</useatomname>
+        </atom>
+    </residue>
+    <residue>
+        <name>[NC]?(?!MET$|TRP$)...$</name> <!-- both have HE1/HE3 -->
+        <atom>   
+            <name>HE3</name>
+            <useatomname>HE1</useatomname>
+        </atom>
+    </residue>
+    <residue>
+        <name>N...$</name>
+        <atom>
+            <name>H</name>
+            <useatomname>H1</useatomname>
+        </atom>
+      </residue>
+</peoepb>

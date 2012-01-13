@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<definitions name="SchemaTest"
+	targetNamespace="urn:test:import:inner"
+	xmlns:tns="urn:test:import:inner"
+	xmlns:types="urn:test:import:types"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+    <xsd:schema
+       xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+       xmlns:tns="urn:test:import:types"
+       targetNamespace="urn:test:import:types">
+
+      <xsd:complexType name='innerType'>
+        <xsd:sequence>
+          <xsd:element name="comment" type='xsd:string'/>
+          <xsd:any namespace="##other" minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+    </xsd:schema>
+    </types>
+	
+    <message name="test">
+        <part name='in' type='types:innerType'/>
+    </message>
+    <message name="testResponse"/>
+
+    <portType name="SchemaTestPort">
+        <operation name="test">
+            <input message="tns:test"/>
+            <output message="tns:testResponse"/>
+        </operation>
+    </portType>
+    <binding name="SchemaTestBinding" type="tns:SchemaTestPort">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="test">
+            <soap:operation soapAction="test"/>
+            <input>  <soap:body use="literal" namespace="urn:test:import:inner"/> </input>
+            <output> <soap:body use="literal" namespace="urn:test:import:inner"/> </output>
+        </operation>
+    </binding>
+    <service name="SchemaTestService">
+        <port name="SchemaTestPort" binding="tns:SchemaTestBinding">
+            <soap:address location="http://localhost:8881"/>
+        </port>
+    </service>
+</definitions>

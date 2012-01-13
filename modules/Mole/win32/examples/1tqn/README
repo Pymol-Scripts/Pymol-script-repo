@@ -1,0 +1,10 @@
+
+Active site: GLU308, THR309
+
+Starting point:
+
+
+ 1tqn:     xyz: [-24, -24.8, -14]
+           
+           pymol selection:  /input//A/THR`309 /input//A/GLU`308
+           (more accurate):  /input//A/THR`309 /input//A/ARG`212 /input//A/ILE`369

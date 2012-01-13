@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions 
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="urn:ZSI:examples"
+  targetNamespace="urn:ZSI:examples" >
+  <types>
+  <xsd:schema elementFormDefault="qualified" targetNamespace="urn:ZSI:examples">
+      <xsd:element name="Basic">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="BasicIn" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="BasicResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="BasicResult" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="BasicOneWay">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" maxOccurs="1" name="BasicIn" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+  </xsd:schema>
+  </types>
+
+  <message name="BasicRequest">
+    <part name="parameters" element="tns:Basic" />
+  </message>
+  <message name="BasicResponse">
+    <part name="parameters" element="tns:BasicResponse"/>
+  </message>
+  <message name="BasicOneWayRequest">
+    <part name="parameters" element="tns:BasicOneWay" />
+  </message>
+
+  <portType name="BasicServer">
+    <operation name="Basic">
+      <input message="tns:BasicRequest"/>
+      <output message="tns:BasicResponse"/>
+    </operation>
+    <operation name="BasicOneWay">
+      <input message="tns:BasicOneWayRequest"/>
+    </operation>
+  </portType>
+
+  <binding name="BasicServer" type="tns:BasicServer">
+    <soap:binding style="document" 
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="Basic">
+      <soap:operation soapAction="Basic"/>
+	<input>
+   	  <soap:body use="literal"/> 
+	</input>
+	<output>
+	  <soap:body use="literal"/> 
+	</output>
+    </operation>
+    <operation name="BasicOneWay">
+      <soap:operation soapAction="BasicOneWay"/>
+	<input>
+   	  <soap:body use="literal"/> 
+	</input>
+    </operation>
+  </binding>
+
+  <service name="BasicServer">
+    <port name="BasicServer" binding="tns:BasicServer">
+      <soap:address location="http://localhost:7000"/>
+    </port>
+  </service>
+
+</definitions>

@@ -1,0 +1,37 @@
+Installation on most systems is rather straightforward - as the bulk of the 
+PDB2PQR code is written in Python, the PDB2PQR code itself is 
+architecture/compiler independent. PDB2PQR has been tested using Python 
+version 2.6 and it should work fine with 2.7 - problems will occur 
+with older versions. 3.0 and later is not supported.
+
+The PropKa code, however, is written in Fortran - and thus to use it with 
+PDB2PQR a two step installation is necessary, making use of available C and 
+Fortran compilers:
+
+    $ ./configure (see ./configure -help for more options)
+      Configure parameters
+        --prefix          Set install directory. Default is current directory.
+        --with-url        Set URL for the website.  Default is http://fully_qualified_domain
+        --disable-propbka Disable propka
+        --disable-pdb2pka Disable pdb2pka
+        --with-opal       Enable PDB2PQR Opal web service. Default is http://kryptonite.nbcr.net/opal2/services/pdb2pqr_1.7
+        --with-apbs       Enable the APBS web service. Must be pointing to a local APBS binary (requires APBS 1.1.0 or newer version)
+        --with-apbs-opal  Enable APBS Opal web service. Default is http://kryptonite.nbcr.net/opal2/services/apbs_1.3
+        NUMPY             Location of Numpy. Default is $PY_DIR/lib/python$PY_VERSION/site-packages/numpy/core/include/numpy
+        
+    $ make
+    $ make install
+
+This should compile the PropKa wrappers necessary to interface with PDB2PQR.
+
+However, if you would like to enable pdb2pka, then you must have Numpy installed.
+http://numpy.scipy.org/
+
+No additional steps are needed to install PDB2PQR without propka support - 
+just make sure that a version of Python is found in your system path.
+
+The current ZSI version for Opal services is ZSI-2.1-a1. 
+
+Please see the main documentation at doc/userguide.html for a complete
+look at installation, compiler/architecture support, and a general FAQ.
+

@@ -1,0 +1,195 @@
+.\" @(#)nroff.1 1.33 90/02/15 SMI;
+.TH MSMS 1 v2.5 "Nov. 3 1999"
+.SH NAME
+msms 
+.SH SYNOPSIS
+.B msms
+[
+.BI \-if \ filename
+] [
+.BI \-of \ filename
+] [
+.BI \-af \ filename
+]
+.br
+[
+.BI \-probe_radius \ radius
+] [
+.BI \-density \ density
+] [
+.BI \-no_area
+]
+.br
+[
+.BI \-surface \ <tses,ases>
+] [
+.BI \-socket \ servicename
+] [
+.BI \-sinetd
+] [
+.BI \-noh
+] [
+.BI \-no_rest_on_pbr
+] [
+.BI \-no_rest
+] [
+.BI \-free_vertices
+] [
+.BI \-all_components
+] [
+.B \-one_cavity
+.I #atoms at1 [at2] [at3]
+]
+.br
+[
+.BI \-no_header
+]
+
+.SH DESCRIPTION
+.LP
+MSMS computes, for a given set of spheres 
+.B S
+and a probe radius
+.B rp
+, the Reduced Surface and the analytical model of the Solvent Excluded Surface (
+.I SES
+). The 
+.I SES
+can then be triangulated with a given vertex density.
+.br
+The program can run in 
+.B standalone
+or
+.B server mode
+. In standalone mode the only requested option is the name of a file from which the sphere set will be read (
+.I \-if filename
+). In server mode, the only requested option is the socket name to be used to communicate with the client application (
+.I \-socket servicename
+or
+.I \-sinetd
+).
+
+.SH OPTIONS
+.LP
+Options may appear in any order and may be abbreviated. If the abbreviation matches several options, the first match will be used.
+.TP
+.BI \-if \ filename
+Allows to specify the file from which the sphere set 
+.B S
+will be read. This file contains the center (
+.I x,y,z
+) and the radius
+.I r
+of one sphere per line. These number are stored in a free format. Empty lines and lines starting with the character '#' are treated as comments and are skipped. The radius can be followed by an optional atom name (string). This name, if present, will be appended to the vertices in the surface and area output files (see the new pdb_to_xyzrn script that adds atom names from pdb file). The input file option is the only one requested when MSMS is run in standalone mode.
+.TP
+.BI \-of \ filename
+Allows to specify the files in which to store the triangulated solvent excluded surface resulting from a calculation. Two files will be created, one for vertices and one for faces. If the component number is 0, files called 
+.I filename.vert
+and
+.I filename.face
+are created. For other components, the component number is inserted in the file name, for example for the component number 3 the files are called
+.I filename_3.vert
+and
+.I filename_3.face.
+.br
+The face file contains three header lines followed by one triangle per line. The first header line provides a comment and the file name of the sphere set. The second header line holds comments about the content of the third line. The third header line provides the number of triangles, the number of spheres in the set, the triangulation density and the probe sphere radius. The first three numbers are (1 based) vertex indices. The next field can be: 1 for a triangle in a toric reentrant face, 2 for a triangle in a spheric reentrant face and 3 for a triangle in a contact face. The last number on the line is the (1 based) face number in the analytical description of the solvent excluded surface. These values are written in the following format "%6d %6d %6d %2d %6d".
+.br
+The vertex file contains three header lines (similar to the header in the .face file) followed by one vertex per line and provides the coordinates (x,y,z) and the normals (nx,ny,nz) followed by the number of the face (in the analytical description of the solvent excluded surface) to which the vertex belongs. The vertices of the analytical surface have a value 0 in that field and the vertices lying on edges of this surface have negative values. The next field holds the (1 based) index of the closest sphere. The next field is 1 for vertices which belong to toric reentrant faces (including vertices of the analytical surface), 2 for vertices inside reentrant faces and 3 for vertices inside contact faces. Finally, if atom names were present in the input file, the name of the closest atom is written for each vertex. These values are written in the following format "%9.3f %9.3f %9.3f %9.3f %9.3f %9.3f %7d %7d %2d %s".
+.TP
+.BI \-af \ filename
+Allows to specify the name of the file used to store solvent excluded and solvent accessible surface areas. The surface areas in each surface component are listed for every atom.
+.TP
+.BI \-no_header
+By default a 3 lines header is written into the
+.I .face
+and
+.I .vert
+files. This flags allows no to write out these headers.
+.TP
+.BI \-probe_radius \ radius
+Used to modify the default value of the probe sphere radius (1.5 Angstrom). No check is done on the validity of the probe radius. MSMS will fail to compute the triangulation template sphere for radii that are too small or too large. Values ranging from 0.5 to 10 should pose no problem.
+.TP
+.BI \-density \ density
+Used to modify the default triangulation density (1.0 vertex/Angstrom^2). No test is done on the validity of this parameter. Typical values are 1.0 for large molecules (>1000 atoms) and 3.0 for smaller molecules.
+.TP
+.B \-no_area
+This option allows to turn off the surface area computation.
+.TP
+.BI \-surface \ <tses,ases>
+Used to specify which surface to calculate. At the moment, the only choices are
+I. tses
+for triangulated solvent excluded surface and
+.I ases
+for analytical solvent excluded surface. By default the surface is triangulated. This option is mainly used to avoid triangulation, for instance, when one is interested only in surface areas.
+.TP
+.BI \-socket \ servicename
+When MSMS is started with this option, the program enters the server mode and "listens" to the specified Unix domain socket for clients requesting this service. If a client program requests this service the connection is established and MSMS expects to get the computation parameters and the spheres from the client thru this socket. Once the calculation is completed MSMS will send the triangulated surface to the client over this socket. This option doesn't use a general way to encode values (like xdr) and works only on a limited set of architectures.
+.TP
+.B \-sinetd
+This option is used to put MSMS in the server mode when MSMS is started by the internet daemon. This allows MSMS to be started whenever a client program requests MSMS to run.
+.TP
+.B \-noh
+Used to skip atoms with radius 1.2...???? (I know !)
+.TP
+.B \-no_rest_on_pbr
+Because of badly handled singular cases or numerical instability, it can happen that MSMS has problems triangulating the surface. By default, the program will restart the computation up to five times, after increasing the radius of the atoms causing the problem by 0.1 Angstrom. This option prevents MSMS from restarting the calculation if problems occur during the triangulation of spherical reentrant faces (which often points to singularities problems). The resulting triangulated surface won't be correct and might have holes (see also -no_rest).
+.TP
+.B \-no_rest
+This option is used to prevent MSMS from restarting the computation in any case (see also -no_rest_on_pbr).
+.TP
+.B \-free_vertices
+By default, free vertices of the reduced surface are not searched for. Use this option to force their detection.
+.TP
+.B \-all_components
+By default, only the external component of the molecular surfaces (reduced and solvent excluded) are computed. This option allows to force MSMS to find all components. If the
+.I -of filename 
+option is specified, files with extension
+.I .vert
+and
+.I .face
+will be created for each component.
+.TP
+.BI \-one_cavity \ #atoms \ at1 \ [at2] \ [at3]
+With this option one can compute a specific component of the molecular surfaces by indicating 1, 2 or 3 atom(s) the probe should initially touch. The number of such atoms is specified in 
+.I#atoms
+followed by the corresponding number of (0 based) atom indices.
+
+.SH EXAMPLE
+.LP
+Triangulate the solvent excluded surface of a set of spheres and saving the triangulation in
+.I myset.vert
+and
+.I myset.face
+:
+.LP
+	msms -if myset.xyzr -of myset
+.LP
+Compute all components of the surfaces for a probe radius of 1.4 and triangulate them with a density of 3.0:
+.LP
+	msms -if myset.xyzr -de 3.0 -prob 1.4 -of myset
+.SH FILES
+.PD 0
+.TP 28
+.PD
+.SH "SEE ALSO"
+.BR pdb_to_xyzr (1),
+.SH BUGS
+.LP
+If all the vertices of a component of the reduced surface also belong to another component, MSMS fails to find this component. A work around is to specify the first face for that component explicitly using the -one_cavity option.
+.LP
+The genus of the reduced surface is sometimes wrong.
+.LP
+Singular edges forming a full circles are not treated.
+.LP
+Normal vectors of singular vertices point arbitrarily to the center of one of the probe they belong to.
+.LP
+MSMS will crash or produce weird results if a sphere of
+.B S
+is entierly inside another sphere of
+.B S
+.
+.SH AUTHOR
+.LP
+Michel F. Sanner,
+.br
+The Scripps Research Institute, La Jolla, California.

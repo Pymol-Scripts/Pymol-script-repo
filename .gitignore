@@ -7,6 +7,7 @@
 *.o
 *.so
 *.pyc
+*.py.swp
 
 # Packages #
 ############
@@ -16,7 +17,6 @@
 *.dmg
 *.gz
 *.iso
-*.jar
 *.rar
 *.tar
 *.zip

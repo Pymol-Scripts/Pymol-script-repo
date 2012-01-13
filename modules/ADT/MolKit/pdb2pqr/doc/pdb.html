@@ -1,0 +1,2032 @@
+
+<!doctype html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module pdb</title>
+<style type="text/css"><!--
+TT { font-family: lucidatypewriter, lucida console, courier }
+--></style></head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>pdb</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/todd/release/pdb2pqr/pdb.py">/home/todd/release/pdb2pqr/pdb.py</a></font></td></tr></table>
+    <p><tt>&nbsp;PDB&nbsp;parsing&nbsp;class<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;parses&nbsp;PDBs&nbsp;in&nbsp;accordance&nbsp;to&nbsp;PDB&nbsp;Format&nbsp;Description&nbsp;Version&nbsp;2.2<br>
+(1996);&nbsp;it&nbsp;is&nbsp;not&nbsp;very&nbsp;forgiving.&nbsp;&nbsp;&nbsp;Each&nbsp;class&nbsp;in&nbsp;this&nbsp;module&nbsp;corresponds<br>
+to&nbsp;a&nbsp;record&nbsp;in&nbsp;the&nbsp;PDB&nbsp;Format&nbsp;Description.&nbsp;&nbsp;Much&nbsp;of&nbsp;the&nbsp;documentation&nbsp;for<br>
+the&nbsp;classes&nbsp;is&nbsp;taken&nbsp;directly&nbsp;from&nbsp;the&nbsp;above&nbsp;PDB&nbsp;Format&nbsp;Description.<br>
+&nbsp;<br>
+&nbsp;<br>
+Nathan&nbsp;A.&nbsp;Baker&nbsp;(baker@biochem.wustl.edu)<br>
+Washington&nbsp;University&nbsp;in&nbsp;St.&nbsp;Louis</tt></p>
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#fffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="string.html">string</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="pdb.html#ANISOU">ANISOU</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#ATOM">ATOM</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#AUTHOR">AUTHOR</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#CAVEAT">CAVEAT</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#CISPEP">CISPEP</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#COMPND">COMPND</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#CONECT">CONECT</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#CRYST1">CRYST1</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#DBREF">DBREF</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#END">END</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#ENDMDL">ENDMDL</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#EXPDTA">EXPDTA</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#FORMUL">FORMUL</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#HEADER">HEADER</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#HELIX">HELIX</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#HET">HET</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#HETATM">HETATM</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#HETNAM">HETNAM</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#HETSYN">HETSYN</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#HYDBND">HYDBND</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#JRNL">JRNL</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#KEYWDS">KEYWDS</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#LINK">LINK</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#MASTER">MASTER</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#MODEL">MODEL</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#MODRES">MODRES</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#MTRIX1">MTRIX1</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#MTRIX2">MTRIX2</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#MTRIX3">MTRIX3</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#OBSLTE">OBSLTE</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#ORIGX1">ORIGX1</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#ORIGX2">ORIGX2</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#ORIGX3">ORIGX3</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#REMARK">REMARK</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#REVDAT">REVDAT</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SCALE1">SCALE1</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SCALE2">SCALE2</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SCALE3">SCALE3</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SEQADV">SEQADV</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SEQRES">SEQRES</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SHEET">SHEET</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SIGATM">SIGATM</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SIGUIJ">SIGUIJ</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SITE">SITE</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SLTBRG">SLTBRG</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SOURCE">SOURCE</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SPRSDE">SPRSDE</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#SSBOND">SSBOND</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#TER">TER</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#TITLE">TITLE</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#TURN">TURN</a>
+</font></dt><dt><font face="helvetica, arial"><a href="pdb.html#TVECT">TVECT</a>
+</font></dt></dl>
+ 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ANISOU">class <strong>ANISOU</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#ANISOU">ANISOU</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#ANISOU">ANISOU</a>&nbsp;records&nbsp;present&nbsp;the&nbsp;anisotropic&nbsp;temperature&nbsp;factors.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ANISOU-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line:<br>
+&nbsp;<br>
+&nbsp;&nbsp;COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;DEFINITION<br>
+&nbsp;&nbsp;------------------------------------------------------<br>
+&nbsp;&nbsp;&nbsp;7-11&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;Atom&nbsp;serial&nbsp;number.<br>
+&nbsp;&nbsp;13-16&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+&nbsp;&nbsp;17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+&nbsp;&nbsp;18-20&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+&nbsp;&nbsp;22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;Chain&nbsp;identifier.<br>
+&nbsp;&nbsp;23-26&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+&nbsp;&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+&nbsp;&nbsp;29-35&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;u00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U(1,1)<br>
+&nbsp;&nbsp;36-42&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;u11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U(2,2)<br>
+&nbsp;&nbsp;43-49&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;u22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U(3,3)<br>
+&nbsp;&nbsp;50-56&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;u01&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U(1,2)<br>
+&nbsp;&nbsp;57-63&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;u02&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U(1,3)<br>
+&nbsp;&nbsp;64-70&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;u12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U(2,3)<br>
+&nbsp;&nbsp;73-76&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;segID&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier,&nbsp;left-justified.<br>
+&nbsp;&nbsp;77-78&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;element&nbsp;Element&nbsp;symbol,&nbsp;right-justified.<br>
+&nbsp;&nbsp;79-80&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;charge&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' ANISOU class<font color="#c040c0">\n\n</font>        The ANISOU records present the anisotropic temperature factors. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ATOM">class <strong>ATOM</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#ATOM">ATOM</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#ATOM">ATOM</a>&nbsp;records&nbsp;present&nbsp;the&nbsp;atomic&nbsp;coordinates&nbsp;for&nbsp;standard&nbsp;residues.<br>
+They&nbsp;also&nbsp;present&nbsp;the&nbsp;occupancy&nbsp;and&nbsp;temperature&nbsp;factor&nbsp;for&nbsp;each&nbsp;atom.<br>
+Heterogen&nbsp;coordinates&nbsp;use&nbsp;the&nbsp;<a href="#HETATM">HETATM</a>&nbsp;record&nbsp;type.&nbsp;The&nbsp;element&nbsp;symbol&nbsp;is<br>
+always&nbsp;present&nbsp;on&nbsp;each&nbsp;<a href="#ATOM">ATOM</a>&nbsp;record;&nbsp;segment&nbsp;identifier&nbsp;and&nbsp;charge&nbsp;are<br>
+optional.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ATOM-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------------<br>
+7-11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;serial&nbsp;number.<br>
+13-16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+23-26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code&nbsp;for&nbsp;insertion&nbsp;of&nbsp;residues.<br>
+31-38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;X&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+39-46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Y&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+47-54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Z&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+55-60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;occupancy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy.<br>
+61-66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;tempFactor&nbsp;&nbsp;&nbsp;&nbsp;Temperature&nbsp;factor.<br>
+73-76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;segID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier,&nbsp;left-justified.<br>
+77-78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;element&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element&nbsp;symbol,&nbsp;right-justified.<br>
+79-80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;charge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="ATOM-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Print&nbsp;object&nbsp;as&nbsp;string<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------------<br>
+7-11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;serial&nbsp;number.<br>
+13-16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+23-26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code&nbsp;for&nbsp;insertion&nbsp;of&nbsp;residues.<br>
+31-38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;X&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+39-46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Y&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+47-54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Z&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+55-60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;occupancy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy.<br>
+61-66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;tempFactor&nbsp;&nbsp;&nbsp;&nbsp;Temperature&nbsp;factor.<br>
+73-76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;segID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier,&nbsp;left-justified.<br>
+77-78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;element&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element&nbsp;symbol,&nbsp;right-justified.<br>
+79-80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;charge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' ATOM class<font color="#c040c0">\n\n</font>        The ATOM records present th... identifier and charge are<font color="#c040c0">\n</font>        optional.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="AUTHOR">class <strong>AUTHOR</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#AUTHOR">AUTHOR</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#AUTHOR">AUTHOR</a>&nbsp;record&nbsp;contains&nbsp;the&nbsp;names&nbsp;of&nbsp;the&nbsp;people&nbsp;responsible&nbsp;for&nbsp;the<br>
+contents&nbsp;of&nbsp;the&nbsp;entry.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="AUTHOR-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+--------------------------------------------------<br>
+11-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;authorList&nbsp;List&nbsp;of&nbsp;the&nbsp;author&nbsp;names,&nbsp;separated&nbsp;by<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;commas</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' AUTHOR field<font color="#c040c0">\n</font>  <font color="#c040c0">\n</font>        The AUTHOR record conta...ble for the<font color="#c040c0">\n</font>        contents of the entry.  <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CAVEAT">class <strong>CAVEAT</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#CAVEAT">CAVEAT</a>&nbsp;field<br>
+&nbsp;<br>
+<a href="#CAVEAT">CAVEAT</a>&nbsp;warns&nbsp;of&nbsp;severe&nbsp;errors&nbsp;in&nbsp;an&nbsp;entry.&nbsp;Use&nbsp;caution&nbsp;when&nbsp;using&nbsp;an<br>
+entry&nbsp;containing&nbsp;this&nbsp;record.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="CAVEAT-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line.<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;DEFINITION<br>
+----------------------------------------------------<br>
+12-15&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;idCode&nbsp;&nbsp;PDB&nbsp;ID&nbsp;code&nbsp;of&nbsp;this&nbsp;entry.<br>
+20-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;comment&nbsp;Free&nbsp;text&nbsp;giving&nbsp;the&nbsp;reason&nbsp;for&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#CAVEAT">CAVEAT</a>.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' CAVEAT field<font color="#c040c0">\n\n</font>        CAVEAT warns of severe er...ing an<font color="#c040c0">\n</font>        entry containing this record.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CISPEP">class <strong>CISPEP</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#CISPEP">CISPEP</a>&nbsp;field<br>
+&nbsp;<br>
+<a href="#CISPEP">CISPEP</a>&nbsp;records&nbsp;specify&nbsp;the&nbsp;prolines&nbsp;and&nbsp;other&nbsp;peptides&nbsp;found&nbsp;to&nbsp;be&nbsp;in<br>
+the&nbsp;cis&nbsp;conformation.&nbsp;This&nbsp;record&nbsp;replaces&nbsp;the&nbsp;use&nbsp;of&nbsp;footnote&nbsp;records<br>
+to&nbsp;list&nbsp;cis&nbsp;peptides.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="CISPEP-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------------<br>
+8-10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serNum&nbsp;&nbsp;&nbsp;Record&nbsp;serial&nbsp;number.<br>
+12-14&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;pep1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;name.<br>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID1&nbsp;Chain&nbsp;identifier.<br>
+18-21&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqNum1&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;icode1&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+26-28&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;pep2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;name.<br>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID2&nbsp;Chain&nbsp;identifier.<br>
+32-35&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqNum2&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;icode2&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+44-46&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;modNum&nbsp;&nbsp;&nbsp;Identifies&nbsp;the&nbsp;specific&nbsp;model.<br>
+54-59&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;measure&nbsp;&nbsp;Measure&nbsp;of&nbsp;the&nbsp;angle&nbsp;in&nbsp;degrees.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' CISPEP field<font color="#c040c0">\n\n</font>        CISPEP records specify th...otnote records<font color="#c040c0">\n</font>        to list cis peptides.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="COMPND">class <strong>COMPND</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#COMPND">COMPND</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#COMPND">COMPND</a>&nbsp;record&nbsp;describes&nbsp;the&nbsp;macromolecular&nbsp;contents&nbsp;of&nbsp;an&nbsp;entry.<br>
+Each&nbsp;macromolecule&nbsp;found&nbsp;in&nbsp;the&nbsp;entry&nbsp;is&nbsp;described&nbsp;by&nbsp;a&nbsp;set&nbsp;of&nbsp;token:<br>
+value&nbsp;pairs,&nbsp;and&nbsp;is&nbsp;referred&nbsp;to&nbsp;as&nbsp;a&nbsp;<a href="#COMPND">COMPND</a>&nbsp;record&nbsp;component.&nbsp;Since&nbsp;the<br>
+concept&nbsp;of&nbsp;a&nbsp;molecule&nbsp;is&nbsp;difficult&nbsp;to&nbsp;specify&nbsp;exactly,&nbsp;PDB&nbsp;staff&nbsp;may<br>
+exercise&nbsp;editorial&nbsp;judgment&nbsp;in&nbsp;consultation&nbsp;with&nbsp;depositors&nbsp;in<br>
+assigning&nbsp;these&nbsp;names.<br>
+&nbsp;<br>
+For&nbsp;each&nbsp;macromolecular&nbsp;component,&nbsp;the&nbsp;molecule&nbsp;name,&nbsp;synonyms,&nbsp;number<br>
+assigned&nbsp;by&nbsp;the&nbsp;Enzyme&nbsp;Commission&nbsp;(EC),&nbsp;and&nbsp;other&nbsp;relevant&nbsp;details&nbsp;are<br>
+specified.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="COMPND-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+--------------------------------------------------<br>
+11-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;compound&nbsp;Description&nbsp;of&nbsp;the&nbsp;molecular&nbsp;list&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;components.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' COMPND field<font color="#c040c0">\n</font>       <font color="#c040c0">\n</font>        The COMPND record ...her relevant details are<font color="#c040c0">\n</font>        specified. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CONECT">class <strong>CONECT</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#CONECT">CONECT</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#CONECT">CONECT</a>&nbsp;records&nbsp;specify&nbsp;connectivity&nbsp;between&nbsp;atoms&nbsp;for&nbsp;which<br>
+coordinates&nbsp;are&nbsp;supplied.&nbsp;The&nbsp;connectivity&nbsp;is&nbsp;described&nbsp;using&nbsp;the&nbsp;atom<br>
+serial&nbsp;number&nbsp;as&nbsp;found&nbsp;in&nbsp;the&nbsp;entry.&nbsp;<a href="#CONECT">CONECT</a>&nbsp;records&nbsp;are&nbsp;mandatory&nbsp;for<br>
+<a href="#HET">HET</a>&nbsp;groups&nbsp;(excluding&nbsp;water)&nbsp;and&nbsp;for&nbsp;other&nbsp;bonds&nbsp;not&nbsp;specified&nbsp;in&nbsp;the<br>
+standard&nbsp;residue&nbsp;connectivity&nbsp;table&nbsp;which&nbsp;involve&nbsp;atoms&nbsp;in&nbsp;standard<br>
+residues&nbsp;(see&nbsp;Appendix&nbsp;4&nbsp;for&nbsp;the&nbsp;list&nbsp;of&nbsp;standard&nbsp;residues).&nbsp;These<br>
+records&nbsp;are&nbsp;generated&nbsp;by&nbsp;the&nbsp;PDB.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="CONECT-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+--------------------------------------------<br>
+&nbsp;7-11&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;&nbsp;Atom&nbsp;serial&nbsp;number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+12-16&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial1&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;bonded&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+17-21&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial2&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;bonded&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+22-26&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial3&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;bonded&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+27-31&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial4&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;bonded&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+32-36&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial5&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;hydrogen&nbsp;bonded&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+37-41&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial6&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;hydrogen&nbsp;bonded&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+42-46&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial7&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;salt&nbsp;bridged&nbsp;&nbsp;&nbsp;&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+47-51&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial8&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;hydrogen&nbsp;bonded&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+52-56&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial9&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;hydrogen&nbsp;bonded&nbsp;atom&nbsp;&nbsp;&nbsp;&nbsp;<br>
+57-61&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial10&nbsp;Serial&nbsp;number&nbsp;of&nbsp;salt&nbsp;bridged&nbsp;&nbsp;&nbsp;&nbsp;atom</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' CONECT class<font color="#c040c0">\n\n</font>        The CONECT records specif...e<font color="#c040c0">\n</font>        records are generated by the PDB. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="CRYST1">class <strong>CRYST1</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#CRYST1">CRYST1</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#CRYST1">CRYST1</a>&nbsp;record&nbsp;presents&nbsp;the&nbsp;unit&nbsp;cell&nbsp;parameters,&nbsp;space&nbsp;group,&nbsp;and&nbsp;Z<br>
+value.&nbsp;If&nbsp;the&nbsp;structure&nbsp;was&nbsp;not&nbsp;determined&nbsp;by&nbsp;crystallographic&nbsp;means,<br>
+<a href="#CRYST1">CRYST1</a>&nbsp;simply&nbsp;defines&nbsp;a&nbsp;unit&nbsp;cube.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="CRYST1-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------<br>
+&nbsp;7-15&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;(Angstroms).<br>
+16-24&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;b&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b&nbsp;(Angstroms).<br>
+25-33&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;(Angstroms).<br>
+34-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;alpha&nbsp;&nbsp;alpha&nbsp;(degrees).<br>
+41-47&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;beta&nbsp;&nbsp;&nbsp;beta&nbsp;(degrees).<br>
+48-54&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;gamma&nbsp;&nbsp;gamma&nbsp;(degrees).<br>
+56-66&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sGroup&nbsp;Space&nbsp;group.<br>
+67-70&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Z&nbsp;value.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' CRYST1 class<font color="#c040c0">\n\n</font>        The CRYST1 record present...,<font color="#c040c0">\n</font>        CRYST1 simply defines a unit cube.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="DBREF">class <strong>DBREF</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#DBREF">DBREF</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#DBREF">DBREF</a>&nbsp;record&nbsp;provides&nbsp;cross-reference&nbsp;links&nbsp;between&nbsp;PDB&nbsp;sequences<br>
+and&nbsp;the&nbsp;corresponding&nbsp;database&nbsp;entry&nbsp;or&nbsp;entries.&nbsp;A&nbsp;cross&nbsp;reference&nbsp;to<br>
+the&nbsp;sequence&nbsp;database&nbsp;is&nbsp;mandatory&nbsp;for&nbsp;each&nbsp;peptide&nbsp;chain&nbsp;with&nbsp;a&nbsp;length<br>
+greater&nbsp;than&nbsp;ten&nbsp;(10)&nbsp;residues.&nbsp;For&nbsp;nucleic&nbsp;acid&nbsp;entries&nbsp;a&nbsp;<a href="#DBREF">DBREF</a>&nbsp;record<br>
+pointing&nbsp;to&nbsp;the&nbsp;Nucleic&nbsp;Acid&nbsp;Database&nbsp;(NDB)&nbsp;is&nbsp;mandatory&nbsp;when&nbsp;the<br>
+corresponding&nbsp;entry&nbsp;exists&nbsp;in&nbsp;NDB.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="DBREF-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line.<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+------------------------------------------------------<br>
+8-11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;idCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;this&nbsp;entry.<br>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+15-18&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqBegin&nbsp;&nbsp;&nbsp;&nbsp;Initial&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;PDB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sequence&nbsp;segment.<br>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;insertBegin&nbsp;Initial&nbsp;insertion&nbsp;code&nbsp;of&nbsp;the&nbsp;PDB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sequence&nbsp;segment.<br>
+21-24&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqEnd&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ending&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;PDB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sequence&nbsp;segment.<br>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;insertEnd&nbsp;&nbsp;&nbsp;Ending&nbsp;insertion&nbsp;code&nbsp;of&nbsp;the&nbsp;PDB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sequence&nbsp;segment.<br>
+27-32&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;database&nbsp;&nbsp;&nbsp;&nbsp;Sequence&nbsp;database&nbsp;name.&nbsp;&nbsp;"PDB"&nbsp;when<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a&nbsp;corresponding&nbsp;sequence&nbsp;database<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;entry&nbsp;has&nbsp;not&nbsp;been&nbsp;identified.<br>
+34-41&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;dbAccession&nbsp;Sequence&nbsp;database&nbsp;accession&nbsp;code.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;GenBank&nbsp;entries,&nbsp;this&nbsp;is&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NCBI&nbsp;gi&nbsp;number.<br>
+43-54&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;dbIdCode&nbsp;&nbsp;&nbsp;&nbsp;Sequence&nbsp;database&nbsp;identification<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;code.&nbsp;&nbsp;For&nbsp;GenBank&nbsp;entries,&nbsp;this&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;accession&nbsp;code.<br>
+56-60&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;dbseqBegin&nbsp;&nbsp;Initial&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;database&nbsp;seqment.<br>
+61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;dbinsBeg&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;of&nbsp;initial&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;the&nbsp;segment,&nbsp;if&nbsp;PDB&nbsp;is&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reference.<br>
+63-67&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;dbseqEnd&nbsp;&nbsp;&nbsp;&nbsp;Ending&nbsp;sequence&nbsp;number&nbsp;of&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;database&nbsp;segment.<br>
+68&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;dbinsEnd&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;of&nbsp;the&nbsp;ending<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;residue&nbsp;of&nbsp;the&nbsp;segment,&nbsp;if&nbsp;PDB&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;reference.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' DBREF field<font color="#c040c0">\n\n</font>        The DBREF record provides ...e<font color="#c040c0">\n</font>        corresponding entry exists in NDB.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="END">class <strong>END</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#END">END</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#END">END</a>&nbsp;records&nbsp;are&nbsp;paired&nbsp;with&nbsp;<a href="#MODEL">MODEL</a>&nbsp;records&nbsp;to&nbsp;group&nbsp;individual<br>
+structures&nbsp;found&nbsp;in&nbsp;a&nbsp;coordinate&nbsp;entry.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="END-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line&nbsp;(nothing&nbsp;to&nbsp;do)</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' END class<font color="#c040c0">\n\n</font>        The END records are paired w...    structures found in a coordinate entry. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ENDMDL">class <strong>ENDMDL</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#ENDMDL">ENDMDL</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#ENDMDL">ENDMDL</a>&nbsp;records&nbsp;are&nbsp;paired&nbsp;with&nbsp;<a href="#MODEL">MODEL</a>&nbsp;records&nbsp;to&nbsp;group&nbsp;individual<br>
+structures&nbsp;found&nbsp;in&nbsp;a&nbsp;coordinate&nbsp;entry.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ENDMDL-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line&nbsp;(nothing&nbsp;to&nbsp;do)</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' ENDMDL class<font color="#c040c0">\n\n</font>        The ENDMDL records are pa...    structures found in a coordinate entry. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="EXPDTA">class <strong>EXPDTA</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#EXPDTA">EXPDTA</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#EXPDTA">EXPDTA</a>&nbsp;record&nbsp;identifies&nbsp;the&nbsp;experimental&nbsp;technique&nbsp;used.&nbsp;This&nbsp;may<br>
+refer&nbsp;to&nbsp;the&nbsp;type&nbsp;of&nbsp;radiation&nbsp;and&nbsp;sample,&nbsp;or&nbsp;include&nbsp;the&nbsp;spectroscopic<br>
+or&nbsp;modeling&nbsp;technique.&nbsp;Permitted&nbsp;values&nbsp;include:<br>
+&nbsp;<br>
+ELECTRON&nbsp;DIFFRACTION<br>
+FIBER&nbsp;DIFFRACTION<br>
+FLUORESCENCE&nbsp;TRANSFER<br>
+NEUTRON&nbsp;DIFFRACTION<br>
+NMR<br>
+THEORETICAL&nbsp;<a href="#MODEL">MODEL</a><br>
+X-RAY&nbsp;DIFFRACTION<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="EXPDTA-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+--------------------------------------------------<br>
+11-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;technique&nbsp;The&nbsp;experimental&nbsp;technique(s)&nbsp;with<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;optional&nbsp;comment&nbsp;describing&nbsp;the&nbsp;sample&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or&nbsp;experiment</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' EXPDTA field<font color="#c040c0">\n</font>  <font color="#c040c0">\n</font>        The EXPDTA record ident...THEORETICAL MODEL<font color="#c040c0">\n</font>        X-RAY DIFFRACTION <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="FORMUL">class <strong>FORMUL</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#FORMUL">FORMUL</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#FORMUL">FORMUL</a>&nbsp;record&nbsp;presents&nbsp;the&nbsp;chemical&nbsp;formula&nbsp;and&nbsp;charge&nbsp;of&nbsp;a<br>
+non-standard&nbsp;group.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="FORMUL-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+9-10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;compNum&nbsp;&nbsp;Component&nbsp;number<br>
+13-15&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;hetID&nbsp;&nbsp;&nbsp;&nbsp;Het&nbsp;identifier<br>
+19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;asterisk&nbsp;*&nbsp;for&nbsp;water<br>
+20-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chemical&nbsp;formula</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' FORMUL field<font color="#c040c0">\n\n</font>        The FORMUL record present...nd charge of a<font color="#c040c0">\n</font>        non-standard group.  <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HEADER">class <strong>HEADER</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#HEADER">HEADER</a>&nbsp;field&nbsp;<br>
+&nbsp;<br>
+The&nbsp;<a href="#HEADER">HEADER</a>&nbsp;record&nbsp;uniquely&nbsp;identifies&nbsp;a&nbsp;PDB&nbsp;entry&nbsp;through&nbsp;the&nbsp;idCode<br>
+field.&nbsp;This&nbsp;record&nbsp;also&nbsp;provides&nbsp;a&nbsp;classification&nbsp;for&nbsp;the&nbsp;entry.<br>
+Finally,&nbsp;it&nbsp;contains&nbsp;the&nbsp;date&nbsp;the&nbsp;coordinates&nbsp;were&nbsp;deposited&nbsp;at&nbsp;the<br>
+PDB.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="HEADER-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line.&nbsp;&nbsp;<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------------------------<br>
+11-50&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;classification&nbsp;Classifies&nbsp;the&nbsp;molecule(s)<br>
+51-59&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;depDate&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Deposition&nbsp;date.&nbsp;&nbsp;This&nbsp;is&nbsp;the&nbsp;date<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;coordinates&nbsp;were&nbsp;received&nbsp;by<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;PDB<br>
+63-66&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;idCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;identifier&nbsp;is&nbsp;unique&nbsp;within&nbsp;PDB</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' HEADER field <font color="#c040c0">\n\n</font>        The HEADER record unique...e coordinates were deposited at the<font color="#c040c0">\n</font>        PDB. '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HELIX">class <strong>HELIX</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#HELIX">HELIX</a>&nbsp;field<br>
+&nbsp;<br>
+<a href="#HELIX">HELIX</a>&nbsp;records&nbsp;are&nbsp;used&nbsp;to&nbsp;identify&nbsp;the&nbsp;position&nbsp;of&nbsp;helices&nbsp;in&nbsp;the<br>
+molecule.&nbsp;Helices&nbsp;are&nbsp;both&nbsp;named&nbsp;and&nbsp;numbered.&nbsp;The&nbsp;residues&nbsp;where&nbsp;the<br>
+helix&nbsp;begins&nbsp;and&nbsp;ends&nbsp;are&nbsp;noted,&nbsp;as&nbsp;well&nbsp;as&nbsp;the&nbsp;total&nbsp;length.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="HELIX-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+------------------------------------------------------<br>
+8-10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serNum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;the&nbsp;helix.&nbsp;&nbsp;This<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;starts&nbsp;at&nbsp;1&nbsp;and&nbsp;increases<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;incrementally.<br>
+12-14&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;helixID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Helix&nbsp;identifier.&nbsp;&nbsp;In&nbsp;addition&nbsp;to&nbsp;a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;number,&nbsp;each&nbsp;helix&nbsp;is&nbsp;given&nbsp;an<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alphanumeric&nbsp;character&nbsp;helix&nbsp;identifier.<br>
+16-18&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;initResName&nbsp;Name&nbsp;of&nbsp;the&nbsp;initial&nbsp;residue.<br>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;initChainID&nbsp;Chain&nbsp;identifier&nbsp;for&nbsp;the&nbsp;chain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containing&nbsp;this&nbsp;helix.<br>
+22-25&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;initSeqNum&nbsp;&nbsp;Sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;initial&nbsp;residue.<br>
+26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;initICode&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;of&nbsp;the&nbsp;initial&nbsp;residue.<br>
+28-30&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;endResName&nbsp;&nbsp;Name&nbsp;of&nbsp;the&nbsp;terminal&nbsp;residue&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;helix.<br>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;endChainID&nbsp;&nbsp;Chain&nbsp;identifier&nbsp;for&nbsp;the&nbsp;chain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containing&nbsp;this&nbsp;helix.<br>
+34-37&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;endSeqNum&nbsp;&nbsp;&nbsp;Sequence&nbsp;number&nbsp;of&nbsp;the&nbsp;terminal&nbsp;residue.<br>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;endICode&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;of&nbsp;the&nbsp;terminal&nbsp;residue.<br>
+39-40&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;helixClass&nbsp;&nbsp;Helix&nbsp;class&nbsp;(see&nbsp;below).<br>
+41-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;comment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Comment&nbsp;about&nbsp;this&nbsp;helix.<br>
+72-76&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;length&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Length&nbsp;of&nbsp;this&nbsp;helix.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' HELIX field<font color="#c040c0">\n\n</font>        HELIX records are used to ...ends are noted, as well as the total length.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HET">class <strong>HET</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#HET">HET</a>&nbsp;field<br>
+&nbsp;<br>
+<a href="#HET">HET</a>&nbsp;records&nbsp;are&nbsp;used&nbsp;to&nbsp;describe&nbsp;non-standard&nbsp;residues,&nbsp;such&nbsp;as<br>
+prosthetic&nbsp;groups,&nbsp;inhibitors,&nbsp;solvent&nbsp;molecules,&nbsp;and&nbsp;ions&nbsp;for&nbsp;which<br>
+coordinates&nbsp;are&nbsp;supplied.&nbsp;Groups&nbsp;are&nbsp;considered&nbsp;<a href="#HET">HET</a>&nbsp;if&nbsp;they&nbsp;are:<br>
+&nbsp;-&nbsp;not&nbsp;one&nbsp;of&nbsp;the&nbsp;standard&nbsp;amino&nbsp;acids,&nbsp;and&nbsp;<br>
+&nbsp;-&nbsp;not&nbsp;one&nbsp;of&nbsp;the&nbsp;nucleic&nbsp;acids&nbsp;(C,&nbsp;G,&nbsp;A,&nbsp;T,&nbsp;U,&nbsp;and&nbsp;I),&nbsp;and&nbsp;<br>
+&nbsp;-&nbsp;not&nbsp;one&nbsp;of&nbsp;the&nbsp;modified&nbsp;versions&nbsp;of&nbsp;nucleic&nbsp;acids&nbsp;(+C,&nbsp;+G,&nbsp;+A,&nbsp;+T,<br>
+&nbsp;&nbsp;&nbsp;+U,&nbsp;and&nbsp;+I),&nbsp;and&nbsp;<br>
+&nbsp;-&nbsp;not&nbsp;an&nbsp;unknown&nbsp;amino&nbsp;acid&nbsp;or&nbsp;nucleic&nbsp;acid&nbsp;where&nbsp;UNK&nbsp;is&nbsp;used&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;indicate&nbsp;the&nbsp;unknown&nbsp;residue&nbsp;name.&nbsp;<br>
+Het&nbsp;records&nbsp;also&nbsp;describe&nbsp;heterogens&nbsp;for&nbsp;which&nbsp;the&nbsp;chemical&nbsp;identity&nbsp;is<br>
+unknown,&nbsp;in&nbsp;which&nbsp;case&nbsp;the&nbsp;group&nbsp;is&nbsp;assigned&nbsp;the&nbsp;hetID&nbsp;UNK.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="HET-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+--------------------------------------------------------<br>
+8-10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;hetID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Het&nbsp;identifier,&nbsp;right-justified.<br>
+13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;ChainID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+14-17&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqNum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sequence&nbsp;number.<br>
+18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+21-25&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numHetAtoms&nbsp;Number&nbsp;of&nbsp;<a href="#HETATM">HETATM</a>&nbsp;records&nbsp;for&nbsp;the<br>
+31-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Text&nbsp;describing&nbsp;Het&nbsp;group.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' HET field<font color="#c040c0">\n\n</font>        HET records are used to desc...h case the group is assigned the hetID UNK. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HETATM">class <strong>HETATM</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#HETATM">HETATM</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#HETATM">HETATM</a>&nbsp;records&nbsp;present&nbsp;the&nbsp;atomic&nbsp;coordinate&nbsp;records&nbsp;for&nbsp;atoms<br>
+within&nbsp;"non-standard"&nbsp;groups.&nbsp;These&nbsp;records&nbsp;are&nbsp;used&nbsp;for&nbsp;water<br>
+molecules&nbsp;and&nbsp;atoms&nbsp;presented&nbsp;in&nbsp;<a href="#HET">HET</a>&nbsp;groups.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="HETATM-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------------<br>
+7-11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;serial&nbsp;number.<br>
+13-16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+23-26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code&nbsp;for&nbsp;insertion&nbsp;of&nbsp;residues.<br>
+31-38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;X&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+39-46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Y&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+47-54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Z&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+55-60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;occupancy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy.<br>
+61-66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;tempFactor&nbsp;&nbsp;&nbsp;&nbsp;Temperature&nbsp;factor.<br>
+73-76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;segID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier,&nbsp;left-justified.<br>
+77-78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;element&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element&nbsp;symbol,&nbsp;right-justified.<br>
+79-80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;charge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom.</tt></dd></dl>
+
+<dl><dt><a name="HETATM-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>Print&nbsp;object&nbsp;as&nbsp;string<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------------<br>
+7-11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;serial&nbsp;number.<br>
+13-16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+23-26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Code&nbsp;for&nbsp;insertion&nbsp;of&nbsp;residues.<br>
+31-38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;x&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;X&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+39-46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;y&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Y&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+47-54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Orthogonal&nbsp;coordinates&nbsp;for&nbsp;Z&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Angstroms.<br>
+55-60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;occupancy&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Occupancy.<br>
+61-66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;tempFactor&nbsp;&nbsp;&nbsp;&nbsp;Temperature&nbsp;factor.<br>
+73-76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;segID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier,&nbsp;left-justified.<br>
+77-78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;element&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Element&nbsp;symbol,&nbsp;right-justified.<br>
+79-80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;charge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' HETATM class<font color="#c040c0">\n\n</font>        The HETATM records presen...molecules and atoms presented in HET groups.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HETNAM">class <strong>HETNAM</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#HETNAM">HETNAM</a>&nbsp;field<br>
+&nbsp;<br>
+This&nbsp;record&nbsp;gives&nbsp;the&nbsp;chemical&nbsp;name&nbsp;of&nbsp;the&nbsp;compound&nbsp;with&nbsp;the&nbsp;given<br>
+hetID.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="HETNAM-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+12-14&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;hetID&nbsp;&nbsp;Het&nbsp;identifier,&nbsp;right-justified.<br>
+16-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;text&nbsp;&nbsp;&nbsp;Chemical&nbsp;name.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' HETNAM field<font color="#c040c0">\n\n</font>        This record gives the che...f the compound with the given<font color="#c040c0">\n</font>        hetID.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HETSYN">class <strong>HETSYN</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#HETSYN">HETSYN</a>&nbsp;field<br>
+&nbsp;<br>
+This&nbsp;record&nbsp;provides&nbsp;synonyms,&nbsp;if&nbsp;any,&nbsp;for&nbsp;the&nbsp;compound&nbsp;in&nbsp;the<br>
+corresponding&nbsp;(i.e.,&nbsp;same&nbsp;hetID)&nbsp;<a href="#HETNAM">HETNAM</a>&nbsp;record.&nbsp;This&nbsp;is&nbsp;to&nbsp;allow<br>
+greater&nbsp;flexibility&nbsp;in&nbsp;searching&nbsp;for&nbsp;<a href="#HET">HET</a>&nbsp;groups.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="HETSYN-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+12-14&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;hetID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Het&nbsp;identifier,&nbsp;right-justified.<br>
+16-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;hetSynonyms&nbsp;&nbsp;&nbsp;List&nbsp;of&nbsp;synonyms</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' HETSYN field<font color="#c040c0">\n\n</font>        This record provides syno...r flexibility in searching for HET groups.  <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="HYDBND">class <strong>HYDBND</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#HYDBND">HYDBND</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#HYDBND">HYDBND</a>&nbsp;records&nbsp;specify&nbsp;hydrogen&nbsp;bonds&nbsp;in&nbsp;the&nbsp;entry.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="HYDBND-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------------<br>
+13-16&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;Chain1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+23-27&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;ICode1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+30-33&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;nameH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hydrogen&nbsp;atom&nbsp;name.<br>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLocH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;ChainH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+37-41&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeqH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCodeH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+44-47&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+48&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+49-51&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;name.<br>
+53&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+54-58&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+60-65&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sym1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symmetry&nbsp;operator&nbsp;for&nbsp;1st<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-hydrogen&nbsp;atom.<br>
+67-72&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sym2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symmetry&nbsp;operator&nbsp;for&nbsp;2nd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-hydrogen&nbsp;atom.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' HYDBND field<font color="#c040c0">\n\n</font>        The HYDBND records specify hydrogen bonds in the entry.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="JRNL">class <strong>JRNL</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#JRNL">JRNL</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#JRNL">JRNL</a>&nbsp;record&nbsp;contains&nbsp;the&nbsp;primary&nbsp;literature&nbsp;citation&nbsp;that&nbsp;describes<br>
+the&nbsp;experiment&nbsp;which&nbsp;resulted&nbsp;in&nbsp;the&nbsp;deposited&nbsp;coordinate&nbsp;set.&nbsp;There&nbsp;is<br>
+at&nbsp;most&nbsp;one&nbsp;<a href="#JRNL">JRNL</a>&nbsp;reference&nbsp;per&nbsp;entry.&nbsp;If&nbsp;there&nbsp;is&nbsp;no&nbsp;primary&nbsp;reference,<br>
+then&nbsp;there&nbsp;is&nbsp;no&nbsp;<a href="#JRNL">JRNL</a>&nbsp;reference.&nbsp;Other&nbsp;references&nbsp;are&nbsp;given&nbsp;in&nbsp;<a href="#REMARK">REMARK</a><br>
+1.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="JRNL-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------<br>
+13-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;text&nbsp;&nbsp;&nbsp;See&nbsp;Details&nbsp;on&nbsp;web.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' JRNL field<font color="#c040c0">\n\n</font>        The JRNL record contains th...er references are given in REMARK<font color="#c040c0">\n</font>        1.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="KEYWDS">class <strong>KEYWDS</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#KEYWDS">KEYWDS</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#KEYWDS">KEYWDS</a>&nbsp;record&nbsp;contains&nbsp;a&nbsp;set&nbsp;of&nbsp;terms&nbsp;relevant&nbsp;to&nbsp;the&nbsp;entry.&nbsp;Terms<br>
+in&nbsp;the&nbsp;<a href="#KEYWDS">KEYWDS</a>&nbsp;record&nbsp;provide&nbsp;a&nbsp;simple&nbsp;means&nbsp;of&nbsp;categorizing&nbsp;entries&nbsp;and<br>
+may&nbsp;be&nbsp;used&nbsp;to&nbsp;generate&nbsp;index&nbsp;files.&nbsp;This&nbsp;record&nbsp;addresses&nbsp;some&nbsp;of&nbsp;the<br>
+limitations&nbsp;found&nbsp;in&nbsp;the&nbsp;classification&nbsp;field&nbsp;of&nbsp;the&nbsp;<a href="#HEADER">HEADER</a>&nbsp;record.&nbsp;It<br>
+provides&nbsp;the&nbsp;opportunity&nbsp;to&nbsp;add&nbsp;further&nbsp;annotation&nbsp;to&nbsp;the&nbsp;entry&nbsp;in&nbsp;a<br>
+concise&nbsp;and&nbsp;computer-searchable&nbsp;fashion.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="KEYWDS-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;DEFINITION<br>
+--------------------------------------------------<br>
+11-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;keywds&nbsp;&nbsp;Comma-separated&nbsp;list&nbsp;of&nbsp;keywords&nbsp;relevant<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;the&nbsp;entry</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' KEYWDS field<font color="#c040c0">\n</font>  <font color="#c040c0">\n</font>        The KEYWDS record conta...  concise and computer-searchable fashion.  <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="LINK">class <strong>LINK</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#LINK">LINK</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#LINK">LINK</a>&nbsp;records&nbsp;specify&nbsp;connectivity&nbsp;between&nbsp;residues&nbsp;that&nbsp;is&nbsp;not<br>
+implied&nbsp;by&nbsp;the&nbsp;primary&nbsp;structure.&nbsp;Connectivity&nbsp;is&nbsp;expressed&nbsp;in&nbsp;terms&nbsp;of<br>
+the&nbsp;atom&nbsp;names.&nbsp;This&nbsp;record&nbsp;supplements&nbsp;information&nbsp;given&nbsp;in&nbsp;<a href="#CONECT">CONECT</a><br>
+records&nbsp;and&nbsp;is&nbsp;provided&nbsp;here&nbsp;for&nbsp;convenience&nbsp;in&nbsp;searching.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="LINK-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+13-16&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc1&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName1&nbsp;&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID1&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+23-26&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq1&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode1&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+43-46&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc2&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+48-50&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName2&nbsp;&nbsp;Residue&nbsp;name.<br>
+52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID2&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+53-56&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq2&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode2&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+60-65&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sym1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symmetry&nbsp;operator&nbsp;for&nbsp;1st&nbsp;atom.<br>
+67-72&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sym2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symmetry&nbsp;operator&nbsp;for&nbsp;2nd&nbsp;atom.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' LINK field<font color="#c040c0">\n\n</font>        The LINK records specify co... provided here for convenience in searching.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MASTER">class <strong>MASTER</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#MASTER">MASTER</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#MASTER">MASTER</a>&nbsp;record&nbsp;is&nbsp;a&nbsp;control&nbsp;record&nbsp;for&nbsp;bookkeeping.&nbsp;It&nbsp;lists&nbsp;the<br>
+number&nbsp;of&nbsp;lines&nbsp;in&nbsp;the&nbsp;coordinate&nbsp;entry&nbsp;or&nbsp;file&nbsp;for&nbsp;selected&nbsp;record<br>
+types.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="MASTER-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-------------------------------------------------<br>
+11-15&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numRemark&nbsp;Number&nbsp;of&nbsp;<a href="#REMARK">REMARK</a>&nbsp;records<br>
+21-25&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numHet&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;<a href="#HET">HET</a>&nbsp;records<br>
+26-30&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numHelix&nbsp;&nbsp;Number&nbsp;of&nbsp;<a href="#HELIX">HELIX</a>&nbsp;records<br>
+31-35&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numSheet&nbsp;&nbsp;Number&nbsp;of&nbsp;<a href="#SHEET">SHEET</a>&nbsp;records<br>
+36-40&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numTurn&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;<a href="#TURN">TURN</a>&nbsp;records<br>
+41-45&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numSite&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;<a href="#SITE">SITE</a>&nbsp;records<br>
+46-50&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numXform&nbsp;&nbsp;Number&nbsp;of&nbsp;coordinate&nbsp;transformation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;records&nbsp;(ORIGX+SCALE+MTRIX)<br>
+51-55&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numCoord&nbsp;&nbsp;Number&nbsp;of&nbsp;atomic&nbsp;coordinate&nbsp;records<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<a href="#ATOM">ATOM</a>+<a href="#HETATM">HETATM</a>)<br>
+56-60&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numTer&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;<a href="#TER">TER</a>&nbsp;records<br>
+61-65&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numConect&nbsp;Number&nbsp;of&nbsp;<a href="#CONECT">CONECT</a>&nbsp;records<br>
+66-70&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numSeq&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;<a href="#SEQRES">SEQRES</a>&nbsp;records</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' MASTER class<font color="#c040c0">\n\n</font>        The MASTER record is a co... or file for selected record<font color="#c040c0">\n</font>        types. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MODEL">class <strong>MODEL</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#MODEL">MODEL</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#MODEL">MODEL</a>&nbsp;record&nbsp;specifies&nbsp;the&nbsp;model&nbsp;serial&nbsp;number&nbsp;when&nbsp;multiple<br>
+structures&nbsp;are&nbsp;presented&nbsp;in&nbsp;a&nbsp;single&nbsp;coordinate&nbsp;entry,&nbsp;as&nbsp;is&nbsp;often&nbsp;the<br>
+case&nbsp;with&nbsp;structures&nbsp;determined&nbsp;by&nbsp;NMR.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="MODEL-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+11-14&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;Model&nbsp;serial&nbsp;number.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' MODEL class<font color="#c040c0">\n\n</font>        The MODEL record specifies...     case with structures determined by NMR.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MODRES">class <strong>MODRES</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#MODRES">MODRES</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#MODRES">MODRES</a>&nbsp;record&nbsp;provides&nbsp;descriptions&nbsp;of&nbsp;modifications&nbsp;(e.g.,<br>
+chemical&nbsp;or&nbsp;post-translational)&nbsp;to&nbsp;protein&nbsp;and&nbsp;nucleic&nbsp;acid&nbsp;residues.<br>
+Included&nbsp;are&nbsp;a&nbsp;mapping&nbsp;between&nbsp;residue&nbsp;names&nbsp;given&nbsp;in&nbsp;a&nbsp;PDB&nbsp;entry&nbsp;and<br>
+standard&nbsp;residues.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="MODRES-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------<br>
+8-11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;idCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;this&nbsp;entry.<br>
+13-15&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name&nbsp;used&nbsp;in&nbsp;this&nbsp;entry.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;Chain&nbsp;identifier.<br>
+19-22&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqNum&nbsp;&nbsp;Sequence&nbsp;number.<br>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+25-27&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;stdRes&nbsp;&nbsp;Standard&nbsp;residue&nbsp;name.<br>
+30-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;comment&nbsp;Description&nbsp;of&nbsp;the&nbsp;residue&nbsp;modification.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' MODRES field<font color="#c040c0">\n\n</font>        The MODRES record provide...n a PDB entry and<font color="#c040c0">\n</font>        standard residues.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MTRIX1">class <strong>MTRIX1</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#MTRIX1">MTRIX1</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;MTRIXn&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;transformations&nbsp;expressing<br>
+non-crystallographic&nbsp;symmetry.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="MTRIX1-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+&nbsp;8-10&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;Serial&nbsp;number<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn1&nbsp;&nbsp;&nbsp;&nbsp;M11<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn2&nbsp;&nbsp;&nbsp;&nbsp;M12<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn3&nbsp;&nbsp;&nbsp;&nbsp;M13<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;vn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V1<br>
+60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;iGiven&nbsp;1&nbsp;if&nbsp;coordinates&nbsp;for&nbsp;the&nbsp;representations<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which&nbsp;are&nbsp;approximately&nbsp;related&nbsp;by&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transformations&nbsp;of&nbsp;the&nbsp;molecule&nbsp;are&nbsp;contained&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;entry.&nbsp;&nbsp;Otherwise,&nbsp;blank.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' MTRIX1 class<font color="#c040c0">\n\n</font>        The MTRIXn (n = 1, 2, or ...ing<font color="#c040c0">\n</font>        non-crystallographic symmetry.  <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MTRIX2">class <strong>MTRIX2</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#MTRIX2">MTRIX2</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;MTRIXn&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;transformations&nbsp;expressing<br>
+non-crystallographic&nbsp;symmetry.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="MTRIX2-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+&nbsp;8-10&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;Serial&nbsp;number<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn1&nbsp;&nbsp;&nbsp;&nbsp;M21<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn2&nbsp;&nbsp;&nbsp;&nbsp;M22<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn3&nbsp;&nbsp;&nbsp;&nbsp;M23<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;vn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V2<br>
+60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;iGiven&nbsp;1&nbsp;if&nbsp;coordinates&nbsp;for&nbsp;the&nbsp;representations<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which&nbsp;are&nbsp;approximately&nbsp;related&nbsp;by&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transformations&nbsp;of&nbsp;the&nbsp;molecule&nbsp;are&nbsp;contained&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;entry.&nbsp;&nbsp;Otherwise,&nbsp;blank.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' MTRIX2 class<font color="#c040c0">\n\n</font>        The MTRIXn (n = 1, 2, or ...ing<font color="#c040c0">\n</font>        non-crystallographic symmetry.  <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="MTRIX3">class <strong>MTRIX3</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#MTRIX3">MTRIX3</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#MTRIX3">MTRIX3</a>&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;transformations&nbsp;expressing<br>
+non-crystallographic&nbsp;symmetry.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="MTRIX3-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+&nbsp;8-10&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;Serial&nbsp;number<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn1&nbsp;&nbsp;&nbsp;&nbsp;M31<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn2&nbsp;&nbsp;&nbsp;&nbsp;M32<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;mn3&nbsp;&nbsp;&nbsp;&nbsp;M33<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;vn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V3<br>
+60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;iGiven&nbsp;1&nbsp;if&nbsp;coordinates&nbsp;for&nbsp;the&nbsp;representations<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;which&nbsp;are&nbsp;approximately&nbsp;related&nbsp;by&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;transformations&nbsp;of&nbsp;the&nbsp;molecule&nbsp;are&nbsp;contained&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;entry.&nbsp;&nbsp;Otherwise,&nbsp;blank.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' MTRIX3 class<font color="#c040c0">\n\n</font>        The MTRIX3 (n = 1, 2, or ...ing<font color="#c040c0">\n</font>        non-crystallographic symmetry.  <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="OBSLTE">class <strong>OBSLTE</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#OBSLTE">OBSLTE</a>&nbsp;field<br>
+&nbsp;<br>
+This&nbsp;record&nbsp;acts&nbsp;as&nbsp;a&nbsp;flag&nbsp;in&nbsp;an&nbsp;entry&nbsp;which&nbsp;has&nbsp;been&nbsp;withdrawn&nbsp;from<br>
+the&nbsp;PDB's&nbsp;full&nbsp;release.&nbsp;It&nbsp;indicates&nbsp;which,&nbsp;if&nbsp;any,&nbsp;new&nbsp;entries&nbsp;have<br>
+replaced&nbsp;the&nbsp;withdrawn&nbsp;entry.<br>
+&nbsp;<br>
+The&nbsp;format&nbsp;allows&nbsp;for&nbsp;the&nbsp;case&nbsp;of&nbsp;multiple&nbsp;new&nbsp;entries&nbsp;replacing&nbsp;one<br>
+existing&nbsp;entry.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="OBSLTE-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line.&nbsp;&nbsp;<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------<br>
+12-20&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;repDate&nbsp;&nbsp;Date&nbsp;that&nbsp;this&nbsp;entry&nbsp;was&nbsp;replaced.<br>
+22-25&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;idCode&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;this&nbsp;entry.<br>
+32-35&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;rIdCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;entry&nbsp;that&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;one.<br>
+37-40&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;rIdCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;entry&nbsp;that&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;one.<br>
+42-45&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;rIdCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;entry&nbsp;that&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;one.<br>
+47-50&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;rIdCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;entry&nbsp;that&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;one.<br>
+52-55&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;rIdCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;entry&nbsp;that&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;one.<br>
+57-60&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;rIdCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;entry&nbsp;that&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;one.<br>
+62-65&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;rIdCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;entry&nbsp;that&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;one.<br>
+67-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;rIdCode&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;entry&nbsp;that&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this&nbsp;one.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' OBSLTE field<font color="#c040c0">\n\n</font>        This record acts as a fla...tries replacing one<font color="#c040c0">\n</font>        existing entry. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ORIGX1">class <strong>ORIGX1</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#ORIGX1">ORIGX1</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;ORIGXn&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;the&nbsp;transformation&nbsp;from&nbsp;the<br>
+orthogonal&nbsp;coordinates&nbsp;contained&nbsp;in&nbsp;the&nbsp;entry&nbsp;to&nbsp;the&nbsp;submitted<br>
+coordinates.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ORIGX1-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on1&nbsp;&nbsp;&nbsp;&nbsp;O11<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on2&nbsp;&nbsp;&nbsp;&nbsp;O12<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on3&nbsp;&nbsp;&nbsp;&nbsp;O13<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;tn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T1</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' ORIGX1 class<font color="#c040c0">\n\n</font>        The ORIGXn (n = 1, 2, or ... entry to the submitted<font color="#c040c0">\n</font>        coordinates.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ORIGX2">class <strong>ORIGX2</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#ORIGX2">ORIGX2</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;ORIGXn&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;the&nbsp;transformation&nbsp;from&nbsp;the<br>
+orthogonal&nbsp;coordinates&nbsp;contained&nbsp;in&nbsp;the&nbsp;entry&nbsp;to&nbsp;the&nbsp;submitted<br>
+coordinates.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ORIGX2-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on1&nbsp;&nbsp;&nbsp;&nbsp;O21<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on2&nbsp;&nbsp;&nbsp;&nbsp;O22<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on3&nbsp;&nbsp;&nbsp;&nbsp;O23<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;tn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T2</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' ORIGX2 class<font color="#c040c0">\n\n</font>        The ORIGXn (n = 1, 2, or ... entry to the submitted<font color="#c040c0">\n</font>        coordinates.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="ORIGX3">class <strong>ORIGX3</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#ORIGX3">ORIGX3</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;ORIGXn&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;the&nbsp;transformation&nbsp;from&nbsp;the<br>
+orthogonal&nbsp;coordinates&nbsp;contained&nbsp;in&nbsp;the&nbsp;entry&nbsp;to&nbsp;the&nbsp;submitted<br>
+coordinates.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="ORIGX3-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on1&nbsp;&nbsp;&nbsp;&nbsp;O31<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on2&nbsp;&nbsp;&nbsp;&nbsp;O32<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;on3&nbsp;&nbsp;&nbsp;&nbsp;O33<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;tn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T3</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' ORIGX3 class<font color="#c040c0">\n\n</font>        The ORIGXn (n = 1, 2, or ... entry to the submitted<font color="#c040c0">\n</font>        coordinates.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="REMARK">class <strong>REMARK</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#REMARK">REMARK</a>&nbsp;field<br>
+&nbsp;<br>
+<a href="#REMARK">REMARK</a>&nbsp;records&nbsp;present&nbsp;experimental&nbsp;details,&nbsp;annotations,&nbsp;comments,&nbsp;and<br>
+information&nbsp;not&nbsp;included&nbsp;in&nbsp;other&nbsp;records.&nbsp;In&nbsp;a&nbsp;number&nbsp;of&nbsp;cases,<br>
+REMARKs&nbsp;are&nbsp;used&nbsp;to&nbsp;expand&nbsp;the&nbsp;contents&nbsp;of&nbsp;other&nbsp;record&nbsp;types.&nbsp;A&nbsp;new<br>
+level&nbsp;of&nbsp;structure&nbsp;is&nbsp;being&nbsp;used&nbsp;for&nbsp;some&nbsp;<a href="#REMARK">REMARK</a>&nbsp;records.&nbsp;This&nbsp;is<br>
+expected&nbsp;to&nbsp;facilitate&nbsp;searching&nbsp;and&nbsp;will&nbsp;assist&nbsp;in&nbsp;the&nbsp;conversion&nbsp;to&nbsp;a<br>
+relational&nbsp;database.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="REMARK-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' REMARK field<font color="#c040c0">\n\n</font>        REMARK records present ex...conversion to a<font color="#c040c0">\n</font>        relational database.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="REVDAT">class <strong>REVDAT</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#REVDAT">REVDAT</a>&nbsp;field<br>
+&nbsp;<br>
+<a href="#REVDAT">REVDAT</a>&nbsp;records&nbsp;contain&nbsp;a&nbsp;history&nbsp;of&nbsp;the&nbsp;modifications&nbsp;made&nbsp;to&nbsp;an&nbsp;entry<br>
+since&nbsp;its&nbsp;release.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="REVDAT-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line.<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+-------------------------------------------------------<br>
+8-10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;modNum&nbsp;&nbsp;Modification&nbsp;number.<br>
+14-22&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;modDate&nbsp;Date&nbsp;of&nbsp;modification&nbsp;(or&nbsp;release&nbsp;for<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new&nbsp;entries).&nbsp;&nbsp;<br>
+24-28&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;modId&nbsp;&nbsp;&nbsp;Identifies&nbsp;this&nbsp;particular&nbsp;modification.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It&nbsp;links&nbsp;to&nbsp;the&nbsp;archive&nbsp;used&nbsp;internally&nbsp;by<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PDB.<br>
+32&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;modType&nbsp;An&nbsp;integer&nbsp;identifying&nbsp;the&nbsp;type&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;modification.&nbsp;&nbsp;In&nbsp;case&nbsp;of&nbsp;revisions<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;more&nbsp;than&nbsp;one&nbsp;possible&nbsp;modType,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;highest&nbsp;value&nbsp;applicable&nbsp;will&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;assigned.<br>
+40-45&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;record&nbsp;&nbsp;Name&nbsp;of&nbsp;the&nbsp;modified&nbsp;record.<br>
+47-52&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;record&nbsp;&nbsp;Name&nbsp;of&nbsp;the&nbsp;modified&nbsp;record.<br>
+54-59&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;record&nbsp;&nbsp;Name&nbsp;of&nbsp;the&nbsp;modified&nbsp;record.<br>
+61-66&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;record&nbsp;&nbsp;Name&nbsp;of&nbsp;the&nbsp;modified&nbsp;record.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' REVDAT field<font color="#c040c0">\n\n</font>        REVDAT records contain a ... made to an entry<font color="#c040c0">\n</font>        since its release.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SCALE1">class <strong>SCALE1</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SCALE1">SCALE1</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;SCALEn&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;the&nbsp;transformation&nbsp;from&nbsp;the<br>
+orthogonal&nbsp;coordinates&nbsp;as&nbsp;contained&nbsp;in&nbsp;the&nbsp;entry&nbsp;to&nbsp;fractional<br>
+crystallographic&nbsp;coordinates.&nbsp;Non-standard&nbsp;coordinate&nbsp;systems&nbsp;should&nbsp;be<br>
+explained&nbsp;in&nbsp;the&nbsp;remarks.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SCALE1-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn1&nbsp;&nbsp;&nbsp;&nbsp;S11<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn2&nbsp;&nbsp;&nbsp;&nbsp;S12<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn3&nbsp;&nbsp;&nbsp;&nbsp;S13<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;un&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U1</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SCALE1 class<font color="#c040c0">\n\n</font>        The SCALEn (n = 1, 2, or ... should be<font color="#c040c0">\n</font>        explained in the remarks.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SCALE2">class <strong>SCALE2</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SCALE2">SCALE2</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;SCALEn&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;the&nbsp;transformation&nbsp;from&nbsp;the<br>
+orthogonal&nbsp;coordinates&nbsp;as&nbsp;contained&nbsp;in&nbsp;the&nbsp;entry&nbsp;to&nbsp;fractional<br>
+crystallographic&nbsp;coordinates.&nbsp;Non-standard&nbsp;coordinate&nbsp;systems&nbsp;should&nbsp;be<br>
+explained&nbsp;in&nbsp;the&nbsp;remarks.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SCALE2-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn1&nbsp;&nbsp;&nbsp;&nbsp;S21<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn2&nbsp;&nbsp;&nbsp;&nbsp;S22<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn3&nbsp;&nbsp;&nbsp;&nbsp;S23<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;un&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U2</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SCALE2 class<font color="#c040c0">\n\n</font>        The SCALEn (n = 1, 2, or ... should be<font color="#c040c0">\n</font>        explained in the remarks.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SCALE3">class <strong>SCALE3</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SCALE3">SCALE3</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;SCALEn&nbsp;(n&nbsp;=&nbsp;1,&nbsp;2,&nbsp;or&nbsp;3)&nbsp;records&nbsp;present&nbsp;the&nbsp;transformation&nbsp;from&nbsp;the<br>
+orthogonal&nbsp;coordinates&nbsp;as&nbsp;contained&nbsp;in&nbsp;the&nbsp;entry&nbsp;to&nbsp;fractional<br>
+crystallographic&nbsp;coordinates.&nbsp;Non-standard&nbsp;coordinate&nbsp;systems&nbsp;should&nbsp;be<br>
+explained&nbsp;in&nbsp;the&nbsp;remarks.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SCALE3-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn1&nbsp;&nbsp;&nbsp;&nbsp;S31<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn2&nbsp;&nbsp;&nbsp;&nbsp;S32<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sn3&nbsp;&nbsp;&nbsp;&nbsp;S33<br>
+46-55&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;un&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;U3</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SCALE3 class<font color="#c040c0">\n\n</font>        The SCALEn (n = 1, 2, or ... should be<font color="#c040c0">\n</font>        explained in the remarks.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SEQADV">class <strong>SEQADV</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SEQADV">SEQADV</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#SEQADV">SEQADV</a>&nbsp;record&nbsp;identifies&nbsp;conflicts&nbsp;between&nbsp;sequence&nbsp;information&nbsp;in<br>
+the&nbsp;<a href="#ATOM">ATOM</a>&nbsp;records&nbsp;of&nbsp;the&nbsp;PDB&nbsp;entry&nbsp;and&nbsp;the&nbsp;sequence&nbsp;database&nbsp;entry&nbsp;given<br>
+on&nbsp;<a href="#DBREF">DBREF</a>.&nbsp;Please&nbsp;note&nbsp;that&nbsp;these&nbsp;records&nbsp;were&nbsp;designed&nbsp;to&nbsp;identify<br>
+differences&nbsp;and&nbsp;not&nbsp;errors.&nbsp;No&nbsp;assumption&nbsp;is&nbsp;made&nbsp;as&nbsp;to&nbsp;which&nbsp;database<br>
+contains&nbsp;the&nbsp;correct&nbsp;data.&nbsp;PDB&nbsp;may&nbsp;include&nbsp;<a href="#REMARK">REMARK</a>&nbsp;records&nbsp;in&nbsp;the&nbsp;entry<br>
+that&nbsp;reflect&nbsp;the&nbsp;depositor's&nbsp;view&nbsp;of&nbsp;which&nbsp;database&nbsp;has&nbsp;the&nbsp;correct<br>
+sequence.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SEQADV-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+8-11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;idCode&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;this&nbsp;entry.<br>
+13-15&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;&nbsp;Name&nbsp;of&nbsp;the&nbsp;PDB&nbsp;residue&nbsp;in&nbsp;conflict.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;&nbsp;PDB&nbsp;chain&nbsp;identifier.<br>
+19-22&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqNum&nbsp;&nbsp;&nbsp;PDB&nbsp;sequence&nbsp;number.<br>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;&nbsp;PDB&nbsp;insertion&nbsp;code.<br>
+25-28&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;database&nbsp;Sequence&nbsp;database&nbsp;name.<br>
+30-38&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;dbIdCode&nbsp;Sequence&nbsp;database&nbsp;accession<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number.<br>
+40-42&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;dbRes&nbsp;&nbsp;&nbsp;&nbsp;Sequence&nbsp;database&nbsp;residue&nbsp;name.<br>
+44-48&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;dbSeq&nbsp;&nbsp;&nbsp;&nbsp;Sequence&nbsp;database&nbsp;sequence&nbsp;number.<br>
+50-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;conflict&nbsp;Conflict&nbsp;comment.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SEQADV field<font color="#c040c0">\n\n</font>        The SEQADV record identif...h database has the correct<font color="#c040c0">\n</font>        sequence.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SEQRES">class <strong>SEQRES</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SEQRES">SEQRES</a>&nbsp;field<br>
+&nbsp;<br>
+<a href="#SEQRES">SEQRES</a>&nbsp;records&nbsp;contain&nbsp;the&nbsp;amino&nbsp;acid&nbsp;or&nbsp;nucleic&nbsp;acid&nbsp;sequence&nbsp;of<br>
+residues&nbsp;in&nbsp;each&nbsp;chain&nbsp;of&nbsp;the&nbsp;macromolecule&nbsp;that&nbsp;was&nbsp;studied.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SEQRES-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+9-10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serNum&nbsp;&nbsp;Serial&nbsp;number&nbsp;of&nbsp;the&nbsp;<a href="#SEQRES">SEQRES</a>&nbsp;record&nbsp;for&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current&nbsp;chain.&nbsp;&nbsp;Starts&nbsp;at&nbsp;1&nbsp;and&nbsp;increments<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;by&nbsp;one&nbsp;each&nbsp;line.&nbsp;&nbsp;Reset&nbsp;to&nbsp;1&nbsp;for&nbsp;each<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chain.<br>
+12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;Chain&nbsp;identifier.&nbsp;&nbsp;This&nbsp;may&nbsp;be&nbsp;any&nbsp;single<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;legal&nbsp;character,&nbsp;including&nbsp;a&nbsp;blank&nbsp;which&nbsp;is<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;used&nbsp;if&nbsp;there&nbsp;is&nbsp;only&nbsp;one&nbsp;chain.<br>
+14-17&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numRes&nbsp;&nbsp;Number&nbsp;of&nbsp;residues&nbsp;in&nbsp;the&nbsp;chain.&nbsp;&nbsp;This<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;is&nbsp;repeated&nbsp;on&nbsp;every&nbsp;record.<br>
+20-22&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+24-26&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+28-30&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+32-34&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+36-38&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+40-42&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+44-46&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+48-50&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+52-54&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+56-58&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+60-62&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+64-66&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+68-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SEQRES field<font color="#c040c0">\n</font>       <font color="#c040c0">\n</font>        SEQRES records con...chain of the macromolecule that was studied.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SHEET">class <strong>SHEET</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SHEET">SHEET</a>&nbsp;field<br>
+&nbsp;<br>
+<a href="#SHEET">SHEET</a>&nbsp;records&nbsp;are&nbsp;used&nbsp;to&nbsp;identify&nbsp;the&nbsp;position&nbsp;of&nbsp;sheets&nbsp;in&nbsp;the<br>
+molecule.&nbsp;Sheets&nbsp;are&nbsp;both&nbsp;named&nbsp;and&nbsp;numbered.&nbsp;The&nbsp;residues&nbsp;where&nbsp;the<br>
+sheet&nbsp;begins&nbsp;and&nbsp;ends&nbsp;are&nbsp;noted.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SHEET-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-------------------------------------------------<br>
+&nbsp;8&nbsp;-&nbsp;10&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;strand&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Strand&nbsp;number&nbsp;which&nbsp;starts&nbsp;at&nbsp;1&nbsp;for<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;each&nbsp;strand&nbsp;within&nbsp;a&nbsp;sheet&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;increases&nbsp;by&nbsp;one.<br>
+12&nbsp;-&nbsp;14&nbsp;&nbsp;string&nbsp;sheetID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sheet&nbsp;identifier.<br>
+15&nbsp;-&nbsp;16&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numStrands&nbsp;&nbsp;Number&nbsp;of&nbsp;strands&nbsp;in&nbsp;sheet.<br>
+18&nbsp;-&nbsp;20&nbsp;&nbsp;string&nbsp;initResName&nbsp;Residue&nbsp;name&nbsp;of&nbsp;initial&nbsp;residue.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;initChainID&nbsp;Chain&nbsp;identifier&nbsp;of&nbsp;initial&nbsp;residue&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strand.&nbsp;&nbsp;<br>
+23&nbsp;-&nbsp;26&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;initSeqNum&nbsp;&nbsp;Sequence&nbsp;number&nbsp;of&nbsp;initial&nbsp;residue&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strand.&nbsp;&nbsp;<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;initICode&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;of&nbsp;initial&nbsp;residue&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strand.&nbsp;&nbsp;<br>
+29&nbsp;-&nbsp;31&nbsp;&nbsp;string&nbsp;endResName&nbsp;&nbsp;Residue&nbsp;name&nbsp;of&nbsp;terminal&nbsp;residue.&nbsp;&nbsp;<br>
+33&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;endChainID&nbsp;&nbsp;Chain&nbsp;identifier&nbsp;of&nbsp;terminal&nbsp;residue.&nbsp;&nbsp;<br>
+34&nbsp;-&nbsp;37&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;endSeqNum&nbsp;&nbsp;&nbsp;Sequence&nbsp;number&nbsp;of&nbsp;terminal&nbsp;residue.&nbsp;&nbsp;<br>
+38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;endICode&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;of&nbsp;terminal&nbsp;residue.&nbsp;&nbsp;<br>
+39&nbsp;-&nbsp;40&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;sense&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sense&nbsp;of&nbsp;strand&nbsp;with&nbsp;respect&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previous&nbsp;strand&nbsp;in&nbsp;the&nbsp;sheet.&nbsp;0&nbsp;if<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;first&nbsp;strand,&nbsp;1&nbsp;if&nbsp;parallel,&nbsp;-1&nbsp;if<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;anti-parallel.&nbsp;&nbsp;<br>
+42&nbsp;-&nbsp;45&nbsp;&nbsp;string&nbsp;curAtom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Registration.&nbsp;Atom&nbsp;name&nbsp;in&nbsp;current<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strand.&nbsp;&nbsp;<br>
+46&nbsp;-&nbsp;48&nbsp;&nbsp;string&nbsp;curResName&nbsp;&nbsp;Registration.&nbsp;Residue&nbsp;name&nbsp;in&nbsp;current<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strand.&nbsp;&nbsp;<br>
+50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;curChainId&nbsp;&nbsp;Registration.&nbsp;Chain&nbsp;identifier&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;current&nbsp;strand.&nbsp;&nbsp;<br>
+51&nbsp;-&nbsp;54&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;curResSeq&nbsp;&nbsp;&nbsp;Registration.&nbsp;Residue&nbsp;sequence&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;current&nbsp;strand.&nbsp;&nbsp;<br>
+55&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;curICode&nbsp;&nbsp;&nbsp;&nbsp;Registration.&nbsp;Insertion&nbsp;code&nbsp;in&nbsp;current<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strand.&nbsp;&nbsp;<br>
+57&nbsp;-&nbsp;60&nbsp;&nbsp;string&nbsp;prevAtom&nbsp;&nbsp;&nbsp;&nbsp;Registration.&nbsp;Atom&nbsp;name&nbsp;in&nbsp;previous<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strand.&nbsp;&nbsp;<br>
+61&nbsp;-&nbsp;63&nbsp;&nbsp;string&nbsp;prevResName&nbsp;Registration.&nbsp;Residue&nbsp;name&nbsp;in&nbsp;previous<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;strand.&nbsp;&nbsp;<br>
+65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;prevChainId&nbsp;Registration.&nbsp;Chain&nbsp;identifier&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previous&nbsp;strand.&nbsp;&nbsp;<br>
+66&nbsp;-&nbsp;69&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;prevResSeq&nbsp;&nbsp;Registration.&nbsp;Residue&nbsp;sequence&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;previous&nbsp;strand.&nbsp;&nbsp;<br>
+70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;prevICode&nbsp;&nbsp;&nbsp;Registration.&nbsp;Insertion&nbsp;code&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;previous&nbsp;strand.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SHEET field<font color="#c040c0">\n\n</font>        SHEET records are used to ...he<font color="#c040c0">\n</font>        sheet begins and ends are noted. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SIGATM">class <strong>SIGATM</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SIGATM">SIGATM</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#SIGATM">SIGATM</a>&nbsp;records&nbsp;present&nbsp;the&nbsp;standard&nbsp;deviation&nbsp;of&nbsp;atomic&nbsp;parameters<br>
+as&nbsp;they&nbsp;appear&nbsp;in&nbsp;<a href="#ATOM">ATOM</a>&nbsp;and&nbsp;<a href="#HETATM">HETATM</a>&nbsp;records.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SIGATM-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------------<br>
+7-11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;&nbsp;Atom&nbsp;serial&nbsp;number.<br>
+13-16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;Chain&nbsp;identifier.<br>
+23-26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;Code&nbsp;for&nbsp;insertion&nbsp;of&nbsp;residues.<br>
+31-38&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sigX&nbsp;&nbsp;&nbsp;&nbsp;Standard&nbsp;devition&nbsp;of&nbsp;orthogonal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coordinates&nbsp;for&nbsp;X&nbsp;in&nbsp;Angstroms.<br>
+39-46&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sigY&nbsp;&nbsp;&nbsp;&nbsp;Standard&nbsp;devition&nbsp;of&nbsp;orthogonal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coordinates&nbsp;for&nbsp;Y&nbsp;in&nbsp;Angstroms.<br>
+47-54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sigZ&nbsp;&nbsp;&nbsp;&nbsp;Standard&nbsp;devition&nbsp;of&nbsp;orthogonal<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coordinates&nbsp;for&nbsp;Z&nbsp;in&nbsp;Angstroms.<br>
+55-60&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sigOcc&nbsp;&nbsp;Standard&nbsp;devition&nbsp;of&nbsp;occupancy.<br>
+61-66&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;sigTemp&nbsp;Standard&nbsp;devition&nbsp;of&nbsp;temperature&nbsp;factor.<br>
+73-76&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;segID&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier,&nbsp;left-justified.<br>
+77-78&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;element&nbsp;Element&nbsp;symbol,&nbsp;right-justified.<br>
+79-80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;charge&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SIGATM class<font color="#c040c0">\n\n</font>        The SIGATM records presen...  as they appear in ATOM and HETATM records.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SIGUIJ">class <strong>SIGUIJ</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SIGUIJ">SIGUIJ</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#SIGUIJ">SIGUIJ</a>&nbsp;records&nbsp;present&nbsp;the&nbsp;anisotropic&nbsp;temperature&nbsp;factors.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SIGUIJ-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line:<br>
+&nbsp;<br>
+&nbsp;&nbsp;COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;DEFINITION<br>
+&nbsp;&nbsp;------------------------------------------------------<br>
+&nbsp;&nbsp;&nbsp;7-11&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;Atom&nbsp;serial&nbsp;number.<br>
+&nbsp;&nbsp;13-16&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+&nbsp;&nbsp;17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+&nbsp;&nbsp;18-20&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+&nbsp;&nbsp;22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;Chain&nbsp;identifier.<br>
+&nbsp;&nbsp;23-26&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+&nbsp;&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+&nbsp;&nbsp;29-35&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;sig11&nbsp;&nbsp;&nbsp;Sigma&nbsp;U(1,1)<br>
+&nbsp;&nbsp;36-42&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;sig22&nbsp;&nbsp;&nbsp;Sigma&nbsp;U(2,2)<br>
+&nbsp;&nbsp;43-49&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;sig33&nbsp;&nbsp;&nbsp;Sigma&nbsp;U(3,3)<br>
+&nbsp;&nbsp;50-56&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;sig12&nbsp;&nbsp;&nbsp;Sigma&nbsp;U(1,2)<br>
+&nbsp;&nbsp;57-63&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;sig13&nbsp;&nbsp;&nbsp;Sigma&nbsp;U(1,3)<br>
+&nbsp;&nbsp;64-70&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;sig23&nbsp;&nbsp;&nbsp;Sigma&nbsp;U(2,3)<br>
+&nbsp;&nbsp;73-76&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;segID&nbsp;&nbsp;&nbsp;Segment&nbsp;identifier,&nbsp;left-justified.<br>
+&nbsp;&nbsp;77-78&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;element&nbsp;Element&nbsp;symbol,&nbsp;right-justified.<br>
+&nbsp;&nbsp;79-80&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;charge&nbsp;&nbsp;Charge&nbsp;on&nbsp;the&nbsp;atom.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SIGUIJ class<font color="#c040c0">\n\n</font>        The SIGUIJ records present the anisotropic temperature factors. <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SITE">class <strong>SITE</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SITE">SITE</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#SITE">SITE</a>&nbsp;records&nbsp;supply&nbsp;the&nbsp;identification&nbsp;of&nbsp;groups&nbsp;comprising<br>
+important&nbsp;sites&nbsp;in&nbsp;the&nbsp;macromolecule.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SITE-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;the&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+--------------------------------------------------------------<br>
+&nbsp;8-10&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqNum&nbsp;&nbsp;&nbsp;Sequence&nbsp;number.<br>
+12-14&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;siteID&nbsp;&nbsp;&nbsp;Site&nbsp;name.<br>
+16-17&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;numRes&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;residues&nbsp;comprising&nbsp;site.<br>
+19-21&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName1&nbsp;Residue&nbsp;name&nbsp;for&nbsp;first&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID1&nbsp;Chain&nbsp;identifier&nbsp;for&nbsp;first&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+24-27&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seq1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number&nbsp;for&nbsp;first<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;residue&nbsp;comprising&nbsp;site.<br>
+28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode1&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;for&nbsp;first&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+30-32&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName2&nbsp;Residue&nbsp;name&nbsp;for&nbsp;second&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID2&nbsp;Chain&nbsp;identifier&nbsp;for&nbsp;second&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+35-38&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seq2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number&nbsp;for&nbsp;second<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;residue&nbsp;comprising&nbsp;site.<br>
+39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode2&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;for&nbsp;second&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+41-43&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName3&nbsp;Residue&nbsp;name&nbsp;for&nbsp;third&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+45&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID3&nbsp;Chain&nbsp;identifier&nbsp;for&nbsp;third&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+46-49&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seq3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number&nbsp;for&nbsp;third<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;residue&nbsp;comprising&nbsp;site.<br>
+50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode3&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;for&nbsp;third&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+52-54&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName4&nbsp;Residue&nbsp;name&nbsp;for&nbsp;fourth&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+56&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID4&nbsp;Chain&nbsp;identifier&nbsp;for&nbsp;fourth&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.<br>
+57-60&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seq4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number&nbsp;for&nbsp;fourth<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;residue&nbsp;comprising&nbsp;site.<br>
+61&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode4&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;for&nbsp;fourth&nbsp;residue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;comprising&nbsp;site.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SITE class<font color="#c040c0">\n\n</font>        The SITE records supply the...       important sites in the macromolecule.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SLTBRG">class <strong>SLTBRG</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SLTBRG">SLTBRG</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#SLTBRG">SLTBRG</a>&nbsp;records&nbsp;specify&nbsp;salt&nbsp;bridges&nbsp;in&nbsp;the&nbsp;entry.<br>
+records&nbsp;and&nbsp;is&nbsp;provided&nbsp;here&nbsp;for&nbsp;convenience&nbsp;in&nbsp;searching.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SLTBRG-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+13-16&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc1&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName1&nbsp;&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID1&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+23-26&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq1&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode1&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+43-46&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;name2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Atom&nbsp;name.<br>
+47&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;altLoc2&nbsp;&nbsp;&nbsp;Alternate&nbsp;location&nbsp;indicator.<br>
+48-50&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName2&nbsp;&nbsp;Residue&nbsp;name.<br>
+52&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID2&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+53-56&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq2&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+57&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode2&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+60-65&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sym1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symmetry&nbsp;operator&nbsp;for&nbsp;1st&nbsp;atom.<br>
+67-72&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sym2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symmetry&nbsp;operator&nbsp;for&nbsp;2nd&nbsp;atom.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SLTBRG field<font color="#c040c0">\n\n</font>        The SLTBRG records specif... provided here for convenience in searching.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SOURCE">class <strong>SOURCE</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SOURCE">SOURCE</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#SOURCE">SOURCE</a>&nbsp;record&nbsp;specifies&nbsp;the&nbsp;biological&nbsp;and/or&nbsp;chemical&nbsp;source&nbsp;of<br>
+each&nbsp;biological&nbsp;molecule&nbsp;in&nbsp;the&nbsp;entry.&nbsp;Sources&nbsp;are&nbsp;described&nbsp;by&nbsp;both<br>
+the&nbsp;common&nbsp;name&nbsp;and&nbsp;the&nbsp;scientific&nbsp;name,&nbsp;e.g.,&nbsp;genus&nbsp;and&nbsp;species.<br>
+Strain&nbsp;and/or&nbsp;cell-line&nbsp;for&nbsp;immortalized&nbsp;cells&nbsp;are&nbsp;given&nbsp;when&nbsp;they&nbsp;help<br>
+to&nbsp;uniquely&nbsp;identify&nbsp;the&nbsp;biological&nbsp;entity&nbsp;studied.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SOURCE-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;DEFINITION<br>
+--------------------------------------------------<br>
+11-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;source&nbsp;&nbsp;Identifies&nbsp;the&nbsp;source&nbsp;of&nbsp;the&nbsp;macromolecule<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;a&nbsp;token:&nbsp;value&nbsp;format</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SOURCE field<font color="#c040c0">\n</font>   <font color="#c040c0">\n</font>        The SOURCE record spec... identify the biological entity studied.    <font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SPRSDE">class <strong>SPRSDE</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SPRSDE">SPRSDE</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#SPRSDE">SPRSDE</a>&nbsp;records&nbsp;contain&nbsp;a&nbsp;list&nbsp;of&nbsp;the&nbsp;ID&nbsp;codes&nbsp;of&nbsp;entries&nbsp;that&nbsp;were<br>
+made&nbsp;obsolete&nbsp;by&nbsp;the&nbsp;given&nbsp;coordinate&nbsp;entry&nbsp;and&nbsp;withdrawn&nbsp;from&nbsp;the&nbsp;PDB<br>
+release&nbsp;set.&nbsp;One&nbsp;entry&nbsp;may&nbsp;replace&nbsp;many.&nbsp;It&nbsp;is&nbsp;PDB&nbsp;policy&nbsp;that&nbsp;only&nbsp;the<br>
+principal&nbsp;investigator&nbsp;of&nbsp;a&nbsp;structure&nbsp;has&nbsp;the&nbsp;authority&nbsp;to&nbsp;withdraw&nbsp;it.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SPRSDE-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------<br>
+12-20&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sprsdeDate&nbsp;Date&nbsp;this&nbsp;entry&nbsp;superseded&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;listed&nbsp;entries.&nbsp;<br>
+22-25&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;idCode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;this&nbsp;entry.&nbsp;<br>
+32-35&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sIdCode&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;a&nbsp;superseded&nbsp;entry.<br>
+37-40&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sIdCode&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;a&nbsp;superseded&nbsp;entry.<br>
+42-45&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sIdCode&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;a&nbsp;superseded&nbsp;entry.<br>
+47-50&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sIdCode&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;a&nbsp;superseded&nbsp;entry.<br>
+52-55&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sIdCode&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;a&nbsp;superseded&nbsp;entry.<br>
+57-60&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sIdCode&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;a&nbsp;superseded&nbsp;entry.<br>
+62-65&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sIdCode&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;a&nbsp;superseded&nbsp;entry.<br>
+67-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;sIdCode&nbsp;&nbsp;&nbsp;&nbsp;ID&nbsp;code&nbsp;of&nbsp;a&nbsp;superseded&nbsp;entry.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SPRSDE field<font color="#c040c0">\n\n</font>        The SPRSDE records contai... structure has the authority to withdraw it.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="SSBOND">class <strong>SSBOND</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#SSBOND">SSBOND</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#SSBOND">SSBOND</a>&nbsp;record&nbsp;identifies&nbsp;each&nbsp;disulfide&nbsp;bond&nbsp;in&nbsp;protein&nbsp;and<br>
+polypeptide&nbsp;structures&nbsp;by&nbsp;identifying&nbsp;the&nbsp;two&nbsp;residues&nbsp;involved&nbsp;in&nbsp;the<br>
+bond.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="SSBOND-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+-----------------------------------------------------<br>
+&nbsp;8&nbsp;-&nbsp;10&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serNum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Serial&nbsp;number.<br>
+16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+18&nbsp;-&nbsp;21&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqNum1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;icode1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Chain&nbsp;identifier.<br>
+32&nbsp;-&nbsp;35&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seqNum2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;icode2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.<br>
+60&nbsp;-&nbsp;65&nbsp;&nbsp;string&nbsp;sym1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symmetry&nbsp;operator&nbsp;for&nbsp;1st&nbsp;residue.<br>
+67&nbsp;-&nbsp;72&nbsp;&nbsp;string&nbsp;sym2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Symmetry&nbsp;operator&nbsp;for&nbsp;2nd&nbsp;residue.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' SSBOND field<font color="#c040c0">\n\n</font>        The SSBOND record identif...e two residues involved in the<font color="#c040c0">\n</font>        bond.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TER">class <strong>TER</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#TER">TER</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#TER">TER</a>&nbsp;record&nbsp;indicates&nbsp;the&nbsp;end&nbsp;of&nbsp;a&nbsp;list&nbsp;of&nbsp;<a href="#ATOM">ATOM</a>/<a href="#HETATM">HETATM</a>&nbsp;records&nbsp;for&nbsp;a<br>
+chain.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TER-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>&nbsp;Initialize&nbsp;by&nbsp;parsing&nbsp;line:<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;DEFINITION<br>
+-------------------------------------------<br>
+&nbsp;7-11&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;&nbsp;Serial&nbsp;number.<br>
+18-20&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;resName&nbsp;Residue&nbsp;name.<br>
+22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;chainID&nbsp;Chain&nbsp;identifier.<br>
+23-26&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;resSeq&nbsp;&nbsp;Residue&nbsp;sequence&nbsp;number.<br>
+27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;iCode&nbsp;&nbsp;&nbsp;Insertion&nbsp;code.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' TER class<font color="#c040c0">\n\n</font>        The TER record indicates the... of ATOM/HETATM records for a<font color="#c040c0">\n</font>        chain.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TITLE">class <strong>TITLE</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#TITLE">TITLE</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#TITLE">TITLE</a>&nbsp;record&nbsp;contains&nbsp;a&nbsp;title&nbsp;for&nbsp;the&nbsp;experiment&nbsp;or&nbsp;analysis&nbsp;that<br>
+is&nbsp;represented&nbsp;in&nbsp;the&nbsp;entry.&nbsp;It&nbsp;should&nbsp;identify&nbsp;an&nbsp;entry&nbsp;in&nbsp;the&nbsp;PDB&nbsp;in<br>
+the&nbsp;same&nbsp;way&nbsp;that&nbsp;a&nbsp;title&nbsp;identifies&nbsp;a&nbsp;paper.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TITLE-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;a&nbsp;line.<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------------<br>
+11-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;title&nbsp;&nbsp;Title&nbsp;of&nbsp;the&nbsp;experiment</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' TITLE field<font color="#c040c0">\n</font> <font color="#c040c0">\n</font>        The TITLE record contains...he same way that a title identifies a paper.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TURN">class <strong>TURN</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#TURN">TURN</a>&nbsp;field<br>
+&nbsp;<br>
+The&nbsp;<a href="#TURN">TURN</a>&nbsp;records&nbsp;identify&nbsp;turns&nbsp;and&nbsp;other&nbsp;short&nbsp;loop&nbsp;turns&nbsp;which<br>
+normally&nbsp;connect&nbsp;other&nbsp;secondary&nbsp;structure&nbsp;segments.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TURN-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line&nbsp;<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DEFINITION<br>
+---------------------------------------------------------<br>
+8-10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;seq&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turn&nbsp;number;&nbsp;starts&nbsp;with&nbsp;1&nbsp;and<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;increments&nbsp;by&nbsp;one.&nbsp;&nbsp;<br>
+12-14&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;turnId&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Turn&nbsp;identifier&nbsp;<br>
+16-18&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;initResName&nbsp;Residue&nbsp;name&nbsp;of&nbsp;initial&nbsp;residue&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turn.&nbsp;&nbsp;<br>
+20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;initChainId&nbsp;Chain&nbsp;identifier&nbsp;for&nbsp;the&nbsp;chain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containing&nbsp;this&nbsp;turn.&nbsp;&nbsp;<br>
+21-24&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;initSeqNum&nbsp;&nbsp;Sequence&nbsp;number&nbsp;of&nbsp;initial&nbsp;residue&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turn.&nbsp;&nbsp;<br>
+25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;initICode&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;of&nbsp;initial&nbsp;residue&nbsp;in<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turn.&nbsp;&nbsp;<br>
+27-29&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;endResName&nbsp;&nbsp;Residue&nbsp;name&nbsp;of&nbsp;terminal&nbsp;residue&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turn.&nbsp;&nbsp;<br>
+31&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;endChainId&nbsp;&nbsp;Chain&nbsp;identifier&nbsp;for&nbsp;the&nbsp;chain<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;containing&nbsp;this&nbsp;turn.&nbsp;&nbsp;<br>
+32-35&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;endSeqNum&nbsp;&nbsp;&nbsp;Sequence&nbsp;number&nbsp;of&nbsp;terminal&nbsp;residue&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turn.&nbsp;&nbsp;<br>
+36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;endICode&nbsp;&nbsp;&nbsp;&nbsp;Insertion&nbsp;code&nbsp;of&nbsp;terminal&nbsp;residue&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;turn.&nbsp;&nbsp;<br>
+41-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;comment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Associated&nbsp;comment.</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' TURN field<font color="#c040c0">\n\n</font>        The TURN records identify t... connect other secondary structure segments.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table> 
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TVECT">class <strong>TVECT</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>&nbsp;<a href="#TVECT">TVECT</a>&nbsp;class<br>
+&nbsp;<br>
+The&nbsp;<a href="#TVECT">TVECT</a>&nbsp;records&nbsp;present&nbsp;the&nbsp;translation&nbsp;vector&nbsp;for&nbsp;infinite<br>
+covalently&nbsp;connected&nbsp;structures.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="TVECT-__init__"><strong>__init__</strong></a>(self, line)</dt><dd><tt>Initialize&nbsp;by&nbsp;parsing&nbsp;line<br>
+&nbsp;<br>
+COLUMNS&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;FIELD&nbsp;&nbsp;DEFINITION<br>
+---------------------------------<br>
+&nbsp;8-10&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;serial&nbsp;Serial&nbsp;number<br>
+11-20&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;t1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Components&nbsp;of&nbsp;translation&nbsp;vector<br>
+21-30&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;t2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Components&nbsp;of&nbsp;translation&nbsp;vector<br>
+31-40&nbsp;&nbsp;&nbsp;&nbsp;float&nbsp;&nbsp;t2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Components&nbsp;of&nbsp;translation&nbsp;vector<br>
+41-70&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;text&nbsp;&nbsp;&nbsp;Comments</tt></dd></dl>
+
+<hr>
+Data and non-method functions defined here:<br>
+<dl><dt><strong>__doc__</strong> = ' TVECT class<font color="#c040c0">\n\n</font>        The TVECT records present ...ite<font color="#c040c0">\n</font>        covalently connected structures.<font color="#c040c0">\n</font>    '</dl>
+
+<dl><dt><strong>__module__</strong> = 'pdb'</dl>
+
+</td></tr></table></td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><dl><dt><a name="-getRandom"><strong>getRandom</strong></a>()</dt><dd><tt>&nbsp;Download&nbsp;a&nbsp;random&nbsp;PDB&nbsp;and&nbsp;return&nbsp;the&nbsp;path&nbsp;name.<br>
+Returns<br>
+&nbsp;&nbsp;path&nbsp;name&nbsp;of&nbsp;downloaded&nbsp;file</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>&nbsp;Main&nbsp;driver&nbsp;for&nbsp;testing.&nbsp;&nbsp;Parses&nbsp;set&nbsp;number&nbsp;of&nbsp;random&nbsp;PDBs</tt></dd></dl>
+ <dl><dt><a name="-readAtom"><strong>readAtom</strong></a>(line)</dt><dd><tt>&nbsp;If&nbsp;the&nbsp;<a href="#ATOM">ATOM</a>/<a href="#HETATM">HETATM</a>&nbsp;is&nbsp;not&nbsp;column-formatted,&nbsp;try&nbsp;to&nbsp;get&nbsp;some<br>
+&nbsp;information&nbsp;by&nbsp;parsing&nbsp;whitespace&nbsp;from&nbsp;the&nbsp;right.&nbsp;&nbsp;Look&nbsp;for<br>
+&nbsp;five&nbsp;floating&nbsp;point&nbsp;numbers&nbsp;followed&nbsp;by&nbsp;the&nbsp;residue&nbsp;number.<br>
+&nbsp;<br>
+&nbsp;Parameters<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;line:&nbsp;&nbsp;The&nbsp;line&nbsp;to&nbsp;parse(string)<br>
+if&nbsp;record&nbsp;==&nbsp;<a href="#ATOM">ATOM</a>:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>serial</strong>&nbsp;=&nbsp;int(string.strip(line[6:11]))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>name</strong>&nbsp;=&nbsp;string.strip(line[12:16])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>altLoc</strong>&nbsp;=&nbsp;string.strip(line[16])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>resName</strong>&nbsp;=&nbsp;string.strip(line[17:20])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>chainID</strong>&nbsp;=&nbsp;string.strip(line[21])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>resSeq</strong>&nbsp;=&nbsp;int(string.strip(line[22:26]))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>iCode</strong>&nbsp;=&nbsp;string.strip(line[26])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>x</strong>&nbsp;=&nbsp;float(string.strip(line[30:38]))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>y</strong>&nbsp;=&nbsp;float(string.strip(line[38:46]))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>z</strong>&nbsp;=&nbsp;float(string.strip(line[46:54]))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>occupancy</strong>&nbsp;=&nbsp;float(string.strip(line[54:60]))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>tempFactor</strong>&nbsp;=&nbsp;float(string.strip(line[60:66]))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>segID</strong>&nbsp;=&nbsp;string.strip(line[72:76])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>element</strong>&nbsp;=&nbsp;string.strip(line[76:78])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>charge</strong>&nbsp;=&nbsp;string.strip(line[78:80])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except&nbsp;ValueError,&nbsp;IndexError:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>occupancy</strong>&nbsp;=&nbsp;0.00<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>tempFactor</strong>&nbsp;=&nbsp;0.00<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>segID</strong>&nbsp;=&nbsp;0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>element</strong>&nbsp;=&nbsp;0<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;self.<strong>charge</strong>&nbsp;=&nbsp;0<br>
+&nbsp;else:&nbsp;raise&nbsp;ValueError,&nbsp;record</tt></dd></dl>
+ <dl><dt><a name="-readPDB"><strong>readPDB</strong></a>(file)</dt><dd><tt>&nbsp;Parse&nbsp;PDB-format&nbsp;data&nbsp;into&nbsp;array&nbsp;of&nbsp;Atom&nbsp;objects.<br>
+Parameters<br>
+&nbsp;&nbsp;file:&nbsp;&nbsp;open&nbsp;file&nbsp;object&nbsp;<br>
+Returns&nbsp;(dict,&nbsp;errlist)<br>
+&nbsp;&nbsp;dict:&nbsp;&nbsp;a&nbsp;dictionary&nbsp;indexed&nbsp;by&nbsp;PDB&nbsp;record&nbsp;names&nbsp;<br>
+&nbsp;&nbsp;errlist:&nbsp;&nbsp;a&nbsp;list&nbsp;of&nbsp;record&nbsp;names&nbsp;that&nbsp;couldn't&nbsp;be&nbsp;parsed</tt></dd></dl>
+</td></tr></table>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;&nbsp;</td>
+<td width="100%"><strong>__file__</strong> = './pdb.pyc'<br>
+<strong>__name__</strong> = 'pdb'</td></tr></table>
+</body></html>

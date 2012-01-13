@@ -1,0 +1,778 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+	<head>
+		<title>
+			PDB2PQR User Guide
+		</title>
+		<link rel="stylesheet" href="http://agave.wustl.edu/css/baker.css" type="text/css">
+	</head>
+	<body>
+		<h2>
+			PDB2PQR User Guide
+		</h2>
+		<hr>
+		<h3>
+			Table of Contents
+		</h3>
+		<ul>
+			<li>
+				<a href="#introduction">Introduction</a>
+			</li>
+			<li>
+				<a href="#availability">Availability</a>
+			</li>
+			<li>
+				<a href="#installation">Source Installation</a>
+			</li>
+			<li>
+				<a href="#using">Using PDB2PQR</a>
+			</li>
+			<li>
+				<a href="#algorithm">Algorithm Descriptions</a>
+			</li>
+			<li>
+				<a href="#limitations">Limitations</a>
+			</li>
+			<li>
+				<a href="#faq">Frequently Asked Questions</a>
+			</li>
+			<li>
+				<a href="#bug">Bug Reports and Suggestions</a>
+			</li>
+			<li>
+				<a href="#bib">References and Further Reading</a>
+			</li>
+		</ul>
+		<hr>
+		<p>
+			<a name="introduction" id="introduction"></a>
+		</p>
+		<h3>
+			Introduction
+		</h3>
+		<p>
+			Background information on PDB2PQR, including citation information, financial support, and availability, can be found at the PDB2PQR homepage (<a href="http://pdb2pqr.sourceforge.net/">http://pdb2pqr.sourceforge.net/</a>).
+		</p>
+		<p>
+			PDB2PQR was written by a consortium of researchers, including (in alphabetical order):
+		</p>
+		<ul>
+			<li> <a href="http://cholla.wustl.edu/">Nathan Baker</a> (<a href="mailto:baker@ccb.wustl.edu">baker@ccb.wustl.edu</a>) </li>
+			<li> Paul Czodrowski (<a href="mailto:paul.czodrowski@musterco.com">paul.czodrowski@musterco.com</a>) </li>
+			<li> Todd Dolinsky (<a href="mailto:todd@ccb.wustl.edu">todd@ccb.wustl.edu</a>) </li>
+			<li> Yong Huang (<a href="mailto:yhuang@ccb.wustl.edu">yhuang@ccb.wustl.edu</a>) </li>
+			<li> <a href="http://www.chem.unl.edu/faculty/eachfaculty/li.shtml">Hui Li</a> (<a href="mailto:huili06@unlserve.unl.edu">huili06@unlserve.unl.edu</a>) </li>
+			<li> <a href="http://propka.ki.ku.dk/~jhjensen/">Jan Jensen</a> (<a href="mailto:jhjensen@kemi.ku.dk">jhjensen@kemi.ku.dk</a>) </li>
+			<li> <a href="http://http://enzyme.ucd.ie/">Jens Nielsen</a> (<a href="mailto:Jens.Nielsen@ucd.ie">Jens.Nielsen@ucd.ie</a>) </li>
+			<li> Samir Unni (<a href="mailto:srunni@gmail.com">srunni@gmail.com</a>) </li>
+		</ul>
+		<p> A number of authors have also provided extensions to PDB2PQR, authorship for these extensions are given in the individual source files in the "extensions" directory. </p>
+		<hr>
+		<p>
+			<a name="installation" id="installation"></a>
+		</p>
+		<h3>
+			Source Installation
+		</h3>
+		<p>
+			As the bulk of the PDB2PQR code is written in <a href="http://python.org">Python</a>, the PDB2PQR code itself is architecture and compiler independent. PDB2PQR has been tested using Python versions 2.2 through 2.5 and Numeric version 24.2 - problems may occur with other versions. Users who simply want to use the PDB2PQR without <a href="http://propka.ki.ku.dk/">PROPKA</a> or ligand parameterization support and <a href="http://propka.ki.ku.dk/">PROPKA</a> can type
+		</p>
+		<blockquote>
+			<code>$ ./configure --disable-propka --disable-pdb2pka<br>
+			$ make<br>
+			$ make install<br></code>
+		</blockquote>
+		<p>
+			or skip the configure/make process altogether.
+		</p>
+		<h4>
+			<a href="http://propka.ki.ku.dk/">PROPKA</a> support
+		</h4>
+		<p>
+			The <a href="http://propka.ki.ku.dk/">PROPKA</a> code is written in Fortran. To use <a href="http://propka.ki.ku.dk/">PROPKA</a> with PDB2PQR, a three step installation is necessary, making use of available C and Fortran compilers:
+		</p>
+		<blockquote>
+			<code>$ ./configure<br>
+			$ make<br>
+			$ make install<br></code>
+		</blockquote>
+		<p>
+			This should compile the <a href="http://propka.ki.ku.dk/">PROPKA</a> wrappers necessary to interface with PDB2PQR.
+		</p>
+		<p>
+			If the compilation fails please check the <a href="#faq">FAQ</a> section of this user guide, or if all else fails, send a <a href="#bug">bug report</a>.
+		</p>
+		<h4>
+			PDB2PKA support
+		</h4>
+		<p>
+			The ligand parameterization code (PDB2PKA) is written in C++ and Python. This portion of the code also requires the Python <a href="http://numpy.scipy.org/#older_array">Numeric</a> or <a href="http://numpy.scipy.org/">NumPy</a> package. Note that PDB2PQR has only been extensively tested against <a href="http://numpy.scipy.org/#older_array">Numeric</a>. Unlike earlier versions, PDB2PKA is enabled by default in this version. To use PDB2PKA with PDB2PQR, a three step installation is necessary, making use of available C and Fortran compilers:
+		</p>
+		<blockquote>
+			<code>$ ./configure<br>
+			$ make<br>
+			$ make install<br></code>
+		</blockquote>
+		<p>
+			This should compile the PDB2PKA wrappers necessary to interface with PDB2PQR. Note that this will also compile <a href="http://propka.ki.ku.dk/">PROPKA</a> support; this can be explicitly disabled by
+		</p>
+		<blockquote>
+			<code>$ ./configure --enable-pdb2pka --disable-propka<br>
+			$ make<br>
+			$ make install<br></code>
+		</blockquote>
+		<p>
+			If the compilation fails please check the <a href="#faq">FAQ</a> section of this user guide, or if all else fails, send a <a href="#bug">bug report</a>.
+		</p>
+		<h4>
+			Web server installation
+		</h4>
+		<p>
+			All the necessary files for web server installation are available with the PDB2PQR software; however, we would appreciate if users <a href="mailto:baker@ccb.wustl.edu">contact us</a> before installing a publicly-accessible version of the web server so we can ensure that you are informed of PBD2PQR updates, etc.
+		</p>
+		<p>
+			<b>Note:</b> these instructions are intended for systems administrators with the ability to change the behavior of their web server software and/or install software in privileged locations.
+		</p>
+		<p>
+			To set up a server, simply run
+		</p>
+		<blockquote>
+			<code>$ ./configure<br>
+			$ make<br>
+			$ make install<br></code>
+		</blockquote>
+		<p>
+			By default, the server is installed in <code>/var/www/html/pdb2pqr</code> and the default URL is <code>http://fully_qualified_domain_name/pdb2pqr</code>. If the user does not have root permission, then the server is installed in <code>${HOME}/pdb2pqr</code>.
+		</p>
+		<p>
+			Configure options include
+		</p>
+		<blockquote>
+			<code>--prefix</code> Installation directory (e.g., <code>/var/www/html/pdb2pqr</code>)<br>
+			<code>--with-url</code> URL for the server (e.g., <code>http://somedomain/pdb2pqr</code>)<br>
+			<code>--disable-propka</code> Disable PROPKA<br>
+			<code>--disable-pdb2pka</code> Disable PDB2PKA<br>
+			<code>--with-python</code> Path to Python (e.g., <code>/usr/local/bin/python2.5</code>)<br>
+			<code>--with-opal</code> enable <a href="#opal">Opal service integration</a> pointing to the remote clusters available at <a href="http://nbcr.net">NBCR</a>; optionally specify a URL for an alternate remote Opal service.<br>
+            <code>--with-apbs</code> enable the <a href="http://apbs.wustl.edu/">APBS</a> web interface. Must be pointing to a local APBS binary.<br>
+            <code>--with-apbs-opal</code> enable Opal service integration for the APBS web interface pointing to the remote clusters available at NBCR; optionally specify a URL for an alternate remote Opal service. Requires simultaneous use of the <code>--with-apbs</code> flag, which must be pointing to a version of APBS greater than 1.0.0 (or the current SVN revision).<br>
+		</blockquote>
+		<h5>
+			Troubleshooting
+		</h5>
+		<ul>
+			<li>It is highly recommended that <code>--prefix</code> and <code>--with-url</code> point to the same directory. Specifications <code>--prefix=/var/www/html/pdb2pqr-test --with-url=http://somedomain/pdb2pqr-test</code> is recommened. On the other hand, specifications like <code>--prefix=/var/www/html/mypdb2pqr --with-url=http://somedomain/pdb2pqr-test</code> is not recommened because <code>mypdb2pqr</code> and <code>pdb2pqr-test</code> are different names.
+			</li>
+			<li>If the server interface loads fine, but you cannot execute pdb2pqr by clicking the "Submit" button, make sure you have the permission to execute pdb2pqr.cgi file. In particular, ensure that the access mode of pdb2pqr.cgi allows execution by the webserver (e.g., <code>chmod +x /var/www/html/pdb2pqr/pdb2pqr.cgi</code>). Additionally, you may need to change the configuration of your webserver to enable CGI execution. For the <a href="http://httpd.apache.org/">Apache</a> webserver, this involves editing <code>httpd.conf</code> to add ExecCGI to the option list for your server. In some installations, this may be as simple as adding a line like <code>Options Indexes FollowSymLinks ExecCGI</code> in the &lt;Directory "/var/www/html"&gt; section of the Apache configuration file. If you modify this file, you will need to restart the web server.
+			</li>
+		</ul>
+		<h5>
+			<a name="opal" id="opal">Opal web services</a>
+		</h5>
+		<p>
+			The <a href="http://nbcr.net/">NBCR</a> development team has provided code that allows PDB2PQR to be run on remote clusters through the <a href="http://nbcr.net/services/">Opal web services toolkit</a>. This allows users to host a PDB2PQR server (e.g., for a class) without worrying about the load on their local computers.
+		</p>
+		<hr>
+		<p>
+			<a name="using" id="using"></a>
+		</p>
+		<h3>
+			Using PDB2PQR
+		</h3>
+		<p>
+			This section discusses the use of PDB2PQR from the command line. Many command line options are also available through the web servers. Interested users should also visit the PDB2PQR <a href="http://pdb2pqr.sourceforge.net/examples">examples page</a> which provides a tutorial on the usage of PDB2PQR for a variety of tasks.
+		</p>
+		<h4>
+			Starting PDB2PQR and Available Options
+		</h4>
+		<p>
+			Starting PDB2PQR from the web server is rather straightforward - simply click the desired options, specify or upload a PDB file, and submit the job. The command line version of PDB2PQR is similar:
+		</p>
+		<blockquote>
+			<code>$ python pdb2pqr.py [options] --ff={forcefield} {path} {output-path}</code>
+		</blockquote>
+		<p>
+			The required arguments are as follows:
+		</p>
+		<dl>
+			<dt>
+				<code>&lt;forcefield&gt;</code>
+			</dt>
+			<dd>
+				The forcefield to use -- currently <code>AMBER</code> (AMBER99, <a href="#WCK00">Wang J, et al, 2000</a>), <code>CHARMM</code> (CHARMM27, <a href="#MacKerellEtal98">MacKerell AD Jr, et al, 1998</a>), <code>PARSE</code> (PARSE, <a href="#SitkoffEtal94">Sitkoff D, et al, 1994</a>), <code>TYL06</code> (<a href="#TYL06">Tan C, et al, 2006</a>), <code>PEOEPB</code> (PEOEPB, <a href="#CzodEtal06">Czodrowski P, et al, 2006</a>), and <code>SWANSON</code> (SWANSON, <a href="#SwansonEtal07">Swanson JMJ, et al, 2007</a>) are supported.
+			</dd>
+			<dt>
+				<code>&lt;path&gt;</code>
+			</dt>
+			<dd>
+				The path to the PDB file or an ID to obtain from the PDB archive
+			</dd>
+			<dt>
+				<code>&lt;output-path&gt;</code>
+			</dt>
+			<dd>
+				The desired output name of the PQR file to be generated
+			</dd>
+		</dl>
+		<p>
+			Optional command-line arguments are:
+		</p>
+		<dl>
+			<dt>
+				<code>--nodebump</code>
+			</dt>
+			<dd>
+				Do not perform the <a href="#algorithm">debumping</a> operation
+			</dd>
+			<dt>
+				<code>--noopt</code>
+			</dt>
+			<dd>
+				Do not perform <a href="#algorithm">hydrogen bonding network optimization</a>
+			</dd>
+			<dt>
+				<code>--chain</code>
+			</dt>
+			<dd>
+				Keep the chain ID in the output PQR file
+			</dd>
+			<dt>
+				<code>--assign-only</code>
+			</dt>
+			<dd>
+				Only assign charges and radii - do not add atoms, debump, or optimize.
+			</dd>
+			<dt>
+				<code>--clean</code>
+			</dt>
+			<dd>
+				Do no optimization, atom addition, or parameter assignment, just return the original PDB file in aligned format.
+			</dd>
+			<dt>
+				<code>--ffout=&lt;name&gt;</code>
+			</dt>
+			<dd>
+				Instead of using the standard canonical naming scheme for residue and atom names, use the names from the given forcefield.
+			</dd>
+			<dt>
+				<code>--with-ph=&lt;ph&gt;</code>
+			</dt>
+			<dd>
+				Use <a href="http://propka.ki.ku.dk/">PROPKA</a> to calculate pKas and apply them to the molecule given the pH value. Actual PropKa results will be output to &lt;output-path&gt;.propka.
+			</dd>
+			<dt>
+				<code>--ligand=&lt;mol2 file&gt;</code>
+			</dt>
+			<dd>
+				Use the PDB2PKA package to <a href="#algorithm">generate parameters for the specific ligand</a> in MOL2 format. MOL2-format ligands can be generated using <a href="http://davapc1.bioch.dundee.ac.uk/programs/prodrg/">PRODRG</a> server or from within some molecular modeling packages
+			</dd>
+			<dt>
+				<code>--apbs-input</code>
+			</dt>
+			<dd>
+				Create a template <a href="http://apbs.wustl.edu">APBS</a> input file based on the generated PQR file.
+			</dd>
+			<dt>
+				<code>--whitespace</code>
+			</dt>
+			<dd>
+				Put extra whitespaces between atom name and residue name, between x and y, and between y and z. This may (or may not) break strict PDB formatting and cause problems for some visualization programs.
+			</dd>
+			<dt>
+				<code>--typemap</code>
+			</dt>
+			<dd>
+				Create Typemap output.
+			</dd>
+			<dt>
+				<code>--neutraln</code>
+			</dt>
+			<dd>
+				Make the N-terminus of this protein neutral (default is charged).
+			</dd>
+			<dt>
+				<code>--neutralc</code>
+			</dt>
+			<dd>
+				Make the C-terminus of this protein neutral (default is charged).
+			</dd>
+			<dt>
+				<code>--verbose (-v)</code>
+			</dt>
+			<dd>
+				Print information to stdout
+			</dd>
+			<dt>
+				<code>--help (-h)</code>
+			</dt>
+			<dd>
+				Display the usage information
+			</dd>
+		</dl>
+		<p>
+			Additional optional command-line arguments from the <a href="programmerguide.html#extensions">extensions</a> directory are:
+		</p>
+		<dl>
+			<dt>
+				<code>--chi</code>
+			</dt>
+			<dd>
+				Print the per-residue backbone chi angle to <code>{output-path}.chi</code>
+			</dd>
+			<dt>
+				<code>--phi</code>
+			</dt>
+			<dd>
+				Print the per-residue backbone phi angle to <code>{output-path}.phi</code>
+			</dd>
+			<dt>
+				<code>--psi</code>
+			</dt>
+			<dd>
+				Print the per-residue backbone psi angle to <code>{output-path}.psi</code>
+			</dd>
+			<dt>
+				<code>--rama</code>
+			</dt>
+			<dd>
+				Print the per-residue phi and psi angles to <code>{output-path}.rama</code> for Ramachandran plots
+			</dd>
+			<dt>
+				<code>--hbond</code>
+			</dt>
+			<dd>
+				Print a list of hydrogen bonds to <code>{output-path}.hbond</code>
+			</dd>
+			<dt>
+				<code>--salt</code>
+			</dt>
+			<dd>
+				Print a list of salt bridges to <code>{output-path}.salt</code>
+			</dd>
+		</dl>
+		<hr>
+		<p>
+			<a name="algorithm" id="algorithm"></a>
+		</p>
+		<h3>
+			Algorithm Descriptions
+		</h3>
+		<p>
+			The overall workflow for the PDB2PQR service is outlined <a href="images/flowchart.png">here (PNG image)</a>. The following sections provide more detail about specific aspects of the PDB2PQR algorithms.
+		</p>
+		<h4>
+			Debumping algorithm
+		</h4>
+		<p>
+			The debumping algorithm ensures that any new heavy or hydrogen atoms are not rebuilt within the Van der Waals radii of existing atoms. If this does occur, the sidechain of the residue in question will be rotated about an available &chi; angle until the steric conflict is resolved.
+		</p>
+		<p>
+			The number of residues that need to be debumped depends on the nature of the system and if hydrogen optimization will be performed. If hydrogens are the only atoms missing any potential conflicts are usually due to hydrogen bonds, and if optimization is enabled these conflicts are usually resolved during that step. In the case where a large number of heavy sidechain atoms are missing there could be additional debumping necessary - as the sidechain is rebuilt the initial &chi; angle may not be the optimal one, and thus a steric conflict may occur.
+		</p>
+		<h4>
+			Hydrogen bonding network optimization
+		</h4>
+		<p>
+			The hydrogen bonding network optimization seeks, as the name suggests, to optimize the hydrogen bonding network of the protein. Currently this entails manipulating the following residues:
+		</p>
+		<ul>
+			<li>Flipping the side chains of HIS (including user defined HIS states), ASN, and GLN residues;
+			</li>
+			<li>Rotating the sidechain hydrogen on SER, THR, TYR, and CYS (if available);
+			</li>
+			<li>Determining the best placement for the sidechain hydrogen on neutral HIS, protonated GLU, and protonated ASP;
+			</li>
+			<li>Optimizing all water hydrogens.
+			</li>
+		</ul>
+		<h4>
+			Titration state assignment
+		</h4>
+		<p>
+			Protein residue titration states are assigned using pK<sub>a</sub> values determined by <a href="http://propka.ki.ku.dk/">PROPKA</a>. For more details, please visit the <a href="http://propka.ki.ku.dk/">PROPKA homepage</a>.
+		</p>
+		<h4>
+			Ligand parameterization
+		</h4>
+		<p>
+			The calculation of ligand charges necessitates detailed information on molecular structure and protonation states due to the large variation in the covalent structures of small-molecule protein ligands. The current version of PDB2PQR therefore requires the ligand structure, protonation state, and formal charge to be specified by the user in the popular MOL2 file format (<a href="http://www.tripos.com/data/support/mol2.pdf">link to PDF)</a>. Ligand structures in MOL2 format are readily available from popular molecular modeling software and free web services such as <a href="http://davapc1.bioch.dundee.ac.uk/programs/prodrg/">PRODRG</a>. Future versions of PDB2PQR will include a pdb2mol2 parser and automatic assignment of default ligand protonation states from a small-molecule pKa database.
+		</p>
+		<p>
+			The calculation of ligand charges in PDB2PQR is based on the partial equalization of orbital electronegativities (PEOE) procedure developed by Gasteiger and Marsili (<a href="#GaMa80">Gasteiger, 1980</a>). In the PEOE procedure, orbital electronegativities <i>&chi;</i> are linked to partial atomic charges <i>q</i> by a polynomial expansion (<i>&chi;= a + b q + c q<sup>2</sup> + d q<sup>3</sup></i>). The coefficients <i>a</i>, <i>b</i>, <i>c</i>, and <i>d</i> were optimized by Gasteiger and Marsili using gas phase data on ionization potentials and electron affinities. We utilize a PEOE algorithm, which has been optimized by <a href="#CzodEtal06">Czodrowski et al.</a> to obtain better agreement between theoretical and experimental solvation energies for a set of small molecules including the polar amino acids.
+		</p>
+		<hr>
+		<p>
+			<a name="limitations" id="limitations"></a>
+		</p>
+		<h3>
+			Limitations
+		</h3>
+		<p>
+			The following is a list of known limitations with the current version of PDB2PQR. Many of these limitations will be removed/fixed in future releases of the software:
+		</p>
+		<ul>
+			<li>Web server is limited to biomolecules with less than 10,000 atoms. To limit the load on our servers, we currently limit web server submissions to proteins containing fewer than 10,000 atoms. If you are interested in using PDB2PQR for larger proteins, you are encouraged to download a command line version of PDB2PQR from the <a href="http://pdb2pqr.sourceforge.net/">PDB2PQR home page</a>.
+			</li>
+			<li>Ligands do not change PROPKA pK<sub>a</sub> predictions. At this time, PROPKA does not consider ligand effects (H-bonding, charges, etc.) when calculating pK<sub>a</sub> values. This support will be provided in future versions of PDB2PQR.
+			</li>
+			<li>Browser "back" button not supported. Due to our use of CGI forms, we do not recommend use of your browser "back" button when using PDB2PQR. Links are provided on most pages for navigating the PDB2PQR site.
+			</li>
+		</ul>
+		<hr>
+		<p>
+			<a name="faq" id="faq"></a>
+		</p>
+		<h3>
+			Frequently Asked Questions
+		</h3>
+		<dl>
+			<dt>
+				What is a PQR file?
+			</dt>
+			<dd>
+				A PQR file is a PDB file with the temperature and occupancy columns replaced by columns containing the per-atom charge (Q) and radius (R). PQR files are used in several computational biology packages, including <a href="http://apbs.wustl.edu">APBS</a>.
+			</dd>
+			<dt>
+				What forcefields are available?
+			</dt>
+			<dd>
+				PDB2PQR currently has built in support for AMBER 94, CHARMM 27, and PARSE. You may also supply a user-defined forcefield.
+			</dd>
+			<dd>
+				<a name="userff" id="userff"></a>
+			</dd>
+			<dt>
+				Can I add my own charge and radius parameters to PDB2PQR?
+			</dt>
+			<dd>
+				Yes; there are two ways to add your own parameters to PDB2PQR:
+				<dl>
+					<dt>
+						Adding a few additional parameters to an existing forcefield
+					</dt>
+					<dd>
+						If you are just adding the parameters of a few residues and atoms to an existing forcefield (e.g., AMBER), you can open the forcefield data file (<code>dat/AMBER.DAT</code>) directly and add your parameters. After the parameter addition, save the force field data file (<code>dat/AMBER.DAT</code>) with your changes. You should also update the corresponding .names file (<code>dat/AMBER.names</code>) if your added residue or atom naming scheme is different from the <a href="http://pdb2pqr.sourceforge.net/programmerguide.html#canon">canonical naming scheme</a> of PDB2PQR.
+					</dd>
+					<dt>
+						Adding an entirely new forcefield
+					</dt>
+					<dd>
+						If you are adding a new forcefield to PDB2PQR, then you will need to follow the instructions below:
+						<ol>
+							<li>
+								Provide two files: your forcefield data file (e.g., <code>myff.DAT</code>).  If your atom naming scheme of the forcefield is different from the <a href="http://pdb2pqr.sourceforge.net/programmerguide.html#canon">canonical naming scheme</a> of PDB2PQR, then you will also need to provide a names files (<code>myff.names</code>).  It is recommended to build your own forcefield data file and names file based on existing <code>.DAT</code> and <code>.names</code> file formats.  For more information on the xml format used in <code>.names</code> files, please refer to the <a href="http://pdb2pqr.sourceforge.net/programmerguide.html#xml">xml section</a> in the programmer's guide.
+							</li>
+							<li>
+								After finishing your forcefield data file and names file, these can be used with either the command line or the web server versions of PDB2PQR:
+								<ul>
+									<li type="disc">
+										For command line execution:
+									</li>
+									<ol>
+										<li type="a">
+											Locate your PDB2PQR distribution and place the forcefield and names files in the dat/ directory.
+										</li>
+										<li type="a">
+											On PDB2PQR command line version, run:
+											<dd>
+												<code>$ python pdb2pqr.py [options] --ff=myff {path} {output-path}</code>
+											</dd>
+										</li>
+									</ol>
+									<li type="disc">
+										For the web server, select "User-defined forcefield" radio button, then specify your user-defined data file and names file. Select other options when needed, and then click "Submit".
+									</li>
+								</ul>
+							</li>
+						</ol>
+					</dd>
+				</dl>
+			</dd>
+			<dt>
+				What compilers and architectures are compatible with PDB2PQR?
+			</dt>
+			<dd>
+				The PDB2PQR code itself is platform independent, but to use PropKa within PDB2PQR you must compile some code. PropKa has been tested with the Gnu gcc/g77 compilers on i*86, ia64, x86_64, and Mac OS X (Darwin) systems. It has also been tested with Intel icc/ifort compilers on i*86 and ia64 systems. If you find that PDB2PQR/PropKa does not compile on your system please send a <a href="#bug">bug report</a>. PDB2PKA requires a C++ compiler and has been tested with g++.
+			</dd>
+			<dt>
+				Can I install PDB2PQR on Windows?
+			</dt>
+			<dd>
+				The PDB2PQR code itself is in OS-independent Python, and thus will work with Python under Cygwin. Unfortunately PropKa makes use of compilers and shared objects, which can be rather tricky through Cygwin. For basic functionality it is <b>strongly recommended</b> to use PDB2PQR without PropKa enabled; if you would like to try to get PropKa working as well, you might want to look at section 6.2.2 of the <a href="http://www.python.org/doc/2.4.1/inst/tweak-flags.html">Building Extensions</a> in the Python Tutorial.
+			</dd>
+			<dt>
+				How is PDB2PQR licensed?
+			</dt>
+			<dd>
+				PDB2PQR is covered under the <a href="http://www.opensource.org/licenses/bsd-license.php">BSD License</a>, which basically means you can copy it, change it, use subsets of it, redistribute it, etc.; however, you need to give credit to the original source and the original portion of the code must remain under the BSD License. The PropKa and PDB2PKA packages are also available under the BSD License.
+			</dd>
+			<dt>
+				Does the input PDB file need to be in a specific format?
+			</dt>
+			<dd>
+				Ideally all input PDB files would be in standard <a href="http://www.rcsb.org/pdb/file_formats/pdb/pdbguide2.2/guide2.2_frame.html">PDB Format</a>. Since this format assigns information to specific columns, if this information is not present (as in, for example, whitespace delimited files) PDB2PQR may give extraneous results.
+			</dd>
+			<dt>
+				Why are the chain IDs not included in the output file?
+			</dt>
+			<dd>
+				This is done specifically for APBS, as older versions of APBS were unable to handle chain IDs in a PQR file. To keep the chain IDs in your resulting PQR file please use the <code>--chain</code> option.
+			</dd>
+			<dd>
+				<a name="outff" id="outff"></a>
+			</dd>
+			<dt>
+				Can PDB2PQR output create a PQR file using forcefield-specific residue and atom names?
+			</dt>
+			<dd>
+				Yes, using the <code>--ffout</code> flag. Note that for patch-based forcefields a single residue might have different residue names. Additionally, some forcefield residue names might have 4 letters instead of the standard 3 letters, yielding columns that merge together - if you are using the resulting PQR file for APBS, this will more than likely cause errors.
+			</dd>
+			<dt>
+				What types of residues can PDB2PQR recognize?
+			</dt>
+			<dd>
+				PDB2PQR recognizes all of the standard amino acids, nucleic acids, and waters (both WAT and HOH) - for a complete list (and the standard naming scheme) please see the discussion in the <a href="programmerguide.html#canon">Programmer's Guide</a>.
+			</dd>
+			<dt>
+				How can I add my own functions to PDB2PQR?
+			</dt>
+			<dd>
+				In version 1.1.0 the extensions directory was added, allowing users to add their own post-processing scripts. For more information please see the appropriate section in the <a href="programmerguide.html#extensions">Programmer's Guide</a>.
+			</dd>
+			<dt>
+				I already know the protonation state of a residue. How can I make PDB2PQR aware of it?
+			</dt>
+			<dd>
+				PDB2PQR has the ability to recognize certain protonation states and keep them fixed during optimization. To use this feature manually rename the residue name in the PDB file as follows:
+				<ul>
+					<li>Neutral ASP: ASH
+					</li>
+					<li>Negative CYS: CYM
+					</li>
+					<li>Neutral GLU: GLH
+					</li>
+					<li>Neutral HIS: HIE/HID/HSD/HSE
+					</li>
+					<li>Positive HIS: HIP/HSP
+					</li>
+					<li>Neutral LYS: LYN
+					</li>
+					<li>Negative TYR: TYM
+					</li>
+				</ul>
+			</dd>
+			<dt>
+				What causes the following warning - WARNING: PDB2PQR was unable to assign charges to the following atoms
+			</dt>
+			<dd>
+				This message usually occurs when atoms belonging to ligands or other residues are not found in the forcefield data file. As a conversion utility PDB2PQR is unable to assign charges and radii when they are not available in the forcefield - thus this warning message will occur for most ligands <i>unless</i> a MOL2 file is provided for the ligand with the <code>--ligand</code> option. Occasionally this message will occur in error for a standard amino acid residue where an atom or residue may be misnamed.
+			</dd>
+			<dt>
+				What causes the following warning - WARNING: Propka determined the following residues to be in a protonation state not supported by the forcefield!
+			</dt>
+			<dd>
+				Some of the protonation states derived from the PropKa results are not supported in the requested forcefield and thus PDB2PQR is unable to get charges and radii for that state. PDB2PQR currently supports the following states as derived from PropKa:<br>
+				<table border="1">
+					<tr>
+						<th>
+							Protonation State
+						</th>
+						<th>
+							AMBER Support
+						</th>
+						<th>
+							CHARMM Support
+						</th>
+						<th>
+							PARSE Support
+						</th>
+					</tr>
+					<tr>
+						<td>
+							Neutral N-Terminus
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							Yes
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Neutral C-Terminus
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							Yes
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Neutral ARG
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							No
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Neutral ASP
+						</td>
+						<td>
+							Yes*
+						</td>
+						<td>
+							Yes
+						</td>
+						<td>
+							Yes
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Negative CYS
+						</td>
+						<td>
+							Yes*
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							Yes
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Neutral GLU
+						</td>
+						<td>
+							Yes*
+						</td>
+						<td>
+							Yes
+						</td>
+						<td>
+							Yes
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Neutral HIS
+						</td>
+						<td>
+							Yes
+						</td>
+						<td>
+							Yes
+						</td>
+						<td>
+							Yes
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Neutral LYS
+						</td>
+						<td>
+							Yes*
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							Yes
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Negative TYR
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							No
+						</td>
+						<td>
+							Yes
+						</td>
+					</tr>
+				</table><br>
+				* - only if residue is not a terminal residue; if the residue is terminal it will not be set to this state
+			</dd>
+		</dl>
+		<hr>
+		<p>
+			<a name="bug" id="bug"></a>
+		</p>
+		<h3>
+			Bug Reports and Suggestions
+		</h3>
+		<p>
+			Before sending a bug report, you may want to check the <a href="http://sourceforge.net/mailarchive/forum.php?forum=pdb2pqr-users">pdb2pqr-users mailing list archives</a> or the existing <a href="http://sourceforge.net/tracker/?group_id=144228&amp;atid=758143">PDB2PQR SourceForge Bug List</a> to make sure your question has not already been addressed. Otherwise please post all bug reports, support requests, or feature requests to the appropriate <a href="http://sourceforge.net/tracker/?group_id=144228">PDB2PQR SourceForge Tracker</a>.
+		</p>
+		<p>
+			For additional support you may contact the <a href="http://lists.sourceforge.net/lists/listinfo/pdb2pqr-users">pdb2pqr-users mailing list</a>.
+		</p>
+		<hr>
+		<p>
+			<a name="bib" id="bib"></a>
+		</p>
+		<h3>
+			References and Further Reading
+		</h3>
+		<ul>
+			<li>
+				<a name="CzodEtal06" id="CzodEtal06">Czodrowski P, Dramburg I, Sotriffer CA, Klebe G. Development, validation, and application of adapted PEOE charges to estimate pKa values of functional groups in protein-ligand complexes. <i>Proteins</i> <b>65</b> (2) 424-37, 2006.</a> (<a href="http://dx.doi.org/10.1002/prot.21110">http://dx.doi.org/10.1002/prot.21110</a>). Description of PEOE method used for ligand parameterization.
+			</li>
+			<li>
+				<a name="DolinskyEtal04" id="DolinskyEtal04">Dolinsky TJ, Nielsen JE, McCammon JA, Baker NA. PDB2PQR: an automated pipeline for the setup of Poisson0Boltzmann electrostatics calculations. <i>Nucleic Acids Res</i> <b>32</b>, W665-7, 2004.</a> (<a href="http://dx.doi.org/10.1093/nar/gkh381">http://dx.doi.org/10.1093/nar/gkh381</a>). Original PDB2PQR paper.
+			</li>
+			<li>
+				<a name="GaMa80" id="GaMa80">Gasteiger J, Marsili M. Iterative partial equalization of orbital electronegativity -- rapid access to atomic charges. <i>Tetrahedron</i> <b>36</b> (22) 3219-28, 1980.</a> (<a href="http://dx.doi.org/10.1016/0040-4020(80)80168-2">http://dx.doi.org/10.1016/0040-4020(80)80168-2</a>). Description of original charge assignment method.
+			</li>
+			<li>
+				<a name="LRJ05" id="LRJ05">Li H, Robertson AD, Jensen JH. Very fast empirical prediction and rationalization of protein pKa values. <i>Proteins</i> <b>61</b> (4) 704-21, 2005.</a> (<a href="http://dx.doi.org/10.1002/prot.20660">http://dx.doi.org/10.1002/prot.20660</a>). Original PROPKA paper.
+			</li>
+			<li>
+				<a name="MacKerellEtal98" id="MacKerellEtal98">MacKerell AD Jr, Bashford D, Bellott M, Dunbrack RL Jr, Evanseck JD, Field MJ, Fischer S, Gao J, Guo H, Ha S, Joseph-McCarthy D, Kuchnir L, Kuczera K, Lau FTK, Mattos C, Michnick S, Ngo T, Nguyen DT, Prodhom B, Reiher WE III, Roux B, Schlenkrich M, Smith JC, Stote R, Straub J, Watanabe M, Wiorkiewicz-Kuczer a, Yin D, Karplus M. All-Atom Empirical Potential for Molecular Modeling and Dynamics Studies of Proteins. <i>J Phys Chem B</i> <b>102</b> (18) 3586-616, 1998.</a> (<a href="http://dx.doi.org/10.1021/jp973084f">http://dx.doi.org/10.1021/jp973084f</a>). Paper describing the "CHARMM" force field used by PDB2PQR.
+			</li>
+			<li>
+				<a name="SitkoffEtal94" id="SitkoffEtal94">Sitkoff D, Sharp KA, Honig B. Accurate Calculation of Hydration Free Energies Using Macroscopic Solvent Models. <i>J Phys Chem</i> <b>98</b> (7) 1978-88, 1994.</a> (<a href="http://pubs.acs.org/cgi-bin/archive.cgi/jpchax/1994/98/i07/pdf/j100058a043.pdf">http://pubs.acs.org/cgi-bin/archive.cgi/jpchax/1994/98/i07/pdf/j100058a043.pdf</a>). Paper describing the "PARSE" force field used by PDB2PQR.
+			</li>
+			<li>
+				<a name="SwansonEtal07" id="SwansonEtal07">Swanson JMJ, Wagoner JA, Baker NA, McCammon JA. Optimizing the Poisson Dielectric Boundary with Explicit Solvent Forces and Energies: Lessons Learned with Atom-Centered Dielectric Functions. <i>J Chem Theory Comput</i> <b>3</b> 170-183, 2007.</a> (<a href="http://dx.doi.org/10.1021/ct600216k">http://dx.doi.org/10.1021/ct600216k</a>). Paper describing the "SWANSON" force field used by PDB2PQR.
+			</li>
+			<li>
+				<a name="TYL06" id="TYL06">Tan C, Yang L, Luo R. How Well Does Poisson-Boltzmann Implicit Solvent Agree with Explicit Solvent? A Quantitative Analysis. <i>J Phys Chem B</i> <b>110</b> (37) 18680-7, 2006.</a> (<a href="http://dx.doi.org/10.1021/jp063479b">http://dx.doi.org/10.1021/jp063479b</a>). Paper describing the "TYL06" force field used by PDB2PQR.
+			</li>
+			<li>
+				<a name="WCK00" id="WCK00">Wang J, Cieplak P, Kollman PA. How well does a restrained electrostatic potential (RESP) model perform in calculating conformational energies of organic and biological molecules? <i>J Comput Chem</i> <b>21</b> (12) 1049-74, 2000.</a> (<a href="http://www3.interscience.wiley.com/cgi-bin/abstract/72511509/ABSTRACT">http://www3.interscience.wiley.com/cgi-bin/abstract/72511509/ABSTRACT</a>). Paper describing the "AMBER" force field used by PDB2PQR.
+			</li>
+		</ul>
+		<hr>
+		<center>
+			<a href="http://sourceforge.net"><img align="middle" src="http://sourceforge.net/sflogo.php?group_id=144228&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo"></a>&nbsp;&nbsp;&nbsp;<a href="http://sourceforge.net/projects/pdb2pqr">SourceForge Project Page</a>
+		</center>
+		<hr>
+		<center>
+			<small>Last changed on: $Date: 2007-09-06 11:06:05 -0600 (Thu, 06 Sep 2007)$</small>
+		</center>
+	</body>
+</html>

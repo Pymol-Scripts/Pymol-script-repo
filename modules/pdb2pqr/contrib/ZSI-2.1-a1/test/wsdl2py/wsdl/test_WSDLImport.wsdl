@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<definitions name="OutSchemaTest"
+	targetNamespace="urn:test:import:wsdl"
+	xmlns:tns="urn:test:import:wsdl"
+	xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <import namespace="urn:test:import:inner"
+            location="test_WSDLImport2.wsdl"/>
+</definitions>

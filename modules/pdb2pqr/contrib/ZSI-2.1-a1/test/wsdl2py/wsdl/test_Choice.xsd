@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="urn:example"
+    xmlns:bt="urn:example">
+
+<xs:element name="Easy" type="bt:EasyChoice"/>
+<xs:element name="Hard" type="bt:HardChoice"/>
+
+<xs:complexType name="EasyChoice">
+  <xs:choice>
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="rank" type="xs:int"/>
+    <xs:element name="any"/>
+  </xs:choice>
+</xs:complexType>  
+
+<xs:complexType name="HardChoice">
+  <xs:choice maxOccurs="unbounded">
+    <xs:element name="name" type="xs:string"/>
+    <xs:element name="rank" type="xs:int"/>
+    <xs:element name="any"/>
+  </xs:choice>
+</xs:complexType>  
+
+</xs:schema>

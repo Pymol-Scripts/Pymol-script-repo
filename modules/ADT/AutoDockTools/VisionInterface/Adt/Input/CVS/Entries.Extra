@@ -1,0 +1,14 @@
+/AutogridResDirectoryBrowser.py///
+/AutogridResURL.py///
+/DPFTemplateBrowser.py///
+/GPFTemplateBrowser.py///
+/GetStructuresFromDir.py///
+/LocalLigandDirectory.py///
+/MakeDPFCopies.py///
+/MakeGPFCopies.py///
+/MakeGpfDpfCopies.py///
+/PreparedStructureBrowser.py///
+/PublicServerLigandDB.py///
+/StructureBrowser.py///
+/UrlLigandDB.py///
+/__init__.py///

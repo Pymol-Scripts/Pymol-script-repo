@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: ZSI
+Version: 2.1-a1
+Summary: Zolera SOAP Infrastructure
+Home-page: http://pywebsvcs.sf.net/
+Author: Rich Salz, et al
+Author-email: pywebsvcs-talk@lists.sf.net
+License: Python
+Description: For additional information, please see http://pywebsvcs.sf.net/
+Platform: UNKNOWN

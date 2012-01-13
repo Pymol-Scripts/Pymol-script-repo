@@ -1,0 +1,10 @@
+These tests are in the process of being incorporated in pyunit.  Not
+all errors are currently being caught by pyunit, so it is still
+necessary to check the output of the code by hand.
+
+Two top level modules have been provided to run the tests.  Use
+"test_zsi.py" to run all of the local tests, or "test_zsi_net.py" to
+run all of the zsi tests including those that require network access.
+
+Additional tests are located in the wsdl2py/ directory; see the README
+there for more information on those.

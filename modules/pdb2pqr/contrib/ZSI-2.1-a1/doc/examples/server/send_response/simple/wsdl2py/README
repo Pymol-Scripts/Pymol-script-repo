@@ -1,0 +1,4 @@
+To run this example, do this:
+  1.) wsdl2py -f ../binding.wsdl
+  2.) ./server.py
+  3.) ./client.py

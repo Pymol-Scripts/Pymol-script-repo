@@ -1,0 +1,64 @@
+"""
+    Extensions Template
+
+    A template for creating new post-processing scripts.  Please see the
+    PDB2PQR Programmer Guide for more information.
+
+    Author:  Todd Dolinsky
+"""
+
+__date__ = "17 February 2006" # Date
+__author__ = "Todd Dolinsky"  # Author
+
+from src.utilities import *   # Functions from utilities.py
+from src.routines import *    # Functions from routines.py
+
+def usage():
+    """
+        A small function that will be added to the overall PDB2PQR
+        usage.  Note that the root of the file name (in this case template.py)
+        becomes the command line option.
+        
+        ex. chi.py will add the --chi command line option.
+
+        Returns a string describing the usage for this function.
+        This will be used for help text for command line option for this function.
+    """
+    str = "Put usage here"
+    return str
+
+def template(routines, outroot):
+    """
+        The main function.  This will be called after all other PDB2PQR
+        activity has been completed.  There are two useful parameters
+        that must be passed into the function
+
+        Parameters
+            routines:  A link to the routines object  The routines object
+                       contains both protein (routines.protein) and links
+                       to the majority of functions necessary to use the
+                       PDB2PQR API.
+            outroot:   A string containing the root of the output name.  If 
+                       you want to return information to stdout this can be
+                       ignored (although it must still be present) - otherwise
+                       this can be used to output the desired data to a file.
+                       The root contains whatever the desired PQR file name is
+                       before the period, so "out.pqr" will have "out", and 
+                       "example" will just return "example".  For other
+                       extension scripts we have appended the function name
+                       to the outroot.
+    """
+
+    outname = outroot + ".template"
+    file = open(outname, "w")
+
+    protein = routines.protein
+
+    # For example, let's write all the CA atoms in the protein to the file
+
+    for atom in protein.getAtoms():
+        if atom.name == "CA":  file.write(atom)
+
+    file.close()
+
+

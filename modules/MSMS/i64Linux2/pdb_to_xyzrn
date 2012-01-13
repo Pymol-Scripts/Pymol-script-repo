@@ -1,0 +1,102 @@
+#! /bin/sh
+# extract x,y,z from PDB file, generate radius of each atom
+# Hydrogens are presumed to be missing ("united atom" approach) unless -h given
+# later: options for alternate radius and pattern files
+# --- Mike Pique, The Scripps Research Institute
+#
+# input: pdb file as argument or stdin
+# output: new xyzr file to stdout
+#
+# Options:
+#
+# -h: use explicit hydrogen radii instead of default united atom radii
+#
+# examples:
+#   pdb_to_xyzr  crambin.pdb > crambin.xyzr
+#
+#   foo_to_pdb -h mol.foo  | pdb_to_xyzr > mol.xyzr
+#
+#   foo_to_pdb mol.foo  | pdb_to_xyzr | awk '{print $4}' >   mol.r
+#
+#
+
+# set which field to use for radii:
+h_select=5
+if test $# -ge 1 ;then
+	if test $1 = "-h" ; then 
+	h_select=4
+	shift
+	fi
+fi
+nawk 'BEGIN{
+	# read radius table and patterns from supplied file
+	npats=0
+	numfile = "./atmtypenumbers"
+	while ((getline < numfile) > 0) {
+		if(NF==0||substr($1,1,1)=="#") continue;
+		if($1=="radius") {
+			n=$2 # atom number key
+			explicit_rad[$2] = $4
+
+			if(NF<=4 || substr($5,1,1)=="#") united_rad[n]=explicit_rad[n]
+			else united_rad[n] = $5
+			continue;
+			}
+		respat[npats] = $1
+		if(respat[npats] == "*") respat[npats] = ".*"
+		respat[npats] = "^"respat[npats]"$"
+		atmpat[npats] = "^"$2"$"
+		gsub("_", " ",atmpat[npats])
+		atmnum[npats] = $3
+		if( ! (atmnum[npats] in explicit_rad) ) {
+			# the key has no radius --- complain and fake one
+			print "pdb_to_xyzr: error in library file",numfile,
+			  "entry ",$1,$2,$3, "has no corresponding radius value" \
+			  | "cat 1>&2" # write to stderr
+			explicit_rad[atmnum[npats]] = 0.01
+			united_rad[atmnum[npats]] = 0.01
+			}
+		npats++
+		}
+# for(pat=0;pat<npats;pat++) print pat,respat[pat],atmpat[pat],atmnum[pat]
+	}
+
+$1=="ATOM"||$1=="atom"||$1=="HETATM"||$1=="hetatm"{
+	x = substr($0,31,8)
+	y = substr($0,39,8)
+	z = substr($0,47,8)
+	resname=substr($0,18,3)
+
+	aname = substr($0,13,4)
+	# special handling needed for hydrogens in PDB files: they start with
+	# digits not the letter "H"
+	#
+	if(substr(aname,1,2) ~ /[ 0-9][HhDd]/) aname="H"
+	# However, some bogus PDP files have the H in column 13 so we allow
+	# those too, which means we will treat as Hydrogen helium and hafnium 
+	# but we protect HG ... ... mp
+	#
+	if(substr(aname,1,2) ~ /[Hh][^Gg]/ ) aname="H"
+
+
+	resnum=substr($0,23,4);
+
+	# trim any blanks
+	gsub(" ", "", resname);
+	gsub(" ", "", aname);
+
+	for(pat=0;pat<npats;pat++) {
+		if( aname ~ atmpat[pat] && resname ~ respat[pat] ) break 
+		}
+	if(pat==npats) {
+		# Not found
+		print "pdb_to_xyzr: error, file",FILENAME,"line",NR,"residue",
+		  resnum,
+		  "atom pattern",resname, aname,"was not found in " numfile  \
+		  | "cat 1>&2" # write to stderr
+		print x,y,z,0.01
+		}
+	else printf("%f %f %f %f %d %s_%s_%d\n", x, y, z, \
+	  ('$h_select'== 5 ? united_rad[atmnum[pat]]:explicit_rad[atmnum[pat]]), 1, aname, resname, resnum);
+	next;
+	}' $*

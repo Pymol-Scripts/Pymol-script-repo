@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions 
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="urn:ZSI"
+  targetNamespace="urn:ZSI" >
+  <types>
+  <xsd:schema elementFormDefault="qualified" targetNamespace="urn:ZSI">
+      <xsd:element name="Echo">
+          <xsd:complexType>
+              <xsd:sequence>
+                  <xsd:element name="value" type="xsd:anyType"/>
+              </xsd:sequence>
+          </xsd:complexType>
+      </xsd:element>
+  </xsd:schema>
+  </types>
+
+  <message name="EchoRequest">
+    <part name="parameters" element="tns:Echo" />
+  </message>
+  <message name="EchoResponse">
+    <part name="parameters" element="tns:Echo"/>
+  </message>
+
+  <portType name="EchoServer">
+    <operation name="Echo">
+      <input message="tns:EchoRequest"/>
+      <output message="tns:EchoResponse"/>
+    </operation>
+  </portType>
+
+  <binding name="EchoServer" type="tns:EchoServer">
+    <soap:binding style="document" 
+                  transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="Echo">
+      <soap:operation soapAction="Echo"/>
+	<input>
+   	  <soap:body use="literal"/> 
+	</input>
+	<output>
+	  <soap:body use="literal"/> 
+	</output>
+    </operation>
+  </binding>
+
+  <service name="EchoServer">
+    <port name="EchoServer" binding="tns:EchoServer">
+      <soap:address location="http://localhost:7000"/>
+    </port>
+  </service>
+
+</definitions>

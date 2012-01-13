@@ -1,0 +1,3 @@
+Please see the programmer's guide (doc/programmerguide.html) for a discussion on how to add your own functionality to PDB2PQR.
+
+Additionally, the "template" file is a template for interfacing with PDB2PQR.
