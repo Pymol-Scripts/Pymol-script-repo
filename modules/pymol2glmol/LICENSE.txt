@@ -1,0 +1,84 @@
+=== LICENSE notice ===
+
+GLmol itself is licensed under GNU Lesser General Public License as follows.
+
+However, PDB files included as examples are under DIFFERENT conditions.
+Please consult 
+http://www.rcsb.org/pdb/static.do?p=general_information/about_pdb/pdb_advisory.html
+ (You must RENAME PDB files if you modified it!)
+
+ 2POR.pdb: "Structure of porin refined at 1.8 A resolution"
+   Weiss, M.S.,  Schulz, G.E., J.Mol.Biol. 227: 493-509 (1992)
+ 2DHB.pdb: "Three dimensional fourier synthesis of horse deoxyhaemoglobin 
+            at 2.8 Angstrom units resolution"
+   Bolton, W.,  Perutz, M.F., Nature 228: 551-552 (1970)
+
+----------------------
+
+GLmol - Molecular Viewer on WebGL/Javascript
+
+     (C) Copyright 2011, biochem_fan
+
+     This program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Lesser General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
+
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Lesser General Public License for more details.
+
+     You should have received a copy of the GNU Lesser General Public License
+     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-----------------------
+
+GLmol uses following programs.
+
+* Three.js 
+     https://github.com/mrdoob/three.js
+     Copyright (c) 2010-2011 three.js Authors. All rights reserved.
+
+     Permission is hereby granted, free of charge, to any person obtaining a copy
+     of this software and associated documentation files (the "Software"), to deal
+     in the Software without restriction, including without limitation the rights
+     to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+     copies of the Software, and to permit persons to whom the Software is
+     furnished to do so, subject to the following conditions:
+
+     The above copyright notice and this permission notice shall be included in
+     all copies or substantial portions of the Software.
+
+     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+     IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+     FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+     AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+     THE SOFTWARE.
+
+* jQuery
+     http://jquery.org/
+     Copyright (c) 2011 John Resig
+
+     Permission is hereby granted, free of charge, to any person obtaining
+     a copy of this software and associated documentation files (the
+     "Software"), to deal in the Software without restriction, including
+     without limitation the rights to use, copy, modify, merge, publish,
+     distribute, sublicense, and/or sell copies of the Software, and to
+     permit persons to whom the Software is furnished to do so, subject to
+     the following conditions:
+
+     The above copyright notice and this permission notice shall be
+     included in all copies or substantial portions of the Software.
+
+     THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+     EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+     NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+     LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+     OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+     WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
