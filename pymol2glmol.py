@@ -6,6 +6,7 @@ Written by biochem_fan, 2011
 
 from pymol import cmd
 from math import cos, sin, pi, sqrt, acos, asin, atan2
+import os
 
 def compactSeq(seq):
     seq.sort()
@@ -105,6 +106,13 @@ def parseDistObj(obj):
     return "\ndists:%.3f,%.3f,%.3f:" % color + ','.join(ret)
 
 def dump_rep(name):
+    if 'PYMOL_GIT_MOD' in os.environ:
+        import shutil
+        try:
+            shutil.copytree(os.path.join(os.environ['PYMOL_GIT_MOD'],'pymol2glmol','js'),os.path.join(os.getcwd(),'js'))
+        except OSError:
+            pass
+
     names = cmd.get_session()['names']
     cmd.set('pdb_retain_ids', 1)
 
@@ -136,10 +144,15 @@ def dump_rep(name):
     bgcolor = cmd.get_setting_tuple('bg_rgb')[1]
     ret += "\nbgcolor:%02x%02x%02x" % (int(255 * float(bgcolor[0])), \
               int(255 * float(bgcolor[1])), int(255 * float(bgcolor[2])))
-    
-    template = open('imported.html').read().\
-        replace("###INCLUDE_PDB_FILE_HERE###", cmd.get_pdbstr(name)).\
-        replace('###INCLUDE_REPRESENTATION_HERE###', ret)
+    if 'PYMOL_GIT_MOD' in os.environ:
+        template = open(os.path.join(os.environ['PYMOL_GIT_MOD'],'pymol2glmol','imported.html')).read().\
+            replace("###INCLUDE_PDB_FILE_HERE###", cmd.get_pdbstr(name)).\
+            replace('###INCLUDE_REPRESENTATION_HERE###', ret)
+    else:
+        template = open('imported.html').read().\
+            replace("###INCLUDE_PDB_FILE_HERE###", cmd.get_pdbstr(name)).\
+            replace('###INCLUDE_REPRESENTATION_HERE###', ret)
+        
     f = open(name + '.html', 'w')
     f.write(template)
     f.close()
