@@ -144,5 +144,5 @@ def dump_rep(name):
     f.write(template)
     f.close()
 
-cmd.extend('exportToWeb', dump_rep)
-cmd.auto_arg[0]['exportToWeb'] = [cmd.object_sc, 'object', '']
+cmd.extend('pymol2glmol', dump_rep)
+cmd.auto_arg[0]['pymol2glmol'] = [cmd.object_sc, 'object', '']
