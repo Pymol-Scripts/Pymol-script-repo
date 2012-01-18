@@ -1,19 +1,21 @@
-##############################################################################
-# dehydron:  A dehydron calculator plugin for PyMOL
-# Author: Osvaldo Martin
-# e-mail: aloctavodia@gmail.com
-# License: GNU General Public License
-#
-# Acknowledgement: The H-bond detection code is based on the list_mc_hbonds.py 
-# script from Robert L. Campbell http://pldserver1.biochem.queensu.ca/~rlc/work/pymol/
-#
-##############################################################################
+'''
+dehydron: A dehydron calculator plugin for PyMOL
+Described at PyMOL wiki:
+http://www.pymolwiki.org/index.php/Dehydron
+ 
+Authors : Osvaldo Martin
+email: aloctavodia@gmail.com
+Date    : January 2012
+License: GNU General Public License
+Acknowledgement: The H-bond detection code is based on the list_mc_hbonds.py
+script from Robert L. Campbell http://pldserver1.biochem.queensu.ca/~rlc/work/pymol/
+'''
 
 import Tkinter
 from Tkinter import *
 import Pmw
 from pymol import cmd
-from pymol import stored # Import PyMOL's stored module.  This will allow us with a 
+from pymol import stored # Import PyMOL's stored module. This will allow us with a
 # way to pull out the PyMOL data and modify it in our script.
 # See below.
 
@@ -34,7 +36,7 @@ def mainDialog():
     global min_value
     master = Tkinter.Tk()
     master.title(' dehydron ')
-    w = Tkinter.Label(master, text = 'Dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
+    w = Tkinter.Label(master, text = 'Dehydron calculator\nOsvaldo Martin - aloctavodia@gmail.com',
                                 background = '#000000',
                                 foreground = '#cecece',
                                 #pady = 20,
@@ -46,7 +48,7 @@ def mainDialog():
     p1 = nb.add('Main')
     p2 = nb.add('About')
     nb.pack(padx=5, pady=5, fill=BOTH, expand=1)
-############################  Main TAB  #################################
+############################ Main TAB #################################
 # hydrogen bond settings
     group = Pmw.Group(p1,tag_text='Hydrogen bond Settings')
     group.pack(fill='x', expand=1, padx=20, pady=1)
@@ -90,23 +92,23 @@ def mainDialog():
 read http://en.wikipedia.org/wiki/Dehydron
 
 Citation for this plugin:
-    Martin O.A.; Dehydron calculator plugin for PyMOL, 
+Martin O.A.; Dehydron calculator plugin for PyMOL,
 2012. IMASL-CONICET.
 
 Citation for PyMOL may be found here:
-    http://pymol.sourceforge.net/faq.html#CITE
+http://pymol.sourceforge.net/faq.html#CITE
 
 Citation for Dehydrons (I think these could be used):
-    Fern\u00E1ndez A. and Scott R.; "Adherence of packing 
-defects in soluble proteins", Phys. Rev. Lett. 91, 018102 
+Fern\u00E1ndez A. and Scott R.; "Adherence of packing
+defects in soluble proteins", Phys. Rev. Lett. 91, 018102
 (2003).
 
-    Fern\u00E1ndez A., Rogale K., Scott R. and Scheraga H.A.;
-"Inhibitor design by wrapping packing defects in HIV-1 
+Fern\u00E1ndez A., Rogale K., Scott R. and Scheraga H.A.;
+"Inhibitor design by wrapping packing defects in HIV-1
 proteins", PNAS, 101, 11640-45 (2004).
 
-    Fern\u00E1ndez A. "Transformative Concepts for Drug Design:
-Target Wrapping" (ISBN 978-3642117916), 
+Fern\u00E1ndez A. "Transformative Concepts for Drug Design:
+Target Wrapping" (ISBN 978-3642117916),
 Springer-Verlag, Berlin, Heidelberg (2010).
 """
     #
@@ -138,7 +140,7 @@ def get_dehydrons():
     hb = cmd.find_pairs("((byres "+selection+") and n. n)","((byres "+selection+") and n. o)",mode=1,cutoff=cutoff,angle=angle)
 # sort the list for easier reading
     hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
-    print "------------------------------------------------\n----------------dehydron Results-----------------\n------------------------------------------------\n      Donor     |      Aceptor      | \nChain   Residue | Chain   Residue   | # dehydrons"
+    print "------------------------------------------------\n----------------dehydron Results-----------------\n------------------------------------------------\n    Donor      |    Aceptor    |  \nChain Residue  | Chain Residue | # dehydrons"
     sel = []
     wra = 0
     for pairs in hb:
@@ -148,7 +150,7 @@ def get_dehydrons():
         if wrappers < min_wrappers:
             wra = 1
             cmd.distance('Dehydrons',"%s and index %s" % (pairs[0][0],pairs[0][1]),"%s and index %s" % (pairs[1][0],pairs[1][1]))
-            print '  %s%7s%5d |   %s%7s%5d   |%7s' % (stored.nitro[0], stored.nitro[2], int(stored.nitro[1]), stored.oxy[0], stored.oxy[2], int(stored.oxy[1]), wrappers)
+            print ' %s%7s%5d | %s%7s%5d |%7s' % (stored.nitro[0], stored.nitro[2], int(stored.nitro[1]), stored.oxy[0], stored.oxy[2], int(stored.oxy[1]), wrappers)
             if stored.nitro[1] not in sel:
                 sel.append(stored.nitro[1])
             if stored.oxy[1] not in sel:
@@ -158,7 +160,7 @@ def get_dehydrons():
         cmd.show('lines', 'DH_pairs')
     cmd.disable('DH_pairs')
     cmd.hide('labels')
-#    cmd.delete('wrap')
+    cmd.delete('wrap')
     cmd.show('cartoon')
     cmd.show('dashes')
 
