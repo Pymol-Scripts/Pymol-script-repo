@@ -1,5 +1,5 @@
 ##############################################################################
-# Wrapper:  A dehydron calculator plugin for PyMOL
+# dehydron:  A dehydron calculator plugin for PyMOL
 # Author: Osvaldo Martin
 # e-mail: aloctavodia@gmail.com
 # License: GNU General Public License
@@ -21,8 +21,8 @@ from pymol import stored # Import PyMOL's stored module.  This will allow us wit
 def __init__(self):
     """Add this Plugin to the PyMOL menu"""
     self.menuBar.addmenuitem('Plugin', 'command',
-                            'Wrapper',
-                            label = 'Wrapper',
+                            'dehydron',
+                            label = 'dehydron',
                             command = lambda : mainDialog())
 
 
@@ -33,7 +33,7 @@ def mainDialog():
     global desolv_sphere
     global min_value
     master = Tkinter.Tk()
-    master.title(' Wrapper ')
+    master.title(' dehydron ')
     w = Tkinter.Label(master, text = 'Dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
                                 background = '#000000',
                                 foreground = '#cecece',
@@ -74,7 +74,7 @@ def mainDialog():
     entry_desolv.grid(row=2, column=3)
     entry_desolv.configure(state='normal')
     entry_desolv.update()
-    Label(group.interior(), text='cut-off wrappers').grid(row=3, column=2)
+    Label(group.interior(), text='cut-off dehydrons').grid(row=3, column=2)
     min_value = StringVar(master=group.interior())
     min_value.set(19)
     entry_min_value=Entry(group.interior(),textvariable=min_value, width=10)
@@ -84,7 +84,7 @@ def mainDialog():
 # submit
     Button(p1, text="Calculate", command=get_dehydrons).pack(side=BOTTOM)
 ############################ About TAB #################################
-    group = Pmw.Group(p2, tag_text='About Wrapper plug-in')
+    group = Pmw.Group(p2, tag_text='About dehydron plug-in')
     group.pack(fill = 'both', expand=1, padx = 5, pady = 5)
     text =u"""For a brief introduction to the dehydron concept, you could
 read http://en.wikipedia.org/wiki/Dehydron
@@ -138,7 +138,7 @@ def get_dehydrons():
     hb = cmd.find_pairs("((byres "+selection+") and n. n)","((byres "+selection+") and n. o)",mode=1,cutoff=cutoff,angle=angle)
 # sort the list for easier reading
     hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
-    print "------------------------------------------------\n----------------Wrapper Results-----------------\n------------------------------------------------\n      Donor     |      Aceptor      | \nChain   Residue | Chain   Residue   | # wrappers"
+    print "------------------------------------------------\n----------------dehydron Results-----------------\n------------------------------------------------\n      Donor     |      Aceptor      | \nChain   Residue | Chain   Residue   | # dehydrons"
     sel = []
     wra = 0
     for pairs in hb:
@@ -163,4 +163,4 @@ def get_dehydrons():
     cmd.show('dashes')
 
 
-#cmd.extend('wrapper', get_dehydrons)
+#cmd.extend('dehydron', get_dehydrons)
