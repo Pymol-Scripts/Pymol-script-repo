@@ -32,7 +32,7 @@
 #
 
 ###############################################################################
-#                        Contact Maps Visualizer 1.0                          #
+#                        Contact Maps Visualizer 1.1                          #
 ###############################################################################
 
 import Tkinter
@@ -44,15 +44,17 @@ import os, sys, urllib2, zlib
 from datetime import datetime
 
 count = 0
-colors = ['red', 'blue', 'green', 'yellow', 'magenta', 'cyan', 'orange', 'marine', 'chartreuse', 'limon']
-colors_value = [(255,0,0), (0,0,255), (0,255,0), (255, 255, 0), (255,0,255), (0, 255, 255), (255, 128, 0), (0, 128,255), (128, 255, 0), (191, 255, 64)]
+colors = ['red', 'blue', 'green', 'yellow', 'magenta', 'cyan', 'orange', 'marine', 'chartreuse', 'purpleblue', 'violet', 'limon', ]
+colors_value = [(255,0,0), (0,0,255), (0,255,0), (255, 255, 0), (255,0,255), (0, 255, 255), (255, 128, 0), (0, 128,255), (128, 255, 0), (128, 0, 255), (255, 128, 255), (191, 255, 64)]
 dialog = Tkinter.Tk()
 dialog.withdraw()
+height = dialog.winfo_screenheight()
 
 def __init__(self):
         self.menuBar.addmenuitem('Plugin', 'command','Contact Map Visualizer',label = 'Contact Map Visualizer',command = lambda s=self : getImageLocation(s))
     
 def getImageLocation(self):
+        cmd.reinitialize();
         myFormats = [('Portable Network Graphics','*.png'),('JPEG / JFIF','*.jpg')]
         try:
                 self.file = tkFileDialog.askopenfile(parent=dialog,mode='rb',filetypes=myFormats, title='Choose the contact map image file')
@@ -78,13 +80,14 @@ def getPDBLocation(self):
 		cmd.load(self.pdbFile.name, self.pdbFile.name)
 		print "Opening...", self.pdbFile.name
 		preProcessPDB(self.pdbFile.name)
-		loadImageOnScreen(self.file.name)
+		loadImageOnScreen(self.file.name, self.pdbFile.name)
 	else:
 		quitProgram(self,"No PDB file!")
 		
 	
 def quitProgram(self,tit):
         tkMessageBox.showinfo(tit, "Quitting now...!")
+        cmd.reinitialize();
 
 def preProcessPDB(fname):
         stored.residues = []
@@ -94,18 +97,17 @@ def preProcessPDB(fname):
         cmd.show_as("cartoon", '(all)')
         cmd.color("white", '(all)')
         
-def loadImageOnScreen(image_file):
+def loadImageOnScreen(image_file, pdb_file):
         
         #General variables
         global count
         sel = 0
-        dtime  = datetime.now().isoformat()
-        factor = 2
+        ntime  = datetime.now()
         gray = (100,100,100)
         BLACK = (0, 0, 0)
         WHITE = (255, 255, 255)
-        outputname = "%s_%s.png"%("contact-map-selections",dtime)
-        print "Output File name : outputname"
+        outputname = "%s_selectedPoints_%d-%d-%d_%d%d.png"%(os.path.basename(image_file),ntime.day, ntime.month, ntime.year, ntime.hour, ntime.minute)
+        pdb_outputname = "%s_selectedPoints_%d-%d-%d_%d%d.pse"%(os.path.basename(pdb_file),ntime.day, ntime.month, ntime.year, ntime.hour, ntime.minute)
         
         #Text related arrays nd variables
         text = []
@@ -114,8 +116,9 @@ def loadImageOnScreen(image_file):
 
         # use an image you have (.bmp  .jpg  .png  .gif)
         im = Image.open(image_file)
-        sw = im.size[0] * factor
-        sh = im.size[1] * factor
+        sw = height - 100
+        sh = height - 100
+        factor = float(float(im.size[0])/float(sw))
         
         # initialize pygame
         pg.init()
@@ -134,15 +137,17 @@ def loadImageOnScreen(image_file):
                 if keyinput[pg.K_ESCAPE]:
                         running = False
                         pg.quit()
+                        cmd.reinitialize();
                         break
                 elif event.type == pg.QUIT:
                         running = False
                         pg.quit()
+                        cmd.reinitialize();
                         break
                 elif event.type == pg.MOUSEBUTTONDOWN:
                         sel = 1
                         textcount += 1
-                        coor = [event.pos[0]/2,(sh - event.pos[1])/2]
+                        coor = [event.pos[0]*factor,(sh - event.pos[1])*factor]
                         updateSelections(coor)
                         if count >= 10:
                                 count = 0
@@ -150,7 +155,7 @@ def loadImageOnScreen(image_file):
                         
                         # set up fonts
                         basicFont = pg.font.SysFont("Arial", 12)
-                        name = "(%s%s, %s%s)"%(stored.residues[coor[0]], stored.chains[coor[0]],stored.residues[coor[1]], stored.chains[coor[1]])
+                        name = "(%s%s, %s%s)"%(stored.residues[int(coor[0])], stored.chains[int(coor[0])],stored.residues[int(coor[1])], stored.chains[int(coor[1])])
                         # set up the text
                         text.append(basicFont.render(name, True, WHITE, BLACK))
                         textRect.append(text[textcount].get_rect())
@@ -162,6 +167,7 @@ def loadImageOnScreen(image_file):
                                 screen.blit(text[a], textRect[a])
                         pg.display.flip()
                         pg.image.save(screen, outputname)
+                        cmd.save(pdb_outputname,'(all)',-1,"pse")
                         count += 1
                 # update screen
                 screen.blit(image, image_rect)
@@ -173,11 +179,11 @@ def loadImageOnScreen(image_file):
 def updateSelections(residues):
         global count
         print "Residue Numbers of Current Selection (screenshot saved)"
-        print "x", stored.residues[residues[0]], stored.chains[residues[0]]
-        print "y", stored.residues[residues[1]], stored.chains[residues[1]]
-        selectionname = "%s%s_%s%s"%(stored.residues[residues[0]], stored.chains[residues[0]], stored.residues[residues[1]], stored.chains[residues[1]])
+        print "x", stored.residues[int(residues[0])], stored.chains[int(residues[0])]
+        print "y", stored.residues[int(residues[1])], stored.chains[int(residues[1])]
+        selectionname = "%s%s_%s%s"%(stored.residues[int(residues[0])], stored.chains[int(residues[0])], stored.residues[int(residues[1])], stored.chains[int(residues[1])])
         
-        cmd.select(selectionname, "resid %s and chain %s + resid %s and chain %s"%(stored.residues[residues[0]],stored.chains[residues[0]],stored.residues[residues[1]], stored.chains[residues[1]]))
+        cmd.select(selectionname, "resid %s and chain %s + resid %s and chain %s"%(stored.residues[int(residues[0])],stored.chains[int(residues[0])],stored.residues[int(residues[1])], stored.chains[int(residues[1])]))
         
         cmd.set('stick_radius', '0.2')
         cmd.show("sticks", selectionname)
