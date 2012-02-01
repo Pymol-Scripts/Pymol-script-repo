@@ -1,5 +1,5 @@
 '''
-http://pymolwiki.org/wiki/get_raw_distances
+http://pymolwiki.org/index.php/get_raw_distances
 
 (c) 2012 Takanori Nakane and Thomas Holder
 
