@@ -43,11 +43,8 @@ See more here: http://www.pymolwiki.org/index.php/perp_maker
 '''
 
 import pymol
-import math
-import sys
 import random
 from pymol.cgo import *
-from pymol.vfont import plain
  
 ############################################################
 #
@@ -115,47 +112,42 @@ so I'm just making one up. :)"
 # End methods
 #
 ############################################################
-#
+
+def perp_maker(name='pPlane', quiet=1):
+    '''
+DESCRIPTION
+
+    Creates perpendicular planes
+    '''
+    quiet = int(quiet)
+
 # First, get the center and camera locations
-#
-view = cmd.get_view()
-camera = [ view[9], view[10], view[11] ]
-center = [ view[12], view[13], view[14] ]
+    view = cmd.get_view()
+    camera = [ view[9], view[10], view[11] ]
+    center = [ view[12], view[13], view[14] ]
  
-#
 # Sanity check
+    if not quiet:
+        print "Camera is: " + str(camera)
+        print "Center is: " + str(center)
  
-#
-print "Camera is: " + str(camera)
-print "Center is: " + str(center)
- 
- 
-#
 # Create the vector through the two points directed
 # from the camera to the center - the viewVector
-#
-viewVector = [ center[0] - camera[0],
+    viewVector = [ center[0] - camera[0],
                            center[1] - camera[1],
                            center[2] - camera[2] ]
  
-print "ViewVector is: " + str(viewVector)
+    if not quiet:
+        print "ViewVector is: " + str(viewVector)
  
-#
 # Create the plane perpendicular to the viewVector
 # running through the origin
-#
- 
- 
-pPlane = getPPlane( viewVector, center, side_length=100 )
-print "Plane points calculated as: " + str(pPlane)
- 
-#
-# Now translate the plane down away from the camera along the viewVector axis
-#
- 
+    pPlane = getPPlane( viewVector, center, side_length=100 )
+    if not quiet:
+        print "Plane points calculated as: " + str(pPlane)
  
 # now create the CGO and load from the points
-obj = [
+    obj = [
         BEGIN, TRIANGLES,
         COLOR, 0.2, 0.4, 1,
  
@@ -170,6 +162,13 @@ obj = [
         END
         ]
  
- 
-cmd.load_cgo( obj, 'pPlane')
-cmd.set_view( view )
+    cmd.load_cgo( obj, name )
+    cmd.set_view( view )
+
+if __name__ in ['pymol', '__main__']:
+    print '__name__ =', __name__
+    perp_maker(quiet=0)
+
+cmd.extend('perp_maker', perp_maker)
+
+# vi:expandtab:smarttab
