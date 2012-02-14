@@ -140,7 +140,7 @@ def get_dehydrons():
     hb = cmd.find_pairs("((byres "+selection+") and n. n)","((byres "+selection+") and n. o)",mode=1,cutoff=cutoff,angle=angle)
 # sort the list for easier reading
     hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
-    print "------------------------------------------------\n----------------dehydron Results-----------------\n------------------------------------------------\n    Donor      |    Aceptor    |  \nChain Residue  | Chain Residue | # dehydrons"
+    print "------------------------------------------------\n----------------dehydron Results-----------------\n------------------------------------------------\n    Donor      |    Aceptor    |  \nChain Residue  | Chain Residue | # wrappers"
     sel = []
     wra = 0
     for pairs in hb:
