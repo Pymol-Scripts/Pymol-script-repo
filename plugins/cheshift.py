@@ -1,6 +1,6 @@
 '''
 cheshift plugin-in: Validate your protein model with PyMOL
-Described at PyMOL wiki: http://www.pymolwiki.org/index.php/Pycheshift
+Described at PyMOL wiki: http://www.pymolwiki.org/index.php/cheshift
 
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
