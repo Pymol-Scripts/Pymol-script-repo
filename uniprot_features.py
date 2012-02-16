@@ -25,7 +25,7 @@ ARGUMENTS
 
     withss = 0/1: update secondary structure {default: 0}
     '''
-    from lxml import etree
+    import xml.etree.ElementTree as etree
     from urllib import urlopen
 
     withss, quiet = int(withss), int(quiet)
@@ -45,17 +45,22 @@ ARGUMENTS
         cmd.alter(selection, 'ss="L"')
         ssmap = {'helix': 'H', 'strand': 'S', 'turn': 'L'}
 
+    norange_types = ['disulfide bond']
+
     count = 0
     for feature in features:
         type = feature.get('type')
-        begin = feature.xpath('u:location/u:begin/@position', namespaces=NS)
-        if len(begin):
-            end = feature.xpath('u:location/u:end/@position', namespaces=NS)
-            sel = '(%s) and resi %s-%s' % (selection, begin[0], end[0])
+        begin = feature.find('{%s}location/{%s}begin' % (ns, ns))
+        if begin is not None:
+            end = feature.find('{%s}location/{%s}end' % (ns, ns))
+            values = (selection, begin.get('position'), end.get('position'))
+            if type in norange_types:
+                sel = '(%s) and resi %s+%s' % values
+            else:
+                sel = '(%s) and resi %s-%s' % values
         else:
-            position = feature.xpath('u:location/u:position/@position',
-                    namespaces=NS)
-            sel = '(%s) and resi %s' % (selection, position[0])
+            position = feature.find('{%s}location/{%s}position' % (ns, ns))
+            sel = '(%s) and resi %s' % (selection, position.get('position'))
         if type in ['helix', 'strand', 'turn'] and withss < 2:
             if withss == 1:
                 cmd.alter(sel, 'ss="%s"' % ssmap.get(type, 'L'))
