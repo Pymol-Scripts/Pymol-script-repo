@@ -1,9 +1,10 @@
 '''
-dehydron: A dehydron calculator plugin for PyMOL
+Dehydron: A dehydron calculator plugin for PyMOL
+Version: 1.5
 Described at PyMOL wiki:
-http://www.pymolwiki.org/index.php/Dehydron
- 
-Authors : Osvaldo Martin
+http://www.pymolwiki.org/index.php/dehydron
+
+Author : Osvaldo Martin
 email: aloctavodia@gmail.com
 Date    : January 2012
 License: GNU General Public License
@@ -15,28 +16,31 @@ import Tkinter
 from Tkinter import *
 import Pmw
 from pymol import cmd
-from pymol import stored # Import PyMOL's stored module. This will allow us with a
-# way to pull out the PyMOL data and modify it in our script.
-# See below.
+from pymol import stored
 
 
 def __init__(self):
     """Add this Plugin to the PyMOL menu"""
     self.menuBar.addmenuitem('Plugin', 'command',
                             'dehydron',
-                            label = 'dehydron',
+                            label = 'Dehydron',
                             command = lambda : mainDialog())
 
 
 def mainDialog():
     """ Creates the GUI"""
-    global angle_value
-    global dist_cutoff_value
-    global desolv_sphere
-    global min_value
+
+    def get_dehydrons():
+        angle_range = float(angle_value.get())
+        max_distance = float(dist_cutoff_value.get())
+        desolv = float(desolv_sphere.get())
+        min_wrappers = float(min_value.get())
+        selection = sel_value.get()
+        dehydron(selection, angle_range, max_distance, desolv, min_wrappers)
+
     master = Tkinter.Tk()
     master.title(' dehydron ')
-    w = Tkinter.Label(master, text = 'Dehydron calculator\nOsvaldo Martin - aloctavodia@gmail.com',
+    w = Tkinter.Label(master, text = 'dehydron calculator\nOsvaldo Martin - aloctavodia@gmail.com',
                                 background = '#000000',
                                 foreground = '#cecece',
                                 #pady = 20,
@@ -44,12 +48,12 @@ def mainDialog():
     w.pack(expand=1, fill = 'both', padx = 4, pady = 4)
 
     Pmw.initialise(master)
-    nb = Pmw.NoteBook(master, hull_width = 420, hull_height=240)
+    nb = Pmw.NoteBook(master, hull_width = 420, hull_height=280)
     p1 = nb.add('Main')
     p2 = nb.add('About')
     nb.pack(padx=5, pady=5, fill=BOTH, expand=1)
 ############################ Main TAB #################################
-# hydrogen bond settings
+### hydrogen bond settings
     group = Pmw.Group(p1,tag_text='Hydrogen bond Settings')
     group.pack(fill='x', expand=1, padx=20, pady=1)
     Label(group.interior(), text='angle range').grid(row=2, column=0)
@@ -66,7 +70,7 @@ def mainDialog():
     entry_dist.grid(row=3, column=1)
     entry_dist.configure(state='normal')
     entry_dist.update()
-#dehydron settings
+### dehydron settings
     group = Pmw.Group(p1,tag_text='Dehydron Settings')
     group.pack(fill='x', expand=1, padx=20, pady=5)
     Label(group.interior(), text='desolvatation sphere radius').grid(row=2, column=2)
@@ -76,29 +80,39 @@ def mainDialog():
     entry_desolv.grid(row=2, column=3)
     entry_desolv.configure(state='normal')
     entry_desolv.update()
-    Label(group.interior(), text='cut-off dehydrons').grid(row=3, column=2)
+    Label(group.interior(), text='minimum wrappers').grid(row=3, column=2)
     min_value = StringVar(master=group.interior())
     min_value.set(19)
     entry_min_value=Entry(group.interior(),textvariable=min_value, width=10)
     entry_min_value.grid(row=3, column=3)
     entry_min_value.configure(state='normal')
     entry_min_value.update()
-# submit
+### selection settings
+    group = Pmw.Group(p1,tag_text='Selection')
+    group.pack(fill='x', expand=1, padx=20, pady=5)
+    Label(group.interior(), text='object selection').grid(row=4, column=2)
+    sel_value = StringVar(master=group.interior())
+    sel_value.set('all')
+    entry_sel_value=Entry(group.interior(),textvariable=sel_value, width=10)
+    entry_sel_value.grid(row=4, column=3)
+    entry_sel_value.configure(state='normal')
+    entry_sel_value.update()
+### submit
     Button(p1, text="Calculate", command=get_dehydrons).pack(side=BOTTOM)
 ############################ About TAB #################################
     group = Pmw.Group(p2, tag_text='About dehydron plug-in')
     group.pack(fill = 'both', expand=1, padx = 5, pady = 5)
     text =u"""For a brief introduction to the dehydron concept, you could
-read http://en.wikipedia.org/wiki/Dehydron
+read http://en.wikipedia.org/wiki/dehydron
 
 Citation for this plugin:
-Martin O.A.; Dehydron calculator plugin for PyMOL,
+Martin O.A.; dehydron calculator plugin for PyMOL,
 2012. IMASL-CONICET.
 
 Citation for PyMOL may be found here:
 http://pymol.sourceforge.net/faq.html#CITE
 
-Citation for Dehydrons (I think these could be used):
+Citation for dehydrons (I think these could be used):
 Fern\u00E1ndez A. and Scott R.; "Adherence of packing
 defects in soluble proteins", Phys. Rev. Lett. 91, 018102
 (2003).
@@ -112,7 +126,7 @@ Target Wrapping" (ISBN 978-3642117916),
 Springer-Verlag, Berlin, Heidelberg (2010).
 """
     #
-    # Add this as text in a scrollable pane.
+    # Add this as text in a scrollable panel.
     # Code based on Caver plugin
     # http://loschmidt.chemi.muni.cz/caver/index.php
     #
@@ -128,41 +142,59 @@ Springer-Verlag, Berlin, Heidelberg (2010).
     master.mainloop()
 
 
-def get_dehydrons():
-    cmd.delete('dehydrons')
-    cmd.delete('DH_pairs')
-    cmd.hide()
-    angle = float(angle_value.get())
-    cutoff = float(dist_cutoff_value.get())
-    desolv = float(desolv_sphere.get())
-    min_wrappers = float(min_value.get())
-    selection = 'name n or name o and not resn hoh'
-    hb = cmd.find_pairs("((byres "+selection+") and n. n)","((byres "+selection+") and n. o)",mode=1,cutoff=cutoff,angle=angle)
-# sort the list for easier reading
-    hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
-    print "------------------------------------------------\n----------------dehydron Results-----------------\n------------------------------------------------\n    Donor      |    Aceptor    |  \nChain Residue  | Chain Residue | # wrappers"
+def dehydron(selection='all', angle_range=40, max_distance=3.5, desolv=6.5, min_wrappers=19, quiet=0):
+    '''
+DESCRIPTION
+
+    dehydron calculator
+
+USAGE
+
+    dehydron [ selection [, angle_range [, max_distance [, desolv [, min_wrappers ]]]]]
+    '''
+
+    angle, max_distance = float(angle_range), float(max_distance)
+    desolv, min_wrappers = float(desolv), int(min_wrappers)
+    quiet = int(quiet)
+
+    name = 'DH_%s' % selection
+    cmd.delete(name)
+
+    selection = '((%s) and polymer)' % (selection)
+    hb = cmd.find_pairs("((byres "+selection+") and n. n)","((byres "+selection+") and n. o)",mode=1,cutoff=max_distance,angle=angle_range)
+
+    if not quiet:
+        hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
+        print "------------------------------------------------"
+        print "----------------Dehydron Results----------------"
+        print "------------------------------------------------"
+        print "    Donor      |    Aceptor    |  "
+        print "Chain Residue  | Chain Residue | # wrappers"
+
+    cmd.select('_nonpolar', 'not (solvent or hydro or (elem N+O) extend 1)', 0)
+
     sel = []
-    wra = 0
     for pairs in hb:
-        cmd.iterate("%s and index %s" % (pairs[0][0], pairs[0][1]), 'stored.nitro = chain, resi, resn') # extracts the nitrogen
-        cmd.iterate("%s and index %s" % (pairs[1][0], pairs[1][1]), 'stored.oxy = chain, resi, resn') # extracts the oxygen
-        wrappers = cmd.select('wrap', '(((chain %s and name ca and resi %s) around %f) or ((chain %s and name ca and resi %s) around %f)) and (not ((neighbor name n*+o*) or (name n*+o*+h*)))' % (stored.nitro[0], stored.nitro[1], desolv, stored.oxy[0], stored.oxy[1], desolv)) #Identifies the putative dehydrons
+        wrappers = cmd.count_atoms('((%s and _nonpolar) within %f of byca (%s`%d %s`%d))' % 
+                ((pairs[0][0], desolv) + pairs[0] + pairs[1]))
         if wrappers < min_wrappers:
-            wra = 1
-            cmd.distance('Dehydrons',"%s and index %s" % (pairs[0][0],pairs[0][1]),"%s and index %s" % (pairs[1][0],pairs[1][1]))
-            print ' %s%7s%5d | %s%7s%5d |%7s' % (stored.nitro[0], stored.nitro[2], int(stored.nitro[1]), stored.oxy[0], stored.oxy[2], int(stored.oxy[1]), wrappers)
-            if stored.nitro[1] not in sel:
-                sel.append(stored.nitro[1])
-            if stored.oxy[1] not in sel:
-                sel.append(stored.oxy[1])
-    if wra == 1:
-        cmd.select('DH_pairs', 'resi %s' % ('+').join(sel))
-        cmd.show('lines', 'DH_pairs')
-    cmd.disable('DH_pairs')
-    cmd.hide('labels')
-    cmd.delete('wrap')
-    cmd.show('cartoon')
-    cmd.show('dashes')
+            cmd.distance(name, pairs[0], pairs[1])
+            if not quiet:
+                cmd.iterate(pairs[0], 'stored.nitro = chain, resi, resn')
+                cmd.iterate(pairs[1], 'stored.oxy = chain, resi, resn')
+                print ' %s%7s%5d | %s%7s%5d |%7s' % (stored.nitro[0], stored.nitro[2], int(stored.nitro[1]),
+                        stored.oxy[0], stored.oxy[2], int(stored.oxy[1]), wrappers)
+            sel.append(pairs[0])
+            sel.append(pairs[1])
+    cmd.delete('_nonpolar')
 
+    if len(sel) > 0:
+        cmd.hide('%s' % selection) 
+        cmd.show('cartoon','%s' % selection)
+        cmd.show_as('dashes', name)
+    elif not quiet:
+        print ' - no dehydrons were found - '
 
-#cmd.extend('dehydron', get_dehydrons)
+cmd.extend('dehydron', dehydron)
+
+# vi:expandtab:smarttab
