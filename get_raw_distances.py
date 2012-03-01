@@ -29,7 +29,7 @@ ARGUMENTS
 
 SEE ALSO
 
-    cmd.find_pairs, cmd.get_raw_alignment
+    select_distances, cmd.find_pairs, cmd.get_raw_alignment
     '''
     from chempy import cpv
 
@@ -72,12 +72,55 @@ SEE ALSO
                     print ' Debug: no index for', xyz1, xyz2
     return r
 
+def select_distances(names='', name='sele', state=1, selection='all', cutoff=-1, quiet=1):
+    '''
+DESCRIPTION
+
+    Turns a distance object into a named atom selection.
+
+ARGUMENTS
+
+    names = string: names of distance objects (no wildcards!) {default: all
+    measurement objects}
+
+    name = a unique name for the selection {default: sele}
+
+SEE ALSO
+
+    get_raw_distances
+    '''
+    state, cutoff, quiet = int(state), float(cutoff), int(quiet)
+
+    sele_dict = {}
+    distances = get_raw_distances(names, state, selection)
+    for idx1, idx2, dist in distances:
+        if cutoff <= 0.0 or dist <= cutoff:
+            sele_dict.setdefault(idx1[0], set()).add(idx1[1])
+            sele_dict.setdefault(idx2[0], set()).add(idx2[1])
+
+    cmd.select(name, 'none')
+    tmp_name = cmd.get_unused_name('_')
+
+    r = 0
+    for model in sele_dict:
+        cmd.select_list(tmp_name, model, list(sele_dict[model]), mode='index')
+        r = cmd.select(name, tmp_name, merge=1)
+        cmd.delete(tmp_name)
+
+    if not quiet:
+        print ' Selector: selection "%s" defined with %d atoms.' % (name, r)
+    return r
+
 cmd.extend('get_raw_distances', get_raw_distances)
+cmd.extend('select_distances', select_distances)
+
+_auto_arg0_distances = [
+        lambda: cmd.Shortcut(cmd.get_names_of_type('object:measurement')),
+        'distance object', '']
 
 cmd.auto_arg[0].update([
-    ('get_raw_distances', [
-        lambda: cmd.Shortcut(cmd.get_names_of_type('object:measurement')),
-        'distance object', '']),
+    ('get_raw_distances', _auto_arg0_distances),
+    ('select_distances', _auto_arg0_distances),
 ])
 
 # vi: ts=4:sw=4:smarttab:expandtab
