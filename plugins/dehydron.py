@@ -1,12 +1,12 @@
 '''
 Dehydron: A dehydron calculator plugin for PyMOL
-Version: 1.5
+Version: 1.6
 Described at PyMOL wiki:
 http://www.pymolwiki.org/index.php/dehydron
 
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
-Date    : January 2012
+Date    : March 2012
 License: GNU General Public License
 Acknowledgement: The H-bond detection code is based on the list_mc_hbonds.py
 script from Robert L. Campbell http://pldserver1.biochem.queensu.ca/~rlc/work/pymol/
@@ -90,7 +90,7 @@ def mainDialog():
 ### selection settings
     group = Pmw.Group(p1,tag_text='Selection')
     group.pack(fill='x', expand=1, padx=20, pady=5)
-    Label(group.interior(), text='object selection').grid(row=4, column=2)
+    Label(group.interior(), text='selection').grid(row=4, column=2)
     sel_value = StringVar(master=group.interior())
     sel_value.set('all')
     entry_sel_value=Entry(group.interior(),textvariable=sel_value, width=10)
@@ -157,43 +157,48 @@ USAGE
     desolv, min_wrappers = float(desolv), int(min_wrappers)
     quiet = int(quiet)
 
-    name = 'DH_%s' % selection
+
+    name = cmd.get_legal_name('DH_%s' % selection)
     cmd.delete(name)
 
-    selection = '((%s) and polymer)' % (selection)
-    hb = cmd.find_pairs("((byres "+selection+") and n. n)","((byres "+selection+") and n. o)",mode=1,cutoff=max_distance,angle=angle_range)
+    selection_hb = '((%s) and polymer)' % (selection)
+    hb = cmd.find_pairs("((byres "+selection_hb+") and n. n)","((byres "+selection_hb+") and n. o)",mode=1,cutoff=max_distance,angle=angle_range)
 
     if not quiet:
         hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
-        print "------------------------------------------------"
-        print "----------------Dehydron Results----------------"
-        print "------------------------------------------------"
-        print "    Donor      |    Aceptor    |  "
-        print "Chain Residue  | Chain Residue | # wrappers"
+        print "--------------------------------------------------------------------"
+        print "--------------------------Dehydron Results--------------------------"
+        print "--------------------------------------------------------------------"
+        print "            Donor            |            Aceptor          |"
+        print "     Object   Chain Residue  |     Object   Chain Residue  | # wrappers"
 
     cmd.select('_nonpolar', 'not (solvent or hydro or (elem N+O) extend 1)', 0)
+    try:
+        cmd.select('_selection', '%s' % selection, 0)
+    except:
+        pass
 
     sel = []
     for pairs in hb:
-        wrappers = cmd.count_atoms('((%s and _nonpolar) within %f of byca (%s`%d %s`%d))' % 
+        wrappers = cmd.count_atoms('((%s and _nonpolar and _selection) within %f of byca (%s`%d %s`%d))' % 
                 ((pairs[0][0], desolv) + pairs[0] + pairs[1]))
         if wrappers < min_wrappers:
             cmd.distance(name, pairs[0], pairs[1])
             if not quiet:
                 cmd.iterate(pairs[0], 'stored.nitro = chain, resi, resn')
                 cmd.iterate(pairs[1], 'stored.oxy = chain, resi, resn')
-                print ' %s%7s%5d | %s%7s%5d |%7s' % (stored.nitro[0], stored.nitro[2], int(stored.nitro[1]),
-                        stored.oxy[0], stored.oxy[2], int(stored.oxy[1]), wrappers)
+                print ' %12s%4s%6s%5d | %12s%4s%6s%5d |%7s' % (pairs[0][0], stored.nitro[0], stored.nitro[2], int(stored.nitro[1]), pairs[1][0], stored.oxy[0], stored.oxy[2], int(stored.oxy[1]), wrappers)
             sel.append(pairs[0])
             sel.append(pairs[1])
     cmd.delete('_nonpolar')
+    cmd.delete('_selection')
 
     if len(sel) > 0:
-        cmd.hide('%s' % selection) 
-        cmd.show('cartoon','%s' % selection)
         cmd.show_as('dashes', name)
-    elif not quiet:
+    elif not quiet and len(hb) != 0:
         print ' - no dehydrons were found - '
+    else:
+        print ' - no hydrogen bonds were found - '
 
 cmd.extend('dehydron', dehydron)
 
