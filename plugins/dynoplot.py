@@ -250,7 +250,7 @@ class SimplePlot(Tkinter.Canvas):
             self.lastx = event.x
             self.lasty = event.y
  
-def set_phipsi(model, index, phi, psi):
+def set_phipsi(model, index, phi, psi, state=-1):
     atsele = [
         'first ((%s`%d) extend 2 and name C)' % (model, index), # prev C
         'first ((%s`%d) extend 1 and name N)' % (model, index), # this N
@@ -259,14 +259,14 @@ def set_phipsi(model, index, phi, psi):
         'last ((%s`%d) extend 2 and name N)' % (model, index),  # next N
     ]
     try:
-        cmd.set_dihedral(atsele[0], atsele[1], atsele[2], atsele[3], phi)
-        cmd.set_dihedral(atsele[1], atsele[2], atsele[3], atsele[4], psi)
+        cmd.set_dihedral(atsele[0], atsele[1], atsele[2], atsele[3], phi, state)
+        cmd.set_dihedral(atsele[1], atsele[2], atsele[3], atsele[4], psi, state)
     except:
         print ' DynoPlot Error: cmd.set_dihedral failed'
  
 # New Callback object, so that we can update the structure when phi,psi points are moved.
 class DynoRamaObject:
-    def __init__(self, selection=None, name=None, symbols=''):
+    def __init__(self, selection=None, name=None, symbols='', state=-1):
         from pymol import _ext_gui as pmgapp
         if pmgapp is not None:
             import Pmw
@@ -301,6 +301,7 @@ class DynoRamaObject:
         self.canvas = canvas
         self.name = name
         self.lock = 0
+        self.state = state
  
         if name != 'none':
             auto_zoom = cmd.get('auto_zoom')
@@ -325,7 +326,7 @@ class DynoRamaObject:
         self.lock = 1
         cmd.iterate('(%s) and name CA' % sel,'idx2resn[model,index] = (resn, color, ss)',
                 space={'idx2resn': self.canvas.idx2resn})
-        for model_index, (phi,psi) in cmd.get_phipsi(sel).iteritems():
+        for model_index, (phi,psi) in cmd.get_phipsi(sel, self.state).iteritems():
             print " Plotting Phi,Psi: %8.2f,%8.2f" % (phi, psi)
             self.canvas.plot(phi, psi, model_index)
         self.lock = 0
@@ -341,10 +342,10 @@ class DynoRamaObject:
                 # Set residue's phi,psi to new values
                 model, index = value[5]
                 print " Re-setting Phi,Psi: %8.2f,%8.2f" % (value[3],value[4])
-                set_phipsi(model, index, value[3], value[4])
+                set_phipsi(model, index, value[3], value[4], self.state)
                 value[2] = 0
  
-def rama(sel='(all)', name=None, symbols='aa', filename=None):
+def rama(sel='(all)', name=None, symbols='aa', filename=None, state=-1):
     '''
 DESCRIPTION
  
@@ -363,7 +364,7 @@ ARGUMENTS
  
     filename = string: filename for postscript dump of canvas {default: None}
     '''
-    dyno = DynoRamaObject(sel, name, symbols)
+    dyno = DynoRamaObject(sel, name, symbols, int(state))
     if filename is not None:
         dyno.canvas.postscript(file=filename)
  
