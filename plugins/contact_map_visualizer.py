@@ -1,5 +1,5 @@
 '''
-Contact Map Visualizer 2.0
+Contact Map Visualizer 2.1
 
 http://pymolwiki.org/index.php/Contact_Map_Visualizer
 
@@ -103,8 +103,16 @@ SEE ALSO
         import tempfile
         image_file = tempfile.mktemp(suffix='.png')
         if not quiet:
+            print ' Warning: no image_file provided!'
+            print ' Will try to generate it for selection "%s"' % (selection)
             print ' Writing image to', image_file
         contact_map_generator(image_file, selection, quiet=quiet)
+    elif image_file.lower().endswith('.xpm'):
+        image_file_png = image_file[:-4] + '.png'
+        if not quiet:
+            print ' Converting image to', image_file_png
+        xpm_convert(image_file, image_file_png)
+        image_file = image_file_png
 
     import threading
     t = threading.Thread(target=_contact_map_visualizer, kwargs=locals())
@@ -226,7 +234,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
                 pg.image.save(screen, outputname)
 
             count += 1
-            if count > len(colors):
+            if count >= len(colors):
                 count = 0
 
         # update screen
@@ -249,8 +257,6 @@ USAGE
     contact_map_generator filename [, selection [, state ]]
     '''
     import os, shutil, tempfile, subprocess
-    import re, Image
-    from StringIO import StringIO
 
     state, quiet = int(state), int(quiet)
 
@@ -277,8 +283,7 @@ USAGE
         process.stdin.close()
         process.wait()
 
-        # get XPM file contents
-        xpm = open(file_mean).read()
+        xpm_convert(file_mean, filename)
 
     except OSError:
         print ' Error: calling external applications failed'
@@ -286,13 +291,21 @@ USAGE
     finally:
         shutil.rmtree(tempdir)
 
-    # fix XPM and convert to PNG or JPG
+def xpm_convert(infile, outfile):
+    '''
+    Strips comments and repeated spaces from XPM file and saves it as new file.
+    '''
+    import re, Image
+    from StringIO import StringIO
+
+    xpm = open(infile).read()
     xpm = re.sub(r'/\*.*?\*/', '', xpm) # strip comments
     xpm = re.sub(r'  +', ' ', xpm)      # strip multi-spaces
     xpm = re.sub(r'\n\s+', '\n', xpm)   # strip empty lines
     xpm = '/* XPM */' + xpm
+
     image = Image.open(StringIO(xpm))
-    image.save(filename)
+    image.save(outfile)
 
 cmd.extend('contact_map_visualizer', contact_map_visualizer)
 cmd.extend('contact_map_generator', contact_map_generator)
