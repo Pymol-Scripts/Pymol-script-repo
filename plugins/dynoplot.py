@@ -115,8 +115,7 @@ class SimplePlot(Tkinter.Canvas):
             color = '#%02x%02x%02x' % tuple([255*i
                 for i in cmd.get_color_tuple(color)])
  
-        oval = create_shape(*coords,
-                width=1, outline="black", fill=color)
+        oval = create_shape(width=1, outline="black", fill=color, *coords)
         self.shapes[oval] = [x,y,0,xp,yp,meta]
  
     # Convert from pixel space to label space

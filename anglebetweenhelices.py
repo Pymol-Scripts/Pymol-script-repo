@@ -5,6 +5,15 @@
 from pymol import cmd, stored, CmdException
 from chempy import cpv
 import math
+
+if cmd.get_version()[1] < 1.2:
+    def get_unused_name(name):
+        import random
+        return name + '%04d' % random.randint(0, 1000)
+    STATE = 1
+else:
+    from pymol.cmd import get_unused_name
+    STATE = -1
  
 def _vec_sum(vec_list):
     # this is the same as
@@ -21,7 +30,7 @@ def _mean_and_std(x):
     if N < 2:
         return (x[0], 0.0)
     mu = sum(x)/float(N)
-    var = sum((i - mu)**2 for i in x) / float(N - 1)
+    var = sum([(i - mu)**2 for i in x]) / float(N - 1)
     return (mu, var**0.5)
  
 def _common_orientation(selection, vec, visualize=1, quiet=0):
@@ -30,7 +39,7 @@ def _common_orientation(selection, vec, visualize=1, quiet=0):
     the center of mass and does the visual feedback.
     '''
     stored.x = []
-    cmd.iterate_state(-1, '(%s) and name CA' % (selection),
+    cmd.iterate_state(STATE, '(%s) and name CA' % (selection),
             'stored.x.append([x,y,z])')
     if len(stored.x) < 2:
         print 'warning: count(CA) < 2'
@@ -74,18 +83,19 @@ def visualize_orientation(direction, center=[0,0,0], scale=1.0, symmetric=False,
         ])
         obj.extend(color2_list)
     coneend = cpv.add(end, cpv.scale(direction, 4.0*radius))
-    obj.append(cgo.CONE)
-    obj.extend(end)
-    obj.extend(coneend)
-    obj.extend([
-        radius * 1.75,
-        0.0,
-    ])
-    obj.extend(color_list * 2)
-    obj.extend([
-        1.0, 1.0, # Caps
-    ])
-    cmd.load_cgo(obj, cmd.get_unused_name('oriVec'), zoom=0)
+    if cmd.get_version()[1] >= 1.2:
+        obj.append(cgo.CONE)
+        obj.extend(end)
+        obj.extend(coneend)
+        obj.extend([
+            radius * 1.75,
+            0.0,
+        ])
+        obj.extend(color_list * 2)
+        obj.extend([
+            1.0, 1.0, # Caps
+        ])
+    cmd.load_cgo(obj, get_unused_name('oriVec'), zoom=0)
  
 def cafit_orientation(selection, visualize=1, quiet=0):
     '''
@@ -109,7 +119,7 @@ SEE ALSO
     visualize, quiet = int(visualize), int(quiet)
     import numpy
     stored.x = list()
-    cmd.iterate_state(-1, '(%s) and name CA' % (selection),
+    cmd.iterate_state(STATE, '(%s) and name CA' % (selection),
             'stored.x.append([x,y,z])')
     x = numpy.array(stored.x)
     U,s,Vh = numpy.linalg.svd(x - x.mean(0))
@@ -136,7 +146,7 @@ SEE ALSO
     '''
     visualize, quiet = int(visualize), int(quiet)
     stored.x = dict()
-    cmd.iterate_state(-1, '(%s) and name N+C' % (selection),
+    cmd.iterate_state(STATE, '(%s) and name N+C' % (selection),
             'stored.x.setdefault(chain + resi, dict())[name] = x,y,z')
     vec = cpv.get_null()
     count = 0
@@ -177,7 +187,7 @@ SEE ALSO
     '''
     visualize, quiet, sigma_cutoff = int(visualize), int(quiet), float(sigma_cutoff)
     stored.x = dict()
-    cmd.iterate_state(-1, '(%s) and name C+O' % (selection),
+    cmd.iterate_state(STATE, '(%s) and name C+O' % (selection),
             'stored.x.setdefault(chain + resi, dict())[name] = x,y,z')
     vec_list = []
     count = 0
@@ -222,7 +232,7 @@ SEE ALSO
     '''
     visualize, quiet, cutoff = int(visualize), int(quiet), float(cutoff)
     stored.x = dict()
-    cmd.iterate_state(-1, '(%s) and name N+O' % (selection),
+    cmd.iterate_state(STATE, '(%s) and name N+O' % (selection),
             'stored.x.setdefault(resv, dict())[name] = x,y,z')
     vec_list = []
     for resi in stored.x:
@@ -272,7 +282,7 @@ SEE ALSO
         '2': loop_orientation,
         '3': cafit_orientation,
     }
-    methods.update((x.__name__, x) for x in methods.values())
+    methods.update([(x.__name__, x) for x in methods.values()])
     try:
         orientation = methods[str(method)]
     except KeyError:
