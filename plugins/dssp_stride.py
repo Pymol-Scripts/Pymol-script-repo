@@ -16,7 +16,7 @@
 
       2011_04_24: add stride
       STRIDE code (taken from stride.doc) is nearly the same as DSSP
-      H	    Alpha helix
+      H          Alpha helix
       G	    3-10 helix
       I	    PI-helix
       E	    Extended conformation
@@ -61,7 +61,8 @@
 import os
 import sys 
 import platform
-import subprocess
+if sys.version_info >= (2,4):
+    import subprocess # subprocess is introduced in python 2.4
 import math
 import random
 import tempfile
@@ -165,7 +166,10 @@ class DSSPPlugin:
         else:
             if VERBOSE: print 'STRIDE_BIN not found in environmental variables.'
             self.stride_bin.set('')
-
+        # this is line crashes the plugin if the array returned by 
+        # cmd.get_names() is empty. 
+        # And this feature can easily confuse users by setting the 1st obj
+        # self.pymol_sel.set(cmd.get_names('objects')[0])
         
         # DSSP visualization color
         # - H        Alpha helix (4-12) 
@@ -485,17 +489,30 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 ##         fh = open(dssp_tmpout_fn)
 ##         fd = fh.readlines()
 ##         fh.close()        
-        dssp_proc = subprocess.Popen([self.dssp_bin.get(), pdb_fn],
-                                     stdout=subprocess.PIPE,
-                                     stderr=subprocess.STDOUT)
-        dssp_stdout, dssp_stderr = dssp_proc.communicate()
+        if sys.version_info >= (2,4):
+            dssp_proc = subprocess.Popen([self.dssp_bin.get(), pdb_fn],
+                                         stdout=subprocess.PIPE,
+                                         stderr=subprocess.STDOUT)
+            dssp_stdout, dssp_stderr = dssp_proc.communicate()
+        else: # use os.system + tempfile
+            dssp_tmpout_os_fh, dssp_tmpout_fn = tempfile.mkstemp(suffix='.dssp')
+            os.close(dssp_tmpout_os_fh)
+            dssp_cmd = '%s %s > %s' % (self.dssp_bin.get(), pdb_fn, dssp_tmpout_fn)
+            os.system(dssp_cmd)
+            fh = open(dssp_tmpout_fn)
+            dssp_stdout = ''.join(fh.readlines())
+            fh.close()           
+
         sse_started = False
         for line in dssp_stdout.splitlines():
             if line.startswith('  #  RESIDUE'):
                 sse_started = True
                 continue
+            elif line.startswith(' !!!'):
+                sse_started = False
+                continue
             elif sse_started:
-                if line[9] == ' ': continue
+                if len(line) < 10 or line[9] == ' ': continue
                 ch,resname = line[11],line[13]
                 residen,sscode = line[5:11].strip(),line[16] # residen = resnum+icode, col 10 is for icode
                 if sscode == ' ': sscode = '-'
@@ -532,8 +549,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         # clean up pdb_fn and dssp_tmpout_fn created by tempfile.mkstemp()
         if os.path.isfile(pdb_fn):
             os.remove(pdb_fn)
-##         if os.path.isfile(dssp_tmpout_fn):
-##             os.remove(dssp_tmpout_fn)
+        if sys.version_info < (2,4) and os.path.isfile(dssp_tmpout_fn):
+            os.remove(dssp_tmpout_fn)
 
         return
 
@@ -674,12 +691,21 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 ##         fh = open(stride_tmpout_fn)
 ##         fd = fh.readlines()
 ##         fh.close()
-        stride_proc = subprocess.Popen([self.stride_bin.get(), pdb_fn],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.STDOUT
-                                       )
-        stride_stdout, stride_stderr = stride_proc.communicate()
-        
+        if sys.version_info >= (2,4):
+            stride_proc = subprocess.Popen([self.stride_bin.get(), pdb_fn],
+                                           stdout=subprocess.PIPE,
+                                           stderr=subprocess.STDOUT
+                                           )
+            stride_stdout, stride_stderr = stride_proc.communicate()
+        else: # use os.system + tempfile
+            stride_tmpout_os_fh, stride_tmpout_fn = tempfile.mkstemp(suffix='.stride')
+            os.close(stride_tmpout_os_fh)
+            stride_cmd = '%s %s > %s' % (self.stride_bin.get(), pdb_fn, stride_tmpout_fn)
+            os.system(stride_cmd)
+            fh = open(stride_tmpout_fn)
+            stride_stdout = ''.join(fh.readlines())
+            fh.close()
+
         for line in stride_stdout.splitlines():
             if line.startswith('ASG'):
                 resname,ch=line[5:8], line[9]
@@ -725,8 +751,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         # clean up pdb_fn and dssp_tmpout_fn created by tempfile.mkstemp()
         if os.path.isfile(pdb_fn):
             os.remove(pdb_fn)
-##         if os.path.isfile(stride_tmpout_fn):
-##             os.remove(stride_tmpout_fn)        
+        if sys.version_info < (2,4) and os.path.isfile(stride_tmpout_fn):
+            os.remove(stride_tmpout_fn)        
         
         return True
     
@@ -1053,4 +1079,3 @@ if __name__ == '__main__':
 
     widget = DSSPPlugin(app)
     app.root.mainloop()
-
