@@ -17,12 +17,12 @@
       2011_04_24: add stride
       STRIDE code (taken from stride.doc) is nearly the same as DSSP
       H         Alpha helix
-      G	    3-10 helix
-      I	    PI-helix
-      E	    Extended conformation
+      G         3-10 helix
+      I         PI-helix
+      E         Extended conformation
       B or b    Isolated bridge
-      T	    Turn
-      C	    Coil (none of the above)
+      T         Turn
+      C         Coil (none of the above)
 
 """
 
