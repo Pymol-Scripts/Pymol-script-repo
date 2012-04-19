@@ -166,10 +166,6 @@ class DSSPPlugin:
         else:
             if VERBOSE: print 'STRIDE_BIN not found in environmental variables.'
             self.stride_bin.set('')
-        # this is line crashes the plugin if the array returned by 
-        # cmd.get_names() is empty. 
-        # And this feature can easily confuse users by setting the 1st obj
-        # self.pymol_sel.set(cmd.get_names('objects')[0])
         
         # DSSP visualization color
         # - H        Alpha helix (4-12) 
