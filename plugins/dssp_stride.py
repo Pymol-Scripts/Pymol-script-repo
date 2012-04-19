@@ -641,7 +641,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         # each object in the selection is treated as an independent struc
         objlist = cmd.get_object_list(sel_name)
         self.ss_asgn_prog = 'DSSP'
-        print 'Running %s ...' % (self.ss_asgn_prog, )
+        print 'Starting %s ...' % (self.ss_asgn_prog, )
 
         for objname in objlist:
             self.sel_obj_list.append('%s and %s' % (sel_name, objname))
@@ -677,7 +677,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             print 'Selection %s saved to %s.' % (one_obj_sel, pdb_fn)
 
         if pdb_fn is None:
-            print 'WARNING: DSSP has no pdb file to work on!'
+            print 'WARNING: Stride has no pdb file to work on!'
             return None
         
         print 'Running Stride for %s ...' % (one_obj_sel,)        
@@ -841,7 +841,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         # each object in the selection is treated as an independent struc
         objlist = cmd.get_object_list(sel_name)
         self.ss_asgn_prog = 'Stride'
-        print 'Running %s ...' % (self.ss_asgn_prog, )
+        print 'Starting %s ...' % (self.ss_asgn_prog, )
 
         for objname in objlist:
             self.sel_obj_list.append('%s and %s' % (sel_name, objname))
