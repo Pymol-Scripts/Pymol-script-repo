@@ -19,10 +19,7 @@ See more here: http://www.pymolwiki.org/index.php/ccp4_contact
     RETURNS
         4 selections of interface residues and atoms are created and named
         depending on what you passed into selName1 and selName2
- 
-    REPOSITORY
-        https://github.com/GerhardR/pymol-scripts
- 
+
     AUTHOR
         Gerhard Reitmayr and Dalia Daujotyte, 2011.
 '''

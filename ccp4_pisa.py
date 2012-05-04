@@ -23,10 +23,7 @@ See more here: http://www.pymolwiki.org/index.php/ccp4_pisa
  
     RETURNS
         a set of selections in PYMOL. 
- 
-    REPOSITORY
-        https://github.com/GerhardR/pymol-scripts
- 
+  
     AUTHOR
         Gerhard Reitmayr and Dalia Daujotyte, 2011.
 '''
