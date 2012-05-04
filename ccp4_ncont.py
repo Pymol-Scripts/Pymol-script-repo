@@ -33,7 +33,7 @@ import re
 def parseNCONTContacts( f ):
     # /1/B/ 282(PHE). / CE1[ C]:  /1/E/ 706(GLN). / O  [ O]:   3.32
     # * in the second group is needed when chain code is blank
-    conParser = re.compile("\s*/(\d+)/([A-Z]*)/\s*(\d+).*?/\s*([A-Z0-9]*).*?:")
+    conParser = re.compile("\s*/(\d+)/([a-zA-Z0-9]*)/\s*(\d+).*?/\s*([a-zA-Z0-9]*).*?:")
     mode = 0
     s1 = []
     s2 = []
