@@ -1,7 +1,7 @@
 '''
 See more here: http://www.pymolwiki.org/index.php/ccp4_ncont
 
-    selectContacts -- parses CCP4/NCONT log file and selects residues and atoms.
+    ccp4_ncont -- parses CCP4/NCONT log file and selects residues and atoms.
     http://www.ccp4.ac.uk/html/ncont.html
  
     PARAMS
@@ -19,10 +19,7 @@ See more here: http://www.pymolwiki.org/index.php/ccp4_ncont
     RETURNS
         4 selections of interface residues and atoms are created and named
         depending on what you passed into selName1 and selName2
- 
-    REPOSITORY
-        https://github.com/GerhardR/pymol-scripts
- 
+  
     AUTHOR
         Gerhard Reitmayr and Dalia Daujotyte, 2009.
 '''
