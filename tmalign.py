@@ -1,10 +1,10 @@
 '''
-(c) 2011 Thomas Holder, MPI for Developmental Biology
+(c) 2011-2012 Thomas Holder, MPI for Developmental Biology
 '''
 
 __author__ = 'Thomas Holder'
-__version__ = '1.0'
-__license__ = 'BSD'
+__version__ = '1.1'
+__license__ = 'BSD-2-Clause'
 
 from pymol import cmd, CmdException
 
