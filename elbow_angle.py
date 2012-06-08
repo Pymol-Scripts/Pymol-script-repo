@@ -24,7 +24,11 @@ __author__ = 'Jared Sampson'
 __version__ = '0.1'
 
 
-from pymol import cmd, transformations
+from pymol import cmd
+import transformations
+import com
+import numpy
+
 
 ################################################################################
 def calc_super_matrix(mobile,static):
@@ -37,7 +41,8 @@ DESCRIPTION
     
     '''
 
-    cmd.super(mobile,static)
+    cmd.cealign(static,mobile)
+#    cmd.super(mobile,static)
     T = cmd.get_object_matrix(mobile)
     
     R = numpy.identity(4)
@@ -159,7 +164,7 @@ REQUIREMENTS
         cmd.set("dash_gap",0)
         
         # draw the variable domain axis
-        com_v = COM(v_sel)
+        com_v = com.COM(v_sel)
         start_v = [a - 10*b for a, b in zip(com_v, direction_v)]
         end_v = [a + 10*b for a, b in zip(com_v, direction_v)]
         cmd.pseudoatom(pre+"start_v",pos=start_v)
@@ -167,7 +172,7 @@ REQUIREMENTS
         cmd.distance(pre+"v_vec",pre+"start_v",pre+"end_v")
 
         # draw the constant domain axis             
-        com_c = COM(c_sel)
+        com_c = com.COM(c_sel)
         start_c = [a - 10*b for a, b in zip(com_c, direction_c)]
         end_c = [a + 10*b for a, b in zip(com_c, direction_c)]
         cmd.pseudoatom(pre+"start_c",pos=start_c)
