@@ -184,7 +184,10 @@ REQUIREMENTS
         cmd.color("green",pre+"hinge_l");cmd.color("red",pre+"hinge_h");cmd.color("black",pre+"hinge_vec");
         cmd.color("black",pre+"start_v");cmd.color("black",pre+"end_v");cmd.color("black",pre+"v_vec");
         cmd.color("black",pre+"start_c");cmd.color("black",pre+"end_c");cmd.color("black",pre+"c_vec")
-        cmd.show("spheres",pre+"hinge_l or "+pre+"hinge_h or "+pre+"start_v or "+pre+"start_c")
+        # draw spheres
+        cmd.show("spheres",pre+"hinge_l or "+pre+"hinge_h")
+        cmd.show("spheres",pre+"start_v or "+pre+"start_c")
+        cmd.show("spheres",pre+"end_v or "+pre+"end_c")
         cmd.set("sphere_scale",2)
         cmd.set("dash_gap",0,pre+"hinge_vec")
         cmd.set("dash_width",5)
