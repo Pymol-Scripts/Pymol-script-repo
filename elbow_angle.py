@@ -24,11 +24,10 @@ __author__ = 'Jared Sampson'
 __version__ = '0.1'
 
 
-from pymol import cmd
-import transformations
+from pymol import cmd, transformations
 
 ################################################################################
-def calc_super_matrix(mobile,static,verbose=0):
+def calc_super_matrix(mobile,static):
     '''
 DESCRIPTION
 
@@ -38,11 +37,6 @@ DESCRIPTION
     
     '''
 
-    verbose = int(verbose)
-    
-    if (verbose):
-        print "    Aligning %s to %s..." % (mobile,static)
-    
     cmd.super(mobile,static)
     T = cmd.get_object_matrix(mobile)
     
@@ -53,10 +47,6 @@ DESCRIPTION
             R[i][j] = T[k]
             k+=1
     
-    if (verbose):
-        print "    4x4 Rotation matrix of %s onto %s:" % (mobile,static)
-        print R
-        
     return R
 
 
@@ -97,7 +87,7 @@ REQUIREMENTS
     # for temp object names
     tmp_prefix = "tmp_elbow_"
         
-    prefix = tmp_prefix + fab + '_'
+    prefix = tmp_prefix + obj + '_'
 
     # names
     vl = prefix + 'VL'
@@ -120,25 +110,19 @@ REQUIREMENTS
     cmd.create(cl,cl_sel)
     cmd.create(ch,ch_sel)
     
-    if(verbose==1):
-        print "\n\n%s VARIABLE DOMAIN" % fab
-
     # superimpose vl onto vh, calculate axis and angle
-    Rv = calc_super_matrix(vl,vh,verbose=verbose)
+    Rv = calc_super_matrix(vl,vh)
     angle_v,direction_v,point_v = transformations.rotation_from_matrix(Rv)            
 
-    if(verbose==1):
-        print "\n\n%s CONSTANT DOMAIN" % fab
-    
     # superimpose cl onto ch, calculate axis and angle
-    Rc = calc_super_matrix(cl,ch,verbose=verbose)
+    Rc = calc_super_matrix(cl,ch)
     angle_c,direction_c,point_c = transformations.rotation_from_matrix(Rc)
 
-    if (keep==0):
-        cmd.delete(vl)
-        cmd.delete(vh)      
-        cmd.delete(cl)
-        cmd.delete(ch)
+    # delete temporary objects
+    cmd.delete(vl)
+    cmd.delete(vh)      
+    cmd.delete(cl)
+    cmd.delete(ch)
         
     if (numpy.dot(direction_v,direction_c)>0):
         direction_c = direction_c * -1   # ensure angle is > 90 (need to standardize this)
@@ -166,7 +150,7 @@ REQUIREMENTS
         # this is hacked together and far from elegant, but
         # it works so I'm not going to mess with it for now
     
-        pre = obj+'_'+fab+'_elbow_'
+        pre = obj+'_elbow_'
     
         # draw hinge vector
         cmd.pseudoatom(pre+"hinge_l",pos=hinge_l)
