@@ -82,7 +82,9 @@ REQUIREMENTS
     from www.lfd.uci.edu/~gohlke/code.
     
     """
-
+    
+    # store current view
+    orig_view = cmd.get_view()
   
     limit_l = int(limit_l)
     limit_h = int(limit_h)
@@ -195,6 +197,9 @@ REQUIREMENTS
         
         # group drawing objects
         cmd.group(pre,pre+"*")
+    
+    # restore original view
+    cmd.set_view(orig_view)
             
     return 0
         
