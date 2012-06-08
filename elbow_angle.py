@@ -1,23 +1,30 @@
 '''
-   NOTE: This script uses the internal PyMOL "super"
-   command for domain alignments, which is not as robust
-   as some other alignment algorithms (e.g. cealign) and
-   should not be used for calculations that must be 
-   rigorously accurate.
-   
-   Also, there is no automatic checking of the validity
-   of limit_l and limit_h values or of the assignment of
-   light and heavy chain IDs.
-   
-   Use at your own risk!
+More information at: http://www.pymolwiki.org/index.php/elbow_angle
 
-   REQUIRES:
-       transformations.py    VERSION 2011.07.07
-       by Christoph Gohlke
-       www.lfd.uci.edu/~gohlke/code
-       (may also require an edit, 1e-8 to 1e-7
-       in lines 352 & 358 to avoid a numerical error)
+Calculate the elbow angle of an antibody Fab complex and optionally draw a 
+graphical representation of the vectors used to determine the angle.
 
+NOTE: There is no automatic checking of the validity of limit_l and limit_h 
+values or of the assignment of light and heavy chain IDs. If these are entered 
+incorrectly or omitted, the reported angle will likely be incorrect.
+
+As always with these things, your mileage may vary.  Use at your own risk!
+
+REQUIRES:
+
+    numpy, version 1.6
+    http://numpy.scipy.org
+
+    transformations.py, version 2012.01.01
+    by Christoph Gohlke
+    www.lfd.uci.edu/~gohlke/code
+    
+    May also require an edit to transformations.py:
+    Changes `1e-8` to `1e-7` in lines 357 & 363 to avoid a numerical error.
+
+    com.py
+    by Jason Vertrees
+    http://www.pymolwiki.org/index.php/com
 '''
 
 __author__ = 'Jared Sampson'
