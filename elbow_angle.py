@@ -10,21 +10,21 @@ incorrectly or omitted, the reported angle will likely be incorrect.
 
 As always with these things, your mileage may vary.  Use at your own risk!
 
-REQUIRES:
+REQUIREMENTS
 
     numpy, version 1.6
-    http://numpy.scipy.org
+        http://numpy.scipy.org
 
     transformations.py, version 2012.01.01
-    by Christoph Gohlke
-    www.lfd.uci.edu/~gohlke/code
+        by Christoph Gohlke
+        www.lfd.uci.edu/~gohlke/code
     
-    May also require an edit to transformations.py:
-    Changes `1e-8` to `1e-7` in lines 357 & 363 to avoid a numerical error.
+        May also require an edit to transformations.py:
+        Changes `1e-8` to `1e-7` in lines 357 & 363 to avoid a numerical error.
 
     com.py
-    by Jason Vertrees
-    http://www.pymolwiki.org/index.php/com
+        by Jason Vertrees
+        http://www.pymolwiki.org/index.php/com
 '''
 
 __author__ = 'Jared Sampson'
@@ -40,12 +40,23 @@ import numpy
 ################################################################################
 def calc_super_matrix(mobile,static):
     '''
+
 DESCRIPTION
 
-    Aligns two objects (or selections), returns the 
-    transformation matrix, and resets the matrix of
-    the mobile object.
+    Aligns two objects (or selections), returns the transformation matrix, 
+    and resets the matrix of the mobile object.
     
+    Uses CEAlign PyMOL function for alignment.
+
+ARGUMENTS
+
+    mobile = string: selection describing the mobile object whose rotation
+    matrix will be reported
+    
+    static = string: selection describing the static object onto which the
+    mobile object will be aligned
+    
+REQUIRES: numpy
     '''
 
     cmd.cealign(static,mobile)
@@ -67,10 +78,12 @@ DESCRIPTION
 def elbow_angle(obj,light='L',heavy='H',limit_l=107,limit_h=113,draw=0):
 
     """
+
 DESCRIPTION
 
-    Calculates the integer elbow angle of an antibody Fab complex and optionally
-    draws a graphical representation of the vectors used to determine the angle.
+    Calculates the integer elbow angle of an antibody Fab complex and 
+    optionally draws a graphical representation of the vectors used to 
+    determine the angle.
        
 ARGUMENTS
 
@@ -83,10 +96,8 @@ ARGUMENTS
 
     draw = boolean: Choose whether or not to draw the angle visualization
 
-REQUIREMENTS
-
-    This function uses transformations.py by Christoph Gohlke, available
-    from www.lfd.uci.edu/~gohlke/code.
+REQUIRES: com.py, transformations.py, numpy (see above)
+    
     
     """
     
@@ -118,7 +129,7 @@ REQUIREMENTS
     c_sel = '(('+cl_sel+') or ('+ch_sel+'))'
 
 
-    # create objects
+    # create temp objects
     cmd.create(vl,vl_sel)
     cmd.create(vh,vh_sel)
     cmd.create(cl,cl_sel)
@@ -148,8 +159,8 @@ REQUIREMENTS
        
     # compare the direction_v and direction_c axes to the vector defined by
     # the C-alpha atoms of limit_l and limit_h of the original fab
-    hinge_l_sel = "%s/%s/CA" % (light,limit_l)
-    hinge_h_sel = "%s/%s/CA" % (heavy,limit_h)
+    hinge_l_sel = "%s//%s/%s/CA" % (obj,light,limit_l)
+    hinge_h_sel = "%s//%s/%s/CA" % (obj,heavy,limit_h)
     hinge_l = cmd.get_atom_coords(hinge_l_sel)
     hinge_h = cmd.get_atom_coords(hinge_h_sel)
     hinge_vec = numpy.array(hinge_h) - numpy.array(hinge_l)
@@ -161,7 +172,7 @@ REQUIREMENTS
     print "    Elbow angle: %i degrees" % elbow
     
     if (draw==1):
-        # this is hacked together and far from elegant, but
+        # there is probably a more elegant way to do this, but
         # it works so I'm not going to mess with it for now
     
         pre = obj+'_elbow_'
