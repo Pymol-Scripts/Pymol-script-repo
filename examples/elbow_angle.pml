@@ -3,7 +3,7 @@ import elbow_angle
 
 bg_color white
 
-# example structures from Stanfield, et al. 2006
+# example structures from Stanfield, et al. JMB 2006
 # doi:10.1016/j.jmb.2006.01.023
 fetch 1bbd, async=0
 fetch 7fab, async=0
@@ -13,10 +13,12 @@ fetch 1nl0, async=0
 
 dss
 as cartoon
+set cartoon_transparency, 0.7
 
 remove all and not chain L+H
 util.mass_align("1bbd and ((chain L and resi 1-114) or (chain H and resi 1-118))")
 
+# adopt a similar view to Figure 1 in Stanfield, et al.
 set_view (\
     -0.953261435,   -0.226005003,    0.200535893,\
     -0.230026290,    0.112494141,   -0.966659248,\
