@@ -1869,7 +1869,7 @@ def is_same_transform(matrix0, matrix1):
     return numpy.allclose(matrix0, matrix1)
 
 
-def _import_module(module_name, warn=True, prefix='_py_', ignore='_'):
+def _import_module(module_name, warn=False, prefix='_py_', ignore='_'):
     """Try import all public attributes from module into global namespace.
 
     Existing attributes with name clashes are renamed with prefix.
@@ -1902,7 +1902,7 @@ def _import_module(module_name, warn=True, prefix='_py_', ignore='_'):
 __version__ = '2012.01.01'
 __docformat__ = 'restructuredtext en'
 
-_import_module('transformations')
+_import_module('_transformations')
 
 if __name__ == "__main__":
     import doctest
