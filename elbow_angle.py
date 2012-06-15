@@ -148,9 +148,12 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     cmd.delete(vh)      
     cmd.delete(cl)
     cmd.delete(ch)
-        
+    
+    # if dot product is positive, angle is acute    
     if (numpy.dot(direction_v,direction_c)>0):
         direction_c = direction_c * -1   # ensure angle is > 90 (need to standardize this)
+        
+        # TODO: make both directions point away from the elbow axis.  how?
 
     elbow = int(numpy.degrees(numpy.arccos(numpy.dot(direction_v,direction_c))))
 #    while (elbow < 90):
