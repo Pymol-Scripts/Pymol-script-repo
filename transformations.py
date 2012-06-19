@@ -1902,7 +1902,7 @@ def _import_module(module_name, warn=True, prefix='_py_', ignore='_'):
 __version__ = '2012.01.01'
 __docformat__ = 'restructuredtext en'
 
-_import_module('transformations')
+_import_module('_transformations')
 
 if __name__ == "__main__":
     import doctest
