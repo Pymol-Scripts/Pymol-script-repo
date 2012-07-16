@@ -47,18 +47,31 @@ ARGUMENTS
                 print 'loading from %s' % (fname)
 
         for line in open(fname):
-            if not line.startswith('SITE '):
-                continue
-            siteID = line[11:14]
-            selename = pfx + siteID
-            selenames.add(selename)
-            for i in range(4):
-                res = line[18+11*i:29+11*i]
-                if res.strip():
-                    chain = res[4]
-                    resi = res[5:].strip()
-                    selestr = '%s and chain %s and resi %s' % (name, chain, resi)
-                    cmd.select(selename, selestr, 0, 1, 1)
+            if line.startswith('SITE '):
+                siteID = line[11:14].strip()
+                selename = pfx + siteID
+                selenames.add(selename)
+                for i in range(4):
+                    res = line[18+11*i:29+11*i]
+                    if res.strip():
+                        chain = res[4]
+                        resi = res[5:].strip()
+                        selestr = '%s and chain %s and resi %s' % (name, chain, resi)
+                        cmd.select(selename, selestr, 0, 1, 1)
+            elif line.startswith('LINK '):
+                s1 = '%s/%s/%s' % (line[21], line[22:27].strip(), line[12:16].strip())
+                s2 = '%s/%s/%s' % (line[51], line[52:57].strip(), line[42:46].strip())
+                distname = pfx + 'LINK'
+                cmd.distance(distname, s1, s2)
+            elif line.startswith('SSBOND'):
+                selename = pfx + 'SSBOND'
+                selenames.add(selename)
+                selestr = '%s & (chain %s & resi %s | chain %s & resi %s) & name CA+CB+SG'
+                selestr = selestr % (name, line[15], line[17:22], line[29], line[31:36])
+                cmd.select(selename, selestr, 0, 1, 1)
+            elif line.startswith('HET '):
+                # TODO
+                pass
 
     if nice:
         allsites = ' '.join(selenames)
@@ -67,6 +80,7 @@ ARGUMENTS
         cmd.show('nonbonded', '(%s) and not polymer' % (selection))
         cmd.show('sticks', '(%s) and (%s)' % (selection, allsites))
         cmd.show('nb_spheres', '(%s) and (%s)' % (selection, allsites))
+        cmd.show('dashes', '*LINK')
         cmd.color('gray', selection)
         for i, selename in enumerate(selenames):
             cmd.color(i+2, '(%s) and (%s)' % (selection, selename))
