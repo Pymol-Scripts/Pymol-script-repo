@@ -106,9 +106,12 @@ ARGUMENTS
         for i, selename in enumerate(hetselenames):
             cmd.show('spheres','%s and inorganic' % (selename))
         cmd.util.cnc('%s' % (allsites))
-
 cmd.extend('select_sites', select_sites)
-
 cmd.auto_arg[0]['select_sites'] = cmd.auto_arg[0]['pseudoatom']
+
+def sites(*args, **kwargs):
+    cmd.fetch(*args, **kwargs)
+    select_sites(*args)
+cmd.extend('sites', sites)
 
 # vi:expandtab:smarttab:sw=4
