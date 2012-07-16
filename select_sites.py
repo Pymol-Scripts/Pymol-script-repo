@@ -109,9 +109,10 @@ ARGUMENTS
 cmd.extend('select_sites', select_sites)
 cmd.auto_arg[0]['select_sites'] = cmd.auto_arg[0]['pseudoatom']
 
-def sites(*args, **kwargs):
-    cmd.fetch(*args, **kwargs)
-    select_sites(*args)
+def sites(code, name='', *args, **kwargs):
+    kwargs['async'] = 0
+    cmd.fetch(code, name, *args, **kwargs)
+    select_sites(name or code)
 cmd.extend('sites', sites)
 
 # vi:expandtab:smarttab:sw=4
