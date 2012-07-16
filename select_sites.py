@@ -101,10 +101,11 @@ ARGUMENTS
         cmd.color('gray', selection)
         for i, selename in enumerate(selenames):
             cmd.color(i+2, '(%s) and (%s)' % (selection, selename))
-        for i, selename in enumerate(cysselenames):
-            cmd.color('sulfur', '(%s) and (%s)' % (selection, selename))
+        #for i, selename in enumerate(cysselenames):
+        #    cmd.color('sulfur', '(%s) and (%s)' % (selection, selename))
         for i, selename in enumerate(hetselenames):
             cmd.show('spheres','%s and inorganic' % (selename))
+        cmd.util.cnc('%s' % (allsites))
 
 cmd.extend('select_sites', select_sites)
 
