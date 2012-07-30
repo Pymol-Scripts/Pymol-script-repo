@@ -180,6 +180,9 @@ ARGUMENTS
             acc = line[27:36].strip()
             number = line[40:50].strip()
 
+            if not acc or not number:
+                continue
+
             if chain not in mappings:
                 mappings[chain] = acc, resid_mapper()
 
