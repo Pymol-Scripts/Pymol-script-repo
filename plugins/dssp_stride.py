@@ -230,18 +230,6 @@ class DSSPPlugin:
             self.SSE_col[sse] = '#%s%s%s' % (hex(self.SSE_col_RGB[sse][0])[2:].zfill(2),
                                              hex(self.SSE_col_RGB[sse][1])[2:].zfill(2),
                                              hex(self.SSE_col_RGB[sse][2])[2:].zfill(2))
-##        self.SSE_res = {
-##            'H':{}, 'G':{}, 'I':{},
-##            'E':{}, 'B':{},
-##            'T':{}, 'S':{}, '-':{},
-##            'b':{}, 'C':{}
-##            }
-##        self.SSE_sel = {
-##            'H':None, 'G':None, 'I':None,
-##            'E':None, 'B':None,
-##            'T':None, 'S':None, '-':None,
-##            'b':None, 'C':None
-##            }
 
         self.SSE_res_dict = {}
         self.SSE_sel_dict = {}
@@ -462,7 +450,12 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         pdb_fn = None
         pdb_os_fh, pdb_fn = tempfile.mkstemp(suffix='.pdb') # file os handle, file name
         os.close(pdb_os_fh)
+        # DSSP 2.0.4 ignores all residues after 1st TER in the same chain
+        v = cmd.get(name='pdb_use_ter_records') 
+        if v: cmd.set(name='pdb_use_ter_records', value=0) # do not insert TER into the pdb 
         cmd.save(filename=pdb_fn, selection=one_obj_sel)
+        if v: cmd.set(name='pdb_use_ter_records', value=v) # restore old value
+
         if VERBOSE:
             print 'Selection %s saved to %s.' % (one_obj_sel, pdb_fn)
 
@@ -472,19 +465,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         print 'Running DSSP for %s ...' % (one_obj_sel,)
         dssp_sse_dict = {}
-        # To make the plugin work in windows, I have to use 
-        # tempfile.makestemp() instead of
-        # tempfile.NamedTemporaryFile()
-        # Therefore, remember to clean up the mess later!
-        #dssp_tmpout = tempfile.NamedTemporaryFile(suffix='.dssp')
-        #dssp_cmd = '%s %s > %s' % (self.dssp_bin.get(), pdb_fn, dssp_tmpout.name)
-##         dssp_tmpout_os_fh, dssp_tmpout_fn = tempfile.mkstemp(suffix='.dssp')
-##         os.close(dssp_tmpout_os_fh)
-##         dssp_cmd = '%s %s > %s' % (self.dssp_bin.get(), pdb_fn, dssp_tmpout_fn)
-##         os.system(dssp_cmd)
-##         fh = open(dssp_tmpout_fn)
-##         fd = fh.readlines()
-##         fh.close()        
         if sys.version_info >= (2,4):
             dssp_proc = subprocess.Popen([self.dssp_bin.get(), pdb_fn],
                                          stdout=subprocess.PIPE,
@@ -561,16 +541,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         self.dssp_rlt_dict = {}
         self.SSE_res_dict  = {}
         self.SSE_sel_dict  = {}
-##        self.SSE_res = {
-##            'H':{}, 'G':{}, 'I':{},
-##            'E':{}, 'B':{},
-##            'T':{}, 'S':{}, '-':{}
-##            }
-##        self.SSE_sel = {
-##            'H':None, 'G':None, 'I':None,
-##            'E':None, 'B':None,
-##            'T':None, 'S':None, '-':None
-##            }
         
         pdb_fn = None
         sel_name= None
@@ -587,18 +557,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                     return False
                 else:
                     sel_name = sel
-##                    # To make the plugin work in windows, I have to use 
-##                    # tempfile.makestemp() instead of
-##                    # tempfile.NamedTemporaryFile()
-##                    # Therefore, remember to clean up the mess later!
-##                    #tmpf = tempfile.NamedTemporaryFile(suffix='.pdb')
-##                    #pdb_fn = tmpf.name
-##                    tmpf = tempfile.mkstemp(suffix='.pdb')
-##                    pdb_os_fh, pdb_fn = tmpf # file os handle, file name
-##                    os.close(pdb_os_fh)
-##                    cmd.save(filename=pdb_fn,selection=sel)
-##                    if VERBOSE:
-##                        print 'Selection/object %s saved to tmp file %s.' % (sel, pdb_fn)
             # no selection/object with the input name is found
             # we assume either a single-word selector or
             # some other selection-expression is used
@@ -619,15 +577,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                     return False
                 else:
                     sel_name = tmpsel
-##                    #tmpf = tempfile.NamedTemporaryFile(suffix='.pdb')
-##                    #pdb_fn = tmpf.name
-##                    tmpf = tempfile.mkstemp(suffix='.pdb')
-##                    pdb_os_fh, pdb_fn = tmpf # file os handle, file name
-##                    os.close(pdb_os_fh)
-##                    cmd.save(filename=pdb_fn,selection=sel)
-##                    cmd.delete(tmpsel)
-##                    if VERBOSE:
-##                        print 'Selection %s saved to %s.' % (sel, pdb_fn)
         else:   # what structure do you want DSSP to work on?
             err_msg = 'No PyMOL selection/object specified!'
             print 'ERROR: %s' % (err_msg,)
@@ -678,15 +627,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         
         print 'Running Stride for %s ...' % (one_obj_sel,)        
         stride_sse_dict = {}
-        #stride_tmpout = tempfile.NamedTemporaryFile(suffix='.stride')
-        #stride_cmd = '%s %s > %s' % (self.stride_bin.get(), pdb_fn, stride_tmpout.name)
-##         stride_tmpout_os_fh, stride_tmpout_fn = tempfile.mkstemp(suffix='.stride')
-##         os.close(stride_tmpout_os_fh)
-##         stride_cmd = '%s %s > %s' % (self.stride_bin.get(), pdb_fn, stride_tmpout_fn)
-##         os.system(stride_cmd)
-##         fh = open(stride_tmpout_fn)
-##         fd = fh.readlines()
-##         fh.close()
         if sys.version_info >= (2,4):
             stride_proc = subprocess.Popen([self.stride_bin.get(), pdb_fn],
                                            stdout=subprocess.PIPE,
@@ -761,16 +701,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         self.stride_rlt_dict = {}
         self.SSE_res_dict = {}
         self.SSE_sel_dict = {}
-##        self.SSE_res = {
-##            'H':{}, 'G':{}, 'I':{},
-##            'E':{}, 'B':{}, 'b':{},
-##            'T':{}, 'C':{}
-##            }
-##        self.SSE_sel = {
-##            'H':None, 'G':None, 'I':None,
-##            'E':None, 'B':None, 'b':None,
-##            'T':None, 'C':None
-##            }
 
         pdb_fn = None
         sel_name= None
@@ -786,18 +716,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                     return False
                 else:
                     sel_name = sel
-##                    # To make the plugin work in windows, I have to use 
-##                    # tempfile.makestemp() instead of
-##                    # tempfile.NamedTemporaryFile()
-##                    # Therefore, remember to clean up the mess later!
-##                    #tmpf = tempfile.NamedTemporaryFile(suffix='.pdb')
-##                    #pdb_fn = tmpf.name
-##                    tmpf = tempfile.mkstemp(suffix='.pdb')
-##                    pdb_os_fh, pdb_fn = tmpf # file os handle, file name
-##                    os.close(pdb_os_fh)
-##                    cmd.save(filename=pdb_fn,selection=sel)
-##                    if VERBOSE:
-##                        print 'Selection/object %s saved to tmp file %s.' % (sel, pdb_fn)
             # no selection/object with the input name is found
             # we assume either a single-word selector or
             # some other selection-expression is uesd
@@ -814,19 +732,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                     return False
                 else:
                     sel_name = tmpsel
-##                    # To make the plugin work in windows, I have to use 
-##                    # tempfile.makestemp() instead of
-##                    # tempfile.NamedTemporaryFile()
-##                    # Therefore, remember to clean up the mess later!
-##                    #tmpf = tempfile.NamedTemporaryFile(suffix='.pdb')
-##                    #pdb_fn = tmpf.name
-##                    tmpf = tempfile.mkstemp(suffix='.pdb')
-##                    pdb_os_fh, pdb_fn = tmpf # file os handle, file name
-##                    os.close(pdb_os_fh)
-##                    cmd.save(filename=pdb_fn,selection=sel)
-##                    cmd.delete(tmpsel)
-##                    if VERBOSE:
-##                        print 'Selection %s saved to %s.' % (sel, pdb_fn)
                 
         else:   # what structure do you want Stride to work on?
             err_msg = 'No PyMOL selection/object specified!'
