@@ -1,8 +1,10 @@
 '''
-plot_noe.py
+http://pymolwiki.org/index.php/plot_noe
 
 (c) 2011-09-23 by Justin L Lorieau
 (c) 2012-10-31 by Thomas Holder
+
+License: BSD-2-Clause
 '''
 
 from pymol import cmd, CmdException
@@ -58,21 +60,17 @@ EXAMPLE
         label = single and "NOE" or ("NOE_%d" % (count + 1))
 
         try:
-            cmd.distance(label, sele1, sele2, quiet=quiet)
+            cmd.distance(label, sele1, sele2, quiet=quiet,
+                    width=line_width, gap=0, label=0)
         except CmdException:
             print 'FAILED: %s - %s' % (sele1, sele2)
             continue
 
         cmd.set("dash_color", line_color, label)
-        cmd.set("dash_gap", 0, label)
-        cmd.set("dash_width", line_width, label)
-
         count += 1
 
     if not quiet:
         print ' Info: Created distance objects for %d restraints' % (count)
-
-    cmd.hide("labels", "NOE*")
 
 cmd.extend("plot_noe", plot_noe)
 
