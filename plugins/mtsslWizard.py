@@ -356,6 +356,7 @@ class MtsslWizard(Wizard):
 				print "1) Glycine? Mutate to Ala first."
 				print "2) Trying to attach DNA label to Protein or vice versa?"
 				print "3) Trying to attach a C label to a guanine or adenine base?"
+				print "4) %s" %self.label.errorMessage
 				self.cleanupAfterRun(my_view)
 				return
 			else:
@@ -476,7 +477,13 @@ class MtsslWizard(Wizard):
 				outputStr=numpy.array_str(output)
 				outputStr=outputStr.replace("[", "")
 				outputStr=outputStr.replace("]", "")
-				copyStringToClipboard(outputStr)
+				r = Tk()
+				r.withdraw()
+				r.clipboard_clear()
+				r.clipboard_append(outputStr)
+				r.destroy()
+				print "Copied to clipboard."
+				#copyStringToClipboard(outputStr)
 			
 			if self.writeToFile=='yes':
 				numpy.savetxt(self.residue1_name+"-"+self.residue2_name,output, delimiter='\t')
@@ -718,14 +725,6 @@ def generatePeptideChiAngle():
 		chi=0+deltaChi
 	return chi
 
-def copyStringToClipboard(string):
-	r = Tk()
-	r.withdraw()
-	r.clipboard_clear()
-	r.clipboard_append(string)
-	r.destroy()
-	print "Copied to clipboard."
-
 def calculateStatistics2(distances):
 	statisticsResult=""
 	#statistics
@@ -845,6 +844,7 @@ class MtsslLabel:
 	atomsForSuperposition = ['CA','N','C','CB']
 	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
 	numberOfTries = {'painstaking': 100000, 'thorough search': 10000, 'normal search': 1000}
+	errorMessage = ""
 	pdbStr = """HEADER    MTSSL\n
 COMPND    coordinates of R1A      from program: libcheck\n                        
 CRYST1  100.000  100.000  100.000  90.00  90.00  90.00 P 1\n                      
@@ -911,6 +911,7 @@ class ProxylLabel:
 	atomsForSuperposition = ['CA','N','C','CB']
 	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
 	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'normal search': 3000}
+	errorMessage = ""
 	pdbStr = """HEADER    PROXYL\n
 COMPND    coordinates of PROXYL   from program: MMM\n
 CRYST1  100.000  100.000  100.000  90.00  90.00  90.00 P 1\n                      
@@ -989,6 +990,7 @@ class UripLabel:
 	atomsForSuperposition = ["C2'","C3'","O4'"]
 	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
 	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'normal search': 3000}
+	errorMessage = "Check atom nomenclature. The ribose atoms are sometimes called C2* instead of C2'\nThis can be changed with 'alter' in PyMOL."
 	pdbStr = """HEADER    URIPSL\n
 ATOM      2  O4' URI A   6     -22.786  68.384   8.719  1.00  0.00           O  
 ATOM      3  C3' URI A   6     -23.259  70.361   9.877  1.00  0.00           C  
@@ -1069,6 +1071,7 @@ class CLabel:
 	#atomsForSuperposition = ["C2'","C3'","O4'"]
 	numberToFind = {'painstaking': 1, 'thorough search': 1, 'normal search': 1}
 	numberOfTries = {'painstaking': 1, 'thorough search': 1, 'normal search': 1}
+	errorMessage = "This label does not superpose onto A or G!"
 	pdbStr = """HEADER    CLABEL\n
 HETATM   10  C1  EXC B   2       8.773   1.726  20.049  1.00 15.03           C  
 HETATM   11  N3  EXC B   2       8.201   2.413  21.056  1.00 12.25           N  
