@@ -10,7 +10,7 @@ It allows in silico spin labeling of proteins with the spin label MTSSL in PyMOL
 The program was tested with PyMOL versions 1.4.
  
 Please cite:
- Hagelueken G, Ward R, Naismith JH, Schiemann O. MtsslWizard: In silico Spin-Labeling and Generation of Distance Distributions in PyMOL. 2012. Appl. Mag. Res., accepted for publication.
+Hagelueken G, Ward R, Naismith JH, Schiemann O. MtsslWizard: In silico Spin-Labeling and Generation of Distance Distributions in PyMOL. 2012. Appl. Mag. Res., accepted for publication.
  
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
@@ -20,6 +20,7 @@ import pymol
 import numpy
 import scipy.spatial.distance
 import random, time, math
+import platform
 from pymol import cmd
 from pymol import util
 from pymol.wizard import Wizard
@@ -46,8 +47,10 @@ def __init__(self):
 ##########################
 class MtsslWizard(Wizard):
 	def __init__(self):
+		#print platform.system()
 		Wizard.__init__(self)
 		print "MtsslWizard by gha. Please remove any solvent or unwanted heteroatoms before using the wizard!"
+		print "You can do this e.g. by issuing 'remove solvent'."
 		print "!!! This is an alpha version for testing purposes. Please do not distribute it!!!"
 		
 		#create contents of wizard menu
@@ -130,6 +133,21 @@ class MtsslWizard(Wizard):
 		self.cmd.refresh_wizard()
 
 	def set_currentLabel(self, currentLabel):
+		def mtssl():
+			tmp=MtsslLabel("tmp")
+			return tmp
+		def proxyl():
+			tmp=ProxylLabel("tmp")
+			return tmp
+		def urip():
+			tmp=UripLabel("tmp")
+			return tmp
+		def clabel():
+			tmp=CLabel("tmp")
+			return tmp
+		options = {"MTSSL":mtssl, "PROXYL":proxyl, "URIP":urip, "CLABEL":clabel,}
+		self.set_vdwRestraints(options[currentLabel]().defaultVdw)
+		print options[currentLabel]().info
 		self.currentLabel = currentLabel
 		self.cmd.refresh_wizard()
 	
@@ -355,8 +373,8 @@ class MtsslWizard(Wizard):
 				print "Possible reasons:"
 				print "1) Glycine? Mutate to Ala first."
 				print "2) Trying to attach DNA label to Protein or vice versa?"
-				print "3) Trying to attach a C label to a guanine or adenine base?"
-				print "4) %s" %self.label.errorMessage
+				if len(self.label.errorMessage) > 0:
+					print "3) %s" %self.label.errorMessage
 				self.cleanupAfterRun(my_view)
 				return
 			else:
@@ -378,7 +396,6 @@ class MtsslWizard(Wizard):
 			#only switch on snuggly fit search for "painstaking"
 			if self.thoroughness == "painstaking":
 				self.createSnugglyFitConformations()		
-			
 			print ""
 			print "Found: %i in %i tries." %(result[0], result[1]) 
 			print "Done!"
@@ -414,27 +431,21 @@ class MtsslWizard(Wizard):
 				return tmp.spinLocation
 			options = {"M-T-S-S-L":mtssl, "P-R-O-X-Y-L":proxyl, "U-R-I-P":urip, "C-L-A-B-E-L":clabel,}
 			
-			if "M-T-S-S-L" in self.residue1_name or "P-R-O-X-Y-L" in self.residue1_name or "U-R-I-P" in self.residue1_name or "C-L-A-B-E-L" in self.residue1_name:
+			#Decide if only the spin location (for labels) or all atoms of the selection are used
+			if self.picked_object1.split('_')[-1] in options:
 				spinLocation = options[self.picked_object1.split('_')[-1]]()
 				cmd.iterate_state(0, "%s & name %s" %(self.residue1_name, spinLocation), 'stored.label1.append((x,y,z))')
 			else:	
 				cmd.iterate_state(0, self.residue1_name, 'stored.label1.append((x,y,z))')
-			if "M-T-S-S-L" in self.residue2_name or "P-R-O-X-Y-L" in self.residue2_name  or "U-R-I-P" in self.residue2_name or "C-L-A-B-E-L" in self.residue2_name:
+			if self.picked_object2.split('_')[-1] in options:
 				spinLocation = options[self.picked_object2.split('_')[-1]]()
 				cmd.iterate_state(0, "%s & name %s" %(self.residue2_name, spinLocation), 'stored.label2.append((x,y,z))')
 			else:
 				cmd.iterate_state(0, self.residue2_name, 'stored.label2.append((x,y,z))')
 			
 			atoms1=numpy.array(stored.label1)
-			# if there is only one atom it has to be duplicated for quick_dist2 to work
-			if len(atoms1) == 1:
-				atoms1=numpy.tile(atoms1, (2,1))
-				
-
 			atoms2=numpy.array(stored.label2)
-			if len(atoms1) == 1:
-				atoms2=numpy.tile(atoms2, (2,1))
-				
+			#Calculate the distances
 			dist=quick_dist2(atoms1, atoms2)
 			
 			#create pseudoatom at average coordinate of each ensemble and display the distance between them
@@ -463,28 +474,36 @@ class MtsslWizard(Wizard):
 			numpy.set_printoptions(threshold=10000000, precision = 2, suppress = True)
 			#copy to clipboard
 			#create envelope plot
-			#BUG: This works only if more than 100 distances are in the list- should in most cases be OK, but needs to be fixed.
-			if len(dist) > 100:
-				histogram=numpy.histogram(dist, numpy.arange(100))
-				envelopePlot = numpy.zeros((len(dist),2))
-				envelopePlot[0:99] = numpy.column_stack((histogram[1][0:len(histogram[1])-1], histogram[0]))
-				#put point in mid of bin
-				envelopePlot[:,0] += 0.5 
-				normEnvelopePlot = numpy.copy(envelopePlot)
-				normEnvelopePlot[:,1] = normEnvelopePlot[:,1]/numpy.amax(histogram[0])
-				#combine dist and histogram to single array before output
-				output=numpy.column_stack((dist, envelopePlot, normEnvelopePlot[:,1]))
-				outputStr=numpy.array_str(output)
-				outputStr=outputStr.replace("[", "")
-				outputStr=outputStr.replace("]", "")
+			distListForOutput = numpy.copy(dist)
+			if len(dist) < 100:
+				#fill up with 999999s which can be easily removed from output
+				distListForOutput.resize(100)
+				distListForOutput[len(dist):]=9999999
+			histogram=numpy.histogram(distListForOutput, numpy.arange(100))
+			envelopePlot = numpy.zeros((len(distListForOutput),2))
+			envelopePlot[0:99] = numpy.column_stack((histogram[1][0:len(histogram[1])-1], histogram[0]))
+			#put point in mid of bin
+			envelopePlot[:,0] += 0.5 
+			normEnvelopePlot = numpy.copy(envelopePlot)
+			normEnvelopePlot[:,1] = normEnvelopePlot[:,1]/numpy.amax(histogram[0])
+			#combine dist and histogram to single array before output
+			output=numpy.column_stack((distListForOutput, envelopePlot, normEnvelopePlot[:,1]))
+			outputStr=numpy.array_str(output)
+			outputStr=outputStr.replace("[", "")
+			outputStr=outputStr.replace("]", "")
+			outputStr=outputStr.replace("9999999","")
+			
+			#Copy to clipboard
+			#This seems to run only on Macs...
+			if platform.system() == "Darwin":
 				r = Tk()
 				r.withdraw()
 				r.clipboard_clear()
 				r.clipboard_append(outputStr)
 				r.destroy()
 				print "Copied to clipboard."
-				#copyStringToClipboard(outputStr)
 			
+			#Write to file
 			if self.writeToFile=='yes':
 				numpy.savetxt(self.residue1_name+"-"+self.residue2_name,output, delimiter='\t')
 			print calculateStatistics2(dist)
@@ -523,6 +542,7 @@ class MtsslWizard(Wizard):
 			self.toggleStatesCaption='Toggle states: ON'
 			cmd.set("all_states",1)
 		self.cmd.refresh_wizard()
+	
 	##########################
 	#superpose               #
 	##########################	
@@ -582,7 +602,7 @@ class MtsslWizard(Wizard):
 		referenceAtoms=numpy.copy(self.label.movingAtoms)
 		refDist=scipy.spatial.distance.cdist(referenceAtoms, referenceAtoms)
 		
-		#search settings
+		#search settings for this label
 		maxNtries=self.label.numberOfTries[self.thoroughness]
 		numberToFind=self.label.numberToFind[self.thoroughness]
 		found=0
@@ -629,6 +649,9 @@ class MtsslWizard(Wizard):
 		results = [found, ntries]
 		return results
 	
+	##########################
+	#createRotamer           #
+	##########################
 	def createRotamer(self, found):
 		for i in range (0, len(self.label.movingAtoms)):
 			stored.xyz = []
@@ -636,6 +659,9 @@ class MtsslWizard(Wizard):
 			cmd.alter_state(1,self.label.pymolName +"& name " + self.label.atomNames[i],"(x,y,z)=stored.xyz")
 		cmd.create("%s_%s" %(self.residue1_name, self.label.identifier), self.label.pymolName, 1, found)
 	
+	################################
+	#createSnugglyFitConformations #
+	################################
 	def createSnugglyFitConformations(self): #select conformations with the best fit to the molecular surface, rank them and create an object
 		print "Snuggliest fit(s):"
 		#calculate average atom count of all conformations
@@ -656,9 +682,9 @@ class MtsslWizard(Wizard):
 			if thisConformation[1] > 0.75 * bestSnugglyFitAtomCount and thisConformation[1] > averageAtomCount:
 				snugglyFitList.append({'vdw':thisConformation[1],
 									   'state':thisConformation[0]})
-				cmd.create("%s_snuggly_%s" %(self.residue1_name, self.label.identifier), self.residue1_name, thisConformation[0], counter)
-				counter+=1
-				
+				#print "%s_snuggly_%s" %(self.residue1_name, self.label.identifier), "%s_%s" %(self.residue1_name, self.label.identifier), thisConformation[0], counter
+				cmd.create("%s_snuggly_%s" %(self.residue1_name, self.label.identifier), "%s_%s" %(self.residue1_name, self.label.identifier), thisConformation[0], counter)
+				counter+=1		
 		#sort snugglyFitList so that best fitting conformation is on top   
 		snugglyFitList = sorted(snugglyFitList, key=itemgetter('vdw'))
 		snugglyFitList.reverse()
@@ -744,6 +770,15 @@ def numberOfVdwContacts(atoms, environmentAtoms, cutoff):
 	return vdwContacts
 	
 def quick_dist2(atoms1, atoms2):
+	# if there is only one atom it has to be duplicated for quick_dist2 to work
+	duplicated = False
+	if len(atoms1) == 1:
+		duplicated = True
+		atoms1=numpy.tile(atoms1, (2,1))
+	if len(atoms2) == 1:
+		duplicated = True
+		atoms2=numpy.tile(atoms2, (2,1))
+		
 	#take random sample if too many atoms
 	if len(atoms1) > 250:
 		#atoms1=atoms1[numpy.random.randint(atoms1.shape[0], size = 10),:]
@@ -752,7 +787,19 @@ def quick_dist2(atoms1, atoms2):
 		#atoms2=atoms2[numpy.random.randint(atoms2.shape[0], size = 10),:]
 		atoms2=atoms2[numpy.random.permutation(atoms2.shape[0])[:250]]
 	dist=scipy.spatial.distance.cdist(atoms1, atoms2)
-	dist=numpy.reshape(dist, (-1, 1))
+	
+	#remove the duplication depending on which selection contained the single atom
+	if duplicated and dist.shape[0] == 2 and not dist.shape[1] == 2:
+		dist=numpy.reshape(dist[0,:], (-1, 1))
+	
+	elif duplicated and dist.shape[1] == 2 and not dist.shape[0] == 2:
+		dist=numpy.reshape(dist[:,0], (-1, 1))
+	
+	elif duplicated and dist.shape[0] == 2 and dist.shape[1] == 2:
+		dist=numpy.reshape(dist[:1,0], (-1, 1))
+	else:
+		dist=numpy.reshape(dist, (-1, 1))
+	
 	return dist
 
 def internalClash2(atoms, refDist):
@@ -824,9 +871,10 @@ def setupRotationMatrix(angle, axisPoint):
 	rotationMatrix[3][3] = 1.0
 	return rotationMatrix
 
-##########################
-#Label classes           #
-##########################
+#########################################################################################
+#Label classes           																#
+#after adding a new class, don't forget to make changes in 'run',and add it to the GUI! # 
+#########################################################################################
 class MtsslLabel:
 	identifier = "M-T-S-S-L"
 	modifiedAA = True
@@ -842,8 +890,10 @@ class MtsslLabel:
 	spinLocation = 'N1'
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
+	defaultVdw = "tight"
 	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
 	numberOfTries = {'painstaking': 100000, 'thorough search': 10000, 'normal search': 1000}
+	info = ""
 	errorMessage = ""
 	pdbStr = """HEADER    MTSSL\n
 COMPND    coordinates of R1A      from program: libcheck\n                        
@@ -909,8 +959,10 @@ class ProxylLabel:
 	spinLocation = 'N1'
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
+	defaultVdw = "tight"
 	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
 	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'normal search': 3000}
+	info = "\nFor the Proxyl label, the amide bond is considered as a double bond and only changes between 0 and 180.\nThis can be changed by adjusting the rotation info variable of the label in the source code.\n"
 	errorMessage = ""
 	pdbStr = """HEADER    PROXYL\n
 COMPND    coordinates of PROXYL   from program: MMM\n
@@ -988,8 +1040,10 @@ class UripLabel:
 	spinLocation = 'NS3'
 	highlight = 'OS1'
 	atomsForSuperposition = ["C2'","C3'","O4'"]
+	defaultVdw = "loose"
 	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
 	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'normal search': 3000}
+	info = "\nFor the Urip label, the vdW restraints are by default set to 'loose' to account for possible polar interactions between the amide bonds and the DNA backbone.\nThe amide bonds are considered as double bonds and only change between 0 and 180.\nThis can be changed by adjusting the rotation info variable of the label inside the source code.\n"
 	errorMessage = "Check atom nomenclature. The ribose atoms are sometimes called C2* instead of C2'\nThis can be changed with 'alter' in PyMOL."
 	pdbStr = """HEADER    URIPSL\n
 ATOM      2  O4' URI A   6     -22.786  68.384   8.719  1.00  0.00           O  
@@ -1069,8 +1123,10 @@ class CLabel:
 	highlight = 'O21'
 	atomsForSuperposition = ["N1", "C2", "O2", "N3"]
 	#atomsForSuperposition = ["C2'","C3'","O4'"]
+	defaultVdw = "tight"
 	numberToFind = {'painstaking': 1, 'thorough search': 1, 'normal search': 1}
 	numberOfTries = {'painstaking': 1, 'thorough search': 1, 'normal search': 1}
+	info = "\nThe C label is only superimposed onto e.g. dC but does not move. It is not yet completely clear how the conformation of this label changes when bound to DNA.\n"
 	errorMessage = "This label does not superpose onto A or G!"
 	pdbStr = """HEADER    CLABEL\n
 HETATM   10  C1  EXC B   2       8.773   1.726  20.049  1.00 15.03           C  
