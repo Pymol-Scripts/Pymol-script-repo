@@ -494,15 +494,8 @@ class MtsslWizard(Wizard):
 			outputStr=outputStr.replace("9999999","")
 			
 			#Copy to clipboard
-			#This seems to run only on Macs...
-			if platform.system() == "Darwin":
-				r = Tk()
-				r.withdraw()
-				r.clipboard_clear()
-				r.clipboard_append(outputStr)
-				r.destroy()
-				print "Copied to clipboard."
-			
+			self.copyStringToClipboard(outputStr)
+
 			#Write to file
 			if self.writeToFile=='yes':
 				numpy.savetxt(self.residue1_name+"-"+self.residue2_name,output, delimiter='\t')
@@ -523,6 +516,31 @@ class MtsslWizard(Wizard):
 	##########################
 	#various methods         #
 	##########################
+	def copyStringToClipboard(self, string):
+		try:
+			r = pymol._ext_gui.root
+			r.clipboard_clear()
+			r.clipboard_append(string)
+			print "Copied to clipboard."
+			return
+		except:
+			pass
+		try:
+			import pyperclip
+			pyperclip.copy(string)
+			print "Copied to clipboard."
+			return
+		except:
+			pass
+		try:
+			import xerox
+			xerox.copy(string)
+			print "Copied to clipboard."
+			return
+		except:
+			pass
+		print "Copy to clipboard failed. Try to install either the 'pyperclip' or 'xerox' module for Python."
+	
 	def cleanupAfterRun(self, my_view):
 		self.pick_count = 0
 		cmd.delete("pk*")
