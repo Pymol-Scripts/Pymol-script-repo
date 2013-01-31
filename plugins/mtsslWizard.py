@@ -61,7 +61,7 @@ class MtsslWizard(Wizard):
 		self.menu['mode'] = [
 									  [1, 'Search','cmd.get_wizard().set_mode("Search")'],
 									  [1, 'Measure','cmd.get_wizard().set_mode("Measure")'],
-									  [1, 'Copy & Move','cmd.get_wizard().set_mode("Copy & Move")']
+									  #[1, 'Copy & Move','cmd.get_wizard().set_mode("Copy & Move")']
 									  ]
 		self.menu['currentLabel'] = [
 									  [ 2, '\\559Protein', ''],
