@@ -198,7 +198,7 @@ class MtsslWizard(Wizard):
 					[ 3, 'Label: %s'%self.currentLabel,'currentLabel'],
 					[ 3, 'Speed: %s'%self.thoroughness,'thoroughness'],
 					[ 3, 'vdW restraints: %s'%self.vdwRestraints,'vdwRestraints'],
-					[ 2, 'Search conformers!','cmd.get_wizard().delay_launch()'],
+					[ 2, 'Search conformers!','cmd.get_wizard().run()'],
 					[ 2, self.toggleStatesCaption,'cmd.get_wizard().toggle_states()'],
 					[ 2, 'Delete last label','cmd.get_wizard().delete_last()'],
 					[ 2, 'Reset','cmd.get_wizard().reset()'],
@@ -332,24 +332,25 @@ class MtsslWizard(Wizard):
 				print "MtsslWizard: object not found."
 			self.pick_count += 1
 			#deselect before next pick
-			self.delay_launch()
+			self.run()
 			cmd.deselect()
 		
 		if self.mode == 'Search' or self.mode == 'Stochastic':
 			self.numberOfLabel += 1
 	
-	def delay_launch(self):
-		self.running = True
-		cmd.refresh_wizard()
-		cmd.draw()
-		#self.cmd.feedback("disable","all","everything")
-		#self.cmd.feedback("enable","python","output")
-		#t = threading.Thread(target=self.run)
-		#t.setDaemon(1)
-		#t.start()
-		self.run()
-		self.running = False
-		self.cmd.refresh_wizard()
+	#def delay_launch(self):
+	#	self.running = True
+	#	self.cmd.refresh_wizard()
+	#	cmd.draw()
+	#	self.cmd.feedback("disable","all","everything")
+	#	self.cmd.feedback("enable","python","output")
+	#	t = threading.Thread(target=self.run)
+	#	t.setDaemon(1)
+	#	t.start()
+	#	#time.sleep(10)
+	#	#self.run()
+	#	self.running = False
+	#	self.cmd.refresh_wizard()
 		
 	##########################
 	#RUN                     #
