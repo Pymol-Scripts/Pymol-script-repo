@@ -7,7 +7,7 @@ Mail	: hagelueken'at'pc.uni-bonn.de
  
 mtsslWizard is a plugin for the PyMOL Molecular Graphics System. 
 It allows in silico spin labeling of proteins with the spin label MTSSL in PyMOL. Also, distances between ensembles of two spin labels can be calculated and exported.
-The program was tested with PyMOL versions 1.4.
+The program was tested with PyMOL version 1.5.
  
 Please cite:
 Hagelueken G, Ward R, Naismith JH, Schiemann O. MtsslWizard: In silico Spin-Labeling and Generation of Distance Distributions in PyMOL. 2012. Appl. Mag. Res., accepted for publication.
@@ -20,7 +20,7 @@ import pymol
 import numpy
 import scipy.spatial.distance
 import random, time, math
-import platform
+import os
 from pymol import cmd
 from pymol import util
 from pymol.wizard import Wizard
@@ -28,7 +28,7 @@ from pymol import stored
 from operator import itemgetter
 from Tkinter import Tk
 
-default_thoroughness = "normal search"
+default_thoroughness = "thorough search"
 default_label = "MTSSL"
 default_cutoff = 3.4
 default_clashes = 0
@@ -39,7 +39,7 @@ internalClash_cutoff = 2.5
 def __init__(self):
 	self.menuBar.addmenuitem('Wizard', 'command',
 							 'MtsslWizard',
-							 label = 'MtsslWizard_classes',
+							 label = 'MtsslWizard',
 							 command = lambda s=self : open_wizard())
 
 ##########################
@@ -49,9 +49,12 @@ class MtsslWizard(Wizard):
 	def __init__(self):
 		#print platform.system()
 		Wizard.__init__(self)
-		print "MtsslWizard by gha. Please remove any solvent or unwanted heteroatoms before using the wizard!"
-		print "You can do this e.g. by issuing 'remove solvent'."
-		print "!!! This is an alpha version for testing purposes. Please do not distribute it!!!"
+		print "**************************************************************************************************"
+		print "* MtsslWizard by gha.                                                                            *"
+		print "* Please remove any solvent or unwanted heteroatoms before using the wizard!                     *"
+		print "* You can do this e.g. by issuing 'remove solvent'.                                              *"
+		print "**************************************************************************************************"
+		#print "!!! This is an alpha version for testing purposes. Please do not distribute it!!!"
 		
 		#create contents of wizard menu
 		self.reset()
@@ -71,13 +74,10 @@ class MtsslWizard(Wizard):
 		self.menu['thoroughness'] = [
 									  [1, 'painstaking','cmd.get_wizard().set_thoroughness("painstaking")'],
 									  [1, 'thorough search','cmd.get_wizard().set_thoroughness("thorough search")'],
-									  [1, 'normal search','cmd.get_wizard().set_thoroughness("normal search")'],
+									  [1, 'quick search','cmd.get_wizard().set_thoroughness("quick search")'],
 									  ]
 		self.menu['vdwRestraints'] = [
 									  [ 2, '\\559NOTE:\\559 ', ''],
-									  [ 2, '\\559Set to "loose" e.g. if a site cannot be labeled with "tight" ', ''],
-									  [ 2, '\\559restraints but can be labeled experimentally or if conformational', ''],
-									  [ 2, '\\559changes at the labelling site are suspected.', ''],
 									  [ 2, '\\559"loose": vdW cutoff 2.5 A, 5 clashes allowed', ''],
 									  [ 2, '\\559"tight": vdW cutoff 3.4 A, 0 clashes allowed', ''],
 									  [1, 'loose','cmd.get_wizard().set_vdwRestraints("loose")'],
@@ -176,7 +176,6 @@ class MtsslWizard(Wizard):
 		self.cmd.refresh_wizard()
 			
 	def get_prompt(self):
-		self.prompt = None
 		if self.mode == 'Search' or 'Stochastic':
 			self.prompt = [ 'Select a residue to label...']
 		if self.pick_count == 0 and self.mode == 'Measure':
@@ -196,8 +195,8 @@ class MtsslWizard(Wizard):
 					[ 3, 'Mode: %s'%self.mode,'mode'],
 					[ 3, 'Label: %s'%self.currentLabel,'currentLabel'],
 					[ 3, 'Speed: %s'%self.thoroughness,'thoroughness'],
-					[ 3, 'vdW restrains: %s'%self.vdwRestraints,'vdwRestraints'],
-					[ 2, 'Go!','cmd.get_wizard().run()'],
+					[ 3, 'vdW restraints: %s'%self.vdwRestraints,'vdwRestraints'],
+					[ 2, 'Search conformers!','cmd.get_wizard().run()'],
 					[ 2, self.toggleStatesCaption,'cmd.get_wizard().toggle_states()'],
 					[ 2, 'Delete last label','cmd.get_wizard().delete_last()'],
 					[ 2, 'Reset','cmd.get_wizard().reset()'],
@@ -342,7 +341,6 @@ class MtsslWizard(Wizard):
 	def run(self):
 		self.conformationList = []
 		my_view = cmd.get_view()
-		
 		##########################
 		#Search mode             #
 		##########################
@@ -397,10 +395,13 @@ class MtsslWizard(Wizard):
 			if self.thoroughness == "painstaking":
 				self.createSnugglyFitConformations()		
 			print ""
-			print "Found: %i in %i tries." %(result[0], result[1]) 
+			print "Found: %i in %i tries." %(result[0], result[1])
+			if result[0] > 0 and result[0] <= 10 and self.vdwRestraints == "tight" and not self.currentLabel == "CLABEL":
+				print "The number of conformations is very small!"
+				print "Consider switching vdW restraints to 'loose' for this position!"
 			print "Done!"
 			self.finalCosmetics(result[0])
-		
+			
 		##########################
 		#Measure mode            #
 		##########################		
@@ -498,7 +499,14 @@ class MtsslWizard(Wizard):
 
 			#Write to file
 			if self.writeToFile=='yes':
-				numpy.savetxt(self.residue1_name+"-"+self.residue2_name,output, delimiter='\t')
+				try:
+					filename = "%s-%s" %(self.residue1_name, self.residue2_name)
+					numpy.savetxt(filename, output, delimiter='\t')
+					print "Written to file:"
+					print "%s/%s" %(os.getcwd(), filename)
+				except:
+					print "Writing to file failed!"
+					
 			print calculateStatistics2(dist)
 			if len(cBeta) > 0:
 				print "Cbeta distance: %3.1f" %cBeta[0]
@@ -626,7 +634,7 @@ class MtsslWizard(Wizard):
 		found=0
 		ntries=0
 		axis = numpy.zeros(shape=(2,3)) 
-		print "Trying to find conformations for label %s with thoroughness: %s" % (self.label.pymolName, self.thoroughness)
+		print "Trying to find conformations for label %s with vdW restraints: %s" % (self.label.pymolName, self.vdwRestraints)
 		while found < numberToFind and ntries < maxNtries:
 			self.label.movingAtoms = numpy.copy(referenceAtoms)
 			if self.label.rotate:
@@ -647,8 +655,7 @@ class MtsslWizard(Wizard):
 						angle = generatePeptideChiAngle()
 					rotationMatrix=setupRotationMatrix(angle, axis[1])
 					self.label.movingAtoms[self.label.rotationInfo[str(chi)][1]]=rotatePoints(self.label.movingAtoms[self.label.rotationInfo[str(chi)][1]], rotationMatrix)
-				self.label.movingAtoms+=backtranslationVector
-				
+				self.label.movingAtoms+=backtranslationVector	
 			if not quickClash(self.label.movingAtoms[self.label.clashAtoms], environmentAtoms, self.cutoff, self.clashes) or not self.label.rotate:
 				if not internalClash2(self.label.movingAtoms, refDist):
 					found+=1
@@ -774,10 +781,12 @@ def calculateStatistics2(distances):
 	#statistics
 	average = numpy.average(distances)
 	median = numpy.median(distances)
+	stddev = numpy.std(distances)
 	longest = numpy.amax(distances)
 	shortest = numpy.amin(distances)
 	statisticsResult+= "Average of distribution: %3.2f\n" %average
 	statisticsResult+= "Median of distribution: %3.2f\n" %median
+	statisticsResult+= "Std. dev. of distribution: %3.2f\n" %stddev
 	statisticsResult+= "Shortest distance: %3.2f\n" % shortest
 	statisticsResult+= "Longest distance: %3.2f" %longest
 	return statisticsResult
@@ -825,7 +834,7 @@ def internalClash2(atoms, refDist):
 	dist=scipy.spatial.distance.cdist(atoms, atoms)
 	#create Boolean array with elements that describe if a distance changes or not
 	changingDistances = numpy.absolute(numpy.round(numpy.subtract(dist,refDist),2)) > 0
-	#multiply by Boolean area to make all constant distances zero
+	#multiply by Boolean array to make all constant distances zero
 	dist=changingDistances*dist
 	#check for internal clashes
 	internalClashes=dist[numpy.nonzero((dist < internalClash_cutoff) & (dist > 0))]
@@ -909,8 +918,8 @@ class MtsslLabel:
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
 	defaultVdw = "tight"
-	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
-	numberOfTries = {'painstaking': 100000, 'thorough search': 10000, 'normal search': 1000}
+	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'quick search': 50}
+	numberOfTries = {'painstaking': 100000, 'thorough search': 10000, 'quick search': 1000}
 	info = ""
 	errorMessage = ""
 	pdbStr = """HEADER    MTSSL\n
@@ -968,7 +977,7 @@ class ProxylLabel:
 	numberOfRotatingBonds = 6
 	numberOfAtoms = 20
 	rotate = True
-	rotationInfo = {'1': [3,slice(5, numberOfAtoms), False], '2': [4,slice(6, numberOfAtoms), False], '3': [5,slice(7, numberOfAtoms), False], '4': [6,slice(8, numberOfAtoms), False], '5': [7,slice(9, numberOfAtoms-1), True], '6': [8,slice(9, numberOfAtoms-1), False]}
+	rotationInfo = {'1': [3,slice(5, numberOfAtoms), False], '2': [4,slice(6, numberOfAtoms), False], '3': [5,slice(7, numberOfAtoms), False], '4': [6,slice(8, numberOfAtoms), False], '5': [7,slice(9, numberOfAtoms-1), False], '6': [8,slice(9, numberOfAtoms-1), False]}
 	clashAtoms = slice(5, numberOfAtoms)
 	radius = 13.0
 	atomNames =	 ['N', 'O', 'C', 'CA', 'CB', 'SG', 'C1', 'C2', 'N2', 'C3', 'N1', 'O1', 'C10','C4', 'C5', 'C6', 'C7', 'C8', 'C9',  'O3']
@@ -978,9 +987,9 @@ class ProxylLabel:
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
 	defaultVdw = "tight"
-	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
-	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'normal search': 3000}
-	info = "\nFor the Proxyl label, the amide bond is considered as a double bond and only changes between 0 and 180.\nThis can be changed by adjusting the rotation info variable of the label in the source code.\n"
+	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'quick search': 50}
+	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'quick search': 3000}
+	info = ""
 	errorMessage = ""
 	pdbStr = """HEADER    PROXYL\n
 COMPND    coordinates of PROXYL   from program: MMM\n
@@ -1050,7 +1059,7 @@ class UripLabel:
 	numberOfRotatingBonds = 4
 	numberOfAtoms = 18
 	rotate = True
-	rotationInfo = {'1': [2,slice(4, numberOfAtoms), False], '2': [3,slice(5, numberOfAtoms), True],'3': [4,slice(6, numberOfAtoms-1), True],'4': [5,slice(7, numberOfAtoms-1), False]}
+	rotationInfo = {'1': [2,slice(4, numberOfAtoms), False], '2': [3,slice(5, numberOfAtoms), False],'3': [4,slice(6, numberOfAtoms-1), False],'4': [5,slice(7, numberOfAtoms-1), False]}
 	clashAtoms = slice(4, numberOfAtoms)
 	radius = 13.0
 	atomNames =	 ["O4'", "C3'", "C2'", 'NS1', 'CS1', 'NS2', 'CS7', 'CS2', 'CS10', 'CS11',  'CS3', 'CS5', 'CS6',  'CS8', 'CS9',   'NS3', 'OS1', 'OS2']
@@ -1059,10 +1068,10 @@ class UripLabel:
 	highlight = 'OS1'
 	atomsForSuperposition = ["C2'","C3'","O4'"]
 	defaultVdw = "loose"
-	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'normal search': 50}
-	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'normal search': 3000}
-	info = "\nFor the Urip label, the vdW restraints are by default set to 'loose' to account for possible polar interactions between the amide bonds and the DNA backbone.\nThe amide bonds are considered as double bonds and only change between 0 and 180.\nThis can be changed by adjusting the rotation info variable of the label inside the source code.\n"
-	errorMessage = "Check atom nomenclature. The ribose atoms are sometimes called C2* instead of C2'\nThis can be changed with 'alter' in PyMOL."
+	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'quick search': 50}
+	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'quick search': 3000}
+	info = "\nFor the Urip label, the vdW restraints are by default set to 'loose' to account for possible polar interactions between the amide bonds and the DNA backbone."
+	errorMessage = "Check atom nomenclature. The ribose atoms are sometimes called C2* instead of C2'\nThis can be changed e.g. by 'alter all, name=string.replace(name,\"*\",\"'\")' in PyMOL."
 	pdbStr = """HEADER    URIPSL\n
 ATOM      2  O4' URI A   6     -22.786  68.384   8.719  1.00  0.00           O  
 ATOM      3  C3' URI A   6     -23.259  70.361   9.877  1.00  0.00           C  
@@ -1089,7 +1098,7 @@ ATOM      7 CS11 URI A   6     -24.829  73.681  18.029  0.00  0.00           C\n
 		
 	def prepareMovingAtoms(self, atoms):
 		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on proxyl in pymol:
+		#This is the order of atoms when iterate is used on urip in pymol:
 		#["O4'", "C3'", "C2'", 'CS1', 'CS10', 'CS11', 'CS2', 'CS3', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'NS2', 'NS3', 'OS1', 'OS2']
 		#  0	   1	 2	    3	   4	   5	   6	  7		 8	    9	   10	  11	 12	    13	   14	  15	 16	    17 
 		#This is the order we want:
@@ -1142,9 +1151,9 @@ class CLabel:
 	atomsForSuperposition = ["N1", "C2", "O2", "N3"]
 	#atomsForSuperposition = ["C2'","C3'","O4'"]
 	defaultVdw = "tight"
-	numberToFind = {'painstaking': 1, 'thorough search': 1, 'normal search': 1}
-	numberOfTries = {'painstaking': 1, 'thorough search': 1, 'normal search': 1}
-	info = "\nThe C label is only superimposed onto e.g. dC but does not move. It is not yet completely clear how the conformation of this label changes when bound to DNA.\n"
+	numberToFind = {'painstaking': 1, 'thorough search': 1, 'quick search': 1}
+	numberOfTries = {'painstaking': 1, 'thorough search': 1, 'quick search': 1}
+	info = "\nThe C label is only superimposed onto e.g. dC but does not move.\n"
 	errorMessage = "This label does not superpose onto A or G!"
 	pdbStr = """HEADER    CLABEL\n
 HETATM   10  C1  EXC B   2       8.773   1.726  20.049  1.00 15.03           C  
