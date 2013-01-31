@@ -17,6 +17,7 @@ Hagelueken G, Ward R, Naismith JH, Schiemann O. MtsslWizard: In silico Spin-Labe
  
 """
 import pymol
+import threading
 import numpy
 import scipy.spatial.distance
 import random, time, math
@@ -54,7 +55,6 @@ class MtsslWizard(Wizard):
 		print "* Please remove any solvent or unwanted heteroatoms before using the wizard!                     *"
 		print "* You can do this e.g. by issuing 'remove solvent'.                                              *"
 		print "**************************************************************************************************"
-		#print "!!! This is an alpha version for testing purposes. Please do not distribute it!!!"
 		
 		#create contents of wizard menu
 		self.reset()
@@ -186,6 +186,8 @@ class MtsslWizard(Wizard):
 			self.prompt = [ 'Select second label...']
 		if self.pick_count == 1 and self.mode == 'Copy & Move':
 			self.prompt = [ 'Select position for copied label ...']
+		if self.running:
+			self.prompt = [ 'Running, please wait...' ]
 		return self.prompt
 	
 	def get_panel(self):
@@ -196,7 +198,7 @@ class MtsslWizard(Wizard):
 					[ 3, 'Label: %s'%self.currentLabel,'currentLabel'],
 					[ 3, 'Speed: %s'%self.thoroughness,'thoroughness'],
 					[ 3, 'vdW restraints: %s'%self.vdwRestraints,'vdwRestraints'],
-					[ 2, 'Search conformers!','cmd.get_wizard().run()'],
+					[ 2, 'Search conformers!','cmd.get_wizard().delay_launch()'],
 					[ 2, self.toggleStatesCaption,'cmd.get_wizard().toggle_states()'],
 					[ 2, 'Delete last label','cmd.get_wizard().delete_last()'],
 					[ 2, 'Reset','cmd.get_wizard().reset()'],
@@ -219,6 +221,7 @@ class MtsslWizard(Wizard):
 					]
 	#reset wizard to defaults
 	def reset(self):
+		self.running = False
 		self.toggleStatesCaption='Toggle states: ON'
 		self.start_time=time.time()
 		self.conformationList=[]
@@ -329,11 +332,24 @@ class MtsslWizard(Wizard):
 				print "MtsslWizard: object not found."
 			self.pick_count += 1
 			#deselect before next pick
-			self.run()
+			self.delay_launch()
 			cmd.deselect()
 		
 		if self.mode == 'Search' or self.mode == 'Stochastic':
 			self.numberOfLabel += 1
+	
+	def delay_launch(self):
+		self.running = True
+		cmd.refresh_wizard()
+		cmd.draw()
+		#self.cmd.feedback("disable","all","everything")
+		#self.cmd.feedback("enable","python","output")
+		#t = threading.Thread(target=self.run)
+		#t.setDaemon(1)
+		#t.start()
+		self.run()
+		self.running = False
+		self.cmd.refresh_wizard()
 		
 	##########################
 	#RUN                     #
@@ -407,8 +423,8 @@ class MtsslWizard(Wizard):
 		##########################		
 		elif self.pick_count == 2 and self.mode == 'Measure':
 			print "\n\n\nDistance calculation:\n"
-			print "The dashed lines are the c-beta distance (green),\nand the distance between the geometric averages\nof the two ensembles (yellow)."
-			print "The following statistics refer to the distribution\nof the individual distances between all conformers:\n"
+			print "The dashed lines are the c-beta distance (green),\nand the distance between the geometric averages\nof the two ensembles (yellow).\n"
+			print "The following statistics refer to the distribution\nof the individual distances between all conformers (may take a while):\n"
 			#find out what the selections are
 			stored.label1 = []
 			stored.label2 = []
@@ -519,6 +535,7 @@ class MtsslWizard(Wizard):
 			self.copyAndMove()
 				
 		#some cleanup after each run
+		cmd.set_view(my_view)
 		self.cleanupAfterRun(my_view)
 	
 	##########################
