@@ -45,6 +45,7 @@ ARGUMENTS
         atoms = [model.atom[i] for i in bond.index]
         atoms[0].adjacent.append(atoms[1])
         atoms[1].adjacent.append(atoms[0])
+    minmax = [start, start]
     def traverse(atom, resi):
         atom.resi = resi
         atom.visited = True
@@ -52,14 +53,18 @@ ARGUMENTS
             if other.visited:
                 continue
             if (atom.name, other.name) in [('C','N'), ("O3'", 'P')]:
+                minmax[1] = resi+1
                 traverse(other, resi+1)
             elif (atom.name, other.name) in [('N','C'), ('P', "O3'")]:
+                minmax[0] = resi-1
                 traverse(other, resi-1)
             elif (atom.name, other.name) not in [('SG', 'SG')]:
                 traverse(other, resi)
     traverse(startatom, start)
     cmd.alter(selection, 'resi = atom_it.next().resi',
             space={'atom_it': iter(model.atom)})
+    if not quiet:
+        print ' Renumber: range (%d to %d)' % tuple(minmax)
 
 cmd.extend('renumber', renumber)
 
