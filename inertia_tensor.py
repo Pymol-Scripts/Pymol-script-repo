@@ -4,14 +4,15 @@ http://www.pymolwiki.org/index.php/inertia_tensor.py
 (c) August 2010 by Mateusz Maciejewski
 matt (at) mattmaciejewski . com
 
+Licnese: MIT
+
 '''
 
 from pymol.cgo import *
 from pymol import cmd
-import numpy
 
 
-def tensor(molecule, name="tensor", resids="*", atoms="*", state=1):
+def tensor(selection, name="tensor", state=1, quiet=1):
 
     """
 DESCRIPTION
@@ -20,25 +21,25 @@ DESCRIPTION
 
 ARGUMENTS
     
-    molecule: the name of the molecule object
+    selection = string: selection for the atoms included in the tensor calculation
 
-    name: name of the tensor object to be created {default: tensor}
-
-    resids: range of residues to include in the tensor calculation {default: all}
-
-    atoms: atom types used in the tensor calculation {default: all}
+    name = string: name of the tensor object to be created {default: "tensor"}
     
-    state: state of the molecule object used in the tensor calculation
+    state = int: state/model in the molecule object used in the tensor calculation
 
 EXAMPLE
     
     PyMOL> run inertia_tensor.py
-    PyMOL> tensor molecule_object, name="tensor", resids=24-65+78-122, atoms="n+ca+c"
+    PyMOL> tensor molecule_object & i. 2-58+63-120 & n. n+ca+c, "tensor_model5_dom2", 5
     
 NOTES
     
     Requires numpy.
     """
+
+
+    import numpy
+
 
     def draw_axes(start,ends,radius=.2,name_obj="tensor"):
         radius = float(radius)
@@ -58,47 +59,26 @@ NOTES
 
 
 
-    residues = []
-
-    if resids != "*":
-        if resids.find("+") != -1:
-            resids = resids.split("+")
-
-            for res in resids:
-                if res.find("-") != -1:
-                    residues += range(int(res.split("-")[0]),int(res.split("-")[1])+1)
-                else:
-                    residues += [int(res)]
-        else:
-            if resids.find("-") != -1:
-                residues += range(int(resids.split("-")[0]),int(resids.split("-")[1])+1)
-            else:
-                residues += [int(resids)]
-
-    if atoms != "*":
-        atoms = atoms.split("+")
-
     totmass=0.0
     x_com,y_com,z_com=0,0,0
     I11,I12,I13,I21,I22,I23,I31,I32,I33=0,0,0,0,0,0,0,0,0
-    model=cmd.get_model(molecule,state)
+
+    model=cmd.get_model(selection, state)
 
     for a in model.atom:
-        if (a.resi_number in residues or resids == "*") and \
-           (a.name.lower() in atoms or atoms == "*") and \
-           (a.resn != "ANI"):
 
-            x_com+= a.coord[0]*a.get_mass()
-            y_com+= a.coord[1]*a.get_mass()
-            z_com+= a.coord[2]*a.get_mass()
+            x_com+=a.coord[0]*a.get_mass()
+            y_com+=a.coord[1]*a.get_mass()
+            z_com+=a.coord[2]*a.get_mass()
             totmass+=a.get_mass()
 
     x_com /= totmass; y_com /= totmass; z_com /= totmass
 
-    print
-    print "Center of mass: "
-    print
-    print x_com, y_com, z_com
+    if not int(quiet):
+        print
+        print "Center of mass: "
+        print
+        print x_com, y_com, z_com
 
     I=[]
 
@@ -106,10 +86,6 @@ NOTES
         I.append(0)
 
     for a in model.atom:
-        if (a.resi_number in residues or resids == "*") and \
-           (a.name.lower() in atoms or atoms == "*") and \
-           (a.resn != "ANI"):
-
 
             temp_x,temp_y,temp_z=a.coord[0],a.coord[1],a.coord[2]
             temp_x-=x_com; temp_y-=y_com; temp_z-=z_com
@@ -127,21 +103,22 @@ NOTES
 
     tensor = numpy.array([(I[0:3]),(I[3:6]),(I[6:9])])
     eigens = numpy.linalg.eig(tensor)
-    vals,vects = numpy.linalg.eig(tensor) # they come out unsorted, so the below is needed
+    vals,vects = numpy.linalg.eig(tensor) # they come out unsorted, so the command below is needed
 
     eig_ord = numpy.argsort(vals) # a thing to note is that here COLUMN i corrensponds to eigenvalue i.
 
     ord_vals = vals[eig_ord]
     ord_vects = vects[:,eig_ord].T
 
-    print
-    print "Inertia tensor x, y, z eigenvalues:"
-    print
-    print ord_vals
-    print
-    print "Inertia tensor x, y, z eigenvectors:"
-    print
-    print ord_vects
+    if not int(quiet):
+        print
+        print "Inertia tensor x, y, z eigenvalues:"
+        print
+        print ord_vals
+        print
+        print "Inertia tensor x, y, z eigenvectors:"
+        print
+        print ord_vects
 
 
     start=[x_com,y_com,z_com]
