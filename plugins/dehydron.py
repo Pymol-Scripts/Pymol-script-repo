@@ -1,12 +1,12 @@
 '''
 Dehydron: A dehydron calculator plugin for PyMOL
-Version: 1.6
+Version: 1.7
 Described at PyMOL wiki:
 http://www.pymolwiki.org/index.php/dehydron
 
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
-Date    : March 2012
+Date    : March 2013
 License: GNU General Public License
 Acknowledgement: The H-bond detection code is based on the list_mc_hbonds.py
 script from Robert L. Campbell http://pldserver1.biochem.queensu.ca/~rlc/work/pymol/
@@ -172,7 +172,7 @@ USAGE
         print "            Donor            |            Aceptor          |"
         print "     Object   Chain Residue  |     Object   Chain Residue  | # wrappers"
 
-    cmd.select('_nonpolar', 'not (solvent or hydro or (elem N+O) extend 1)', 0)
+    cmd.select('_nonpolar', '(elem C) and not (solvent or (elem N+O) extend 1)', 0)
     try:
         cmd.select('_selection', '%s' % selection, 0)
     except:
