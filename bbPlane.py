@@ -36,6 +36,7 @@ NOTES
     amino acids.  The plane spans CA_i, O_i, N-H_(i+1), and CA_(i+1)
     """
     from pymol.cgo import BEGIN, TRIANGLES, COLOR, VERTEX, END
+    from pymol import cgo
     from chempy import cpv
 
     # format input
@@ -101,6 +102,13 @@ NOTES
             if not quiet:
                 print ' bbPlane: %s and %s not adjacent' % (curIdx, nextIdx)
             continue
+
+        normal = cpv.normalize(cpv.cross_product(
+            cpv.sub(pos[2], pos[0]),
+            cpv.sub(pos[1], pos[0])))
+
+        obj.append(cgo.NORMAL)
+        obj.extend(normal)
 
         # need to order vertices to generate correct triangles for plane
         if cpv.dot_product(cpv.sub(pos[0], pos[1]), cpv.sub(pos[2], pos[3])) < 0:
