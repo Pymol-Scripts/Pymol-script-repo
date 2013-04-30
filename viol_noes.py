@@ -4,7 +4,7 @@ http://www.pymolwiki.org/index.php/viol_noes
 (c) August 2010 by Mateusz Maciejewski
 matt (at) mattmaciejewski . com
 
-Licnese: MIT
+License: MIT
 
 '''
 
