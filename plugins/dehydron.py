@@ -1,6 +1,6 @@
 '''
-Dehydron: A dehydron calculator plugin for PyMOL
-Version: 1.7
+Wrappy: A dehydron calculator plugin for PyMOL
+Version: 2.0
 Described at PyMOL wiki:
 http://www.pymolwiki.org/index.php/dehydron
 
@@ -22,8 +22,8 @@ from pymol import stored
 def __init__(self):
     """Add this Plugin to the PyMOL menu"""
     self.menuBar.addmenuitem('Plugin', 'command',
-                            'dehydron',
-                            label = 'Dehydron',
+                            'wrappy',
+                            label = 'Wrappy',
                             command = lambda : mainDialog())
 
 
@@ -39,8 +39,8 @@ def mainDialog():
         dehydron(selection, angle_range, max_distance, desolv, min_wrappers)
 
     master = Tkinter.Tk()
-    master.title(' dehydron ')
-    w = Tkinter.Label(master, text = 'dehydron calculator\nOsvaldo Martin - aloctavodia@gmail.com',
+    master.title(' Wrappy ')
+    w = Tkinter.Label(master, text = 'dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
                                 background = '#000000',
                                 foreground = '#cecece',
                                 #pady = 20,
@@ -100,13 +100,13 @@ def mainDialog():
 ### submit
     Button(p1, text="Calculate", command=get_dehydrons).pack(side=BOTTOM)
 ############################ About TAB #################################
-    group = Pmw.Group(p2, tag_text='About dehydron plug-in')
+    group = Pmw.Group(p2, tag_text='About wrappy')
     group.pack(fill = 'both', expand=1, padx = 5, pady = 5)
     text =u"""For a brief introduction to the dehydron concept, you could
 read http://en.wikipedia.org/wiki/dehydron
 
 Citation for this plugin:
-Martin O.A.; dehydron calculator plugin for PyMOL,
+Martin O.A.; Wrappy: A dehydron calculator plugin for PyMOL,
 2012. IMASL-CONICET.
 
 Citation for PyMOL may be found here:
@@ -169,8 +169,8 @@ USAGE
         print "--------------------------------------------------------------------"
         print "--------------------------Dehydron Results--------------------------"
         print "--------------------------------------------------------------------"
-        print "            Donor            |            Aceptor          |"
-        print "     Object   Chain Residue  |     Object   Chain Residue  | # wrappers"
+        print "            Donor             |            Aceptor           |"
+        print "     Object   Chain Residue   |     Object   Chain Residue   | # wrappers"
 
     cmd.select('_nonpolar', '(elem C) and not (solvent or (elem N+O) extend 1)', 0)
     try:
@@ -179,27 +179,38 @@ USAGE
         pass
 
     sel = []
+    total_wrappers = 0
     for pairs in hb:
         wrappers = cmd.count_atoms('((%s and _nonpolar and _selection) within %f of byca (%s`%d %s`%d))' % 
                 ((pairs[0][0], desolv) + pairs[0] + pairs[1]))
+        total_wrappers = total_wrappers + wrappers
         if wrappers < min_wrappers:
             cmd.distance(name, pairs[0], pairs[1])
             if not quiet:
                 cmd.iterate(pairs[0], 'stored.nitro = chain, resi, resn')
                 cmd.iterate(pairs[1], 'stored.oxy = chain, resi, resn')
-                print ' %12s%4s%6s%5d | %12s%4s%6s%5d |%7s' % (pairs[0][0], stored.nitro[0], stored.nitro[2], int(stored.nitro[1]), pairs[1][0], stored.oxy[0], stored.oxy[2], int(stored.oxy[1]), wrappers)
+                print ' %12s%4s%6s%6s | %12s%4s%6s%6s |%7s' % (pairs[0][0], stored.nitro[0], stored.nitro[2], stored.nitro[1], pairs[1][0], stored.oxy[0], stored.oxy[2], stored.oxy[1], wrappers)
             sel.append(pairs[0])
             sel.append(pairs[1])
     cmd.delete('_nonpolar')
     cmd.delete('_selection')
+    #compute the z_scores for validation porpoises.
+    stored.ResiduesNames = []
+    cmd.iterate('(name ca)','stored.ResiduesNames.append((resn))')
+    total_residues = float(len(stored.ResiduesNames))
+    z_score_wrappers = ((total_wrappers/total_residues) - 17) / 2
+    z_score_hb = ((len(hb)/total_residues) - 0.62) / 0.06
+
 
     if len(sel) > 0:
         cmd.show_as('dashes', name)
+        print '\nz-score wrappers = %6.2f\nz-score hydrogen bonds = %6.2f\n' % (z_score_wrappers, z_score_hb)
     elif not quiet and len(hb) != 0:
-        print ' - no dehydrons were found - '
+        print '\n - no dehydrons were found - '
+        print '\nz-score hydrogen bonds = %6.2f\n' % (z_score_hb)
     else:
-        print ' - no hydrogen bonds were found - '
+        print '\n - no hydrogen bonds were found - '
 
-cmd.extend('dehydron', dehydron)
+cmd.extend('wrappy', dehydron)
 
 # vi:expandtab:smarttab
