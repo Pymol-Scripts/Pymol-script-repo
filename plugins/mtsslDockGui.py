@@ -2,8 +2,8 @@
 #-----------------------------------------------------------------------------------------
 mtsslDock: distance constrained rigid body docking in PyMOL
 Author	: Gregor Hagelueken
-Date	: April 2013
-Version : 1.0 BETA
+Date	: July 2013
+Version : 1.0
 Mail	: hagelueken'at'pc.uni-bonn.de
 #-----------------------------------------------------------------------------------------
 """
