@@ -45,7 +45,7 @@ def mainDialog():
 
     master = Tk()
     master.title(' Optimize ')
-    w = Tkinter.Label(master, text="\nOptimize: Let's find that minima!\n",
+    w = Tkinter.Label(master, text="\nOptimize: Let's find that minimum!\n",
                                 background = 'black',
                                 foreground = 'white')
     w.pack(expand=1, fill = 'both', padx=4, pady=4)
