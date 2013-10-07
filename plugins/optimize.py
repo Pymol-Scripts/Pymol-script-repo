@@ -13,7 +13,13 @@ import Tkinter
 from Tkinter import *
 import Pmw
 from pymol import cmd
-import openbabel as ob
+
+try:
+    import openbabel as ob
+except:
+    print '<'*80 + '\n\nOptimize plug-in needs the openbabel to be installed, please follows the instructions at\nhttp://openbabel.org/wiki/Get_Open_Babel\n\n' + '>'*80
+
+
 
 
 def __init__(self):
@@ -92,7 +98,7 @@ def mainDialog():
     if len(names) > 0:
         sel_value.set(names[0])
     else:
-        sel_value.set('')
+        sel_value.set('all')
     entry_sel_value = Entry(group.interior(),textvariable=sel_value, width=15)
     entry_sel_value.grid(row=4, column=1)
     entry_sel_value.configure(state='normal')
