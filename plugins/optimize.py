@@ -6,7 +6,7 @@ Author : Osvaldo Martin
 email: aloctavodia@gmail.com
 Date: October 2013
 License: GNU General Public License
-Version 0.1
+Version 0.2
 '''
 
 import Tkinter
@@ -164,14 +164,15 @@ def disable_entry():
     entry_elec.update()
 
 
-def minimize(selection='all', forcefield='GAFF', method='conjugate gradients', nsteps= 300, conv=0.01, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
-    cmd.h_add(selection)
+def minimize(selection='all', forcefield='MMFF94s', method='conjugate gradients', nsteps= 300, conv=0.01, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
+#    cmd.h_add(selection)
     pdb_string = cmd.get_pdbstr(selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
     obconversion.SetInAndOutFormats('pdb', 'pdb')
     mol = ob.OBMol()
     obconversion.ReadString(mol, pdb_string)
+    mol.AddHydrogens()
     ff = ob.OBForceField.FindForceField(forcefield) ## GAFF, MMFF94s, MMFF94, UFF, Ghemical
     ff.Setup(mol)
     if cutoff == True:
