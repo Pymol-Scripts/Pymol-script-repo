@@ -306,6 +306,7 @@ def conf_search(selection='all', forcefield='GAFF', method='Weighted', nsteps= 5
         for i in range(lowest_conf):
             nrg, orden = conf_list[i]
             name_n = '%s%02d' % (name, i)
+            cmd.delete(name_n)
             mol.SetConformer(orden) 
             pdb_string = obconversion.WriteString(mol)
             cmd.read_pdbstr(pdb_string, name_n)
@@ -317,6 +318,7 @@ def conf_search(selection='all', forcefield='GAFF', method='Weighted', nsteps= 5
         ff.GetCoordinates(mol)
         nrg = ff.Energy()
         pdb_string = obconversion.WriteString(mol)
+        cmd.delete(name)
         cmd.read_pdbstr(pdb_string, name)
         print '#########################################'
         print 'The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit())
