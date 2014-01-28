@@ -1,6 +1,4 @@
 '''
- /usr/lib/python2.7/dist-packages/pmg_tk/startup
-
 Optimize
 Described at PyMOL wiki: http://www.pymolwiki.org/index.php/optimize
 
