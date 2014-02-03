@@ -20,7 +20,7 @@ from pymol import cmd
 def color_by_conservation(aln, names=(), color="rainbow", as_putty=0, _self=cmd):
     # PyMOL doesn't yet know about object:alignment
     # but we need to check that this exists or we might crash
-    if _self.get_type(aln)!="object:":
+    if _self.get_type(aln) not in ("object:", "object:alignment"):
         print "Error: Bad or incorrectly specified alignment object."
         return None
  

@@ -504,8 +504,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             sse = self.dssp_rlt_dict[one_obj_sel][k]
             chn = k[0]
             res = k[2]
-            if VERBOSE: print '(%s) and %s/%s/  sse=%s' % (str(one_obj_sel),
-                                                           chn.strip(),res,sse)
+            if VERBOSE: print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
+                                                               chn.strip(), res, sse)
             SSE_res[sse].setdefault(chn,[]).append(res)
             
         self.SSE_res_dict[one_obj_sel] = SSE_res
@@ -667,8 +667,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             sse=self.stride_rlt_dict[one_obj_sel][k]
             chn = k[0] # this can be a space!
             res = k[2]
-            if VERBOSE: print '(%s) and %s/%s/  sse=%s' % (str(one_obj_sel),
-                                                           chn.strip(),res,sse)
+            if VERBOSE: print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
+                                                               chn.strip(), res, sse)
             SSE_res[sse].setdefault(chn,[]).append(res)
 
         self.SSE_res_dict[one_obj_sel] = SSE_res
@@ -781,7 +781,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 
             if len(self.SSE_res_dict[sel][sse][chn]) < limit:
                 #sel_expr = '/%s//%s/%s/' % (sel,chn.strip(), '+'.join(self.SSE_res[sse][chn]))
-                sel_expr = '(%s) and %s/%s/' % (sel,chn.strip(), '+'.join(self.SSE_res_dict[sel][sse][chn]))
+                # always quote chain name in case it is empty (otherwise sel misinterpreted)
+                sel_expr = '(%s) and \"%s\"/%s/' % (sel,chn.strip(), '+'.join(self.SSE_res_dict[sel][sse][chn]))
                 cmd.select(sel_name_chn, sel_expr)
                 if VERBOSE: print 'select %s, %s' % (sel_name_chn, sel_expr)
                 sel_list_chn.append(sel_name_chn)
@@ -794,8 +795,9 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                     s,e = i*limit, min((i+1)*limit, rn)
                     print s,e
                     #sel_expr = '/%s//%s/%s/' % (sel,chn.strip(), '+'.join(self.SSE_res[sse][chn][s:e]))
-                    sel_expr = '(%s) and %s/%s/' % (sel, chn.strip(),
-                                                    '+'.join(self.SSE_res_dict[sel][sse][chn][s:e]))
+                    # always quote chain name in case it is empty (otherwise sel misinterpreted)
+                    sel_expr = '(%s) and \"%s\"/%s/' % (sel, chn.strip(),
+                                                        '+'.join(self.SSE_res_dict[sel][sse][chn][s:e]))
                     sel_name_seg =  self.randomSeleName(prefix='%s_%s_%s_tmp_' % ('_'.join(sel.split()),chn_str,sse))
                     cmd.select(sel_name_seg, sel_expr)
                     if VERBOSE: print 'select %s, %s' % (sel_name_seg, sel_expr)

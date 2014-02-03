@@ -4,8 +4,9 @@ Described at PyMOL wiki: http://www.pymolwiki.org/index.php/cheshift
 
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
-Date: January 2012
+Date: August 2013
 License: GNU General Public License
+Version 3.0
 '''
 
 import Tkinter
@@ -46,7 +47,7 @@ def cheshift(pdb_path,cs_path):
     br.set_handle_refresh(False)
     br.set_proxies(proxy_values)
     try:
-        br.open('http://www.cheshift.com/visual_test.html')
+        br.open('http://www.cheshift.com/visual')
         br.select_form(nr=0)
         br.form.add_file(open(pdb_path), "chemical/x-pdb", pdb_filename,
         name = 'uploaded')
@@ -63,24 +64,35 @@ def cheshift(pdb_path,cs_path):
     while True:
         try:# If the colored PDB was created, creates a local temporal PDB file
 # and loads that file into PyMOL.
-            result = br.open('http://www.cheshift.com/jobs/%s/%s_b.pdb?r=%d' % (subfix, pdb_filenamenoext, test)).read()
+            result0 = br.open('http://www.cheshift.com/jobs/%s/%s_Ca.pdb?r=%d' % (subfix, pdb_filenamenoext, test)).read()
+            result1 = br.open('http://www.cheshift.com/jobs/%s/%s_Cb.pdb?r=%d' % (subfix, pdb_filenamenoext, test)).read()
+            result2 = br.open('http://www.cheshift.com/jobs/%s/%s_CaCb.pdb?r=%d' % (subfix, pdb_filenamenoext, test)).read()
+            cmd.reinitialize()
             fd = tempfile.NamedTemporaryFile(bufsize=0,delete=False)
-            fd.write(result)
+            fd.write(result0)
             fd.close()
             pdb_tmp = fd.name
-            pdblist = []
-            for line in open(pdb_tmp).readlines():
-                if 'ATOM' in line:
-                    pdblist.append(line)
-            first = int(pdblist[0][22:26])
-            last = int(pdblist[-1][22:26])
-            cmd.reinitialize()
-            rename = ('%s_b.pdb' % (pdb_filenamenoext))
+            rename = ('%s_Ca.pdb' % (pdb_filenamenoext))
             cmd.load(pdb_tmp, rename)
-            #CheShift does not provide results for the first or last residue
-            cmd.remove('resi %s' % first) 
-            cmd.remove('resi %s' % last)
+            fd = tempfile.NamedTemporaryFile(bufsize=0,delete=False)
+            fd.write(result1)
+            fd.close()
+            pdb_tmp = fd.name
+            rename = ('%s_Cb.pdb' % (pdb_filenamenoext))
+            cmd.load(pdb_tmp, rename)
+            fd = tempfile.NamedTemporaryFile(bufsize=0,delete=False)
+            fd.write(result2)
+            fd.close()
+            pdb_tmp = fd.name
+            rename = ('%s_CaCb.pdb' % (pdb_filenamenoext))
+            cmd.load(pdb_tmp, rename)
             colorize()
+            result = br.open('http://www.cheshift.com/jobs/%s/%s.zip?r=%d' % (subfix, pdb_filenamenoext, test)).read()
+            details_path = pdb_path.split('.')[0]
+            fd = open('%s.zip' % details_path, 'w')
+            fd.write(result)
+            fd.close()
+            print '<'*80 + '\nCheShift-2 Validation Report saved at\n%s.zip\n' % details_path + '>'*80
             break
         except:
             test += 1
@@ -95,7 +107,7 @@ def cheshift(pdb_path,cs_path):
                 break
             except:
                 pass
-        time.sleep(5)
+        time.sleep(3)
 
 def mainDialog():
     """ Creates the GUI """
@@ -133,14 +145,13 @@ def mainDialog():
 ############################ COLOR TAB ########################################
     Label(p2, text =u"""
 Colors indicate the difference between predicted and
-observed 13C\u03B1 chemical shifts values averaged
-over all uploaded conformers.
-
-Blue, white and red colors represent small, medium
-and large differences, respectively. Red is a warning
-that a possible flaw may exist.
-Yellow is used if either the prediction fail or the
+observed 13C\u03B1 and 13C\u03B2 chemical shifts values
+averaged over all uploaded conformers.
+Green, yellow and red colors represent small, medium
+and large differences, respectively. 
+White is used if either the prediction fail or the
 observed value is missing
+CheShift-2 provied alternative rotamers for blue residues.
 """,justify=LEFT).pack()
     Button(p2, text="Reset View", command=colorize).pack(side=BOTTOM)
 ############################ PROXY TAB #####################################
@@ -187,9 +198,11 @@ observed value is missing
     Label(p4, text = """
 If you find CheShift useful please cite:
 
-Martin O.A. Vila J.A. and Scheraga H.A.
-(2012) CheShift-2: Graphic validation of 
-protein structures. Bioinformatics, (submitted).
+Martin O.A. Arnautova Y.A. Icazatti A.A. 
+Scheraga H.A. and Vila J.A. 
+A Physics-Based Method to Validate and 
+Repair Flaws in Protein Structures. 
+Proc Natl Acad Sci USA 2013. (in press). 
 """,justify=CENTER).pack()
     master.mainloop()
 
@@ -202,6 +215,7 @@ def retrieve_pdb():
     else:
         cmd.reinitialize()
         cmd.load(pdb_path)
+
 
 def retrieve_cs():
     """Loads a Chemical Shift file provided by the user"""
@@ -248,10 +262,13 @@ def enable_entry_authentication():
 def colorize():
     """color according to the b-factor using the cheshift-code"""
     try:
-        cmd.spectrum('b', 'red_white_blue', minimum='-1', maximum='1')
+        cmd.spectrum('b', 'red_yellow_green', minimum='-1.0', maximum='0.0')
         cmd.select('missing', 'b = -2.0')
-        cmd.color('yellow','missing')
+        cmd.color('white','missing')
         cmd.delete('missing')
+        cmd.select('fixable', 'b = 2.0')
+        cmd.color('blue','fixable')
+        cmd.delete('fixable')
         cmd.hide()
         cmd.show('cartoon')
     except:
