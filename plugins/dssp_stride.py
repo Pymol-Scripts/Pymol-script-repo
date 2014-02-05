@@ -420,7 +420,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         dssp_bin_fname = tkFileDialog.askopenfilename(
             title='DSSP Binary', initialdir='',
             filetypes=[('all','*')], parent=self.parent)
-        if dssp_bin_fname:
+        if dssp_bin_fname: # if nonempty
             self.dssp_bin.set(dssp_bin_fname)
         return
     
@@ -428,7 +428,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         stride_bin_fname = tkFileDialog.askopenfilename(
             title='Stride Binary', initialdir='',
             filetypes=[('all','*')], parent=self.parent)
-        if stride_bin_fname:
+        if stride_bin_fname: # if nonempty
             self.stride_bin.set(stride_bin_fname)
         return
 
