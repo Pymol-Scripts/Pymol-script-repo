@@ -408,7 +408,6 @@ http://pymol.sourceforge.net/faq.html#CITE
         if file_name:
             self.pdb_fn.set(file_name)
 
-
     def getMsmsBin(self):
         msms_bin_fname = tkFileDialog.askopenfilename(
             title='MSMS Binary', initialdir='',
