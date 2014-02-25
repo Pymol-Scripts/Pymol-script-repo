@@ -405,13 +405,15 @@ http://pymol.sourceforge.net/faq.html#CITE
             title='PDB File', initialdir='',
             filetypes=[('pdb files', '*.pdb *.ent'), ('all files', '*')],
             parent=self.parent)
-        self.pdb_fn.set(file_name)
+        if file_name:
+            self.pdb_fn.set(file_name)
 
     def getMsmsBin(self):
         msms_bin_fname = tkFileDialog.askopenfilename(
             title='MSMS Binary', initialdir='',
             filetypes=[('all','*')], parent=self.parent)
-        self.msms_bin.set(msms_bin_fname)
+        if msms_bin_fname:
+            self.msms_bin.set(msms_bin_fname)
 
 ##     def getPdb2xyzrBin(self):
 ##         pdb2xyzr_bin_fname = tkFileDialog.askopenfilename(
@@ -423,11 +425,13 @@ http://pymol.sourceforge.net/faq.html#CITE
         pdb2xyzrn_bin_fname = tkFileDialog.askopenfilename(
             title='pdb2xyzrn Binary', initialdir='',
             filetypes=[('all','*')], parent=self.parent)
-        self.pdb2xyzrn_bin.set(pdb2xyzrn_bin_fname)
+        if pdb2xyzrn_bin_fname:
+            self.pdb2xyzrn_bin.set(pdb2xyzrn_bin_fname)
 
     def getTmpDir(self):
         tmp_dir = tkFileDialog.askdirectory()
-        self.tmp_dir.set(tmp_dir)
+        if tmp_dir:
+            self.tmp_dir.set(tmp_dir)
 
     def getStrucPDBFname(self):
         """ get the PDB file name for the structure to work on
