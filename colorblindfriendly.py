@@ -104,6 +104,3 @@ cmd.set_color("cb_rose", reddish_purple)
 cmd.set_color("cb_violet", reddish_purple)
 cmd.set_color("cb_magenta", reddish_purple)
 
-
-# TODO:
-# * override certain features, like util.cnc(), to use these colors

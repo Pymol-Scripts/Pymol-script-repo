@@ -153,11 +153,11 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     if (numpy.dot(direction_v,direction_c)>0):
         direction_c = direction_c * -1   # ensure angle is > 90 (need to standardize this)
         
-        # TODO: make both directions point away from the elbow axis.  how?
+        # TODO: make both directions point away from the elbow axis.
 
     elbow = int(numpy.degrees(numpy.arccos(numpy.dot(direction_v,direction_c))))
-#    while (elbow < 90):
-#        elbow = 180 - elbow   # limit to physically reasonable range
+    # while (elbow < 90):
+    #     elbow = 180 - elbow   # limit to physically reasonable range
             
        
     # compare the direction_v and direction_c axes to the vector defined by
@@ -225,6 +225,3 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     return 0
         
 cmd.extend("elbow_angle",elbow_angle)
-
-
-
