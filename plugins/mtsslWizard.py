@@ -1,8 +1,8 @@
 """
 ---mtsslWizard: spin_labeling plugin for PyMOL --- 
 Author	: Gregor Hagelueken
-Date	: May 2013
-Version : 1.11
+Date	: March 2014
+Version : 1.12
 Mail	: hagelueken'at'pc.uni-bonn.de
  
 mtsslWizard is a plugin for the PyMOL Molecular Graphics System. 
