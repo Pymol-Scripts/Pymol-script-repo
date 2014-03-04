@@ -1,8 +1,8 @@
 """
 ---mtsslWizard: spin_labeling plugin for PyMOL --- 
 Author	: Gregor Hagelueken
-Date	: Jan 2013
-Version : 1.1
+Date	: May 2013
+Version : 1.11
 Mail	: hagelueken'at'pc.uni-bonn.de
  
 mtsslWizard is a plugin for the PyMOL Molecular Graphics System. 
@@ -67,6 +67,10 @@ class MtsslWizard(Wizard):
 									  [ 2, '\\559Protein', ''],
 									  [1, 'MTSSL','cmd.get_wizard().set_currentLabel("MTSSL")'],
 									  [1, 'PROXYL','cmd.get_wizard().set_currentLabel("PROXYL")'],
+									  [1, 'DOTA1','cmd.get_wizard().set_currentLabel("DOTA1")'],
+									  #BYSP does not work
+									  #[1, 'BYSP','cmd.get_wizard().set_currentLabel("BYSP")'],
+									  [1, 'pAcPhe','cmd.get_wizard().set_currentLabel("pAcPhe")'],
 									  [ 2, '\\559DNA', ''],
 									  [1, 'URIP','cmd.get_wizard().set_currentLabel("URIP")'],
 									  [1, 'C','cmd.get_wizard().set_currentLabel("CLABEL")'],
@@ -139,13 +143,22 @@ class MtsslWizard(Wizard):
 		def proxyl():
 			tmp=ProxylLabel("tmp")
 			return tmp
+		def dota1():
+			tmp=Dota1Label("tmp")
+			return tmp
+		def bysp():
+			tmp=ByspLabel("tmp")
+			return tmp
 		def urip():
 			tmp=UripLabel("tmp")
 			return tmp
 		def clabel():
 			tmp=CLabel("tmp")
 			return tmp
-		options = {"MTSSL":mtssl, "PROXYL":proxyl, "URIP":urip, "CLABEL":clabel,}
+		def pacphe():
+			tmp=PAcPheLabel("tmp")
+			return tmp
+		options = {"MTSSL":mtssl, "PROXYL":proxyl, "DOTA1":dota1, "BYSP":bysp, "URIP":urip, "CLABEL":clabel, "pAcPhe":pacphe}
 		self.set_vdwRestraints(options[currentLabel]().defaultVdw)
 		print options[currentLabel]().info
 		self.currentLabel = currentLabel
@@ -286,7 +299,7 @@ class MtsslWizard(Wizard):
 			cmd.delete("*_tmp*")
 			cmd.delete("*tmp*")
 			cmd.delete("_indicate*")
-			cmd.delete("labelEnvironment*")
+			#cmd.delete("labelEnvironment*")
 			self.cmd.refresh_wizard()
 			return
 
@@ -307,6 +320,14 @@ class MtsslWizard(Wizard):
 			if self.picked_object1 == None:
 				print "MtsslWizard: object not found."
 			self.pick_count += 1
+			
+			#find out resi number and select resi +2
+			#stored.resiNumber = []
+			#cmd.iterate(self.residue1_name, 'stored.resiNumber.append(resi)')
+			#print stored.resiNumber
+			#self.residueAnd2_name = self.residue1_name + "And2"
+			#cmd.select(self.residueAnd2_name, "%s & resi %i" %(self.picked_object1, int(stored.resiNumber[0])+2))
+			
 			if self.mode == 'Measure' or self.mode == 'Copy & Move':
 				#deselect before next pick
 				cmd.deselect()
@@ -370,11 +391,20 @@ class MtsslWizard(Wizard):
 			elif self.currentLabel == "PROXYL":
 				self.label = ProxylLabel("proxyl_"+str(self.numberOfLabel))
 				cmd.read_pdbstr(self.label.pdbStr, self.label.pymolName)
+			elif self.currentLabel == "DOTA1":
+				self.label = Dota1Label("dota1_"+str(self.numberOfLabel))
+				cmd.read_pdbstr(self.label.pdbStr, self.label.pymolName)
 			elif self.currentLabel == "URIP":
 				self.label = UripLabel("urip_"+str(self.numberOfLabel))
 				cmd.read_pdbstr(self.label.pdbStr, self.label.pymolName)
 			elif self.currentLabel == "CLABEL":
 				self.label = CLabel("C_"+str(self.numberOfLabel))
+				cmd.read_pdbstr(self.label.pdbStr, self.label.pymolName)
+			elif self.currentLabel == "BYSP":
+				self.label = ByspLabel("bysp_"+str(self.numberOfLabel))
+				cmd.read_pdbstr(self.label.pdbStr, self.label.pymolName)
+			elif self.currentLabel == "pAcPhe":
+				self.label = PAcPheLabel("pAcPhe_"+str(self.numberOfLabel))
 				cmd.read_pdbstr(self.label.pdbStr, self.label.pymolName)
 			print self.residue1_name, self.label.identifier
 			
@@ -395,18 +425,21 @@ class MtsslWizard(Wizard):
 			else:
 				print "Superposition worked!"
 			
-			#prepare movingAtoms, put into correct order...
+			#prepare movingAtoms array of label, put into correct order...
 			stored.movingAtoms = []
-			cmd.iterate_state(1, self.label.pymolName, 'stored.movingAtoms.append((x,y,z))')
-			atoms = stored.movingAtoms
-			self.label.prepareMovingAtoms(atoms)
+			for i in range (0, len(self.label.atomNames)):
+				xyz = cmd.get_model("%s & name %s" %(self.label.pymolName, self.label.atomNames[i] ), 1).get_coord_list()
+				stored.movingAtoms.extend(xyz)
+			self.label.movingAtoms=numpy.array(stored.movingAtoms)
 			
 			#create object with only the atoms around the label to speed everything up 
 			#cmd.color ("red", "%s &! %s within %f of %s" %(self.picked_object1, self.residue1_name, self.label.radius, self.label.pymolName))
-			protein="%s &! %s within %f of %s" %(self.picked_object1, self.residue1_name, self.label.radius, self.label.pymolName)
+			protein ="%s &! %s within %f of %s" %(self.picked_object1, self.residue1_name, self.label.radius, self.label.pymolName)
+			cmd.create ("environment", "byres "+protein)
 			stored.environmentAtoms = []
 			cmd.iterate_state(1, protein, 'stored.environmentAtoms.append((x,y,z))')
-			environmentAtoms=numpy.array(stored.environmentAtoms)
+			environmentAtoms = numpy.array(stored.environmentAtoms)
+	
 			result = self.fastMtsslify(environmentAtoms)
 			#only switch on snuggly fit search for "painstaking"
 			if self.thoroughness == "painstaking":
@@ -441,13 +474,22 @@ class MtsslWizard(Wizard):
 			def proxyl():
 				tmp=ProxylLabel("tmp")
 				return tmp.spinLocation
+			def dota1():
+				tmp=Dota1Label("tmp")
+				return tmp.spinLocation
+			def bysp():
+				tmp=ByspLabel("tmp")
+				return tmp.spinLocation
 			def urip():
 				tmp=UripLabel("tmp")
 				return tmp.spinLocation
 			def clabel():
 				tmp=CLabel("tmp")
 				return tmp.spinLocation
-			options = {"M-T-S-S-L":mtssl, "P-R-O-X-Y-L":proxyl, "U-R-I-P":urip, "C-L-A-B-E-L":clabel,}
+			def pacphe():
+				tmp=PAcPheLabel("tmp")
+				return tmp.spinLocation
+			options = {"M-T-S-S-L":mtssl, "P-R-O-X-Y-L":proxyl, "D-O-T-A-1":dota1, "B-Y-S-P":bysp, "U-R-I-P":urip, "C-L-A-B-E-L":clabel, "p-A-c-P-h-e":pacphe}
 			
 			#Decide if only the spin location (for labels) or all atoms of the selection are used
 			if self.picked_object1.split('_')[-1] in options:
@@ -574,7 +616,7 @@ class MtsslWizard(Wizard):
 		cmd.delete("*_tmp*")
 		cmd.delete("*tmp*")
 		cmd.delete("_indicate*")
-		cmd.delete("labelEnvironment*")
+		#cmd.delete("labelEnvironment*")
 		self.cmd.refresh_wizard()
 		cmd.set_view(my_view)
 	
@@ -601,6 +643,7 @@ class MtsslWizard(Wizard):
 			args.append("%s & name %s" %(self.label.pymolName, self.label.atomsForSuperposition[i]))
 			args.append("%s & name %s" %(self.residue1_name, self.label.atomsForSuperposition[i]))
 			i+=1
+		print args
 		if apply(cmd.pair_fit, args):
 			#set the label's O atom to the stored position
 			if self.label.modifiedAA:
@@ -673,7 +716,8 @@ class MtsslWizard(Wizard):
 						angle = generatePeptideChiAngle()
 					rotationMatrix=setupRotationMatrix(angle, axis[1])
 					self.label.movingAtoms[self.label.rotationInfo[str(chi)][1]]=rotatePoints(self.label.movingAtoms[self.label.rotationInfo[str(chi)][1]], rotationMatrix)
-				self.label.movingAtoms+=backtranslationVector	
+				self.label.movingAtoms+=backtranslationVector
+			
 			if not quickClash(self.label.movingAtoms[self.label.clashAtoms], environmentAtoms, self.cutoff, self.clashes) or not self.label.rotate:
 				if not internalClash2(self.label.movingAtoms, refDist):
 					found+=1
@@ -931,21 +975,18 @@ class MtsslLabel:
 	radius = 13.0
 	atomNames =	 ['N', 'O', 'C', 'CA', 'CB', 'SG', 'SD', 'CE', 'C3', 'O1', 'C2', 'N1', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
 				#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17 
+	
 	unsortedAtomNames = ['N', 'CA', 'C', 'O', 'CB', 'SG', 'SD', 'CE', 'N1', 'O1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
+	movingAtoms=[]
 	spinLocation = 'N1'
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
 	defaultVdw = "tight"
-	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'quick search': 50}
+	numberToFind = {'painstaking': 2000, 'thorough search': 200, 'quick search': 50}
 	numberOfTries = {'painstaking': 100000, 'thorough search': 10000, 'quick search': 1000}
 	info = ""
 	errorMessage = ""
-	pdbStr = """HEADER    MTSSL\n
-COMPND    coordinates of R1A      from program: libcheck\n                        
-CRYST1  100.000  100.000  100.000  90.00  90.00  90.00 P 1\n                      
-SCALE1      0.010000  0.000000  0.000000        0.00000\n                         
-SCALE2      0.000000  0.010000  0.000000        0.00000\n                         
-SCALE3      0.000000  0.000000  0.010000        0.00000\n                         
+	pdbStr = """HEADER    MTSSL\n                
 ATOM      1 N    R1A A   1       0.201  -0.038  -0.149  1.00 20.00           N\n
 ATOM      2 CA   R1A A   1       1.258   1.007  -0.271  1.00 20.00           C\n
 ATOM      4 CB   R1A A   1       2.056   0.796  -1.554  1.00 20.00           C\n
@@ -967,28 +1008,8 @@ ATOM     36 O    R1A A   1      -0.298   2.670  -0.967  1.00 20.00           O\n
 	
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
-	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on mtssl in pymol:
-		#['N', 'CA', 'C', 'O', 'CB', 'SG', 'SD', 'CE', 'N1', 'O1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
-		#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17  
-		#This is the order we want
-		#['N', 'O', 'C', 'CA', 'CB', 'SG', 'SD', 'CE', 'C3', 'O1', 'C2', 'N1', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
-		#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17  
-		
-		#swap N1 with C3 and CA with O, so that all atoms which serve as rotation axes are in sequence
-		n1=movingAtoms[8]
-		c3=movingAtoms[11]
-		ca=movingAtoms[1]
-		o=movingAtoms[3]
-		movingAtoms[8]=c3
-		movingAtoms[11]=n1
-		movingAtoms[1]=o
-		movingAtoms[3]=ca
-		self.movingAtoms=numpy.array(movingAtoms)
 
+	
 class ProxylLabel:
 	identifier = "P-R-O-X-Y-L"
 	modifiedAA = True
@@ -1001,6 +1022,7 @@ class ProxylLabel:
 	atomNames =	 ['N', 'O', 'C', 'CA', 'CB', 'SG', 'C1', 'C2', 'N2', 'C3', 'N1', 'O1', 'C10','C4', 'C5', 'C6', 'C7', 'C8', 'C9',  'O3']
 				#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17	18	   19
 	unsortedAtomNames = ['N', 'CA', 'C', 'O', 'CB', 'SG', 'C1', 'N1', 'O1', 'C2', 'N2', 'C3', 'O3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10']
+	movingAtoms=[]
 	spinLocation = 'N1'
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
@@ -1010,11 +1032,6 @@ class ProxylLabel:
 	info = ""
 	errorMessage = ""
 	pdbStr = """HEADER    PROXYL\n
-COMPND    coordinates of PROXYL   from program: MMM\n
-CRYST1  100.000  100.000  100.000  90.00  90.00  90.00 P 1\n                      
-SCALE1      0.010000  0.000000  0.000000        0.00000\n                         
-SCALE2      0.000000  0.010000  0.000000        0.00000\n                         
-SCALE3      0.000000  0.000000  0.010000        0.00000\n                         
 ATOM      1 N    IA1 A   1       0.727  -0.687   0.805  1.00 20.00           N\n
 ATOM      2 CA   IA1 A   1      -0.684  -0.504   1.000  1.00 20.00           C\n
 ATOM      4 C    IA1 A   1      -1.116   0.797   0.371  1.00 20.00           C\n
@@ -1038,38 +1055,7 @@ ATOM     38 C10  IA1 A   1      -7.356  -3.824   5.436  1.00 20.00           C\n
 	
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
-	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on proxyl in pymol:
-		#['N', 'CA', 'C', 'O', 'CB', 'SG', 'C1', 'N1', 'O1', 'C2', 'N2', 'C3', 'O3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10']
-		#  0	1	  2	   3	4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17	 18	   19 
-		#This is the order we want:
-		#['N', 'O', 'C', 'CA', 'CB', 'SG', 'C1', 'C2', 'N2', 'C3', 'N1', 'O1', 'C10','C4', 'C5', 'C6', 'C7', 'C8', 'C9',  'O3']
-		#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17	 18	   19 
-		
-		#swap atoms
-		ca=movingAtoms[1]
-		o=movingAtoms[3]
-		n1=movingAtoms[7]
-		o1=movingAtoms[8]
-		c2=movingAtoms[9]
-		n2=movingAtoms[10]
-		c3=movingAtoms[11]
-		o3=movingAtoms[12]
-		c10=movingAtoms[19]
-		
-		movingAtoms[1]=o
-		movingAtoms[3]=ca
-		movingAtoms[7]=c2
-		movingAtoms[8]=n2
-		movingAtoms[9]=c3
-		movingAtoms[10]=n1
-		movingAtoms[11]=o1
-		movingAtoms[12]=c10
-		movingAtoms[19]=o3
-		self.movingAtoms=numpy.array(movingAtoms)
+
 		
 class UripLabel:
 	identifier = "U-R-I-P"
@@ -1082,6 +1068,7 @@ class UripLabel:
 	radius = 13.0
 	atomNames =	 ["O4'", "C3'", "C2'", 'NS1', 'CS1', 'NS2', 'CS7', 'CS2', 'CS10', 'CS11',  'CS3', 'CS5', 'CS6',  'CS8', 'CS9',   'NS3', 'OS1', 'OS2']
 	unsortedAtomNames = ["O4'", "C3'", "C2'", 'CS1', 'CS10', 'CS11', 'CS2', 'CS3', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'NS2', 'NS3', 'OS1', 'OS2']
+	movingAtoms=[]
 	spinLocation = 'NS3'
 	highlight = 'OS1'
 	atomsForSuperposition = ["C2'","C3'","O4'"]
@@ -1113,46 +1100,6 @@ ATOM      7 CS11 URI A   6     -24.829  73.681  18.029  0.00  0.00           C\n
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
 	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on urip in pymol:
-		#["O4'", "C3'", "C2'", 'CS1', 'CS10', 'CS11', 'CS2', 'CS3', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'NS2', 'NS3', 'OS1', 'OS2']
-		#  0	   1	 2	    3	   4	   5	   6	  7		 8	    9	   10	  11	 12	    13	   14	  15	 16	    17 
-		#This is the order we want:
-		#["O4'", "C3'", "C2'", 'NS1', 'CS1', 'NS2', 'CS7', 'CS2', 'CS10', 'CS11',  'CS3', 'CS5', 'CS6',  'CS8', 'CS9',   'NS3', 'OS1', 'OS2']
-		#  0	  1	     2	    3	   4	  5		 6	    7	   8	   9		10	   11	  12	  13	 14	      15	 16	    17
-		#swap atoms
-		cs1=movingAtoms[3]
-		cs10=movingAtoms[4]
-		cs11=movingAtoms[5]
-		cs2=movingAtoms[6]
-		cs3=movingAtoms[7]
-		cs5=movingAtoms[8]
-		cs6=movingAtoms[9]
-		cs7=movingAtoms[10]
-		cs8=movingAtoms[11]
-		cs9=movingAtoms[12]
-		ns1=movingAtoms[13]
-		ns2=movingAtoms[14]
-		
-		movingAtoms[3]=ns1
-		movingAtoms[4]=cs1
-		movingAtoms[5]=ns2
-		movingAtoms[6]=cs7
-		movingAtoms[7]=cs2
-		movingAtoms[8]=cs10
-		movingAtoms[9]=cs11
-		movingAtoms[10]=cs3
-		movingAtoms[11]=cs5
-		movingAtoms[12]=cs6
-		movingAtoms[13]=cs8
-		movingAtoms[14]=cs9
-		
-		
-		
-		self.movingAtoms=numpy.array(movingAtoms)
-
 class CLabel:
 	identifier = "C-L-A-B-E-L"
 	modifiedAA = False
@@ -1164,6 +1111,7 @@ class CLabel:
 	radius = 20
 	atomNames =	 ['C1', 'N1', 'C2', 'O2', 'N3', 'C5', 'C6', 'N7', 'C8', 'C9', 'O10', 'C11', 'C12', 'C13', 'C14', 'C15', 'N16', 'C17', 'C19', 'C20', 'O21', 'C22', 'C23']
 	unsortedAtomNames = ['C1', 'N1', 'C2', 'O2', 'N3', 'C5', 'C6', 'N7', 'C8', 'C9', 'O10', 'C11', 'C12', 'C13', 'C14', 'C15', 'N16', 'C17', 'C19', 'C20', 'O21', 'C22', 'C23']
+	movingAtoms=[]
 	spinLocation = 'N16'
 	highlight = 'O21'
 	atomsForSuperposition = ["N1", "C2", "O2", "N3"]
@@ -1200,8 +1148,171 @@ HETATM   32  C23 EXC B   2      12.956  -1.146  15.215  1.00 19.65           C  
 	
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
+
+class Dota1Label:
+	identifier = "D-O-T-A-1"
+	modifiedAA = True
+	numberOfRotatingBonds = 6
+	numberOfAtoms = 38
+	rotate = True
+	rotationInfo = {'1': [3,slice(5, numberOfAtoms), False], '2': [4,slice(6, numberOfAtoms), False], '3': [5,slice(7, numberOfAtoms), False], '4': [6,slice(8, numberOfAtoms), False], '5': [7,slice(9, numberOfAtoms), False], '6': [8,slice(10, numberOfAtoms), False]}
+	clashAtoms = slice(5, numberOfAtoms)
+	radius = 18.0
+	atomNames =	 ['N', 'O',  'C', 'CA', 'CB',  'SG', 'SD', 'C17','C16','N5', 'C15', 'C3', 'N3', 'O3', 'C4', 'N4', 'O4', 'C5', 'N2', 'O5', 'C6', 'O6', 'C7', 'O7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'O2',  'C2',  'O1',  'C18', 'Gd', 'C1','N1']
+				#  0	1	  2	   3	 4	    5	  6	    7	  8	    9	  10	 11    12	 13    14	 15    16	 17    18    19    20    21    22    23    24    25    26     27     28     29     30     31     32     33     34     35    36   37 
 	
+	unsortedAtomNames = ['N', 'CA', 'CB', 'SG', 'SD', 'C1', 'N1', 'O1', 'C2', 'N2', 'O2',  'C3', 'N3', 'O3', 'C4', 'N4', 'O4', 'C5', 'N5', 'O5', 'C6', 'O6', 'C7', 'O7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', 'Gd', 'C', 'O']
+	movingAtoms=[]
+	spinLocation = 'Gd'
+	highlight = 'Gd'
+	atomsForSuperposition = ['CA','N','C','CB']
+	defaultVdw = "tight"
+	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'quick search': 50}
+	numberOfTries = {'painstaking': 100000, 'thorough search': 10000, 'quick search': 1000}
+	info = ""
+	errorMessage = ""
+	pdbStr = """HEADER    DTA\n
+ATOM      1 N    DTA A   1       0.201  -0.038  -0.149  1.00 20.00           N 
+ATOM      2 C    R1A A   1       0.670   2.388  -0.261  1.00 20.00           C
+ATOM      3 O    R1A A   1      -0.298   2.670  -0.967  1.00 20.00           O
+ATOM      4 CA   DTA A   1       1.258   1.007  -0.271  1.00 20.00           C 
+ATOM      5 CB   DTA A   1       2.056   0.796  -1.554  1.00 20.00           C 
+ATOM      6 SG   DTA A   1       3.667   1.492  -1.387  1.00 20.00           S 
+ATOM      7 SD   DTA A   1       4.546   1.587  -3.180  1.00 20.00           S 
+ATOM      8 N1   DTA A   1      10.664   6.956   2.914  0.00  0.00           N  
+ATOM      9 N2   DTA A   1       8.088   7.390   1.217  0.00  0.00           N  
+ATOM     10 N3   DTA A   1       8.072   4.476   0.262  0.00  0.00           N  
+ATOM     11 N4   DTA A   1      10.642   3.874   2.091  0.00  0.00           N  
+ATOM     12 N5   DTA A   1       7.540   4.129  -2.243  0.00  0.00           N  
+ATOM     13 C1   DTA A   1       8.581   8.583   2.347  0.00  0.00           C  
+ATOM     14 C2   DTA A   1       9.535   8.072   3.473  0.00  0.00           C  
+ATOM     15 C3   DTA A   1       6.635   6.520   1.215  0.00  0.00           C  
+ATOM     16 C4   DTA A   1       6.735   5.019   0.751  0.00  0.00           C  
+ATOM     17 C5   DTA A   1      11.218   5.797   4.032  0.00  0.00           C  
+ATOM     18 C6   DTA A   1      11.595   4.402   3.412  0.00  0.00           C  
+ATOM     19 C7   DTA A   1       9.321   2.786   1.945  0.00  0.00           C  
+ATOM     20 C8   DTA A   1       8.376   3.044   0.699  0.00  0.00           C  
+ATOM     21 C9   DTA A   1      11.962   7.867   2.554  0.00  0.00           C  
+ATOM     22 C10  DTA A   1      12.595   7.180   1.363  0.00  0.00           C  
+ATOM     23 C11  DTA A   1      11.770   3.656  -0.089  0.00  0.00           C  
+ATOM     24 C12  DTA A   1      11.741   3.037   1.290  0.00  0.00           C  
+ATOM     25 C13  DTA A   1       7.919   8.327  -0.072  0.00  0.00           C  
+ATOM     26 C14  DTA A   1       9.320   8.374  -0.663  0.00  0.00           C  
+ATOM     27 C15  DTA A   1       8.129   4.708  -1.156  0.00  0.00           C  
+ATOM     28 C16  DTA A   1       6.694   2.935  -2.181  0.00  0.00           C  
+ATOM     29 C17  DTA A   1       5.585   3.049  -3.239  0.00  0.00           C  
+ATOM     30 C18  DTA A   1       8.591   5.328   2.867  0.00  0.00           C  
+ATOM     31 O1   DTA A   1      12.279   6.121   0.827  0.00  0.00           O  
+ATOM     32 O2   DTA A   1      13.723   7.836   0.992  0.00  0.00           O  
+ATOM     33 O3   DTA A   1      10.918   4.338  -0.654  0.00  0.00           O  
+ATOM     34 O4   DTA A   1      12.860   3.224  -0.772  0.00  0.00           O  
+ATOM     35 O5   DTA A   1      10.366   7.900  -0.217  0.00  0.00           O  
+ATOM     36 O6   DTA A   1       9.331   9.175  -1.757  0.00  0.00           O  
+ATOM     37 O7   DTA A   1       8.864   5.668  -1.199  0.00  0.00           O  
+ATOM     38 Gd   DTA A   1       9.943   5.855   0.862  0.00  0.00          GD\n"""
+	
+	def __init__(self, pymolName):
+		self.pymolName = pymolName
+	
+class ByspLabel:
+	identifier = "B-Y-S-P"
+	modifiedAA = True
+	numberOfRotatingBonds = 9
+	numberOfAtoms = 23
+	rotate = True
+	rotationInfo = {'1': [3,slice(5, numberOfAtoms), False], '2': [4,slice(6, numberOfAtoms), False], '3': [5,slice(7, numberOfAtoms), False], '4': [6,slice(8, numberOfAtoms), False], '5': [7,slice(9, numberOfAtoms), False], '6': [17,slice(19, numberOfAtoms), False], '7': [18,slice(20, numberOfAtoms), False], '8': [19,slice(21, numberOfAtoms), False], '9': [20,slice(22, numberOfAtoms), False]}
+	clashAtoms = slice(5, 5)
+	radius = 16.0
+	atomNames =	['N', 'O', 'C', 'CA', 'CB', 'SG1', 'SG2', 'CL1', 'CS3', 'CS2', 'CS8', 'CS9', 'NS1', 'OS1', 'CS5', 'CS6', 'CS7', 'CS4', 'CL2', 'SG3', 'SG4', 'CB2', 'CA1'] 
+	#             0    1    2    3     4     5      6      7      8      9      10     11     12     13     14     15     16     17     18     19     20     21     22 
+	
+	unsortedAtomNames = ['N', 'CA', 'CA1', 'C', 'O', 'CB', 'CB2', 'SG1', 'SG2', 'SG3', 'SG4', 'CL1', 'CL2', 'CS2', 'CS3', 'CS4', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'OS1']
+	movingAtoms=[]
+	spinLocation = 'NS1'
+	highlight = 'OS1'
+	atomsForSuperposition = ['CA','N','C','CB']
+	defaultVdw = "tight"
+	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'quick search': 50}
+	numberOfTries = {'painstaking': 100000, 'thorough search': 10000, 'quick search': 1000}
+	info = ""
+	errorMessage = ""
+	pdbStr = """HEADER    BYSP\n                
+ATOM     50  N   BYSP   16       2.664  32.900  33.516  1.00 37.45      A\n
+ATOM     51  CA  BYSP   16       3.870  32.287  34.069  1.00 37.25      A\n
+ATOM     52  CB  BYSP   16       3.521  31.459  35.330  1.00 41.00      A\n
+ATOM     53  SG1 BYSP   16       2.337  30.121  34.923  1.00  0.00      A\n
+ATOM     54  SG2 BYSP   16       3.362  28.406  35.157  1.00  0.00      A\n
+ATOM     55  SG3 BYSP   16       7.434  28.620  30.786  1.00  0.00      A\n
+ATOM     56  CL1 BYSP   16       4.846  28.679  34.193  1.00  0.00      A\n
+ATOM     57  CS3 BYSP   16       5.725  27.479  33.984  1.00  0.00      A\n
+ATOM     58  CS2 BYSP   16       6.175  26.549  35.100  1.00  0.00      A\n
+ATOM     59  CS8 BYSP   16       6.974  27.286  36.213  1.00  0.00      A\n
+ATOM     60  CS9 BYSP   16       4.967  25.810  35.626  1.00  0.00      A\n
+ATOM     61  NS1 BYSP   16       7.009  25.616  34.335  1.00  0.00      A\n
+ATOM     62  OS1 BYSP   16       7.555  24.642  34.879  1.00  0.00      A\n
+ATOM     63  CS5 BYSP   16       7.106  25.902  32.887  1.00  0.00      A\n
+ATOM     64  CS7 BYSP   16       8.512  26.343  32.589  1.00  0.00      A\n
+ATOM     65  CS6 BYSP   16       6.715  24.752  32.010  1.00  0.00      A\n
+ATOM     66  CS4 BYSP   16       6.225  27.124  32.813  1.00  0.00      A\n
+ATOM     67  CL2 BYSP   16       5.969  27.823  31.527  1.00  0.00      A\n
+ATOM     68  C   BYSP   16       4.541  31.404  33.041  1.00 35.65      A\n
+ATOM     69  O   BYSP   16       5.642  30.960  33.232  1.00 35.84      A\n
+ATOM     88  CA1 BYSP   16       9.638  32.113  31.010  1.00 32.61      A\n
+ATOM     89  CB2 BYSP   16       9.444  30.675  31.495  1.00 35.74      A\n
+ATOM     90  SG4 BYSP   16       7.715  30.249  31.870  1.00  0.00      A\n"""
+	
+	def __init__(self, pymolName):
+		self.pymolName = pymolName
 		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		self.movingAtoms=numpy.array(movingAtoms)
+class PAcPheLabel:
+	identifier = "p-A-c-P-h-e"
+	modifiedAA = True
+	numberOfRotatingBonds = 6
+	numberOfAtoms = 26
+	rotate = True
+	rotationInfo = {'1': [3,slice(5, numberOfAtoms), False], '2': [4,slice(6, numberOfAtoms), False], '3': [10,slice(12, numberOfAtoms), True], '4': [12,slice(14, numberOfAtoms-1), False], '5': [13,slice(15, numberOfAtoms-1), False], '6': [14,slice(16, numberOfAtoms-1), False]}
+	clashAtoms = slice(5, numberOfAtoms)
+	radius = 15.0
+	atomNames =	['N', 'O', 'C', 'CA', 'CB', 'C19', 'C18', 'C17', 'C25', 'C26', 'C16', 'C02', 'N03', 'O04', 'CE', 'C3', 'O1', 'C2', 'N1', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C01']
+	           #  0	   1	2	  3		4	   5	  6      7      8      9     10     11     12     13     14     15    16    17    18    19    20    21    22    23    24    25
+	
+	unsortedAtomNames = ['N', 'CA', 'C', 'O', 'CB', 'CE', 'C01', 'N1', 'O1', 'C02', 'C2', 'C3', 'N03', 'C4', 'O04', 'C5', 'C6', 'C7', 'C8', 'C9', 'C16', 'C17', 'C18', 'C19', 'C25', 'C26']
+	movingAtoms=[]
+	spinLocation = 'N1'
+	highlight = 'O1'
+	atomsForSuperposition = ['CA','N','C','CB']
+	defaultVdw = "tight"
+	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'quick search': 50}
+	numberOfTries = {'painstaking': 100000, 'thorough search': 10000, 'quick search': 1000}
+	info = ""
+	errorMessage = ""
+	pdbStr = """HEADER    LIG\n                
+ATOM      1  N   LIG A   1       9.798  -1.128   4.576  1.00 20.00           N\n  
+ATOM      2  CA  LIG A   1      10.446  -0.181   3.713  1.00 20.00           C\n 
+ATOM      3  C   LIG A   1      11.904  -0.389   3.763  1.00 20.00           C\n  
+ATOM      4  O   LIG A   1      12.516  -0.159   4.800  1.00 20.00           O\n  
+ATOM      5  CB  LIG A   1      10.060   1.237   4.126  1.00 20.00           C\n  
+ATOM      6  CE  LIG A   1       3.592   4.420  -0.998  1.00 20.00           C\n  
+ATOM      7  C01 LIG A   1       7.779   4.832  -1.222  1.00 20.00           C\n  
+ATOM      8  N1  LIG A   1       2.136   1.331  -2.662  1.00 20.00           N\n  
+ATOM      9  O1  LIG A   1       1.410   0.363  -2.819  1.00 20.00           O\n  
+ATOM     10  C02 LIG A   1       7.034   4.049  -0.163  1.00 20.00           C\n  
+ATOM     11  C2  LIG A   1       2.033   2.237  -1.525  1.00 20.00           C\n  
+ATOM     12  C3  LIG A   1       3.147   3.219  -1.815  1.00 20.00           C\n  
+ATOM     13  N03 LIG A   1       5.702   3.974  -0.203  1.00 20.00           N\n  
+ATOM     14  C4  LIG A   1       3.774   2.900  -2.952  1.00 20.00           C\n  
+ATOM     15  O04 LIG A   1       5.013   4.622  -1.186  1.00 20.00           O\n  
+ATOM     16  C5  LIG A   1       3.189   1.678  -3.600  1.00 20.00           C\n  
+ATOM     17  C6  LIG A   1       2.669   2.009  -4.991  1.00 20.00           C\n  
+ATOM     18  C7  LIG A   1       4.252   0.589  -3.666  1.00 20.00           C\n  
+ATOM     19  C8  LIG A   1       2.276   1.503  -0.215  1.00 20.00           C\n  
+ATOM     20  C9  LIG A   1       0.670   2.932  -1.552  1.00 20.00           C\n  
+ATOM     21  C16 LIG A   1       7.811   3.339   0.966  1.00 20.00           C\n  
+ATOM     22  C17 LIG A   1       7.130   2.612   1.931  1.00 20.00           C\n  
+ATOM     23  C18 LIG A   1       7.853   1.931   2.956  1.00 20.00           C\n  
+ATOM     24  C19 LIG A   1       9.254   1.997   2.987  1.00 20.00           C\n  
+ATOM     25  C25 LIG A   1       9.939   2.726   2.021  1.00 20.00           C\n  
+ATOM     26  C26 LIG A   1       9.217   3.406   0.998  1.00 20.00           C\n"""
+	
+	def __init__(self, pymolName):
+		self.pymolName = pymolName
