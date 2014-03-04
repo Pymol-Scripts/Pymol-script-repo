@@ -1,8 +1,8 @@
 """
 ---mtsslWizard: spin_labeling plugin for PyMOL --- 
 Author	: Gregor Hagelueken
-Date	: May 2013
-Version : 1.11
+Date	: March 2014
+Version : 1.12
 Mail	: hagelueken'at'pc.uni-bonn.de
  
 mtsslWizard is a plugin for the PyMOL Molecular Graphics System. 
@@ -425,11 +425,12 @@ class MtsslWizard(Wizard):
 			else:
 				print "Superposition worked!"
 			
-			#prepare movingAtoms, put into correct order...
+			#prepare movingAtoms array of label, put into correct order...
 			stored.movingAtoms = []
-			cmd.iterate_state(1, self.label.pymolName, 'stored.movingAtoms.append((x,y,z))')
-			atoms = stored.movingAtoms
-			self.label.prepareMovingAtoms(atoms)
+			for i in range (0, len(self.label.atomNames)):
+				xyz = cmd.get_model("%s & name %s" %(self.label.pymolName, self.label.atomNames[i] ), 1).get_coord_list()
+				stored.movingAtoms.extend(xyz)
+			self.label.movingAtoms=numpy.array(stored.movingAtoms)
 			
 			#create object with only the atoms around the label to speed everything up 
 			#cmd.color ("red", "%s &! %s within %f of %s" %(self.picked_object1, self.residue1_name, self.label.radius, self.label.pymolName))
@@ -976,6 +977,7 @@ class MtsslLabel:
 				#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17 
 	
 	unsortedAtomNames = ['N', 'CA', 'C', 'O', 'CB', 'SG', 'SD', 'CE', 'N1', 'O1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
+	movingAtoms=[]
 	spinLocation = 'N1'
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
@@ -1006,28 +1008,8 @@ ATOM     36 O    R1A A   1      -0.298   2.670  -0.967  1.00 20.00           O\n
 	
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
-	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on mtssl in pymol:
-		#['N', 'CA', 'C', 'O', 'CB', 'SG', 'SD', 'CE', 'N1', 'O1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
-		#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17  
-		#This is the order we want
-		#['N', 'O', 'C', 'CA', 'CB', 'SG', 'SD', 'CE', 'C3', 'O1', 'C2', 'N1', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
-		#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17  
-		
-		#swap N1 with C3 and CA with O, so that all atoms which serve as rotation axes are in sequence
-		n1=movingAtoms[8]
-		c3=movingAtoms[11]
-		ca=movingAtoms[1]
-		o=movingAtoms[3]
-		movingAtoms[8]=c3
-		movingAtoms[11]=n1
-		movingAtoms[1]=o
-		movingAtoms[3]=ca
-		self.movingAtoms=numpy.array(movingAtoms)
 
+	
 class ProxylLabel:
 	identifier = "P-R-O-X-Y-L"
 	modifiedAA = True
@@ -1040,6 +1022,7 @@ class ProxylLabel:
 	atomNames =	 ['N', 'O', 'C', 'CA', 'CB', 'SG', 'C1', 'C2', 'N2', 'C3', 'N1', 'O1', 'C10','C4', 'C5', 'C6', 'C7', 'C8', 'C9',  'O3']
 				#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17	18	   19
 	unsortedAtomNames = ['N', 'CA', 'C', 'O', 'CB', 'SG', 'C1', 'N1', 'O1', 'C2', 'N2', 'C3', 'O3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10']
+	movingAtoms=[]
 	spinLocation = 'N1'
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
@@ -1072,38 +1055,7 @@ ATOM     38 C10  IA1 A   1      -7.356  -3.824   5.436  1.00 20.00           C\n
 	
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
-	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on proxyl in pymol:
-		#['N', 'CA', 'C', 'O', 'CB', 'SG', 'C1', 'N1', 'O1', 'C2', 'N2', 'C3', 'O3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10']
-		#  0	1	  2	   3	4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17	 18	   19 
-		#This is the order we want:
-		#['N', 'O', 'C', 'CA', 'CB', 'SG', 'C1', 'C2', 'N2', 'C3', 'N1', 'O1', 'C10','C4', 'C5', 'C6', 'C7', 'C8', 'C9',  'O3']
-		#  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17	 18	   19 
-		
-		#swap atoms
-		ca=movingAtoms[1]
-		o=movingAtoms[3]
-		n1=movingAtoms[7]
-		o1=movingAtoms[8]
-		c2=movingAtoms[9]
-		n2=movingAtoms[10]
-		c3=movingAtoms[11]
-		o3=movingAtoms[12]
-		c10=movingAtoms[19]
-		
-		movingAtoms[1]=o
-		movingAtoms[3]=ca
-		movingAtoms[7]=c2
-		movingAtoms[8]=n2
-		movingAtoms[9]=c3
-		movingAtoms[10]=n1
-		movingAtoms[11]=o1
-		movingAtoms[12]=c10
-		movingAtoms[19]=o3
-		self.movingAtoms=numpy.array(movingAtoms)
+
 		
 class UripLabel:
 	identifier = "U-R-I-P"
@@ -1116,6 +1068,7 @@ class UripLabel:
 	radius = 13.0
 	atomNames =	 ["O4'", "C3'", "C2'", 'NS1', 'CS1', 'NS2', 'CS7', 'CS2', 'CS10', 'CS11',  'CS3', 'CS5', 'CS6',  'CS8', 'CS9',   'NS3', 'OS1', 'OS2']
 	unsortedAtomNames = ["O4'", "C3'", "C2'", 'CS1', 'CS10', 'CS11', 'CS2', 'CS3', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'NS2', 'NS3', 'OS1', 'OS2']
+	movingAtoms=[]
 	spinLocation = 'NS3'
 	highlight = 'OS1'
 	atomsForSuperposition = ["C2'","C3'","O4'"]
@@ -1147,46 +1100,6 @@ ATOM      7 CS11 URI A   6     -24.829  73.681  18.029  0.00  0.00           C\n
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
 	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on urip in pymol:
-		#["O4'", "C3'", "C2'", 'CS1', 'CS10', 'CS11', 'CS2', 'CS3', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'NS2', 'NS3', 'OS1', 'OS2']
-		#  0	   1	 2	    3	   4	   5	   6	  7		 8	    9	   10	  11	 12	    13	   14	  15	 16	    17 
-		#This is the order we want:
-		#["O4'", "C3'", "C2'", 'NS1', 'CS1', 'NS2', 'CS7', 'CS2', 'CS10', 'CS11',  'CS3', 'CS5', 'CS6',  'CS8', 'CS9',   'NS3', 'OS1', 'OS2']
-		#  0	  1	     2	    3	   4	  5		 6	    7	   8	   9		10	   11	  12	  13	 14	      15	 16	    17
-		#swap atoms
-		cs1=movingAtoms[3]
-		cs10=movingAtoms[4]
-		cs11=movingAtoms[5]
-		cs2=movingAtoms[6]
-		cs3=movingAtoms[7]
-		cs5=movingAtoms[8]
-		cs6=movingAtoms[9]
-		cs7=movingAtoms[10]
-		cs8=movingAtoms[11]
-		cs9=movingAtoms[12]
-		ns1=movingAtoms[13]
-		ns2=movingAtoms[14]
-		
-		movingAtoms[3]=ns1
-		movingAtoms[4]=cs1
-		movingAtoms[5]=ns2
-		movingAtoms[6]=cs7
-		movingAtoms[7]=cs2
-		movingAtoms[8]=cs10
-		movingAtoms[9]=cs11
-		movingAtoms[10]=cs3
-		movingAtoms[11]=cs5
-		movingAtoms[12]=cs6
-		movingAtoms[13]=cs8
-		movingAtoms[14]=cs9
-		
-		
-		
-		self.movingAtoms=numpy.array(movingAtoms)
-
 class CLabel:
 	identifier = "C-L-A-B-E-L"
 	modifiedAA = False
@@ -1198,6 +1111,7 @@ class CLabel:
 	radius = 20
 	atomNames =	 ['C1', 'N1', 'C2', 'O2', 'N3', 'C5', 'C6', 'N7', 'C8', 'C9', 'O10', 'C11', 'C12', 'C13', 'C14', 'C15', 'N16', 'C17', 'C19', 'C20', 'O21', 'C22', 'C23']
 	unsortedAtomNames = ['C1', 'N1', 'C2', 'O2', 'N3', 'C5', 'C6', 'N7', 'C8', 'C9', 'O10', 'C11', 'C12', 'C13', 'C14', 'C15', 'N16', 'C17', 'C19', 'C20', 'O21', 'C22', 'C23']
+	movingAtoms=[]
 	spinLocation = 'N16'
 	highlight = 'O21'
 	atomsForSuperposition = ["N1", "C2", "O2", "N3"]
@@ -1234,11 +1148,6 @@ HETATM   32  C23 EXC B   2      12.956  -1.146  15.215  1.00 19.65           C  
 	
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
-	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		self.movingAtoms=numpy.array(movingAtoms)
 
 class Dota1Label:
 	identifier = "D-O-T-A-1"
@@ -1253,6 +1162,7 @@ class Dota1Label:
 				#  0	1	  2	   3	 4	    5	  6	    7	  8	    9	  10	 11    12	 13    14	 15    16	 17    18    19    20    21    22    23    24    25    26     27     28     29     30     31     32     33     34     35    36   37 
 	
 	unsortedAtomNames = ['N', 'CA', 'CB', 'SG', 'SD', 'C1', 'N1', 'O1', 'C2', 'N2', 'O2',  'C3', 'N3', 'O3', 'C4', 'N4', 'O4', 'C5', 'N5', 'O5', 'C6', 'O6', 'C7', 'O7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', 'Gd', 'C', 'O']
+	movingAtoms=[]
 	spinLocation = 'Gd'
 	highlight = 'Gd'
 	atomsForSuperposition = ['CA','N','C','CB']
@@ -1304,54 +1214,6 @@ ATOM     38 Gd   DTA A   1       9.943   5.855   0.862  0.00  0.00          GD\n
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
 	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on mtssl in pymol:
-		#['N', 'CA', 'CB', 'SG', 'SD', 'C1', 'N1', 'O1', 'C2', 'N2', 'O2',  'C3', 'N3', 'O3', 'C4', 'N4', 'O4', 'C5', 'N5', 'O5', 'C6', 'O6', 'C7', 'O7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', 'Gd', 'C', 'O']
-		#  0    1     2     3     4     5     6     7     8     9     10     11    12    13    14    15    16    17    18    19    20    21    22    23    24    25    26     27     28     29     30     31     32     33     34     35    36   37  
-		#This is the order we want
-		#['N', 'O',  'C', 'CA', 'CB',  'SG', 'SD', 'C17','C16','N5', 'C15', 'C3', 'N3', 'O3', 'C4', 'N4', 'O4', 'C5', 'N2', 'O5', 'C6', 'O6', 'C7', 'O7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'O2',  'C2',  'O1',  'C18', 'Gd', 'C1','N1']
-		#  0    1     2    3     4      5     6     7     8     9     10     11    12    13    14    15    16    17    18    19    20    21    22    23    24    25    26     27     28     29     30     31     32     33     34     35    36   37
-		 
-		#swap atoms, so that all atoms which serve as rotation axes are in sequence
-		ca=movingAtoms[1]
-		cb=movingAtoms[2]
-		sg=movingAtoms[3]
-		sd=movingAtoms[4]
-		c1=movingAtoms[5]
-		n1=movingAtoms[6]
-		o1=movingAtoms[7]
-		c2=movingAtoms[8]
-		n2=movingAtoms[9]
-		o2=movingAtoms[10]
-		n5=movingAtoms[18]
-		c15=movingAtoms[31]
-		c16=movingAtoms[32]
-		c17=movingAtoms[33]
-		c=movingAtoms[36]
-		o=movingAtoms[37]
-		
-		movingAtoms[1]=o
-		movingAtoms[2]=c
-		movingAtoms[3]=ca
-		movingAtoms[4]=cb
-		movingAtoms[5]=sg
-		movingAtoms[6]=sd
-		movingAtoms[7]=c17
-		movingAtoms[8]=c16
-		movingAtoms[9]=n5
-		movingAtoms[10]=c15
-		movingAtoms[18]=n2
-		movingAtoms[31]=o2
-		movingAtoms[32]=c2
-		movingAtoms[33]=o1
-		movingAtoms[36]=c1
-		movingAtoms[37]=n1
-		
-		
-		self.movingAtoms=numpy.array(movingAtoms)
-		
 class ByspLabel:
 	identifier = "B-Y-S-P"
 	modifiedAA = True
@@ -1365,6 +1227,7 @@ class ByspLabel:
 	#             0    1    2    3     4     5      6      7      8      9      10     11     12     13     14     15     16     17     18     19     20     21     22 
 	
 	unsortedAtomNames = ['N', 'CA', 'CA1', 'C', 'O', 'CB', 'CB2', 'SG1', 'SG2', 'SG3', 'SG4', 'CL1', 'CL2', 'CS2', 'CS3', 'CS4', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'OS1']
+	movingAtoms=[]
 	spinLocation = 'NS1'
 	highlight = 'OS1'
 	atomsForSuperposition = ['CA','N','C','CB']
@@ -1400,65 +1263,6 @@ ATOM     90  SG4 BYSP   16       7.715  30.249  31.870  1.00  0.00      A\n"""
 	
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
-	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used on mtssl in pymol:
-		#['N', 'CA', 'CA1', 'C', 'O', 'CB', 'CB2', 'SG1', 'SG2', 'SG3', 'SG4', 'CL1', 'CL2', 'CS2', 'CS3', 'CS4', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'OS1']
-		#  0	1	  2	     3	  4    5     6       7     8      9      10     11     12     13     14     15     16     17     18     19     20     21     22  
-		#This is the order we want
-		#
-		#['N', 'O', 'C', 'CA', 'CB', 'SG1', 'SG2', 'CL1', 'CS3', 'CS2', 'CS8', 'CS9', 'NS1', 'OS1', 'CS5', 'CS6', 'CS7', 'CS4', 'CL2', 'SG3', 'SG4', 'CB2', 'CA1']
-		#  0	1	 2	  3		4	  5		 6      7      8      9      10     11     12     13     14     15     16     17     18     19     20     21     22  
-		#swap
-		ca = movingAtoms[1]
-		ca1 = movingAtoms[2]
-		c = movingAtoms[3]
-		o = movingAtoms[4] 
-		cb = movingAtoms[5] 
-		cb2 = movingAtoms[6] 
-		sg1 = movingAtoms[7] 
-		sg2 = movingAtoms[8] 
-		sg3 = movingAtoms[9] 
-		sg4 = movingAtoms[10] 
-		cl1 = movingAtoms[11] 
-		cl2 = movingAtoms[12] 
-		cs2 = movingAtoms[13] 
-		cs3 = movingAtoms[14] 
-		cs4 = movingAtoms[15] 
-		cs5 = movingAtoms[16] 
-		cs6 = movingAtoms[17] 
-		cs7 = movingAtoms[18] 
-		cs8 = movingAtoms[19] 
-		cs9 = movingAtoms[20] 
-		ns1 = movingAtoms[21] 
-		os1 = movingAtoms[22] 
-		
-		movingAtoms[1] = o
-		movingAtoms[2] = c
-		movingAtoms[3] = ca
-		movingAtoms[4] = cb
-		movingAtoms[5] = sg1
-		movingAtoms[6] = sg2
-		movingAtoms[7] = cl1
-		movingAtoms[8] = cs3
-		movingAtoms[9] = cs2
-		movingAtoms[10] = cs8
-		movingAtoms[11] = cs9
-		movingAtoms[12] = ns1
-		movingAtoms[13] = os1
-		movingAtoms[14] = cs5
-		movingAtoms[15] = cs6
-		movingAtoms[16] = cs7
-		movingAtoms[17] = cs4
-		movingAtoms[18] = cl2
-		movingAtoms[19] = sg3
-		movingAtoms[20] = sg4
-		movingAtoms[21] = cb2
-		movingAtoms[22] = ca1
-		
-		self.movingAtoms=numpy.array(movingAtoms)
 		
 class PAcPheLabel:
 	identifier = "p-A-c-P-h-e"
@@ -1473,6 +1277,7 @@ class PAcPheLabel:
 	           #  0	   1	2	  3		4	   5	  6      7      8      9     10     11     12     13     14     15    16    17    18    19    20    21    22    23    24    25
 	
 	unsortedAtomNames = ['N', 'CA', 'C', 'O', 'CB', 'CE', 'C01', 'N1', 'O1', 'C02', 'C2', 'C3', 'N03', 'C4', 'O04', 'C5', 'C6', 'C7', 'C8', 'C9', 'C16', 'C17', 'C18', 'C19', 'C25', 'C26']
+	movingAtoms=[]
 	spinLocation = 'N1'
 	highlight = 'O1'
 	atomsForSuperposition = ['CA','N','C','CB']
@@ -1511,90 +1316,3 @@ ATOM     26  C26 LIG A   1       9.217   3.406   0.998  1.00 20.00           C\n
 	
 	def __init__(self, pymolName):
 		self.pymolName = pymolName
-	
-		
-	def prepareMovingAtoms(self, atoms):
-		movingAtoms = atoms
-		#This is the order of atoms when iterate is used in pymol:
-		#['N', 'CA', 'C', 'O', 'CB', 'CE', 'C01', 'N1', 'O1', 'C02', 'C2', 'C3', 'N03', 'C4', 'O04', 'C5', 'C6', 'C7', 'C8', 'C9', 'C16', 'C17', 'C18', 'C19', 'C25', 'C26']
-		#  0	1	  2	   3	4     5     6     7     8     9     10    11    12    13    14    15     16     17     18     19     20     21     22     23     24     25
-		#This is the order we want
-		#
-		#['N', 'O', 'C', 'CA', 'CB', 'C19', 'C18', 'C17', 'C25', 'C26', 'C16', 'C02', 'N03', 'O04', 'CE', 'C3', 'O1', 'C2', 'N1', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C01']
-		#  0	1	 2	  3		4	   5	  6      7      8      9      10     11     12     13     14    15    16    17    18    19    20    21    22    23    24    25
-		#swap
-		n = movingAtoms[0]
-		ca = movingAtoms[1]
-		c = movingAtoms[2]
-		o = movingAtoms[3] 
-		cb = movingAtoms[4]
-		ce = movingAtoms[5] 
-		c01 = movingAtoms[6] 
-		n1 = movingAtoms[7] 
-		o1 = movingAtoms[8] 
-		c02 = movingAtoms[9] 
-		c2 = movingAtoms[10] 
-		c3 = movingAtoms[11] 
-		n03 = movingAtoms[12] 
-		c4 = movingAtoms[13] 
-		o04 = movingAtoms[14] 
-		c5 = movingAtoms[15] 
-		c6 = movingAtoms[16] 
-		c7 = movingAtoms[17] 
-		c8 = movingAtoms[18] 
-		c9 = movingAtoms[19] 
-		c16 = movingAtoms[20] 
-		c17 = movingAtoms[21] 
-		c18 = movingAtoms[22]
-		c19 = movingAtoms[23]
-		c25 = movingAtoms[24]
-		c26 = movingAtoms[25]
-		
-		
-		
-		
-		movingAtoms[0] = n
-		movingAtoms[1] = o
-		movingAtoms[2] = c
-		movingAtoms[3] = ca
-		movingAtoms[4] = cb
-		movingAtoms[5] = c19
-		movingAtoms[6] = c18
-		movingAtoms[7] = c17
-		movingAtoms[8] = c25
-		movingAtoms[9] = c26
-		movingAtoms[10] = c16
-		movingAtoms[11] = c02
-		movingAtoms[12] = n03
-		movingAtoms[13] = o04
-		movingAtoms[14] = ce
-		movingAtoms[15] = c3
-		movingAtoms[16] = o1
-		movingAtoms[17] = c2
-		movingAtoms[18] = n1
-		movingAtoms[19] = c4
-		movingAtoms[20] = c5
-		movingAtoms[21] = c6
-		movingAtoms[22] = c7
-		movingAtoms[23] = c8
-		movingAtoms[24] = c9
-		movingAtoms[25] = c01
-		#print movingAtoms
-		
-		self.movingAtoms = numpy.array(movingAtoms)
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
