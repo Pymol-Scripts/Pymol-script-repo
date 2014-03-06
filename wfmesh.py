@@ -13,7 +13,7 @@ See more here: http://www.pymolwiki.org/index.php/wfmesh
 import os
 import re
 import math
-from pymol.opengl.gl import *
+from OpenGL.GL import *
 from pymol.callback import Callback
 from pymol import cmd 
  
