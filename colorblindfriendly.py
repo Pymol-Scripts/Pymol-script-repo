@@ -70,37 +70,37 @@ __version__ = '0.1'
 
 from pymol import cmd
 
-# Color blind friendly color list
-# based on information from http://jfly.iam.u-tokyo.ac.jp/html/color_blind/
-black =          [0.00, 0.00, 0.00]
-orange =         [0.90, 0.60, 0.00]
-sky_blue =       [0.90, 0.60, 0.00]
-bluish_green =   [0.00, 0.60, 0.50]
-yellow =         [0.95, 0.90, 0.25]
-blue =           [0.00, 0.45, 0.70]
-vermillion =     [0.80, 0.40, 0.00]
-reddish_purple = [0.80, 0.60, 0.70]
+# Color blind friendly color list based on information found at: 
+# http://jfly.iam.u-tokyo.ac.jp/html/color_blind/#pallet
+# The RGB percentage values given on that page are less precise than the 0-255 
+# values, so the 0-255 values are converted here (e.g. 230/255 = 0.902).
+cb_colors = (
+    ("black",          (0.000, 0.000, 0.000),                   # (  0,   0,   0)
+            () ),  
+    ("orange",         (0.902, 0.624, 0.000),                   # (230, 159,   0)
+            () ),
+    ("sky_blue",       (0.337, 0.706, 0.914),                   # ( 86, 180, 233)
+            ("skyblue", "light_blue", "lightblue")),
+    ("bluish_green",   (0.000, 0.620, 0.451),                   # (  0, 158, 115)
+            ("bluishgreen", "green")),
+    ("yellow",         (0.941, 0.894, 0.259),                   # (240, 228,  66)
+            ()),
+    ("blue",           (0.000, 0.447, 0.698),                   # (  0, 114, 178)
+            ()),
+    ("vermillion",     (0.835, 0.369, 0.000),                   # (213,  94,   0)
+            ("red", "red_orange", "redorange")),
+    ("reddish_purple", (0.800, 0.475, 0.655),                   # (204, 121, 167)
+            ("reddishpurple", "rose", "violet", "magenta")),
+)
 
-cmd.set_color("cb_black", black)
-cmd.set_color("cb_orange", orange)
-cmd.set_color("cb_sky_blue", sky_blue)
-cmd.set_color("cb_bluish_green", bluish_green)
-cmd.set_color("cb_yellow", yellow)
-cmd.set_color("cb_blue", blue)
-cmd.set_color("cb_vermillion", vermillion)
-cmd.set_color("cb_reddish_purple", reddish_purple)
-
-# some additional (more common) names for these
-cmd.set_color("cb_skyblue", sky_blue)
-cmd.set_color("cb_light_blue", sky_blue)
-cmd.set_color("cb_lightblue", sky_blue)
-cmd.set_color("cb_bluishgreen", bluish_green)
-cmd.set_color("cb_green", bluish_green)
-cmd.set_color("cb_red", vermillion)
-cmd.set_color("cb_redorange", vermillion)
-cmd.set_color("cb_red_orange", vermillion)
-cmd.set_color("cb_reddishpurple", reddish_purple)
-cmd.set_color("cb_rose", reddish_purple)
-cmd.set_color("cb_violet", reddish_purple)
-cmd.set_color("cb_magenta", reddish_purple)
+for c in cb_colors:
+    # main name
+    cmd.set_color("cb_%s" % c[0], c[1])
+    print "Set color: cb_%s" % c[0]
+    
+    # alternate names
+    for alt in c[2]:
+        cmd.set_color("cb_%s" % alt, c[1])
+        print "           cb_%s" % alt
+        
 
