@@ -1,12 +1,12 @@
 '''
 Wrappy: A dehydron calculator plugin for PyMOL
-Version: 2.0
+Version: 2.1
 Described at PyMOL wiki:
 http://www.pymolwiki.org/index.php/dehydron
 
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
-Date    : March 2013
+Date: March 2014
 License: GNU General Public License
 Acknowledgement: The H-bond detection code is based on the list_mc_hbonds.py
 script from Robert L. Campbell http://pldserver1.biochem.queensu.ca/~rlc/work/pymol/
@@ -35,9 +35,14 @@ def mainDialog():
         max_distance = float(dist_cutoff_value.get())
         desolv = float(desolv_sphere.get())
         min_wrappers = float(min_value.get())
+        max_wrappers = float(max_value.get())
         selection = sel_value.get()
-        dehydron(selection, angle_range, max_distance, desolv, min_wrappers)
-
+        if len(cmd.get_names()) > 0:
+            dehydron(selection, angle_range, max_distance, desolv, min_wrappers, max_wrappers)
+        else:
+            print '#'*40
+            print 'Please load a protein structure'
+            print '#'*40
     master = Tkinter.Tk()
     master.title(' Wrappy ')
     w = Tkinter.Label(master, text = 'dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
@@ -87,14 +92,21 @@ def mainDialog():
     entry_min_value.grid(row=3, column=3)
     entry_min_value.configure(state='normal')
     entry_min_value.update()
+    Label(group.interior(), text='maximum wrappers').grid(row=4, column=2)
+    max_value = StringVar(master=group.interior())
+    max_value.set(35)
+    entry_max_value=Entry(group.interior(),textvariable=max_value, width=10)
+    entry_max_value.grid(row=4, column=3)
+    entry_max_value.configure(state='normal')
+    entry_max_value.update()
 ### selection settings
     group = Pmw.Group(p1,tag_text='Selection')
     group.pack(fill='x', expand=1, padx=20, pady=5)
-    Label(group.interior(), text='selection').grid(row=4, column=2)
+    Label(group.interior(), text='selection').grid(row=5, column=2)
     sel_value = StringVar(master=group.interior())
     sel_value.set('all')
     entry_sel_value=Entry(group.interior(),textvariable=sel_value, width=10)
-    entry_sel_value.grid(row=4, column=3)
+    entry_sel_value.grid(row=5, column=3)
     entry_sel_value.configure(state='normal')
     entry_sel_value.update()
 ### submit
@@ -141,8 +153,17 @@ Springer-Verlag, Berlin, Heidelberg (2010).
 
     master.mainloop()
 
+def colorize():
+    cmd.hide('(not (name C+CA+N+O))')
 
-def dehydron(selection='all', angle_range=40, max_distance=3.5, desolv=6.5, min_wrappers=19, quiet=0):
+
+    cmd.spectrum('b', 'red_yellow_green', minimum='-1.0', maximum='1.0')
+    cmd.select('missing', 'b = -2.0')
+    cmd.color('white','missing')
+    cmd.delete('missing')
+
+
+def dehydron(selection='all', angle_range=40., max_distance=3.5, desolv=6.5, min_wrappers=19, max_wrappers=35, quiet=0):
     '''
 DESCRIPTION
 
@@ -150,27 +171,24 @@ DESCRIPTION
 
 USAGE
 
-    dehydron [ selection [, angle_range [, max_distance [, desolv [, min_wrappers ]]]]]
+    dehydron [ selection [, angle_range [, max_distance [, desolv [, min_wrappers [, max_wrappers ]]]]]]
     '''
 
     angle, max_distance = float(angle_range), float(max_distance)
-    desolv, min_wrappers = float(desolv), int(min_wrappers)
+    desolv, min_wrappers, max_wrappers = float(desolv), int(min_wrappers), int(max_wrappers)
     quiet = int(quiet)
 
 
-    name = cmd.get_legal_name('DH_%s' % selection)
-    cmd.delete(name)
+    DH_name = cmd.get_legal_name('DH_%s' % selection)
+    cmd.delete(DH_name)
+    HBA_name = cmd.get_legal_name('HBA_%s' % selection)
+    cmd.delete(HBA_name)
+    HBO_name = cmd.get_legal_name('HBO_%s' % selection)
+    cmd.delete(HBO_name)
 
     selection_hb = '((%s) and polymer)' % (selection)
     hb = cmd.find_pairs("((byres "+selection_hb+") and n. n)","((byres "+selection_hb+") and n. o)",mode=1,cutoff=max_distance,angle=angle_range)
 
-    if not quiet:
-        hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
-        print "--------------------------------------------------------------------"
-        print "--------------------------Dehydron Results--------------------------"
-        print "--------------------------------------------------------------------"
-        print "            Donor             |            Aceptor           |"
-        print "     Object   Chain Residue   |     Object   Chain Residue   | # wrappers"
 
     cmd.select('_nonpolar', '(elem C) and not (solvent or (elem N+O) extend 1)', 0)
     try:
@@ -178,23 +196,32 @@ USAGE
     except:
         pass
 
-    sel = []
+    low_sel = []
+    mean_sel = []
+    high_sel = []
     total_wrappers = 0
     for pairs in hb:
         wrappers = cmd.count_atoms('((%s and _nonpolar and _selection) within %f of byca (%s`%d %s`%d))' % 
                 ((pairs[0][0], desolv) + pairs[0] + pairs[1]))
         total_wrappers = total_wrappers + wrappers
+        cmd.iterate(pairs[0], 'stored.donor = chain, resi, resn')
+        cmd.iterate(pairs[1], 'stored.aceptor = chain, resi, resn')
         if wrappers < min_wrappers:
-            cmd.distance(name, pairs[0], pairs[1])
-            if not quiet:
-                cmd.iterate(pairs[0], 'stored.nitro = chain, resi, resn')
-                cmd.iterate(pairs[1], 'stored.oxy = chain, resi, resn')
-                print ' %12s%4s%6s%6s | %12s%4s%6s%6s |%7s' % (pairs[0][0], stored.nitro[0], stored.nitro[2], stored.nitro[1], pairs[1][0], stored.oxy[0], stored.oxy[2], stored.oxy[1], wrappers)
-            sel.append(pairs[0])
-            sel.append(pairs[1])
+            cmd.distance(DH_name, pairs[0], pairs[1])
+            line = (wrappers, '%12s%4s%6s%6s | %12s%4s%6s%6s |%7s        below' % (pairs[0][0], stored.donor[0], stored.donor[2], stored.donor[1], pairs[1][0], stored.aceptor[0], stored.aceptor[2], stored.aceptor[1], wrappers))
+            low_sel.append(line)
+        elif wrappers < max_wrappers:
+            cmd.distance(HBA_name, pairs[0], pairs[1])
+            line = (wrappers, '%12s%4s%6s%6s | %12s%4s%6s%6s |%7s      average' % (pairs[0][0], stored.donor[0], stored.donor[2], stored.donor[1], pairs[1][0], stored.aceptor[0], stored.aceptor[2], stored.aceptor[1], wrappers))
+            mean_sel.append(line)
+        else:
+            cmd.distance(HBO_name, pairs[0], pairs[1])
+            line = (wrappers, '%12s%4s%6s%6s | %12s%4s%6s%6s |%7s         over' % (pairs[0][0], stored.donor[0], stored.donor[2], stored.donor[1], pairs[1][0], stored.aceptor[0], stored.aceptor[2], stored.aceptor[1], wrappers))
+            high_sel.append(line)
+
     cmd.delete('_nonpolar')
     cmd.delete('_selection')
-    #compute the z_scores for validation porpoises.
+    #compute the z_scores. Useful for protein structure validation.
     stored.ResiduesNames = []
     cmd.iterate('(name ca)','stored.ResiduesNames.append((resn))')
     total_residues = float(len(stored.ResiduesNames))
@@ -202,8 +229,34 @@ USAGE
     z_score_hb = ((len(hb)/total_residues) - 0.62) / 0.06
 
 
-    if len(sel) > 0:
-        cmd.show_as('dashes', name)
+    if len(low_sel) > 0:
+        cmd.show_as('dashes', DH_name)
+        cmd.color('red', DH_name)
+        low_sel.sort()
+    if len(mean_sel) > 0:
+        cmd.show_as('dashes', HBA_name)
+        cmd.color('yellow', HBA_name)
+        mean_sel.sort()
+    if len(high_sel) > 0:
+        cmd.show_as('dashes', HBO_name)
+        cmd.color('green', HBO_name)
+        high_sel.sort()
+
+
+    if not quiet:
+        hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
+        print "--------------------------------------------------------------------"
+        print "------------------------------Results ------------------------------"
+        print "--------------------------------------------------------------------"
+        print "           Donor             |            Aceptor           |"
+        print "    Object   Chain Residue   |     Object   Chain Residue   | # wrappers  wrapping"
+        for line in low_sel:
+            print line[1]
+        for line in mean_sel:
+            print line[1]
+        for line in high_sel:
+            print line[1]
+        print '\nProtein global statistics:'
         print '\nz-score wrappers = %6.2f\nz-score hydrogen bonds = %6.2f\n' % (z_score_wrappers, z_score_hb)
     elif not quiet and len(hb) != 0:
         print '\n - no dehydrons were found - '
