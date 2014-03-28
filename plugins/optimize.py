@@ -4,9 +4,9 @@ Described at PyMOL wiki: http://www.pymolwiki.org/index.php/optimize
 
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
-Date: January 2014
+Date: March 2014
 License: GNU General Public License
-Version 0.6
+Version 0.7
 '''
 
 import Tkinter
@@ -74,7 +74,7 @@ def mainDialog():
     group.pack(fill='both', expand=1, padx=5, pady=5)
 # Force Field options
     ff_value = StringVar(master=group.interior())
-    ff_value.set('GAFF')
+    ff_value.set('MMFF94s')
     Pmw.OptionMenu(group.interior(),
                 labelpos = 'w',
                 label_text = 'Force Field',
@@ -143,7 +143,7 @@ command=enable_entry).grid(row=6, columnspan=3)
     group.pack(fill='both', expand=1, padx=5, pady=5)
 # Force Field options
     ff_value = StringVar(master=group.interior())
-    ff_value.set('GAFF')
+    ff_value.set('MMFF94s')
     Pmw.OptionMenu(group.interior(),
                 labelpos = 'w',
                 label_text = 'Force Field',
@@ -235,7 +235,7 @@ def enable_disable_entry(var):
     entry_lowest.update()
 
 
-def minimize(selection='all', forcefield='MMFF94', method='conjugate gradients', nsteps= 300, conv=0.01, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
+def minimize(selection='all', forcefield='MMFF94s', method='conjugate gradients', nsteps= 500, conv=0.0001, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
     pdb_string = cmd.get_pdbstr(selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
@@ -265,7 +265,7 @@ def minimize(selection='all', forcefield='MMFF94', method='conjugate gradients',
     print '#########################################'
 
 
-def conf_search(selection='all', forcefield='GAFF', method='Weighted', nsteps= 500, conformers=25, lowest_conf=5):
+def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps= 500, conformers=25, lowest_conf=5):
     pdb_string = cmd.get_pdbstr(selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
