@@ -36,7 +36,7 @@ def toGroup(groupName,sel,prefix="",delOrig=True):
  
     """
     if prefix=="":
-        prefix="grouped"
+        prefix=sel + "_grouped"
  
     cmd.split_states(sel, prefix=prefix)
     cmd.group(groupName,prefix+"*")
