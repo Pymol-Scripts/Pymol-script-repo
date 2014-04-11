@@ -171,7 +171,7 @@ DESCRIPTION
 
 USAGE
 
-    dehydron [ selection [, angle_range [, max_distance [, desolv [, min_wrappers [, max_wrappers ]]]]]]
+    wrappy [ selection [, angle_range [, max_distance [, desolv [, min_wrappers [, max_wrappers ]]]]]]
     '''
 
     angle, max_distance = float(angle_range), float(max_distance)
