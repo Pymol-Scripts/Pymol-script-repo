@@ -455,7 +455,7 @@ cmd.auto_arg[3]['disp_surf']=[lambda: cmd.Shortcut(['hydrogens=0, solvent=0, ram
 #-------------------------------------------------------------------------------
 # DISPLAY: PUTTY
 #-------------------------------------------------------------------------------
-def disp_putty( selection='all', limits=10, only=False ):
+def disp_putty( selection='all', limits=10, only=True ):
     '''
 DESCRIPTION
 
@@ -474,6 +474,7 @@ USEAGE
     '''
 
     selection='('+selection+')'
+    only=bool(str(only)!='False')
 
     for p in cmd.get_object_list(selection):
         limits=get_b_limits(limits,p)
