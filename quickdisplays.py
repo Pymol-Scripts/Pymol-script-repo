@@ -159,16 +159,16 @@ PARAMETERS
         cmd.cartoon('dumbbell', 'ss h and %s and %s' %(selection, p))
         cmd.cartoon('loop', 'ss l+"" and %s and %s' %(selection, p))
         # sheets
-        if color_s: print cmd.do(color_s+'(ss s and %s and %s), quiet=1' %(selection, p))
+        if color_s: print cmd.do(color_s+'(ss s and %s and %s)' %(selection, p))
         cmd.set('cartoon_rect_length',1.5, p)
         cmd.set('cartoon_rect_width',0.25, p)
         # a-helices
-        if color_h: print cmd.do(color_h+'(ss h and %s and %s), quiet=1' %(selection, p))
+        if color_h: print cmd.do(color_h+'(ss h and %s and %s)' %(selection, p))
         cmd.set('cartoon_dumbbell_length',1.5, p)
         cmd.set('cartoon_dumbbell_width',0.25, p)
         cmd.set('cartoon_dumbbell_radius',0.2, p)
         #loops
-        if color_l: print cmd.do(color_l+'(ss l+"" and %s and %s), quiet=1' %(selection, p))
+        if color_l: print cmd.do(color_l+'(ss l+"" and %s and %s)' %(selection, p))
         cmd.set('cartoon_loop_radius',0.25, p)
 
         if only:
