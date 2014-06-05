@@ -304,6 +304,11 @@ PARAMETERS
     except:
         print "Input error"
         return False
+        
+    if hydrogens==1:
+        cmd.h_add('%s' %selection)
+    if hydrogens==-1:
+        cmd.remove('%s and elem H' %selection)
 
     for p in cmd.get_object_list(selection):
         cmd.set('mesh_width', 0.25, p)
