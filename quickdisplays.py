@@ -473,8 +473,12 @@ USEAGE
     only=True             <bool>  if True will use show_as; else show
     '''
 
-    selection='('+selection+')'
-    only=bool(str(only)!='False')
+    try:
+        selection='('+selection+')'
+        only=bool(str(only)!='False')
+    except:
+        print "Input error"
+        return False
 
     for p in cmd.get_object_list(selection):
         limits=get_b_limits(limits,p)
