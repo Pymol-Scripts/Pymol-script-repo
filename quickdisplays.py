@@ -1,6 +1,6 @@
 '''
 quickdisplays.py
-Described at: http://www.pymolwiki.org/ [...link here...]
+Described at: http://www.pymolwiki.org/quickdisplays
 Version 1.0 (2014)
 ##################################################
 
