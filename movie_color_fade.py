@@ -1,6 +1,6 @@
 '''
 movie_color_fade.py
-Described at: http://www.pymolwiki.org/ [...link here...]
+Described at: http://www.pymolwiki.org/movie_color_fade
 Version 1.0 (2014)
 ##################################################
 
