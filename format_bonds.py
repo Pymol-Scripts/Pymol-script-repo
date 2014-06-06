@@ -1,6 +1,6 @@
 '''
 format_bonds.py
-Described at: http://www.pymolwiki.org/ [...link here...]
+Described at: http://www.pymolwiki.org/format_bonds
 Version 1.0 (2014)
 ##################################################
 
