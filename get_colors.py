@@ -1,6 +1,6 @@
 '''
 get_colors.py
-Described at: http://www.pymolwiki.org/ [...link here...]
+Described at: http://www.pymolwiki.org/get_colors
 Version 1.0 (2014)
 ##################################################
 
