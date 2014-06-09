@@ -59,7 +59,7 @@ USAGE:
 
 EXAMPLES:
     # print a random color name: 
-    get_random_color quiet=True
+    get_random_color quiet=0
     # color object randomly:
     fetch 1hpv, async=0
     cmd.color(get_random_color())
