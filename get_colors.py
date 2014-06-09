@@ -20,13 +20,13 @@ from pymol import cmd
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
-def get_colors(selection='', output=True):
+def get_colors(selection='', quiet=0):
     '''
 DESCRIPTION:
     returns a list of available pymol colors
 
 USAGE:
-    get_colors [ selection [, output ]]
+    get_colors [ selection [, quiet ]]
 
 EXAMPLES:
     get_colors # basic colors
@@ -40,36 +40,36 @@ EXAMPLES:
     pymol_color_list.sort()
     # the str() is due to pymol passing aruments as strings, 
     # thus True becomes 'True'
-    if str(output)=='True': print pymol_color_list
+    if int(quiet): print pymol_color_list
     return pymol_color_list
 cmd.extend('get_colors',get_colors)
 cmd.auto_arg[0]['get_colors']=[lambda: cmd.Shortcut(['""','all']), 'selection=', ',']
-cmd.auto_arg[1]['get_colors']=[lambda: cmd.Shortcut(['True']), 'output=', '']
+cmd.auto_arg[1]['get_colors']=[lambda: cmd.Shortcut(['0']), 'quiet=', '']
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
-def get_random_color(selection='', output=False):
+def get_random_color(selection='', quiet=1):
     '''
 DESCRIPTION:
     returns a random color name available in pymol
     ! Requires get_colors !Indended mostly for use in Python
 
 USAGE:
-    get_random_color [ selection [, output ]]
+    get_random_color [ selection [, quiet ]]
 
 EXAMPLES:
     # print a random color name: 
-    get_random_color output=True
+    get_random_color quiet=True
     # color object randomly:
     fetch 1hpv, async=0
     cmd.color(get_random_color())
     '''
     import random
     randomcolor=random.choice(get_colors(selection, False))
-    if str(output)!='False': print randomcolor
+    if int(quiet): print randomcolor
     return randomcolor
 cmd.extend('get_random_color',get_random_color)
 #-------------------------------------------------------------------------------
