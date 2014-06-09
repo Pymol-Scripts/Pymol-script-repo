@@ -20,7 +20,7 @@ from pymol import cmd
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
-def get_colors(selection='', quiet=0):
+def get_colors(selection='', quiet=1):
     '''
 DESCRIPTION:
     returns a list of available pymol colors
