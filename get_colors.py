@@ -32,14 +32,11 @@ EXAMPLES:
     get_colors # basic colors
     get colors all # larger range with intermediates
     '''
-    # there may be a more elegant way of doing this?
     import pymol
     pymol_color_list=[]
     for tuplepair in pymol.querying.get_color_indices(selection): 
         pymol_color_list.append(tuplepair[0])
     pymol_color_list.sort()
-    # the str() is due to pymol passing aruments as strings, 
-    # thus True becomes 'True'
     if not int(quiet): print pymol_color_list
     return pymol_color_list
 cmd.extend('get_colors',get_colors)
@@ -68,7 +65,7 @@ EXAMPLES:
     cmd.color(get_random_color())
     '''
     import random
-    randomcolor=random.choice(get_colors(selection, False))
+    randomcolor=random.choice(get_colors(selection, 1))
     if not int(quiet): print randomcolor
     return randomcolor
 cmd.extend('get_random_color',get_random_color)
