@@ -250,7 +250,7 @@ ARGUMENTS
     ['CZ','NH2']
     ]
     ARG_bonds_double=[
-    ['C','NH1']
+    ['CZ','NH1']
     ]
 
     ##### FORMATING #####
