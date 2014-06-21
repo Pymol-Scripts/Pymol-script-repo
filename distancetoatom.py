@@ -103,11 +103,11 @@ ARGUMENTS
     quiet       <bool>  toggle verbosity
     '''
     # keyword check
-    ori=get_coord(origin)
-    if not origin:
-        print "distancetoatom: aborting - illegal input for 'origin'!"
-        return False
     try:
+        ori=get_coord(origin)
+        if not ori:
+            print "distancetoatom: aborting - check input for 'origin'!"
+            return False
         cutoff = abs(float(cutoff))
         filename = str(filename)
         selection = '(%s)'%selection
