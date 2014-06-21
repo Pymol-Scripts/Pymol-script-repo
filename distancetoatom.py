@@ -40,6 +40,9 @@ def get_coord(v):
             return cmd.get_atom_coords(v)
         else:
             # more than one atom --> use "center"
+            # alt check!
+            if cmd.count_atoms('(alt *) and not (alt "")')!=0:
+                print "distancetoatom: warning! alternative coordinates found for origin, using center!"
             view_temp=cmd.get_view()
             cmd.zoom(v)
             v=cmd.get_position()
@@ -47,6 +50,7 @@ def get_coord(v):
             return v
     except:
         return False
+
 
 def distancetoatom(
 origin='pk1',
@@ -104,13 +108,13 @@ ARGUMENTS
     '''
     # keyword check
     try:
+        selection = '(%s)'%selection
         ori=get_coord(origin)
         if not ori:
             print "distancetoatom: aborting - check input for 'origin'!"
             return False
         cutoff = abs(float(cutoff))
         filename = str(filename)
-        selection = '(%s)'%selection
         state = abs(int(state))
         if (not int(state)):
             state=cmd.get_state()
@@ -159,7 +163,7 @@ ARGUMENTS
 
     # atom list
     stored.temp=[]
-    cmd.iterate(tempsel, 'stored.temp.append([model, segi, chain, resn, resi, name])')
+    cmd.iterate(tempsel, 'stored.temp.append([model, segi, chain, resn, resi, name, alt])')
 
     # custom properties? # conditional disabling
     if (property_name==''): property_name=False
@@ -171,7 +175,7 @@ ARGUMENTS
     if (not single_atom_ori):
         distance_list.append(['ORIGIN: '+str(origin), ori[0], ori[1], ori[2], 0.0])
     for atom in stored.temp:
-        atom_name = ('/%s/%s/%s/%s`%s/%s'%(atom[0], atom[1], atom[2], atom[3], atom[4], atom[5]))
+        atom_name = ('/%s/%s/%s/%s`%s/%s`%s'%(atom[0], atom[1], atom[2], atom[3], atom[4], atom[5], atom[6]))
         atom_xyz = [round(x, decimals) for x in cmd.get_atom_coords(atom_name)]
         atom_dist = round(cpv.distance(ori, atom_xyz), decimals)
         distance_list.append([atom_name,atom_xyz[0],atom_xyz[1],atom_xyz[2], atom_dist])
