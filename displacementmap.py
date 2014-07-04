@@ -16,7 +16,8 @@ dispmap O5NT-1HP1-A, C5NT-1HPU-C, 30.0, 15.0, resi1=23-25, atom=CA, showsticks=y
 
 from pymol import cmd, stored, selector
 from math import *
-import os, re
+import os
+import re
 
 
 def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1=str(0), resi2=str(0), atom='CA', listlength=5, showsticks='yes'):

@@ -60,7 +60,9 @@ Jason Vertrees, 2009.
 """
 
 from pymol import cmd
-import re, types, random
+import re
+import types
+import random
 
 
 def findseq(needle, haystack, selName=None, het=0, firstOnly=0):

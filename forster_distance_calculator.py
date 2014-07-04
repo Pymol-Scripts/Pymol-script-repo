@@ -45,7 +45,9 @@ NA = 6.02214179e+023 # (units: Number*mol-1 )Avogadros number
 
 try: from pymol import cmd; runningpymol = 'yes'
 except: runningpymol = 'no'; pass
-import os, platform, math
+import os
+import platform
+import math
 
 
 def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.txt", A_Emi="ATTO590Emi.txt", A_e_Max_Y=120000, A_e_Max_X=594, Qd=0.8, k2=0.66667, n=1.33, Compare="yes", xunit="nm"):

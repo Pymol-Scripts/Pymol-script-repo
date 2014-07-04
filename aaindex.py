@@ -10,7 +10,8 @@ PyMOL commands:
     pmf
 '''
 
-import sys, os
+import sys
+import os
 
 _aaindex = dict()
 _pymol_auto_arg_update = lambda: None

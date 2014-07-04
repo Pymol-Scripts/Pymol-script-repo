@@ -90,7 +90,10 @@ SEE ALSO
 
 tmscore, mmalign
     '''
-    import subprocess, tempfile, os, re
+    import subprocess
+    import tempfile
+    import os
+    import re
 
     ter, quiet = int(ter), int(quiet)
 

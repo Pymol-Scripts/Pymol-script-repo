@@ -15,7 +15,9 @@ http://www.pymolwiki.org/index.php/rotkit
 '''
 
 from pymol import cmd
-import math, os, platform
+import math
+import os
+import platform
 
 
 def printMat(matrix):

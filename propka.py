@@ -117,7 +117,9 @@ propka
 '''
 try: from pymol import cmd; runningpymol = 'yes'
 except: runningpymol = 'no'; pass
-import time, platform, os
+import time
+import platform
+import os
 
 
 def propka(molecule="NIL", chain="*", resi="0", resn="NIL", method="upload", logtime=time.strftime("%m%d", time.localtime()), server_wait=3.0, version="v3.1", verbose="no", showresult="no", pkafile="NIL", makebonds="yes"):

@@ -15,7 +15,10 @@ DESCRIPTION
 
     HBPLUS wrapper
     '''
-    import subprocess, tempfile, os, shutil
+    import subprocess
+    import tempfile
+    import os
+    import shutil
 
     state, quiet = int(state), int(quiet)
 

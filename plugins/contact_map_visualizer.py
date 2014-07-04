@@ -53,7 +53,8 @@ def __init__(self):
 
 
 def CMVDialog(self):
-    import tkFileDialog, tkMessageBox
+    import tkFileDialog
+    import tkMessageBox
 
     try:
         import pygame as pg
@@ -261,7 +262,10 @@ USAGE
 
     contact_map_generator filename [, selection [, state ]]
     '''
-    import os, shutil, tempfile, subprocess
+    import os
+    import shutil
+    import tempfile
+    import subprocess
 
     state, quiet = int(state), int(quiet)
 
@@ -301,7 +305,8 @@ def xpm_convert(infile, outfile):
     '''
     Strips comments and repeated spaces from XPM file and saves it as new file.
     '''
-    import re, Image
+    import re
+    import Image
     from StringIO import StringIO
 
     xpm = open(infile).read()

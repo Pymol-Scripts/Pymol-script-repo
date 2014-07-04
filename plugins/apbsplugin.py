@@ -139,7 +139,9 @@ DEBUG = 1
 
 APBS_DEFAULT = True
 
-import os, math, re
+import os
+import math
+import re
 import string
 import Tkinter
 from Tkinter import *
@@ -343,7 +345,8 @@ def run(prog, args):
 
     (retval,prog_out) = run("/bin/ls","-al /tmp/myusername")
     '''
-    import subprocess, tempfile
+    import subprocess
+    import tempfile
 
     if type(args) == type(''):
         args = tuple(args.split())
@@ -1846,8 +1849,11 @@ PMW interface.
 #
 # Generically useful PMW extensions
 
-import os, fnmatch, time
-import Tkinter, Pmw
+import os
+import fnmatch
+import time
+import Tkinter
+import Pmw
 # Pmw.setversion("0.8.5")
 
 #

@@ -20,7 +20,9 @@ import pymol
 import threading
 import numpy
 import scipy.spatial.distance
-import random, time, math
+import random
+import time
+import math
 import os
 from pymol import cmd
 from pymol import util

@@ -10,13 +10,16 @@ See more here: http://www.pymolwiki.org/index.php/caver2
 from __future__ import division
 from __future__ import generators
 
-import os, math, platform
+import os
+import math
+import platform
 import Tkinter
 from Tkinter import *
 import Pmw
 import distutils.spawn  # used for find_executable
 from pymol import cmd, selector
-import sys, subprocess
+import sys
+import subprocess
 from pymol.cmd import _feedback, fb_module, fb_mask, is_list, _cmd
 from pymol.cgo import *
 from chempy.models import Indexed
@@ -893,8 +896,11 @@ class AnBeKoM:
 # Please send bug-fixes/patches/features to <r.hooft@euromail.com>
 #
 ################################################################################
-import os, fnmatch, time
-import Tkinter, Pmw
+import os
+import fnmatch
+import time
+import Tkinter
+import Pmw
 # Pmw.setversion("0.8.5")
 
 

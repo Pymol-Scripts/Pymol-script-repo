@@ -1,5 +1,8 @@
 from pymol import cmd
-import os, platform, sys, math
+import os
+import platform
+import sys
+import math
 from time import localtime, strftime
 
 # Thx for inspiration from Simple scriptin PymMOl http://www.pymolwiki.org/index.php/Simple_Scripting

@@ -41,7 +41,10 @@ SETUP
     1) Put poseview executable to PATH (e.g. /usr/bin/poseview)
     2) Set environment variable BIOSOLVE_LICENSE_FILE="/path/to/poseview.lic"
     '''
-    import tempfile, subprocess, os, shutil
+    import tempfile
+    import subprocess
+    import os
+    import shutil
 
     width, height = int(width), int(height)
     state, quiet = int(state), int(quiet)

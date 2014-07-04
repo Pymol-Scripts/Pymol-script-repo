@@ -34,15 +34,22 @@ Is described at: http://www.pymolwiki.org/index.php/autodock_plugin
 
 #================================================================
 '''
-import sys, os, math, re, fnmatch, shutil
+import sys
+import os
+import math
+import re
+import fnmatch
+import shutil
 from os import stat
 from os.path import abspath
 from stat import ST_SIZE
 from time import sleep, time
 import Tkinter
-import Tkinter, Pmw
+import Tkinter
+import Pmw
 from Tkinter import *
-import tkMessageBox, tkFileDialog
+import tkMessageBox
+import tkFileDialog
 import Pmw
 from threading import Thread
 #from commands import getstatusoutput

@@ -13,7 +13,12 @@ See more at: http://www.pymolwiki.org/index.php/annocryst
 ######################################################
 '''
 
-import Pmw, sys, urllib2, urllib, string, webbrowser
+import Pmw
+import sys
+import urllib2
+import urllib
+import string
+import webbrowser
 from modules.idlelib.TreeWidget import TreeItem, TreeNode
 from Tkinter import PhotoImage
 from pymol import cmd

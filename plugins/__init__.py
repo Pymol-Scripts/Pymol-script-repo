@@ -10,7 +10,9 @@ sys.path.append('C:/Users/YOURNAME/Documents/Pymol-script-repo')
 import plugins
 '''
 
-import os, sys, traceback
+import os
+import sys
+import traceback
 
 # import pymolplugins (allow different name)
 pymolplugins = sys.modules[__name__]

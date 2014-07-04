@@ -20,7 +20,8 @@ Literature:
  DeLano, W.L. The PyMOL Molecular Graphics System (2002) DeLano Scientific, San Carlos, CA, USA. http://www.pymol.org
 '''
 
-import colorsys, sys
+import colorsys
+import sys
 from pymol import cmd, stored
 from Tkinter import *
 

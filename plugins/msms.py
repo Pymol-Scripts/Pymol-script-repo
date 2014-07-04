@@ -35,7 +35,9 @@
 
 # python lib
 import os
-import sys, platform, subprocess
+import sys
+import platform
+import subprocess
 import time
 import tkSimpleDialog
 import tkMessageBox
