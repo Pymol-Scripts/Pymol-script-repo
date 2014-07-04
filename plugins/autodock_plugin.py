@@ -74,9 +74,9 @@ __version__ = "2.1.1"
 
 def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command',
-    'Launch Autodock',
-    label='Autodock/Vina',
-    command = lambda s=self: Autodock(s))
+                             'Launch Autodock',
+                             label='Autodock/Vina',
+                             command = lambda s=self: Autodock(s))
 
     cmd.set("retain_order") # keep atom ordering
 
@@ -186,7 +186,7 @@ default_settings = {
     "dlg_input_file":'docked.pdbqt',
     "map_input_file":'receptor.C.map',
     "map_threshold":5.
-    }
+}
 
 BOX_AS_BOX = 0
 BOX_AS_WIREBOX = 1
@@ -265,7 +265,7 @@ class ADModel:
         for line in lst:
             self.info+=line
             if line.startswith('ATOM') or \
-                   line.startswith('HETATM'):
+                    line.startswith('HETATM'):
                 self.atomlines.append(line)
                 self.as_string+='ATOM  '+line[6:67]+'\n'
             elif line.startswith('USER'):
@@ -505,12 +505,12 @@ class Autodock:
         # ligand display settings
 
         self.ligand_display_mode = {
-                'lines':True,
-                'sticks':False,
-                'spheres':False,
-                'surface':False,
-                'mesh':False
-                }
+            'lines':True,
+            'sticks':False,
+            'spheres':False,
+            'surface':False,
+            'mesh':False
+        }
         # keep in mind what threads are running
         self.current_thread = None
 
@@ -792,11 +792,11 @@ class Autodock:
         self.config_file_io.pack(side = TOP,expand=1, fill='x')
 
         self.config_file_location = Pmw.EntryField(self.config_file_io.interior(),
-                                                labelpos = 'w',
-                                                label_pyclass = FileDialogButtonClassFactory.get(self.set_config_filename,mode='w',filter=[("Vina Config File","*.txt")]),
-                                                validate = {'validator':quickFileValidation,},
-                                                value = default_settings['config_file_name'],
-                                                label_text = 'VINA config File:')
+                                                   labelpos = 'w',
+                                                   label_pyclass = FileDialogButtonClassFactory.get(self.set_config_filename,mode='w',filter=[("Vina Config File","*.txt")]),
+                                                   validate = {'validator':quickFileValidation,},
+                                                   value = default_settings['config_file_name'],
+                                                   label_text = 'VINA config File:')
         self.config_file_location.pack(side=LEFT,fill = 'x', expand = 1, padx = 1, pady = 5)
 
         self.config_button_box = Pmw.ButtonBox(self.config_file_io.interior(), padx=0, pady=0,orient='horizontal')
@@ -813,11 +813,11 @@ class Autodock:
         self.configuration_top_group.pack(fill = 'both', expand = 0, padx = 10, pady = 5)
 
         self.text_field = Tkinter.Label(self.configuration_top_group.interior(),
-                                         text = intro_text,
-                                         background = 'black',
-                                         foreground = 'yellow',
+                                        text = intro_text,
+                                        background = 'black',
+                                        foreground = 'yellow',
                                         justify = LEFT,
-                                         )
+                                        )
         self.text_field.pack(expand = 0, fill = 'both', padx = 4, pady = 4)
 
 
@@ -827,29 +827,29 @@ class Autodock:
         self.config_settings = self.read_plugin_config_file()
 
         self.autodock_tools_location = Pmw.EntryField(self.configuration_group.interior(),
-                                         labelpos='w',
-                                         label_pyclass = DirDialogButtonClassFactory.get(self.set_autodock_tools_path),
-                                        value = self.config_settings['autodock_tools_path'],
-                                         label_text = 'AutoDockTools:')
+                                                      labelpos='w',
+                                                      label_pyclass = DirDialogButtonClassFactory.get(self.set_autodock_tools_path),
+                                                      value = self.config_settings['autodock_tools_path'],
+                                                      label_text = 'AutoDockTools:')
 
 
         self.autogrid_location = Pmw.EntryField(self.configuration_group.interior(),
-                                         labelpos='w',
-                                         label_pyclass = FileDialogButtonClassFactory.get(self.set_autogrid_location),
-                                         value = self.config_settings['autogrid_exe'],
-                                         label_text = 'autogrid4 executable:')
+                                                labelpos='w',
+                                                label_pyclass = FileDialogButtonClassFactory.get(self.set_autogrid_location),
+                                                value = self.config_settings['autogrid_exe'],
+                                                label_text = 'autogrid4 executable:')
 
         self.autodock_location = Pmw.EntryField(self.configuration_group.interior(),
-                                         labelpos='w',
-                                         label_pyclass = FileDialogButtonClassFactory.get(self.set_autodock_location),
-                                         value = self.config_settings['autodock_exe'],
-                                         label_text = 'autodock4 executable:')
+                                                labelpos='w',
+                                                label_pyclass = FileDialogButtonClassFactory.get(self.set_autodock_location),
+                                                value = self.config_settings['autodock_exe'],
+                                                label_text = 'autodock4 executable:')
 
         self.vina_location = Pmw.EntryField(self.configuration_group.interior(),
-                                         labelpos='w',
-                                         label_pyclass = FileDialogButtonClassFactory.get(self.set_vina_location),
-                                         value = self.config_settings['vina_exe'],
-                                         label_text = 'vina executable:')
+                                            labelpos='w',
+                                            label_pyclass = FileDialogButtonClassFactory.get(self.set_vina_location),
+                                            value = self.config_settings['vina_exe'],
+                                            label_text = 'vina executable:')
 
         self.work_path_location = Pmw.EntryField(self.configuration_group.interior(),
                                                  labelpos='w',
@@ -892,12 +892,12 @@ class Autodock:
 
 
         self.receptor_pdbqt_location = Pmw.EntryField(self.receptor_preparation_top_group.interior(),
-                                                labelpos = 'w',
-                                                label_pyclass = FileDialogButtonClassFactory.get(self.set_receptor_pdbqt_location,filter=[("PDBQT File","*.pdbqt")]),
+                                                      labelpos = 'w',
+                                                      label_pyclass = FileDialogButtonClassFactory.get(self.set_receptor_pdbqt_location,filter=[("PDBQT File","*.pdbqt")]),
 
-                                                validate = {'validator':quickFileValidation,},
-                                                value = '',
-                                                label_text = 'Receptor:')
+                                                      validate = {'validator':quickFileValidation,},
+                                                      value = '',
+                                                      label_text = 'Receptor:')
         self.receptor_pdbqt_location.pack(side=LEFT,fill = 'x', expand = 1, padx = 1, pady = 5)
 
         self.receptor_button_box = Pmw.ButtonBox(self.receptor_preparation_top_group.interior(), padx=0, pady=0,orient='horizontal')
@@ -914,11 +914,11 @@ class Autodock:
 
 
         self.selection_list = Pmw.ComboBox(self.receptor_preparation_center_group.interior(),
-                                                  scrolledlist_items=cmd.get_names("selections")+cmd.get_names(),
-                                                  labelpos='nw',
-                                                  label_text='PyMOL Selections',
-                                                  listbox_height = 10,
-                                                  selectioncommand=self.selectionCommand,
+                                           scrolledlist_items=cmd.get_names("selections")+cmd.get_names(),
+                                           labelpos='nw',
+                                           label_text='PyMOL Selections',
+                                           listbox_height = 10,
+                                           selectioncommand=self.selectionCommand,
                                            dropdown=False
                                            )
 
@@ -932,12 +932,12 @@ class Autodock:
                                           )
 
         self.flexible_residues_list = Pmw.ScrolledListBox(self.receptor_preparation_center_group.interior(),
-                                        items=[],
-                                        labelpos='nw',
-                                        label_text='Flexible Residues',
-                                        listbox_height = 11,
-                                        selectioncommand=self.delete_residue,
-                                        )
+                                                          items=[],
+                                                          labelpos='nw',
+                                                          label_text='Flexible Residues',
+                                                          listbox_height = 11,
+                                                          selectioncommand=self.delete_residue,
+                                                          )
 
         self.selection_list.pack(side=LEFT, padx=0, anchor='n')
         self.receptor_conversion_button_box = Pmw.ButtonBox(self.receptor_preparation_center_group.interior(),orient='vertical', padx=0,pady=0)
@@ -955,15 +955,15 @@ class Autodock:
         self.receptor_preparation_bottom_group.pack(fill = 'both', expand = 0, padx=10, pady=5)
 
         self.receptor_page_log_text = Pmw.ScrolledText(self.receptor_preparation_bottom_group.interior(),
-                                                        borderframe=5,
-                                                        vscrollmode='dynamic',
-                                                        hscrollmode='dynamic',
-                                                        labelpos='n',
-                                                        text_width=150, text_height=15,
-                                                        text_wrap='none',
-                                                        text_background='#000000',
-                                                        text_foreground='green'
-                                                        )
+                                                       borderframe=5,
+                                                       vscrollmode='dynamic',
+                                                       hscrollmode='dynamic',
+                                                       labelpos='n',
+                                                       text_width=150, text_height=15,
+                                                       text_wrap='none',
+                                                       text_background='#000000',
+                                                       text_foreground='green'
+                                                       )
         self.receptor_page_log_text.pack(side=LEFT, anchor='n',pady=0)
 
         self.receptor_page_log_text.insert('end',receptor_prep_text)
@@ -983,11 +983,11 @@ class Autodock:
         self.ligand_import_selection_button_box.pack(side=LEFT, fill='x', padx = 0, pady = 3)
 
         self.ligand_dir_location = Pmw.EntryField(self.ligand_preparation_top_group.interior(),
-                                                labelpos = 'w',
-                                                label_pyclass = DirDialogButtonClassFactory.get(self.set_ligand_dir_location),
-                                                validate = {'validator':quickFileValidation,},
-                                                value = '',
-                                                label_text = 'Ligands:')
+                                                  labelpos = 'w',
+                                                  label_pyclass = DirDialogButtonClassFactory.get(self.set_ligand_dir_location),
+                                                  validate = {'validator':quickFileValidation,},
+                                                  value = '',
+                                                  label_text = 'Ligands:')
         self.ligand_dir_location.pack(side=LEFT,fill = 'x', expand = 1, padx = 1, pady = 5)
 
         self.ligand_button_box = Pmw.ButtonBox(self.ligand_preparation_top_group.interior(), padx=0, pady=0,orient='horizontal')
@@ -1008,21 +1008,21 @@ class Autodock:
                                                   listbox_height = 10,
                                                   selectioncommand=self.save_as_ligand_pdb,
                                                   dropdown=False
-#                                                  vscrollmode='dynamic',
-#                                                  hscrollmode='dynamic',
+                                                  #                                                  vscrollmode='dynamic',
+                                                  #                                                  hscrollmode='dynamic',
 
-        )
+                                                  )
 
         self.ligand_list = Pmw.ComboBox(self.ligand_preparation_center_group.interior(),
-                                          scrolledlist_items=[],
-                                          labelpos='nw',
-                                          label_text='Ligand List',
-                                          listbox_height = 10,
-                                          selectioncommand=self.ligand_info,
-                                          dropdown=False
-#                                                 vscrollmode='dynamic',
-#                                                 hscrollmode='dynamic',
-        )
+                                        scrolledlist_items=[],
+                                        labelpos='nw',
+                                        label_text='Ligand List',
+                                        listbox_height = 10,
+                                        selectioncommand=self.ligand_info,
+                                        dropdown=False
+                                        #                                                 vscrollmode='dynamic',
+                                        #                                                 hscrollmode='dynamic',
+                                        )
 
         self.ligand_pdbqt_list = Pmw.ComboBox(self.ligand_preparation_center_group.interior(),
                                               scrolledlist_items=[],
@@ -1031,10 +1031,10 @@ class Autodock:
                                               listbox_height = 10,
                                               selectioncommand=self.ligand_info,
                                               dropdown=False,
-                                                          #                                                   dropdown=False
-#                                                          vscrollmode='dynamic',
-#                                                          hscrollmode='dynamic',
-        )
+                                              #                                                   dropdown=False
+                                              #                                                          vscrollmode='dynamic',
+                                              #                                                          hscrollmode='dynamic',
+                                              )
         self.ligand_selection_list.pack(side=LEFT, padx=0, anchor='n')
         self.ligand_list.pack(side=LEFT, padx=3, anchor='n')
         self.ligand_conversion_button_box = Pmw.ButtonBox(self.ligand_preparation_center_group.interior(),orient='vertical', padx=0,pady=0)
@@ -1053,16 +1053,16 @@ class Autodock:
         self.ligand_preparation_bottom_group.pack(fill = 'both', expand = 0, padx=10, pady=5)
 
         self.ligand_page_log_text = Pmw.ScrolledText(self.ligand_preparation_bottom_group.interior(),
-                                                        borderframe=5,
-                                                        vscrollmode='dynamic',
-                                                        hscrollmode='dynamic',
-                                                        labelpos='n',
-#                                                        label_text='Log',
-                                                        text_width=150, text_height=15,
-                                                        text_wrap='none',
-                                                        text_background='#000000',
-                                                        text_foreground='green'
-                                                        )
+                                                     borderframe=5,
+                                                     vscrollmode='dynamic',
+                                                     hscrollmode='dynamic',
+                                                     labelpos='n',
+                                                     #                                                        label_text='Log',
+                                                     text_width=150, text_height=15,
+                                                     text_wrap='none',
+                                                     text_background='#000000',
+                                                     text_foreground='green'
+                                                     )
         self.ligand_page_log_text.pack(side=LEFT, anchor='n',pady=0)
         self.ligand_page_log_text.insert('end',ligand_prep_text)
 
@@ -1079,14 +1079,14 @@ class Autodock:
 
 
         self.docking_receptor_rigid_list = Pmw.ComboBox(self.docking_top_group.interior(),
-                                                  scrolledlist_items=[],
-                                                  labelpos='nw',
-                                                  label_text='Receptor',
-                                                  listbox_height = 10,
-                                                  selectioncommand=self.selectionCommand,
-                                                  dropdown=True
+                                                        scrolledlist_items=[],
+                                                        labelpos='nw',
+                                                        label_text='Receptor',
+                                                        listbox_height = 10,
+                                                        selectioncommand=self.selectionCommand,
+                                                        dropdown=True
 
-        )
+                                                        )
         self.docking_receptor_flexible_list = Pmw.ComboBox(self.docking_top_group.interior(),
                                                            scrolledlist_items=['No','Yes'],
                                                            labelpos='nw',
@@ -1095,7 +1095,7 @@ class Autodock:
                                                            selectioncommand=self.selectionCommand,
                                                            dropdown=True
 
-        )
+                                                           )
 
         self.docking_ligand_list = Pmw.ComboBox(self.docking_top_group.interior(),
                                                 scrolledlist_items=['All'],
@@ -1104,7 +1104,7 @@ class Autodock:
                                                 listbox_height = 10,
                                                 selectioncommand=self.selectionCommand,
                                                 dropdown=True
-        )
+                                                )
 
         self.docking_nposes_list = Pmw.ComboBox(self.docking_top_group.interior(),
                                                 scrolledlist_items=range(1,101),
@@ -1113,7 +1113,7 @@ class Autodock:
                                                 listbox_height = 10,
                                                 selectioncommand=self.selectionCommand,
                                                 dropdown=True
-        )
+                                                )
         self.docking_nposes_list.selectitem(9)
         self.docking_receptor_flexible_list.selectitem('No')
         self.docking_ligand_list.selectitem('All')
@@ -1148,15 +1148,15 @@ class Autodock:
         self.docking_bottom_group.pack(fill = 'both', expand = 0, padx=10, pady=5)
 
         self.docking_page_log_text = Pmw.ScrolledText(self.docking_bottom_group.interior(),
-                                                        borderframe=5,
-                                                        vscrollmode='dynamic',
-                                                        hscrollmode='dynamic',
-                                                        labelpos='n',
-                                                        text_width=150, text_height=25,
-                                                        text_wrap='none',
-                                                        text_background='#000000',
-                                                        text_foreground='green'
-                                                        )
+                                                      borderframe=5,
+                                                      vscrollmode='dynamic',
+                                                      hscrollmode='dynamic',
+                                                      labelpos='n',
+                                                      text_width=150, text_height=25,
+                                                      text_wrap='none',
+                                                      text_background='#000000',
+                                                      text_foreground='green'
+                                                      )
         self.docking_page_log_text.pack(side=LEFT, anchor='n',pady=0)
         self.docking_page_log_text.insert('end',docking_text)
 
@@ -1201,13 +1201,13 @@ class Autodock:
 
 
         self.pose_viewer_ligand_display_radio = Pmw.RadioSelect(self.pose_viewer_page_display.interior(),
-                                     selectmode='multiple',
-                                     buttontype='checkbutton',
-                                     labelpos='w',
-                                     label_text='Display mode',
-                                     orient='horizontal',
-                                     frame_relief='ridge',
-                                     command=self.ligand_display_mode_changed)
+                                                                selectmode='multiple',
+                                                                buttontype='checkbutton',
+                                                                labelpos='w',
+                                                                label_text='Display mode',
+                                                                orient='horizontal',
+                                                                frame_relief='ridge',
+                                                                command=self.ligand_display_mode_changed)
         self.pose_viewer_ligand_display_radio.pack(side=TOP, padx=10, anchor='w')
         for entry in ('lines', 'sticks','spheres','surface','mesh'):
             self.pose_viewer_ligand_display_radio.add(entry)
@@ -1224,8 +1224,8 @@ class Autodock:
                                                         )
         for text in ('Show Selected',
                      'Hide Selected'):
-                self.pose_viewer_radiobuttons.add(text)
-                self.pose_viewer_radiobuttons.setvalue('Show Selected')
+            self.pose_viewer_radiobuttons.add(text)
+            self.pose_viewer_radiobuttons.setvalue('Show Selected')
         self.pose_viewer_radiobuttons.pack(padx=4,pady=1,side=TOP)
 
         self.pose_viewer_ligand_pages = {}
@@ -1244,19 +1244,19 @@ class Autodock:
                                                         )
         for text in ('Show All Poses',
                      'Show Only Best Pose'):
-                self.score_table_radiobuttons.add(text)
-                self.score_table_radiobuttons.setvalue('Show All Poses')
+            self.score_table_radiobuttons.add(text)
+            self.score_table_radiobuttons.setvalue('Show All Poses')
         self.score_table_radiobuttons.pack(padx=4,pady=1,side=TOP)
 
         self.rank_dat_file_io = Pmw.Group(self.rank_page, tag_text='Export scores as data file')
         self.rank_dat_file_io.pack(side = TOP,expand=1, fill='x')
 
         self.rank_dat_file_location = Pmw.EntryField(self.rank_dat_file_io.interior(),
-                                                labelpos = 'w',
-                                                label_pyclass = FileDialogButtonClassFactory.get(self.set_rank_dat_filename,mode='w',filter=[("Data File","*.dat")]),
-                                                validate = {'validator':quickFileValidation,},
-                                                value = default_settings['rank_dat_file_name'],
-                                                label_text = 'Filename:')
+                                                     labelpos = 'w',
+                                                     label_pyclass = FileDialogButtonClassFactory.get(self.set_rank_dat_filename,mode='w',filter=[("Data File","*.dat")]),
+                                                     validate = {'validator':quickFileValidation,},
+                                                     value = default_settings['rank_dat_file_name'],
+                                                     label_text = 'Filename:')
         self.rank_dat_file_location.pack(side=LEFT,fill = 'x', expand = 1, padx = 1, pady = 0)
 
         self.rank_dat_button_box = Pmw.ButtonBox(self.rank_dat_file_io.interior(), padx=0, pady=0,orient='horizontal')
@@ -1271,11 +1271,11 @@ class Autodock:
 
 
         self.rank_csv_file_location = Pmw.EntryField(self.rank_csv_file_io.interior(),
-                                                labelpos = 'w',
-                                                label_pyclass = FileDialogButtonClassFactory.get(self.set_rank_csv_filename,mode='w',filter=[("CSV File","*.csv")]),
-                                                validate = {'validator':quickFileValidation,},
-                                                value = default_settings['rank_csv_file_name'],
-                                                label_text = 'Filename:')
+                                                     labelpos = 'w',
+                                                     label_pyclass = FileDialogButtonClassFactory.get(self.set_rank_csv_filename,mode='w',filter=[("CSV File","*.csv")]),
+                                                     validate = {'validator':quickFileValidation,},
+                                                     value = default_settings['rank_csv_file_name'],
+                                                     label_text = 'Filename:')
         self.rank_csv_file_location.pack(side=LEFT,fill = 'x', expand = 1, padx = 1, pady = 0)
 
         self.rank_csv_button_box = Pmw.ButtonBox(self.rank_csv_file_io.interior(), padx=0, pady=0,orient='horizontal')
@@ -1284,11 +1284,11 @@ class Autodock:
 
 
         self.rank_pose_file_location = Pmw.EntryField(self.rank_pose_file_io.interior(),
-                                                labelpos = 'w',
-                                                label_pyclass = FileDialogButtonClassFactory.get(self.set_rank_pose_filename,mode='w',filter=[("PDB File","*.pdb")]),
-                                                validate = {'validator':quickFileValidation,},
-                                                value = default_settings['rank_pose_file_name'],
-                                                label_text = 'Filename:')
+                                                      labelpos = 'w',
+                                                      label_pyclass = FileDialogButtonClassFactory.get(self.set_rank_pose_filename,mode='w',filter=[("PDB File","*.pdb")]),
+                                                      validate = {'validator':quickFileValidation,},
+                                                      value = default_settings['rank_pose_file_name'],
+                                                      label_text = 'Filename:')
         self.rank_pose_file_location.pack(side=LEFT,fill = 'x', expand = 1, padx = 1, pady = 0)
 
         self.rank_pose_button_box = Pmw.ButtonBox(self.rank_pose_file_io.interior(), padx=0, pady=0,orient='horizontal')
@@ -1318,11 +1318,11 @@ class Autodock:
         self.mapfile = StringVar()
         self.mapfile.set(default_settings['map_input_file'])
         self.map_file_location = Pmw.EntryField(self.map_viewer_page_top_group.interior(),
-                                          labelpos='w',
-                                          label_pyclass = FileDialogButtonClassFactory.get(self.set_mapfilename,filter=[("Autodock Map File","*.map")]),
-                                          validate = {'validator':quickFileValidation,},
-                                          value = default_settings['map_input_file'],
-                                          label_text = 'Browse:')
+                                                labelpos='w',
+                                                label_pyclass = FileDialogButtonClassFactory.get(self.set_mapfilename,filter=[("Autodock Map File","*.map")]),
+                                                validate = {'validator':quickFileValidation,},
+                                                value = default_settings['map_input_file'],
+                                                label_text = 'Browse:')
 
         self.map_file_location.pack(side = LEFT,fill = 'x', expand = 1, padx = 10, pady = 5)
 
@@ -1540,7 +1540,7 @@ class Autodock:
         filename = self.gpf_file_location.get()
         fp = self.fileopen(filename,'w')
         if not fp:
-                return
+            return
         n_points_X = self.n_points_X.get()
         n_points_Y = self.n_points_Y.get()
         n_points_Z = self.n_points_Z.get()
@@ -1651,7 +1651,7 @@ class Autodock:
             VERTEX, float(x), float(y), float(z+d),
             END
 
-            ]
+        ]
         view = cmd.get_view()
         cmd.load_cgo(obj,name)
         cmd.set_view(view)
@@ -2184,8 +2184,8 @@ class Autodock:
     def import_ligands(self):
         pth = self.ligand_dir.get()
         lst = glob(os.path.join(pth,"*.pdb"))\
-              +glob(os.path.join(pth,"*.mol2"))\
-              +glob(os.path.join(pth,"*.pdbqt"))
+            +glob(os.path.join(pth,"*.mol2"))\
+            +glob(os.path.join(pth,"*.pdbqt"))
         self.ligand_dic['VS_DIR'] = pth
         self.multiple_ligands = True
 
@@ -2387,7 +2387,7 @@ class Autodock:
             ligand_list = []
             for lig in self.ligand_dic.values():
                 if hasattr(lig,"ligand_pdbqt") and  lig.ligand_pdbqt!='':
-                                    ligand_list.append(lig)
+                    ligand_list.append(lig)
             for idx in range(len(ligand_list)):
                 self.docking_ligand_list.selectitem(idx+1)
                 self.run_autodock(write_only = write_only)
@@ -2460,7 +2460,7 @@ class Autodock:
             fp = self.fileopen(outfile_conf,'w')
             print >>fp, "receptor = %s" % rigid_receptor_file
             if flex_receptor_file is not None:
-                    print >>fp, "flex = %s" % flex_receptor_file
+                print >>fp, "flex = %s" % flex_receptor_file
             print >>fp, "ligand = %s" % lig_pdbqt
             print >>fp, "center_x = %s" % center_X
             print >>fp, "center_y = %s" % center_Y
@@ -2539,7 +2539,7 @@ class Autodock:
         self.score_table.updateView(self.all_ligands)
 
     def load_dlg(self, filename):
-#        print 'loading dlg file'
+        #        print 'loading dlg file'
         name = '.'.join(os.path.basename(filename).split('.')[:-1])
         lst = self.fileopen(filename,'r').readlines()
         filt = []
@@ -2621,26 +2621,26 @@ class Autodock:
         self.pose_viewer_buttonbox.pack(fill='x',side=TOP)
         self.pose_viewer_buttonbox.alignbuttons()
         self.pose_viewer_ligand_pages[name]['combo'] = Pmw.ComboBox(self.pose_viewer_ligand_pages[name]['name'],
-                                                             label_text='Docked',
-                                                             labelpos='nw',
-                                                             scrolledlist_items= pose_list,
-                                                             selectioncommand=self.ligand_combo_box_selected,
-                                                             listbox_height=10,
-                                                             listbox_width=1,
-                                                             dropdown=False)
+                                                                    label_text='Docked',
+                                                                    labelpos='nw',
+                                                                    scrolledlist_items= pose_list,
+                                                                    selectioncommand=self.ligand_combo_box_selected,
+                                                                    listbox_height=10,
+                                                                    listbox_width=1,
+                                                                    dropdown=False)
         self.pose_viewer_ligand_pages[name]['combo'].pack(side='left', padx=3, anchor='n')
 
         self.pose_viewer_ligand_pages[name]['text'] = Pmw.ScrolledText(self.pose_viewer_ligand_pages[name]['name'],
-                                                                borderframe=5,
-                                                                vscrollmode='dynamic',
-                                                                hscrollmode='dynamic',
-                                                                labelpos='n',
-                                                                label_text=name,
-                                                                text_width=150, text_height=15,
-                                                                text_wrap='none',
-                                                                text_background='#000000',
-                                                                text_foreground='green'
-                                                    )
+                                                                       borderframe=5,
+                                                                       vscrollmode='dynamic',
+                                                                       hscrollmode='dynamic',
+                                                                       labelpos='n',
+                                                                       label_text=name,
+                                                                       text_width=150, text_height=15,
+                                                                       text_wrap='none',
+                                                                       text_background='#000000',
+                                                                       text_foreground='green'
+                                                                       )
         self.pose_viewer_ligand_pages[name]['text'].pack()
         self.pose_viewer_notebook.selectpage(name)
         self.status_line.configure(text ='Loading %s' % name)
@@ -2654,13 +2654,13 @@ class Autodock:
             cmd.read_pdbstr(ligand.as_pdb_string(),str(value))
             pmlname = value.replace(' ','_').replace('::','_')
             for key, val in self.ligand_display_mode.items():
-        #        print key, val
+                #        print key, val
                 if val == True:
                     cmd.show(key,pmlname)
                 else:
                     cmd.hide(key,pmlname)
             cmd.set_view(view)
-                    #            cmd.zoom(str(value))
+            #            cmd.zoom(str(value))
             text = 'Docked Energy: %8.2f kcal/mol' % ligand.energy
             self.status_line.configure(text=text)
 
@@ -2740,7 +2740,7 @@ class Autodock:
         print >>fp,"# RANK         NAME              POSE #   SCORE"
         for i, ligand in enumerate(ligand_list):
             print >>fp, "%8d %20s %5d %8.3f" % \
-                  (i+1, ligand.name, ligand.poseN, ligand.energy)
+                (i+1, ligand.name, ligand.poseN, ligand.energy)
         self.status_line.configure(text="Exported docking results to %s" % filename)
 
 
@@ -2755,7 +2755,7 @@ class Autodock:
         print >>fp, "RANK,      NAME,       POSE,      SCORE"
         for i, ligand in enumerate(ligand_list):
             print >>fp, "%8d, %20s, %5d, %8.3f" % \
-                  (i+1, ligand.name, ligand.poseN, ligand.energy)
+                (i+1, ligand.name, ligand.poseN, ligand.energy)
         self.status_line.configure(text="Exported docking results to %s" % filename)
 
     def export_score_pose_file(self):
@@ -2810,8 +2810,8 @@ class Autodock:
                                         'displ':'isosurface',
                                         'thresh':5,
                                         'meta':mp.meta()
-                                       }
-                              }
+                                        }
+                               }
         info = '#====================================\n'
         info+= '# DISPLAY SETTINGS\n'
         info+= 'THRESHOLD: 5\n'
@@ -2868,10 +2868,10 @@ class Autodock:
             mmp = self.map_dic[name][surfname]
         else:
             self.map_dic[name].update({surfname:{
-                                'color':self.map_color,
-                                'displ':mode,
-                                'thresh':thresh
-                                }})
+                'color':self.map_color,
+                'displ':mode,
+                'thresh':thresh
+            }})
             mmp = self.map_dic[name][surfname]
         mmp['thresh'] = float(self.map_threshold[name].get())
         mmp['color'] = self.map_color
@@ -2899,8 +2899,8 @@ class Autodock:
             initialcolor='red',title='Choose map color').show()
         if color[0] is not None:
             self.map_color = [color[0][0]/255.,
-                                color[0][1]/255.,
-                                color[0][2]/255.]
+                              color[0][1]/255.,
+                              color[0][2]/255.]
 
 
     def delete_map(self):
@@ -2978,7 +2978,7 @@ class Autodock:
                                                         text_wrap='none',
                                                         text_background='#000000',
                                                         text_foreground='green'
-                                                    )
+                                                        )
         self.map_pages[name]['text'].pack(fill='y')
 
         self.map_viewer_notebook.selectpage(name)
@@ -3132,23 +3132,23 @@ def _errorpop(master,text):
 class PmwFileDialog(Pmw.Dialog):
     """File Dialog using Pmw"""
     def __init__(self, parent = None, **kw):
-	# Define the megawidget options.
-	optiondefs = (
-	    ('filter',    '*',              self.newfilter),
-	    ('directory', os.getcwd(),      self.newdir),
-	    ('filename',  '',               self.newfilename),
-	    ('historylen',10,               None),
-	    ('command',   None,             None),
+        # Define the megawidget options.
+        optiondefs = (
+            ('filter',    '*',              self.newfilter),
+            ('directory', os.getcwd(),      self.newdir),
+            ('filename',  '',               self.newfilename),
+            ('historylen',10,               None),
+            ('command',   None,             None),
             ('info',      None,             None),
-	    )
-	self.defineoptions(kw, optiondefs)
+        )
+        self.defineoptions(kw, optiondefs)
         # Initialise base class (after defining options).
-	Pmw.Dialog.__init__(self, parent)
+        Pmw.Dialog.__init__(self, parent)
 
-	self.withdraw()
+        self.withdraw()
 
         # Create the components.
-	interior = self.interior()
+        interior = self.interior()
 
         if self['info'] is not None:
             rowoffset=1
@@ -3157,114 +3157,114 @@ class PmwFileDialog(Pmw.Dialog):
         else:
             rowoffset=0
 
-	dn = self.mkdn()
-	dn.grid(row=0+rowoffset,column=0,columnspan=2,padx=3,pady=3)
-	del dn
+        dn = self.mkdn()
+        dn.grid(row=0+rowoffset,column=0,columnspan=2,padx=3,pady=3)
+        del dn
 
-	# Create the directory list component.
-	dnb = self.mkdnb()
-	dnb.grid(row=1+rowoffset,column=0,sticky='news',padx=3,pady=3)
-	del dnb
+        # Create the directory list component.
+        dnb = self.mkdnb()
+        dnb.grid(row=1+rowoffset,column=0,sticky='news',padx=3,pady=3)
+        del dnb
 
-	# Create the filename list component.
-	fnb = self.mkfnb()
-	fnb.grid(row=1+rowoffset,column=1,sticky='news',padx=3,pady=3)
-	del fnb
+        # Create the filename list component.
+        fnb = self.mkfnb()
+        fnb.grid(row=1+rowoffset,column=1,sticky='news',padx=3,pady=3)
+        del fnb
 
-	# Create the filter entry
-	ft = self.mkft()
-	ft.grid(row=2+rowoffset,column=0,columnspan=2,padx=3,pady=3)
-	del ft
+        # Create the filter entry
+        ft = self.mkft()
+        ft.grid(row=2+rowoffset,column=0,columnspan=2,padx=3,pady=3)
+        del ft
 
-	# Create the filename entry
-	fn = self.mkfn()
-	fn.grid(row=3+rowoffset,column=0,columnspan=2,padx=3,pady=3)
-	fn.bind('<Return>',self.okbutton)
-	del fn
+        # Create the filename entry
+        fn = self.mkfn()
+        fn.grid(row=3+rowoffset,column=0,columnspan=2,padx=3,pady=3)
+        fn.bind('<Return>',self.okbutton)
+        del fn
 
-	# Buttonbox already exists
-	bb=self.component('buttonbox')
-	bb.add('OK',command=self.okbutton)
-	bb.add('Cancel',command=self.cancelbutton)
-	del bb
+        # Buttonbox already exists
+        bb=self.component('buttonbox')
+        bb.add('OK',command=self.okbutton)
+        bb.add('Cancel',command=self.cancelbutton)
+        del bb
 
-	Pmw.alignlabels([self.component('filename'),
-			 self.component('filter'),
-			 self.component('dirname')])
+        Pmw.alignlabels([self.component('filename'),
+                         self.component('filter'),
+                         self.component('dirname')])
 
     def infotxt(self):
         """ Make information block component at the top """
         return self.createcomponent(
-                'infobox',
-                (), None,
-                Tkinter.Label, (self.interior(),),
-                width=51,
-                relief='groove',
-                foreground='darkblue',
-                justify='left',
-                text=self['info']
-            )
+            'infobox',
+            (), None,
+            Tkinter.Label, (self.interior(),),
+            width=51,
+            relief='groove',
+            foreground='darkblue',
+            justify='left',
+            text=self['info']
+        )
 
     def mkdn(self):
         """Make directory name component"""
         return self.createcomponent(
-	    'dirname',
-	    (), None,
-	    Pmw.ComboBox, (self.interior(),),
-	    entryfield_value=self['directory'],
-	    entryfield_entry_width=40,
+            'dirname',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['directory'],
+            entryfield_entry_width=40,
             entryfield_validate=self.dirvalidate,
-	    selectioncommand=self.setdir,
-	    labelpos='w',
-	    label_text='Directory:')
+            selectioncommand=self.setdir,
+            labelpos='w',
+            label_text='Directory:')
 
     def mkdnb(self):
         """Make directory name box"""
         return self.createcomponent(
-	    'dirnamebox',
-	    (), None,
-	    Pmw.ScrolledListBox, (self.interior(),),
-	    label_text='directories',
-	    labelpos='n',
-	    hscrollmode='none',
-	    dblclickcommand=self.selectdir)
+            'dirnamebox',
+            (), None,
+            Pmw.ScrolledListBox, (self.interior(),),
+            label_text='directories',
+            labelpos='n',
+            hscrollmode='none',
+            dblclickcommand=self.selectdir)
 
     def mkft(self):
         """Make filter"""
         return self.createcomponent(
-	    'filter',
-	    (), None,
-	    Pmw.ComboBox, (self.interior(),),
-	    entryfield_value=self['filter'],
-	    entryfield_entry_width=40,
-	    selectioncommand=self.setfilter,
-	    labelpos='w',
-	    label_text='Filter:')
+            'filter',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['filter'],
+            entryfield_entry_width=40,
+            selectioncommand=self.setfilter,
+            labelpos='w',
+            label_text='Filter:')
 
     def mkfnb(self):
         """Make filename list box"""
         return self.createcomponent(
-	    'filenamebox',
-	    (), None,
-	    Pmw.ScrolledListBox, (self.interior(),),
-	    label_text='files',
-	    labelpos='n',
-	    hscrollmode='none',
-	    selectioncommand=self.singleselectfile,
-	    dblclickcommand=self.selectfile)
+            'filenamebox',
+            (), None,
+            Pmw.ScrolledListBox, (self.interior(),),
+            label_text='files',
+            labelpos='n',
+            hscrollmode='none',
+            selectioncommand=self.singleselectfile,
+            dblclickcommand=self.selectfile)
 
     def mkfn(self):
         """Make file name entry"""
         return self.createcomponent(
-	    'filename',
-	    (), None,
-	    Pmw.ComboBox, (self.interior(),),
-	    entryfield_value=self['filename'],
-	    entryfield_entry_width=40,
+            'filename',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['filename'],
+            entryfield_entry_width=40,
             entryfield_validate=self.filevalidate,
-	    selectioncommand=self.setfilename,
-	    labelpos='w',
-	    label_text='Filename:')
+            selectioncommand=self.setfilename,
+            labelpos='w',
+            label_text='Filename:')
 
     def dirvalidate(self,string):
         if os.path.isdir(string):
@@ -3283,133 +3283,133 @@ class PmwFileDialog(Pmw.Dialog):
             return Pmw.OK
 
     def okbutton(self):
-	"""OK action: user thinks he has input valid data and wants to
+        """OK action: user thinks he has input valid data and wants to
            proceed. This is also called by <Return> in the filename entry"""
-	fn=self.component('filename').get()
-	self.setfilename(fn)
-	if self.validate(fn):
-	    self.canceled=0
-	    self.deactivate()
+        fn=self.component('filename').get()
+        self.setfilename(fn)
+        if self.validate(fn):
+            self.canceled=0
+            self.deactivate()
 
     def cancelbutton(self):
-	"""Cancel the operation"""
-	self.canceled=1
-	self.deactivate()
+        """Cancel the operation"""
+        self.canceled=1
+        self.deactivate()
 
     def tidy(self,w,v):
-	"""Insert text v into the entry and at the top of the list of
+        """Insert text v into the entry and at the top of the list of
            the combobox w, remove duplicates"""
-	if not v:
-	    return
-	entry=w.component('entry')
-	entry.delete(0,'end')
-	entry.insert(0,v)
-	list=w.component('scrolledlist')
-	list.insert(0,v)
-	index=1
-	while index<list.index('end'):
-	    k=list.get(index)
-	    if k==v or index>self['historylen']:
-		list.delete(index)
-	    else:
-		index=index+1
+        if not v:
+            return
+        entry=w.component('entry')
+        entry.delete(0,'end')
+        entry.insert(0,v)
+        list=w.component('scrolledlist')
+        list.insert(0,v)
+        index=1
+        while index<list.index('end'):
+            k=list.get(index)
+            if k==v or index>self['historylen']:
+                list.delete(index)
+            else:
+                index=index+1
         w.checkentry()
 
     def setfilename(self,value):
-	if not value:
-	    return
-	value=os.path.join(self['directory'],value)
-	dir,fil=os.path.split(value)
-	self.configure(directory=dir,filename=value)
+        if not value:
+            return
+        value=os.path.join(self['directory'],value)
+        dir,fil=os.path.split(value)
+        self.configure(directory=dir,filename=value)
 
-	c=self['command']
-	if callable(c):
-	    c()
+        c=self['command']
+        if callable(c):
+            c()
 
     def newfilename(self):
-	"""Make sure a newly set filename makes it into the combobox list"""
-	self.tidy(self.component('filename'),self['filename'])
+        """Make sure a newly set filename makes it into the combobox list"""
+        self.tidy(self.component('filename'),self['filename'])
 
     def setfilter(self,value):
-	self.configure(filter=value)
+        self.configure(filter=value)
 
     def newfilter(self):
-	"""Make sure a newly set filter makes it into the combobox list"""
-	self.tidy(self.component('filter'),self['filter'])
-	self.fillit()
+        """Make sure a newly set filter makes it into the combobox list"""
+        self.tidy(self.component('filter'),self['filter'])
+        self.fillit()
 
     def setdir(self,value):
-	self.configure(directory=value)
+        self.configure(directory=value)
 
     def newdir(self):
-	"""Make sure a newly set dirname makes it into the combobox list"""
-	self.tidy(self.component('dirname'),self['directory'])
-	self.fillit()
+        """Make sure a newly set dirname makes it into the combobox list"""
+        self.tidy(self.component('dirname'),self['directory'])
+        self.fillit()
 
     def singleselectfile(self):
-	"""Single click in file listbox. Move file to "filename" combobox"""
-	cs=self.component('filenamebox').curselection()
-	if cs!=():
-	    value=self.component('filenamebox').get(cs)
+        """Single click in file listbox. Move file to "filename" combobox"""
+        cs=self.component('filenamebox').curselection()
+        if cs!=():
+            value=self.component('filenamebox').get(cs)
             self.setfilename(value)
 
     def selectfile(self):
-	"""Take the selected file from the filename, normalize it, and OK"""
+        """Take the selected file from the filename, normalize it, and OK"""
         self.singleselectfile()
-	value=self.component('filename').get()
+        value=self.component('filename').get()
         self.setfilename(value)
         if value:
-	    self.okbutton()
+            self.okbutton()
 
     def selectdir(self):
-	"""Take selected directory from the dirnamebox into the dirname"""
-	cs=self.component('dirnamebox').curselection()
-	if cs!=():
-	    value=self.component('dirnamebox').get(cs)
-	    dir=self['directory']
-	    if not dir:
-		dir=os.getcwd()
-	    if value:
-		if value=='..':
-		    dir=os.path.split(dir)[0]
-		else:
-		    dir=os.path.join(dir,value)
-	    self.configure(directory=dir)
-	    self.fillit()
+        """Take selected directory from the dirnamebox into the dirname"""
+        cs=self.component('dirnamebox').curselection()
+        if cs!=():
+            value=self.component('dirnamebox').get(cs)
+            dir=self['directory']
+            if not dir:
+                dir=os.getcwd()
+            if value:
+                if value=='..':
+                    dir=os.path.split(dir)[0]
+                else:
+                    dir=os.path.join(dir,value)
+            self.configure(directory=dir)
+            self.fillit()
 
     def askfilename(self,directory=None,filter=None):
-	"""The actual client function. Activates the dialog, and
-	   returns only after a valid filename has been entered
+        """The actual client function. Activates the dialog, and
+           returns only after a valid filename has been entered
            (return value is that filename) or when canceled (return
            value is None)"""
-	if directory!=None:
-	    self.configure(directory=directory)
-	if filter!=None:
-	    self.configure(filter=filter)
-	self.fillit()
+        if directory!=None:
+            self.configure(directory=directory)
+        if filter!=None:
+            self.configure(filter=filter)
+        self.fillit()
         self.canceled=1 # Needed for when user kills dialog window
-	self.activate()
-	if self.canceled:
-	    return None
-	else:
-	    return self.component('filename').get()
+        self.activate()
+        if self.canceled:
+            return None
+        else:
+            return self.component('filename').get()
 
     lastdir=""
     lastfilter=None
     lasttime=0
     def fillit(self):
-	"""Get the directory list and show it in the two listboxes"""
+        """Get the directory list and show it in the two listboxes"""
         # Do not run unnecesarily
         if self.lastdir==self['directory'] and self.lastfilter==self['filter'] and self.lasttime>os.stat(self.lastdir)[8]:
             return
         self.lastdir=self['directory']
         self.lastfilter=self['filter']
         self.lasttime=time()
-	dir=self['directory']
-	if not dir:
-	    dir=os.getcwd()
-	dirs=['..']
-	files=[]
+        dir=self['directory']
+        if not dir:
+            dir=os.getcwd()
+        dirs=['..']
+        files=[]
         try:
             fl=os.listdir(dir)
             fl.sort()
@@ -3417,24 +3417,24 @@ class PmwFileDialog(Pmw.Dialog):
             if arg[0] in (2,20):
                 return
             raise
-	for f in fl:
-	    if os.path.isdir(os.path.join(dir,f)):
-		dirs.append(f)
-	    else:
-		filter=self['filter']
-		if not filter:
-		    filter='*'
-		if fnmatch.fnmatch(f,filter):
-		    files.append(f)
-	self.component('filenamebox').setlist(files)
-	self.component('dirnamebox').setlist(dirs)
+        for f in fl:
+            if os.path.isdir(os.path.join(dir,f)):
+                dirs.append(f)
+            else:
+                filter=self['filter']
+                if not filter:
+                    filter='*'
+                if fnmatch.fnmatch(f,filter):
+                    files.append(f)
+        self.component('filenamebox').setlist(files)
+        self.component('dirnamebox').setlist(dirs)
 
     def validate(self,filename):
-	"""Validation function. Should return 1 if the filename is valid,
+        """Validation function. Should return 1 if the filename is valid,
            0 if invalid. May pop up dialogs to tell user why. Especially
            suited to subclasses: i.e. only return 1 if the file does/doesn't
            exist"""
-	return 1
+        return 1
 
 class PmwExistingFileDialog(PmwFileDialog):
     def filevalidate(self,string):
@@ -3460,21 +3460,21 @@ class PmwExistingFileDialog(PmwFileDialog):
 class PmwDirDialog(PmwFileDialog):
     """Directory Dialog using Pmw"""
     def __init__(self, parent = None, **kw):
-	# Define the megawidget options.
-	optiondefs = (
-	    ('directory', os.getcwd(),      self.newdir),
-	    ('historylen',10,               None),
-	    ('command',   None,             None),
-	    ('info',      None,             None),
-	    )
-	self.defineoptions(kw, optiondefs)
+        # Define the megawidget options.
+        optiondefs = (
+            ('directory', os.getcwd(),      self.newdir),
+            ('historylen',10,               None),
+            ('command',   None,             None),
+            ('info',      None,             None),
+        )
+        self.defineoptions(kw, optiondefs)
         # Initialise base class (after defining options).
-	Pmw.Dialog.__init__(self, parent)
+        Pmw.Dialog.__init__(self, parent)
 
-	self.withdraw()
+        self.withdraw()
 
         # Create the components.
-	interior = self.interior()
+        interior = self.interior()
 
         if self['info'] is not None:
             rowoffset=1
@@ -3483,35 +3483,35 @@ class PmwDirDialog(PmwFileDialog):
         else:
             rowoffset=0
 
-	dn = self.mkdn()
-	dn.grid(row=1+rowoffset,column=0,columnspan=2,padx=3,pady=3)
-	dn.bind('<Return>',self.okbutton)
-	del dn
+        dn = self.mkdn()
+        dn.grid(row=1+rowoffset,column=0,columnspan=2,padx=3,pady=3)
+        dn.bind('<Return>',self.okbutton)
+        del dn
 
-	# Create the directory list component.
-	dnb = self.mkdnb()
-	dnb.grid(row=0+rowoffset,column=0,columnspan=2,sticky='news',padx=3,pady=3)
-	del dnb
+        # Create the directory list component.
+        dnb = self.mkdnb()
+        dnb.grid(row=0+rowoffset,column=0,columnspan=2,sticky='news',padx=3,pady=3)
+        del dnb
 
-	# Buttonbox already exists
-	bb=self.component('buttonbox')
-	bb.add('OK',command=self.okbutton)
-	bb.add('Cancel',command=self.cancelbutton)
-	del bb
+        # Buttonbox already exists
+        bb=self.component('buttonbox')
+        bb.add('OK',command=self.okbutton)
+        bb.add('Cancel',command=self.cancelbutton)
+        del bb
 
 
 
     lastdir=""
     def fillit(self):
-	"""Get the directory list and show it in the two listboxes"""
+        """Get the directory list and show it in the two listboxes"""
         # Do not run unnecesarily
         if self.lastdir==self['directory']:
             return
         self.lastdir=self['directory']
-	dir=self['directory']
-	if not dir:
-	    dir=os.getcwd()
-	dirs=['..']
+        dir=self['directory']
+        if not dir:
+            dir=os.getcwd()
+        dirs=['..']
         try:
             fl=os.listdir(dir)
             fl.sort()
@@ -3519,33 +3519,33 @@ class PmwDirDialog(PmwFileDialog):
             if arg[0] in (2,20):
                 return
             raise
-	for f in fl:
-	    if os.path.isdir(os.path.join(dir,f)):
-		dirs.append(f)
-	self.component('dirnamebox').setlist(dirs)
+        for f in fl:
+            if os.path.isdir(os.path.join(dir,f)):
+                dirs.append(f)
+        self.component('dirnamebox').setlist(dirs)
 
     def okbutton(self):
-	"""OK action: user thinks he has input valid data and wants to
+        """OK action: user thinks he has input valid data and wants to
            proceed. This is also called by <Return> in the dirname entry"""
-	fn=self.component('dirname').get()
-	self.configure(directory=fn)
-	if self.validate(fn):
-	    self.canceled=0
-	    self.deactivate()
+        fn=self.component('dirname').get()
+        self.configure(directory=fn)
+        if self.validate(fn):
+            self.canceled=0
+            self.deactivate()
 
     def askfilename(self,directory=None):
-	"""The actual client function. Activates the dialog, and
-	   returns only after a valid filename has been entered
+        """The actual client function. Activates the dialog, and
+           returns only after a valid filename has been entered
            (return value is that filename) or when canceled (return
            value is None)"""
-	if directory!=None:
-	    self.configure(directory=directory)
-	self.fillit()
-	self.activate()
-	if self.canceled:
-	    return None
-	else:
-	    return self.component('dirname').get()
+        if directory!=None:
+            self.configure(directory=directory)
+        self.fillit()
+        self.activate()
+        if self.canceled:
+            return None
+        else:
+            return self.component('dirname').get()
 
     def dirvalidate(self,string):
         if os.path.isdir(string):
@@ -3556,7 +3556,7 @@ class PmwDirDialog(PmwFileDialog):
             return Pmw.OK
 
     def validate(self,filename):
-	"""Validation function. Should return 1 if the filename is valid,
+        """Validation function. Should return 1 if the filename is valid,
            0 if invalid. May pop up dialogs to tell user why. Especially
            suited to subclasses: i.e. only return 1 if the file does/doesn't
            exist"""
@@ -3616,7 +3616,7 @@ class Tail(object):
         self.last_read = time()         # when did I last get some data?
         self.queue = []                 # queue of lines that are ready
         self.window = []                # sliding window for dynamically
-                                        # adjusting the sleep_interval
+        # adjusting the sleep_interval
 
     def _recompute_rate(self, n, start, stop):
         """Internal function for recomputing the sleep interval. I get
@@ -3835,8 +3835,8 @@ class ScoreTable(Frame):
             self.entry[row] = {}
             for colx in xrange(0, cols):
                 self.entry[row][colx] = TableCell(self.table, row=row,
-                                                 col=colx, entry=self.entry,
-                                                 command=self)
+                                                  col=colx, entry=self.entry,
+                                                  command=self)
                 self.entry[row][colx].grid(row=row+1,column=colx,sticky=N+W+S+E)
 
     def updateScreen(self, firstVisible):

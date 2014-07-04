@@ -108,10 +108,10 @@ except ImportError:
     pymol = pymol()
 
 def __init__(self):
-        self.menuBar.addmenuitem('Plugin', 'command',
-                                 'Launch MOLE Tools',
-                                 label='MOLE Tools...',
-                                 command = lambda s=self: MOLETools(s))
+    self.menuBar.addmenuitem('Plugin', 'command',
+                             'Launch MOLE Tools',
+                             label='MOLE Tools...',
+                             command = lambda s=self: MOLETools(s))
 
 defaults = {
     "residues" : '(sele)',
@@ -120,7 +120,7 @@ defaults = {
     "numtunnels": 3,
     "numinterp": 200,
     "activesiteradius": 3.0,
-    }
+}
 
 #   "atomselection": "all",
 class FileDialogButtonClassFactory:
@@ -162,11 +162,11 @@ class MOLETools:
         Pmw.setbusycursorattributes(self.dialog.component('hull'))
 
         w = Tkinter.Label(self.dialog.interior(),
-                                text = 'PyMOL MOLE Tools\nMartin Petrek, 2007, http://mole.chemi.muni.cz',
-                                background = 'navy',
-                                foreground = 'white',
-                                #pady = 20,
-                                )
+                          text = 'PyMOL MOLE Tools\nMartin Petrek, 2007, http://mole.chemi.muni.cz',
+                          background = 'navy',
+                          foreground = 'white',
+                          #pady = 20,
+                          )
         w.pack(expand = 1, fill = 'both', padx = 4, pady = 4)
 
         self.notebook = Pmw.NoteBook(self.dialog.interior())
@@ -190,17 +190,17 @@ class MOLETools:
                                         )
 
         self.binlocation = Pmw.EntryField(group.interior(),
-                                     labelpos='w',
-                                     label_pyclass = FileDialogButtonClassFactory.get(self.setBinaryLocation),
-                                     validate = {'validator':quickFileValidation,},
-                                     value = MOLE_BINARY_LOCATION,
-                                     label_text = 'Mole binary location:')
+                                          labelpos='w',
+                                          label_pyclass = FileDialogButtonClassFactory.get(self.setBinaryLocation),
+                                          validate = {'validator':quickFileValidation,},
+                                          value = MOLE_BINARY_LOCATION,
+                                          label_text = 'Mole binary location:')
 
         self.numbertunnels = Pmw.EntryField(group.interior(),
-                                        labelpos='w',
-                                        label_text='Number of tunnels: ',
-                                        value=str(defaults['numtunnels']),
-                                        )
+                                            labelpos='w',
+                                            label_text='Number of tunnels: ',
+                                            value=str(defaults['numtunnels']),
+                                            )
 
         for entry in (self.selection,self.binlocation,self.numbertunnels):
             entry.pack(fill='x',padx=4,pady=1) # vertical
@@ -218,28 +218,28 @@ class MOLETools:
         radioframe = Tkinter.Frame(group.interior())
 
         w = Pmw.Group(radioframe,
-                tag_pyclass = Tkinter.Radiobutton,
-                tag_text='Use average point from centers of given selections \n(e.g. /Molecule///GLY`37/N  /Molecule///PHE`151)',
-                tag_value = 0,
-                tag_variable = self.var)
+                      tag_pyclass = Tkinter.Radiobutton,
+                      tag_text='Use average point from centers of given selections \n(e.g. /Molecule///GLY`37/N  /Molecule///PHE`151)',
+                      tag_value = 0,
+                      tag_variable = self.var)
         w.pack(fill = 'x', expand = 1, side='top')
         cw = Tkinter.Frame(w.interior())
         cw.pack(padx = 2, pady = 2, expand='yes', fill='both')
         radiogroups.append(w)
         self.selectionlist = Pmw.EntryField(w.interior(),
-                                  labelpos='w',
-                                  label_text='Selections List: ',
-                                  value=defaults['residues'],
-#                                  value='(sele)',
-                                  )
+                                            labelpos='w',
+                                            label_text='Selections List: ',
+                                            value=defaults['residues'],
+                                            #                                  value='(sele)',
+                                            )
 
         self.selectionlist.pack(fill='x',padx=4,pady=1) # vertical
 
         w = Pmw.Group(radioframe,
-                tag_pyclass = Tkinter.Radiobutton,
-                tag_text='Use X, Y, Z coordinates to specify starting point',
-                tag_value = 1,
-                tag_variable = self.var)
+                      tag_pyclass = Tkinter.Radiobutton,
+                      tag_text='Use X, Y, Z coordinates to specify starting point',
+                      tag_value = 1,
+                      tag_variable = self.var)
         w.pack(fill = 'x', expand = 1, side='top')
         cw = Tkinter.Frame(w.interior())
         cw.pack(padx = 2, pady = 2, expand='yes', fill='both')
@@ -300,23 +300,23 @@ class MOLETools:
         group.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
 
         self.pymol_outdir = Pmw.EntryField(group.interior(),
-                                                          labelpos = 'w',
-                                                          label_text = 'Output directory: ',
-                                                          value = str(defaults['outdir']),
-                                                          )
+                                           labelpos = 'w',
+                                           label_text = 'Output directory: ',
+                                           value = str(defaults['outdir']),
+                                           )
         self.pymol_outdir.pack(fill = 'x', padx = 20, pady = 10)
         self.pymol_numinterp = Pmw.EntryField(group.interior(),
-                                                          labelpos = 'w',
-                                                          label_text = 'Number of point for tunnel axis interpolation: ',
-                                                          value = str(defaults['numinterp']),
-                                                          )
+                                              labelpos = 'w',
+                                              label_text = 'Number of point for tunnel axis interpolation: ',
+                                              value = str(defaults['numinterp']),
+                                              )
         self.pymol_numinterp.pack(fill = 'x', padx = 20, pady = 10)
 
         self.pymol_activesiteradius = Pmw.EntryField(group.interior(),
-                                                          labelpos='w',
-                                                          label_text='Radius for starting point optimization: ',
-                                                          value=str(defaults['activesiteradius']),
-                                                          )
+                                                     labelpos='w',
+                                                     label_text='Radius for starting point optimization: ',
+                                                     value=str(defaults['activesiteradius']),
+                                                     )
         self.pymol_activesiteradius.pack(fill = 'x', padx = 20, pady = 10)
 
 #        self.pymol_atomselection = Pmw.EntryField(group.interior(),
@@ -368,7 +368,7 @@ Many thanks to
 
 Created by Martin Petrek petrek@chemi.muni.cz
 LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
-    
+
         lfre=Frame(group.interior())
         bar=Scrollbar(lfre,)
         ll=Text(lfre,yscrollcommand=bar.set,background="#ddddff",font="Times 12", width=60, height=15,)
@@ -417,7 +417,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
         centz=0
         cnt=len(sel.atom)
         if (cnt==0):
-           return (0,0,0)
+            return (0,0,0)
         for a in sel.atom:
             centx+=a.coord[0]
             centy+=a.coord[1]
@@ -458,8 +458,8 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
             gcnt+=1
 
         if (cnt==0):
-           self.show_error1("Bad starting point selection")
-           return (0,0,0)
+            self.show_error1("Bad starting point selection")
+            return (0,0,0)
 
         gcentx/=gcnt
         gcenty/=gcnt
@@ -483,33 +483,33 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
         return seloutwater
 
     def exportvdw(self,selection='(all)'):
-	sel=cmd.get_model(selection)
-	ext=cmd.get_extent(selection)
-	mincorner=ext[0]
-	maxcorner=ext[1]
+        sel=cmd.get_model(selection)
+        ext=cmd.get_extent(selection)
+        mincorner=ext[0]
+        maxcorner=ext[1]
 
-	cnt=0
-	f = open("vystup.dat", "w")
+        cnt=0
+        f = open("vystup.dat", "w")
 #	f.write("%lf\t%lf\t%lf\t%lf\t%lf\t%lf\n" % (mincorner[0],mincorner[1],mincorner[2],maxcorner[0],maxcorner[1],maxcorner[2]))
-	f.write("%d\n" % len(sel.atom))
-	for a in sel.atom:
-		x=a.coord[0]
-		y=a.coord[1]
-		z=a.coord[2]
-		rad=a.vdw
-		name=a.name
-		text="%s\t%lf\t%lf\t%lf\t%lf\n" % (name,x,y,z,rad)
-		f.write(text)
-		cnt+=1
-	f.close()
+        f.write("%d\n" % len(sel.atom))
+        for a in sel.atom:
+            x=a.coord[0]
+            y=a.coord[1]
+            z=a.coord[2]
+            rad=a.vdw
+            name=a.name
+            text="%s\t%lf\t%lf\t%lf\t%lf\n" % (name,x,y,z,rad)
+            f.write(text)
+            cnt+=1
+        f.close()
 
     def deleteFileIfExist(self,path):
-	if os.access(path,os.F_OK):
-	    os.remove(path)
+        if os.access(path,os.F_OK):
+            os.remove(path)
 
     def deleteTemporaryFiles(self):
-#	self.deleteFileIfExist(self.pymol_generated_config_filename.getvalue())
-	pass
+        #	self.deleteFileIfExist(self.pymol_generated_config_filename.getvalue())
+        pass
 
     def execute(self, result):
         if result == 'Show starting point':
@@ -571,7 +571,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                 #status= callfunc.returncode
                 #print(child_stdout)
                 #print(child_stderr)
-                
+
                 #command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2],mole_stdout, mole_stderr);
                 command = '%s --fi pdb --input %s --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir %s --vmd --pymol --numtun %d --x %f --y %f --z %f'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2]);
                 print '\nRunning command:',command
@@ -638,41 +638,41 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
     def box(self,x1,y1,z1,x2,y2,z2,name="box"):
 
         obj = [
-        BEGIN, LINE_STRIP,
-        VERTEX, float(x1), float(y1), float(z1),
-        VERTEX, float(x2), float(y1), float(z1),
-        VERTEX, float(x2), float(y2), float(z1),
-        VERTEX, float(x1), float(y2), float(z1),
-        VERTEX, float(x1), float(y1), float(z1),
-        END,
+            BEGIN, LINE_STRIP,
+            VERTEX, float(x1), float(y1), float(z1),
+            VERTEX, float(x2), float(y1), float(z1),
+            VERTEX, float(x2), float(y2), float(z1),
+            VERTEX, float(x1), float(y2), float(z1),
+            VERTEX, float(x1), float(y1), float(z1),
+            END,
 
-        BEGIN, LINE_STRIP,
-        VERTEX, float(x1), float(y1), float(z2),
-        VERTEX, float(x2), float(y1), float(z2),
-        VERTEX, float(x2), float(y2), float(z2),
-        VERTEX, float(x1), float(y2), float(z2),
-        VERTEX, float(x1), float(y1), float(z2),
-        END,
+            BEGIN, LINE_STRIP,
+            VERTEX, float(x1), float(y1), float(z2),
+            VERTEX, float(x2), float(y1), float(z2),
+            VERTEX, float(x2), float(y2), float(z2),
+            VERTEX, float(x1), float(y2), float(z2),
+            VERTEX, float(x1), float(y1), float(z2),
+            END,
 
-        BEGIN, LINES,
-        VERTEX, float(x1), float(y1), float(z1),
-        VERTEX, float(x1), float(y1), float(z2),
-        END,
+            BEGIN, LINES,
+            VERTEX, float(x1), float(y1), float(z1),
+            VERTEX, float(x1), float(y1), float(z2),
+            END,
 
-        BEGIN, LINES,
-        VERTEX, float(x2), float(y1), float(z1),
-        VERTEX, float(x2), float(y1), float(z2),
-        END,
+            BEGIN, LINES,
+            VERTEX, float(x2), float(y1), float(z1),
+            VERTEX, float(x2), float(y1), float(z2),
+            END,
 
-        BEGIN, LINES,
-        VERTEX, float(x1), float(y2), float(z1),
-        VERTEX, float(x1), float(y2), float(z2),
-        END,
+            BEGIN, LINES,
+            VERTEX, float(x1), float(y2), float(z1),
+            VERTEX, float(x1), float(y2), float(z2),
+            END,
 
-        BEGIN, LINES,
-        VERTEX, float(x2), float(y2), float(z1),
-        VERTEX, float(x2), float(y2), float(z2),
-        END
+            BEGIN, LINES,
+            VERTEX, float(x2), float(y2), float(z1),
+            VERTEX, float(x2), float(y2), float(z2),
+            END
 
         ]
         cmd.load_cgo(obj,name)
@@ -680,22 +680,22 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
     def crisscross(self,x,y,z,d,name="crisscross"):
 
         obj = [
-        LINEWIDTH, 3,
+            LINEWIDTH, 3,
 
-        BEGIN, LINE_STRIP,
-        VERTEX, float(x-d), float(y), float(z),
-        VERTEX, float(x+d), float(y), float(z),
-        END,
+            BEGIN, LINE_STRIP,
+            VERTEX, float(x-d), float(y), float(z),
+            VERTEX, float(x+d), float(y), float(z),
+            END,
 
-        BEGIN, LINE_STRIP,
-        VERTEX, float(x), float(y-d), float(z),
-        VERTEX, float(x), float(y+d), float(z),
-        END,
+            BEGIN, LINE_STRIP,
+            VERTEX, float(x), float(y-d), float(z),
+            VERTEX, float(x), float(y+d), float(z),
+            END,
 
-        BEGIN, LINE_STRIP,
-        VERTEX, float(x), float(y), float(z-d),
-        VERTEX, float(x), float(y), float(z+d),
-        END
+            BEGIN, LINE_STRIP,
+            VERTEX, float(x), float(y), float(z-d),
+            VERTEX, float(x), float(y), float(z+d),
+            END
 
         ]
         view = cmd.get_view()
@@ -710,7 +710,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                 error_dialog = Pmw.MessageDialog(self.parent,
                                                  title = 'Error',
                                                  message_text = message,
-                                                )
+                                                 )
                 junk = error_dialog.activate()
         else:
             def show_error(message):
@@ -792,7 +792,7 @@ class PmwFileDialog(Pmw.Dialog):
             ('historylen',10,               None),
             ('command',   None,             None),
             ('info',      None,             None),
-            )
+        )
         self.defineoptions(kw, optiondefs)
         # Initialise base class (after defining options).
         Pmw.Dialog.__init__(self, parent)
@@ -840,8 +840,8 @@ class PmwFileDialog(Pmw.Dialog):
         del bb
 
         Pmw.alignlabels([self.component('filename'),
-                        self.component('filter'),
-                        self.component('dirname')])
+                         self.component('filter'),
+                         self.component('dirname')])
 
         self.lastdir=""
         self.lastfilter=None
@@ -850,76 +850,76 @@ class PmwFileDialog(Pmw.Dialog):
     def infotxt(self):
         """ Make information block component at the top """
         return self.createcomponent(
-                'infobox',
-                (), None,
-                Tkinter.Label, (self.interior(),),
-                width=51,
-                relief='groove',
-                foreground='darkblue',
-                justify='left',
-                text=self['info']
-                )
+            'infobox',
+            (), None,
+            Tkinter.Label, (self.interior(),),
+            width=51,
+            relief='groove',
+            foreground='darkblue',
+            justify='left',
+            text=self['info']
+        )
 
     def mkdn(self):
         """Make directory name component"""
         return self.createcomponent(
-        'dirname',
-        (), None,
-        Pmw.ComboBox, (self.interior(),),
-        entryfield_value=self['directory'],
-        entryfield_entry_width=40,
-        entryfield_validate=self.dirvalidate,
-        selectioncommand=self.setdir,
-        labelpos='w',
-        label_text='Directory:')
+            'dirname',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['directory'],
+            entryfield_entry_width=40,
+            entryfield_validate=self.dirvalidate,
+            selectioncommand=self.setdir,
+            labelpos='w',
+            label_text='Directory:')
 
     def mkdnb(self):
         """Make directory name box"""
         return self.createcomponent(
-        'dirnamebox',
-        (), None,
-        Pmw.ScrolledListBox, (self.interior(),),
-        label_text='directories',
-        labelpos='n',
-        hscrollmode='none',
-        dblclickcommand=self.selectdir)
+            'dirnamebox',
+            (), None,
+            Pmw.ScrolledListBox, (self.interior(),),
+            label_text='directories',
+            labelpos='n',
+            hscrollmode='none',
+            dblclickcommand=self.selectdir)
 
     def mkft(self):
         """Make filter"""
         return self.createcomponent(
-        'filter',
-        (), None,
-        Pmw.ComboBox, (self.interior(),),
-        entryfield_value=self['filter'],
-        entryfield_entry_width=40,
-        selectioncommand=self.setfilter,
-        labelpos='w',
-        label_text='Filter:')
+            'filter',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['filter'],
+            entryfield_entry_width=40,
+            selectioncommand=self.setfilter,
+            labelpos='w',
+            label_text='Filter:')
 
     def mkfnb(self):
         """Make filename list box"""
         return self.createcomponent(
-        'filenamebox',
-        (), None,
-        Pmw.ScrolledListBox, (self.interior(),),
-        label_text='files',
-        labelpos='n',
-        hscrollmode='none',
-        selectioncommand=self.singleselectfile,
-        dblclickcommand=self.selectfile)
+            'filenamebox',
+            (), None,
+            Pmw.ScrolledListBox, (self.interior(),),
+            label_text='files',
+            labelpos='n',
+            hscrollmode='none',
+            selectioncommand=self.singleselectfile,
+            dblclickcommand=self.selectfile)
 
     def mkfn(self):
         """Make file name entry"""
         return self.createcomponent(
-        'filename',
-        (), None,
-        Pmw.ComboBox, (self.interior(),),
-        entryfield_value=self['filename'],
-        entryfield_entry_width=40,
-        entryfield_validate=self.filevalidate,
-        selectioncommand=self.setfilename,
-        labelpos='w',
-        label_text='Filename:')
+            'filename',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['filename'],
+            entryfield_entry_width=40,
+            entryfield_validate=self.filevalidate,
+            selectioncommand=self.setfilename,
+            labelpos='w',
+            label_text='Filename:')
 
     def dirvalidate(self,string):
         if os.path.isdir(string):

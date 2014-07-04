@@ -2,22 +2,22 @@ from pymol.cgo import *
 from math import *
 from pymol import cmd
 import re
- 
+
 def spectrumbar (*args, **kwargs):
- 
+
     """
     Author Sean M. Law
     University of Michigan
     seanlaw_(at)_umich_dot_edu
- 
+
     USAGE
- 
+
     While in PyMOL
- 
+
     run spectrumbar.py
- 
+
     spectrumbar (RGB_Colors,radius=1.0,name=spectrumbar,head=(0.0,0.0,0.0),tail=(10.0,0.0,0.0),length=10.0, ends=square)
- 
+
     Parameter     Preset         Type     Description
     RGB_Colors    [1.0,1.0,1.0]  N/A      RGB colors can be specified as a
                                           triplet RGB value or as PyMOL
@@ -28,19 +28,19 @@ def spectrumbar (*args, **kwargs):
     tail          (10.0,0.0,0.0) float    Ending coordinate for spectrum bar
     length        10.0           float    Length of spectrum bar
     ends          square         string   For rounded ends use ends=rounded
- 
+
     Examples:
- 
+
     spectrumbar red, green, blue
     spectrumbar 1.0,0.0,0.0, 0.0,1.0,0.0, 0.0,0.0,1.0
- 
+
     The above two examples produce the same spectrumbar!
- 
+
     spectrumbar radius=5.0
     spectrumbar length=20.0
- 
+
     """
- 
+
     rgb=[1.0, 1.0, 1.0]
     name="spectrumbar"
     radius=1.0
@@ -53,7 +53,7 @@ def spectrumbar (*args, **kwargs):
     z2=0
     num=re.compile('[0-9]')
     abc=re.compile('[a-z]')
- 
+
     for key in kwargs:
         if (key == "radius"):
             radius = float(kwargs["radius"])
@@ -79,7 +79,7 @@ def spectrumbar (*args, **kwargs):
             print "Ignoring unknown option \""+key+"\""
         else:
             continue
- 
+
     args=list(args)
     if (len(args)>=1):
         rgb=[]
@@ -99,12 +99,12 @@ def spectrumbar (*args, **kwargs):
         else:
             print "Error: Unrecognized color format \""+args[0]+"\""
             return
- 
+
     if (len(rgb) % 3):
         print "Error: Missing RGB value"
         print "Please double check RGB values"
         return
- 
+
     dx=x2-x1
     dy=y2-y1
     dz=z2-z1
@@ -116,7 +116,7 @@ def spectrumbar (*args, **kwargs):
     c=len(rgb)/3-1
     s=0
     bar=[]
- 
+
     while (s < c):
         if (len(rgb) >0):
             r=rgb.pop(0)
@@ -138,10 +138,10 @@ def spectrumbar (*args, **kwargs):
         if (s == c-1 and ends == "rounded"):
             bar.extend([COLOR, float(r), float(g), float(b), SPHERE, x1+(s+1)*t*dx, y1+(s+1)*t*dy, z1+(s+1)*t*dz, radius])
         s=s+1
- 
+
     cmd.delete(name)
     cmd.load_cgo(bar,name)
- 
- 
+
+
     return
 cmd.extend("spectrumbar",spectrumbar)

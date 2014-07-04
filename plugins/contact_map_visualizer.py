@@ -42,13 +42,13 @@ import os
 from pymol import cmd, CmdException
 
 colors = ['red', 'blue', 'green', 'yellow', 'magenta', 'cyan', 'orange',
-    'marine', 'chartreuse', 'purpleblue', 'violet', 'limon', ]
+          'marine', 'chartreuse', 'purpleblue', 'violet', 'limon', ]
 colors_value = [tuple(int(i * 255) for i in cmd.get_color_tuple(color))
-    for color in colors]
+                for color in colors]
 
 def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command', 'Contact Map Visualizer',
-            label='Contact Map Visualizer', command = lambda s=self: CMVDialog(s))
+                             label='Contact Map Visualizer', command = lambda s=self: CMVDialog(s))
 
 def CMVDialog(self):
     import tkFileDialog, tkMessageBox
@@ -62,7 +62,7 @@ def CMVDialog(self):
     myFormats = [('Portable Network Graphics','*.png'),('JPEG / JFIF','*.jpg')]
     try:
         image_file = tkFileDialog.askopenfilename(parent=self.root,
-                filetypes=myFormats, title='Choose the contact map image file')
+                                                  filetypes=myFormats, title='Choose the contact map image file')
         if not image_file:
             raise
     except:
@@ -72,7 +72,7 @@ def CMVDialog(self):
     myFormatsPDB = [('Protein Data Bank','*.pdb'), ('MDL mol','*.mol'), ('PyMol Session File','*.pse')]
     try:
         pdb_file = tkFileDialog.askopenfilename(parent=self.root,
-                filetypes=myFormatsPDB, title='Choose the corresponding PDB file')
+                                                filetypes=myFormatsPDB, title='Choose the corresponding PDB file')
         if not pdb_file:
             raise
     except:
@@ -134,7 +134,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
 
     idx_list = []
     cmd.iterate('(%s) and name CA' % (selection),
-            'idx_list.append(((model,index),chain,resi))', space=locals())
+                'idx_list.append(((model,index),chain,resi))', space=locals())
     cmd.color("white", selection)
 
     # General variables
@@ -146,7 +146,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
 
     if screenshots:
         outputname = "%s_selectedPoints_%d-%d-%d_%d%d.png" % (os.path.basename(image_file),
-                ntime.day, ntime.month, ntime.year, ntime.hour, ntime.minute)
+                                                              ntime.day, ntime.month, ntime.year, ntime.hour, ntime.minute)
 
     # Text related arrays nd variables
     text = []
@@ -222,7 +222,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
             textRect.append(text[textcount].get_rect())
             textRect[textcount][0] = event.pos[0] + 5
             textRect[textcount][1] = event.pos[1] + 5
-            
+
             screen.blit(image, image_rect)
             for a in range(textcount+1):
                 screen.blit(text[a], textRect[a])
@@ -278,7 +278,7 @@ USAGE
             file_s = file_f
 
         process = subprocess.Popen(['g_mdmat', '-f', file_f, '-s', file_s, '-mean', file_mean],
-                stdin=subprocess.PIPE)
+                                   stdin=subprocess.PIPE)
         print >> process.stdin, 'Protein-H'
         process.stdin.close()
         process.wait()

@@ -80,14 +80,14 @@ try:
 except ImportError:
     print 'Warning: pymol library cmd not found.'
     sys.exit(1)
-    
+
 # external lib    
 try:
     import Pmw
 except ImportError:
     print 'Warning: failed to import Pmw. Exit ...'
     sys.exit(1)
-    
+
 VERBOSE = True
 
 #################
@@ -99,15 +99,15 @@ def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command',
                              'DSSP & Stride', label = 'DSSP & Stride',
                              command = lambda s=self : DSSPPlugin(s))
-    
+
 
 #################
 ## GUI related
 #################
 class DSSPPlugin:
-  
+
     def __init__(self, app):
-        
+
         self.parent = app.root
         self.dialog = Pmw.Dialog(self.parent,
                                  buttons = ('Run DSSP',
@@ -126,10 +126,10 @@ class DSSPPlugin:
         self.dssp_rlt_dict = {}
         self.stride_rlt_dict = {}
         self.ss_asgn_prog  = None # which program is used to assign ss
-        
+
         self.sel_obj_list = [] # there may be more than one seletion or object
-                               # defined by self.pymol_sel
-                               # treat each selection and object separately
+        # defined by self.pymol_sel
+        # treat each selection and object separately
         if 'DSSP_BIN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
             if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
                 initialdir_dssp = os.path.join(os.environ['PYMOL_GIT_MOD'],"DSSP","i86Linux2","dssp-2")
@@ -166,7 +166,7 @@ class DSSPPlugin:
         else:
             if VERBOSE: print 'STRIDE_BIN not found in environmental variables.'
             self.stride_bin.set('')
-        
+
         # DSSP visualization color
         # - H        Alpha helix (4-12) 
         # - G        3-10 helix 
@@ -198,17 +198,17 @@ class DSSPPlugin:
             'H'  :  'Alpha helix', 
             'G'  :  '3-10 helix', 
             'I'  :  'Pi helix', 
-                     
+
             'E'  :  'Extended strand',
             'B'  :  'Isolated beta-bridge',
-                     
+
             'T'  :  'Turn', 
             'S'  :  'Bend', 
             '-'  :  'None',
 
             'b'  :  'Isolated beta-bridge',
             'C'  :  'Coil'
-            }
+        }
 
         self.SSE_col_RGB = {
             'H':(255,  0,  0),
@@ -217,14 +217,14 @@ class DSSPPlugin:
 
             'E':(255,255,  0),
             'B':(153,119, 85),
-            
+
             'T':(  0,255,255),
             'S':(153,255,119),
             '-':(179,179,179),
 
             'b':(153,119, 85), # same as 'B'
             'C':(  0,  0,255)
-            }
+        }
         self.SSE_col = {}
         for sse in self.SSE_col_RGB.keys():
             self.SSE_col[sse] = '#%s%s%s' % (hex(self.SSE_col_RGB[sse][0])[2:].zfill(2),
@@ -233,9 +233,9 @@ class DSSPPlugin:
 
         self.SSE_res_dict = {}
         self.SSE_sel_dict = {}
-        
+
         w = Tkinter.Label(self.dialog.interior(),
-#                          text = '\nDSSP Plugin for PyMOL\nHongbo Zhu, 2011.\n\nColor proteins according to the secondary structure determined by DSSP.',
+                          #                          text = '\nDSSP Plugin for PyMOL\nHongbo Zhu, 2011.\n\nColor proteins according to the secondary structure determined by DSSP.',
                           text = '\nDSSP and Stride Plugin for PyMOL\nby Hongbo Zhu, 2011\n',
                           background = 'black', foreground = 'green'
                           )
@@ -266,13 +266,13 @@ class DSSPPlugin:
                                       entry_width=20)
         dssp_bin_but = Tkinter.Button(group_struc, text = 'Browse...',
                                       command = self.getDSSPBin)
-        
+
         stride_bin_ent = Pmw.EntryField(group_struc,
-                                      label_text='Stride binary:', labelpos='wn',
-                                      entry_textvariable=self.stride_bin,
-                                      entry_width=20)
+                                        label_text='Stride binary:', labelpos='wn',
+                                        entry_textvariable=self.stride_bin,
+                                        entry_width=20)
         stride_bin_but = Tkinter.Button(group_struc, text = 'Browse...',
-                                      command = self.getStrideBin)
+                                        command = self.getStrideBin)
 
         # arrange widgets using grid
         pymol_sel_ent.grid(sticky='we', row=0, column=0,
@@ -306,9 +306,9 @@ class DSSPPlugin:
         #  T        Turn 
         #  S        Bend 
         #  -        None 
-        
+
         page = self.notebook.add('Color')
-        
+
         group_sse_color = Tkinter.LabelFrame(page, text = 'Secondary Structure Element Color')
         group_sse_color.grid(sticky='eswn', row=0, column=0, padx=10, pady=5)
 
@@ -356,7 +356,7 @@ class DSSPPlugin:
                                         bg=self.SSE_col['-'],
                                         activebackground=self.SSE_col['-'],
                                         command = self.custermizeNColor)
-         
+
 
         b_col_lab = Tkinter.Label(group_sse_color, text='Isolated beta-bridge (Stride b):')
         self.b_col_but = Tkinter.Button(group_sse_color,
@@ -407,10 +407,10 @@ by Hongbo Zhu <hongbo.zhu.cn .at. googlemail.com>
 Please cite this plugin if you use it in a publication.
 Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 """
-        
+
         label_about = Tkinter.Label(group_about,text=about_plugin)
         label_about.grid(sticky='we', row=0, column=0, padx=5, pady=10)
-        
+
         self.notebook.setnaturalsize()    
 
         return
@@ -423,7 +423,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         if dssp_bin_fname: # if nonempty
             self.dssp_bin.set(dssp_bin_fname)
         return
-    
+
     def getStrideBin(self):
         stride_bin_fname = tkFileDialog.askopenfilename(
             title='Stride Binary', initialdir='',
@@ -434,7 +434,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
     def runDSSPOneObj(self, one_obj_sel):
         """ Run DSSP on only one object.
-        
+
             @param one_obj_sel: the selection/object involving only one object
             @param type: string
         """
@@ -442,13 +442,13 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             'H':{}, 'G':{}, 'I':{},
             'E':{}, 'B':{},
             'T':{}, 'S':{}, '-':{}
-            }
+        }
         SSE_sel = {
             'H':None, 'G':None, 'I':None,
             'E':None, 'B':None,
             'T':None, 'S':None, '-':None
-            }
-        
+        }
+
         pdb_fn = None
         pdb_os_fh, pdb_fn = tempfile.mkstemp(suffix='.pdb') # file os handle, file name
         os.close(pdb_os_fh)
@@ -509,7 +509,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             if VERBOSE: print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
                                                                chn.strip(), res, sse)
             SSE_res[sse].setdefault(chn,[]).append(res)
-            
+
         self.SSE_res_dict[one_obj_sel] = SSE_res
 
         for sse in self.DSSP_SSE_list:
@@ -543,11 +543,11 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         self.dssp_rlt_dict = {}
         self.SSE_res_dict  = {}
         self.SSE_sel_dict  = {}
-        
+
         pdb_fn = None
         sel_name= None
         sel = self.pymol_sel.get()
-        
+
         if len(sel) > 0: # if any pymol selection/object is specified
             # save the pymol selection/object in the tmp dir
             all_sel_names = cmd.get_names('all') # get names of all selections            
@@ -601,7 +601,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
     def runStrideOneObj(self, one_obj_sel):
         """ Run Stride on only one object.
-        
+
             @param one_obj_sel: the selection/object involving only one object
             @param type: string
         """
@@ -609,13 +609,13 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             'H':{}, 'G':{}, 'I':{},
             'E':{}, 'B':{}, 'b':{},
             'T':{}, 'C':{}
-            }
+        }
         SSE_sel = {
             'H':None, 'G':None, 'I':None,
             'E':None, 'B':None, 'b':None,
             'T':None, 'C':None
-            }
-        
+        }
+
         pdb_fn = None
         pdb_os_fh, pdb_fn = tempfile.mkstemp(suffix='.pdb') # file os handle, file name
         os.close(pdb_os_fh)
@@ -626,7 +626,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         if pdb_fn is None:
             print 'WARNING: Stride has no pdb file to work on!'
             return None
-        
+
         print 'Running Stride for %s ...' % (one_obj_sel,)        
         stride_sse_dict = {}
         if sys.version_info >= (2,4):
@@ -679,21 +679,21 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             sse_sel_name = self.selectSSE(one_obj_sel, sse)
             SSE_sel[sse] = sse_sel_name
         self.SSE_sel_dict[one_obj_sel] = SSE_sel
-        
+
         print '\nNumber of residues with SSE element:'
         for sse in self.STRIDE_SSE_list:
             num = sum([len(SSE_res[sse][chn]) for chn in SSE_res[sse]])
             print '%20s (%s) : %5d' % (self.SSE_name[sse], sse, num)
         print
-        
+
         # clean up pdb_fn and dssp_tmpout_fn created by tempfile.mkstemp()
         if os.path.isfile(pdb_fn):
             os.remove(pdb_fn)
         if sys.version_info < (2,4) and os.path.isfile(stride_tmpout_fn):
             os.remove(stride_tmpout_fn)        
-        
+
         return True
-    
+
 
     def runStride(self):
         """
@@ -707,7 +707,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         pdb_fn = None
         sel_name= None
         sel = self.pymol_sel.get()
-        
+
         if len(sel) > 0: # if any pymol selection/object is specified
             all_sel_names = cmd.get_names('all') # get names of all selections            
             if sel in all_sel_names:
@@ -734,13 +734,13 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                     return False
                 else:
                     sel_name = tmpsel
-                
+
         else:   # what structure do you want Stride to work on?
             err_msg = 'No PyMOL selection/object specified!'
             print 'ERROR: %s' % (err_msg,)
             tkMessageBox.showinfo(title='ERROR', message=err_msg)
             return False
-        
+
         # each object in the selection is treated as an independent struc
         objlist = cmd.get_object_list(sel_name)
         self.ss_asgn_prog = 'Stride'
@@ -761,9 +761,9 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         sel_name = '%s%d%s' % (prefix, random.randint(1000,9999), suffix)
         while(sel_name in sel_dict):
             sel_name = '%s%d%s' % (prefix, random.randint(1000,9999), suffix)
-            
+
         return sel_name
-        
+
 
     def selectSSE(self, sel, sse):
         """ generate selector for selecting all residues having the given sse.
@@ -773,14 +773,14 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         sel_list_chn = []
 
         if VERBOSE: print '\nSelecting SSE %s ... \n' % (sse)
-        
+
         for chn in self.SSE_res_dict[sel][sse]: # color one chain at a time
             if chn == ' ': chn_str = '-'
             else: chn_str = chn
             if VERBOSE: print 'Selecting SSE %s on chain %s ... \n' % (sse, chn)
             limit=150  # color every 150 residues
             sel_name_chn = self.randomSeleName(prefix='%s_%s_%s_' % ('_'.join(sel.split()),chn_str,sse))
-                
+
             if len(self.SSE_res_dict[sel][sse][chn]) < limit:
                 #sel_expr = '/%s//%s/%s/' % (sel,chn.strip(), '+'.join(self.SSE_res[sse][chn]))
                 # always quote chain name in case it is empty (otherwise sel misinterpreted)
@@ -804,7 +804,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                     cmd.select(sel_name_seg, sel_expr)
                     if VERBOSE: print 'select %s, %s' % (sel_name_seg, sel_expr)
                     sel_list_seg.append(sel_name_seg)
-                    
+
                 sel_expr = ' or '.join(sel_list_seg)
                 cmd.select(sel_name_chn, sel_expr)
                 if VERBOSE: print 'select %s, %s' % (sel_name_chn, sel_expr)
@@ -819,7 +819,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         else:
             print 'INFO: No residues are assigned to SSE \'%s\'.' % (sse,)
             sel_name = None
-        
+
         return sel_name
 
 
@@ -846,7 +846,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                         print 'No residues with SSE \'%s\' to color.' % (sse,)
 
         return
-    
+
     def updateSS(self):
         if self.ss_asgn_prog is None:
             err_msg = 'Run DSSP or Stride to assign secondary structures first!'
@@ -872,7 +872,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             cmd.show('cartoon',self.pymol_sel.get())
             cmd.rebuild(self.pymol_sel.get()) 
             return
-    
+
 
     def custermizeHColor(self):
         self.custermizeSSEColor('H')
@@ -906,44 +906,44 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
             'E':self.E_col_but,
             'B':self.B_col_but,
-            
+
             'T':self.T_col_but,
             'S':self.S_col_but,
             '-':self.N_col_but,
-            
+
             'b':self.b_col_but,
             'C':self.C_col_but,
-            }
+        }
         try:
             color_tuple, color = tkColorChooser.askcolor(color=self.SSE_col[sse])
             if color_tuple is not None and color is not None:
                 self.SSE_col_RGB[sse] = color_tuple
                 self.SSE_col[sse] = color
-                
+
                 SSE_col_but[sse]['bg']=self.SSE_col[sse]
                 SSE_col_but[sse]['activebackground']=self.SSE_col[sse]
                 SSE_col_but[sse].update()
         except Tkinter._tkinter.TclError:
             print 'Old color (%s) will be used.' % (self.mesh_col)
-            
-        
+
+
     def execute(self, butcmd):
         """ Run the cmd represented by the botton clicked by user.
         """        
         if butcmd == 'OK':
             print 'is everything OK?'
-            
+
         elif butcmd == 'Run DSSP':
             rtn = self.runDSSP()
             if rtn and VERBOSE: print 'Done with DSSP!'
-            
+
         elif butcmd == 'Run Stride':
             rtn = self.runStride()
             if rtn and VERBOSE:     print 'Done with Stride!'
 
         elif butcmd == 'Update Color':
             self.updateColor()
-            
+
         elif butcmd == 'Update ss':
             self.updateSS()
 
@@ -958,8 +958,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             print 'Exiting DSSP and Stride Plugin because of unknown button click ...'
             self.dialog.withdraw()
             print 'Done.'
-            
-    
+
+
     def quit(self):
         self.dialog.destroy() 
 
@@ -972,7 +972,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 #
 ##############################################
 if __name__ == '__main__':
-    
+
     class App:
         def my_show(self,*args,**kwargs):
             pass

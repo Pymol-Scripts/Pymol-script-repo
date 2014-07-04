@@ -26,7 +26,7 @@ from pymol import stored
 #-------------------------------------------------------------------------------
 def disp_list():
     print(
-'''
+        '''
 quickdisplay - list of functions. 
 Enter, e.g. "help disp_ss" for more specific info.
 
@@ -92,9 +92,9 @@ def get_b_limits(input='[0,100]', selection='all'):
 # DISPLAY: SECONDARY STRUCTURE
 #-------------------------------------------------------------------------------
 def disp_ss(
-selection='all', 
-colors='marine red white',
-only=False):
+        selection='all', 
+        colors='marine red white',
+        only=False):
     '''
 DESCRIPTION
 
@@ -227,7 +227,7 @@ PARAMETERS
         cmd.h_add('%s' %selection)
     if hydrogens==-1:
         cmd.remove('%s and elem H' %selection)
-  
+
     for p in cmd.get_object_list(selection):
         cmd.set('valence', 'on', p)
         cmd.set('stick_ball', 'on', p)
@@ -304,7 +304,7 @@ PARAMETERS
     except:
         print "Input error"
         return False
-        
+
     if hydrogens==1:
         cmd.h_add('%s' %selection)
     if hydrogens==-1:
@@ -347,14 +347,14 @@ cmd.auto_arg[3]['disp_mesh']=[lambda: cmd.Shortcut(['only=False, limits=5']), 'r
 # DISPLAY: SURFACE AND SURFACE AS PUTTY
 #-------------------------------------------------------------------------------
 def disp_surf(
-selection='all', 
-color_s='default', 
-transparency=0,
-hydrogens=0,
-solvent=0,
-ramp_above=1,
-only=False,
-limits=5):
+        selection='all', 
+        color_s='default', 
+        transparency=0,
+        hydrogens=0,
+        solvent=0,
+        ramp_above=1,
+        only=False,
+        limits=5):
     '''
 DESCRIPTION
 
@@ -406,7 +406,7 @@ PARAMETERS
         if hydrogens==1:
             cmd.h_add(p)
         # if hydrogens==0: as is
-        
+
         # some defaults (settings can be changed later, too)
         cmd.set('surface_carve_cutoff', '4.5', p)
         cmd.set('surface_quality', '2', p)
@@ -427,8 +427,8 @@ PARAMETERS
 
             cmd.set('surface_color', 'default', p)      
             cmd.spectrum('b', 'rainbow', 
-            '(not hetatm) and %s'%p, minimum='%f'%limits[0], 
-            maximum='%f'%limits[1], byres=0)      
+                         '(not hetatm) and %s'%p, minimum='%f'%limits[0], 
+                         maximum='%f'%limits[1], byres=0)      
             print "disp_ss:",p,"displayed in putty mode - surface as putty - limits=[%.4f,%.4f]"%(limits[0],limits[1])
         else: 
             cmd.set('surface_color', color_s, selection)

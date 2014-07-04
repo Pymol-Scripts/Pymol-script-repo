@@ -11,9 +11,9 @@ from pymol import cmd, CmdException
 def save_settings(filename='~/.pymolrc-settings.py', quiet=1):
     '''
 DESCRIPTION
- 
+
     Dumps all settings with non-default values to ~/.pymolrc-settings.py
- 
+
     Feature Request: Save settings for later use - ID: 1009951
     https://sourceforge.net/tracker/?func=detail&aid=1009951&group_id=4546&atid=354546
     '''

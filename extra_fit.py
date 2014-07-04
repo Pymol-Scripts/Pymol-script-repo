@@ -11,7 +11,7 @@ __version__ = '1.0'
 from pymol import cmd, CmdException
 
 def extra_fit(selection='(all)', reference=None, method='align', zoom=1,
-        quiet=0, _self=cmd, **kwargs):
+              quiet=0, _self=cmd, **kwargs):
     '''
 DESCRIPTION
 
@@ -48,7 +48,7 @@ SEE ALSO
             raise CmdException
     for model in models:
         x = method(mobile='(%s) and model %s' % (selection, model),
-                target='(%s) and model %s' % (selection, reference), **kwargs)
+                   target='(%s) and model %s' % (selection, reference), **kwargs)
         if not quiet:
             if cmd.is_sequence(x):
                 print '%-20s RMS = %8.3f (%d atoms)' % (model, x[0], x[1])

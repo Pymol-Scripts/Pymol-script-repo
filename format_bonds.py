@@ -21,8 +21,8 @@ from pymol import cmd
 from pymol import stored
 
 def format_bonds(
-selection='all',
-bonds=4,
+    selection='all',
+    bonds=4,
 ):
     '''
 DESCRIPTION
@@ -85,9 +85,9 @@ ARGUMENTS
     stored.temp=[]
     for p in names:
         cmd.iterate((
-        '(%s) and (resn TRP+NIW) '
-        'and (name CA)' %(p)),
-        'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
+            '(%s) and (resn TRP+NIW) '
+            'and (name CA)' %(p)),
+            'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
         )
     #the integer is to ensure unique keys
     TRP_tuple=(1,)+tuple(stored.temp)
@@ -96,9 +96,9 @@ ARGUMENTS
     stored.temp=[]
     for p in names:
         cmd.iterate((
-        '(%s) and (resn PHE+TYR+PTR+NIY+PNIY) '
-        'and (name CA)' %(p)),
-        'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
+            '(%s) and (resn PHE+TYR+PTR+NIY+PNIY) '
+            'and (name CA)' %(p)),
+            'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
         )
     PHETYR_tuple=(2,)+tuple(stored.temp)
 
@@ -106,9 +106,9 @@ ARGUMENTS
     stored.temp=[]
     for p in names:
         cmd.iterate((
-        '(%s) and (resn HIS) '
-        'and (name CA)' %(p)),
-        'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
+            '(%s) and (resn HIS) '
+            'and (name CA)' %(p)),
+            'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
         )
     HIS_tuple=(3,)+tuple(stored.temp)
 
@@ -116,9 +116,9 @@ ARGUMENTS
     stored.temp=[]
     for p in names:
         cmd.iterate((
-        '(%s) and (resn NIY+PNIY+NIW) '
-        'and (name CA)' %(p)),
-        'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
+            '(%s) and (resn NIY+PNIY+NIW) '
+            'and (name CA)' %(p)),
+            'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
         )
     NITRO_tuple=(4,)+tuple(stored.temp)
 
@@ -126,9 +126,9 @@ ARGUMENTS
     stored.temp=[]
     for p in names:
         cmd.iterate((
-        '(%s) and (resn GLU) '
-        'and (name CA)' %(p)),
-        'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
+            '(%s) and (resn GLU) '
+            'and (name CA)' %(p)),
+            'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
         )
     GLU_tuple=(5,)+tuple(stored.temp)
 
@@ -136,9 +136,9 @@ ARGUMENTS
     stored.temp=[]
     for p in names:
         cmd.iterate((
-        '(%s) and (resn ASP) '
-        'and (name CA)' %(p)),
-        'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
+            '(%s) and (resn ASP) '
+            'and (name CA)' %(p)),
+            'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
         )
     ASP_tuple=(6,)+tuple(stored.temp)
 
@@ -146,9 +146,9 @@ ARGUMENTS
     stored.temp=[]
     for p in names:
         cmd.iterate(
-        '(byres (last %s)) and (not (hetatm)) '
-        'and (name OXT)' %(p),
-        'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
+            '(byres (last %s)) and (not (hetatm)) '
+            'and (name OXT)' %(p),
+            'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
         )
     CTERM_tuple=(7,)+tuple(stored.temp)
 
@@ -156,9 +156,9 @@ ARGUMENTS
     stored.temp=[]
     for p in names:
         cmd.iterate((
-        '(%s) and (resn ARG) '
-        'and (name CA)' %(p)),
-        'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
+            '(%s) and (resn ARG) '
+            'and (name CA)' %(p)),
+            'stored.temp.append("(%s and resi "+str(resi)+")")'  %p
         )
     ARG_tuple=(8,)+tuple(stored.temp)
 
@@ -167,105 +167,105 @@ ARGUMENTS
     ##### ATOM LISTS #####
 
     TRP_bonds_all=[
-    ['CG','CD1'],
-    ['CD1','NE1'],
-    ['NE1','CE2'],
-    ['CE2','CD2'],
-    ['CD2','CG'],
-    ['CD2','CE3'],
-    ['CE3','CZ3'],
-    ['CZ3','CH2'],
-    ['CH2','CZ2'],
-    ['CZ2','CE2']
+        ['CG','CD1'],
+        ['CD1','NE1'],
+        ['NE1','CE2'],
+        ['CE2','CD2'],
+        ['CD2','CG'],
+        ['CD2','CE3'],
+        ['CE3','CZ3'],
+        ['CZ3','CH2'],
+        ['CH2','CZ2'],
+        ['CZ2','CE2']
     ]
 
     TRP_bonds_double=[
-    ['CG','CD1'],
-    ['CE2','CD2'],
-    ['CE3','CZ3'],
-    ['CH2','CZ2']
+        ['CG','CD1'],
+        ['CE2','CD2'],
+        ['CE3','CZ3'],
+        ['CH2','CZ2']
     ]
 
     PHETYR_bonds_all=[
-    ['CG','CD1'],
-    ['CD1','CE1'],
-    ['CE1','CZ'],
-    ['CZ','CE2'],
-    ['CE2','CD2'],
-    ['CD2','CG']
+        ['CG','CD1'],
+        ['CD1','CE1'],
+        ['CE1','CZ'],
+        ['CZ','CE2'],
+        ['CE2','CD2'],
+        ['CD2','CG']
     ]
 
     PHETYR_bonds_double=[
-    ['CG','CD1'],
-    ['CE1','CZ'],
-    ['CE2','CD2']
+        ['CG','CD1'],
+        ['CE1','CZ'],
+        ['CE2','CD2']
     ]
 
     HIS_bonds_all=[
-    ['CG','CD2'],
-    ['CD2','NE2'],
-    ['NE2','CE1'],
-    ['CE1','ND1'],
-    ['ND1','CG'],
+        ['CG','CD2'],
+        ['CD2','NE2'],
+        ['NE2','CE1'],
+        ['CE1','ND1'],
+        ['ND1','CG'],
     ]
 
     HIS_bonds_double=[
-    ['CG','CD2'],
-    ['CE1','ND1']
+        ['CG','CD2'],
+        ['CE1','ND1']
     ]
 
     NITRO_bonds_all=[
-    ['NN','O1'],
-    ['NN','O2']
+        ['NN','O1'],
+        ['NN','O2']
     ]
     NITRO_bonds_double=[
-    ['NN','O1']
+        ['NN','O1']
     ]
 
     GLU_bonds_all=[
-    ['CD','OE1'],
-    ['CD','OE2']
+        ['CD','OE1'],
+        ['CD','OE2']
     ]
     GLU_bonds_double=[
-    ['CD','OE1']
+        ['CD','OE1']
     ]
 
     ASP_bonds_all=[
-    ['CG','OD1'],
-    ['CG','OD2']
+        ['CG','OD1'],
+        ['CG','OD2']
     ]
     ASP_bonds_double=[
-    ['CG','OD1']
+        ['CG','OD1']
     ]
 
     CTERM_bonds_all=[
-    ['C','O'],
-    ['C','OXT']
+        ['C','O'],
+        ['C','OXT']
     ]
     CTERM_bonds_double=[
-    ['C','O']
+        ['C','O']
     ]
 
     ARG_bonds_all=[
-    ['CZ','NH1'],
-    ['CZ','NH2']
+        ['CZ','NH1'],
+        ['CZ','NH2']
     ]
     ARG_bonds_double=[
-    ['C','NH1']
+        ['C','NH1']
     ]
 
     ##### FORMATING #####
 
     # dictionary: entries:atoms
     format_dict={
-    TRP_tuple    : [TRP_bonds_all,TRP_bonds_double],
-    PHETYR_tuple : [PHETYR_bonds_all,PHETYR_bonds_double],
-    HIS_tuple    : [HIS_bonds_all,HIS_bonds_double],
-    NITRO_tuple  : [NITRO_bonds_all,NITRO_bonds_double],
-    GLU_tuple    : [GLU_bonds_all,GLU_bonds_double],
-    ASP_tuple    : [ASP_bonds_all,ASP_bonds_double],
-    CTERM_tuple  : [CTERM_bonds_all,CTERM_bonds_double],
-    ARG_tuple    : [ARG_bonds_all,ARG_bonds_double]
+        TRP_tuple    : [TRP_bonds_all,TRP_bonds_double],
+        PHETYR_tuple : [PHETYR_bonds_all,PHETYR_bonds_double],
+        HIS_tuple    : [HIS_bonds_all,HIS_bonds_double],
+        NITRO_tuple  : [NITRO_bonds_all,NITRO_bonds_double],
+        GLU_tuple    : [GLU_bonds_all,GLU_bonds_double],
+        ASP_tuple    : [ASP_bonds_all,ASP_bonds_double],
+        CTERM_tuple  : [CTERM_bonds_all,CTERM_bonds_double],
+        ARG_tuple    : [ARG_bonds_all,ARG_bonds_double]
     }
 
     if bonds!=2:

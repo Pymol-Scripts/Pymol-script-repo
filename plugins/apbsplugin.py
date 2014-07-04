@@ -170,9 +170,9 @@ apbs_plea = ("IMPORTANT REQUEST: If you have not already done so, please registe
              "Such proof of usage is vital in securing funding for APBS development!\n")
 
 pdb2pqr_plea = ("IMPORTANT REQUEST: If you have not already done so, please register\n"
-             "your use of the open-source PDB2PQR at\n"
-             "-> http://www.poissonboltzmann.org/pdb2pqr/d\n"
-             "Such proof of usage is vital in securing funding for PDB2PQR development!\n")
+                "your use of the open-source PDB2PQR at\n"
+                "-> http://www.poissonboltzmann.org/pdb2pqr/d\n"
+                "Such proof of usage is vital in securing funding for PDB2PQR development!\n")
 global apbs_message, pdb2pqr_message
 apbs_message = """You must have APBS installed on your system."""
 pdb2pqr_message = """PDB2PQR can be used to generate .PQR files."""
@@ -598,7 +598,7 @@ class APBSTools2:
                        # object, and the APBS calculation time. APBS
                        # default value is 10.0.
         "chgm" : 'Cubic B-splines', # Charge disc method for APBS
-        }
+    }
 
     def __init__(self,app):
         self.parent = app.root
@@ -612,11 +612,11 @@ class APBSTools2:
         Pmw.setbusycursorattributes(self.dialog.component('hull'))
 
         w = Tkinter.Label(self.dialog.interior(),
-                                text = 'PyMOL APBS Tools\nMichael G. Lerner, Heather A. Carlson, 2009 - http://pymolwiki.org/index.php/APBS\n(incorporates modifications by Warren L. DeLano)',
-                                background = 'black',
-                                foreground = 'white',
-                                #pady = 20,
-                                )
+                          text = 'PyMOL APBS Tools\nMichael G. Lerner, Heather A. Carlson, 2009 - http://pymolwiki.org/index.php/APBS\n(incorporates modifications by Warren L. DeLano)',
+                          background = 'black',
+                          foreground = 'white',
+                          #pady = 20,
+                          )
         w.pack(expand = 1, fill = 'both', padx = 4, pady = 4)
 
         self.notebook = Pmw.NoteBook(self.dialog.interior())
@@ -663,7 +663,7 @@ class APBSTools2:
 
 
         for entry in (self.selection,self.map,self.radiobuttons,self.pdb2pqr_options,self.pqr_to_use):
-        #for entry in (self.selection,self.map,self.radiobuttons,):
+            #for entry in (self.selection,self.map,self.radiobuttons,):
             entry.pack(fill='x',padx=4,pady=1) # vertical
 
 
@@ -674,17 +674,17 @@ class APBSTools2:
         group.pack(fill = 'both', expand = 1, padx = 4, pady = 5)
         group.grid(column=0, row=0)
         self.interior_dielectric = Pmw.EntryField(group.interior(),labelpos='w',
-                                   label_text = 'Protein Dielectric:',
-                                   value = str(APBSTools2.defaults['interior_dielectric']),
-                                   validate = {'validator' : 'real',
-                                               'min':0,}
-                                   )
+                                                  label_text = 'Protein Dielectric:',
+                                                  value = str(APBSTools2.defaults['interior_dielectric']),
+                                                  validate = {'validator' : 'real',
+                                                              'min':0,}
+                                                  )
         self.solvent_dielectric = Pmw.EntryField(group.interior(),labelpos='w',
-                                   label_text = 'Solvent Dielectric:',
-                                   value = str(APBSTools2.defaults['solvent_dielectric']),
-                                   validate = {'validator' : 'real',
-                                               'min':0,}
-                                   )
+                                                 label_text = 'Solvent Dielectric:',
+                                                 value = str(APBSTools2.defaults['solvent_dielectric']),
+                                                 validate = {'validator' : 'real',
+                                                             'min':0,}
+                                                 )
         entries = (self.interior_dielectric,self.solvent_dielectric)
         for entry in entries:
             #entry.pack(side='left',fill='both',expand=1,padx=4) # side-by-side
@@ -707,17 +707,17 @@ class APBSTools2:
         self.apbs_mode.pack(fill='x',expand=1,padx=4)
         #self.apbs_mode.grid(column=0,row=0,columnspan=3)
         self.solvent_radius = Pmw.EntryField(group.interior(),
-                              labelpos = 'w',
-                              label_text = 'Solvent Radius:',
-                              validate = {'validator':'real','min':0},
-                              value = str(APBSTools2.defaults['solvent_radius']),
-                              )
+                                             labelpos = 'w',
+                                             label_text = 'Solvent Radius:',
+                                             validate = {'validator':'real','min':0},
+                                             value = str(APBSTools2.defaults['solvent_radius']),
+                                             )
         self.system_temp = Pmw.EntryField(group.interior(),
-                              labelpos = 'w',
-                              label_text = 'System Temperature:',
-                              validate = {'validator':'real','min':0},
-                              value = str(APBSTools2.defaults['system_temp']),
-                              )
+                                          labelpos = 'w',
+                                          label_text = 'System Temperature:',
+                                          validate = {'validator':'real','min':0},
+                                          value = str(APBSTools2.defaults['system_temp']),
+                                          )
         self.sdens = Pmw.EntryField(group.interior(),
                                     labelpos = 'w',
                                     label_text = 'Vacc sphere density (grid points/A^2)',
@@ -799,10 +799,10 @@ class APBSTools2:
                                                 value = str(APBSTools2.defaults['ion_minus_two_rad']),
                                                 )
         entries = (self.ion_plus_one_conc,self.ion_plus_one_rad,
-                      self.ion_minus_one_conc,self.ion_minus_one_rad,
-                      self.ion_plus_two_conc,self.ion_plus_two_rad,
-                      self.ion_minus_two_conc,self.ion_minus_two_rad,
-                      )
+                   self.ion_minus_one_conc,self.ion_minus_one_rad,
+                   self.ion_plus_two_conc,self.ion_plus_two_rad,
+                   self.ion_minus_two_conc,self.ion_minus_two_rad,
+                   )
         for entry in entries:
             entry.pack(fill='x',expand=1,padx=4)
 
@@ -826,12 +826,12 @@ class APBSTools2:
         group.grid(column = 2, row = 0)
         for coord in 'x y z'.split():
             setattr(self,'grid_fine_%s'%coord,Pmw.EntryField(group.interior(),
-                                                               labelpos='w',
-                                                               label_text=coord,
-                                                               validate={'validator':'real','min':0},
-                                                               value = -1,
-                                                               entry_width=15,
-                                                               )
+                                                             labelpos='w',
+                                                             label_text=coord,
+                                                             validate={'validator':'real','min':0},
+                                                             value = -1,
+                                                             entry_width=15,
+                                                             )
                     )
             getattr(self,'grid_fine_%s'%coord).pack(fill='x', expand=1, padx=4, pady=1)
 
@@ -1204,7 +1204,7 @@ Citation for PDB2PQR:
             psize = imp.load_module('psize',f,fname,description)
             # WLD
             sel = "((%s) or (neighbor (%s) and hydro))"%(
-                           self.selection.getvalue(), self.selection.getvalue())
+                self.selection.getvalue(), self.selection.getvalue())
 
             if pymol.cmd.count_atoms( self.selection.getvalue() + " and not alt ''")!=0:
                 print "WARNING: You have alternate locations for some of your atoms!"
@@ -1228,7 +1228,7 @@ Citation for PDB2PQR:
             #
             # WLD
             sel = "((%s) or (neighbor (%s) and hydro))"%(
-                           self.selection.getvalue(), self.selection.getvalue())
+                self.selection.getvalue(), self.selection.getvalue())
             model = pymol.cmd.get_model(sel)
             mins = [None,None,None]
             maxs = [None,None,None]
@@ -1649,7 +1649,7 @@ Citation for PDB2PQR:
             return False
         # copied from WLD code
         sel = "((%s) or (neighbor (%s) and hydro))"%(
-                       self.selection.getvalue(), self.selection.getvalue())
+            self.selection.getvalue(), self.selection.getvalue())
         self.fixColumns(sel)
         pymol.cmd.save(pdb_filename,sel)
         self.cleanupGeneratedPdbOrPqrFile(pdb_filename)
@@ -1683,10 +1683,10 @@ Citation for PDB2PQR:
             # This allows us to import pdb2pqr
             #sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue())))
             #print "Appended", os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue()))
-###!!! Edited for Pymol-script-repo !!!###
+            ###!!! Edited for Pymol-script-repo !!!###
             #sys.path.append(os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr"))
             #print "Appended", os.path.join(os.environ['PYMOL_GIT_MOD'],"pdb2pqr")
-###!!!------------------------------!!!###
+            ###!!!------------------------------!!!###
             #import pdb2pqr.pdb2pqr
             # This allows pdb2pqr to correctly find the dat directory with AMBER.DAT.
             #sys.path.append(os.path.dirname(self.pdb2pqr.getvalue()))
@@ -1696,7 +1696,7 @@ Citation for PDB2PQR:
             #from pdb2pqr import main
             #print "Imported main"
             try:
-###!!! Edited for Pymol-script-repo !!!###
+                ###!!! Edited for Pymol-script-repo !!!###
                 args = ' '.join( map( str, args ) )
                 print "args are now converted to string: ", args
 #                retval = main.mainCommand(args)
@@ -1873,23 +1873,23 @@ def _errorpop(master,text):
 class PmwFileDialog(Pmw.Dialog):
     """File Dialog using Pmw"""
     def __init__(self, parent = None, **kw):
-	# Define the megawidget options.
-	optiondefs = (
-	    ('filter',    '*',              self.newfilter),
-	    ('directory', os.getcwd(),      self.newdir),
-	    ('filename',  '',               self.newfilename),
-	    ('historylen',10,               None),
-	    ('command',   None,             None),
+        # Define the megawidget options.
+        optiondefs = (
+            ('filter',    '*',              self.newfilter),
+            ('directory', os.getcwd(),      self.newdir),
+            ('filename',  '',               self.newfilename),
+            ('historylen',10,               None),
+            ('command',   None,             None),
             ('info',      None,             None),
-	    )
-	self.defineoptions(kw, optiondefs)
+        )
+        self.defineoptions(kw, optiondefs)
         # Initialise base class (after defining options).
-	Pmw.Dialog.__init__(self, parent)
+        Pmw.Dialog.__init__(self, parent)
 
-	self.withdraw()
+        self.withdraw()
 
         # Create the components.
-	interior = self.interior()
+        interior = self.interior()
 
         if self['info'] is not None:
             rowoffset=1
@@ -1898,114 +1898,114 @@ class PmwFileDialog(Pmw.Dialog):
         else:
             rowoffset=0
 
-	dn = self.mkdn()
-	dn.grid(row=0+rowoffset,column=0,columnspan=2,padx=3,pady=3)
-	del dn
+        dn = self.mkdn()
+        dn.grid(row=0+rowoffset,column=0,columnspan=2,padx=3,pady=3)
+        del dn
 
-	# Create the directory list component.
-	dnb = self.mkdnb()
-	dnb.grid(row=1+rowoffset,column=0,sticky='news',padx=3,pady=3)
-	del dnb
+        # Create the directory list component.
+        dnb = self.mkdnb()
+        dnb.grid(row=1+rowoffset,column=0,sticky='news',padx=3,pady=3)
+        del dnb
 
-	# Create the filename list component.
-	fnb = self.mkfnb()
-	fnb.grid(row=1+rowoffset,column=1,sticky='news',padx=3,pady=3)
-	del fnb
+        # Create the filename list component.
+        fnb = self.mkfnb()
+        fnb.grid(row=1+rowoffset,column=1,sticky='news',padx=3,pady=3)
+        del fnb
 
-	# Create the filter entry
-	ft = self.mkft()
-	ft.grid(row=2+rowoffset,column=0,columnspan=2,padx=3,pady=3)
-	del ft
+        # Create the filter entry
+        ft = self.mkft()
+        ft.grid(row=2+rowoffset,column=0,columnspan=2,padx=3,pady=3)
+        del ft
 
-	# Create the filename entry
-	fn = self.mkfn()
-	fn.grid(row=3+rowoffset,column=0,columnspan=2,padx=3,pady=3)
-	fn.bind('<Return>',self.okbutton)
-	del fn
+        # Create the filename entry
+        fn = self.mkfn()
+        fn.grid(row=3+rowoffset,column=0,columnspan=2,padx=3,pady=3)
+        fn.bind('<Return>',self.okbutton)
+        del fn
 
-	# Buttonbox already exists
-	bb=self.component('buttonbox')
-	bb.add('OK',command=self.okbutton)
-	bb.add('Cancel',command=self.cancelbutton)
-	del bb
+        # Buttonbox already exists
+        bb=self.component('buttonbox')
+        bb.add('OK',command=self.okbutton)
+        bb.add('Cancel',command=self.cancelbutton)
+        del bb
 
-	Pmw.alignlabels([self.component('filename'),
-			 self.component('filter'),
-			 self.component('dirname')])
+        Pmw.alignlabels([self.component('filename'),
+                         self.component('filter'),
+                         self.component('dirname')])
 
     def infotxt(self):
         """ Make information block component at the top """
         return self.createcomponent(
-                'infobox',
-                (), None,
-                Tkinter.Label, (self.interior(),),
-                width=51,
-                relief='groove',
-                foreground='darkblue',
-                justify='left',
-                text=self['info']
-            )
+            'infobox',
+            (), None,
+            Tkinter.Label, (self.interior(),),
+            width=51,
+            relief='groove',
+            foreground='darkblue',
+            justify='left',
+            text=self['info']
+        )
 
     def mkdn(self):
         """Make directory name component"""
         return self.createcomponent(
-	    'dirname',
-	    (), None,
-	    Pmw.ComboBox, (self.interior(),),
-	    entryfield_value=self['directory'],
-	    entryfield_entry_width=40,
+            'dirname',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['directory'],
+            entryfield_entry_width=40,
             entryfield_validate=self.dirvalidate,
-	    selectioncommand=self.setdir,
-	    labelpos='w',
-	    label_text='Directory:')
+            selectioncommand=self.setdir,
+            labelpos='w',
+            label_text='Directory:')
 
     def mkdnb(self):
         """Make directory name box"""
         return self.createcomponent(
-	    'dirnamebox',
-	    (), None,
-	    Pmw.ScrolledListBox, (self.interior(),),
-	    label_text='directories',
-	    labelpos='n',
-	    hscrollmode='none',
-	    dblclickcommand=self.selectdir)
+            'dirnamebox',
+            (), None,
+            Pmw.ScrolledListBox, (self.interior(),),
+            label_text='directories',
+            labelpos='n',
+            hscrollmode='none',
+            dblclickcommand=self.selectdir)
 
     def mkft(self):
         """Make filter"""
         return self.createcomponent(
-	    'filter',
-	    (), None,
-	    Pmw.ComboBox, (self.interior(),),
-	    entryfield_value=self['filter'],
-	    entryfield_entry_width=40,
-	    selectioncommand=self.setfilter,
-	    labelpos='w',
-	    label_text='Filter:')
+            'filter',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['filter'],
+            entryfield_entry_width=40,
+            selectioncommand=self.setfilter,
+            labelpos='w',
+            label_text='Filter:')
 
     def mkfnb(self):
         """Make filename list box"""
         return self.createcomponent(
-	    'filenamebox',
-	    (), None,
-	    Pmw.ScrolledListBox, (self.interior(),),
-	    label_text='files',
-	    labelpos='n',
-	    hscrollmode='none',
-	    selectioncommand=self.singleselectfile,
-	    dblclickcommand=self.selectfile)
+            'filenamebox',
+            (), None,
+            Pmw.ScrolledListBox, (self.interior(),),
+            label_text='files',
+            labelpos='n',
+            hscrollmode='none',
+            selectioncommand=self.singleselectfile,
+            dblclickcommand=self.selectfile)
 
     def mkfn(self):
         """Make file name entry"""
         return self.createcomponent(
-	    'filename',
-	    (), None,
-	    Pmw.ComboBox, (self.interior(),),
-	    entryfield_value=self['filename'],
-	    entryfield_entry_width=40,
+            'filename',
+            (), None,
+            Pmw.ComboBox, (self.interior(),),
+            entryfield_value=self['filename'],
+            entryfield_entry_width=40,
             entryfield_validate=self.filevalidate,
-	    selectioncommand=self.setfilename,
-	    labelpos='w',
-	    label_text='Filename:')
+            selectioncommand=self.setfilename,
+            labelpos='w',
+            label_text='Filename:')
 
     def dirvalidate(self,string):
         if os.path.isdir(string):
@@ -2024,133 +2024,133 @@ class PmwFileDialog(Pmw.Dialog):
             return Pmw.OK
 
     def okbutton(self):
-	"""OK action: user thinks he has input valid data and wants to
+        """OK action: user thinks he has input valid data and wants to
            proceed. This is also called by <Return> in the filename entry"""
-	fn=self.component('filename').get()
-	self.setfilename(fn)
-	if self.validate(fn):
-	    self.canceled=0
-	    self.deactivate()
+        fn=self.component('filename').get()
+        self.setfilename(fn)
+        if self.validate(fn):
+            self.canceled=0
+            self.deactivate()
 
     def cancelbutton(self):
-	"""Cancel the operation"""
-	self.canceled=1
-	self.deactivate()
+        """Cancel the operation"""
+        self.canceled=1
+        self.deactivate()
 
     def tidy(self,w,v):
-	"""Insert text v into the entry and at the top of the list of
+        """Insert text v into the entry and at the top of the list of
            the combobox w, remove duplicates"""
-	if not v:
-	    return
-	entry=w.component('entry')
-	entry.delete(0,'end')
-	entry.insert(0,v)
-	list=w.component('scrolledlist')
-	list.insert(0,v)
-	index=1
-	while index<list.index('end'):
-	    k=list.get(index)
-	    if k==v or index>self['historylen']:
-		list.delete(index)
-	    else:
-		index=index+1
+        if not v:
+            return
+        entry=w.component('entry')
+        entry.delete(0,'end')
+        entry.insert(0,v)
+        list=w.component('scrolledlist')
+        list.insert(0,v)
+        index=1
+        while index<list.index('end'):
+            k=list.get(index)
+            if k==v or index>self['historylen']:
+                list.delete(index)
+            else:
+                index=index+1
         w.checkentry()
 
     def setfilename(self,value):
-	if not value:
-	    return
-	value=os.path.join(self['directory'],value)
-	dir,fil=os.path.split(value)
-	self.configure(directory=dir,filename=value)
+        if not value:
+            return
+        value=os.path.join(self['directory'],value)
+        dir,fil=os.path.split(value)
+        self.configure(directory=dir,filename=value)
 
-	c=self['command']
-	if callable(c):
-	    c()
+        c=self['command']
+        if callable(c):
+            c()
 
     def newfilename(self):
-	"""Make sure a newly set filename makes it into the combobox list"""
-	self.tidy(self.component('filename'),self['filename'])
+        """Make sure a newly set filename makes it into the combobox list"""
+        self.tidy(self.component('filename'),self['filename'])
 
     def setfilter(self,value):
-	self.configure(filter=value)
+        self.configure(filter=value)
 
     def newfilter(self):
-	"""Make sure a newly set filter makes it into the combobox list"""
-	self.tidy(self.component('filter'),self['filter'])
-	self.fillit()
+        """Make sure a newly set filter makes it into the combobox list"""
+        self.tidy(self.component('filter'),self['filter'])
+        self.fillit()
 
     def setdir(self,value):
-	self.configure(directory=value)
+        self.configure(directory=value)
 
     def newdir(self):
-	"""Make sure a newly set dirname makes it into the combobox list"""
-	self.tidy(self.component('dirname'),self['directory'])
-	self.fillit()
+        """Make sure a newly set dirname makes it into the combobox list"""
+        self.tidy(self.component('dirname'),self['directory'])
+        self.fillit()
 
     def singleselectfile(self):
-	"""Single click in file listbox. Move file to "filename" combobox"""
-	cs=self.component('filenamebox').curselection()
-	if cs!=():
-	    value=self.component('filenamebox').get(cs)
+        """Single click in file listbox. Move file to "filename" combobox"""
+        cs=self.component('filenamebox').curselection()
+        if cs!=():
+            value=self.component('filenamebox').get(cs)
             self.setfilename(value)
 
     def selectfile(self):
-	"""Take the selected file from the filename, normalize it, and OK"""
+        """Take the selected file from the filename, normalize it, and OK"""
         self.singleselectfile()
-	value=self.component('filename').get()
+        value=self.component('filename').get()
         self.setfilename(value)
         if value:
-	    self.okbutton()
+            self.okbutton()
 
     def selectdir(self):
-	"""Take selected directory from the dirnamebox into the dirname"""
-	cs=self.component('dirnamebox').curselection()
-	if cs!=():
-	    value=self.component('dirnamebox').get(cs)
-	    dir=self['directory']
-	    if not dir:
-		dir=os.getcwd()
-	    if value:
-		if value=='..':
-		    dir=os.path.split(dir)[0]
-		else:
-		    dir=os.path.join(dir,value)
-	    self.configure(directory=dir)
-	    self.fillit()
+        """Take selected directory from the dirnamebox into the dirname"""
+        cs=self.component('dirnamebox').curselection()
+        if cs!=():
+            value=self.component('dirnamebox').get(cs)
+            dir=self['directory']
+            if not dir:
+                dir=os.getcwd()
+            if value:
+                if value=='..':
+                    dir=os.path.split(dir)[0]
+                else:
+                    dir=os.path.join(dir,value)
+            self.configure(directory=dir)
+            self.fillit()
 
     def askfilename(self,directory=None,filter=None):
-	"""The actual client function. Activates the dialog, and
-	   returns only after a valid filename has been entered
+        """The actual client function. Activates the dialog, and
+           returns only after a valid filename has been entered
            (return value is that filename) or when canceled (return
            value is None)"""
-	if directory!=None:
-	    self.configure(directory=directory)
-	if filter!=None:
-	    self.configure(filter=filter)
-	self.fillit()
+        if directory!=None:
+            self.configure(directory=directory)
+        if filter!=None:
+            self.configure(filter=filter)
+        self.fillit()
         self.canceled=1 # Needed for when user kills dialog window
-	self.activate()
-	if self.canceled:
-	    return None
-	else:
-	    return self.component('filename').get()
+        self.activate()
+        if self.canceled:
+            return None
+        else:
+            return self.component('filename').get()
 
     lastdir=""
     lastfilter=None
     lasttime=0
     def fillit(self):
-	"""Get the directory list and show it in the two listboxes"""
+        """Get the directory list and show it in the two listboxes"""
         # Do not run unnecesarily
         if self.lastdir==self['directory'] and self.lastfilter==self['filter'] and self.lasttime>os.stat(self.lastdir)[8]:
             return
         self.lastdir=self['directory']
         self.lastfilter=self['filter']
         self.lasttime=time.time()
-	dir=self['directory']
-	if not dir:
-	    dir=os.getcwd()
-	dirs=['..']
-	files=[]
+        dir=self['directory']
+        if not dir:
+            dir=os.getcwd()
+        dirs=['..']
+        files=[]
         try:
             fl=os.listdir(dir)
             fl.sort()
@@ -2158,24 +2158,24 @@ class PmwFileDialog(Pmw.Dialog):
             if arg[0] in (2,20):
                 return
             raise
-	for f in fl:
-	    if os.path.isdir(os.path.join(dir,f)):
-		dirs.append(f)
-	    else:
-		filter=self['filter']
-		if not filter:
-		    filter='*'
-		if fnmatch.fnmatch(f,filter):
-		    files.append(f)
-	self.component('filenamebox').setlist(files)
-	self.component('dirnamebox').setlist(dirs)
+        for f in fl:
+            if os.path.isdir(os.path.join(dir,f)):
+                dirs.append(f)
+            else:
+                filter=self['filter']
+                if not filter:
+                    filter='*'
+                if fnmatch.fnmatch(f,filter):
+                    files.append(f)
+        self.component('filenamebox').setlist(files)
+        self.component('dirnamebox').setlist(dirs)
 
     def validate(self,filename):
-	"""Validation function. Should return 1 if the filename is valid,
+        """Validation function. Should return 1 if the filename is valid,
            0 if invalid. May pop up dialogs to tell user why. Especially
            suited to subclasses: i.e. only return 1 if the file does/doesn't
            exist"""
-	return 1
+        return 1
 
 
 class PmwExistingFileDialog(PmwFileDialog):
@@ -2303,23 +2303,23 @@ class VisualizationGroup(Pmw.Group):
                                             entryfield_validate = {'validator' : 'real'},
                                             )
             self.mol_surf_middle = Pmw.Counter(self.ms_group.interior(),
-                                            labelpos = 'w',
-                                            label_text = 'Middle',
-                                            orient = 'vertical',
-                                            entry_width = 4,
-                                            entryfield_value = 0,
-                                            datatype = 'real',
-                                            entryfield_validate = {'validator' : 'real'}
-                                            )
+                                               labelpos = 'w',
+                                               label_text = 'Middle',
+                                               orient = 'vertical',
+                                               entry_width = 4,
+                                               entryfield_value = 0,
+                                               datatype = 'real',
+                                               entryfield_validate = {'validator' : 'real'}
+                                               )
             self.mol_surf_high = Pmw.Counter(self.ms_group.interior(),
-                                            labelpos = 'w',
-                                            label_text = 'High',
-                                            orient = 'vertical',
-                                            entry_width = 4,
-                                            entryfield_value = 1,
-                                            datatype = 'real',
-                                            entryfield_validate = {'validator' : 'real'}
-                                            )
+                                             labelpos = 'w',
+                                             label_text = 'High',
+                                             orient = 'vertical',
+                                             entry_width = 4,
+                                             entryfield_value = 1,
+                                             datatype = 'real',
+                                             entryfield_validate = {'validator' : 'real'}
+                                             )
             bars = (self.mol_surf_low,self.mol_surf_middle,self.mol_surf_high)
             Pmw.alignlabels(bars)
             for bar in bars: bar.pack(side=LEFT)
@@ -2382,11 +2382,11 @@ class VisualizationGroup(Pmw.Group):
 
         else:
             self.error_label = Tkinter.Label(self.interior(),
-                                  pady = 10,
-                                  justify=LEFT,
-                                  text = '''You must have at least a molecule and a map loaded.
+                                             pady = 10,
+                                             justify=LEFT,
+                                             text = '''You must have at least a molecule and a map loaded.
 If you have a molecule and a map loaded, please click "Update"''',
-                                  )
+                                             )
             self.error_label.pack()
             self.update_buttonbox = Pmw.ButtonBox(self.interior(), padx=0)
             self.update_buttonbox.pack()

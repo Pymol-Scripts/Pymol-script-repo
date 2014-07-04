@@ -9,8 +9,8 @@ License: BSD-2-Clause
 from pymol import cmd, CmdException
 
 def spectrum_states(selection='all', representations='cartoon ribbon',
-        color_list='blue cyan green yellow orange red',
-        first=1, last=0, quiet=1):
+                    color_list='blue cyan green yellow orange red',
+                    first=1, last=0, quiet=1):
     '''
 DESCRIPTION
 

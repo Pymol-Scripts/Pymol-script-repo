@@ -23,28 +23,28 @@ def color_by_conservation(aln, names=(), color="rainbow", as_putty=0, _self=cmd)
     if _self.get_type(aln) not in ("object:", "object:alignment"):
         print "Error: Bad or incorrectly specified alignment object."
         return None
- 
+
     r = cmd.get_raw_alignment(aln)
- 
+
     if names==():
         known_objs = []
         map(known_objs.extend, map(lambda x: map(lambda y: y[0], x), r))
         known_objs=set(known_objs)
- 
+
         # highest number of matches seen
         M = max(map(len,r)) + 1
     else:
         known_objs = set(names)
         M = len(known_objs) + 1
- 
+
     for obj in known_objs:
         _self.alter(obj, "b=0.0")
- 
+
     for af in r:
         c = float(1.0 + len(af)) / float(M)
         for y in af:
             _self.alter("%s and index %s" % (y[0], y[1]), "b=c", space={'c':c})
- 
+
     if as_putty!=0:
         for obj in known_objs:
             _self.show_as("cartoon", "%s" % obj)

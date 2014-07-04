@@ -9,220 +9,220 @@ __license__ = 'BSD-2-Clause'
 from pymol import cmd, CmdException
 
 def save_pdb_without_ter(filename, selection, **kwargs):
-	'''
+    '''
 DESCRIPTION
 
-    Save PDB file without TER records. External applications like TMalign and
-    DynDom stop reading PDB files at TER records, which might be undesired in
-    case of missing loops.
-	'''
-	v = cmd.get_setting_boolean('pdb_use_ter_records')
-	if v: cmd.unset('pdb_use_ter_records')
-	cmd.save(filename, selection, **kwargs)
-	if v: cmd.set('pdb_use_ter_records')
+Save PDB file without TER records. External applications like TMalign and
+DynDom stop reading PDB files at TER records, which might be undesired in
+case of missing loops.
+    '''
+    v = cmd.get_setting_boolean('pdb_use_ter_records')
+    if v: cmd.unset('pdb_use_ter_records')
+    cmd.save(filename, selection, **kwargs)
+    if v: cmd.set('pdb_use_ter_records')
 
 def alignwithanymethod(mobile, target, methods='align super cealign tmalign',
-		async=1, quiet=1):
-	'''
+                       async=1, quiet=1):
+    '''
 DESCRIPTION
 
-    Align copies of mobile to target with several alignment methods
+Align copies of mobile to target with several alignment methods
 
 ARGUMENTS
 
-    mobile = string: atom selection
+mobile = string: atom selection
 
-    target = string: atom selection
+target = string: atom selection
 
-    methods = string: space separated list of PyMOL commands which take
-    arguments "mobile" and "target" (in any order) {default: align super
-    cealign tmalign}
-	'''
-	import threading
-	import time
-	methods = methods.split()
-	async, quiet = int(async), int(quiet)
-	mobile_obj = cmd.get_object_list('first (' + mobile + ')')[0]
-	def myalign(method):
-		newmobile = cmd.get_unused_name(mobile_obj + '_' + method)
-		cmd.create(newmobile, mobile_obj)
-		start = time.time()
-		cmd.do('%s mobile=%s in %s, target=%s' % (method, newmobile, mobile, target))
-		if not quiet:
-			print 'Finished: %s (%.2f sec)' % (method, time.time() - start)
-	for method in methods:
-		if async:
-			t = threading.Thread(target=myalign, args=(method,))
-			t.setDaemon(1)
-			t.start()
-		else:
-			myalign(method)
+methods = string: space separated list of PyMOL commands which take
+arguments "mobile" and "target" (in any order) {default: align super
+cealign tmalign}
+    '''
+    import threading
+    import time
+    methods = methods.split()
+    async, quiet = int(async), int(quiet)
+    mobile_obj = cmd.get_object_list('first (' + mobile + ')')[0]
+    def myalign(method):
+        newmobile = cmd.get_unused_name(mobile_obj + '_' + method)
+        cmd.create(newmobile, mobile_obj)
+        start = time.time()
+        cmd.do('%s mobile=%s in %s, target=%s' % (method, newmobile, mobile, target))
+        if not quiet:
+            print 'Finished: %s (%.2f sec)' % (method, time.time() - start)
+    for method in methods:
+        if async:
+            t = threading.Thread(target=myalign, args=(method,))
+            t.setDaemon(1)
+            t.start()
+        else:
+            myalign(method)
 
 def tmalign(mobile, target, args='', exe='TMalign', ter=0, transform=1, object=None, quiet=0):
-	'''
+    '''
 DESCRIPTION
 
-    TMalign wrapper
+TMalign wrapper
 
-    Reference: Y. Zhang and J. Skolnick, Nucl. Acids Res. 2005 33, 2302-9
-    http://zhanglab.ccmb.med.umich.edu/TM-align/
+Reference: Y. Zhang and J. Skolnick, Nucl. Acids Res. 2005 33, 2302-9
+http://zhanglab.ccmb.med.umich.edu/TM-align/
 
 USAGE
 
-    tmalign mobile, target [, args [, exe ]]
+tmalign mobile, target [, args [, exe ]]
 
 ARGUMENTS
 
-    mobile, target = string: atom selections
+mobile, target = string: atom selections
 
-    args = string: Extra arguments like -d0 5 -L 100
+args = string: Extra arguments like -d0 5 -L 100
 
-    exe = string: Path to TMalign executable {default: TMalign}
+exe = string: Path to TMalign executable {default: TMalign}
 
-    ter = 0/1: If ter=0, then ignore chain breaks because TMalign will stop
-    at first TER record {default: 0}
+ter = 0/1: If ter=0, then ignore chain breaks because TMalign will stop
+at first TER record {default: 0}
 
 SEE ALSO
 
-    tmscore, mmalign
-	'''
-	import subprocess, tempfile, os, re
+tmscore, mmalign
+    '''
+    import subprocess, tempfile, os, re
 
-	ter, quiet = int(ter), int(quiet)
+    ter, quiet = int(ter), int(quiet)
 
-	mobile_filename = tempfile.mktemp('.pdb', 'mobile')
-	target_filename = tempfile.mktemp('.pdb', 'target')
-	matrix_filename = tempfile.mktemp('.txt', 'matrix')
-	mobile_ca_sele = '(%s) and (not hetatm) and name CA and alt +A' % (mobile)
-	target_ca_sele = '(%s) and (not hetatm) and name CA and alt +A' % (target)
+    mobile_filename = tempfile.mktemp('.pdb', 'mobile')
+    target_filename = tempfile.mktemp('.pdb', 'target')
+    matrix_filename = tempfile.mktemp('.txt', 'matrix')
+    mobile_ca_sele = '(%s) and (not hetatm) and name CA and alt +A' % (mobile)
+    target_ca_sele = '(%s) and (not hetatm) and name CA and alt +A' % (target)
 
-	if ter:
-		save = cmd.save
-	else:
-		save = save_pdb_without_ter
-	save(mobile_filename, mobile_ca_sele)
-	save(target_filename, target_ca_sele)
+    if ter:
+        save = cmd.save
+    else:
+        save = save_pdb_without_ter
+    save(mobile_filename, mobile_ca_sele)
+    save(target_filename, target_ca_sele)
 
-	exe = cmd.exp_path(exe)
-	args = [exe, mobile_filename, target_filename, '-m', matrix_filename] + args.split()
+    exe = cmd.exp_path(exe)
+    args = [exe, mobile_filename, target_filename, '-m', matrix_filename] + args.split()
 
-	try:
-		process = subprocess.Popen(args, stdout=subprocess.PIPE)
-		lines = process.stdout.readlines()
-	except OSError:
-		print 'Cannot execute "%s", please provide full path to TMscore or TMalign executable' % (exe)
-		raise CmdException
-	finally:
-		os.remove(mobile_filename)
-		os.remove(target_filename)
+    try:
+        process = subprocess.Popen(args, stdout=subprocess.PIPE)
+        lines = process.stdout.readlines()
+    except OSError:
+        print 'Cannot execute "%s", please provide full path to TMscore or TMalign executable' % (exe)
+        raise CmdException
+    finally:
+        os.remove(mobile_filename)
+        os.remove(target_filename)
 
-	# TMalign >= 2012/04/17
-	if os.path.exists(matrix_filename):
-		lines += open(matrix_filename).readlines()
-		os.remove(matrix_filename)
+    # TMalign >= 2012/04/17
+    if os.path.exists(matrix_filename):
+        lines += open(matrix_filename).readlines()
+        os.remove(matrix_filename)
 
-	r = None
-	re_score = re.compile(r'TM-score\s*=\s*(\d*\.\d*)')
-	rowcount = 0
-	matrix = []
-	line_it = iter(lines)
-	alignment = []
-	for line in line_it:
-		if 4 >= rowcount > 0:
-			if rowcount >= 2:
-				a = map(float, line.split())
-				matrix.extend(a[2:5])
-				matrix.append(a[1])
-			rowcount += 1
-		elif line.lower().startswith(' -------- rotation matrix'):
-			rowcount = 1
-		elif line.startswith('(":" denotes'):
-			alignment = [line_it.next().rstrip() for i in range(3)]
-		else:
-			match = re_score.search(line)
-			if match is not None:
-				r = float(match.group(1))
-		if not quiet:
-			print line.rstrip()
-		
-	if not quiet:
-		for i in range(0, len(alignment[0])-1, 78):
-			for line in alignment:
-				print line[i:i+78]
-			print ''
+    r = None
+    re_score = re.compile(r'TM-score\s*=\s*(\d*\.\d*)')
+    rowcount = 0
+    matrix = []
+    line_it = iter(lines)
+    alignment = []
+    for line in line_it:
+        if 4 >= rowcount > 0:
+            if rowcount >= 2:
+                a = map(float, line.split())
+                matrix.extend(a[2:5])
+                matrix.append(a[1])
+            rowcount += 1
+        elif line.lower().startswith(' -------- rotation matrix'):
+            rowcount = 1
+        elif line.startswith('(":" denotes'):
+            alignment = [line_it.next().rstrip() for i in range(3)]
+        else:
+            match = re_score.search(line)
+            if match is not None:
+                r = float(match.group(1))
+        if not quiet:
+            print line.rstrip()
 
-	assert len(matrix) == 3*4
-	matrix.extend([0,0,0,1])
+    if not quiet:
+        for i in range(0, len(alignment[0])-1, 78):
+            for line in alignment:
+                print line[i:i+78]
+            print ''
 
-	if int(transform):
-		cmd.transform_selection('byobject (%s)' % (mobile), matrix, homogenous=1)
-	
-	# alignment object
-	if object is not None:
-		mobile_idx, target_idx = [], []
-		space = {'mobile_idx': mobile_idx, 'target_idx': target_idx}
-		cmd.iterate(mobile_ca_sele, 'mobile_idx.append("%s`%d" % (model, index))', space=space)
-		cmd.iterate(target_ca_sele, 'target_idx.append("%s`%d" % (model, index))', space=space)
-		for i, aa in enumerate(alignment[0]):
-			if aa == '-':
-				mobile_idx.insert(i, None)
-		for i, aa in enumerate(alignment[2]):
-			if aa == '-':
-				target_idx.insert(i, None)
-		if (len(mobile_idx) == len(target_idx) == len(alignment[2])):
-			cmd.rms_cur(
-					' '.join(idx for (idx, m) in zip(mobile_idx, alignment[1]) if m in ':.'),
-					' '.join(idx for (idx, m) in zip(target_idx, alignment[1]) if m in ':.'),
-					cycles=0, matchmaker=4, object=object)
-		else:
-			print 'Could not load alignment object'
+    assert len(matrix) == 3*4
+    matrix.extend([0,0,0,1])
 
-	if not quiet and r is not None:
-		print 'Found in output TM-score = %.4f' % (r)
+    if int(transform):
+        cmd.transform_selection('byobject (%s)' % (mobile), matrix, homogenous=1)
 
-	return r
+    # alignment object
+    if object is not None:
+        mobile_idx, target_idx = [], []
+        space = {'mobile_idx': mobile_idx, 'target_idx': target_idx}
+        cmd.iterate(mobile_ca_sele, 'mobile_idx.append("%s`%d" % (model, index))', space=space)
+        cmd.iterate(target_ca_sele, 'target_idx.append("%s`%d" % (model, index))', space=space)
+        for i, aa in enumerate(alignment[0]):
+            if aa == '-':
+                mobile_idx.insert(i, None)
+        for i, aa in enumerate(alignment[2]):
+            if aa == '-':
+                target_idx.insert(i, None)
+        if (len(mobile_idx) == len(target_idx) == len(alignment[2])):
+            cmd.rms_cur(
+                ' '.join(idx for (idx, m) in zip(mobile_idx, alignment[1]) if m in ':.'),
+                ' '.join(idx for (idx, m) in zip(target_idx, alignment[1]) if m in ':.'),
+                cycles=0, matchmaker=4, object=object)
+        else:
+            print 'Could not load alignment object'
+
+    if not quiet and r is not None:
+        print 'Found in output TM-score = %.4f' % (r)
+
+    return r
 
 def tmscore(mobile, target, args='', exe='TMscore', quiet=0, **kwargs):
-	'''
+    '''
 DESCRIPTION
 
-    TMscore wrapper
+TMscore wrapper
 
-    Reference: Yang Zhang and Jeffrey Skolnick, Proteins 2004 57: 702-710
-    http://zhanglab.ccmb.med.umich.edu/TM-score/
+Reference: Yang Zhang and Jeffrey Skolnick, Proteins 2004 57: 702-710
+http://zhanglab.ccmb.med.umich.edu/TM-score/
 
 ARGUMENTS
 
-    mobile, target = string: atom selections
+mobile, target = string: atom selections
 
-    args = string: Extra arguments like -d 5
+args = string: Extra arguments like -d 5
 
-    exe = string: Path to TMscore executable {default: TMscore}
+exe = string: Path to TMscore executable {default: TMscore}
 
-    ter = 0/1: If ter=0, then ignore chain breaks because TMscore will stop
-    at first TER record {default: 0}
+ter = 0/1: If ter=0, then ignore chain breaks because TMscore will stop
+at first TER record {default: 0}
 
 SEE ALSO
 
-    tmalign, mmalign
-	'''
-	kwargs.pop('_self', None)
-	return tmalign(mobile, target, args, exe, quiet=quiet, **kwargs)
+tmalign, mmalign
+    '''
+    kwargs.pop('_self', None)
+    return tmalign(mobile, target, args, exe, quiet=quiet, **kwargs)
 
 def mmalign(mobile, target, args='', exe='MMalign', ter=0, transform=1, quiet=0):
-	'''
+    '''
 DESCRIPTION
 
-    MMalign wrapper
+MMalign wrapper
 
-    Reference: S. Mukherjee and Y. Zhang, Nucleic Acids Research 2009; 37: e83
-    http://zhanglab.ccmb.med.umich.edu/MM-align/
+Reference: S. Mukherjee and Y. Zhang, Nucleic Acids Research 2009; 37: e83
+http://zhanglab.ccmb.med.umich.edu/MM-align/
 
 SEE ALSO
 
-    tmalign, tmscore
-	'''
-	return tmalign(mobile, target, args, exe, ter, transform, quiet=quiet)
+tmalign, tmscore
+    '''
+    return tmalign(mobile, target, args, exe, ter, transform, quiet=quiet)
 
 # pymol commands
 cmd.extend('alignwithanymethod', alignwithanymethod)
@@ -232,12 +232,12 @@ cmd.extend('mmalign', tmalign)
 
 # autocompletion
 cmd.auto_arg[0].update({
-	'tmalign': cmd.auto_arg[0]['align'],
-	'tmscore': cmd.auto_arg[0]['align'],
-	'mmalign': cmd.auto_arg[0]['align'],
+    'tmalign': cmd.auto_arg[0]['align'],
+    'tmscore': cmd.auto_arg[0]['align'],
+    'mmalign': cmd.auto_arg[0]['align'],
 })
 cmd.auto_arg[1].update({
-	'tmalign': cmd.auto_arg[1]['align'],
-	'tmscore': cmd.auto_arg[1]['align'],
-	'mmalign': cmd.auto_arg[1]['align'],
+    'tmalign': cmd.auto_arg[1]['align'],
+    'tmscore': cmd.auto_arg[1]['align'],
+    'mmalign': cmd.auto_arg[1]['align'],
 })

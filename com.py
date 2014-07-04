@@ -43,22 +43,22 @@ from chempy import cpv
 
 def COM(selection='all', center=0, quiet=1):
 
-        model = cmd.get_model(selection)
-        nAtom = len(model.atom)
- 
-        COM = cpv.get_null()
- 
-        for a in model.atom:
-                COM = cpv.add(COM, a.coord)
-        COM = cpv.scale(COM, 1./nAtom)
- 
-        if not int(quiet):
-                print ' COM: [%8.3f,%8.3f,%8.3f]' % tuple(COM)
- 
-        if int(center):
-                cmd.alter_state(1, selection, "(x,y,z)=sub((x,y,z), COM)",
+    model = cmd.get_model(selection)
+    nAtom = len(model.atom)
+
+    COM = cpv.get_null()
+
+    for a in model.atom:
+        COM = cpv.add(COM, a.coord)
+    COM = cpv.scale(COM, 1./nAtom)
+
+    if not int(quiet):
+        print ' COM: [%8.3f,%8.3f,%8.3f]' % tuple(COM)
+
+    if int(center):
+        cmd.alter_state(1, selection, "(x,y,z)=sub((x,y,z), COM)",
                         space={'COM': COM, 'sub': cpv.sub})
- 
-        return COM
- 
+
+    return COM
+
 cmd.extend("COM", COM)

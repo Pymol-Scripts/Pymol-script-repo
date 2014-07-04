@@ -120,7 +120,7 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
         cmd.iterate(tObj1 + " and not " + aln, "stored.alnAnb.append(b)" )
         cmd.iterate(tObj2 + " and not " + aln, "stored.alnBnb.append(b)" )
     else:
-    ### Or Iterate over all objects with CA
+        ### Or Iterate over all objects with CA
         cmd.iterate(tObj1, "stored.alnAnb.append(b)" )
         cmd.iterate(tObj2, "stored.alnBnb.append(b)" )
 
@@ -172,5 +172,3 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
         print "White is those residues used in the alignment algorithm. Can be turned off in top of algorithm."
         print "Black is residues that does not exist in both files..."
 cmd.extend("ColorByDisplacementAll", ColorByDisplacementAll)
-
-

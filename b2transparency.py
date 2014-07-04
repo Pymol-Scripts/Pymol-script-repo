@@ -9,7 +9,7 @@ License: BSD-2-Clause
 from pymol import cmd, CmdException
 
 def b2transparency(selection='all', setting='transparency', minimum=None,
-        maximum=None, var='b', quiet=1):
+                   maximum=None, var='b', quiet=1):
     '''
 DESCRIPTION
 

@@ -78,8 +78,8 @@ DESCRIPTION
             v = LevelVar(master, name, ffmt % level)
             Tkinter.Label(master, text=name).grid(row=i, column=0, sticky="w")
             e = Tkinter.Scale(master, orient=Tkinter.HORIZONTAL,
-                    from_=-mm, to=mm, resolution=DELTA,
-                    showvalue=0, variable=v)
+                              from_=-mm, to=mm, resolution=DELTA,
+                              showvalue=0, variable=v)
             e.grid(row=i, column=1, sticky="ew")
             v.bindscrollwheel(e)
             e = Tkinter.Entry(master, textvariable=v, width=4)

@@ -17,25 +17,25 @@ def viol_noes(molecule, viol_file, viol_class=None, quiet=1):
 
     """
 DESCRIPTION
-    
+
     Visualize Xplor-NIH NOE violations.
 
 ARGUMENTS
-    
+
     molecule = string: molecule on which to show the violations.
 
     viol_file = string: Xplor-NIH .viol file that contains the violations to be visualized.
-    
+
     viol_class = string: NOE class in .viol file to show {default: None (means all NOE classes)}.
 
 
 EXAMPLE
-    
+
     PyMOL> run viol_noes.py
     PyMOL> viol_noes molecule, ./molecule.pdb.viol
-    
+
 NOTES
-    
+
     The NOE violations will be shown as distances between the relevant residues/atoms and colored according to the severity of violation (the closer to the blue end of the spectrum, the more severe the violation; to closer to the red end, the less severe the violation).
     """
 
@@ -109,4 +109,3 @@ NOTES
 
 
 cmd.extend("viol_noes", viol_noes)
-

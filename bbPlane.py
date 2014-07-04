@@ -17,21 +17,21 @@ from pymol import cmd
 def bbPlane(selection='(all)', color='gray', transp=0.3, state=-1, name=None, quiet=1):
     """
 DESCRIPTION
- 
+
     Draws a plane across the backbone for a selection
- 
+
 ARGUMENTS
- 
+
     selection = string: protein object or selection {default: (all)}
- 
+
     color = string: color name or number {default: white}
- 
+
     transp = float: transparency component (0.0--1.0) {default: 0.0}
 
     state = integer: object state, 0 for all states {default: 1}
- 
+
 NOTES
- 
+
     You need to pass in an object or selection with at least two
     amino acids.  The plane spans CA_i, O_i, N-H_(i+1), and CA_(i+1)
     """
@@ -83,7 +83,7 @@ NOTES
     obj = [
         BEGIN, TRIANGLES,
         COLOR,
-        ]
+    ]
     obj.extend(cmd.get_color_tuple(color))
 
     for res in range(0, len(AAs)-1):
@@ -120,7 +120,7 @@ NOTES
         for i in vorder:
             obj.append(VERTEX)
             obj.extend(pos[i])
-           
+
     # finish the CGO
     obj.append(END)
 

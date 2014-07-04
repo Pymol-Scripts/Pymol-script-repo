@@ -308,7 +308,7 @@ class MSMSPlugin:
                                   validate = {'validator':'real', 'min':0.25},
                                   entry_textvariable=self.hdensity,
                                   entry_width=10
-                                 )
+                                  )
         noh_cb = Tkinter.Checkbutton(group_msms_param,
                                      text='Ignore hydrogens.',
                                      variable=self.noh,
@@ -693,7 +693,7 @@ http://pymol.sourceforge.net/faq.html#CITE
                                              self.norm_col_B/255.0),
                             vert_cgo_name='msms_surf_vert_%d' % (i+1),
                             norm_cgo_name='msms_surf_nrom_%d' % (i+1)
-                            )
+                        )
 
         elif cmd == 'Exit':
             print 'Exiting MSMS Plugin ...'
@@ -924,7 +924,7 @@ class Msms:
             component_face_fn = '%s_%d.face'  % (output_root, fn_idx)
 
             while os.path.isfile(component_vert_fn) and \
-                      os.path.isfile(component_face_fn):
+                    os.path.isfile(component_face_fn):
                 self.output_cpn_vert_fn.append(component_vert_fn)
                 self.output_cpn_face_fn.append(component_face_fn)
 
@@ -974,13 +974,13 @@ class MsmsSurfacePatch:
         self.vert    = vert
         self.face    = face
         self.sid_map = sid_map # each face is related to a sphere, or an atom
-                               # the atom is specified by an id in the full list of atoms
-                               # after split, atoms ids are different
-                               # this is the map from original id to new id in the patch
+        # the atom is specified by an id in the full list of atoms
+        # after split, atoms ids are different
+        # this is the map from original id to new id in the patch
         self.vid_map = vid_map # the face is defined by vertex ids
-                               # the vertex id are 1-based in the total list of id
-                               # since they are split into patches, the ids are different
-                               # this is the map from original id to new id in the patch
+        # the vertex id are 1-based in the total list of id
+        # since they are split into patches, the ids are different
+        # this is the map from original id to new id in the patch
         return
 
 
@@ -1118,7 +1118,7 @@ class MsmsOutputParser:
         fid = 0 # NOTE: fid is 1-based
         ignored_face_num = 0 # how many faces have been ignored because of removd v
         face_dict = {} # since faces are re-organized for the removed vertices
-                       # I shall check no duplicate faces are parsed
+        # I shall check no duplicate faces are parsed
 
 
         if not rm_dup:
@@ -1223,7 +1223,7 @@ class MsmsSurface:
 
         """
         if not os.path.isfile(self.surf_vert_fn) or \
-               not os.path.isfile(self.surf_face_fn):
+                not os.path.isfile(self.surf_face_fn):
             # TODO: exception should be thrown out here
             return False
 

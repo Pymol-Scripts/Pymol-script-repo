@@ -50,7 +50,7 @@ SEE ALSO
 
     xyz2idx = {}
     cmd.iterate_state(state, selection, 'xyz2idx[x,y,z] = (model,index)',
-            space=locals())
+                      space=locals())
 
     r = []
     for obj in raw_objects:
@@ -115,8 +115,8 @@ cmd.extend('get_raw_distances', get_raw_distances)
 cmd.extend('select_distances', select_distances)
 
 _auto_arg0_distances = [
-        lambda: cmd.Shortcut(cmd.get_names_of_type('object:measurement')),
-        'distance object', '']
+    lambda: cmd.Shortcut(cmd.get_names_of_type('object:measurement')),
+    'distance object', '']
 
 cmd.auto_arg[0].update([
     ('get_raw_distances', _auto_arg0_distances),

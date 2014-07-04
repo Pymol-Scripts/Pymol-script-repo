@@ -54,7 +54,7 @@ SEE ALSO
     parts = len(colvec) - 1
 
     expression = {'pc': 'partial_charge', 'fc': 'formal_charge',
-            'count': 'index'}.get(expression, expression)
+                  'count': 'index'}.get(expression, expression)
     minmax_expr = {'resi': 'resv'}.get(expression, expression)
     discrete_expr = ['index', 'resi']
 

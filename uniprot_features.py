@@ -27,7 +27,7 @@ DESCRIPTION
 
         NL, VL = [], []
         cmd.iterate('(%s) and guide' % (selection),
-                'NL.append(resn);VL.append(resv)', space=locals())
+                    'NL.append(resn);VL.append(resv)', space=locals())
         seq = ''.join(one_letter.get(resn, 'X') for resn in NL)
         align = needle_alignment(sequence, seq)
 
@@ -48,7 +48,7 @@ DESCRIPTION
         raise KeyError
 
 def uniprot_features(uniprot_id, selection='(all)', withss=0,
-        prefix='feature_', sm=None, quiet=1):
+                     prefix='feature_', sm=None, quiet=1):
     '''
 DESCRIPTION
 
@@ -129,7 +129,7 @@ ARGUMENTS
         else:
             count += 1
             name = cmd.get_legal_name('%s%03d_%s' % (prefix, count,
-                feature.get('description', '').replace('.', '')))
+                                                     feature.get('description', '').replace('.', '')))
             groupname = cmd.get_legal_name('%s%s' % (prefix, type))
             cmd.select(name, sel)
             cmd.group(groupname, name, 'add')
@@ -196,7 +196,7 @@ ARGUMENTS
 
     for chain, (acc, sm) in mappings.iteritems():
         uniprot_features(acc, '(%s) and chain %s' % (selection, chain),
-                withss, 'feature_' + chain + '_', sm, quiet)
+                         withss, 'feature_' + chain + '_', sm, quiet)
 
 cmd.extend('uniprot_features', uniprot_features)
 cmd.extend('uniprot_auto', uniprot_auto)

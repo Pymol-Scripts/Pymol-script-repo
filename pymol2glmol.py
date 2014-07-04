@@ -74,7 +74,7 @@ def parseObjMol(obj):
             colors[c] = []
         colors[c].append(serial)
         ids.append("ID %d is %s in resi %s %s at chain %s"\
-                       % (atom[22], atom[6], atom[3], atom[5], atom[1]))
+                   % (atom[22], atom[6], atom[3], atom[5], atom[1]))
 
     for c in colors.iterkeys(): # TODO: better compression
         colors[c] = compactSeq(colors[c])
@@ -143,7 +143,7 @@ def dump_rep(name):
 
     bgcolor = cmd.get_setting_tuple('bg_rgb')[1]
     ret += "\nbgcolor:%02x%02x%02x" % (int(255 * float(bgcolor[0])), \
-              int(255 * float(bgcolor[1])), int(255 * float(bgcolor[2])))
+                                       int(255 * float(bgcolor[1])), int(255 * float(bgcolor[2])))
     if 'PYMOL_GIT_MOD' in os.environ:
         template = open(os.path.join(os.environ['PYMOL_GIT_MOD'],'pymol2glmol','imported.html')).read().\
             replace("###INCLUDE_PDB_FILE_HERE###", cmd.get_pdbstr(name)).\
@@ -152,7 +152,7 @@ def dump_rep(name):
         template = open('imported.html').read().\
             replace("###INCLUDE_PDB_FILE_HERE###", cmd.get_pdbstr(name)).\
             replace('###INCLUDE_REPRESENTATION_HERE###', ret)
-        
+
     f = open(name + '.html', 'w')
     f.write(template)
     f.close()

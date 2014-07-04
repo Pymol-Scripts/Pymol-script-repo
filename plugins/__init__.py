@@ -9,15 +9,15 @@ import sys
 sys.path.append('C:/Users/YOURNAME/Documents/Pymol-script-repo')
 import plugins
 '''
- 
+
 import os, sys, traceback
- 
+
 # import pymolplugins (allow different name)
 pymolplugins = sys.modules[__name__]
- 
+
 import pmg_tk.PMGApp
 x__initializePlugins = pmg_tk.PMGApp.initializePlugins
- 
+
 def initializePlugins(self):
     '''
     Overloaded version of pmg_tk.PMGApp.initializePlugins
@@ -25,7 +25,7 @@ def initializePlugins(self):
     '''
     # load global plugins
     x__initializePlugins(self)
- 
+
     # load user plugins
     modules = set()
     for path in pymolplugins.__path__:
@@ -49,6 +49,6 @@ def initializePlugins(self):
             print "Exception in plugin '%s' -- Traceback follows..."%name
             traceback.print_exc()
             print "Error: unable to initialize plugin '%s'."%name
- 
+
 # overload method
 pmg_tk.PMGApp.initializePlugins = initializePlugins

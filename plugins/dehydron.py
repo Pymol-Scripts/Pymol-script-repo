@@ -22,9 +22,9 @@ from pymol import stored
 def __init__(self):
     """Add this Plugin to the PyMOL menu"""
     self.menuBar.addmenuitem('Plugin', 'command',
-                            'wrappy',
-                            label = 'Wrappy',
-                            command = lambda : mainDialog())
+                             'wrappy',
+                             label = 'Wrappy',
+                             command = lambda : mainDialog())
 
 
 def mainDialog():
@@ -46,10 +46,10 @@ def mainDialog():
     master = Tkinter.Tk()
     master.title(' Wrappy ')
     w = Tkinter.Label(master, text = 'dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
-                                background = '#000000',
-                                foreground = '#cecece',
-                                #pady = 20,
-                                )
+                      background = '#000000',
+                      foreground = '#cecece',
+                      #pady = 20,
+                      )
     w.pack(expand=1, fill = 'both', padx = 4, pady = 4)
 
     Pmw.initialise(master)
@@ -202,7 +202,7 @@ USAGE
     total_wrappers = 0
     for pairs in hb:
         wrappers = cmd.count_atoms('((%s and _nonpolar and _selection) within %f of byca (%s`%d %s`%d))' % 
-                ((pairs[0][0], desolv) + pairs[0] + pairs[1]))
+                                   ((pairs[0][0], desolv) + pairs[0] + pairs[1]))
         total_wrappers = total_wrappers + wrappers
         cmd.iterate(pairs[0], 'stored.donor = chain, resi, resn')
         cmd.iterate(pairs[1], 'stored.aceptor = chain, resi, resn')

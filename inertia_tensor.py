@@ -16,15 +16,15 @@ def tensor(selection, name="tensor", state=1, scaling=0, quiet=1):
 
     """
 DESCRIPTION
-    
+
     This script will draw the inertia tensor of the selection.
 
 ARGUMENTS
-    
+
     selection = string: selection for the atoms included in the tensor calculation
 
     name = string: name of the tensor object to be created {default: "tensor"}
-    
+
     state = int: state/model in the molecule object used in the tensor calculation
 
     scaling = int {0, 1, or 2}: 0 for no scaling of the inertia axes, 1 for scaling
@@ -32,12 +32,12 @@ ARGUMENTS
     {default: 0}
 
 EXAMPLE
-    
+
     PyMOL> run inertia_tensor.py
     PyMOL> tensor molecule_object & i. 2-58+63-120 & n. n+ca+c, "tensor_model5_dom2", 5, 1
-    
+
 NOTES
-    
+
     Requires numpy.
     """
 
@@ -62,22 +62,22 @@ NOTES
             CONE, (-1) * ends[1][0] + start[0], (-1) * ends[1][1] + start[1], (-1) * ends[1][2] + start[2], (-1) * cone_ends[1][0] + start[0], (-1) * cone_ends[1][1] + start[1], (-1) * cone_ends[1][2] + start[2], 0.5, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0,
             CONE, ends[2][0] + start[0], ends[2][1] + start[1], ends[2][2] + start[2], cone_ends[2][0] + start[0], cone_ends[2][1] + start[1], cone_ends[2][2] + start[2], 0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
             CONE, (-1) * ends[2][0] + start[0], (-1) * ends[2][1] + start[1], (-1) * ends[2][2] + start[2], (-1) * cone_ends[2][0] + start[0], (-1) * cone_ends[2][1] + start[1], (-1) * cone_ends[2][2] + start[2], 0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
-            ]
+        ]
 
         cmd.load_cgo(obj,name_obj)
 
 
     totmass=0.0
     x_com,y_com,z_com=0,0,0
-    
+
     model=cmd.get_model(selection, state)
 
     for a in model.atom:
 
-            x_com+=a.coord[0]*a.get_mass()
-            y_com+=a.coord[1]*a.get_mass()
-            z_com+=a.coord[2]*a.get_mass()
-            totmass+=a.get_mass()
+        x_com+=a.coord[0]*a.get_mass()
+        y_com+=a.coord[1]*a.get_mass()
+        z_com+=a.coord[2]*a.get_mass()
+        totmass+=a.get_mass()
 
     x_com /= totmass; y_com /= totmass; z_com /= totmass
 
@@ -94,19 +94,19 @@ NOTES
 
     for a in model.atom:
 
-            temp_x,temp_y,temp_z=a.coord[0],a.coord[1],a.coord[2]
-            temp_x-=x_com; temp_y-=y_com; temp_z-=z_com
+        temp_x,temp_y,temp_z=a.coord[0],a.coord[1],a.coord[2]
+        temp_x-=x_com; temp_y-=y_com; temp_z-=z_com
 
-            I[0]+=a.get_mass()*(temp_y**2+temp_z**2)
-            I[4]+=a.get_mass()*(temp_x**2+temp_z**2)
-            I[8]+=a.get_mass()*(temp_x**2+temp_y**2)
-            I[1]-=a.get_mass()*temp_x*temp_y
-            I[3]-=a.get_mass()*temp_x*temp_y
-            I[2]-=a.get_mass()*temp_x*temp_z
-            I[6]-=a.get_mass()*temp_x*temp_z
-            I[5]-=a.get_mass()*temp_y*temp_z
-            I[7]-=a.get_mass()*temp_y*temp_z
-   
+        I[0]+=a.get_mass()*(temp_y**2+temp_z**2)
+        I[4]+=a.get_mass()*(temp_x**2+temp_z**2)
+        I[8]+=a.get_mass()*(temp_x**2+temp_y**2)
+        I[1]-=a.get_mass()*temp_x*temp_y
+        I[3]-=a.get_mass()*temp_x*temp_y
+        I[2]-=a.get_mass()*temp_x*temp_z
+        I[6]-=a.get_mass()*temp_x*temp_z
+        I[5]-=a.get_mass()*temp_y*temp_z
+        I[7]-=a.get_mass()*temp_y*temp_z
+
 
     tensor = numpy.array([(I[0:3]),(I[3:6]),(I[6:9])])
     vals,vects = numpy.linalg.eig(tensor) # they come out unsorted, so the command below is needed
@@ -138,13 +138,13 @@ NOTES
     elif int(scaling) == 2:
         normalizer = numpy.sqrt(max(ord_vals)/totmass)
         norm_vals = numpy.sqrt(ord_vals/totmass)
-        
+
 
     start=[x_com,y_com,z_com]
     ends=[[(norm_vals[0] - 1)*ord_vects[0][0],(norm_vals[0] - 1)*ord_vects[0][1],(norm_vals[0] - 1)*ord_vects[0][2]],
           [(norm_vals[1] - 1)*ord_vects[1][0],(norm_vals[1] - 1)*ord_vects[1][1],(norm_vals[1] - 1)*ord_vects[1][2]],
           [(norm_vals[2] - 1)*ord_vects[2][0],(norm_vals[2] - 1)*ord_vects[2][1],(norm_vals[2] - 1)*ord_vects[2][2]]]
-    
+
     cone_ends=[[norm_vals[0]*ord_vects[0][0],norm_vals[0]*ord_vects[0][1],norm_vals[0]*ord_vects[0][2]],
                [norm_vals[1]*ord_vects[1][0],norm_vals[1]*ord_vects[1][1],norm_vals[1]*ord_vects[1][2]],
                [norm_vals[2]*ord_vects[2][0],norm_vals[2]*ord_vects[2][1],norm_vals[2]*ord_vects[2][2]]]
@@ -153,5 +153,3 @@ NOTES
 
 
 cmd.extend("tensor", tensor)
-  
-

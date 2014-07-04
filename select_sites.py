@@ -40,7 +40,7 @@ ARGUMENTS
 
         if fname is None:
             for fname in ['%s.pdb' % (name),
-                    '%s/%s.pdb' % (cmd.get('fetch_path'), name)]:
+                          '%s/%s.pdb' % (cmd.get('fetch_path'), name)]:
                 if os.path.exists(fname):
                     break
             else:

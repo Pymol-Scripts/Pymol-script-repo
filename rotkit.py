@@ -65,18 +65,18 @@ def rotmat(angle,vectornorm,pointcoord):
     u,v,w = vectornorm
     a,b,c = pointcoord
     makerotmat = [(math.pow(u,2)+(math.pow(v,2)+math.pow(w,2))*math.cos(angle)),
-    (u*v*(1-math.cos(angle))-w*math.sin(angle)),
-    (u*w*(1-math.cos(angle))+v*math.sin(angle)),
-    ((a*(math.pow(v,2)+math.pow(w,2))-u*(b*v+c*w))*(1-math.cos(angle))+(b*w-c*v)*math.sin(angle)),
-    (u*v*(1-math.cos(angle))+w*math.sin(angle)),
-    (math.pow(v,2)+(math.pow(u,2)+math.pow(w,2))*math.cos(angle)),
-    (v*w*(1-math.cos(angle))-u*math.sin(angle)),
-    ((b*(math.pow(u,2)+math.pow(w,2))-v*(a*u+c*w))*(1-math.cos(angle))+(c*u-a*w)*math.sin(angle)),
-    (u*w*(1-math.cos(angle))-v*math.sin(angle)),
-    (v*w*(1-math.cos(angle))+u*math.sin(angle)),
-    (math.pow(w,2)+(math.pow(u,2)+math.pow(v,2))*math.cos(angle)),
-    ((c*(math.pow(u,2)+math.pow(v,2))-w*(a*u+b*v))*(1-math.cos(angle))+(a*v-b*u)*math.sin(angle)),
-    (0),(0),(0),(1),]
+                  (u*v*(1-math.cos(angle))-w*math.sin(angle)),
+                  (u*w*(1-math.cos(angle))+v*math.sin(angle)),
+                  ((a*(math.pow(v,2)+math.pow(w,2))-u*(b*v+c*w))*(1-math.cos(angle))+(b*w-c*v)*math.sin(angle)),
+                  (u*v*(1-math.cos(angle))+w*math.sin(angle)),
+                  (math.pow(v,2)+(math.pow(u,2)+math.pow(w,2))*math.cos(angle)),
+                  (v*w*(1-math.cos(angle))-u*math.sin(angle)),
+                  ((b*(math.pow(u,2)+math.pow(w,2))-v*(a*u+c*w))*(1-math.cos(angle))+(c*u-a*w)*math.sin(angle)),
+                  (u*w*(1-math.cos(angle))-v*math.sin(angle)),
+                  (v*w*(1-math.cos(angle))+u*math.sin(angle)),
+                  (math.pow(w,2)+(math.pow(u,2)+math.pow(v,2))*math.cos(angle)),
+                  ((c*(math.pow(u,2)+math.pow(v,2))-w*(a*u+b*v))*(1-math.cos(angle))+(a*v-b*u)*math.sin(angle)),
+                  (0),(0),(0),(1),]
     return(makerotmat)
 
 def rotateline(Pos1,Pos2,degangle,molecule):
@@ -130,7 +130,7 @@ def crosspoint(Pos1, crossprod):
     Imp1 = getxyz(Pos1)[0]
     Imp2 = getxyz(crossprod)[0]
     return([Imp1[0]+Imp2[0],Imp1[1]+Imp2[1],Imp1[2]+Imp2[2]])
-    
+
 def VectorToMatrix(Vector,MatColRank=4):
     try: import numpy
     except ImportError: from modules import numpy
@@ -164,7 +164,7 @@ def createdirs(dirname):
     if platform.system() == 'Linux': Newdir = os.getcwd()+"/%s/"%dirname
     if not os.path.exists(Newdir): os.makedirs(Newdir)
     return(Newdir)
-    
+
 def makehistogram(datalist,dataname="Histogram",datalistindex=2,nrbins=100,binrange=[0,0]):
     try: import numpy
     except ImportError: from modules import numpy
@@ -233,4 +233,3 @@ def makehistogram(datalist,dataname="Histogram",datalistindex=2,nrbins=100,binra
     fileout_write.close()
     gnuplot_write.close()
     return(DistHist)
-

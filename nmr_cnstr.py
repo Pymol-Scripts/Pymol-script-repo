@@ -16,51 +16,50 @@ See more here: http://www.pymolwiki.org/index.php/nmr_cnstr
 #                                                                                                            #
 ##############################################################################################################
 '''
- 
- 
-def upl(fname):
- 
-	f=open(fname,'r')
-	i=1
-	upl=f.readline()
-#
-	while upl!='':
- 
-		print upl,i
-		cns=string.split(upl)
-		cmd.dist('upl'+str(i),'i. '+cns[0]+' & n. '+cns[2],'i. '+cns[3]+' & n. '+cns[5])
-		upl=f.readline()
-		i+=1
-#
-	f.close()
-	cmd.hide('labels')
-	cmd.set ('dash_gap', 0.05)
-	cmd.do ("orient")
-	cmd.set ('movie_delay', 1500)
- 
-def cns(fname):
- 
-	f=open(fname,'r')
-	i=1
-	upl=f.readline()
-	print upl,i
-	while upl!='':
-		if upl=='\n': 
-			upl=f.readline()
-			continue
-		cns=string.split(upl)
-		print cns,i
-		if cns[0]=='assign' : 
-			print 'CNS'
-			if cns[5]=='HB*': print 'CNS***'
-			cmd.dist('upl'+str(i),'i. '+cns[2]+' & n. '+cns[5],'i. '+cns[7]+' & n. '+cns[10])
-		i+=1
-		upl=f.readline()
-		print '*'+upl+'*',i
- 
-	f.close()
-	cmd.set ('dash_gap', 0.05)
-	cmd.hide('labels')
-	cmd.do ("orient")
-	cmd.set ('movie_delay', 1500)
 
+
+def upl(fname):
+
+    f=open(fname,'r')
+    i=1
+    upl=f.readline()
+#
+    while upl!='':
+
+        print upl,i
+        cns=string.split(upl)
+        cmd.dist('upl'+str(i),'i. '+cns[0]+' & n. '+cns[2],'i. '+cns[3]+' & n. '+cns[5])
+        upl=f.readline()
+        i+=1
+#
+    f.close()
+    cmd.hide('labels')
+    cmd.set ('dash_gap', 0.05)
+    cmd.do ("orient")
+    cmd.set ('movie_delay', 1500)
+
+def cns(fname):
+
+    f=open(fname,'r')
+    i=1
+    upl=f.readline()
+    print upl,i
+    while upl!='':
+        if upl=='\n': 
+            upl=f.readline()
+            continue
+        cns=string.split(upl)
+        print cns,i
+        if cns[0]=='assign' : 
+            print 'CNS'
+            if cns[5]=='HB*': print 'CNS***'
+            cmd.dist('upl'+str(i),'i. '+cns[2]+' & n. '+cns[5],'i. '+cns[7]+' & n. '+cns[10])
+        i+=1
+        upl=f.readline()
+        print '*'+upl+'*',i
+
+    f.close()
+    cmd.set ('dash_gap', 0.05)
+    cmd.hide('labels')
+    cmd.do ("orient")
+    cmd.set ('movie_delay', 1500)

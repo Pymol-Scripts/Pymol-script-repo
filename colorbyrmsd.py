@@ -24,7 +24,7 @@ DESCRIPTION
 ARGUMENTS
 
     mobile = string: atom selection for mobile atoms
-    
+
     target = string: atom selection for target atoms
 
     doAlign = 0 or 1: Superpose selections before calculating distances

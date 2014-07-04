@@ -9,7 +9,7 @@ License: BSD-2-Clause
 from pymol import cmd, CmdException
 
 def poseview(ligand='organic inorganic', protein='polymer', width=0, height=0,
-        filename='', exe='poseview', state=-1, quiet=1):
+             filename='', exe='poseview', state=-1, quiet=1):
     '''
 DESCRIPTION
 
@@ -74,7 +74,7 @@ SETUP
             print ' poseview: running...'
 
         process = subprocess.Popen(args,
-                stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                   stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         stdout, _ = process.communicate()
 
         if not quiet:
@@ -93,4 +93,3 @@ SETUP
         shutil.rmtree(tempdir)
 
 cmd.extend('poseview', poseview)
-

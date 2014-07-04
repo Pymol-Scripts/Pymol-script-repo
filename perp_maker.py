@@ -45,13 +45,13 @@ See more here: http://www.pymolwiki.org/index.php/perp_maker
 import pymol
 import random
 from pymol.cgo import *
- 
+
 ############################################################
 #
 # Methods
 #
 ############################################################
- 
+
 #
 # Given the viewVector and center, creates a random sized plane
 # perpendicular to the viewVector through the origin.  It is then
@@ -59,54 +59,54 @@ from pymol.cgo import *
 # it dosen't cut the molecule/scene in half.
 #
 def getPPlane( viewVector, center, side_length=100 ):
-        """Returns a 3-tuple of 3D points representing the perp. plane."""
- 
-        # for reproduceable testing
-        #random.seed(10)
-        #
-        # The formula for a plane with our chacteristics is defined by
-        #
-        # A(x - x') + B(y - y') + C(y - y') + D = 0, where
-        # A, B and C are not all zero coefficients in the vector
-        # Ai + Bj + Ck such that the plane is perpendicular to this
-        # vector; x, y, and z are points on the plane; x', y', and z'
-        # are the coordiates through which the plane shall run.
-        #
- 
-        # This is fool-ass.  Gotta' be a better way to do this.
-        # Declaring that rVal is a 3-Tuple.
-        rVal = [ [], [], [], [], [], [] ]
- 
-        # Compose two triangles into a square.
-        # Never learned any GFX coding, so I'm sure there's something
-        # better than this; but, this works.
-        for i in range(0, 6):
-                if ( i == 0 ) or ( i == 5 ):
-                        x = -side_length + center[0]
-                        y = -side_length + center[1]
-                elif (i == 1):
-                        x = -side_length + center[0]
-                        y =  side_length + center[1]
-                elif ( i == 2 ) or ( i == 3 ):
-                        x = side_length + center[0]
-                        y = side_length + center[1]
-                elif ( i == 4):
-                        x = side_length + center[0]
-                        y = -side_length + center[1]
- 
-                if ( viewVector[2] != 0 ):
-                        z = -(((viewVector[0]*(x - center[0])) - (viewVector[1]*(y - center[1]))) /
-viewVector[2]) + center[2]
- 
-                else:
-                        print "Z-component of viewVector is zero.  Now, I need a nonzero value here \
+    """Returns a 3-tuple of 3D points representing the perp. plane."""
+
+    # for reproduceable testing
+    #random.seed(10)
+    #
+    # The formula for a plane with our chacteristics is defined by
+    #
+    # A(x - x') + B(y - y') + C(y - y') + D = 0, where
+    # A, B and C are not all zero coefficients in the vector
+    # Ai + Bj + Ck such that the plane is perpendicular to this
+    # vector; x, y, and z are points on the plane; x', y', and z'
+    # are the coordiates through which the plane shall run.
+    #
+
+    # This is fool-ass.  Gotta' be a better way to do this.
+    # Declaring that rVal is a 3-Tuple.
+    rVal = [ [], [], [], [], [], [] ]
+
+    # Compose two triangles into a square.
+    # Never learned any GFX coding, so I'm sure there's something
+    # better than this; but, this works.
+    for i in range(0, 6):
+        if ( i == 0 ) or ( i == 5 ):
+            x = -side_length + center[0]
+            y = -side_length + center[1]
+        elif (i == 1):
+            x = -side_length + center[0]
+            y =  side_length + center[1]
+        elif ( i == 2 ) or ( i == 3 ):
+            x = side_length + center[0]
+            y = side_length + center[1]
+        elif ( i == 4):
+            x = side_length + center[0]
+            y = -side_length + center[1]
+
+        if ( viewVector[2] != 0 ):
+            z = -(((viewVector[0]*(x - center[0])) - (viewVector[1]*(y - center[1]))) /
+                  viewVector[2]) + center[2]
+
+        else:
+            print "Z-component of viewVector is zero.  Now, I need a nonzero value here \
 so I'm just making one up. :)"
-                        z = random.randint(-200, 200)
- 
-                rVal[i] = [x, y, z]
- 
-        return rVal
- 
+            z = random.randint(-200, 200)
+
+        rVal[i] = [x, y, z]
+
+    return rVal
+
 ############################################################
 #
 # End methods
@@ -125,43 +125,43 @@ DESCRIPTION
     view = cmd.get_view()
     camera = [ view[9], view[10], view[11] ]
     center = [ view[12], view[13], view[14] ]
- 
+
 # Sanity check
     if not quiet:
         print "Camera is: " + str(camera)
         print "Center is: " + str(center)
- 
+
 # Create the vector through the two points directed
 # from the camera to the center - the viewVector
     viewVector = [ center[0] - camera[0],
-                           center[1] - camera[1],
-                           center[2] - camera[2] ]
- 
+                   center[1] - camera[1],
+                   center[2] - camera[2] ]
+
     if not quiet:
         print "ViewVector is: " + str(viewVector)
- 
+
 # Create the plane perpendicular to the viewVector
 # running through the origin
     pPlane = getPPlane( viewVector, center, side_length=100 )
     if not quiet:
         print "Plane points calculated as: " + str(pPlane)
- 
+
 # now create the CGO and load from the points
     obj = [
         BEGIN, TRIANGLES,
         COLOR, 0.2, 0.4, 1,
- 
+
         VERTEX, pPlane[0][0], pPlane[0][1], pPlane[0][2],
         VERTEX, pPlane[1][0], pPlane[1][1], pPlane[1][2],
         VERTEX, pPlane[2][0], pPlane[2][1], pPlane[2][2],
- 
+
         VERTEX, pPlane[3][0], pPlane[3][1], pPlane[3][2],
         VERTEX, pPlane[4][0], pPlane[4][1], pPlane[4][2],
         VERTEX, pPlane[5][0], pPlane[5][1], pPlane[5][2],
- 
+
         END
-        ]
- 
+    ]
+
     cmd.load_cgo( obj, name )
     cmd.set_view( view )
 

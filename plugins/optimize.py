@@ -26,9 +26,9 @@ except:
 def __init__(self):
     """Add this Plugin to the PyMOL menu"""
     self.menuBar.addmenuitem('Plugin', 'command',
-                            'Optimize',
-                            label = 'Optimize',
-                            command = lambda : mainDialog())
+                             'Optimize',
+                             label = 'Optimize',
+                             command = lambda : mainDialog())
 
 
 def mainDialog():
@@ -44,8 +44,8 @@ def mainDialog():
         cut_elec = float(entry_elec.get())
         selection = sel_value.get()
         minimize(selection, forcefield, method, nsteps, conv, cutoff, cut_vdw, cut_elec)
-        
-        
+
+
     def set_conf_search():
         forcefield = ff_value.get()
         conf_method = conf_method_value.get()
@@ -59,8 +59,8 @@ def mainDialog():
     master = Tk()
     master.title(' Optimize ')
     w = Tkinter.Label(master, text="\nOptimize: Let's find that minimum!\n",
-                                background = 'black',
-                                foreground = 'white')
+                      background = 'black',
+                      foreground = 'white')
     w.pack(expand=1, fill = 'both', padx=4, pady=4)
 ############################ NoteBook #########################################
     Pmw.initialise()
@@ -76,22 +76,22 @@ def mainDialog():
     ff_value = StringVar(master=group.interior())
     ff_value.set('MMFF94s')
     Pmw.OptionMenu(group.interior(),
-                labelpos = 'w',
-                label_text = 'Force Field',
-                menubutton_textvariable = ff_value,
-                items = ['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
-                menubutton_width = 15,
-        ).grid(row=0, columnspan=2)
+                   labelpos = 'w',
+                   label_text = 'Force Field',
+                   menubutton_textvariable = ff_value,
+                   items = ['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
+                   menubutton_width = 15,
+                   ).grid(row=0, columnspan=2)
 # Method
     method_value = StringVar(master=group.interior())
     method_value.set('Conjugate Gradients')
     Pmw.OptionMenu(group.interior(),
-                labelpos = 'w',
-                label_text = '   Method  ',
-                menubutton_textvariable = method_value,
-                items = ['Conjugate Gradients', 'Steepest Descent'],
-                menubutton_width = 15,
-        ).grid(row=1, columnspan=2)
+                   labelpos = 'w',
+                   label_text = '   Method  ',
+                   menubutton_textvariable = method_value,
+                   items = ['Conjugate Gradients', 'Steepest Descent'],
+                   menubutton_width = 15,
+                   ).grid(row=1, columnspan=2)
     Label(group.interior(), text='steps').grid(row=2, column=0)
     nsteps = StringVar(master=group.interior())
     nsteps.set(500)
@@ -120,7 +120,7 @@ def mainDialog():
     cutoff_value.set(False)
     Radiobutton(group.interior(), text='No cutoff ', variable=cutoff_value, value=False, command=disable_entry).grid(row=5, columnspan=3)
     Radiobutton(group.interior(), text='Use cutoff', variable=cutoff_value, value=True,
-command=enable_entry).grid(row=6, columnspan=3)
+                command=enable_entry).grid(row=6, columnspan=3)
     Label(group.interior(), text='Van der Waals').grid(row=7, column=0)
     vdw_value = StringVar(master=group.interior())
     vdw_value.set(6.0)
@@ -145,23 +145,23 @@ command=enable_entry).grid(row=6, columnspan=3)
     ff_value = StringVar(master=group.interior())
     ff_value.set('MMFF94s')
     Pmw.OptionMenu(group.interior(),
-                labelpos = 'w',
-                label_text = 'Force Field',
-                menubutton_textvariable = ff_value,
-                items = ['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
-                menubutton_width = 15,
-        ).grid(row=0, columnspan=2)
+                   labelpos = 'w',
+                   label_text = 'Force Field',
+                   menubutton_textvariable = ff_value,
+                   items = ['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
+                   menubutton_width = 15,
+                   ).grid(row=0, columnspan=2)
 # Method
     conf_method_value = StringVar(master=group.interior())
     conf_method_value.set('Weighted')
     Pmw.OptionMenu(group.interior(),
-                labelpos = 'w',
-                label_text = '   Method  ',
-                menubutton_textvariable = conf_method_value,
-                items = ['Weighted', 'Random', 'Systematic'],
-                menubutton_width = 15,
-                command = enable_disable_entry,
-        ).grid(row=1, columnspan=2)
+                   labelpos = 'w',
+                   label_text = '   Method  ',
+                   menubutton_textvariable = conf_method_value,
+                   items = ['Weighted', 'Random', 'Systematic'],
+                   menubutton_width = 15,
+                   command = enable_disable_entry,
+                   ).grid(row=1, columnspan=2)
     Label(group.interior(), text='steps').grid(row=2, column=0)
     nsteps = StringVar(master=group.interior())
     nsteps.set(500)

@@ -26,7 +26,7 @@ ARGUMENTS
     start, quiet = int(start), int(quiet)
     model = cmd.get_model(selection)
     cmd.iterate(selection, 'atom_it.next().model = model',
-            space={'atom_it': iter(model.atom)})
+                space={'atom_it': iter(model.atom)})
     if startsele is not None:
         startidx = cmd.index('first (' + startsele + ')')[0]
         for atom in model.atom:
@@ -62,7 +62,7 @@ ARGUMENTS
                 traverse(other, resi)
     traverse(startatom, start)
     cmd.alter(selection, 'resi = atom_it.next().resi',
-            space={'atom_it': iter(model.atom)})
+              space={'atom_it': iter(model.atom)})
     if not quiet:
         print ' Renumber: range (%d to %d)' % tuple(minmax)
 

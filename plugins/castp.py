@@ -6,23 +6,23 @@ def __init__(self):
     self.menuBar.addcascademenu('Plugin', 'MyPlugin', 'CASTp file selection',
                                 label='CASTp pocket loader'
                                 )
-   
+
     self.menuBar.addmenuitem('MyPlugin', 'command',
-                     'Remote PDB',
-                       label='CASTp by PDB code',
-                        command = lambda s=self : RemotePDB(s) )
-                      
+                             'Remote PDB',
+                             label='CASTp by PDB code',
+                             command = lambda s=self : RemotePDB(s) )
+
     self.menuBar.addmenuitem('MyPlugin', 'command', 'Get Job ID', label='CASTp by Job ID',
                              command = lambda s=self : RemoteJob(s) )
-    
+
     self.menuBar.addmenuitem('MyPlugin', 'command',
-                      'Local PDB',
-                        label='CASTp from local files',
-                        command = lambda s=self : LocalPDB(s) )
+                             'Local PDB',
+                             label='CASTp from local files',
+                             command = lambda s=self : LocalPDB(s) )
 
     self.menuBar.addcascademenu('MyPlugin', 'MyFeedback', 'FeedbackForm', label='Feedback/Bugs')
     self.menuBar.addmenuitem('MyFeedback','command', label='Leave Feedback', command = lambda s=self : Feedback(s) )
-     
+
 
 class Feedback:
     def __init__(self,app):
@@ -31,30 +31,30 @@ class Feedback:
         import urllib
 #        import tkCommonDiaglog
         top = Tk()
-        
+
         F = Frame(top)
         F.pack()
-        
+
         topLab = Label(F, text="CASTp PyMOL plug-in feedback")
         topLab.pack(padx=200)
         lHello = Label(F, text="Thank-you, your feedback is important to us!")
         lHello.pack(padx=200)
-        
+
         A=Frame(top)
         A.pack()
         iAm = Label(A,text="I am a : ")
         aQuit = Button(A,text="Quit",command=A.quit)
         iAm.pack(side="left")
         aQuit.pack(side="left")
-        
+
         B=Frame(top)
         B.pack()
         iUse = Label(B,text="I use the plug-in mainly for:")
         bQuit = Button(B, text="Quit", command=top.quit)
         iUse.pack(side="left")
         bQuit.pack(side="left")
-        
-        
+
+
 
 #######################################################################################################
 # Get pocket information from CASTp web server database.                                              #
@@ -75,12 +75,12 @@ class RemotePDB:
         pocfile = ''
         infofile = ''
         jobid = ''
-        
+
         # Gave a bad PDB code!  PDB codes must be [a-z0-9A-Z]{4}        
         if sizeof != 4 and sizeof != 5:
             tkMessageBox.showerror('Oops', remote_file + ' does not appear to be a PDB code', parent=app.root)   
             noerror = 0
-        
+
         # Get Pocket information from CASTp web server!  Size 4 : full structure file
         # Size 5 : a single chain structure file
         if sizeof == 4:
@@ -91,7 +91,7 @@ class RemotePDB:
             path = 'http://sts.bioengr.uic.edu/castp/cast/' + pdir + '/' + remote_file + '.pdb'
             pocpath = 'http://sts.bioengr.uic.edu/castp/cast/' + pdir + '/' + remote_file + '.poc'
             infopath = 'http://sts.bioengr.uic.edu/castp/cast/' + pdir + '/' + remote_file + '.pocInfo'
-        
+
         if sizeof == 5:
             pdbcode = remote_file[0:4]
             chident = remote_file[4:5]
@@ -102,7 +102,7 @@ class RemotePDB:
             path = 'http://sts.bioengr.uic.edu/castp/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.pdb'
             pocpath = 'http://sts.bioengr.uic.edu/castp/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.poc'
             infopath = 'http://sts.bioengr.uic.edu/castp/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.pocInfo'
-        
+
         # Try to retrieve the files if there are no previous errors.
         if noerror:
             pdbfile = urllib.urlretrieve(path)[0]
@@ -112,12 +112,12 @@ class RemotePDB:
             if(os.path.getsize(pdbfile) < 400 or os.path.getsize(pocfile) < 400 or os.path.getsize(infofile) < 400):
                 emessage = pdbcode + ' is not in the CASTp database'
                 noerror = 0
-        
+
         if noerror == 0:
             tkMessageBox.showerror('Sorry', emessage, parent=app.root)            
 
         if noerror:
-            
+
             # Write the contents of the pdb file to a local file. #########
             pdbin = open(pdbfile, 'r')
             pdbout = os.path.dirname(pdbfile) + os.sep + jobid + '.pdb'
@@ -146,7 +146,7 @@ class RemotePDB:
 
             pocin.close()
             ##############################################################
-            
+
             # Read the .poc file.  Load the atom's of the pockets into the corresponding
             # pocket in pocDict (key = pocket number).
             pocin = open(pocfile, "r")
@@ -163,13 +163,13 @@ class RemotePDB:
 
             pocin.close()
             ##############################################################################
-            
+
             # Remove the .poc, .pocInfo and pdb file from the users temporary directory.
             os.remove(pocfile)
             os.remove(infofile)
             os.remove(pdbout)
             #############################################################################
-         
+
             # Make an array of the pocket numbers and sort them by pocket number.
             #  Reverse the order of the sort (like CASTp webserver) such that
             #  the larger pockets will be listed first.
@@ -177,16 +177,16 @@ class RemotePDB:
             pids.sort()
             pids.reverse()
             #####################################################################
- 
 
-            
+
+
             # Load the pocket information into pyMOL!  This section is a little messy.
             #  There is a bug!  If there are too many atoms in the pocket, it can't load
             #  them all.  Need to find a way around this.
             #  Fix 1:  I reduced entries such as atom nums 1,2,3,4,5 to 1-5.  This helps,
             #          but doesn't completely fix the problem.
             counter = 0
-            
+
             for idp in pids:  # for each pocket number (sorted)
                 pid = str(idp)
                 vls = pocDict[pid].split('+')
@@ -194,7 +194,7 @@ class RemotePDB:
                 stnumgrps = str(numgrps)
                 currAtms = {}
                 counter = 0
-                
+
                 # For each atom in the current pocket, push the atoms into an
                 # array 'currAtms'.  Sort this array.
                 for vl in vls:
@@ -205,7 +205,7 @@ class RemotePDB:
                 atms = currAtms.values()
                 atms.sort()
                 #############################################################
-                
+
                 # Here I create a new representation of the atoms.
                 # If there are a group of ungapped sequential atoms
                 #  I represent them as the x-y, where x is the smallest
@@ -222,7 +222,7 @@ class RemotePDB:
                         newsel = str(atms[i])
                     else:
                         newsel = newsel + "+" + str(atms[i])
-        
+
                     if i%50 == 0 and i != 0:
                         Scntr = str(SelectionCntr)
                         tempPocket = "Pocket_" + pid + "_" + Scntr
@@ -230,7 +230,7 @@ class RemotePDB:
                         SelectionCntr = SelectionCntr + 1
                         cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
                         newsel = ""            
-            
+
                 if newsel != "":
                     Scntr = str(SelectionCntr)
                     tempPocket = "Pocket_" + pid + "_" + Scntr
@@ -239,15 +239,15 @@ class RemotePDB:
                     cmd.do("select " + tempPocket + ", id " + newsel + ",0,1")
 #                    cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
                     newsel = ""                    
-                
+
                 generalSelect = "select Pocket_" + pid + ", "
-                
+
                 for i in range(len(currSelections)):
                     if i==0:
                         generalSelect = generalSelect + currSelections[i]
                     else:
                         generalSelect = generalSelect + " or " + currSelections[i]
-                
+
                 generalSelect = generalSelect + ",1,1"
                 cmd.do(generalSelect)
                 for i in range(len(currSelections)):
@@ -256,9 +256,9 @@ class RemotePDB:
                 cmd.do("refresh")
                 counter = counter + 1
                 ###################################################
-                
+
             ################################################################################################
-            
+
 ############################################################################################################
 # Get pocket information from the CASTp web server by job ID                                               #
 ############################################################################################################
@@ -276,7 +276,7 @@ class RemoteJob:
             pocInfofile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.pocInfo')[0]
            # mouthfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.mouth')[0]
            # mouthInfofile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.mouthInfo')[0]
-                                         
+
         else:
             os.remove(pdbfile)
             pdbfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/uploads/' + jobid + '.pdb')[0]
@@ -299,7 +299,7 @@ class RemoteJob:
         pocNums = {}
         pocDict = {}
         pocin = open(pocInfofile, "r")
-        
+
         for line in pocin:
             stuff = line[12:16]
             stuff = stuff.strip()
@@ -326,7 +326,7 @@ class RemoteJob:
         os.remove(pocInfofile)
         os.remove(pdbout)
         pids = pocNums.values()
-            
+
         pids.sort()
         pids.reverse()
         counter = 0
@@ -360,7 +360,7 @@ class RemoteJob:
                     SelectionCntr = SelectionCntr + 1
                     cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
                     newsel = ""            
-            
+
             if newsel != "":
                 Scntr = str(SelectionCntr)
                 tempPocket = "Pocket_" + pid + "_" + Scntr
@@ -369,15 +369,15 @@ class RemoteJob:
                 cmd.do("select " + tempPocket + ", id " + newsel + ",0,1")
 #                cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
                 newsel = ""                    
-                
+
             generalSelect = "select Pocket_" + pid + ", "
-            
+
             for i in range(len(currSelections)):
                 if i==0:
                     generalSelect = generalSelect + currSelections[i]
                 else:
                     generalSelect = generalSelect + " or " + currSelections[i]
-            
+
             generalSelect = generalSelect + ",1,1"
             cmd.do(generalSelect)
             for i in range(len(currSelections)):
@@ -408,7 +408,7 @@ class LocalPDB:
         pocNums = {}
         pocDict = {}
         pocin = open(pocInfofile, "r")
-        
+
         for line in pocin:
             stuff = line[12:16]
             stuff = stuff.strip()
@@ -435,7 +435,7 @@ class LocalPDB:
 #        os.remove(pocInfofile)
 #        os.remove(pdbout)
         pids = pocNums.values()
-           
+
         pids.sort()
         pids.reverse()
         counter = 0
@@ -451,7 +451,7 @@ class LocalPDB:
 
             atms = currAtms.values()
             atms.sort()
-            
+
             numgrps = int(len(vls)/5)  # attempt to make groups of atoms
             newsel = ''
             beg = ''
@@ -470,7 +470,7 @@ class LocalPDB:
                     SelectionCntr = SelectionCntr + 1
                     cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
                     newsel = ""            
-            
+
             if newsel != "":
                 Scntr = str(SelectionCntr)
                 tempPocket = "Pocket_" + pid + "_" + Scntr
@@ -479,15 +479,15 @@ class LocalPDB:
                 cmd.do("select " + tempPocket + ", id " + newsel + ",0,1")
 #                cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
                 newsel = ""                    
-                
+
             generalSelect = "select Pocket_" + pid + ", "
-            
+
             for i in range(len(currSelections)):
                 if i==0:
                     generalSelect = generalSelect + currSelections[i]
                 else:
                     generalSelect = generalSelect + " or " + currSelections[i]
-            
+
             generalSelect = generalSelect + ",1,1"
             cmd.do(generalSelect)
             for i in range(len(currSelections)):
@@ -495,5 +495,3 @@ class LocalPDB:
                 cmd.do(remove)
             cmd.do("refresh")
             counter = counter + 1
-
-

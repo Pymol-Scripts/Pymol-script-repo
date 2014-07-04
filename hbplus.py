@@ -26,7 +26,7 @@ DESCRIPTION
         for model in cmd.get_object_list('(' + selection + ')'):
             cmd.save(pdbfile, 'model %s and (%s)' % (model, selection), state)
             process = subprocess.Popen([exe, pdbfile], cwd=tempdir,
-                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+                                       stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             stdout, _ = process.communicate()
 
             if not quiet:

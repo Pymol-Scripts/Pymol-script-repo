@@ -5,14 +5,14 @@ plugin contributed by Philippe Garteiser garteiserp@omrf.org
 from Tkinter import *
 from pymol import cmd
 import tkSimpleDialog
- 
+
 def __init__(self):
     # Simply add the menu entry and callback
     self.menuBar.addmenuitem('Plugin', 'command',
-                                     'resicolor',
-                                     label = 'resicolor',
-                                     command = lambda s=self : getselection(s))
- 
+                             'resicolor',
+                             label = 'resicolor',
+                             command = lambda s=self : getselection(s))
+
 def resicolor(selection):
     if selection:   # None is returned for user cancel
         cmd.select ('calcium','resn ca or resn cal')
@@ -36,9 +36,9 @@ def resicolor(selection):
         word='color white,backbone &'+selection
         print word
         cmd.do (word)
- 
+
 def getselection(app):
     selection=tkSimpleDialog.askstring('resicolor',
-                                              'Please enter a selection',
-                                              parent=app.root)
+                                       'Please enter a selection',
+                                       parent=app.root)
     resicolor(selection)

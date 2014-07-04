@@ -32,7 +32,7 @@ import  wx.lib.mixins.listctrl  as  listmix
 ####################################################################################################
 class trilat(wx.Frame):
     ''''''
-    
+
     #-----------------------------------------------------------------------------------------------
     def __init__(self, parent, ID, title):
         ''''''
@@ -76,7 +76,7 @@ class trilat(wx.Frame):
         self.spheresTransparency = 0.3
         self.ellipsoidTransparency = 0.0
         self.confidenceLevel = 1
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnImportParam(self, msg):
         '''Import parameters fron Preferences menu'''
@@ -92,18 +92,18 @@ class trilat(wx.Frame):
         self.ellipsoidColor = msg.data[9]
         self.ellipsoidTransparency = msg.data[10]
         self.confidenceLevel = msg.data[11]
-        
+
     #-----------------------------------------------------------------------------------------------     
     def UserInterface(self):
         '''Graphical User Interface'''
         panel = wx.Panel(self, -1)
         panel.SetFont( wx.Font(9, wx.DEFAULT, wx.NORMAL, wx.NORMAL) )
-        
+
         # MAIN SIZER
         sizer = wx.GridBagSizer(hgap=1, vgap=1)
         sizer.AddGrowableCol(1)
         panel.SetSizer(sizer)
-        
+
         # INPUT BOX
         inputBox = wx.StaticBox(panel, label='')
         sizerI1 = wx.StaticBoxSizer(inputBox, wx.VERTICAL)
@@ -201,7 +201,7 @@ class trilat(wx.Frame):
         clearInput.Bind(wx.EVT_BUTTON, self.OnClearInput)
         sizerI13.Add(clearInput, flag=wx.LEFT, border=10)
         sizerI1.Add(sizerI13, proportion=0, flag=wx.ALIGN_CENTER_HORIZONTAL|wx.ALL, border=10)
-        
+
         # OUTPUT BOX
         outputBox = wx.StaticBox(panel, label='')
         sizerO1 = wx.StaticBoxSizer(outputBox, wx.VERTICAL)
@@ -318,10 +318,10 @@ class trilat(wx.Frame):
         menubar.Append(pymolMenu, '&PyMOL')
         menubar.Append(helpMenu, '&Help')
         self.SetMenuBar(menubar)
-        
+
         # CREATE STATUS BAR
         self.statusbar = self.CreateStatusBar()
-        
+
     #-----------------------------------------------------------------------------------------------
     def OnInputTableCellSelect(self, event):
         '''Reads the number of selected cell'''
@@ -333,9 +333,9 @@ class trilat(wx.Frame):
             self.table.Refresh()
             # Set number of current label
             self.curLabel = curRow - 2
-        
+
         event.Skip()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnInputTableCellChange(self, event):
         '''Saves the data entered to the table in input arrays'''
@@ -382,9 +382,9 @@ class trilat(wx.Frame):
         self.UpdateInputTable() 
         # Input data doesn't accepted
         self.inputAccepted = False   
-        
+
         event.Skip()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnLoadCoordFromFile(self, event):
         '''Loads label coordinates from data file'''
@@ -405,9 +405,9 @@ class trilat(wx.Frame):
             self.inputAccepted = False
             # Statusbar message
             self.statusbar.SetStatusText('Coordinates of label no. '+str(self.curLabel+1)+' were imported from data file! Click "Accept" button after all input data has been entered.')
-            
+
         event.Skip()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnLoadDistFromFile(self, event):
         '''Load the distance from data file'''
@@ -430,9 +430,9 @@ class trilat(wx.Frame):
             self.inputAccepted = False
             # Statusbar message
             self.statusbar.SetStatusText('Distance between target and label no. '+str(self.curLabel+1)+' was imported from data file! Click "Accept" button after all input data has been entered.')
-                      
+
         event.Skip()
- 
+
     #-----------------------------------------------------------------------------------------------
     def UpdateInputTable(self):
         '''Fills in the table by data'''
@@ -465,7 +465,7 @@ class trilat(wx.Frame):
             else:
                 for j in range(1,6):
                     self.table.SetCellBackgroundColour(i+2, j, wx.WHITE)
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnAcceptInput(self, event):
         '''Accepts input data if input data is correct'''
@@ -480,19 +480,19 @@ class trilat(wx.Frame):
                 tempLabelCoordStd = self.labelCoordMean[N]
                 tempDistMean = self.distMean[N]
                 tempDistStd = self.distStd[N]
-                
+
                 self.labelNames[N] = self.labelNames[i]
                 self.labelCoordMean[N] = self.labelCoordMean[i]
                 self.labelCoordStd[N] = self.labelCoordStd[i]
                 self.distMean[N] = self.distMean[i]
                 self.distStd[N] = self.distStd[i]
-                
+
                 self.labelNames[i] = tempLabelName
                 self.labelCoordMean[i] = tempLabelCoordMean
                 self.labelCoordStd[i] = tempLabelCoordStd
                 self.distMean[i] = tempDistMean
                 self.distStd[i] = tempDistStd
-                
+
                 N += 1
         # Update table
         self.UpdateInputTable()
@@ -510,7 +510,7 @@ class trilat(wx.Frame):
             # Statusbar message
             self.statusbar.SetStatusText('The Number of the determined labels should be more than 3 to start the calculations!')   
         event.Skip()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnClearInput(self, event):
         '''Clears all input data '''
@@ -526,9 +526,9 @@ class trilat(wx.Frame):
         self.UpdateInputTable()
         # Input data doesn't accepted
         self.inputAccepted = False 
-             
+
         event.Skip() 
-        
+
     #-----------------------------------------------------------------------------------------------  
     def OnCompute(self, event):
         '''Computes target coordinates'''
@@ -586,7 +586,7 @@ class trilat(wx.Frame):
             self.numOfIterBox.SetValue( '{0:d}'.format(self.numOfIter) )
 
         event.Skip()    
-        
+
     #----------------------------------------------------------------------------------------------- 
     def OnClearOutput(self, event):
         '''Clear all output data '''
@@ -608,9 +608,9 @@ class trilat(wx.Frame):
             cmd.delete('target')
         except:
             pass
-        
+
         event.Skip()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnImportCoordFromPymol(self, event):
         '''Import list of labels from current PyMOL session'''
@@ -624,9 +624,9 @@ class trilat(wx.Frame):
             self.labelList.Append(key)
         # Statusbar message
         Publisher().sendMessage(('change_statusbar'), 'Choose label and push "Load".')
-        
+
         event.Skip()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnLoadFromPymol(self, event):
         '''Import names and coordinates of labels from PyMOL'''
@@ -648,13 +648,13 @@ class trilat(wx.Frame):
         # Statusbar message
         self.statusbar.SetStatusText('Coordinates of '+s+' label were imported from PyMOL. Click "Accept" button after all input data has been entered.')
         #except:
-            # Statusbar message
-            #self.statusbar.SetStatusText('No label was chosen!')
+        # Statusbar message
+        #self.statusbar.SetStatusText('No label was chosen!')
         # Input data doesn't accepted
         self.inputAccepted = False
-        
+
         event.Skip()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnExportToPymol(self, event):
         '''Creates a plot in PyMOL'''
@@ -673,9 +673,9 @@ class trilat(wx.Frame):
                               self.ellipsoidColor,self.ellipsoidTransparency)
             except:
                 pass
-        
+
         event.Skip()
-    
+
     #----------------------------------------------------------------------------------------------- 
     def OnSave(self, event):
         '''Saves current session'''
@@ -744,7 +744,7 @@ line 5: Obtained number of iterations'''
                 # Statusbar message
                 self.statusbar.SetStatusText('Current session is saved!')
             dialog.Destroy()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnOpen(self, event):
         '''Opens saved session'''
@@ -812,7 +812,7 @@ line 5: Obtained number of iterations'''
             # Statusbar message
             self.statusbar.SetStatusText('Nothing was selected!')
         dlg.Destroy()
-    
+
     #----------------------------------------------------------------------------------------------- 
     def OnClose(self, event):
         '''Close current session'''
@@ -848,9 +848,9 @@ line 5: Obtained number of iterations'''
             cmd.delete('target')
         except:
             pass
-        
+
         event.Skip()        
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnOpenPref(self, event):
         '''Preferences menu'''
@@ -860,12 +860,12 @@ line 5: Obtained number of iterations'''
                                 self.spheresColor,self.spheresTransparency,self.ellipsoidColor,self.ellipsoidTransparency,
                                 self.confidenceLevel)
         prefFrame.Show()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnExit(self, event):
         '''Close program'''
         self.Close()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnLoad(self, event):
         '''Load new structure to PyMOL'''
@@ -882,16 +882,16 @@ line 5: Obtained number of iterations'''
         else:
             # Statusbar message
             self.statusbar.SetStatusText('Nothing was selected.')
-        
+
         dialog.Destroy()
-            
+
     #-----------------------------------------------------------------------------------------------
     def OnRemove(self, event):
         '''Remove current structure from PyMOL'''
         cmd.delete("all")
         # Statusbar message
         self.statusbar.SetStatusText('Current structure was removeded from PyMOL!')
-        
+
     #-----------------------------------------------------------------------------------------------
     def OnRunMtsslWizard(self, event):
         '''Run MtsslWizard'''
@@ -902,7 +902,7 @@ line 5: Obtained number of iterations'''
             cmd.set_wizard(wiz)
         except:
             pass
-    
+
     #-----------------------------------------------------------------------------------------------   
     def OnAbout(self, event):
         '''Programs info'''
@@ -922,7 +922,7 @@ Foundation. See the GNU General Public License for more details."""
         info.SetLicence(licence)
         wx.AboutBox(info)
 
-   
+
 ####################################################################################################
 class ListCtrlLeft(wx.ListCtrl):
     '''Content of Preferences menu'''
@@ -938,14 +938,14 @@ class ListCtrlLeft(wx.ListCtrl):
         titles = ['Otput data', 'Calculations', 'Input data']
         for i in titles:
             self.InsertStringItem(0, i)
-            
+
     #-----------------------------------------------------------------------------------------------            
     def OnSize(self, event):
         ''''''
         size = self.parent.GetSize()
         self.SetColumnWidth(0, size.x-5)
         event.Skip()
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnSelect(self, event):
         ''''''
@@ -956,7 +956,7 @@ class ListCtrlLeft(wx.ListCtrl):
 ####################################################################################################
 class ListCtrlRight(wx.grid.Grid):
     '''Names and values of parameters'''
-    
+
     #-----------------------------------------------------------------------------------------------
     def __init__(self, parent, id,
                  coordFactor, distFactor,
@@ -978,7 +978,7 @@ class ListCtrlRight(wx.grid.Grid):
         self.OnParamInit(coordFactor, distFactor,
                          calcMode,maxNumOfIter,minChiSquare,lambdaFirst,lambdaStep,
                          spheresColor,spheresTransparency,ellipsoidColor,ellipsoidTransparency,confidenceLevel)
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnParamInit(self,
                     coordFactor, distFactor,
@@ -991,18 +991,18 @@ class ListCtrlRight(wx.grid.Grid):
             colorLine1 += str( int(spheresColor[i]*255.0) ) + ' '
             colorLine2 += str( int(ellipsoidColor[i]*255.0) ) + ' '
         self.param = {
-        'input': [['Multiply the coordinates loaded from data file by factor of', coordFactor],
-                  ['Multiply the distances loaded from data file by factor of', distFactor]],
-        'calc': [['Inverse-Hessian method (0) vs Lavenberg-Marquardt method (1)', calcMode],
-                 ['Maximal number of iterations', maxNumOfIter],
-                 ['Minimal chi-square value', minChiSquare],
-                 ['Initial lambda (for Lavenberg-Marquardt method only)', lambdaFirst],
-                 ['Lambda increment (for Lavenberg-Marquardt method only)', lambdaStep]],
-        'output': [['Color of <trilateration> graphical object (RGB)', colorLine1],
-                   ['Transparency of <trilateration> graphical object', spheresTransparency],
-                   ['Color of <target> graphical object (RGB)', colorLine2],
-                   ['Transparency of <target> graphical object', ellipsoidTransparency],
-                   ['Confidence level', confidenceLevel]]
+            'input': [['Multiply the coordinates loaded from data file by factor of', coordFactor],
+                      ['Multiply the distances loaded from data file by factor of', distFactor]],
+            'calc': [['Inverse-Hessian method (0) vs Lavenberg-Marquardt method (1)', calcMode],
+                     ['Maximal number of iterations', maxNumOfIter],
+                     ['Minimal chi-square value', minChiSquare],
+                     ['Initial lambda (for Lavenberg-Marquardt method only)', lambdaFirst],
+                     ['Lambda increment (for Lavenberg-Marquardt method only)', lambdaStep]],
+            'output': [['Color of <trilateration> graphical object (RGB)', colorLine1],
+                       ['Transparency of <trilateration> graphical object', spheresTransparency],
+                       ['Color of <target> graphical object (RGB)', colorLine2],
+                       ['Transparency of <target> graphical object', ellipsoidTransparency],
+                       ['Confidence level', confidenceLevel]]
         }
     #-----------------------------------------------------------------------------------------------
     def LoadData(self, index):
@@ -1035,7 +1035,7 @@ class ListCtrlRight(wx.grid.Grid):
             self.SetCellValue(i, 0, data[i][0])
             self.SetCellValue(i, 1, str(data[i][1]))
             self.SetReadOnly(i, 0, isReadOnly=True)
-            
+
     #-----------------------------------------------------------------------------------------------
     def OnTableCellChange(self, event):
         ''''''
@@ -1067,13 +1067,13 @@ class ListCtrlRight(wx.grid.Grid):
                 self.param['output'][3][1] = float(self.GetCellValue(row,1))
             elif row == 4:
                 self.param['output'][4][1] = int(self.GetCellValue(row,1))
-        
+
         event.Skip()
 
 ####################################################################################################        
 class Preferences(wx.Frame):
     '''Preferences menu'''
-    
+
     #-----------------------------------------------------------------------------------------------
     def __init__(self, parent, 
                  coordFactor, distFactor,
@@ -1086,7 +1086,7 @@ class Preferences(wx.Frame):
 
         mbox = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(mbox)
-        
+
         splitter = wx.SplitterWindow(self, -1, style=wx.SP_LIVE_UPDATE|wx.SP_NOBORDER)
         mbox.Add(splitter, 1, wx.EXPAND)
 
@@ -1112,11 +1112,11 @@ class Preferences(wx.Frame):
 
         vbox1.Add(panel11, 0, wx.EXPAND)
         vbox1.Add(panel12, 1, wx.EXPAND)
-        
+
         panel2 = wx.Panel(splitter, -1)
         vbox2 = wx.BoxSizer(wx.VERTICAL)
         panel2.SetSizer(vbox2)
-        
+
         panel21 = wx.Panel(panel2, -1, size=(-1, 40), style=wx.NO_BORDER)
         panel21.SetBackgroundColour('#53728c')
         st2 = wx.StaticText(panel21, -1, 'Parameters', (5, 5))
@@ -1138,10 +1138,10 @@ class Preferences(wx.Frame):
         splitter.SplitVertically(panel1, panel2,150)
         self.Centre()
         self.Show(True)
-    
+
     #-----------------------------------------------------------------------------------------------
     def OnReloadParam(self, event):
-    
+
         calcMode = self.list2.param['calc'][0][1]
         maxNumOfIter = self.list2.param['calc'][1][1]
         minChiSquare = self.list2.param['calc'][2][1]
@@ -1178,7 +1178,7 @@ class Preferences(wx.Frame):
 ####################################################################################################
 class PlotSpheres:
     '''Plots spheres'''
-    
+
     def __init__(self,num,centers,radii,color,transparency):
         ''''''
         obj = []
@@ -1193,17 +1193,17 @@ class PlotSpheres:
 ####################################################################################################         
 class PlotEllipsoid:
     '''Plots ellipsoid'''
-    
+
     #-----------------------------------------------------------------------------------------------
     def __init__(self, x, y, z, rx, ry, rz, color, transparency):
         ''''''
         cmd.load_cgo(self.makeEllipsoid(x, y, z, rx, ry, rz, color, transparency), 'target')
-    
+
     #-----------------------------------------------------------------------------------------------
     def makeEllipsoid(self, x, y, z, a1, a2, a3, color, transparency):
         ''''''
         return self.makeSuperQuadricEllipsoid(x, y, z, a1, a2, a3, 1.0, 1.0, -pi / 2, pi / 2, -pi, pi, 50, 50, color, transparency)   
-    
+
     #-----------------------------------------------------------------------------------------------
     def makeSuperQuadricEllipsoid(self, x, y, z, a1, a2, a3, n, event, u1, u2, v1, v2, u_segs, v_segs, color, transparency):
         ''''''
@@ -1215,26 +1215,26 @@ class PlotEllipsoid:
         U = u1
         for Y in range(0, u_segs):
                 # Initialize variables for loop
-                V = v1
-                for X in range(0, v_segs):
+            V = v1
+            for X in range(0, v_segs):
                         # VERTEX #1 */
-                        x1, y1, z1, n1x, n1y, n1z = self.sqEllipsoid(x, y, z, a1, a2, a3, U, V, n, event)
-                        x2, y2, z2, n2x, n2y, n2z = self.sqEllipsoid(x, y, z, a1, a2, a3, U + dU, V, n, event)
-                        x3, y3, z3, n3x, n3y, n3z = self.sqEllipsoid(x, y, z, a1, a2, a3, U + dU, V + dV, n, event)
-                        x4, y4, z4, n4x, n4y, n4z = self.sqEllipsoid(x, y, z, a1, a2, a3, U, V + dV, n, event)
-                        obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n1x, n1y, n1z, VERTEX, x1, y1, z1])
-                        obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n2x, n2y, n2z, VERTEX, x2, y2, z2])
-                        obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n4x, n4y, n4z, VERTEX, x4, y4, z4])
-                        obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n2x, n2y, n2z, VERTEX, x2, y2, z2])
-                        obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n3x, n3y, n3z, VERTEX, x3, y3, z3])
-                        obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n4x, n4y, n4z, VERTEX, x4, y4, z4])
-                        # Update variables for next loop
-                        V += dV
+                x1, y1, z1, n1x, n1y, n1z = self.sqEllipsoid(x, y, z, a1, a2, a3, U, V, n, event)
+                x2, y2, z2, n2x, n2y, n2z = self.sqEllipsoid(x, y, z, a1, a2, a3, U + dU, V, n, event)
+                x3, y3, z3, n3x, n3y, n3z = self.sqEllipsoid(x, y, z, a1, a2, a3, U + dU, V + dV, n, event)
+                x4, y4, z4, n4x, n4y, n4z = self.sqEllipsoid(x, y, z, a1, a2, a3, U, V + dV, n, event)
+                obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n1x, n1y, n1z, VERTEX, x1, y1, z1])
+                obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n2x, n2y, n2z, VERTEX, x2, y2, z2])
+                obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n4x, n4y, n4z, VERTEX, x4, y4, z4])
+                obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n2x, n2y, n2z, VERTEX, x2, y2, z2])
+                obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n3x, n3y, n3z, VERTEX, x3, y3, z3])
+                obj.extend([COLOR, r, g, b, ALPHA, 1-transparency, NORMAL, n4x, n4y, n4z, VERTEX, x4, y4, z4])
                 # Update variables for next loop
-                U += dU
+                V += dV
+            # Update variables for next loop
+            U += dU
         obj.append(END)
         return obj
-    
+
     #-----------------------------------------------------------------------------------------------
     def sqEllipsoid(self, x, y, z, a1, a2, a3, u, v, n, event):
         ''''''
@@ -1245,19 +1245,19 @@ class PlotEllipsoid:
         ny = self.sqC(u, 2 - n) * self.sqS(v, 2 - event) / a2
         nz = self.sqS(u, 2 - n) / a3
         return x, y, z, nx, ny, nz
-    
+
     #-----------------------------------------------------------------------------------------------
     def signOfFloat(self,f):
         ''''''
         if f < 0: return -1
         if f > 0: return 1
         return 0
- 
+
     #-----------------------------------------------------------------------------------------------
     def sqC(self, v, n):
         ''''''
         return self.signOfFloat(cos(v)) *  pow(fabs(cos(v)), n)
- 
+
     #-----------------------------------------------------------------------------------------------
     def sqS(self, v, n):
         ''''''
@@ -1268,8 +1268,8 @@ class PlotEllipsoid:
 # SUPLEMENTARY FUNCTIONS
 #---------------------------------------------------------------------------------------------------
 def getPymolObjects(selection):
-	return cmd.get_object_list('(%s)' %selection)
-    
+    return cmd.get_object_list('(%s)' %selection)
+
 #---------------------------------------------------------------------------------------------------
 def AverageCoordCalc(coord):
     '''Calculates average coordinates and their standard deviations for a set of coordinates'''
@@ -1277,14 +1277,14 @@ def AverageCoordCalc(coord):
     coordMean = numpy.mean(coord, axis=0)
     # Standard deviations
     coordStd = numpy.std(coord, axis=0)
-    
+
     return coordMean, coordStd         
 
 #---------------------------------------------------------------------------------------------------
 def AverageDistCalc(dist,density):
     '''Calculates an average distance and its standard deviations for a distance distribution'''
     # Average distance
-    
+
     distAve = dist[numpy.argmax(density)]
     # Standard deviation
     numerator = 0
@@ -1293,7 +1293,7 @@ def AverageDistCalc(dist,density):
         numerator += density[i] * (dist[i]-distAve)**2
         demominator += density[i]
     distStd = sqrt( numerator / demominator )
-    
+
     return distAve, distStd  
 
 #---------------------------------------------------------------------------------------------------
@@ -1302,7 +1302,7 @@ def SquaredRadiusVector(vector1, vector2):
     srv = 0
     for i in range(3):
         srv += (vector1[i] - vector2[i])**2
-    
+
     return srv 
 
 #---------------------------------------------------------------------------------------------------
@@ -1312,7 +1312,7 @@ def ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd):
     for i in range(numOfLabels):
         f = sqrt( SquaredRadiusVector(targetCoordMean[0], labelCoord[i]) ) - distMean[i]
         chiSquare += (1/distStd[i]**2) * f**2
-    
+
     return chiSquare    
 
 #---------------------------------------------------------------------------------------------------
@@ -1340,7 +1340,7 @@ def SingularValueDecomposition(numOfLabels, labelCoord, distMean, distStd):
         targetCoordStd[0][j] = sqrt(targetCoordStd[0][j])  
     # Compute the Chi-Square value
     chiSquare = ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd)
-    
+
     return targetCoordMean, targetCoordStd, chiSquare   
 
 #---------------------------------------------------------------------------------------------------
@@ -1377,14 +1377,14 @@ def InverseHessian(numOfLabels, labelCoord, distMean, distStd, targetCoordInitia
     targetCoordStd = zeros( (1,3) )
     d2f = zeros( (3,3) )
     for i in range(numOfLabels):
-            f = sqrt( SquaredRadiusVector(targetCoordMean[0], labelCoord[i]) ) - distMean[i]
-            for j in range(3):
-                for k in range(3):
-                    d2f[j][k] += (2/distStd[i]**2) * (targetCoordMean[0][j]-labelCoord[i][j]) * (targetCoordMean[0][k]-labelCoord[i][k]) / (f+distMean[i])**2          
+        f = sqrt( SquaredRadiusVector(targetCoordMean[0], labelCoord[i]) ) - distMean[i]
+        for j in range(3):
+            for k in range(3):
+                d2f[j][k] += (2/distStd[i]**2) * (targetCoordMean[0][j]-labelCoord[i][j]) * (targetCoordMean[0][k]-labelCoord[i][k]) / (f+distMean[i])**2          
     correlationMatrix = inv(d2f)
     for j in range(3):
         targetCoordStd[0][j] = sqrt( abs(correlationMatrix[j][j]) ) 
-        
+
     return targetCoordMean, targetCoordStd, chiSquare, iter  
 
 #---------------------------------------------------------------------------------------------------
@@ -1431,14 +1431,14 @@ def LevenbergMarquardt(numOfLabels, labelCoord, distMean, distStd, targetCoordIn
     targetCoordStd = zeros( (1,3) )
     d2f = zeros( (3,3) )
     for i in range(numOfLabels):
-            f = sqrt( SquaredRadiusVector(targetCoordMean[0], labelCoord[i]) ) - distMean[i]
-            for j in range(3):
-                for k in range(3):
-                    d2f[j][k] += (2/distStd[i]**2) * (targetCoordMean[0][j]-labelCoord[i][j]) * (targetCoordMean[0][k]-labelCoord[i][k]) / (f+distMean[i])**2
+        f = sqrt( SquaredRadiusVector(targetCoordMean[0], labelCoord[i]) ) - distMean[i]
+        for j in range(3):
+            for k in range(3):
+                d2f[j][k] += (2/distStd[i]**2) * (targetCoordMean[0][j]-labelCoord[i][j]) * (targetCoordMean[0][k]-labelCoord[i][k]) / (f+distMean[i])**2
     correlationMatrix = inv(d2f)
     for j in range(3):
         targetCoordStd[0][j] = sqrt( abs(correlationMatrix[j][j]) ) 
-        
+
     return targetCoordMean, targetCoordStd, chiSquare, iter
 
 ####################################################################################################
@@ -1449,20 +1449,20 @@ class MainApp(wx.App):
         frame.Show(True)
         self.SetTopWindow(frame)
         return True
- 
+
 
 def run():
     app = MainApp(0)
     app.MainLoop()
-    
 
-       
+
+
 def start():
     t = threading.Thread(target=run,args=())
     t.setDaemon(1),
     t.start() 
 
-    
+
 def __init__(self):
     self.menuBar.addmenuitem('Plugin','command','trilater',
                              label = 'mtsslTrilaterate',
