@@ -60,11 +60,11 @@ from pymol.cgo import *
 #
 
 
-def getPPlane( viewVector, center, side_length=100 ):
+def getPPlane(viewVector, center, side_length=100):
     """Returns a 3-tuple of 3D points representing the perp. plane."""
 
     # for reproduceable testing
-    #random.seed(10)
+    # random.seed(10)
     #
     # The formula for a plane with our chacteristics is defined by
     #
@@ -77,27 +77,27 @@ def getPPlane( viewVector, center, side_length=100 ):
 
     # This is fool-ass.  Gotta' be a better way to do this.
     # Declaring that rVal is a 3-Tuple.
-    rVal = [ [], [], [], [], [], [] ]
+    rVal = [[], [], [], [], [], []]
 
     # Compose two triangles into a square.
     # Never learned any GFX coding, so I'm sure there's something
     # better than this; but, this works.
     for i in range(0, 6):
-        if ( i == 0 ) or ( i == 5 ):
+        if (i == 0) or (i == 5):
             x = -side_length + center[0]
             y = -side_length + center[1]
         elif (i == 1):
             x = -side_length + center[0]
-            y =  side_length + center[1]
-        elif ( i == 2 ) or ( i == 3 ):
+            y = side_length + center[1]
+        elif (i == 2) or (i == 3):
             x = side_length + center[0]
             y = side_length + center[1]
-        elif ( i == 4):
+        elif (i == 4):
             x = side_length + center[0]
             y = -side_length + center[1]
 
-        if ( viewVector[2] != 0 ):
-            z = -(((viewVector[0]*(x - center[0])) - (viewVector[1]*(y - center[1]))) /
+        if (viewVector[2] != 0):
+            z = -(((viewVector[0] * (x - center[0])) - (viewVector[1] * (y - center[1]))) /
                   viewVector[2]) + center[2]
 
         else:
@@ -126,8 +126,8 @@ DESCRIPTION
 
 # First, get the center and camera locations
     view = cmd.get_view()
-    camera = [ view[9], view[10], view[11] ]
-    center = [ view[12], view[13], view[14] ]
+    camera = [view[9], view[10], view[11]]
+    center = [view[12], view[13], view[14]]
 
 # Sanity check
     if not quiet:
@@ -136,16 +136,16 @@ DESCRIPTION
 
 # Create the vector through the two points directed
 # from the camera to the center - the viewVector
-    viewVector = [ center[0] - camera[0],
+    viewVector = [center[0] - camera[0],
                    center[1] - camera[1],
-                   center[2] - camera[2] ]
+                   center[2] - camera[2]]
 
     if not quiet:
         print "ViewVector is: " + str(viewVector)
 
 # Create the plane perpendicular to the viewVector
 # running through the origin
-    pPlane = getPPlane( viewVector, center, side_length=100 )
+    pPlane = getPPlane(viewVector, center, side_length=100)
     if not quiet:
         print "Plane points calculated as: " + str(pPlane)
 
@@ -165,8 +165,8 @@ DESCRIPTION
         END
     ]
 
-    cmd.load_cgo( obj, name )
-    cmd.set_view( view )
+    cmd.load_cgo(obj, name)
+    cmd.set_view(view)
 
 if __name__ in ['pymol', '__main__']:
     print '__name__ =', __name__

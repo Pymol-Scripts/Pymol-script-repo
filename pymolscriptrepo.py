@@ -13,8 +13,8 @@ if 'PYMOL_GIT_MOD' in os.environ:
     repopath = [os.environ.get('PATH', '.')]
 
     ##
-    ## this is ugly, we need proper paths for each platform, but not for
-    ## every app an extra path!
+    # this is ugly, we need proper paths for each platform, but not for
+    # every app an extra path!
     ##
     if sys.platform.startswith('linux'):
         if platform.architecture()[0] == '32bit':

@@ -56,14 +56,14 @@ SEE ALSO
     r = []
     for obj in raw_objects:
         try:
-            points = obj[5][2][state-1][1]
+            points = obj[5][2][state - 1][1]
             if points is None:
                 raise ValueError
         except (KeyError, ValueError):
             continue
         for i in range(0, len(points), 6):
-            xyz1 = tuple(points[i:i+3])
-            xyz2 = tuple(points[i+3:i+6])
+            xyz1 = tuple(points[i:i + 3])
+            xyz2 = tuple(points[i + 3:i + 6])
             try:
                 r.append((xyz2idx[xyz1], xyz2idx[xyz2], cpv.distance(xyz1, xyz2)))
                 if not quiet:

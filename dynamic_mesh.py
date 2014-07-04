@@ -66,7 +66,7 @@ class DynamicMesh(Callback):
     def update(self):
         self.center = cmd.get_position()
         cmd.alter_state(0, self.center_name, "(x, y, z) = p", space={'p': self.center})
-        cmd.isomesh(self.name, self.map_name, self.level, self.center_name, carve = self.radius)
+        cmd.isomesh(self.name, self.map_name, self.level, self.center_name, carve=self.radius)
 
     def __call__(self):
         if self.name not in cmd.get_names('objects'):
@@ -77,7 +77,7 @@ class DynamicMesh(Callback):
 
         tmp = cmd.get_position()
         r = cpv.distance_sq(self.center, tmp)
-        if (r > 0.3): # increase this number if it is too slow
+        if (r > 0.3):  # increase this number if it is too slow
             self.update()
 
     def get_extent(self):

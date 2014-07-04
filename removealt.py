@@ -19,6 +19,6 @@ def removealt(obj="(all)", keep="A"):
     remStr = "%s and not (alt ''+%s)" % (obj, keep);
     cmd.remove(remStr);
     # reset the PDB information
-    cmd.alter( obj, "alt=''")
+    cmd.alter(obj, "alt=''")
 
 cmd.extend("removealt", removealt)

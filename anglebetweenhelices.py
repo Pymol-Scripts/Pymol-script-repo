@@ -31,9 +31,9 @@ def _mean_and_std(x):
     N = len(x)
     if N < 2:
         return (x[0], 0.0)
-    mu = sum(x)/float(N)
-    var = sum([(i - mu)**2 for i in x]) / float(N - 1)
-    return (mu, var**0.5)
+    mu = sum(x) / float(N)
+    var = sum([(i - mu) ** 2 for i in x]) / float(N - 1)
+    return (mu, var ** 0.5)
 
 
 def _common_orientation(selection, vec, visualize=1, quiet=0):
@@ -47,7 +47,7 @@ def _common_orientation(selection, vec, visualize=1, quiet=0):
     if len(stored.x) < 2:
         print 'warning: count(CA) < 2'
         raise CmdException
-    center = cpv.scale(_vec_sum(stored.x), 1./len(stored.x))
+    center = cpv.scale(_vec_sum(stored.x), 1. / len(stored.x))
     if visualize:
         scale = cpv.distance(stored.x[0], stored.x[-1])
         visualize_orientation(vec, center, scale, True)
@@ -57,7 +57,7 @@ def _common_orientation(selection, vec, visualize=1, quiet=0):
     return center, vec
 
 
-def visualize_orientation(direction, center=[0,0,0], scale=1.0, symmetric=False, color='green', color2='red'):
+def visualize_orientation(direction, center=[0, 0, 0], scale=1.0, symmetric=False, color='green', color2='red'):
     '''
     Draw an arrow. Helper function for "helix_orientation" etc.
     '''
@@ -86,7 +86,7 @@ def visualize_orientation(direction, center=[0,0,0], scale=1.0, symmetric=False,
             0.8, 0.8, 0.8,
         ])
         obj.extend(color2_list)
-    coneend = cpv.add(end, cpv.scale(direction, 4.0*radius))
+    coneend = cpv.add(end, cpv.scale(direction, 4.0 * radius))
     if cmd.get_version()[1] >= 1.2:
         obj.append(cgo.CONE)
         obj.extend(end)
@@ -97,7 +97,7 @@ def visualize_orientation(direction, center=[0,0,0], scale=1.0, symmetric=False,
         ])
         obj.extend(color_list * 2)
         obj.extend([
-            1.0, 1.0, # Caps
+            1.0, 1.0,  # Caps
         ])
     cmd.load_cgo(obj, get_unused_name('oriVec'), zoom=0)
 
@@ -127,7 +127,7 @@ SEE ALSO
     cmd.iterate_state(STATE, '(%s) and name CA' % (selection),
                       'stored.x.append([x,y,z])')
     x = numpy.array(stored.x)
-    U,s,Vh = numpy.linalg.svd(x - x.mean(0))
+    U, s, Vh = numpy.linalg.svd(x - x.mean(0))
     vec = cpv.normalize(Vh[0])
     if cpv.dot_product(vec, x[-1] - x[0]) < 0:
         vec = cpv.negate(vec)

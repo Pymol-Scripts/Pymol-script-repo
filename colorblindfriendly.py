@@ -75,19 +75,19 @@ from pymol import cmd
 # The RGB percentage values given on that page are less precise than the 0-255 
 # values, so the 0-255 values are converted here (e.g. 230/255 = 0.902).
 cb_colors = (
-    ("black",          (0.000, 0.000, 0.000),                   # (  0,   0,   0)
-            () ),  
-    ("orange",         (0.902, 0.624, 0.000),                   # (230, 159,   0)
-     () ),
-    ("sky_blue",       (0.337, 0.706, 0.914),                   # ( 86, 180, 233)
+    ("black", (0.000, 0.000, 0.000),                   # (  0,   0,   0)
+            ()),  
+    ("orange", (0.902, 0.624, 0.000),                   # (230, 159,   0)
+     ()),
+    ("sky_blue", (0.337, 0.706, 0.914),                   # ( 86, 180, 233)
      ("skyblue", "light_blue", "lightblue")),
-    ("bluish_green",   (0.000, 0.620, 0.451),                   # (  0, 158, 115)
+    ("bluish_green", (0.000, 0.620, 0.451),                   # (  0, 158, 115)
      ("bluishgreen", "green")),
-    ("yellow",         (0.941, 0.894, 0.259),                   # (240, 228,  66)
+    ("yellow", (0.941, 0.894, 0.259),                   # (240, 228,  66)
      ()),
-    ("blue",           (0.000, 0.447, 0.698),                   # (  0, 114, 178)
+    ("blue", (0.000, 0.447, 0.698),                   # (  0, 114, 178)
      ()),
-    ("vermillion",     (0.835, 0.369, 0.000),                   # (213,  94,   0)
+    ("vermillion", (0.835, 0.369, 0.000),                   # (213,  94,   0)
      ("red", "red_orange", "redorange")),
     ("reddish_purple", (0.800, 0.475, 0.655),                   # (204, 121, 167)
      ("reddishpurple", "rose", "violet", "magenta")),

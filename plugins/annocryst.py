@@ -27,13 +27,13 @@ import platform
 def __init__(self):
     self.annotationService = None
     self.menuBar.addmenuitem('Plugin', 'command',
-                             'AnnoCryst',label = 'AnnoCryst', 
-                             command = lambda s=self: createAnnotationService(s))
-    cmd.extend('annotate', lambda s=self : annotateFromCmd(s))
+                             'AnnoCryst', label='AnnoCryst', 
+                             command=lambda s=self: createAnnotationService(s))
+    cmd.extend('annotate', lambda s=self: annotateFromCmd(s))
     cmd.extend('annotations', 
-               lambda model, s=self : showAllAnnotations(model, s))
-    cmd.extend('remoteurl', lambda pdbURL, s=self : readRemoteURL(pdbURL,s))
-    cmd.extend('remotepdb', lambda pdbCode, s=self : readRemotePDB(pdbCode,s))
+               lambda model, s=self: showAllAnnotations(model, s))
+    cmd.extend('remoteurl', lambda pdbURL, s=self: readRemoteURL(pdbURL, s))
+    cmd.extend('remotepdb', lambda pdbCode, s=self: readRemotePDB(pdbCode, s))
 
 
 def createAnnotationService(app):
@@ -74,7 +74,7 @@ def readRemotePDB(pdbCode, app):
 
 class AnnotationService:
 
-    def __init__(self,app):
+    def __init__(self, app):
         print("\nWrite the following in the PyMOL command window:")
         print("remotepdb 3ait")
         parent = app.root
@@ -98,114 +98,114 @@ class AnnotationService:
             cmd.select("all") 
         self.loadedOntology = None
         self.loadedModels = {}
-        self.selectedText= ""
+        self.selectedText = ""
         self.selectedAnno = None
         self.annotationsLoaded = False
 
     def createMainWindow(self):
         # constructs the main AnnoCryst window
         self.dialog = Pmw.Dialog(self.parent,
-                                 buttons = ('AnnoCryst Settings', 'Exit'),
+                                 buttons=('AnnoCryst Settings', 'Exit'),
                                  title = 'AnnoCryst',
                                  command = self.handleMainWindowButtons)
         self.notebook = Pmw.NoteBook(self.dialog.interior(), 
-                                     raisecommand = self.refreshAnnotationView)
+                                     raisecommand=self.refreshAnnotationView)
         self.notebook.component('hull').configure(height=380, width=400)
-        self.notebook.pack(fill='both',expand=1,padx=10,pady=10)
+        self.notebook.pack(fill='both', expand=1, padx=10, pady=10)
         self.status = Pmw.ScrolledText(self.dialog.interior(),
-                                       labelpos = 'w',
+                                       labelpos='w',
                                        label_text='Status: ', 
-                                       usehullsize = 1,
-                                       hull_width = 380,
-                                       hull_height = 20)
-        self.status.configure(text_state = 'disabled')
+                                       usehullsize=1,
+                                       hull_width=380,
+                                       hull_height=20)
+        self.status.configure(text_state='disabled')
 #        self.status.component('text').configure(relief='flat', 
 #                                                background='SystemMenu')
         self.status.component('text').configure(relief='flat', 
                                                 background='white')
-        self.status.pack(padx = 5, pady = 5, fill = 'both', expand = 1)
+        self.status.pack(padx=5, pady=5, fill='both', expand=1)
 
         page = self.notebook.add('Open Model')
         self.remoteURL = Pmw.EntryField(page,
                                         labelpos='nw',
                                         label_text='URL of the model to open in AnnoCryst:',
-                                        value = '')
+                                        value='')
         self.remoteURL.pack(fill='x', padx=4, pady=1)
         openButtonBox = Pmw.ButtonBox(page, hull_width=100, hull_height=20)
         openButtonBox.pack()
-        openButtonBox.add('Open', command = self.openRemote)
-        #openButtonBox.setdefault('Open')
+        openButtonBox.add('Open', command=self.openRemote)
+        # openButtonBox.setdefault('Open')
         page = self.notebook.add("Browse Annotations")
         self.current = Pmw.ScrolledText(page, 
-                                        usehullsize = 1,
-                                        hull_width = 380,
-                                        hull_height = 30)
-        self.current.configure(text_state = 'disabled')
+                                        usehullsize=1,
+                                        hull_width=380,
+                                        hull_height=30)
+        self.current.configure(text_state='disabled')
 #        self.current.component('text').configure(relief='flat', 
 #                                                 background='SystemMenu')
         self.current.component('text').configure(relief='flat', 
                                                  background='white')
-        self.current.pack(padx = 5, pady = 5, fill = 'both', expand = 1)
-        self.tree_item = AnnotationTreeItem("",isTopLevel=True)
+        self.current.pack(padx=5, pady=5, fill='both', expand=1)
+        self.tree_item = AnnotationTreeItem("", isTopLevel=True)
         self.sc = Pmw.ScrolledCanvas(page,
-                                     borderframe = 1,
-                                     usehullsize = 1,
-                                     hull_width = 400,
-                                     hull_height = 270)
-        self.sc.pack(fill='x',padx=4,pady=1)
+                                     borderframe=1,
+                                     usehullsize=1,
+                                     hull_width=400,
+                                     hull_height=270)
+        self.sc.pack(fill='x', padx=4, pady=1)
         self.sc.interior().config(bg="white")
         self.node = AnnotationTreeNode(self.sc.component('canvas'), 
                                        None, self.tree_item)
         self.node.update()
         self.node.expand()
         self.browseButtonBox = Pmw.ButtonBox(page, hull_width=200, hull_height=20)
-        self.browseButtonBox.add('Refresh annotations', command = self.refreshAnnotationView)
-        self.browseButtonBox.add('Copy text to clipboard', command = self.copyText)
-        self.browseButtonBox.add('Delete annotation', command = self.deleteAnnotation)
+        self.browseButtonBox.add('Refresh annotations', command=self.refreshAnnotationView)
+        self.browseButtonBox.add('Copy text to clipboard', command=self.copyText)
+        self.browseButtonBox.add('Delete annotation', command=self.deleteAnnotation)
         self.browseButtonBox.pack()
         page = self.notebook.add('Annotate')
-        group = Pmw.Group(page,tag_text='Title and Type')
-        group.pack(fill = 'both', expand = 1, padx = 10, pady = 5) 
+        group = Pmw.Group(page, tag_text='Title and Type')
+        group.pack(fill='both', expand=1, padx=10, pady=5) 
         self.title = Pmw.EntryField(group.interior(),
                                     labelpos='w',
                                     label_text='Title:  ')
-        self.title.pack(fill='x',padx=4,pady=1)
-        self.type = Pmw.ComboBox (group.interior(),
-                                  labelpos = 'w',
-                                  label_text = 'Type:',
-                                  scrolledlist_items = ('Comment', 'Rating', 'Question', \
+        self.title.pack(fill='x', padx=4, pady=1)
+        self.type = Pmw.ComboBox(group.interior(),
+                                  labelpos='w',
+                                  label_text='Type:',
+                                  scrolledlist_items=('Comment', 'Rating', 'Question', \
                                                         'SeeAlso', 'Feedback', 'Reference', 'Keyword'),
                                   selectioncommand = self.updateDescriptionUI,
                                   entryfield_entry_state="readonly")
-        self.type.pack(fill='x',padx=4,pady=1)
+        self.type.pack(fill='x', padx=4, pady=1)
         self.type.selectitem('Comment')
-        self.descgroup = Pmw.Group(page,tag_text='Description')
-        self.descgroup.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
-        #TODO: support for policies
+        self.descgroup = Pmw.Group(page, tag_text='Description')
+        self.descgroup.pack(fill='both', expand=1, padx=10, pady=5)
+        # TODO: support for policies
         #group = Pmw.Group(page,tag_text='Access Control (optional)')
         #group.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
         self.description = Pmw.ScrolledText(self.descgroup.interior(),
-                                            usehullsize = 1,
-                                            hull_width = 400,
-                                            hull_height = 100)
+                                            usehullsize=1,
+                                            hull_width=400,
+                                            hull_height=100)
         self.kwdescription = Pmw.ScrolledText(self.descgroup.interior(),
-                                              usehullsize = 1,
-                                              hull_width = 400,
-                                              hull_height = 30)
+                                              usehullsize=1,
+                                              hull_width=400,
+                                              hull_height=30)
         self.ontologyBrowser = Pmw.ScrolledCanvas(self.descgroup.interior(),
-                                                  usehullsize = 1,
-                                                  hull_width = 250,
-                                                  hull_height = 100,
-                                                  borderframe = 1)
+                                                  usehullsize=1,
+                                                  hull_width=250,
+                                                  hull_height=100,
+                                                  borderframe=1)
         self.ontologyBrowser.interior().config(bg="white")
         self.addKeywordButtonBox = Pmw.ButtonBox(self.descgroup.interior(),
                                                  hull_width=50, hull_height=20)
-        self.addKeywordButtonBox.add('Add Keyword', command = self.addKeyword)
+        self.addKeywordButtonBox.add('Add Keyword', command=self.addKeyword)
 
         self.keyword = Pmw.ScrolledText(self.descgroup.interior(),
                                         labelpos='w',
                                         label_text='Keywords:  ', 
-                                        usehullsize =1,
+                                        usehullsize=1,
                                         hull_height=40,
                                         hull_width=380)
         self.seeAlsoNotebook = Pmw.NoteBook(self.descgroup.interior())
@@ -214,20 +214,20 @@ class AnnotationService:
         self.seeAlsoExternalURL = Pmw.EntryField(seeAlsoPage,
                                                  labelpos='w',
                                                  label_text='URL:  ')
-        self.seeAlsoExternalURL.pack(fill='x',padx=4,pady=1)
+        self.seeAlsoExternalURL.pack(fill='x', padx=4, pady=1)
         seeAlsoPage = self.seeAlsoNotebook.add('Local')
         self.seeAlsoLocalFile = Pmw.EntryField(seeAlsoPage,
                                                labelpos='w',
                                                label_text='File:  ',
                                                value='File upload not yet implemented')
-        self.seeAlsoLocalFile.pack(fill='x',padx=4,pady=1)
+        self.seeAlsoLocalFile.pack(fill='x', padx=4, pady=1)
         self.updateDescriptionUI(self.type)
         self.annotateButtonBox = Pmw.ButtonBox(page, 
                                                hull_height=20, hull_width=200)
         self.annotateButtonBox.pack()
-        self.annotateButtonBox.add('Reset', command = self.reset)
-        self.annotateButtonBox.add('Annotate', command = self.annotate)
-        #self.annotateButtonBox.setdefault('Annotate')
+        self.annotateButtonBox.add('Reset', command=self.reset)
+        self.annotateButtonBox.add('Annotate', command=self.annotate)
+        # self.annotateButtonBox.setdefault('Annotate')
         self.parent.focus_set()
         self.annotateButtonBox.alignbuttons()
         self.dialog.show()
@@ -236,7 +236,7 @@ class AnnotationService:
         # constructs a dialog for changing the settings
         self.loadSettings()
         self.settingsDialog = Pmw.Dialog(self.parent,
-                                         buttons = ('Cancel', 'Save'),
+                                         buttons=('Cancel', 'Save'),
                                          defaultbutton = 'Save',
                                          title = 'AnnoCryst Settings',
                                          command = self.saveSettings,
@@ -249,8 +249,8 @@ class AnnotationService:
                                         label_text='%s:  ' % att,
                                         value=self.settings[att],
                                         entry_width=80)
-            entryfield.pack(fill='x',padx=4,pady=1)
-            setattr(self,att,entryfield)
+            entryfield.pack(fill='x', padx=4, pady=1)
+            setattr(self, att, entryfield)
         self.settingsDialog.withdraw()
 
     def saveSettings(self, result='Cancel'):
@@ -263,7 +263,7 @@ class AnnotationService:
                     self.settings[k] = newvalue
                     settingsStr += "<%s>%s</%s>\n" % (k, newvalue, k)
                 settingsStr += "</annocryst>\n"
-                settingsfile = open(self.settingsFile,'w')
+                settingsfile = open(self.settingsFile, 'w')
                 settingsfile.write(settingsStr)
                 settingsfile.close()
                 print "Settings saved in %s" % self.settingsFile
@@ -286,7 +286,7 @@ class AnnotationService:
             'pdbRepositoryURL': "http://maenad.itee.uq.edu.au:8080/harvanapdb/au.edu.uq.itee.eresearch.harvana.gwt.Main/pdb/"
         }
         try:
-            settings = open(self.settingsFile,"r")
+            settings = open(self.settingsFile, "r")
             dom = parseString(settings.read())
             for k in self.settings.keys():
                 elems = dom.getElementsByTagName(k)
@@ -295,9 +295,9 @@ class AnnotationService:
         except:
             print "Unable to read settings from %s, using AnnoCryst defaults" % self.settingsFile
 
-    def handleMainWindowButtons(self,result):
+    def handleMainWindowButtons(self, result):
         # hide or show UI dialogs
-        if result=='AnnoCryst Settings':
+        if result == 'AnnoCryst Settings':
             self.settingsDialog.show()
         else:
             self.dialog.withdraw()
@@ -318,7 +318,7 @@ class AnnotationService:
             httpRequest = urllib2.Request(url=pdbURL)
             pdbHttpHandle = urllib2.urlopen(httpRequest) 
             pdbStr = pdbHttpHandle.read()
-            modelName= string.split(string.split(str(pdbURL),"/")[-1],".")[0]
+            modelName = string.split(string.split(str(pdbURL), "/")[-1], ".")[0]
             cmd.read_pdbstr(pdbStr, modelName)
             self.status.setvalue(modelName + " loaded")
             self.loadedModels[modelName] = pdbURL
@@ -338,7 +338,7 @@ class AnnotationService:
         anno = self.selectedAnno
         if anno != None and anno != '':
             try:
-                req = RequestWithMethod(anno,method="DELETE")
+                req = RequestWithMethod(anno, method="DELETE")
                 response = urllib2.urlopen(req) 
                 self.showAllAnnotations()
                 self.status.setvalue("Annotation deleted")
@@ -376,7 +376,7 @@ class AnnotationService:
             if viewStr == '':
                 viewStr = "%f" % i
             else:
-                viewStr += ",%f" %i
+                viewStr += ",%f" % i
         # if there is a selection or a model visible, annotate that, if not,
         # if the URL in the open page UI has been loaded, it is the most recent model, so annotate that
         uiURL = self.remoteURL.getvalue()
@@ -393,26 +393,26 @@ class AnnotationService:
             if annoType == "Keyword":
                 annoDesc = self.kwdescription.getvalue()
                 keywords = self.keyword.getvalue().split(",")
-                anno = self.createAnnotationXML(annoURI, type = annoType, \
-                                                creator = annoCreator, title = annoTitle,\
-                                                context = contextStr, body = annoDesc, \
+                anno = self.createAnnotationXML(annoURI, type=annoType, \
+                                                creator=annoCreator, title=annoTitle,\
+                                                context=contextStr, body=annoDesc, \
                                                 keywords=keywords, view=viewStr, date=dateStr)
             elif annoType == "SeeAlso":
-                annoExtURL =  self.seeAlsoExternalURL.getvalue()
+                annoExtURL = self.seeAlsoExternalURL.getvalue()
                 annoLocalFile = self.seeAlsoLocalFile.getvalue()
                 if annoExtURL.find("http") == 0:
-                    anno = self.createAnnotationXML(annoURI, type = annoType, \
-                                                    creator = annoCreator, title = annoTitle, date=dateStr,\
-                                                    context = contextStr, extRef = annoExtURL, view=viewStr)
-                #elif annoLocalFile != None and annoLocalFile != '':
-                #TODO: do file upload
+                    anno = self.createAnnotationXML(annoURI, type=annoType, \
+                                                    creator=annoCreator, title=annoTitle, date=dateStr,\
+                                                    context=contextStr, extRef=annoExtURL, view=viewStr)
+                # elif annoLocalFile != None and annoLocalFile != '':
+                # TODO: do file upload
                 else:
                     self.status.setvalue("Unable to create annotation: invalid external URL")
                     return
             else:
-                anno = self.createAnnotationXML(annoURI, type = annoType, \
-                                                creator = annoCreator, title = annoTitle, date=dateStr,\
-                                                context = contextStr, body = annoDesc, view=viewStr)
+                anno = self.createAnnotationXML(annoURI, type=annoType, \
+                                                creator=annoCreator, title=annoTitle, date=dateStr,\
+                                                context=contextStr, body=annoDesc, view=viewStr)
 
             try:
                 req = urllib2.Request(self.annotationServerURL.getvalue(), anno)
@@ -437,8 +437,8 @@ class AnnotationService:
         return partStr
 
     def createAnnotationXML(self, annoURI, type='Comment', context='', title='', \
-                            creator='', language='en', created='', date='', length='', body = '', \
-                            view = '', keywords='', extRef = ''):
+                            creator='', language='en', created='', date='', length='', body='', \
+                            view='', keywords='', extRef=''):
         # construct the XML for the annotation to be sent to the Annotea server
         anno = "<?xml version=\"1.0\"?>"
         anno += "<r:RDF xmlns:r='http://www.w3.org/1999/02/22-rdf-syntax-ns#'"
@@ -458,13 +458,13 @@ class AnnotationService:
         if context != '' and context != None:
             anno += "ids:%s" % context
         anno += "</a:context>\n" 
-        #if context != '' and context != None and view != '' and view != None:
+        # if context != '' and context != None and view != '' and view != None:
         #    anno += "<a:context><View xmlns='http://maenad.itee.uq.edu.au/agerber/foo'>%s</View>" % repr(view)
         #    anno += "<Context xmlns='http://maenad.itee.uq.edu.au/agerber/foo'>%s</Context></a:context>" % context
         # TODO: store view data in annotation properly
         #anno += "<Context xmlns='http://maenad.itee.uq.edu.au/agerber/pymol.rdfs'>\n"
         #anno += "<Model url='%s'/>\n" % annoURI
-        #if view != '' and view != None:
+        # if view != '' and view != None:
         #    anno += "<CameraView>%s</CameraView>\n" % view
         #anno += "</Context>\n"
         if title != '' and title != None:
@@ -486,11 +486,11 @@ class AnnotationService:
             anno += "</r:Description></a:body>\n"
         if extRef != '' and extRef != None:
             anno += "<a:body r:resource=\"%s\"/>" % extRef
-        if keywords !='' and keywords != None:
+        if keywords != '' and keywords != None:
             for k in keywords:
                 keyword = k.strip()
                 # TODO: don't add the keyword if it is not from the loaded ontology
-                #if keyword in self.ontology_tree_item.keywords:
+                # if keyword in self.ontology_tree_item.keywords:
                 if True:
                     anno += "<term xmlns='http://metadata.net/wannotea/semantic-annotation.owl#' "
                     anno += "r:resource='%s#%s'/>" % (self.keywordOntologyNamespace.getvalue(), keyword)
@@ -501,12 +501,12 @@ class AnnotationService:
         anno += "</r:Description></r:RDF>"
         return anno
 
-    def refreshAnnotationView(self, page = None):
+    def refreshAnnotationView(self, page=None):
         if page == None or (page == 'Browse Annotations' and not self.annotationsLoaded):
             self.showAllAnnotations()
 
     def clearAnnotations(self):
-        self.tree_item = AnnotationTreeItem("",isTopLevel=True)
+        self.tree_item = AnnotationTreeItem("", isTopLevel=True)
         self.node = AnnotationTreeNode(self.sc.component('canvas'), 
                                        None, self.tree_item)
         self.node.update()
@@ -537,7 +537,7 @@ class AnnotationService:
             #self.tmpAnnotation = {}
             annoteaRdfXml = httpHandle.read()
             dom = parseString(annoteaRdfXml)
-            self.tree_item = AnnotationTreeItem(dom.documentElement,isTopLevel=True)
+            self.tree_item = AnnotationTreeItem(dom.documentElement, isTopLevel=True)
             self.node = AnnotationTreeNode(self.sc.component('canvas'), 
                                            None, self.tree_item)
             self.node.setannotationservice(self)
@@ -554,7 +554,7 @@ class AnnotationService:
             print "Unable to load annotations"
             self.status.setvalue("Unable to load annotations")
 
-    def updateDescriptionUI(self,result):
+    def updateDescriptionUI(self, result):
         # changes the UI depending on the type of annotation being created
         self.keyword.pack_forget()
         self.ontologyBrowser.pack_forget()
@@ -563,15 +563,15 @@ class AnnotationService:
         self.kwdescription.pack_forget()
         self.seeAlsoNotebook.pack_forget()
         if result == 'Keyword':
-            self.kwdescription.pack(fill='x',padx=4,pady=1)
+            self.kwdescription.pack(fill='x', padx=4, pady=1)
             self.ontologyBrowser.pack(fill='x', padx=4, pady=1)
             self.addKeywordButtonBox.pack()
-            self.keyword.pack(fill='x',padx=4,pady=1)
+            self.keyword.pack(fill='x', padx=4, pady=1)
             self.loadOntology()
         elif result == 'SeeAlso':
-            self.seeAlsoNotebook.pack(fill='both',expand=1,padx=10,pady=10)    
+            self.seeAlsoNotebook.pack(fill='both', expand=1, padx=10, pady=10)    
         else:
-            self.description.pack(fill='x',padx=4,pady=1)
+            self.description.pack(fill='x', padx=4, pady=1)
 
     def loadOntology(self):
         # retrieves the ontology and displays classes in ontology browser
@@ -607,7 +607,7 @@ class AnnotationService:
                 oldval += ','
             self.keyword.setvalue(oldval + kw)
 
-    def selectAnnotation(self,context_ids, view):
+    def selectAnnotation(self, context_ids, view):
         # highlights the context of the selected annotation
         select_str = "none"
         cmd.select(self.selection, 'none')
@@ -632,7 +632,7 @@ class AnnotationService:
         else:
             self.current.setvalue("Showing annotations for %s" % url)
 
-## tree widget classes for displaying ontology keywords
+# tree widget classes for displaying ontology keywords
 
 
 class OntologyTreeNode(TreeNode):
@@ -648,22 +648,22 @@ R0lGODdhEAAQAOMPAAAAAIAAAACAAICAAAAAgIAAgACAgMDAwICAgP8AAAD/AP//AAAA//8A/wD/
     def geticonimage(self, name):
         if name == "none":
             return None;
-        if name != "Class" :
+        if name != "Class":
             return TreeNode.geticonimage(self, name)
         try:
             return self.iconimages[name]
         except KeyError:
             pass
-        image = PhotoImage(master=self.canvas,data=self.classicon)
+        image = PhotoImage(master=self.canvas, data=self.classicon)
         self.iconimages[name] = image
         return image
 
     def setannotationservice(self, as1):
         self.annotationservice = as1
 
-    #overload to set annotation service for children
-    def draw(self,x,y):
-        result = TreeNode.draw(self,x,y)
+    # overload to set annotation service for children
+    def draw(self, x, y):
+        result = TreeNode.draw(self, x, y)
         for child in self.children:
             child.setannotationservice(self.annotationservice)
         return result
@@ -684,30 +684,30 @@ class OntologyTreeItem(TreeItem):
             self.tag = node.nodeName
             if self.tag == ("rdf:RDF"):
                 allclasses = node.getElementsByTagNameNS(\
-                    'http://www.w3.org/2002/07/owl#','Class')
+                    'http://www.w3.org/2002/07/owl#', 'Class')
                 self.class_dict = {}
                 self.equiv_dict = {}
                 tmpchildren = {}
                 # find all OWL subclass relationships and store in class_dict
                 # TODO: deal with equivalent classes
                 for c in allclasses:
-                    cID = c.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','ID')
+                    cID = c.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'ID')
                     cSuperElems = c.getElementsByTagNameNS(\
-                        'http://www.w3.org/2000/01/rdf-schema#','subClassOf')
+                        'http://www.w3.org/2000/01/rdf-schema#', 'subClassOf')
                     if len(cSuperElems) > 0:
                         cSuper = cSuperElems[0].getAttributeNS(\
                             'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-                            'resource').replace("#","")
+                            'resource').replace("#", "")
                         if cSuper == None or cSuper == '':
                             cSuperClassElem = cSuperElems[0].getElementsByTagNameNS(\
-                                'http://www.w3.org/2002/07/owl#','Class')
+                                'http://www.w3.org/2002/07/owl#', 'Class')
                             if len(cSuperClassElem) > 0:
                                 cSuper = cSuperClassElem[0].getAttributeNS(\
                                     'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-                                    'about').replace("#","")
+                                    'about').replace("#", "")
                                 if cSuper == None or cSuper == '':
                                     cSuper = cSuperClassElem[0].getAttributeNS(\
-                                        'http://www.w3.org/1999/02/22-rdf-syntax-ns#','ID')
+                                        'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'ID')
                         if cSuper == None or cSuper == '':
                             # can't get the super class - might be a restriction etc
                             if cID:
@@ -727,11 +727,11 @@ class OntologyTreeItem(TreeItem):
                 for childList in self.class_dict.values():
                     for child in childList:
                         childId = child.getAttributeNS(\
-                            'http://www.w3.org/1999/02/22-rdf-syntax-ns#','ID')
+                            'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'ID')
                         if childId == None or childId == '':
                             childId = child.getAttributeNS(\
                                 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-                                'about').replace("#","")
+                                'about').replace("#", "")
                         if childId in tmpchildren:
                             del tmpchildren[childId]
                 self.children = tmpchildren.values()
@@ -752,10 +752,10 @@ class OntologyTreeItem(TreeItem):
         # return the ID of the class that this node represents
         if self.tag == "rdf:RDF":
             return " "
-        text = self.node.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','ID')
+        text = self.node.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'ID')
         if text == None or text == '':
             text = self.node.getAttributeNS(\
-                'http://www.w3.org/1999/02/22-rdf-syntax-ns#','about').replace("#","")
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'about').replace("#", "")
         return text
 
     def IsExpandable(self):
@@ -763,7 +763,7 @@ class OntologyTreeItem(TreeItem):
 
     def GetSubList(self):
         parent = self.node
-        itemlist = [OntologyTreeItem(node,self.class_dict) for node in self.children]
+        itemlist = [OntologyTreeItem(node, self.class_dict) for node in self.children]
         return itemlist   
 
     def GetIconName(self):
@@ -772,7 +772,7 @@ class OntologyTreeItem(TreeItem):
         else:
             return "Class"
 
-## tree widget classes for displaying annotations           
+# tree widget classes for displaying annotations           
 
 
 class AnnotationTreeNode(TreeNode):
@@ -886,7 +886,7 @@ gZKaWEhQos4qREQmGPDAZlZAADs=
             icondata = self.semantic_icon
         elif name == "SeeAlso":
             icondata = self.seealso_icon
-        image = PhotoImage(master=self.canvas,data=icondata)
+        image = PhotoImage(master=self.canvas, data=icondata)
         self.iconimages[name] = image
         return image
 
@@ -900,20 +900,20 @@ gZKaWEhQos4qREQmGPDAZlZAADs=
             self.annotationservice.selectedText = text
             # notify annotationservice to highlight context in graphical view
             if self.item.label == "context":
-                contextsplit = string.split(text,";")
+                contextsplit = string.split(text, ";")
                 if len(contextsplit) > 0:
                     view = contextsplit[0]
-                    view = string.replace(view,"view:","")
-                    view = string.split(view,",")
+                    view = string.replace(view, "view:", "")
+                    view = string.split(view, ",")
                     viewfloats = []
                     for v in view:
                         viewfloats.append(float(v))
                 if len(contextsplit) > 1:
                     context = contextsplit[1]
-                    context = context.replace("ids:","")
-                    contextids = string.split(context,",")
-                #print "context: " + repr(contextids)
-                #print "view: " + repr(view)
+                    context = context.replace("ids:", "")
+                    contextids = string.split(context, ",")
+                # print "context: " + repr(contextids)
+                # print "view: " + repr(view)
                 self.annotationservice.selectAnnotation(contextids, view)
             else:
                 self.annotationservice.deselectAnnotation()
@@ -922,9 +922,9 @@ gZKaWEhQos4qREQmGPDAZlZAADs=
             if text.find("http") == 0:
                 webbrowser.open(text)
 
-    #overload to set annotation service for context highlighting
-    def draw(self,x,y):
-        result = TreeNode.draw(self,x,y)
+    # overload to set annotation service for context highlighting
+    def draw(self, x, y):
+        result = TreeNode.draw(self, x, y)
         for child in self.children:
             child.setannotationservice(self.annotationservice)
         return result
@@ -942,14 +942,14 @@ class AnnotationTreeItem(TreeItem):
         self.isLeaf = False
         if label == None and not isTopLevel:
             self.label = self.GetText()
-        if self.label == "context" or self.label=="date" or self.label == "creator" \
+        if self.label == "context" or self.label == "date" or self.label == "creator" \
                 or self.label == "created" or self.label == "title" \
                 or self.label == "identifier" or self.label == "language":
             self.isLeaf = True
         self.annoID = id
         if annotation != "" and annotation.nodeType == annotation.ELEMENT_NODE and \
                 annotation.nodeName == "rdf:Description":
-            self.annoID = annotation.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','about')
+            self.annoID = annotation.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'about')
 
     def GetText(self):
         node = self.anno
@@ -962,7 +962,7 @@ class AnnotationTreeItem(TreeItem):
                     text += child.nodeValue
             return text
         elif self.label == "body" or self.label == "term":
-            bodyurl = self.anno.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','resource')
+            bodyurl = self.anno.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'resource')
             # get body content if it's a resource stored on the Annotation Server, otherwise show url
             if bodyurl.find('AnnoteaServlet') != -1:
                 return self.getAnnotationBody(self.anno)
@@ -996,7 +996,7 @@ class AnnotationTreeItem(TreeItem):
             return None
         parent = self.anno
         children = parent.childNodes
-        prelist = [AnnotationTreeItem(node,id=self.annoID) for node in children \
+        prelist = [AnnotationTreeItem(node, id=self.annoID) for node in children \
                    if node.nodeName != "rdf:type" and node.nodeName != "policy" \
                    and node.nodeName != "annotates" and node.nodeName != "language"]
         itemlist = [item for item in prelist if item.GetText().strip()]
@@ -1011,12 +1011,12 @@ class AnnotationTreeItem(TreeItem):
             return "none"
         node = self.anno        
         for typeNode in node.getElementsByTagNameNS(\
-                'http://www.w3.org/1999/02/22-rdf-syntax-ns#','type'):
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'type'):
             typeStr = typeNode.getAttributeNS(\
-                'http://www.w3.org/1999/02/22-rdf-syntax-ns#','resource').replace(\
-                "http://www.w3.org/2000/10/annotationType#","")
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'resource').replace(\
+                "http://www.w3.org/2000/10/annotationType#", "")
             if typeStr == "Question" or typeStr == "Rating" or \
-                    typeStr == "SeeAlso" or typeStr == "Feedback" or typeStr=="Reference":
+                    typeStr == "SeeAlso" or typeStr == "Feedback" or typeStr == "Reference":
                 return typeStr
             if typeStr == "http://metadata.net/wannotea/semantic-annotation.owl#SemanticAnnotation":
                 return "Semantic"
@@ -1030,11 +1030,11 @@ class AnnotationTreeItem(TreeItem):
         bodyContentStr = ""
         try:
             bodyReq = urllib2.Request(url=node.getAttributeNS(\
-                'http://www.w3.org/1999/02/22-rdf-syntax-ns#','resource'))
+                'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'resource'))
             bodyHandle = urllib2.urlopen(bodyReq)    
             bodyContent = bodyHandle.read()
             bodyDom = parseString(bodyContent)
-            bodyElem = bodyDom.getElementsByTagNameNS("http://www.w3.org/1999/xhtml","body")
+            bodyElem = bodyDom.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "body")
             for body in bodyElem:
                 for child in body.childNodes:
                     if child.nodeType == node.TEXT_NODE:

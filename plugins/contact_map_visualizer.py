@@ -49,7 +49,7 @@ colors_value = [tuple(int(i * 255) for i in cmd.get_color_tuple(color))
 
 def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command', 'Contact Map Visualizer',
-                             label='Contact Map Visualizer', command = lambda s=self: CMVDialog(s))
+                             label='Contact Map Visualizer', command=lambda s=self: CMVDialog(s))
 
 
 def CMVDialog(self):
@@ -61,7 +61,7 @@ def CMVDialog(self):
         tkMessageBox.showerror('Error', 'This plugin requires the "pygame" module')
         return
 
-    myFormats = [('Portable Network Graphics','*.png'),('JPEG / JFIF','*.jpg')]
+    myFormats = [('Portable Network Graphics', '*.png'), ('JPEG / JFIF', '*.jpg')]
     try:
         image_file = tkFileDialog.askopenfilename(parent=self.root,
                                                   filetypes=myFormats, title='Choose the contact map image file')
@@ -71,7 +71,7 @@ def CMVDialog(self):
         tkMessageBox.showerror('Error', 'No Contact Map!')
         return
 
-    myFormatsPDB = [('Protein Data Bank','*.pdb'), ('MDL mol','*.mol'), ('PyMol Session File','*.pse')]
+    myFormatsPDB = [('Protein Data Bank', '*.pdb'), ('MDL mol', '*.mol'), ('PyMol Session File', '*.pse')]
     try:
         pdb_file = tkFileDialog.askopenfilename(parent=self.root,
                                                 filetypes=myFormatsPDB, title='Choose the corresponding PDB file')
@@ -144,7 +144,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
     # General variables
     count = 0
     sel = 0
-    ntime  = datetime.now()
+    ntime = datetime.now()
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
 
@@ -228,7 +228,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
             textRect[textcount][1] = event.pos[1] + 5
 
             screen.blit(image, image_rect)
-            for a in range(textcount+1):
+            for a in range(textcount + 1):
                 screen.blit(text[a], textRect[a])
             pg.display.flip()
 
@@ -244,7 +244,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
         # update screen
         screen.blit(image, image_rect)
         if sel == 1:
-            for a in range(textcount+1):
+            for a in range(textcount + 1):
                 screen.blit(text[a], textRect[a])
         pg.display.flip()
 
@@ -305,7 +305,7 @@ def xpm_convert(infile, outfile):
     from StringIO import StringIO
 
     xpm = open(infile).read()
-    xpm = re.sub(r'/\*.*?\*/', '', xpm) # strip comments
+    xpm = re.sub(r'/\*.*?\*/', '', xpm)  # strip comments
     xpm = re.sub(r'  +', ' ', xpm)      # strip multi-spaces
     xpm = re.sub(r'\n\s+', '\n', xpm)   # strip empty lines
     xpm = '/* XPM */' + xpm

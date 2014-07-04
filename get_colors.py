@@ -36,17 +36,17 @@ EXAMPLES:
     '''
     # there may be a more elegant way of doing this?
     import pymol
-    pymol_color_list=[]
+    pymol_color_list = []
     for tuplepair in pymol.querying.get_color_indices(selection): 
         pymol_color_list.append(tuplepair[0])
     pymol_color_list.sort()
     # the str() is due to pymol passing aruments as strings, 
     # thus True becomes 'True'
-    if str(output)=='True': print pymol_color_list
+    if str(output) == 'True': print pymol_color_list
     return pymol_color_list
-cmd.extend('get_colors',get_colors)
-cmd.auto_arg[0]['get_colors']=[lambda: cmd.Shortcut(['""','all']), 'selection=', ',']
-cmd.auto_arg[1]['get_colors']=[lambda: cmd.Shortcut(['True']), 'output=', '']
+cmd.extend('get_colors', get_colors)
+cmd.auto_arg[0]['get_colors'] = [lambda: cmd.Shortcut(['""', 'all']), 'selection=', ',']
+cmd.auto_arg[1]['get_colors'] = [lambda: cmd.Shortcut(['True']), 'output=', '']
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
@@ -70,9 +70,9 @@ EXAMPLES:
     cmd.color(get_random_color())
     '''
     import random
-    randomcolor=random.choice(get_colors(selection, False))
-    if str(output)!='False': print randomcolor
+    randomcolor = random.choice(get_colors(selection, False))
+    if str(output) != 'False': print randomcolor
     return randomcolor
-cmd.extend('get_random_color',get_random_color)
+cmd.extend('get_random_color', get_random_color)
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------

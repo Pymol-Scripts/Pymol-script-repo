@@ -13,7 +13,7 @@ import Tkinter
 from pymol import cmd, plugins
 
 DIGITS = 1
-DELTA = 10**(-DIGITS)
+DELTA = 10 ** (-DIGITS)
 
 
 def __init_plugin__(self=None):
@@ -81,8 +81,8 @@ DESCRIPTION
         mm = mmvar.get()
         mmf = Tkinter.Frame(master)
         Tkinter.Label(mmf, text=ffmt % (-mm)).grid(row=0, column=0, sticky='w')
-        Tkinter.Label(mmf, text=ffmt % ( 0.)).grid(row=0, column=1)
-        Tkinter.Label(mmf, text=ffmt % ( mm)).grid(row=0, column=2, sticky='e')
+        Tkinter.Label(mmf, text=ffmt % (0.)).grid(row=0, column=1)
+        Tkinter.Label(mmf, text=ffmt % (mm)).grid(row=0, column=2, sticky='e')
         mmf.grid(row=0, column=1, sticky='ew')
         mmf.columnconfigure(1, weight=1)
         for i, (name, level) in enumerate(get_isoobjects(), 1):

@@ -51,7 +51,7 @@ def COM(selection='all', center=0, quiet=1):
 
     for a in model.atom:
         COM = cpv.add(COM, a.coord)
-    COM = cpv.scale(COM, 1./nAtom)
+    COM = cpv.scale(COM, 1. / nAtom)
 
     if not int(quiet):
         print ' COM: [%8.3f,%8.3f,%8.3f]' % tuple(COM)

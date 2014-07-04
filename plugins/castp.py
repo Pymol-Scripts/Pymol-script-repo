@@ -12,23 +12,23 @@ def __init__(self):
     self.menuBar.addmenuitem('MyPlugin', 'command',
                              'Remote PDB',
                              label='CASTp by PDB code',
-                             command = lambda s=self : RemotePDB(s) )
+                             command=lambda s=self: RemotePDB(s))
 
     self.menuBar.addmenuitem('MyPlugin', 'command', 'Get Job ID', label='CASTp by Job ID',
-                             command = lambda s=self : RemoteJob(s) )
+                             command=lambda s=self: RemoteJob(s))
 
     self.menuBar.addmenuitem('MyPlugin', 'command',
                              'Local PDB',
                              label='CASTp from local files',
-                             command = lambda s=self : LocalPDB(s) )
+                             command=lambda s=self: LocalPDB(s))
 
     self.menuBar.addcascademenu('MyPlugin', 'MyFeedback', 'FeedbackForm', label='Feedback/Bugs')
-    self.menuBar.addmenuitem('MyFeedback','command', label='Leave Feedback', command = lambda s=self : Feedback(s) )
+    self.menuBar.addmenuitem('MyFeedback', 'command', label='Leave Feedback', command=lambda s=self: Feedback(s))
 
 
 class Feedback:
 
-    def __init__(self,app):
+    def __init__(self, app):
         import os
         import string
         import urllib
@@ -43,16 +43,16 @@ class Feedback:
         lHello = Label(F, text="Thank-you, your feedback is important to us!")
         lHello.pack(padx=200)
 
-        A=Frame(top)
+        A = Frame(top)
         A.pack()
-        iAm = Label(A,text="I am a : ")
-        aQuit = Button(A,text="Quit",command=A.quit)
+        iAm = Label(A, text="I am a : ")
+        aQuit = Button(A, text="Quit", command=A.quit)
         iAm.pack(side="left")
         aQuit.pack(side="left")
 
-        B=Frame(top)
+        B = Frame(top)
         B.pack()
-        iUse = Label(B,text="I use the plug-in mainly for:")
+        iUse = Label(B, text="I use the plug-in mainly for:")
         bQuit = Button(B, text="Quit", command=top.quit)
         iUse.pack(side="left")
         bQuit.pack(side="left")
@@ -63,13 +63,13 @@ class Feedback:
 #######################################################################################################
 class RemotePDB:
 
-    def __init__(self,app):
+    def __init__(self, app):
         import tkSimpleDialog
         import tkMessageBox
         import urllib
         import os
         import string
-        remote_file = tkSimpleDialog.askstring('PDB Loader','Enter the PDB or Job ID\n\nFor PDB id\'s, you may also enter the chain.\ni.e. 1a2zA for PDB 1a2z Chain A ',parent=app.root)
+        remote_file = tkSimpleDialog.askstring('PDB Loader', 'Enter the PDB or Job ID\n\nFor PDB id\'s, you may also enter the chain.\ni.e. 1a2zA for PDB 1a2z Chain A ', parent=app.root)
         sizeof = len(remote_file)
         noerror = 1
         pdbcode = ''
@@ -140,7 +140,7 @@ class RemotePDB:
             pocDict = {}
             pocin = open(infofile, "r") 
             for line in pocin:
-                stuff = line[12:16]  #Pocket Number
+                stuff = line[12:16]  # Pocket Number
                 stuff = stuff.strip()
                 if(stuff.isdigit()):
                     pocDict[stuff] = '';        
@@ -191,7 +191,7 @@ class RemotePDB:
             for idp in pids:  # for each pocket number (sorted)
                 pid = str(idp)
                 vls = pocDict[pid].split('+')
-                numgrps = int(len(vls)/50)  # attempt to make groups of atoms
+                numgrps = int(len(vls) / 50)  # attempt to make groups of atoms
                 stnumgrps = str(numgrps)
                 currAtms = {}
                 counter = 0
@@ -224,7 +224,7 @@ class RemotePDB:
                     else:
                         newsel = newsel + "+" + str(atms[i])
 
-                    if i%50 == 0 and i != 0:
+                    if i % 50 == 0 and i != 0:
                         Scntr = str(SelectionCntr)
                         tempPocket = "Pocket_" + pid + "_" + Scntr
                         currSelections[SelectionCntr] = tempPocket
@@ -244,7 +244,7 @@ class RemotePDB:
                 generalSelect = "select Pocket_" + pid + ", "
 
                 for i in range(len(currSelections)):
-                    if i==0:
+                    if i == 0:
                         generalSelect = generalSelect + currSelections[i]
                     else:
                         generalSelect = generalSelect + " or " + currSelections[i]
@@ -267,13 +267,13 @@ class RemotePDB:
 
 class RemoteJob:
 
-    def __init__(self,app):
+    def __init__(self, app):
         import tkSimpleDialog
         import tkMessageBox
         import urllib
         import os
         import string
-        jobid = tkSimpleDialog.askstring('PDB Loader', 'Enter the Job ID given to you by the CASTp web server\nThe Job ID is case sensitive!',parent=app.root)
+        jobid = tkSimpleDialog.askstring('PDB Loader', 'Enter the Job ID given to you by the CASTp web server\nThe Job ID is case sensitive!', parent=app.root)
         pdbfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.pdb')[0]
         if(os.path.getsize(pdbfile) > 400):
             pocfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.poc')[0]
@@ -357,7 +357,7 @@ class RemoteJob:
                 else:
                     newsel = newsel + "+" + str(atms[i])
 
-                if i%50 == 0 and i != 0:
+                if i % 50 == 0 and i != 0:
                     Scntr = str(SelectionCntr)
                     tempPocket = "Pocket_" + pid + "_" + Scntr
                     currSelections[SelectionCntr] = tempPocket
@@ -377,7 +377,7 @@ class RemoteJob:
             generalSelect = "select Pocket_" + pid + ", "
 
             for i in range(len(currSelections)):
-                if i==0:
+                if i == 0:
                     generalSelect = generalSelect + currSelections[i]
                 else:
                     generalSelect = generalSelect + " or " + currSelections[i]
@@ -397,16 +397,16 @@ class RemoteJob:
 
 class LocalPDB:
 
-    def __init__(self,app):
+    def __init__(self, app):
         import tkMessageBox
         import tkFileDialog
         import os
         import string
 #        cwd = askdirectory(title = 'Choose the directory where all of the CASTp files are located')           
         pdbfile = tkFileDialog.askopenfilename(parent=app.root, title='Open the structure file\nWithin the same directory you must have the corresponding .poc and .pocInfo files')
-        wd = os.path.dirname(pdbfile) #+ os.sep + jobid + '.pdb'
+        wd = os.path.dirname(pdbfile)  # + os.sep + jobid + '.pdb'
         stuff = pdbfile.split('/')
-        id = stuff[len(stuff)-1].split('.')
+        id = stuff[len(stuff) - 1].split('.')
         pdbfile = wd + os.sep + id[0] + '.pdb'
         pocfile = wd + os.sep + id[0] + '.poc'
         pocInfofile = wd + os.sep + id[0] + '.pocInfo'
@@ -459,7 +459,7 @@ class LocalPDB:
             atms = currAtms.values()
             atms.sort()
 
-            numgrps = int(len(vls)/5)  # attempt to make groups of atoms
+            numgrps = int(len(vls) / 5)  # attempt to make groups of atoms
             newsel = ''
             beg = ''
             currSelections = {};
@@ -470,7 +470,7 @@ class LocalPDB:
                 else:
                     newsel = newsel + "+" + str(atms[i])
 
-                if i%50 == 0 and i != 0:
+                if i % 50 == 0 and i != 0:
                     Scntr = str(SelectionCntr)
                     tempPocket = "Pocket_" + pid + "_" + Scntr
                     currSelections[SelectionCntr] = tempPocket
@@ -490,7 +490,7 @@ class LocalPDB:
             generalSelect = "select Pocket_" + pid + ", "
 
             for i in range(len(currSelections)):
-                if i==0:
+                if i == 0:
                     generalSelect = generalSelect + currSelections[i]
                 else:
                     generalSelect = generalSelect + " or " + currSelections[i]

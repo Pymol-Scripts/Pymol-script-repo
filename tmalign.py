@@ -150,13 +150,13 @@ tmscore, mmalign
             print line.rstrip()
 
     if not quiet:
-        for i in range(0, len(alignment[0])-1, 78):
+        for i in range(0, len(alignment[0]) - 1, 78):
             for line in alignment:
-                print line[i:i+78]
+                print line[i:i + 78]
             print ''
 
-    assert len(matrix) == 3*4
-    matrix.extend([0,0,0,1])
+    assert len(matrix) == 3 * 4
+    matrix.extend([0, 0, 0, 1])
 
     if int(transform):
         cmd.transform_selection('byobject (%s)' % (mobile), matrix, homogenous=1)

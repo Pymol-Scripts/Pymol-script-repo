@@ -23,8 +23,8 @@ def __init__(self):
     """Add this Plugin to the PyMOL menu"""
     self.menuBar.addmenuitem('Plugin', 'command',
                              'wrappy',
-                             label = 'Wrappy',
-                             command = lambda : mainDialog())
+                             label='Wrappy',
+                             command=lambda: mainDialog())
 
 
 def mainDialog():
@@ -40,81 +40,81 @@ def mainDialog():
         if len(cmd.get_names()) > 0:
             dehydron(selection, angle_range, max_distance, desolv, min_wrappers, max_wrappers)
         else:
-            print '#'*40
+            print '#' * 40
             print 'Please load a protein structure'
-            print '#'*40
+            print '#' * 40
     master = Tkinter.Tk()
     master.title(' Wrappy ')
-    w = Tkinter.Label(master, text = 'dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
-                      background = '#000000',
-                      foreground = '#cecece',
+    w = Tkinter.Label(master, text='dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
+                      background='#000000',
+                      foreground='#cecece',
                       #pady = 20,
                       )
-    w.pack(expand=1, fill = 'both', padx = 4, pady = 4)
+    w.pack(expand=1, fill='both', padx=4, pady=4)
 
     Pmw.initialise(master)
-    nb = Pmw.NoteBook(master, hull_width = 420, hull_height=280)
+    nb = Pmw.NoteBook(master, hull_width=420, hull_height=280)
     p1 = nb.add('Main')
     p2 = nb.add('About')
     nb.pack(padx=5, pady=5, fill=BOTH, expand=1)
 ############################ Main TAB #################################
-### hydrogen bond settings
-    group = Pmw.Group(p1,tag_text='Hydrogen bond Settings')
+# hydrogen bond settings
+    group = Pmw.Group(p1, tag_text='Hydrogen bond Settings')
     group.pack(fill='x', expand=1, padx=20, pady=1)
     Label(group.interior(), text='angle range').grid(row=2, column=0)
     angle_value = StringVar(master=group.interior())
     angle_value.set(40)
-    entry_angle = Entry(group.interior(),textvariable=angle_value, width=10)
+    entry_angle = Entry(group.interior(), textvariable=angle_value, width=10)
     entry_angle.grid(row=2, column=1)
     entry_angle.configure(state='normal')
     entry_angle.update()
     Label(group.interior(), text='max distance').grid(row=3, column=0)
     dist_cutoff_value = StringVar(master=group.interior())
     dist_cutoff_value.set(3.5)
-    entry_dist = Entry(group.interior(),textvariable=dist_cutoff_value, width=10)
+    entry_dist = Entry(group.interior(), textvariable=dist_cutoff_value, width=10)
     entry_dist.grid(row=3, column=1)
     entry_dist.configure(state='normal')
     entry_dist.update()
-### dehydron settings
-    group = Pmw.Group(p1,tag_text='Dehydron Settings')
+# dehydron settings
+    group = Pmw.Group(p1, tag_text='Dehydron Settings')
     group.pack(fill='x', expand=1, padx=20, pady=5)
     Label(group.interior(), text='desolvatation sphere radius').grid(row=2, column=2)
     desolv_sphere = StringVar(master=group.interior())
     desolv_sphere.set(6.5)
-    entry_desolv=Entry(group.interior(),textvariable=desolv_sphere, width=10)
+    entry_desolv = Entry(group.interior(), textvariable=desolv_sphere, width=10)
     entry_desolv.grid(row=2, column=3)
     entry_desolv.configure(state='normal')
     entry_desolv.update()
     Label(group.interior(), text='minimum wrappers').grid(row=3, column=2)
     min_value = StringVar(master=group.interior())
     min_value.set(19)
-    entry_min_value=Entry(group.interior(),textvariable=min_value, width=10)
+    entry_min_value = Entry(group.interior(), textvariable=min_value, width=10)
     entry_min_value.grid(row=3, column=3)
     entry_min_value.configure(state='normal')
     entry_min_value.update()
     Label(group.interior(), text='maximum wrappers').grid(row=4, column=2)
     max_value = StringVar(master=group.interior())
     max_value.set(35)
-    entry_max_value=Entry(group.interior(),textvariable=max_value, width=10)
+    entry_max_value = Entry(group.interior(), textvariable=max_value, width=10)
     entry_max_value.grid(row=4, column=3)
     entry_max_value.configure(state='normal')
     entry_max_value.update()
-### selection settings
-    group = Pmw.Group(p1,tag_text='Selection')
+# selection settings
+    group = Pmw.Group(p1, tag_text='Selection')
     group.pack(fill='x', expand=1, padx=20, pady=5)
     Label(group.interior(), text='selection').grid(row=5, column=2)
     sel_value = StringVar(master=group.interior())
     sel_value.set('all')
-    entry_sel_value=Entry(group.interior(),textvariable=sel_value, width=10)
+    entry_sel_value = Entry(group.interior(), textvariable=sel_value, width=10)
     entry_sel_value.grid(row=5, column=3)
     entry_sel_value.configure(state='normal')
     entry_sel_value.update()
-### submit
+# submit
     Button(p1, text="Calculate", command=get_dehydrons).pack(side=BOTTOM)
 ############################ About TAB #################################
     group = Pmw.Group(p2, tag_text='About wrappy')
-    group.pack(fill = 'both', expand=1, padx = 5, pady = 5)
-    text =u"""For a brief introduction to the dehydron concept, you could
+    group.pack(fill='both', expand=1, padx=5, pady=5)
+    text = u"""For a brief introduction to the dehydron concept, you could
 read http://en.wikipedia.org/wiki/dehydron
 
 Citation for this plugin:
@@ -144,12 +144,12 @@ Springer-Verlag, Berlin, Heidelberg (2010).
     #
     interior_frame = Frame(group.interior())
     bar = Scrollbar(interior_frame)
-    text_holder = Text(interior_frame, yscrollcommand=bar.set, foreground="#cecece",background="#000000",font="Times 12")
+    text_holder = Text(interior_frame, yscrollcommand=bar.set, foreground="#cecece", background="#000000", font="Times 12")
     bar.config(command=text_holder.yview)
-    text_holder.insert(END,text)
-    text_holder.pack(side=LEFT,expand="yes",fill="both")
-    bar.pack(side=LEFT,expand="yes",fill="y")
-    interior_frame.pack(expand="yes",fill="both")
+    text_holder.insert(END, text)
+    text_holder.pack(side=LEFT, expand="yes", fill="both")
+    bar.pack(side=LEFT, expand="yes", fill="y")
+    interior_frame.pack(expand="yes", fill="both")
 
     master.mainloop()
 
@@ -159,7 +159,7 @@ def colorize():
 
     cmd.spectrum('b', 'red_yellow_green', minimum='-1.0', maximum='1.0')
     cmd.select('missing', 'b = -2.0')
-    cmd.color('white','missing')
+    cmd.color('white', 'missing')
     cmd.delete('missing')
 
 
@@ -186,7 +186,7 @@ USAGE
     cmd.delete(HBO_name)
 
     selection_hb = '((%s) and polymer)' % (selection)
-    hb = cmd.find_pairs("((byres "+selection_hb+") and n. n)","((byres "+selection_hb+") and n. o)",mode=1,cutoff=max_distance,angle=angle_range)
+    hb = cmd.find_pairs("((byres " + selection_hb + ") and n. n)", "((byres " + selection_hb + ") and n. o)", mode=1, cutoff=max_distance, angle=angle_range)
 
     cmd.select('_nonpolar', '(elem C) and not (solvent or (elem N+O) extend 1)', 0)
     try:
@@ -219,12 +219,12 @@ USAGE
 
     cmd.delete('_nonpolar')
     cmd.delete('_selection')
-    #compute the z_scores. Useful for protein structure validation.
+    # compute the z_scores. Useful for protein structure validation.
     stored.ResiduesNames = []
-    cmd.iterate('(name ca)','stored.ResiduesNames.append((resn))')
+    cmd.iterate('(name ca)', 'stored.ResiduesNames.append((resn))')
     total_residues = float(len(stored.ResiduesNames))
-    z_score_wrappers = ((total_wrappers/total_residues) - 17) / 2
-    z_score_hb = ((len(hb)/total_residues) - 0.62) / 0.06
+    z_score_wrappers = ((total_wrappers / total_residues) - 17) / 2
+    z_score_hb = ((len(hb) / total_residues) - 0.62) / 0.06
 
     if len(low_sel) > 0:
         cmd.show_as('dashes', DH_name)
@@ -240,7 +240,7 @@ USAGE
         high_sel.sort()
 
     if not quiet:
-        hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))
+        hb.sort(lambda x, y: (cmp(x[0][1], y[0][1])))
         print "--------------------------------------------------------------------"
         print "------------------------------Results ------------------------------"
         print "--------------------------------------------------------------------"

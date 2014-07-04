@@ -27,7 +27,7 @@ from pymol import cmd
 import re
 
 
-def parseCONTACTContacts( f ):
+def parseCONTACTContacts(f):
     # Lys    24A  ca  Asp   263D  CG   ...  4.94    [   -1B   ]   3: -X,  Y+1/2,  -Z+1/2
     conParser = re.compile("(\S*)\s*(\d+)([A-Z])\s*(\w+)")
     s1 = []
@@ -45,30 +45,30 @@ def parseCONTACTContacts( f ):
     return (s1, s2)
 
 
-def ccp4_contact( contactsfile, selName1 = "source", selName2 = "target" ):
+def ccp4_contact(contactsfile, selName1="source", selName2="target"):
     # read and parse contacts file into two lists of contact atoms and contact pair list
     s1, s2 = parseCONTACTContacts(open(contactsfile))
 
     # create a selection for the first contact list
 
     # create the PYMOL selection macros for the residues 
-    resNames = [chain+"/"+residue+"/" for (type, residue, chain, atom) in s1]
+    resNames = [chain + "/" + residue + "/" for (type, residue, chain, atom) in s1]
     # put them in a set to remove duplicates and then join with 'or'
     resSel = " or ".join(frozenset(resNames))
     # finally select them under the new name
     cmd.select(selName1 + "_res", resSel)
 
-    atomNames = [chain+"/"+residue+"/"+atom for (type, residue, chain, atom) in s1]
+    atomNames = [chain + "/" + residue + "/" + atom for (type, residue, chain, atom) in s1]
     atomSel = " or ".join(frozenset(atomNames))
     cmd.select(selName1 + "_atom", atomSel)
 
     # create a selection for the second contact list
 
-    resNames = [chain+"/"+residue+"/" for (type, residue, chain, atom) in s2]
+    resNames = [chain + "/" + residue + "/" for (type, residue, chain, atom) in s2]
     resSel = " or ".join(frozenset(resNames))
     cmd.select(selName2 + "_res", resSel)
 
-    atomNames = [chain+"/"+residue+"/"+atom for (type, residue, chain, atom) in s2]
+    atomNames = [chain + "/" + residue + "/" + atom for (type, residue, chain, atom) in s2]
     atomSel = " or ".join(frozenset(atomNames))
     cmd.select(selName2 + "_atom", atomSel)
 

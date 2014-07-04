@@ -28,7 +28,7 @@ SEE ALSO
         for line in pdbstr.splitlines(True):
             yield line
             if line[:6] in ['ATOM  ', 'HETATM']:
-                u_str = ''.join('%7.0f' % (u*1e4) for u in atom_it.next().u_aniso)
+                u_str = ''.join('%7.0f' % (u * 1e4) for u in atom_it.next().u_aniso)
                 yield 'ANISOU' + line[6:28] + u_str + line[70:]
 
     pdbstr = ''.join(mergeaniso())

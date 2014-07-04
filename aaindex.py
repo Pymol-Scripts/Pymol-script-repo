@@ -74,10 +74,10 @@ class Record:
 
     def median(self):
         x = sorted(filter(None, self.index.values()))
-        half = len(x)/2
+        half = len(x) / 2
         if len(x) % 2 == 1:
             return x[half]
-        return (x[half-1] + x[half])/2.0
+        return (x[half - 1] + x[half]) / 2.0
 
     def __str__(self):
         desc = self.desc.replace('\n', ' ').strip()
@@ -123,8 +123,8 @@ class MatrixRecord(Record):
             x.extend(filter(None, y))
         x.sort()
         if len(x) % 2 == 1:
-            return x[len(x)/2]
-        return sum(x[len(x)/2-1:len(x)/2+1])/2.0
+            return x[len(x) / 2]
+        return sum(x[len(x) / 2 - 1:len(x) / 2 + 1]) / 2.0
 
 
 def get(key):
@@ -209,7 +209,7 @@ def _parse(filename, rec, quiet=True):
         elif key == 'C ':
             a = line[2:].split()
             for i in range(0, len(a), 2):
-                current.correlated[a[i]] = float(a[i+1])
+                current.correlated[a[i]] = float(a[i + 1])
         elif key == 'I ':
             a = line[1:].split()
             if a[0] != 'A/L':
@@ -222,7 +222,7 @@ def _parse(filename, rec, quiet=True):
                     assert list(Record.aakeys[10:]) == [i[2] for i in a]
                 except:
                     print 'Warning: wrong amino acid sequence for', current.key
-        elif key =='M ':
+        elif key == 'M ':
             a = line[2:].split()
             if a[0] == 'rows':
                 if a[4] == 'rows':
@@ -378,7 +378,7 @@ EXAMPLES
     if not quiet and len(key) > 1:
         print 'Distance shells:'
         for i in range(len(key)):
-            print '%s %.1f-%.1f' % (key[i], cutoff[i], cutoff[i+1])
+            print '%s %.1f-%.1f' % (key[i], cutoff[i], cutoff[i + 1])
 
     idmap = dict()
     cmd.iterate_state(state, '(%s) or (%s)' % (selection1, selection2),
@@ -402,7 +402,7 @@ EXAMPLES
         a2 = idmap[id2]
         r = cpv.distance(a1[1], a2[1])
         for i in i_list:
-            if cutoff[i] <= r and r < cutoff[i+1]:
+            if cutoff[i] <= r and r < cutoff[i + 1]:
                 try:
                     aa1 = to_one_letter_code[a1[0][0]]
                     aa2 = to_one_letter_code[a2[0][0]]
@@ -424,17 +424,17 @@ try:
     def pymol_auto_arg_update():
         aaindexkey_sc = cmd.Shortcut(_aaindex.keys())
         cmd.auto_arg[0].update({
-            'aaindex2b'   : [ aaindexkey_sc              , 'aaindexkey'      , ', ' ],
-            'pmf'         : [ aaindexkey_sc              , 'aaindexkey'      , ', ' ],
+            'aaindex2b': [aaindexkey_sc, 'aaindexkey', ', '],
+            'pmf': [aaindexkey_sc, 'aaindexkey', ', '],
         })
         cmd.auto_arg[1].update({
-            'aaindex2b'   : [ cmd.selection_sc           , 'selection'       , ''   ],
+            'aaindex2b': [cmd.selection_sc, 'selection', ''],
         })
         cmd.auto_arg[2].update({
-            'pmf'         : [ cmd.selection_sc           , 'selection'       , ''   ],
+            'pmf': [cmd.selection_sc, 'selection', ''],
         })
         cmd.auto_arg[3].update({
-            'pmf'         : [ cmd.selection_sc           , 'selection'       , ''   ],
+            'pmf': [cmd.selection_sc, 'selection', ''],
         })
     _pymol_auto_arg_update = pymol_auto_arg_update
 except:

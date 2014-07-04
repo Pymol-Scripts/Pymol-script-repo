@@ -30,7 +30,7 @@ SEE ALSO
         setting = pymol.setting._get_name(a)
         if regexp.search(setting):
             count += 1
-            matches.append( (setting, cmd.get_setting_text(a, '', -1)) )
+            matches.append((setting, cmd.get_setting_text(a, '', -1)))
     # max length of the setting names that matched
     maxlen = max([len(s[0]) for s in matches] + [0])
     fmt = "%%-%ds : %%s" % (maxlen,)

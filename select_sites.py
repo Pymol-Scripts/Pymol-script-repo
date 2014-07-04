@@ -56,7 +56,7 @@ ARGUMENTS
                 selenames.add(selename)
                 grpselenames.add(selename)
                 for i in range(4):
-                    res = line[18+11*i:29+11*i]
+                    res = line[18 + 11 * i:29 + 11 * i]
                     if res.strip():
                         chain = res[4]
                         resi = res[5:].strip()
@@ -101,11 +101,11 @@ ARGUMENTS
         cmd.show('labels', '*LINK*')
         cmd.color('gray', selection)
         for i, selename in enumerate(selenames):
-            cmd.color(i+2, '(%s) and (%s)' % (selection, selename))
-        #for i, selename in enumerate(cysselenames):
+            cmd.color(i + 2, '(%s) and (%s)' % (selection, selename))
+        # for i, selename in enumerate(cysselenames):
         #    cmd.color('sulfur', '(%s) and (%s)' % (selection, selename))
         for i, selename in enumerate(hetselenames):
-            cmd.show('spheres','%s and inorganic' % (selename))
+            cmd.show('spheres', '%s and inorganic' % (selename))
         cmd.util.cnc('%s' % (allsites))
 cmd.extend('select_sites', select_sites)
 cmd.auto_arg[0]['select_sites'] = cmd.auto_arg[0]['pseudoatom']

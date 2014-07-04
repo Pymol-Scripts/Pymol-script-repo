@@ -18,7 +18,7 @@ SEE ALSO
 from pymol import cmd
 
 
-def com(selection,state=None,mass=None,object=None, quiet=1, **kwargs):
+def com(selection, state=None, mass=None, object=None, quiet=1, **kwargs):
     quiet = int(quiet)
     if (object == None):
         try:
@@ -29,23 +29,23 @@ def com(selection,state=None,mass=None,object=None, quiet=1, **kwargs):
     cmd.delete(object)
 
     if (state != None):
-        x, y, z=get_com(selection,mass=mass, quiet=quiet)
+        x, y, z = get_com(selection, mass=mass, quiet=quiet)
         if not quiet:
             print "%f %f %f" % (x, y, z)
-        cmd.pseudoatom(object,pos=[x, y, z], **kwargs)
-        cmd.show("spheres",object)
+        cmd.pseudoatom(object, pos=[x, y, z], **kwargs)
+        cmd.show("spheres", object)
     else:
         for i in range(cmd.count_states()):
-            x, y, z=get_com(selection,mass=mass,state=i+1, quiet=quiet)
+            x, y, z = get_com(selection, mass=mass, state=i + 1, quiet=quiet)
             if not quiet:
-                print "State %d:%f %f %f" % (i+1, x, y, z)
-            cmd.pseudoatom(object,pos=[x, y, z],state=i+1, **kwargs)
+                print "State %d:%f %f %f" % (i + 1, x, y, z)
+            cmd.pseudoatom(object, pos=[x, y, z], state=i + 1, **kwargs)
             cmd.show("spheres", 'last ' + object)
 
-cmd.extend("com",com)
+cmd.extend("com", com)
 
 
-def get_com(selection,state=1,mass=None, quiet=1):
+def get_com(selection, state=1, mass=None, quiet=1):
     """
  DESCRIPTION
 
@@ -57,29 +57,29 @@ def get_com(selection,state=1,mass=None, quiet=1):
     """
     quiet = int(quiet)
 
-    totmass=0.0
-    if mass!=None and not quiet:
+    totmass = 0.0
+    if mass != None and not quiet:
         print "Calculating mass-weighted COM"
 
-    state=int(state)
-    model = cmd.get_model(selection,state)
-    x,y,z=0,0,0
+    state = int(state)
+    model = cmd.get_model(selection, state)
+    x, y, z = 0, 0, 0
     for a in model.atom:
         if (mass != None):
             m = a.get_mass()
-            x+= a.coord[0]*m
-            y+= a.coord[1]*m
-            z+= a.coord[2]*m
-            totmass+=m
+            x += a.coord[0] * m
+            y += a.coord[1] * m
+            z += a.coord[2] * m
+            totmass += m
         else:
-            x+= a.coord[0]
-            y+= a.coord[1]
-            z+= a.coord[2]
+            x += a.coord[0]
+            y += a.coord[1]
+            z += a.coord[2]
 
-    if (mass!=None):
-        return x/totmass, y/totmass, z/totmass
+    if (mass != None):
+        return x / totmass, y / totmass, z / totmass
     else:
-        return x/len(model.atom), y/len(model.atom), z/len(model.atom)
+        return x / len(model.atom), y / len(model.atom), z / len(model.atom)
 
 cmd.extend("get_com", get_com)
 

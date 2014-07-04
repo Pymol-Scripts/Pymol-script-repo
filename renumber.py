@@ -54,12 +54,12 @@ ARGUMENTS
         for other in atom.adjacent:
             if other.visited:
                 continue
-            if (atom.name, other.name) in [('C','N'), ("O3'", 'P')]:
-                minmax[1] = resi+1
-                traverse(other, resi+1)
-            elif (atom.name, other.name) in [('N','C'), ('P', "O3'")]:
-                minmax[0] = resi-1
-                traverse(other, resi-1)
+            if (atom.name, other.name) in [('C', 'N'), ("O3'", 'P')]:
+                minmax[1] = resi + 1
+                traverse(other, resi + 1)
+            elif (atom.name, other.name) in [('N', 'C'), ('P', "O3'")]:
+                minmax[0] = resi - 1
+                traverse(other, resi - 1)
             elif (atom.name, other.name) not in [('SG', 'SG')]:
                 traverse(other, resi)
     traverse(startatom, start)

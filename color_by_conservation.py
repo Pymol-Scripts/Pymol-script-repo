@@ -28,13 +28,13 @@ def color_by_conservation(aln, names=(), color="rainbow", as_putty=0, _self=cmd)
 
     r = cmd.get_raw_alignment(aln)
 
-    if names==():
+    if names == ():
         known_objs = []
         map(known_objs.extend, map(lambda x: map(lambda y: y[0], x), r))
-        known_objs=set(known_objs)
+        known_objs = set(known_objs)
 
         # highest number of matches seen
-        M = max(map(len,r)) + 1
+        M = max(map(len, r)) + 1
     else:
         known_objs = set(names)
         M = len(known_objs) + 1
@@ -45,14 +45,14 @@ def color_by_conservation(aln, names=(), color="rainbow", as_putty=0, _self=cmd)
     for af in r:
         c = float(1.0 + len(af)) / float(M)
         for y in af:
-            _self.alter("%s and index %s" % (y[0], y[1]), "b=c", space={'c':c})
+            _self.alter("%s and index %s" % (y[0], y[1]), "b=c", space={'c': c})
 
-    if as_putty!=0:
+    if as_putty != 0:
         for obj in known_objs:
             _self.show_as("cartoon", "%s" % obj)
-            _self.cartoon("putty",  "%s" % obj)
+            _self.cartoon("putty", "%s" % obj)
             _self.spectrum('b', color, obj)
             _self.sort()
             _self.rebuild()
     return None
-cmd.extend("color_by_conservation",color_by_conservation)
+cmd.extend("color_by_conservation", color_by_conservation)

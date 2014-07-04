@@ -42,14 +42,14 @@ def initializePlugins(self):
         try:
             __import__(mod_name, level=0)
             mod = sys.modules[mod_name]
-            if hasattr(mod,'__init_plugin__'):
+            if hasattr(mod, '__init_plugin__'):
                 mod.__init_plugin__(self)
-            elif hasattr(mod,'__init__'):
+            elif hasattr(mod, '__init__'):
                 mod.__init__(self)
         except:
-            print "Exception in plugin '%s' -- Traceback follows..."%name
+            print "Exception in plugin '%s' -- Traceback follows..." % name
             traceback.print_exc()
-            print "Error: unable to initialize plugin '%s'."%name
+            print "Error: unable to initialize plugin '%s'." % name
 
 # overload method
 pmg_tk.PMGApp.initializePlugins = initializePlugins

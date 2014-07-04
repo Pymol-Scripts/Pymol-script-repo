@@ -2,7 +2,7 @@ import pymol
 from pymol import cmd
 
 
-def toGroup(groupName,sel,prefix="",delOrig=True):
+def toGroup(groupName, sel, prefix="", delOrig=True):
     """
     DESCRIPTION
     toGroup will take a multistate object and extract it
@@ -36,11 +36,11 @@ def toGroup(groupName,sel,prefix="",delOrig=True):
     Nothing, it makes a new group.
 
     """
-    if prefix=="":
-        prefix=sel + "_grouped"
+    if prefix == "":
+        prefix = sel + "_grouped"
 
     cmd.split_states(sel, prefix=prefix)
-    cmd.group(groupName,prefix+"*")
+    cmd.group(groupName, prefix + "*")
 
     if delOrig:
         cmd.delete(sel)

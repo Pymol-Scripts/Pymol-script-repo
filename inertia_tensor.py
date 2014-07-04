@@ -42,9 +42,9 @@ NOTES
 
     import numpy
 
-    def draw_axes(start,ends,cone_ends,radius=.2,name_obj="tensor"):
+    def draw_axes(start, ends, cone_ends, radius=.2, name_obj="tensor"):
         radius = float(radius)
-        size = radius*15.
+        size = radius * 15.
 
         obj = [
             CYLINDER, start[0], start[1], start[2], ends[0][0] + start[0], ends[0][1] + start[1], ends[0][2] + start[2], radius, 1.0, 1.0, 1.0, 1.0, 0.0, 0.,
@@ -61,19 +61,19 @@ NOTES
             CONE, (-1) * ends[2][0] + start[0], (-1) * ends[2][1] + start[1], (-1) * ends[2][2] + start[2], (-1) * cone_ends[2][0] + start[0], (-1) * cone_ends[2][1] + start[1], (-1) * cone_ends[2][2] + start[2], 0.5, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0,
         ]
 
-        cmd.load_cgo(obj,name_obj)
+        cmd.load_cgo(obj, name_obj)
 
-    totmass=0.0
-    x_com,y_com,z_com=0,0,0
+    totmass = 0.0
+    x_com, y_com, z_com = 0, 0, 0
 
-    model=cmd.get_model(selection, state)
+    model = cmd.get_model(selection, state)
 
     for a in model.atom:
 
-        x_com+=a.coord[0]*a.get_mass()
-        y_com+=a.coord[1]*a.get_mass()
-        z_com+=a.coord[2]*a.get_mass()
-        totmass+=a.get_mass()
+        x_com += a.coord[0] * a.get_mass()
+        y_com += a.coord[1] * a.get_mass()
+        z_com += a.coord[2] * a.get_mass()
+        totmass += a.get_mass()
 
     x_com /= totmass; y_com /= totmass; z_com /= totmass
 
@@ -83,33 +83,33 @@ NOTES
         print
         print x_com, y_com, z_com
 
-    I=[]
+    I = []
 
     for index in range(9):
         I.append(0)
 
     for a in model.atom:
 
-        temp_x,temp_y,temp_z=a.coord[0],a.coord[1],a.coord[2]
-        temp_x-=x_com; temp_y-=y_com; temp_z-=z_com
+        temp_x, temp_y, temp_z = a.coord[0], a.coord[1], a.coord[2]
+        temp_x -= x_com; temp_y -= y_com; temp_z -= z_com
 
-        I[0]+=a.get_mass()*(temp_y**2+temp_z**2)
-        I[4]+=a.get_mass()*(temp_x**2+temp_z**2)
-        I[8]+=a.get_mass()*(temp_x**2+temp_y**2)
-        I[1]-=a.get_mass()*temp_x*temp_y
-        I[3]-=a.get_mass()*temp_x*temp_y
-        I[2]-=a.get_mass()*temp_x*temp_z
-        I[6]-=a.get_mass()*temp_x*temp_z
-        I[5]-=a.get_mass()*temp_y*temp_z
-        I[7]-=a.get_mass()*temp_y*temp_z
+        I[0] += a.get_mass() * (temp_y ** 2 + temp_z ** 2)
+        I[4] += a.get_mass() * (temp_x ** 2 + temp_z ** 2)
+        I[8] += a.get_mass() * (temp_x ** 2 + temp_y ** 2)
+        I[1] -= a.get_mass() * temp_x * temp_y
+        I[3] -= a.get_mass() * temp_x * temp_y
+        I[2] -= a.get_mass() * temp_x * temp_z
+        I[6] -= a.get_mass() * temp_x * temp_z
+        I[5] -= a.get_mass() * temp_y * temp_z
+        I[7] -= a.get_mass() * temp_y * temp_z
 
-    tensor = numpy.array([(I[0:3]),(I[3:6]),(I[6:9])])
-    vals,vects = numpy.linalg.eig(tensor) # they come out unsorted, so the command below is needed
+    tensor = numpy.array([(I[0:3]), (I[3:6]), (I[6:9])])
+    vals, vects = numpy.linalg.eig(tensor)  # they come out unsorted, so the command below is needed
 
-    eig_ord = numpy.argsort(vals) # a thing to note is that here COLUMN i corrensponds to eigenvalue i.
+    eig_ord = numpy.argsort(vals)  # a thing to note is that here COLUMN i corrensponds to eigenvalue i.
 
     ord_vals = vals[eig_ord]
-    ord_vects = vects[:,eig_ord].T
+    ord_vects = vects[:, eig_ord].T
 
     if not int(quiet):
         print
@@ -122,27 +122,27 @@ NOTES
         print ord_vects
 
     if int(scaling) == 0:
-        norm_vals = [sum(numpy.sqrt(ord_vals/totmass)) / 3 for i in range(3)]
+        norm_vals = [sum(numpy.sqrt(ord_vals / totmass)) / 3 for i in range(3)]
 
     elif int(scaling) == 1:
-        normalizer = numpy.sqrt(max(ord_vals)/totmass)
-        norm_vals = normalizer / numpy.sqrt(ord_vals/totmass) * normalizer
+        normalizer = numpy.sqrt(max(ord_vals) / totmass)
+        norm_vals = normalizer / numpy.sqrt(ord_vals / totmass) * normalizer
         norm_vals = norm_vals / (max(norm_vals) / min(norm_vals))
 
     elif int(scaling) == 2:
-        normalizer = numpy.sqrt(max(ord_vals)/totmass)
-        norm_vals = numpy.sqrt(ord_vals/totmass)
+        normalizer = numpy.sqrt(max(ord_vals) / totmass)
+        norm_vals = numpy.sqrt(ord_vals / totmass)
 
-    start=[x_com,y_com,z_com]
-    ends=[[(norm_vals[0] - 1)*ord_vects[0][0],(norm_vals[0] - 1)*ord_vects[0][1],(norm_vals[0] - 1)*ord_vects[0][2]],
-          [(norm_vals[1] - 1)*ord_vects[1][0],(norm_vals[1] - 1)*ord_vects[1][1],(norm_vals[1] - 1)*ord_vects[1][2]],
-          [(norm_vals[2] - 1)*ord_vects[2][0],(norm_vals[2] - 1)*ord_vects[2][1],(norm_vals[2] - 1)*ord_vects[2][2]]]
+    start = [x_com, y_com, z_com]
+    ends = [[(norm_vals[0] - 1) * ord_vects[0][0], (norm_vals[0] - 1) * ord_vects[0][1], (norm_vals[0] - 1) * ord_vects[0][2]],
+          [(norm_vals[1] - 1) * ord_vects[1][0], (norm_vals[1] - 1) * ord_vects[1][1], (norm_vals[1] - 1) * ord_vects[1][2]],
+          [(norm_vals[2] - 1) * ord_vects[2][0], (norm_vals[2] - 1) * ord_vects[2][1], (norm_vals[2] - 1) * ord_vects[2][2]]]
 
-    cone_ends=[[norm_vals[0]*ord_vects[0][0],norm_vals[0]*ord_vects[0][1],norm_vals[0]*ord_vects[0][2]],
-               [norm_vals[1]*ord_vects[1][0],norm_vals[1]*ord_vects[1][1],norm_vals[1]*ord_vects[1][2]],
-               [norm_vals[2]*ord_vects[2][0],norm_vals[2]*ord_vects[2][1],norm_vals[2]*ord_vects[2][2]]]
+    cone_ends = [[norm_vals[0] * ord_vects[0][0], norm_vals[0] * ord_vects[0][1], norm_vals[0] * ord_vects[0][2]],
+               [norm_vals[1] * ord_vects[1][0], norm_vals[1] * ord_vects[1][1], norm_vals[1] * ord_vects[1][2]],
+               [norm_vals[2] * ord_vects[2][0], norm_vals[2] * ord_vects[2][1], norm_vals[2] * ord_vects[2][2]]]
 
-    draw_axes(start,ends,cone_ends,name_obj=name)
+    draw_axes(start, ends, cone_ends, name_obj=name)
 
 
 cmd.extend("tensor", tensor)

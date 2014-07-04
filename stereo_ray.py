@@ -34,6 +34,6 @@ def stereo_ray(filename, width=0, height=0, quiet=1):
     cmd.ray(width, height, angle=3)
     cmd.png(filename + "_l", quiet=quiet)
 
-cmd.extend('stereo_ray',stereo_ray)
+cmd.extend('stereo_ray', stereo_ray)
 
 # vi:expandtab:sw=3

@@ -11,55 +11,55 @@ from chempy import cpv
 
 
 def cgo_cube(x, y, z, r):
-    r *= 3**-.5
+    r *= 3 ** -.5
     return [
         cgo.BEGIN, cgo.TRIANGLE_STRIP,
-        cgo.NORMAL,  0.,  0.,  1.,
-        cgo.VERTEX, x+r, y+r, z+r,
-        cgo.VERTEX, x+r, y-r, z+r,
-        cgo.VERTEX, x-r, y+r, z+r,
-        cgo.VERTEX, x-r, y-r, z+r,
+        cgo.NORMAL, 0., 0., 1.,
+        cgo.VERTEX, x + r, y + r, z + r,
+        cgo.VERTEX, x + r, y - r, z + r,
+        cgo.VERTEX, x - r, y + r, z + r,
+        cgo.VERTEX, x - r, y - r, z + r,
         cgo.END,
         cgo.BEGIN, cgo.TRIANGLE_STRIP,
-        cgo.NORMAL,  1.,  0.,  0.,
-        cgo.VERTEX, x+r, y-r, z-r,
-        cgo.VERTEX, x+r, y+r, z-r,
-        cgo.VERTEX, x+r, y-r, z+r,
-        cgo.VERTEX, x+r, y+r, z+r,
+        cgo.NORMAL, 1., 0., 0.,
+        cgo.VERTEX, x + r, y - r, z - r,
+        cgo.VERTEX, x + r, y + r, z - r,
+        cgo.VERTEX, x + r, y - r, z + r,
+        cgo.VERTEX, x + r, y + r, z + r,
         cgo.END,
         cgo.BEGIN, cgo.TRIANGLE_STRIP,
-        cgo.NORMAL,  0.,  1.,  0.,
-        cgo.VERTEX, x+r, y+r, z-r,
-        cgo.VERTEX, x-r, y+r, z-r,
-        cgo.VERTEX, x+r, y+r, z+r,
-        cgo.VERTEX, x-r, y+r, z+r,
+        cgo.NORMAL, 0., 1., 0.,
+        cgo.VERTEX, x + r, y + r, z - r,
+        cgo.VERTEX, x - r, y + r, z - r,
+        cgo.VERTEX, x + r, y + r, z + r,
+        cgo.VERTEX, x - r, y + r, z + r,
         cgo.END,
         cgo.BEGIN, cgo.TRIANGLE_STRIP,
-        cgo.NORMAL,  0.,  0., -1.,
-        cgo.VERTEX, x-r, y-r, z-r,
-        cgo.VERTEX, x-r, y+r, z-r,
-        cgo.VERTEX, x+r, y-r, z-r,
-        cgo.VERTEX, x+r, y+r, z-r,
+        cgo.NORMAL, 0., 0., -1.,
+        cgo.VERTEX, x - r, y - r, z - r,
+        cgo.VERTEX, x - r, y + r, z - r,
+        cgo.VERTEX, x + r, y - r, z - r,
+        cgo.VERTEX, x + r, y + r, z - r,
         cgo.END,
         cgo.BEGIN, cgo.TRIANGLE_STRIP,
-        cgo.NORMAL, -1.,  0.,  0.,
-        cgo.VERTEX, x-r, y+r, z+r,
-        cgo.VERTEX, x-r, y-r, z+r,
-        cgo.VERTEX, x-r, y+r, z-r,
-        cgo.VERTEX, x-r, y-r, z-r,
+        cgo.NORMAL, -1., 0., 0.,
+        cgo.VERTEX, x - r, y + r, z + r,
+        cgo.VERTEX, x - r, y - r, z + r,
+        cgo.VERTEX, x - r, y + r, z - r,
+        cgo.VERTEX, x - r, y - r, z - r,
         cgo.END,
         cgo.BEGIN, cgo.TRIANGLE_STRIP,
-        cgo.NORMAL,  0., -1.,  0.,
-        cgo.VERTEX, x-r, y-r, z+r,
-        cgo.VERTEX, x+r, y-r, z+r,
-        cgo.VERTEX, x-r, y-r, z-r,
-        cgo.VERTEX, x+r, y-r, z-r,
+        cgo.NORMAL, 0., -1., 0.,
+        cgo.VERTEX, x - r, y - r, z + r,
+        cgo.VERTEX, x + r, y - r, z + r,
+        cgo.VERTEX, x - r, y - r, z - r,
+        cgo.VERTEX, x + r, y - r, z - r,
         cgo.END,
     ]
 
 
 def cgo_tetrahedron(x, y, z, r):
-    vertices = [cpv.add((x,y,z), cpv.scale(v, r)) for v in [
+    vertices = [cpv.add((x, y, z), cpv.scale(v, r)) for v in [
         [0., 1., 0.],
         [0.0, -0.3338068592337708, 0.9426414910921784],
         [0.8163514779470693, -0.3338068592337708, -0.471320745546089],
@@ -68,21 +68,21 @@ def cgo_tetrahedron(x, y, z, r):
     return [
         cgo.BEGIN, cgo.TRIANGLES,
         cgo.NORMAL, 0.8165448970931916, 0.33317549135767066, 0.4714324161421696,
-        cgo.VERTEX ] + vertices[0] + [
-        cgo.VERTEX ] + vertices[1] + [
-        cgo.VERTEX ] + vertices[2] + [
+        cgo.VERTEX] + vertices[0] + [
+        cgo.VERTEX] + vertices[1] + [
+        cgo.VERTEX] + vertices[2] + [
         cgo.NORMAL, 0., 0.3331754913576707, -0.9428648322843389,
-        cgo.VERTEX ] + vertices[0] + [
-        cgo.VERTEX ] + vertices[2] + [
-        cgo.VERTEX ] + vertices[3] + [
+        cgo.VERTEX] + vertices[0] + [
+        cgo.VERTEX] + vertices[2] + [
+        cgo.VERTEX] + vertices[3] + [
         cgo.NORMAL, -0.8165448970931919, 0.3331754913576705, 0.4714324161421693,
-        cgo.VERTEX ] + vertices[0] + [
-        cgo.VERTEX ] + vertices[3] + [
-        cgo.VERTEX ] + vertices[1] + [
-        cgo.NORMAL,  0.,  -1., 0.,
-        cgo.VERTEX ] + vertices[1] + [
-        cgo.VERTEX ] + vertices[2] + [
-        cgo.VERTEX ] + vertices[3] + [
+        cgo.VERTEX] + vertices[0] + [
+        cgo.VERTEX] + vertices[3] + [
+        cgo.VERTEX] + vertices[1] + [
+        cgo.NORMAL, 0., -1., 0.,
+        cgo.VERTEX] + vertices[1] + [
+        cgo.VERTEX] + vertices[2] + [
+        cgo.VERTEX] + vertices[3] + [
         cgo.END,
     ]
 

@@ -17,15 +17,15 @@ from pymol import cmd
 try:
     import openbabel as ob
 except:
-    print '<'*80 + '\n\nOptimize plug-in needs openbabel to be installed in your system, please follow the instructions at\nhttp://openbabel.org/wiki/Get_Open_Babel\n\n' + '>'*80
+    print '<' * 80 + '\n\nOptimize plug-in needs openbabel to be installed in your system, please follow the instructions at\nhttp://openbabel.org/wiki/Get_Open_Babel\n\n' + '>' * 80
 
 
 def __init__(self):
     """Add this Plugin to the PyMOL menu"""
     self.menuBar.addmenuitem('Plugin', 'command',
                              'Optimize',
-                             label = 'Optimize',
-                             command = lambda : mainDialog())
+                             label='Optimize',
+                             command=lambda: mainDialog())
 
 
 def mainDialog():
@@ -55,9 +55,9 @@ def mainDialog():
     master = Tk()
     master.title(' Optimize ')
     w = Tkinter.Label(master, text="\nOptimize: Let's find that minimum!\n",
-                      background = 'black',
-                      foreground = 'white')
-    w.pack(expand=1, fill = 'both', padx=4, pady=4)
+                      background='black',
+                      foreground='white')
+    w.pack(expand=1, fill='both', padx=4, pady=4)
 ############################ NoteBook #########################################
     Pmw.initialise()
     nb = Pmw.NoteBook(master, hull_width=430, hull_height=320)
@@ -72,32 +72,32 @@ def mainDialog():
     ff_value = StringVar(master=group.interior())
     ff_value.set('MMFF94s')
     Pmw.OptionMenu(group.interior(),
-                   labelpos = 'w',
-                   label_text = 'Force Field',
-                   menubutton_textvariable = ff_value,
-                   items = ['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
-                   menubutton_width = 15,
+                   labelpos='w',
+                   label_text='Force Field',
+                   menubutton_textvariable=ff_value,
+                   items=['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
+                   menubutton_width=15,
                    ).grid(row=0, columnspan=2)
 # Method
     method_value = StringVar(master=group.interior())
     method_value.set('Conjugate Gradients')
     Pmw.OptionMenu(group.interior(),
-                   labelpos = 'w',
-                   label_text = '   Method  ',
-                   menubutton_textvariable = method_value,
-                   items = ['Conjugate Gradients', 'Steepest Descent'],
-                   menubutton_width = 15,
+                   labelpos='w',
+                   label_text='   Method  ',
+                   menubutton_textvariable=method_value,
+                   items=['Conjugate Gradients', 'Steepest Descent'],
+                   menubutton_width=15,
                    ).grid(row=1, columnspan=2)
     Label(group.interior(), text='steps').grid(row=2, column=0)
     nsteps = StringVar(master=group.interior())
     nsteps.set(500)
-    entry_nsteps = Entry(group.interior(),textvariable=nsteps, width=15)
+    entry_nsteps = Entry(group.interior(), textvariable=nsteps, width=15)
     entry_nsteps.grid(row=2, column=1)
     entry_nsteps.update()
     Label(group.interior(), text='convergence').grid(row=3, column=0)
     conv = StringVar(master=group.interior())
     conv.set(0.0001)
-    entry_conv = Entry(group.interior(),textvariable=conv, width=15)
+    entry_conv = Entry(group.interior(), textvariable=conv, width=15)
     entry_conv.grid(row=3, column=1)
     entry_conv.update()
     Label(group.interior(), text='selection').grid(row=4, column=0)
@@ -107,7 +107,7 @@ def mainDialog():
         sel_value.set(names[0])
     else:
         sel_value.set('all')
-    entry_sel_value = Entry(group.interior(),textvariable=sel_value, width=15)
+    entry_sel_value = Entry(group.interior(), textvariable=sel_value, width=15)
     entry_sel_value.grid(row=4, column=1)
     entry_sel_value.configure(state='normal')
     entry_sel_value.update()
@@ -120,14 +120,14 @@ def mainDialog():
     Label(group.interior(), text='Van der Waals').grid(row=7, column=0)
     vdw_value = StringVar(master=group.interior())
     vdw_value.set(6.0)
-    entry_elec = Entry(group.interior(),textvariable=vdw_value, width=15)
+    entry_elec = Entry(group.interior(), textvariable=vdw_value, width=15)
     entry_elec.grid(row=7, column=1)
     entry_elec.configure(state='disabled')
     entry_elec.update()
     Label(group.interior(), text='Electrostatic').grid(row=8, column=0)
     elec_value = StringVar(master=group.interior())
     elec_value.set(8.0)
-    entry_vdw = Entry(group.interior(),textvariable=elec_value, width=15)
+    entry_vdw = Entry(group.interior(), textvariable=elec_value, width=15)
     entry_vdw.grid(row=8, column=1)
     entry_vdw.configure(state='disabled')
     entry_vdw.update()
@@ -135,46 +135,46 @@ def mainDialog():
 # Run
     Button(p1, text="Minimize", command=set_minimize).pack(side=BOTTOM)
 ############################ Conformation search TAB ###########################
-    group = Pmw.Group(p2,tag_text='Conformational Search options')
+    group = Pmw.Group(p2, tag_text='Conformational Search options')
     group.pack(fill='both', expand=1, padx=5, pady=5)
 # Force Field options
     ff_value = StringVar(master=group.interior())
     ff_value.set('MMFF94s')
     Pmw.OptionMenu(group.interior(),
-                   labelpos = 'w',
-                   label_text = 'Force Field',
-                   menubutton_textvariable = ff_value,
-                   items = ['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
-                   menubutton_width = 15,
+                   labelpos='w',
+                   label_text='Force Field',
+                   menubutton_textvariable=ff_value,
+                   items=['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
+                   menubutton_width=15,
                    ).grid(row=0, columnspan=2)
 # Method
     conf_method_value = StringVar(master=group.interior())
     conf_method_value.set('Weighted')
     Pmw.OptionMenu(group.interior(),
-                   labelpos = 'w',
-                   label_text = '   Method  ',
-                   menubutton_textvariable = conf_method_value,
-                   items = ['Weighted', 'Random', 'Systematic'],
-                   menubutton_width = 15,
-                   command = enable_disable_entry,
+                   labelpos='w',
+                   label_text='   Method  ',
+                   menubutton_textvariable=conf_method_value,
+                   items=['Weighted', 'Random', 'Systematic'],
+                   menubutton_width=15,
+                   command=enable_disable_entry,
                    ).grid(row=1, columnspan=2)
     Label(group.interior(), text='steps').grid(row=2, column=0)
     nsteps = StringVar(master=group.interior())
     nsteps.set(500)
-    entry_nsteps = Entry(group.interior(),textvariable=nsteps, width=15)
+    entry_nsteps = Entry(group.interior(), textvariable=nsteps, width=15)
     entry_nsteps.grid(row=2, column=1)
     entry_nsteps.update()
     Label(group.interior(), text='conformers ').grid(row=3, column=0)
     conformers = StringVar(master=group.interior())
     conformers.set(25)
-    entry_conformers = Entry(group.interior(),textvariable=conformers, width=15)
+    entry_conformers = Entry(group.interior(), textvariable=conformers, width=15)
     entry_conformers.grid(row=3, column=1)
     entry_conformers.configure(state='normal')
     entry_conformers.update()
     Label(group.interior(), text=' lowest conf    ').grid(row=4, column=0)
     lowest = StringVar(master=group.interior())
     lowest.set(5)
-    entry_lowest = Entry(group.interior(),textvariable=lowest, width=15)
+    entry_lowest = Entry(group.interior(), textvariable=lowest, width=15)
     entry_lowest.grid(row=4, column=1)
     entry_lowest.configure(state='normal')
     entry_lowest.update()
@@ -185,14 +185,14 @@ def mainDialog():
         sel_value.set(names[0])
     else:
         sel_value.set('all')
-    entry_sel_value = Entry(group.interior(),textvariable=sel_value, width=15)
+    entry_sel_value = Entry(group.interior(), textvariable=sel_value, width=15)
     entry_sel_value.grid(row=5, column=1)
     entry_sel_value.configure(state='normal')
     entry_sel_value.update()
 # Run
     Button(p2, text="Search", command=set_conf_search).pack(side=BOTTOM)
 ############################ About TAB ########################################
-    Label(p3, text = """
+    Label(p3, text="""
 Optimize provides a PyMOL graphical interface to some 
 of the many options available in openbabel (openbabel.org).
 
@@ -200,7 +200,7 @@ of the many options available in openbabel (openbabel.org).
 If you find Optimize useful great! 
 If you don't and have some suggestions or comments 
 to do please write to me (aloctavodia@gmail.com).
-""",justify=CENTER).pack()
+""", justify=CENTER).pack()
     master.mainloop()
 
 
@@ -231,7 +231,7 @@ def enable_disable_entry(var):
     entry_lowest.update()
 
 
-def minimize(selection='all', forcefield='MMFF94s', method='conjugate gradients', nsteps= 500, conv=0.0001, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
+def minimize(selection='all', forcefield='MMFF94s', method='conjugate gradients', nsteps=500, conv=0.0001, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
     pdb_string = cmd.get_pdbstr(selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
@@ -239,7 +239,7 @@ def minimize(selection='all', forcefield='MMFF94s', method='conjugate gradients'
     mol = ob.OBMol()
     obconversion.ReadString(mol, pdb_string)
     mol.AddHydrogens()
-    ff = ob.OBForceField.FindForceField(forcefield) ## GAFF, MMFF94s, MMFF94, UFF, Ghemical
+    ff = ob.OBForceField.FindForceField(forcefield)  # GAFF, MMFF94s, MMFF94, UFF, Ghemical
     ff.Setup(mol)
     if cutoff == True:
         ff.EnableCutOff(True)
@@ -257,11 +257,11 @@ def minimize(selection='all', forcefield='MMFF94s', method='conjugate gradients'
         name = 'all_'
     cmd.read_pdbstr(pdb_string, name)
     print '#########################################'
-    print 'The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit())
+    print 'The Energy of %s is %8.2f %s       ' % (name, nrg, ff.GetUnit())
     print '#########################################'
 
 
-def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps= 500, conformers=25, lowest_conf=5):
+def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps=500, conformers=25, lowest_conf=5):
     pdb_string = cmd.get_pdbstr(selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
@@ -269,7 +269,7 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
     mol = ob.OBMol()
     obconversion.ReadString(mol, pdb_string)
     mol.AddHydrogens()
-    ff = ob.OBForceField.FindForceField(forcefield) ## GAFF, MMFF94s, MMFF94, UFF, Ghemical
+    ff = ob.OBForceField.FindForceField(forcefield)  # GAFF, MMFF94s, MMFF94, UFF, Ghemical
     ff.Setup(mol)
     if method == 'Weighted':
         ff.WeightedRotorSearch(conformers, nsteps)
@@ -306,7 +306,7 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
             cmd.read_pdbstr(pdb_string, name_n)
             if i != 0:
                 rmsd = cmd.fit(name_n, '%s00' % name, quiet=1)
-            print '%15s | %10.2f%9s |%6.1f'    % (name_n, nrg, nrg_unit, rmsd)
+            print '%15s | %10.2f%9s |%6.1f' % (name_n, nrg, nrg_unit, rmsd)
         print '##############################################'
     else:
         ff.GetCoordinates(mol)
@@ -315,7 +315,7 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
         cmd.delete(name)
         cmd.read_pdbstr(pdb_string, name)
         print '#########################################'
-        print 'The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit())
+        print 'The Energy of %s is %8.2f %s       ' % (name, nrg, ff.GetUnit())
         print '#########################################'
 
 cmd.extend('minimize', minimize)

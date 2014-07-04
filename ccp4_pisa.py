@@ -32,21 +32,21 @@ from pymol import cmd
 from xml.etree import ElementTree
 
 
-def parseElement( element ):
+def parseElement(element):
     """ creates a dict for the sub elements of the element"""
-    result = { }
+    result = {}
     for l in range(len(element)):
         if element[l].text != None:
             result[element[l].tag.strip()] = element[l].text.strip()
     return result;
 
 
-def parseBond( elementDir ):
+def parseBond(elementDir):
     """ puts bond information into tuples"""
     return ((elementDir['chain-1'], elementDir['seqnum-1'], elementDir['atname-1']), (elementDir['chain-2'], elementDir['seqnum-2'], elementDir['atname-2']))
 
 
-def parseInterface( interface, bondname ):
+def parseInterface(interface, bondname):
     """ parses a single interface into the interface id, the two chain names connected 
         and two lists of atoms for each chain"""
     bonds = interface.findall(bondname)
@@ -66,17 +66,17 @@ def parseInterface( interface, bondname ):
     return id, (left_chain, right_chain), left, right
 
 
-def createSelectionList( atomlist ):
+def createSelectionList(atomlist):
     """creates a PYMOL selection string for a list of atoms"""
-    atomnames = [chain+'/'+res+'/'+atom for chain, res, atom in atomlist]
+    atomnames = [chain + '/' + res + '/' + atom for chain, res, atom in atomlist]
     return " or ".join(atomnames)
 
 
-def createInterfaceSelection( interface, prefix ):
+def createInterfaceSelection(interface, prefix):
     """creates two selections for an interfaces"""
     id, e, l, r = interface
-    leftname = prefix+'_' + str(id) + '_' + e[0] + e[1]
-    rightname = prefix+'_' + str(id) + '_' + e[1] + e[0]
+    leftname = prefix + '_' + str(id) + '_' + e[0] + e[1]
+    rightname = prefix + '_' + str(id) + '_' + e[1] + e[0]
     if e[0] == e[1]:
         leftname = leftname + '1'
         rightname = rightname + '2'
@@ -91,7 +91,7 @@ def createInterfaceSelection( interface, prefix ):
     return leftname, rightname
 
 
-def ccp4_pisa( filename ):
+def ccp4_pisa(filename):
     bond_types = [
         ('h-bonds', 'h-bonds/bond', 'hb'),
         ('salt-bridges', 'salt-bridges/bond', 'sb'),
@@ -108,9 +108,9 @@ def ccp4_pisa( filename ):
 
         allselections = []
         for c in allcontacts:
-            allselections.extend( createInterfaceSelection(c, prefix) )
+            allselections.extend(createInterfaceSelection(c, prefix))
 
-        result.append(len(allselections)/2)
+        result.append(len(allselections) / 2)
         if len(allselections) > 0:
             try:
                 cmd.select(name, " or ".join(allselections))

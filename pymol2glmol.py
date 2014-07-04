@@ -71,14 +71,14 @@ def parseObjMol(obj):
         if (ss == 'H'):
             helix.append(serial)
 
-        c =  cmd.get_color_tuple(atom[21])
+        c = cmd.get_color_tuple(atom[21])
         if (not c in colors):
             colors[c] = []
         colors[c].append(serial)
         ids.append("ID %d is %s in resi %s %s at chain %s"\
                    % (atom[22], atom[6], atom[3], atom[5], atom[1]))
 
-    for c in colors.iterkeys(): # TODO: better compression
+    for c in colors.iterkeys():  # TODO: better compression
         colors[c] = compactSeq(colors[c])
 
     ret = ''
@@ -98,7 +98,7 @@ def parseObjMol(obj):
 
 
 def parseDistObj(obj):
-    if (obj[5][0][3][10] != 1): # 'show dashed' flag
+    if (obj[5][0][3][10] != 1):  # 'show dashed' flag
         return ""
     N = obj[5][2][0][0]
     points = obj[5][2][0][1]
@@ -113,7 +113,7 @@ def dump_rep(name):
     if 'PYMOL_GIT_MOD' in os.environ:
         import shutil
         try:
-            shutil.copytree(os.path.join(os.environ['PYMOL_GIT_MOD'],'pymol2glmol','js'),os.path.join(os.getcwd(),'js'))
+            shutil.copytree(os.path.join(os.environ['PYMOL_GIT_MOD'], 'pymol2glmol', 'js'), os.path.join(os.getcwd(), 'js'))
         except OSError:
             pass
 
@@ -124,11 +124,11 @@ def dump_rep(name):
     for obj in names:
         if (obj == None):
             continue
-        if (obj[2] == 0): # not visible
+        if (obj[2] == 0):  # not visible
             continue
         if (obj[1] == 0 and obj[4] == 1 and obj[0] == name):
             ret += parseObjMol(obj)
-        if (obj[1] == 0 and obj[4] == 4): # currently all dist objects are exported
+        if (obj[1] == 0 and obj[4] == 4):  # currently all dist objects are exported
             ret += parseDistObj(obj)
 
     cmd.turn('z', 180)
@@ -149,7 +149,7 @@ def dump_rep(name):
     ret += "\nbgcolor:%02x%02x%02x" % (int(255 * float(bgcolor[0])), \
                                        int(255 * float(bgcolor[1])), int(255 * float(bgcolor[2])))
     if 'PYMOL_GIT_MOD' in os.environ:
-        template = open(os.path.join(os.environ['PYMOL_GIT_MOD'],'pymol2glmol','imported.html')).read().\
+        template = open(os.path.join(os.environ['PYMOL_GIT_MOD'], 'pymol2glmol', 'imported.html')).read().\
             replace("###INCLUDE_PDB_FILE_HERE###", cmd.get_pdbstr(name)).\
             replace('###INCLUDE_REPRESENTATION_HERE###', ret)
     else:

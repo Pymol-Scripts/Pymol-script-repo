@@ -44,7 +44,7 @@ NOTES
     status = None
     classMk = None
 
-    workfile = open(viol_file,'r')
+    workfile = open(viol_file, 'r')
 
     for line in workfile.readlines():
 
@@ -68,14 +68,14 @@ NOTES
             try: 
 
                 new_id = float(line.split()[0])
-                alt = 1 # in case there is a couple of alternatives this labels them
+                alt = 1  # in case there is a couple of alternatives this labels them
                 line = line.replace('(', '').replace(')', '').split()
                 member1 = (line[1], line[3])
                 member2 = (line[4], line[6])
                 delta = line[9]
 
-                cmd.distance("viol_%d_%s_%s_%d" %(new_id, member1[0], member2[0], alt), " %s & i. %s & n. %s" %(molecule, member1[0], member1[1]), "%s & i. %s & n. %s" % (molecule, member2[0], member2[1]), quiet=int(quiet))
-                cmd.color("o%s" %(int((100)*float(delta))), "viol_%d_%s_%s_%d" %(new_id, member1[0], member2[0], alt))
+                cmd.distance("viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt), " %s & i. %s & n. %s" % (molecule, member1[0], member1[1]), "%s & i. %s & n. %s" % (molecule, member2[0], member2[1]), quiet=int(quiet))
+                cmd.color("o%s" % (int((100) * float(delta))), "viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt))
 
             except ValueError:
 
@@ -83,23 +83,23 @@ NOTES
 
                 if line.split()[1] != ")":
                     if line.split()[-2] == "(" and line.split()[-1] == ")":
-                        line = line.replace('(','').replace(')','').split()
+                        line = line.replace('(', '').replace(')', '').split()
                         member1 = (line[0], line[2])
 
                 elif line.split()[1] == ")":
-                    line = line.replace('(','').replace(')','').split()
+                    line = line.replace('(', '').replace(')', '').split()
                     member2 = (line[-3], line[-1])
 
                 else:
-                    line = line.replace('(','').replace(')','').split()
+                    line = line.replace('(', '').replace(')', '').split()
                     member1 = (line[0], line[2])
                     member2 = (line[-3], line[-1])
 
-                cmd.distance("viol_%d_%s_%s_%d" %(new_id, member1[0], member2[0], alt), " %s & i. %s & n. %s" %(molecule, member1[0], member1[1]), "%s & i. %s & n. %s" % (molecule, member2[0], member2[1]), quiet=int(quiet))
-                cmd.color("o%s" %(int((100)*float(delta))), "viol_%d_%s_%s_%d" %(new_id, member1[0], member2[0], alt))
+                cmd.distance("viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt), " %s & i. %s & n. %s" % (molecule, member1[0], member1[1]), "%s & i. %s & n. %s" % (molecule, member2[0], member2[1]), quiet=int(quiet))
+                cmd.color("o%s" % (int((100) * float(delta))), "viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt))
 
-    cmd.hide("labels","all")
-    cmd.set("dash_radius",0.03)
+    cmd.hide("labels", "all")
+    cmd.set("dash_radius", 0.03)
 
 
 cmd.extend("viol_noes", viol_noes)
