@@ -25,11 +25,11 @@ from pymol import stored
 # MOVIE COLOR FADING
 #-------------------------------------------------------------------------------
 def movie_color_fade(
-    startframe='', 
-    startcolor='red', 
-    endframe='', 
+    startframe='',
+    startcolor='red',
+    endframe='',
     endcolor='green',
-    selection='all' 
+    selection='all'
 ):
     '''
 DESCRIPTION
@@ -83,13 +83,13 @@ SEE ALSO
     try:
         startframe = int(startframe)
     except:
-        startframe = int(cmd.get('frame'))        
+        startframe = int(cmd.get('frame'))
     try:
         endframe = int(endframe)
     except:
         endframe = int(cmd.count_frames())
 
-    if endframe == 0: endframe = 1   
+    if endframe == 0: endframe = 1
 
     if startframe == endframe:
         print "start == end"
@@ -106,7 +106,7 @@ SEE ALSO
         diffcolor = [b - a for a, b in zip(startcolor, endcolor)]
     except:
         print "Input error - please provide regular colors"
-        return False        
+        return False
 
     for frame in range(startframe, endframe + 1):
         # calculate intermediates

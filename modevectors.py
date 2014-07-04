@@ -262,7 +262,7 @@ def modevectors(first_obj_frame, last_obj_frame, first_state=1, last_state=1, ou
         if keepcounter - cutoff_counter > 0:
             print "Atoms counted = " + str(keepcounter - cutoff_counter) + " (see PyMOL object \"" + objectname + "\")"
         else:
-            print "Atoms counted = " + str(keepcounter - cutoff_counter) + " (Empty CGO object not loaded)"	
+            print "Atoms counted = " + str(keepcounter - cutoff_counter) + " (Empty CGO object not loaded)"
         print "Atoms cutoff  = " + str(cutoff_counter)  # Note that cutoff occurs AFTER skipping!
     if keepcounter - cutoff_counter > 0:
         cmd.delete(objectname)

@@ -117,7 +117,7 @@ def ccp4_pisa(filename):
             except:
                 print name, '\t', " or ".join(allselections)
 
-    print 'selectPISAContacts found interfaces with', 
+    print 'selectPISAContacts found interfaces with',
     for number, type in zip(result, bond_types):
         print number, type[0], ",",
 

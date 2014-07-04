@@ -114,7 +114,7 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     # names
     vl = prefix + 'VL'
     vh = prefix + 'VH'
-    cl = prefix + 'CL' 
+    cl = prefix + 'CL'
     ch = prefix + 'CH'
 
     # selections
@@ -133,7 +133,7 @@ REQUIRES: com.py, transformations.py, numpy (see above)
 
     # superimpose vl onto vh, calculate axis and angle
     Rv = calc_super_matrix(vl, vh)
-    angle_v, direction_v, point_v = transformations.rotation_from_matrix(Rv)            
+    angle_v, direction_v, point_v = transformations.rotation_from_matrix(Rv)
 
     # superimpose cl onto ch, calculate axis and angle
     Rc = calc_super_matrix(cl, ch)
@@ -141,11 +141,11 @@ REQUIRES: com.py, transformations.py, numpy (see above)
 
     # delete temporary objects
     cmd.delete(vl)
-    cmd.delete(vh)      
+    cmd.delete(vh)
     cmd.delete(cl)
     cmd.delete(ch)
 
-    # if dot product is positive, angle is acute    
+    # if dot product is positive, angle is acute
     if (numpy.dot(direction_v, direction_c) > 0):
         direction_c = direction_c * -1   # ensure angle is > 90 (need to standardize this)
 
@@ -165,7 +165,7 @@ REQUIRES: com.py, transformations.py, numpy (see above)
 
     test = numpy.dot(hinge_vec, numpy.cross(direction_v, direction_c))
     if (test > 0):
-        elbow = 360 - elbow  
+        elbow = 360 - elbow
 
     print "    Elbow angle: %i degrees" % elbow
 
@@ -189,7 +189,7 @@ REQUIRES: com.py, transformations.py, numpy (see above)
         cmd.pseudoatom(pre + "end_v", pos=end_v)
         cmd.distance(pre + "v_vec", pre + "start_v", pre + "end_v")
 
-        # draw the constant domain axis             
+        # draw the constant domain axis
         com_c = com.COM(c_sel)
         start_c = [a - 10 * b for a, b in zip(com_c, direction_c)]
         end_c = [a + 10 * b for a, b in zip(com_c, direction_c)]

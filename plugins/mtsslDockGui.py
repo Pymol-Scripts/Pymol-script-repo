@@ -19,7 +19,7 @@ import os
 from pymol import cmd
 from pymol import util
 from pymol import stored
-from operator import attrgetter 
+from operator import attrgetter
 import Tkinter
 import tkFileDialog
 import Queue
@@ -61,7 +61,7 @@ class ImportDialog(Pmw.Dialog):
         self.proteinBSelector = self.createcomponent('proteinBSelector', (), None, Pmw.OptionMenu, (self.proteinSelectionGroup.interior(),), labelpos='w', label_text='Protein B', items=([]),)
         items = cmd.get_object_list('(all)')
         self.proteinASelector.setitems(items)
-        self.proteinBSelector.setitems(items)					   
+        self.proteinBSelector.setitems(items)
         entries = (self.proteinASelector, self.proteinBSelector)
         for entry in entries:
             entry.pack(fill='x', anchor='s', padx=4, pady=1)  # vertical
@@ -102,7 +102,7 @@ class SettingsDialog(Pmw.Dialog):
         # Create and pack a vertical RadioSelect widget, with checkbuttons.
         self.checkbuttons = self.createcomponent('checkbuttons', (), None, Pmw.RadioSelect, (self.settingsGroup.interior(),), buttontype='checkbutton', orient='vertical', labelpos='w', command=self.checkbuttoncallback, label_text='', hull_borderwidth=2, hull_relief='ridge',)
 
-        # Add some buttons to the checkbutton RadioSelect		
+        # Add some buttons to the checkbutton RadioSelect
         self.checkbuttons.add("Score clashes")
         self.checkbuttons.add("Force C2 symmetry")
         self.checkbuttons.invoke("Score clashes")
@@ -125,7 +125,7 @@ class SettingsDialog(Pmw.Dialog):
                 #self.c2 = False
                 self.symmetry = "None"
 
-#-----------------------------------------------------------------------------------------		
+#-----------------------------------------------------------------------------------------
 
 
 class ABselect(Tkinter.Frame):
@@ -161,7 +161,7 @@ class DockingFrame(Tkinter.Frame):
         self.proteinBSelector = Pmw.OptionMenu(self, labelpos='w', label_text='Protein B', items=([]),)
         items = cmd.get_object_list('(all)')
         self.proteinASelector.setitems(items)
-        self.proteinBSelector.setitems(items)					   
+        self.proteinBSelector.setitems(items)
         entries = (self.proteinASelector, self.proteinBSelector)
         for entry in entries:
             entry.pack(fill='x', anchor='s', padx=4, pady=1)  # vertical
@@ -236,7 +236,7 @@ class ResultsFrame(Tkinter.Frame):
         generations = "Generations: %i" % self.result['settings']['numberOfGenerations']
         chromosomes = "Chromosomes: %i" % self.result['settings']['numberOfChromosomes']
         rigidBodyCycles = "Rigid Body Cycles: %i" % self.result['settings']['numberOfRigidBodyCycles']
-        scoreClashes = "Score Clashes: %r" % self.result['settings']['scoreClashes']			
+        scoreClashes = "Score Clashes: %r" % self.result['settings']['scoreClashes']
         symmetry = "Symmetry: %s" % self.result['settings']['symmetry']
 
         populationsLabel = Tkinter.Label(self.settingsGroup.interior(), text=populations)
@@ -257,7 +257,7 @@ class ResultsFrame(Tkinter.Frame):
         symmetryLabel = Tkinter.Label(self.settingsGroup.interior(), text=symmetry)
         symmetryLabel.pack(anchor='w')
 
-#-----------------------------------------------------------------------------------------		
+#-----------------------------------------------------------------------------------------
 
     def selectionCommand(self):
         if self.radioSelect.getcurselection() == 'Solution log':
@@ -578,7 +578,7 @@ class mtsslDockPlugin:
         resultsFrame = ResultsFrame(self.notebookpages[newTitle], self.dockingRuns[key])
         resultsFrame.pack(fill='both', expand=1, anchor='w', padx=10, pady=5)
 
-    #-------------------------------------------------------------------------------------	
+    #-------------------------------------------------------------------------------------
 
     def center_window(self, window, w, h):
         # get screen width and height
@@ -586,7 +586,7 @@ class mtsslDockPlugin:
         ws = self.parent.winfo_screenwidth()
         hs = self.parent.winfo_screenheight()
         # calculate position x, y
-        x = (ws / 2) - (w / 2)	  
+        x = (ws / 2) - (w / 2)
         y = (hs / 2) - (h / 2)
         window.geometry('%dx%d+%d+%d' % (w, h, x, y))
 
@@ -603,7 +603,7 @@ class mtsslDockPlugin:
         self.symmetry = "None"
         #self.c2 = True
         self.scoreClashes = True
-        self.scoreVdw = False 
+        self.scoreVdw = False
         self.farAwayPenalty = False
         self.numberOfLabelsForA = 0
         self.numberOfLabelsForB = 0
@@ -648,7 +648,7 @@ class mtsslDockPlugin:
 
     def check_myQueue(self):
         while True:
-            try: 
+            try:
                 x = self.myQueue.get_nowait()
             except Queue.Empty:
                 self.parent.after(25, self.check_myQueue)
@@ -656,7 +656,7 @@ class mtsslDockPlugin:
             else:  # continue from the try suite
                 self.statusbar.progressbar["value"] += x
 
-    #-------------------------------------------------------------------------------------			
+    #-------------------------------------------------------------------------------------
 
     def check_thread(self):
         if self.dockingThread.is_alive():
@@ -736,7 +736,7 @@ class mtsslDockPlugin:
                     self.labelNamesProteinB.append("%i-%s" % (self.numberOfLabelsForB, labelSelector.labelText.get()))
                     self.numberOfLabelsForB += 1
             self.proteinApymolString = "%s" % self.importDialog.proteinASelector.getcurselection()
-            self.proteinBpymolString = "%s" % self.importDialog.proteinBSelector.getcurselection()	
+            self.proteinBpymolString = "%s" % self.importDialog.proteinBSelector.getcurselection()
             self.importDialog.withdraw()
         elif result == 'Synchronize with PyMOL':
             for view in self.importDialog.listOfLabelSelectors:
@@ -751,7 +751,7 @@ class mtsslDockPlugin:
                 self.importDialog.listOfLabelSelectors.append(labelSelector)
             items = self.getPymolObjects("all")
             self.importDialog.proteinASelector.setitems(items)
-            self.importDialog.proteinBSelector.setitems(items)	
+            self.importDialog.proteinBSelector.setitems(items)
 
     #-------------------------------------------------------------------------------------
 
@@ -832,15 +832,15 @@ class mtsslDockPlugin:
                     if alreadyPickedA[posA] == 0:
                         expDistances[posA][posA] = trialDistancesTest[posA][posA]
                         if errors:
-                            expErrors[posA][posB] = random.randrange(1, 6)	
+                            expErrors[posA][posB] = random.randrange(1, 6)
                         alreadyPickedA[posA] = 1
                         alreadyPickedB[posB] = 1
                         pickedDistances += 1
                 elif not unique and self.symmetry == "None":
-                    if alreadyPickedA[posA] == 0 or alreadyPickedB[posB] == 0:	
+                    if alreadyPickedA[posA] == 0 or alreadyPickedB[posB] == 0:
                         expDistances[posA][posB] = trialDistancesTest[posA][posB]
                         if errors:
-                            expErrors[posA][posB] = random.randrange(1, 6)		
+                            expErrors[posA][posB] = random.randrange(1, 6)
                         alreadyPickedA[posA] = 1
                         alreadyPickedB[posB] = 1
                         pickedDistances += 1
@@ -1021,7 +1021,7 @@ class mtsslDockPlugin:
     #-------------------------------------------------------------------------------------
 
     def getPymolObjects(self, selection):
-        return cmd.get_object_list('(%s)' % selection)	
+        return cmd.get_object_list('(%s)' % selection)
 
     #-------------------------------------------------------------------------------------
 
@@ -1030,7 +1030,7 @@ class mtsslDockPlugin:
 
 
 ##########################################################################################
-# Some helper functions 
+# Some helper functions
 ##########################################################################################
 
 #-----------------------------------------------------------------------------------------
@@ -1082,7 +1082,7 @@ def quickDist2(atoms1, atoms2):
     return dist
 
 ##########################################################################################
-# classes for genetic algorithm				
+# classes for genetic algorithm
 ##########################################################################################
 
 #-----------------------------------------------------------------------------------------
@@ -1258,7 +1258,7 @@ class Protein:
             # rotate around x to match original position
             if numpy.cross(zVector[0], numpy.array([0, 0, 1]))[0] <= 0:
                 angle = -zVectorAngleToZ
-            else: 
+            else:
                 angle = zVectorAngleToZ
             chromosome.zAngle = angle
             rotationMatrix = self.setupRotationMatrix(angle, numpy.array([1, 0, 0]))
@@ -1289,7 +1289,7 @@ class Protein:
     #-------------------------------------------------------------------------------------
 
     def getAngle(self, a, b):
-        return numpy.rad2deg(numpy.arccos(numpy.dot(a / numpy.linalg.norm(a), b / numpy.linalg.norm(b))))			
+        return numpy.rad2deg(numpy.arccos(numpy.dot(a / numpy.linalg.norm(a), b / numpy.linalg.norm(b))))
     #-------------------------------------------------------------------------------------
 
     def rotatePoints(self, points, rotationMatrix):
@@ -1335,7 +1335,7 @@ class Protein:
         rotationMatrix[3][1] = 0.0
         rotationMatrix[3][2] = 0.0
         rotationMatrix[3][3] = 1.0
-        return rotationMatrix	
+        return rotationMatrix
 
 #-----------------------------------------------------------------------------------------
 
@@ -1446,7 +1446,7 @@ class Population:
     #-------------------------------------------------------------------------------------
 
     def rank(self):
-        self.chromosomes = sorted(self.chromosomes, key=attrgetter('fitness'))	
+        self.chromosomes = sorted(self.chromosomes, key=attrgetter('fitness'))
 
     #-------------------------------------------------------------------------------------
 

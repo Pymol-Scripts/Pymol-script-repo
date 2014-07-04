@@ -15,7 +15,7 @@ import re
 import math
 from OpenGL.GL import *
 from pymol.callback import Callback
-from pymol import cmd 
+from pymol import cmd
 
 # Wrapper Function, to create a given WFObj with a specific name (flip = 1 if OpenFX + Crossroads used)
 
@@ -49,9 +49,9 @@ class WFMesh(Callback):
                 if line[0] == 'f': self.polys.append([dat[1], dat[2], dat[3]])
 
                 # Find section line
-                if line[0] == 'g': self.sections[len(self.polys)] = dat[1] 
+                if line[0] == 'g': self.sections[len(self.polys)] = dat[1]
 
-    # Compute the normals for each polygon and each vertex              
+    # Compute the normals for each polygon and each vertex
     def computeNorms(self):
 
         # Compute norms for each polygon
@@ -64,13 +64,13 @@ class WFMesh(Callback):
             v13 = [float(self.verts[int(p[2]) - 1][0]) - float(self.verts[int(p[0]) - 1][0]),\
                    float(self.verts[int(p[2]) - 1][1]) - float(self.verts[int(p[0]) - 1][1]),\
                    float(self.verts[int(p[2]) - 1][2]) - float(self.verts[int(p[0]) - 1][2]) \
-                   ] 
+                   ]
 
             # Compute poly normal
-            polynorm = self.cross(v12, v13) 
+            polynorm = self.cross(v12, v13)
             norm = self.normalize(polynorm)
 
-            # Files created by OpenFX, Crossroads combination need have their normals flipped       
+            # Files created by OpenFX, Crossroads combination need have their normals flipped
             if self.flip:
                 norm[0] = -norm[0]
                 norm[1] = -norm[1]
@@ -88,7 +88,7 @@ class WFMesh(Callback):
             except:
                 self.vnorms[int(p[0]) - 1] = [norm[0], norm[1], norm[2]]
 
-            try:                                       
+            try:
                 self.vnorms[int(p[1]) - 1] = [float(self.vnorms[int(p[1]) - 1][0]) + norm[0],
                                              float(self.vnorms[int(p[1]) - 1][1]) + norm[1],
                                              float(self.vnorms[int(p[1]) - 1][2]) + norm[2]
@@ -107,7 +107,7 @@ class WFMesh(Callback):
         # Average out each vnorm..
         index = 0
         for v in self.vnorms.values():
-            self.vavenorms.append([v[0] / 4, v[1] / 4, v[2] / 4])         
+            self.vavenorms.append([v[0] / 4, v[1] / 4, v[2] / 4])
             index += 1
 
     # Utility function to normalize a given vector
@@ -134,12 +134,12 @@ class WFMesh(Callback):
     # Constructor
     def __init__(self, file, translate=[0, 0, 0], flip=0):
         self.verts = []
-        self.polys = [] 
+        self.polys = []
         self.pnorms = []
         self.vnorms = {}
         self.vavenorms = []
         self.translate = translate
-        self.flip = flip 
+        self.flip = flip
 
         print "Read in file: " + str(file)
         self.readOBJ(file)
@@ -150,7 +150,7 @@ class WFMesh(Callback):
     # Draw Function
     def __call__(self):
 
-        glColorMaterial(GL_FRONT, GL_DIFFUSE);  
+        glColorMaterial(GL_FRONT, GL_DIFFUSE);
         glEnable(GL_COLOR_MATERIAL);
         glShadeModel(GL_SMOOTH);
 

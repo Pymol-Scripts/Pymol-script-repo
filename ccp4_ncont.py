@@ -61,7 +61,7 @@ def ccp4_ncont(contactsfile, selName1="source", selName2="target"):
     s1, s2, pairs = parseNCONTContacts(open(contactsfile))
     # create a selection for the first contact list
 
-    # create the PYMOL selection macros for the residues 
+    # create the PYMOL selection macros for the residues
     resNames = [chain + "/" + residue + "/" for (type, chain, residue, atom) in s1]
     # put them in a set to remove duplicates and then join with 'or'
     resSel = " or ".join(frozenset(resNames))

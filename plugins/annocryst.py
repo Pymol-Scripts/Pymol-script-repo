@@ -22,7 +22,7 @@ import webbrowser
 from modules.idlelib.TreeWidget import TreeItem, TreeNode
 from Tkinter import PhotoImage
 from pymol import cmd
-from urllib2 import URLError, HTTPError 
+from urllib2 import URLError, HTTPError
 from xml.dom.minidom import parseString
 from datetime import datetime
 from user import home
@@ -32,10 +32,10 @@ import platform
 def __init__(self):
     self.annotationService = None
     self.menuBar.addmenuitem('Plugin', 'command',
-                             'AnnoCryst', label='AnnoCryst', 
+                             'AnnoCryst', label='AnnoCryst',
                              command=lambda s=self: createAnnotationService(s))
     cmd.extend('annotate', lambda s=self: annotateFromCmd(s))
-    cmd.extend('annotations', 
+    cmd.extend('annotations',
                lambda model, s=self: showAllAnnotations(model, s))
     cmd.extend('remoteurl', lambda pdbURL, s=self: readRemoteURL(pdbURL, s))
     cmd.extend('remotepdb', lambda pdbCode, s=self: readRemotePDB(pdbCode, s))
@@ -55,12 +55,12 @@ def showAllAnnotations(model, app):
 
 
 def annotateFromCmd(app):
-    # selection, type, description, 
+    # selection, type, description,
     if (app.annotationService == None):
         createAnnotationService(app)
     app.annotationService.annotate()
 
-# Load a remote file: specify the full URL    
+# Load a remote file: specify the full URL
 
 
 def readRemoteURL(pdbURL, app):
@@ -71,7 +71,7 @@ def readRemoteURL(pdbURL, app):
 # Load a remote file: specify the pdb code only
 
 
-def readRemotePDB(pdbCode, app):    
+def readRemotePDB(pdbCode, app):
     if (app.annotationService == None):
         createAnnotationService(app)
     app.annotationService.openRemoteByPDBCode(pdbCode)
@@ -100,7 +100,7 @@ class AnnotationService:
         self.createMainWindow()
         self.selection = "sele"
         if (len(cmd.get_names('selections')) == 0):
-            cmd.select("all") 
+            cmd.select("all")
         self.loadedOntology = None
         self.loadedModels = {}
         self.selectedText = ""
@@ -113,20 +113,20 @@ class AnnotationService:
                                  buttons=('AnnoCryst Settings', 'Exit'),
                                  title = 'AnnoCryst',
                                  command = self.handleMainWindowButtons)
-        self.notebook = Pmw.NoteBook(self.dialog.interior(), 
+        self.notebook = Pmw.NoteBook(self.dialog.interior(),
                                      raisecommand=self.refreshAnnotationView)
         self.notebook.component('hull').configure(height=380, width=400)
         self.notebook.pack(fill='both', expand=1, padx=10, pady=10)
         self.status = Pmw.ScrolledText(self.dialog.interior(),
                                        labelpos='w',
-                                       label_text='Status: ', 
+                                       label_text='Status: ',
                                        usehullsize=1,
                                        hull_width=380,
                                        hull_height=20)
         self.status.configure(text_state='disabled')
-#        self.status.component('text').configure(relief='flat', 
+#        self.status.component('text').configure(relief='flat',
 #                                                background='SystemMenu')
-        self.status.component('text').configure(relief='flat', 
+        self.status.component('text').configure(relief='flat',
                                                 background='white')
         self.status.pack(padx=5, pady=5, fill='both', expand=1)
 
@@ -141,14 +141,14 @@ class AnnotationService:
         openButtonBox.add('Open', command=self.openRemote)
         # openButtonBox.setdefault('Open')
         page = self.notebook.add("Browse Annotations")
-        self.current = Pmw.ScrolledText(page, 
+        self.current = Pmw.ScrolledText(page,
                                         usehullsize=1,
                                         hull_width=380,
                                         hull_height=30)
         self.current.configure(text_state='disabled')
-#        self.current.component('text').configure(relief='flat', 
+#        self.current.component('text').configure(relief='flat',
 #                                                 background='SystemMenu')
-        self.current.component('text').configure(relief='flat', 
+        self.current.component('text').configure(relief='flat',
                                                  background='white')
         self.current.pack(padx=5, pady=5, fill='both', expand=1)
         self.tree_item = AnnotationTreeItem("", isTopLevel=True)
@@ -159,7 +159,7 @@ class AnnotationService:
                                      hull_height=270)
         self.sc.pack(fill='x', padx=4, pady=1)
         self.sc.interior().config(bg="white")
-        self.node = AnnotationTreeNode(self.sc.component('canvas'), 
+        self.node = AnnotationTreeNode(self.sc.component('canvas'),
                                        None, self.tree_item)
         self.node.update()
         self.node.expand()
@@ -170,7 +170,7 @@ class AnnotationService:
         self.browseButtonBox.pack()
         page = self.notebook.add('Annotate')
         group = Pmw.Group(page, tag_text='Title and Type')
-        group.pack(fill='both', expand=1, padx=10, pady=5) 
+        group.pack(fill='both', expand=1, padx=10, pady=5)
         self.title = Pmw.EntryField(group.interior(),
                                     labelpos='w',
                                     label_text='Title:  ')
@@ -209,7 +209,7 @@ class AnnotationService:
 
         self.keyword = Pmw.ScrolledText(self.descgroup.interior(),
                                         labelpos='w',
-                                        label_text='Keywords:  ', 
+                                        label_text='Keywords:  ',
                                         usehullsize=1,
                                         hull_height=40,
                                         hull_width=380)
@@ -227,7 +227,7 @@ class AnnotationService:
                                                value='File upload not yet implemented')
         self.seeAlsoLocalFile.pack(fill='x', padx=4, pady=1)
         self.updateDescriptionUI(self.type)
-        self.annotateButtonBox = Pmw.ButtonBox(page, 
+        self.annotateButtonBox = Pmw.ButtonBox(page,
                                                hull_height=20, hull_width=200)
         self.annotateButtonBox.pack()
         self.annotateButtonBox.add('Reset', command=self.reset)
@@ -278,7 +278,7 @@ class AnnotationService:
             for k in self.settings.keys():
                 entryfield = getattr(self, k)
                 entryfield.setvalue(self.settings[k])
-        self.settingsDialog.withdraw() 
+        self.settingsDialog.withdraw()
 
     def loadSettings(self):
         # default settings
@@ -321,7 +321,7 @@ class AnnotationService:
             else:
                 self.remoteURL.setvalue(pdbURL)
             httpRequest = urllib2.Request(url=pdbURL)
-            pdbHttpHandle = urllib2.urlopen(httpRequest) 
+            pdbHttpHandle = urllib2.urlopen(httpRequest)
             pdbStr = pdbHttpHandle.read()
             modelName = string.split(string.split(str(pdbURL), "/")[-1], ".")[0]
             cmd.read_pdbstr(pdbStr, modelName)
@@ -344,14 +344,14 @@ class AnnotationService:
         if anno != None and anno != '':
             try:
                 req = RequestWithMethod(anno, method="DELETE")
-                response = urllib2.urlopen(req) 
+                response = urllib2.urlopen(req)
                 self.showAllAnnotations()
                 self.status.setvalue("Annotation deleted")
             except:
                 print "Unable to delete annotation"
                 self.status.setvalue("Unable to delete annotation")
 
-    # button actions for annotate page   
+    # button actions for annotate page
     def reset(self):
         # clears annotation fields
         self.title.setvalue('')
@@ -387,9 +387,9 @@ class AnnotationService:
         uiURL = self.remoteURL.getvalue()
         annoURI = ''
         if uiURL in self.loadedModels.values():
-            annoURI = uiURL  
+            annoURI = uiURL
         if (annoURI == '' or annoURI == None) and contextModel != '':
-            annoURI = self.loadedModels[contextModel]            
+            annoURI = self.loadedModels[contextModel]
         if annoURI != None and annoURI != '':
             annoType = self.type.getvalue()[0]
             annoCreator = self.username.getvalue()
@@ -453,16 +453,16 @@ class AnnotationService:
         anno += "<r:Description>\n"
         anno += "<r:type r:resource='http://www.w3.org/2000/10/annotation-ns#Annotation'/>\n"
         if type == 'Keyword':
-            anno += "<r:type r:resource='http://metadata.net/wannotea/semantic-annotation.owl#SemanticAnnotation'/>\n" 
+            anno += "<r:type r:resource='http://metadata.net/wannotea/semantic-annotation.owl#SemanticAnnotation'/>\n"
         else:
-            anno += "<r:type r:resource='http://www.w3.org/2000/10/annotationType#%s'/>\n" % type 
+            anno += "<r:type r:resource='http://www.w3.org/2000/10/annotationType#%s'/>\n" % type
         anno += "<a:annotates r:resource='%s'/>\n" % annoURI
         anno += "<a:context>"
         if view != '' and view != None:
             anno += "view:%s;" % view
         if context != '' and context != None:
             anno += "ids:%s" % context
-        anno += "</a:context>\n" 
+        anno += "</a:context>\n"
         # if context != '' and context != None and view != '' and view != None:
         #    anno += "<a:context><View xmlns='http://maenad.itee.uq.edu.au/agerber/foo'>%s</View>" % repr(view)
         #    anno += "<Context xmlns='http://maenad.itee.uq.edu.au/agerber/foo'>%s</Context></a:context>" % context
@@ -474,16 +474,16 @@ class AnnotationService:
         #anno += "</Context>\n"
         if title != '' and title != None:
             anno += "<d:title>%s</d:title>\n" % title
-        if creator != '' and creator != None: 
+        if creator != '' and creator != None:
             anno += "<d:creator>%s</d:creator>\n" % creator
         anno += "<d:language>%s</d:language>\n" % language
-        if created != '' and created != None:  
+        if created != '' and created != None:
             anno += "<a:created>%s</a:created>\n" % created
         if date != '' and date != None:
             anno += "<d:date>%s</d:date>\n" % date
         if body != '' and body != None:
             anno += "<a:body>\n<r:Description><h:ContentType>text/html</h:ContentType>\n"
-            anno += "<h:ContentLength>%s</h:ContentLength>" % length 
+            anno += "<h:ContentLength>%s</h:ContentLength>" % length
             anno += "<h:Body r:parseType='Literal'>\n"
             anno += "<html xmlns='http://www.w3.org/1999/xhtml'>\n"
             anno += "<head><title>%s</title></head>\n" % title
@@ -512,14 +512,14 @@ class AnnotationService:
 
     def clearAnnotations(self):
         self.tree_item = AnnotationTreeItem("", isTopLevel=True)
-        self.node = AnnotationTreeNode(self.sc.component('canvas'), 
+        self.node = AnnotationTreeNode(self.sc.component('canvas'),
                                        None, self.tree_item)
         self.node.update()
         self.node.expand()
 
     def showAllAnnotations(self, url=''):
         # get annotations for the current model, and display in tree
-        # looks for an url first as a param, then from the url ui field (if it's loaded), 
+        # looks for an url first as a param, then from the url ui field (if it's loaded),
         # finally from current graphical selection
         annoIDs = cmd.index(self.selection)
         self.clearAnnotations()
@@ -543,7 +543,7 @@ class AnnotationService:
             annoteaRdfXml = httpHandle.read()
             dom = parseString(annoteaRdfXml)
             self.tree_item = AnnotationTreeItem(dom.documentElement, isTopLevel=True)
-            self.node = AnnotationTreeNode(self.sc.component('canvas'), 
+            self.node = AnnotationTreeNode(self.sc.component('canvas'),
                                            None, self.tree_item)
             self.node.setannotationservice(self)
             self.node.update()
@@ -574,7 +574,7 @@ class AnnotationService:
             self.keyword.pack(fill='x', padx=4, pady=1)
             self.loadOntology()
         elif result == 'SeeAlso':
-            self.seeAlsoNotebook.pack(fill='both', expand=1, padx=10, pady=10)    
+            self.seeAlsoNotebook.pack(fill='both', expand=1, padx=10, pady=10)
         else:
             self.description.pack(fill='x', padx=4, pady=1)
 
@@ -589,9 +589,9 @@ class AnnotationService:
                 ontReq = urllib2.Request(url=ontURL)
                 ontHandle = urllib2.urlopen(ontReq)
                 ontContent = ontHandle.read()
-                ontDom = parseString(ontContent) 
+                ontDom = parseString(ontContent)
                 self.ontology_tree_item = OntologyTreeItem(ontDom.documentElement)
-                self.ontology_tree_node = OntologyTreeNode(ontologyCanvas, 
+                self.ontology_tree_node = OntologyTreeNode(ontologyCanvas,
                                                            None, self.ontology_tree_item)
                 self.ontology_tree_node.setannotationservice(self)
                 self.ontology_tree_node.update()
@@ -717,17 +717,17 @@ class OntologyTreeItem(TreeItem):
                             # can't get the super class - might be a restriction etc
                             if cID:
                                 tmpchildren[cID] = c
-                        else:    
+                        else:
                             if not cSuper in self.class_dict:
                                 self.class_dict[cSuper] = [c]
                             else:
                                 self.class_dict[cSuper].append(c)
-                    else: 
+                    else:
                         if cID:
                             tmpchildren[cID] = c
                 # save list of keywords
                 self.keywords = tmpchildren.keys()
-                # iterate over all classes that have super classes, 
+                # iterate over all classes that have super classes,
                 # remove them from the children of the top element
                 for childList in self.class_dict.values():
                     for child in childList:
@@ -769,7 +769,7 @@ class OntologyTreeItem(TreeItem):
     def GetSubList(self):
         parent = self.node
         itemlist = [OntologyTreeItem(node, self.class_dict) for node in self.children]
-        return itemlist   
+        return itemlist
 
     def GetIconName(self):
         if self.tag == "rdf:RDF":
@@ -777,7 +777,7 @@ class OntologyTreeItem(TreeItem):
         else:
             return "Class"
 
-# tree widget classes for displaying annotations           
+# tree widget classes for displaying annotations
 
 
 class AnnotationTreeNode(TreeNode):
@@ -961,7 +961,7 @@ class AnnotationTreeItem(TreeItem):
         if node == "":
             return " "
         elif self.isLeaf:
-            text = "" 
+            text = ""
             for child in node.childNodes:
                 if child.nodeType == node.TEXT_NODE:
                     text += child.nodeValue
@@ -1014,7 +1014,7 @@ class AnnotationTreeItem(TreeItem):
                 (self.label == "created") or (self.label == "description") or\
                 (self.label == "identifier") or (self.label == "date"):
             return "none"
-        node = self.anno        
+        node = self.anno
         for typeNode in node.getElementsByTagNameNS(\
                 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'type'):
             typeStr = typeNode.getAttributeNS(\
@@ -1036,7 +1036,7 @@ class AnnotationTreeItem(TreeItem):
         try:
             bodyReq = urllib2.Request(url=node.getAttributeNS(\
                 'http://www.w3.org/1999/02/22-rdf-syntax-ns#', 'resource'))
-            bodyHandle = urllib2.urlopen(bodyReq)    
+            bodyHandle = urllib2.urlopen(bodyReq)
             bodyContent = bodyHandle.read()
             bodyDom = parseString(bodyContent)
             bodyElem = bodyDom.getElementsByTagNameNS("http://www.w3.org/1999/xhtml", "body")
@@ -1053,7 +1053,7 @@ class AnnotationTreeItem(TreeItem):
 
 class RequestWithMethod(urllib2.Request):
 
-    def __init__(self, url, data=None, headers={}, origin_req_host=None, 
+    def __init__(self, url, data=None, headers={}, origin_req_host=None,
                  unverifiable=False, method=None):
         urllib2.Request.__init__(self, url, data, headers, origin_req_host, unverifiable)
         self.method = method
@@ -1065,4 +1065,4 @@ class RequestWithMethod(urllib2.Request):
             else:
                 return "GET"
         else:
-            return self.method 
+            return self.method

@@ -46,12 +46,12 @@ def cns(fname):
     upl = f.readline()
     print upl, i
     while upl != '':
-        if upl == '\n': 
+        if upl == '\n':
             upl = f.readline()
             continue
         cns = string.split(upl)
         print cns, i
-        if cns[0] == 'assign': 
+        if cns[0] == 'assign':
             print 'CNS'
             if cns[5] == 'HB*': print 'CNS***'
             cmd.dist('upl' + str(i), 'i. ' + cns[2] + ' & n. ' + cns[5], 'i. ' + cns[7] + ' & n. ' + cns[10])

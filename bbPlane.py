@@ -117,7 +117,7 @@ NOTES
         else:
             vorder = [0, 1, 2, 3, 2, 1]
 
-        # fill in the vertex data for the triangles; 
+        # fill in the vertex data for the triangles;
         for i in vorder:
             obj.append(VERTEX)
             obj.extend(pos[i])

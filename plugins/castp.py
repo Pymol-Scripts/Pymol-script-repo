@@ -79,9 +79,9 @@ class RemotePDB:
         infofile = ''
         jobid = ''
 
-        # Gave a bad PDB code!  PDB codes must be [a-z0-9A-Z]{4}        
+        # Gave a bad PDB code!  PDB codes must be [a-z0-9A-Z]{4}
         if sizeof != 4 and sizeof != 5:
-            tkMessageBox.showerror('Oops', remote_file + ' does not appear to be a PDB code', parent=app.root)   
+            tkMessageBox.showerror('Oops', remote_file + ' does not appear to be a PDB code', parent=app.root)
             noerror = 0
 
         # Get Pocket information from CASTp web server!  Size 4 : full structure file
@@ -117,7 +117,7 @@ class RemotePDB:
                 noerror = 0
 
         if noerror == 0:
-            tkMessageBox.showerror('Sorry', emessage, parent=app.root)            
+            tkMessageBox.showerror('Sorry', emessage, parent=app.root)
 
         if noerror:
 
@@ -138,12 +138,12 @@ class RemotePDB:
             # the value.
             pocNums = {}
             pocDict = {}
-            pocin = open(infofile, "r") 
+            pocin = open(infofile, "r")
             for line in pocin:
                 stuff = line[12:16]  # Pocket Number
                 stuff = stuff.strip()
                 if(stuff.isdigit()):
-                    pocDict[stuff] = '';        
+                    pocDict[stuff] = '';
                     idp = int(stuff)
                     pocNums[stuff] = idp
 
@@ -176,7 +176,7 @@ class RemotePDB:
             # Make an array of the pocket numbers and sort them by pocket number.
             #  Reverse the order of the sort (like CASTp webserver) such that
             #  the larger pockets will be listed first.
-            pids = pocNums.values()            
+            pids = pocNums.values()
             pids.sort()
             pids.reverse()
             #####################################################################
@@ -230,7 +230,7 @@ class RemotePDB:
                         currSelections[SelectionCntr] = tempPocket
                         SelectionCntr = SelectionCntr + 1
                         cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
-                        newsel = ""            
+                        newsel = ""
 
                 if newsel != "":
                     Scntr = str(SelectionCntr)
@@ -239,7 +239,7 @@ class RemotePDB:
                     SelectionCntr = SelectionCntr + 1
                     cmd.do("select " + tempPocket + ", id " + newsel + ",0,1")
 #                    cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
-                    newsel = ""                    
+                    newsel = ""
 
                 generalSelect = "select Pocket_" + pid + ", "
 
@@ -289,7 +289,7 @@ class RemoteJob:
            # mouthfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/uploads/' + jobid + '.mouth')[0]
            # mouthInfofile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/uploads/' + jobid + '.mouthInfo')[0]
 
-        if(os.path.getsize(pdbfile) < 400):            
+        if(os.path.getsize(pdbfile) < 400):
             tkMessageBox.showerror('Oops!', 'Could not retrieve ' + jobid + '\nMake sure you entered it in correctly, the Job ID is case sensitive', parent=app.root)
 
         pdbin = open(pdbfile, 'r')
@@ -308,7 +308,7 @@ class RemoteJob:
             stuff = line[12:16]
             stuff = stuff.strip()
             if(stuff.isdigit()):
-                pocDict[stuff] = '';        
+                pocDict[stuff] = '';
                 idp = int(stuff)
                 pocNums[stuff] = idp
         pocin.close()
@@ -363,7 +363,7 @@ class RemoteJob:
                     currSelections[SelectionCntr] = tempPocket
                     SelectionCntr = SelectionCntr + 1
                     cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
-                    newsel = ""            
+                    newsel = ""
 
             if newsel != "":
                 Scntr = str(SelectionCntr)
@@ -372,7 +372,7 @@ class RemoteJob:
                 SelectionCntr = SelectionCntr + 1
                 cmd.do("select " + tempPocket + ", id " + newsel + ",0,1")
 #                cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
-                newsel = ""                    
+                newsel = ""
 
             generalSelect = "select Pocket_" + pid + ", "
 
@@ -402,7 +402,7 @@ class LocalPDB:
         import tkFileDialog
         import os
         import string
-#        cwd = askdirectory(title = 'Choose the directory where all of the CASTp files are located')           
+#        cwd = askdirectory(title = 'Choose the directory where all of the CASTp files are located')
         pdbfile = tkFileDialog.askopenfilename(parent=app.root, title='Open the structure file\nWithin the same directory you must have the corresponding .poc and .pocInfo files')
         wd = os.path.dirname(pdbfile)  # + os.sep + jobid + '.pdb'
         stuff = pdbfile.split('/')
@@ -420,7 +420,7 @@ class LocalPDB:
             stuff = line[12:16]
             stuff = stuff.strip()
             if(stuff.isdigit()):
-                pocDict[stuff] = '';        
+                pocDict[stuff] = '';
                 idp = int(stuff)
                 pocNums[stuff] = idp
         pocin.close()
@@ -476,7 +476,7 @@ class LocalPDB:
                     currSelections[SelectionCntr] = tempPocket
                     SelectionCntr = SelectionCntr + 1
                     cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
-                    newsel = ""            
+                    newsel = ""
 
             if newsel != "":
                 Scntr = str(SelectionCntr)
@@ -485,7 +485,7 @@ class LocalPDB:
                 SelectionCntr = SelectionCntr + 1
                 cmd.do("select " + tempPocket + ", id " + newsel + ",0,1")
 #                cmd.do("select " + tempPocket + ", id " + newsel + ",1,1")
-                newsel = ""                    
+                newsel = ""
 
             generalSelect = "select Pocket_" + pid + ", "
 

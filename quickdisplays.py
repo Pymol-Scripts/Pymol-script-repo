@@ -56,7 +56,7 @@ def get_b_limits(input='[0,100]', selection='all'):
             limits = eval(limits)[:2]
         else:
             # integer
-            selection = str(selection) 
+            selection = str(selection)
             limits = abs(float(limits))
             if limits > 50: return False
             stored.temp = []
@@ -81,14 +81,14 @@ def get_b_limits(input='[0,100]', selection='all'):
         return False
     return limits
 #-------------------------------------------------------------------------------
-#------------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------------
 
 
 #-------------------------------------------------------------------------------
 # DISPLAY: SECONDARY STRUCTURE
 #-------------------------------------------------------------------------------
 def disp_ss(
-        selection='all', 
+        selection='all',
         colors='marine red white',
         only=False):
     '''
@@ -309,8 +309,8 @@ PARAMETERS
                 print "Input error (limits must be <list> or <float (<=50)>)!"
                 return False
 
-            cmd.set('mesh_color', 'default', p)      
-            cmd.spectrum('b', 'rainbow', '(not hetatm) and %s' % p, minimum='%f' % limits[0], maximum='%f' % limits[1], byres=0)     
+            cmd.set('mesh_color', 'default', p)
+            cmd.spectrum('b', 'rainbow', '(not hetatm) and %s' % p, minimum='%f' % limits[0], maximum='%f' % limits[1], byres=0)
             print "disp_ss:", p, "displayed in putty mode - mesh as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1])
         else:
             cmd.set('mesh_color', color_m, p)
@@ -320,7 +320,7 @@ PARAMETERS
             cmd.show_as('mesh', '%s and %s' % (selection, p))
         else:
             cmd.show('mesh', '%s and %s' % (selection, p))
-        cmd.rebuild()       
+        cmd.rebuild()
 
 cmd.extend("disp_mesh", disp_mesh);
 cmd.auto_arg[0]['disp_mesh'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
@@ -335,8 +335,8 @@ cmd.auto_arg[3]['disp_mesh'] = [lambda: cmd.Shortcut(['only=False, limits=5']), 
 # DISPLAY: SURFACE AND SURFACE AS PUTTY
 #-------------------------------------------------------------------------------
 def disp_surf(
-        selection='all', 
-        color_s='default', 
+        selection='all',
+        color_s='default',
         transparency=0,
         hydrogens=0,
         solvent=0,
@@ -413,12 +413,12 @@ PARAMETERS
                 print "Input error (limits must be <list> or <float (<=50)>)!"
                 return False
 
-            cmd.set('surface_color', 'default', p)      
-            cmd.spectrum('b', 'rainbow', 
-                         '(not hetatm) and %s' % p, minimum='%f' % limits[0], 
-                         maximum='%f' % limits[1], byres=0)      
+            cmd.set('surface_color', 'default', p)
+            cmd.spectrum('b', 'rainbow',
+                         '(not hetatm) and %s' % p, minimum='%f' % limits[0],
+                         maximum='%f' % limits[1], byres=0)
             print "disp_ss:", p, "displayed in putty mode - surface as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1])
-        else: 
+        else:
             cmd.set('surface_color', color_s, selection)
             print "disp_ss:", p, "displayed as regular surface"
         if only:

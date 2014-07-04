@@ -65,7 +65,7 @@ NOTES
 
         elif status == "in_class" and (viol_class == None or classMk == viol_class):
 
-            try: 
+            try:
 
                 new_id = float(line.split()[0])
                 alt = 1  # in case there is a couple of alternatives this labels them

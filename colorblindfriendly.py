@@ -70,13 +70,13 @@ __version__ = '0.1'
 
 from pymol import cmd
 
-# Color blind friendly color list based on information found at: 
+# Color blind friendly color list based on information found at:
 # http://jfly.iam.u-tokyo.ac.jp/html/color_blind/#pallet
-# The RGB percentage values given on that page are less precise than the 0-255 
+# The RGB percentage values given on that page are less precise than the 0-255
 # values, so the 0-255 values are converted here (e.g. 230/255 = 0.902).
 cb_colors = (
     ("black", (0.000, 0.000, 0.000),                   # (  0,   0,   0)
-            ()),  
+            ()),
     ("orange", (0.902, 0.624, 0.000),                   # (230, 159,   0)
      ()),
     ("sky_blue", (0.337, 0.706, 0.914),                   # ( 86, 180, 233)

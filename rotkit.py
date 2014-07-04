@@ -174,7 +174,7 @@ def findMinMax(datalist, index):
             minimum = l[index]
         if l[index] > maximum:
             maximum = l[index]
-    return(minimum, maximum, datacolumn)  
+    return(minimum, maximum, datacolumn)
 
 
 def createdirs(dirname):

@@ -156,7 +156,7 @@ class SimplePlot(Tkinter.Canvas):
             label0 = self.ylabels[0]
             label1 = self.ylabels[1]
             spacing = self.spacingy
-            min = self.ymin       
+            min = self.ymin
 
         # Get axis increment in 'label' space
         inc = abs(label1 - label0)
@@ -190,7 +190,7 @@ class SimplePlot(Tkinter.Canvas):
     # Print out which data point you just clicked on..
     def pickWhich(self, event):
 
-        # Find closest data point               
+        # Find closest data point
         x = event.widget.canvasx(event.x)
         y = event.widget.canvasx(event.y)
         spot = event.widget.find_closest(x, y)

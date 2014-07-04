@@ -32,25 +32,25 @@ MOLE_OUTPUT = os.getcwd()
 
 if 'PYMOL_GIT_MOD' in os.environ:
     pymol_env = os.environ.copy()
-    #pymol_env['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole") 
+    #pymol_env['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'],"Mole")
     sys.path.append(os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole"))
     if sys.platform.startswith('linux'):
         MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "linux", "bin", "Mole.exe")
         qhull_dir = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "linux", "bin")
         mole_dir = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "linux")
-        pymol_env['PATH'] = pymol_env['PATH'] + ":" + qhull_dir 
+        pymol_env['PATH'] = pymol_env['PATH'] + ":" + qhull_dir
         pymol_env['MOLEDIR'] = mole_dir
     elif sys.platform.startswith('darwin'):
         MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "mac", "bin", "Mole.exe")
         qhull_dir = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "mac", "bin")
         mole_dir = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "mac")
-        pymol_env['PATH'] = pymol_env['PATH'] + ":" + qhull_dir 
+        pymol_env['PATH'] = pymol_env['PATH'] + ":" + qhull_dir
         pymol_env['MOLEDIR'] = mole_dir
     elif sys.platform.startswith('win'):
         MOLE_BINARY_LOCATION = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "win32", "bin", "Mole.exe")
         qhull_dir = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "win32", "bin")
         mole_dir = os.path.join(os.environ['PYMOL_GIT_MOD'], "Mole", "win32")
-        pymol_env['PATH'] = pymol_env['PATH'] + ":" + qhull_dir 
+        pymol_env['PATH'] = pymol_env['PATH'] + ":" + qhull_dir
         pymol_env['MOLEDIR'] = mole_dir
     else:
         MOLE_BINARY_LOCATION = None

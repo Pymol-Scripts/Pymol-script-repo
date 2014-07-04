@@ -151,7 +151,7 @@ class eMovie:
         exportWindow = Export(root, title="Export")
 
     def moveActions(self):
-        moveActionsWindow = MoveActions(root, title="Move Actions")	
+        moveActionsWindow = MoveActions(root, title="Move Actions")
 
     def editAction(self):
         editActionWindow = EditAction(root, title="Edit Action")
@@ -164,7 +164,7 @@ def __init__(self):
     self.menuBar.addcascademenu('Plugin', 'eMovie', 'eMovie plugin', label='eMovie')
     self.menuBar.addmenuitem('eMovie', 'command', 'Open eMovie', label='Open eMovie', command=lambda: open_eMovie())
 
-    # also initialize Kristian Rother's movie.py commands 
+    # also initialize Kristian Rother's movie.py commands
     #
     # all movie commands
     #
@@ -189,7 +189,7 @@ def __init__(self):
     cmd.extend('mvSet', mv_set)     # adjust parameter over frame range
 
     # KR: finally, call open_eMovie:
-    # UN-COMMENTED TO REMOVE AUTO OPEN 
+    # UN-COMMENTED TO REMOVE AUTO OPEN
     # open_eMovie()
 
 
@@ -326,7 +326,7 @@ class Scenes(tkSimpleDialog.Dialog):
 
     def help(self):
 
-        tkMessageBox.showinfo("Scenes Help", "Create new Scene:  Here you create a new PyMOL scene.  The current PyMOL view, colors, and/or representations, depending on your choices, are/is saved as a scene with the name of your choice.  This new scene will appear on the scene list, and can then be inserted to the movie at a specific frame.\n\nRecall Selected Scene: The selected scene is immediately recalled.  You can then edit it and save your changes to the scene by using the 'Create new scene/Save scene...' button.\n\nDelete Scene:  The selected scene is cleared.  Any instance of the scene inserted into the movie is not removed.  To do so, you must remove instances of the scene from the storyboard.\n\nInsert Scene into Movie: The scene of the given name is recalled at the given frame.") 
+        tkMessageBox.showinfo("Scenes Help", "Create new Scene:  Here you create a new PyMOL scene.  The current PyMOL view, colors, and/or representations, depending on your choices, are/is saved as a scene with the name of your choice.  This new scene will appear on the scene list, and can then be inserted to the movie at a specific frame.\n\nRecall Selected Scene: The selected scene is immediately recalled.  You can then edit it and save your changes to the scene by using the 'Create new scene/Save scene...' button.\n\nDelete Scene:  The selected scene is cleared.  Any instance of the scene inserted into the movie is not removed.  To do so, you must remove instances of the scene from the storyboard.\n\nInsert Scene into Movie: The scene of the given name is recalled at the given frame.")
 
 
 class CreateScene(tkSimpleDialog.Dialog):
@@ -400,7 +400,7 @@ class Zoom(tkSimpleDialog.Dialog):
         self.e2.grid(row=1, column=1)
         self.e3.grid(row=2, column=1)
 
-        return self.e1  # initial focus	
+        return self.e1  # initial focus
 
     def apply(self):
 
@@ -412,7 +412,7 @@ class Zoom(tkSimpleDialog.Dialog):
 
         endFrame = startFrame + actionLength - 1
 
-        (startFrameState, endFrameState, blankCmd) = getStartEndFrameStates(startFrame, endFrame)		
+        (startFrameState, endFrameState, blankCmd) = getStartEndFrameStates(startFrame, endFrame)
 
         # add command to movie
         mv_move("%i-%i:%i-%i" % (startFrame, endFrame, startFrameState, endFrameState), "z", "%i" % (amtZoom), "linear")
@@ -599,7 +599,7 @@ class Fading(tkSimpleDialog.Dialog):
 
         Label(master, text="(stick, surface, cartoon, sphere)").grid(row=1, column=2, sticky=W)
         Label(master, text="percent visible").grid(row=2, column=2, sticky=W)
-        Label(master, text="percent visible").grid(row=3, column=2, sticky=W)		
+        Label(master, text="percent visible").grid(row=3, column=2, sticky=W)
 
         self.e1 = Entry(master)
         self.e2 = Entry(master)
@@ -658,7 +658,7 @@ class Fading(tkSimpleDialog.Dialog):
         mv_cmd("%i:%i" % (endFrame, endFrameState), "set %stransparency,%f,%s" % (appearance, fadeToMod, molecule))
 
         # append to storyBoard
-        emovie.storyBoard.append(("%i-%i" % (startFrame, endFrame), "Fading", "Molecule: %s; Shown as: %s; Fade from: %.2f%%; Fade to: %.2f%%" % (molecule, representation, fadeFrom, fadeTo), ['mv_set %i-%i:%i-%i,%stransparency,%f,%f,%s,linear' % (startFrame, endFrame - 1, startFrameState, anteEndFrameState, appearance, fadeFromMod, fadeToMod, molecule), 'mv_cmd %i:%i,cmd.set("%stransparency","%f","%s")' % (endFrame, endFrameState, appearance, fadeToMod, molecule), blankCmd]))	
+        emovie.storyBoard.append(("%i-%i" % (startFrame, endFrame), "Fading", "Molecule: %s; Shown as: %s; Fade from: %.2f%%; Fade to: %.2f%%" % (molecule, representation, fadeFrom, fadeTo), ['mv_set %i-%i:%i-%i,%stransparency,%f,%f,%s,linear' % (startFrame, endFrame - 1, startFrameState, anteEndFrameState, appearance, fadeFromMod, fadeToMod, molecule), 'mv_cmd %i:%i,cmd.set("%stransparency","%f","%s")' % (endFrame, endFrameState, appearance, fadeToMod, molecule), blankCmd]))
 
         movie()
         cmd.do("mstop")
@@ -721,7 +721,7 @@ class Worm(tkSimpleDialog.Dialog):
         endAA = int(self.e3.get())
         startFrame = int(self.e4.get())
 
-        (startFrameState, endFrameState, blankCmd) = getStartEndFrameStates(startFrame)		
+        (startFrameState, endFrameState, blankCmd) = getStartEndFrameStates(startFrame)
 
         lastFrame = wormFunction(molecule, startAA, endAA, startFrame, startFrameState)
 
@@ -968,7 +968,7 @@ class Story(tkSimpleDialog.Dialog):
         self.lb3.grid(row=1, column=2)
         self.lb4.grid(row=1, column=3)
 
-        Label(master, text="#", fg="red").grid(row=0, column=0)	
+        Label(master, text="#", fg="red").grid(row=0, column=0)
         Label(master, text="FRAME(S)", fg="red").grid(row=0, column=1)
         Label(master, text="ACTION", fg="red").grid(row=0, column=2)
         Label(master, text="INFORMATION", fg="red").grid(row=0, column=3)
@@ -1097,7 +1097,7 @@ class Story(tkSimpleDialog.Dialog):
             cmd.do("from pmg_tk.startup import eMovie")
             for a in emovie.storyBoard:
                 for b in a[3]:  # action commands are stored in 4th position of tuples in storyBoard list, as a list of cmds
-                    cmd.do(b) 
+                    cmd.do(b)
 
             time.sleep(2)
 
@@ -1135,9 +1135,9 @@ class Story(tkSimpleDialog.Dialog):
 
 class MoveActions(tkSimpleDialog.Dialog):
         # take every action between and including firstAction and lastAction and remove them from our emovie.storyboard
-        # store each of the actions we removed in an array 
+        # store each of the actions we removed in an array
         # clear and recompile our movie without the removed actions
-        # one by one, get the values for each action in our new array, 
+        # one by one, get the values for each action in our new array,
         # then change the start and end Frame by the moveAmt
         # finally reinsert each moved action into the movie with insertByActionValues
         # recompiling the movie after insertion of each action
@@ -1178,7 +1178,7 @@ class MoveActions(tkSimpleDialog.Dialog):
         cmd.do("from pmg_tk.startup import eMovie")
         for a in emovie.storyBoard:
             for b in a[3]:  # action commands are stored in 4th position of tuples in storyBoard list, as a list of cmds
-                cmd.do(b) 
+                cmd.do(b)
 
         time.sleep(2)
 
@@ -1345,7 +1345,7 @@ class EditAction(tkSimpleDialog.Dialog):
             cmd.do("from pmg_tk.startup import eMovie")
             for a in emovie.storyBoard:
                 for b in a[3]:  # action commands are stored in 4th position of tuples in storyBoard list, as a list of cmds
-                    cmd.do(b) 
+                    cmd.do(b)
 
             time.sleep(2)
 
@@ -1458,7 +1458,7 @@ class Save:
 
         mv_clear()  # delete the movie so that the sesson can be saved
 
-        cmd.do("save %s.pse" % (fileName)) 
+        cmd.do("save %s.pse" % (fileName))
 
         f = open('%s.emov' % (fileName), 'w')
 
@@ -1484,7 +1484,7 @@ class Save:
         cmd.do("from pmg_tk.startup import eMovie")
         for a in emovie.storyBoard:
             for b in a[3]:  # action commands are stored in 4th position of tuples in storyBoard list, as a list of cmds
-                cmd.do(b) 
+                cmd.do(b)
 
         time.sleep(2)
 
@@ -1512,7 +1512,7 @@ class Save:
 
         if filename:
             self.e1.delete(0, END)  # clear the entrybox
-            self.e1.insert(END, filename.name) 
+            self.e1.insert(END, filename.name)
             self.e1.xview(END)  # scroll so you can see the end of the filename
 
             filename.close()  # close the file that the tkFileDialog opened for writing
@@ -1540,7 +1540,7 @@ class Save:
 
         mv_clear()  # delete the movie so that the sesson can be saved
 
-        cmd.do("save %s.pse" % (fileName)) 
+        cmd.do("save %s.pse" % (fileName))
 
         f = open('%s.emov' % (fileName), 'w')
 
@@ -1566,7 +1566,7 @@ class Save:
         cmd.do("from pmg_tk.startup import eMovie")
         for a in emovie.storyBoard:
             for b in a[3]:  # action commands are stored in 4th position of tuples in storyBoard list, as a list of cmds
-                cmd.do(b) 
+                cmd.do(b)
 
         time.sleep(2)
 
@@ -1605,7 +1605,7 @@ class Save:
         self.lift()
 
 # class Load(tkSimpleDialog.Dialog):
-# KR: made Load dialog a simple class so no extra window will pop up 
+# KR: made Load dialog a simple class so no extra window will pop up
 
 
 class Load:
@@ -1671,7 +1671,7 @@ class Load:
 
         for a in emovie.storyBoard:
             for b in a[3]:  # action commands are stored in 4th position of tuples in storyBoard list, as a list of cmds
-                cmd.do(b) 
+                cmd.do(b)
 
         f.close()
 
@@ -1680,7 +1680,7 @@ class Load:
         movie()
         cmd.do("mstop")
 
-    # 
+    #
     # KR: the following stuff is IMHO unnecessary now
     #
 
@@ -1700,12 +1700,12 @@ class Load:
 
         if filename:
             self.e1.delete(0, END)  # clear the entrybox
-            self.e1.insert(END, filename.name) 
+            self.e1.insert(END, filename.name)
             self.e1.xview(END)  # scroll so you can see the end of the filename
 
             filename.close()  # close the file that the tkFileDialog opened for reading
             self.ok()
-        else:	
+        else:
             self.lift()
 
     def apply(self):
@@ -1764,7 +1764,7 @@ class Load:
 
         for a in emovie.storyBoard:
             for b in a[3]:  # action commands are stored in 4th position of tuples in storyBoard list, as a list of cmds
-                cmd.do(b) 
+                cmd.do(b)
 
         f.close()
 
@@ -1851,7 +1851,7 @@ class MakeMorph(tkSimpleDialog.Dialog):
         cmd.save("morphFrom.pdb", morphFrom, state=1)
         cmd.save("morphTo.pdb", morphTo, state=1)
 
-        time.sleep(2)	
+        time.sleep(2)
 
         # need to insert a pause here to allow for saving to finish
 
@@ -1859,7 +1859,7 @@ class MakeMorph(tkSimpleDialog.Dialog):
         # call rigimol.inp because you can't run it except through an external script
         cmd.do("rigimol eMovie_rigimol.inp")
 
-        # time.sleep(120)  #change to pymol API command sync?		
+        # time.sleep(120)  #change to pymol API command sync?
         tkMessageBox.showinfo("Making Morph", "Morph is in the process of being made.\n Wait for the PyMOL Tcl/Tk GUI window to read: \n 'RigiMOL: normal program termination.' \n Before pressing 'OK'")
 
         # delete morphFrom.pdb and morphTo.pdb
@@ -1885,7 +1885,7 @@ class MakeMorph(tkSimpleDialog.Dialog):
 
         # how much refinement should be done?
 
-        # 1   = almost nothing 
+        # 1   = almost nothing
         # 20  = a reasonable amount
         # 100 = a lot
 
@@ -1909,7 +1909,7 @@ class MakeMorph(tkSimpleDialog.Dialog):
         cmd.delete(object_name)
         os.remove("eMovie_rigimol_morph.pdb")
 
-        # append morphName.pdb into morphList 
+        # append morphName.pdb into morphList
 
         if len(emovie.morphList) == 0:
             lastState = 0
@@ -2157,7 +2157,7 @@ class LoadMorph(tkSimpleDialog.Dialog):
 
         if filename:
             self.e1.delete(0, END)  # clear the entrybox
-            self.e1.insert(END, filename.name) 
+            self.e1.insert(END, filename.name)
             self.e1.xview(END)  # scroll so you can see the end of the filename
 
             filename.close()  # close the file that the tkFileDialog opened for reading
@@ -2169,7 +2169,7 @@ class LoadMorph(tkSimpleDialog.Dialog):
         morphFile = self.e1.get()
         morphName = self.e2.get()
 
-        numberOfSteps = 30  # this pertains to the number of states in the loaded morph, should find a way to autodetect this but as of right now all morphs are made with 30 steps	
+        numberOfSteps = 30  # this pertains to the number of states in the loaded morph, should find a way to autodetect this but as of right now all morphs are made with 30 steps
 
         # check if morphName matches an existing morph name in morphList, if so, and numberOfSteps of each matches, replace it, if not, print error
         morphNameExistsFlag = False
@@ -2249,7 +2249,7 @@ class Export(tkSimpleDialog.Dialog):
 
         if filename:
             self.e1.delete(0, END)  # clear the entrybox
-            self.e1.insert(END, filename.name) 
+            self.e1.insert(END, filename.name)
             self.e1.xview(END)  # scroll so you can see the end of the filename
 
             filename.close()  # close the file that the tkFileDialog opened for writing
@@ -2310,7 +2310,7 @@ def getFrameState(frame):
 
 
 def wormFunction(molecule, startAA, endAA, startFrame, state):
-    # Core Worm action Script		
+    # Core Worm action Script
 
     mv_cmd("%i:%i" % (startFrame, state), "set stick_transparency=0.0, %s,%i" % (molecule, state))
     mv_cmd("%i:%i" % (startFrame, state), "hide everything, %s" % (molecule))
@@ -2418,7 +2418,7 @@ def cmpStoryBoard(a, b):
         # first get endFrames
         if len(x) == 2:
             xEndFrame = int(x[1])
-        else: 
+        else:
             xEndFrame = xStartFrame
         if len(y) == 2:
             yEndFrame = int(y[1])
@@ -2435,7 +2435,7 @@ def cmpStoryBoard(a, b):
 
 
 def getActionValues(action):
-    # takes as input an element from emovie.storyboard and returns the type of action and all the 
+    # takes as input an element from emovie.storyboard and returns the type of action and all the
     # important values associated with it
     #
     # Gets from (along with action type):
@@ -2445,31 +2445,31 @@ def getActionValues(action):
     #
     # ZOOM:
     #	startFrame, endFrame, amtZoom
-    # 	
+    #
     # COMMAND:
     #	startFrame, inputCmd
-    #	
+    #
     # ROTATION:
     #	startFrame, endFrame, axis, degrees
-    #	
+    #
     # FADING:
     #	startFrame, endFrame, molecule, representation, fadeFrom, fadeTo
-    #	
+    #
     # WORM:
     #	startFrame, molecule, startAA, endAA
-    #	
+    #
     # PAUSE:
     #	startFrame, endFrame
-    #	
+    #
     # STOP:
     #	startFrame
-    #	
+    #
     # MORPH (FORWARD):
     #	startFrame, endFrame
-    #	
+    #
     # MORPH (PAUSE):
     #	startFrame, endFrame
-    #	
+    #
     # MORPH (BACKWARD):
     #	startFrame, endFrame
 
@@ -2668,7 +2668,7 @@ def insertActionByValues(actionValues):
         startFrame = int(actionValues[0])
         endFrame = int(actionValues[1])
 
-        (startFrameState, endFrameState, blankCmd) = getStartEndFrameStates(startFrame, endFrame)		
+        (startFrameState, endFrameState, blankCmd) = getStartEndFrameStates(startFrame, endFrame)
 
         # add command to movie
         mv_move("%i-%i:%i-%i" % (startFrame, endFrame, startFrameState, endFrameState), "z", "%i" % (amtZoom), "linear")
@@ -2747,7 +2747,7 @@ def insertActionByValues(actionValues):
         mv_cmd("%i:%i" % (endFrame, endFrameState), "set %stransparency,%f,%s" % (appearance, fadeToMod, molecule))
 
         # append to storyBoard
-        emovie.storyBoard.append(("%i-%i" % (startFrame, endFrame), "Fading", "Molecule: %s; Shown as: %s; Fade from: %.2f%%; Fade to: %.2f%%" % (molecule, representation, fadeFrom, fadeTo), ['mv_set %i-%i:%i-%i,%stransparency,%f,%f,%s,linear' % (startFrame, endFrame - 1, startFrameState, anteEndFrameState, appearance, fadeFromMod, fadeToMod, molecule), 'mv_cmd %i:%i,cmd.set("%stransparency","%f","%s")' % (endFrame, endFrameState, appearance, fadeToMod, molecule), blankCmd]))	
+        emovie.storyBoard.append(("%i-%i" % (startFrame, endFrame), "Fading", "Molecule: %s; Shown as: %s; Fade from: %.2f%%; Fade to: %.2f%%" % (molecule, representation, fadeFrom, fadeTo), ['mv_set %i-%i:%i-%i,%stransparency,%f,%f,%s,linear' % (startFrame, endFrame - 1, startFrameState, anteEndFrameState, appearance, fadeFromMod, fadeToMod, molecule), 'mv_cmd %i:%i,cmd.set("%stransparency","%f","%s")' % (endFrame, endFrameState, appearance, fadeToMod, molecule), blankCmd]))
 
         movie()
         cmd.do("mstop")
@@ -2758,7 +2758,7 @@ def insertActionByValues(actionValues):
         startAA = int(actionValues[4])
         endAA = int(actionValues[5])
 
-        (startFrameState, endFrameState, blankCmd) = getStartEndFrameStates(startFrame)		
+        (startFrameState, endFrameState, blankCmd) = getStartEndFrameStates(startFrame)
 
         lastFrame = wormFunction(molecule, startAA, endAA, startFrame, startFrameState)
 
@@ -2777,7 +2777,7 @@ def insertActionByValues(actionValues):
 #"""
 #--- movie: easy movie scripting in PyMOL ---
 # Script  : movie
-# Author  : The PyMOL community 
+# Author  : The PyMOL community
 # Date    : Oct 2004
 # Version : 0.7
 # Contact : kristian.r@gmx.de
@@ -2808,7 +2808,7 @@ def insertActionByValues(actionValues):
 # 1-100:1-10 # multiple states are looped through
 #
 #"""
-class Movie:    
+class Movie:
 
     def __init__(self):
         """Stores data of what should appear in the movie."""
@@ -2820,7 +2820,7 @@ class Movie:
         self.ray = 0
 
     def add(self, framestate, command):
-        self.movie.append((framestate[0], framestate[1], command))            
+        self.movie.append((framestate[0], framestate[1], command))
 
     def add_frame_states(self, framestates):
         """Stores list of (frame,state) tuples in a dictionary."""
@@ -2832,7 +2832,7 @@ class Movie:
         if self.framestates.has_key(key):
             return self.framestates[key]
         else:
-            return 1  # state one, if none specified            
+            return 1  # state one, if none specified
 
 
 moviedata = Movie()
@@ -2899,8 +2899,8 @@ def get_increment_values(number, start=0.0, end=1.0, mode='linear'):
         increment = (end - start) / number
         incr = [increment] * number
         return incr
-    else: 
-        values = get_values(number + 1, start, end, mode)    
+    else:
+        values = get_values(number + 1, start, end, mode)
         incr = []
         act = values[0]
         for v in values[1:]:
@@ -2943,13 +2943,13 @@ def get_frame_states(fstring):
         framestates.append((firstFrame, firstState))
         lastFrame = firstFrame
     else:
-        nframes = lastFrame - firstFrame + 1 
+        nframes = lastFrame - firstFrame + 1
         if lastState >= firstState:
             stateinc = (lastState - firstState + 1) * 1.0 / nframes
         else:
             stateinc = (lastState - firstState - 1) * 1.0 / nframes
         for i in range(nframes):
-            frame = firstFrame + i 
+            frame = firstFrame + i
             state = firstState + int(stateinc * i)
             framestates.append((frame, state))
 
@@ -2961,7 +2961,7 @@ def get_frame_states(fstring):
 
 #
 #
-# Commands revised 
+# Commands revised
 #
 #
 
@@ -2973,13 +2973,13 @@ def mv_clear():
     cmd.mclear()
     cmd.frame(1)
     moviedata.maxframe = 1
-    moviedata.framestates = {} 
+    moviedata.framestates = {}
 
 
 def mv_cmd(frames="1", command=""):
     """
     mv_cmd(frames,command) - executes a command in all frames specified.
-    """    
+    """
     framestates = get_frame_states(frames)
     if command != "":
         for fs in framestates:
@@ -2990,12 +2990,12 @@ def mv_turn(frames="1", axis="z", angle='360', mode='linear'):
     """
     mv_turn(frames,axis,angle,selection,mode) - turns the camera over the given
             frame range, the rotation angle summing up to the angle given.
-            """    
+            """
     framestates = get_frame_states(frames)
     nFrames = len(framestates)
     angleIncrement = get_increment_values(nFrames, 0.0, float(angle), mode)
 
-    for i in range(nFrames): 
+    for i in range(nFrames):
         moviedata.add(framestates[i], "turn %s,%f" % (axis, angleIncrement[i]))
 
 
@@ -3003,12 +3003,12 @@ def mv_rotate(frames="1", axis="z", angle='360', selection='all', mode='linear')
     """
     mv_rotate(frames,axis,angle,selection,mode) - rotates the object over the given
             frame range, the rotation angle summing up to the angle given.
-            """    
+            """
     framestates = get_frame_states(frames)
     nFrames = len(framestates)
     angleIncrement = get_increment_values(nFrames, 0.0, float(angle), mode)
 
-    for i in range(nFrames): 
+    for i in range(nFrames):
         moviedata.add(framestates[i], "rotate %s,%f,%s" % (axis, angleIncrement[i], selection))
 
 
@@ -3016,7 +3016,7 @@ def mv_move(frames="1", axis="x", distance="0", mode='linear'):
     """
     mv_move(frames,axis,distance,selection,mode) - moves the environment over the given
             frame range, the moved distance summing up to the distance given.
-            """    
+            """
     framestates = get_frame_states(frames)
     nFrames = len(framestates)
     distanceIncrement = get_increment_values(nFrames, 0.0, float(distance), mode)
@@ -3029,7 +3029,7 @@ def mv_trans(frames="1", axis="x", distance="0", selection='all', mode='linear')
     """
     mv_move(frames,axis,distance,selection,mode) - moves the selection object over the given
             frame range, the moved distance summing up to the distance given.
-            """    
+            """
     framestates = get_frame_states(frames)
     nFrames = len(framestates)
     distanceIncrement = get_increment_values(nFrames, 0.0, float(distance), mode)
@@ -3045,7 +3045,7 @@ def mv_set(frames="1", variable="", start="0.0", end="1.0", selection='all', mod
     """
     mv_set(frames,variable,start,end,selection,mode) - lets a PyMOL variable go through a gradient
     in the specified frame range. Great for fading effects!
-    """    
+    """
     framestates = get_frame_states(frames)
     nFrames = len(framestates)
     values = get_values(nFrames, float(start), float(end), mode)
@@ -3076,7 +3076,7 @@ def movie(png_prefix="", ray="0"):
 
     # compile mset command string "1 2 3 4 x3 5" from state list [1,2,3,4,4,4,5]
     statelist = ""
-    count = 0     
+    count = 0
     for e in range(nFrames):
         actual = states[e]
         next = 0

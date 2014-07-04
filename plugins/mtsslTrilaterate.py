@@ -97,7 +97,7 @@ class trilat(wx.Frame):
         self.ellipsoidTransparency = msg.data[10]
         self.confidenceLevel = msg.data[11]
 
-    #-----------------------------------------------------------------------------------------------     
+    #-----------------------------------------------------------------------------------------------
     def UserInterface(self):
         '''Graphical User Interface'''
         panel = wx.Panel(self, -1)
@@ -117,11 +117,11 @@ class trilat(wx.Frame):
         headerInput.SetForegroundColour(wx.Color(112, 5, 0))
         headerInput.SetFont(wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD))
         sizerI1.Add(headerInput, flag=wx.ALIGN_CENTER_HORIZONTAL | wx.TOP, border=10)
-        # Input data table 
+        # Input data table
         self.table = wx.grid.Grid(panel, -1, size=(-1, -1))
         rowsNum = self.maxNumOfLabels + 2
-        self.table.CreateGrid(rowsNum, 6)       
-        # Hide initial column labels and row labels 
+        self.table.CreateGrid(rowsNum, 6)
+        # Hide initial column labels and row labels
         colLabels = ['' for col in range(6)]
         rowLabels = ['' for row in range(rowsNum)]
         for col in range(len(colLabels)):
@@ -132,26 +132,26 @@ class trilat(wx.Frame):
         self.table.SetColLabelSize(1)
         # Create new column labels and row labels
         self.table.SetCellSize(0, 0, 2, 1)
-        self.table.SetCellValue(0, 0, 'Label name')  
+        self.table.SetCellValue(0, 0, 'Label name')
         self.table.SetCellSize(0, 1, 1, 3)
         self.table.SetCellValue(0, 1, 'Label coordinates ' + u'(\u00c5)')
         self.table.SetCellValue(1, 1, 'x')
         self.table.SetCellValue(1, 2, 'y')
-        self.table.SetCellValue(1, 3, 'z')  
+        self.table.SetCellValue(1, 3, 'z')
         self.table.SetCellSize(0, 4, 1, 2)
         self.table.SetCellValue(0, 4, 'Distance ' + u'(\u00c5)')
         self.table.SetCellValue(1, 4, 'mean')
-        self.table.SetCellValue(1, 5, 'std')      
+        self.table.SetCellValue(1, 5, 'std')
         # Do not edit column labels and row labels
         for col in range(6):
             for row in range(2):
                 self.table.SetReadOnly(row, col, isReadOnly=True)
         # Hide white borders
-        panelcolour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE) 
-        self.table.SetDefaultCellBackgroundColour(panelcolour) 
-        for row in range(2, rowsNum): 
-            for col in range(6): 
-                self.table.SetCellBackgroundColour(row, col, wx.WHITE) 
+        panelcolour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE)
+        self.table.SetDefaultCellBackgroundColour(panelcolour)
+        for row in range(2, rowsNum):
+            for col in range(6):
+                self.table.SetCellBackgroundColour(row, col, wx.WHITE)
         self.table.Refresh()
         # Set default text format
         self.table.SetDefaultCellAlignment(wx.ALIGN_CENTRE, wx.ALIGN_CENTRE)
@@ -161,13 +161,13 @@ class trilat(wx.Frame):
         for col in range(1, 6):
             self.table.SetColSize(col, 55)
         for row in range(0, rowsNum):
-            self.table.SetRowSize(row, 22)    
+            self.table.SetRowSize(row, 22)
         # Preset names of labels
         for row in range(2, rowsNum):
-            self.table.SetCellValue(row, 0, self.labelNames[row - 2])  
+            self.table.SetCellValue(row, 0, self.labelNames[row - 2])
         # Table commands
         self.table.Bind(wx.grid.EVT_GRID_CELL_LEFT_CLICK, self.OnInputTableCellSelect)
-        self.table.Bind(wx.grid.EVT_GRID_CELL_LEFT_DCLICK, self.OnInputTableCellSelect) 
+        self.table.Bind(wx.grid.EVT_GRID_CELL_LEFT_DCLICK, self.OnInputTableCellSelect)
         self.table.Bind(wx.grid.EVT_GRID_CELL_CHANGE, self.OnInputTableCellChange)
         # Attach to sizer
         sizerI1.Add(self.table, proportion=1, flag=wx.TOP | wx.LEFT | wx.RIGHT, border=10)
@@ -196,7 +196,7 @@ class trilat(wx.Frame):
         sizerI12.Add(self.loadFromPymol)
         self.labelList.Disable()
         self.loadFromPymol.Disable()
-        # General commands 
+        # General commands
         sizerI13 = wx.BoxSizer(wx.HORIZONTAL)
         acceptInput = wx.Button(panel, label='Accept')
         acceptInput.Bind(wx.EVT_BUTTON, self.OnAcceptInput)
@@ -221,8 +221,8 @@ class trilat(wx.Frame):
         sizerO1.Add(copmute, flag=wx.ALIGN_CENTER_HORIZONTAL | wx.BOTTOM, border=14)
         # Otput data table
         self.table1 = wx.grid.Grid(panel, -1, size=(-1, -1))
-        self.table1.CreateGrid(4, 4)       
-        # Hide initial column labels and row labels 
+        self.table1.CreateGrid(4, 4)
+        # Hide initial column labels and row labels
         colLabels = ['' for col in range(4)]
         rowLabels = ['' for row in range(4)]
         for col in range(len(colLabels)):
@@ -232,24 +232,24 @@ class trilat(wx.Frame):
         self.table1.SetRowLabelSize(1)
         self.table1.SetColLabelSize(1)
         # Create new column labels and row labels
-        self.table1.SetCellSize(0, 0, 2, 1) 
+        self.table1.SetCellSize(0, 0, 2, 1)
         self.table1.SetCellSize(0, 1, 1, 3)
         self.table1.SetCellValue(0, 1, 'Target coordinates ' + u'(\u00c5)')
         self.table1.SetCellValue(1, 1, 'x')
         self.table1.SetCellValue(1, 2, 'y')
-        self.table1.SetCellValue(1, 3, 'z')  
+        self.table1.SetCellValue(1, 3, 'z')
         self.table1.SetCellValue(2, 0, 'mean')
-        self.table1.SetCellValue(3, 0, 'std')      
+        self.table1.SetCellValue(3, 0, 'std')
         # Do not edit column labels and row labels
         for col in range(4):
             for row in range(4):
                 self.table1.SetReadOnly(row, col, isReadOnly=True)
         # Hide white borders
-        panelcolour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE) 
-        self.table1.SetDefaultCellBackgroundColour(panelcolour) 
-        for row in range(2, 4): 
-            for col in range(1, 4): 
-                self.table1.SetCellBackgroundColour(row, col, wx.WHITE) 
+        panelcolour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE)
+        self.table1.SetDefaultCellBackgroundColour(panelcolour)
+        for row in range(2, 4):
+            for col in range(1, 4):
+                self.table1.SetCellBackgroundColour(row, col, wx.WHITE)
         self.table1.Refresh()
         # Set default text format
         self.table1.SetDefaultCellAlignment(wx.ALIGN_CENTRE, wx.ALIGN_CENTRE)
@@ -258,7 +258,7 @@ class trilat(wx.Frame):
         for col in range(4):
             self.table1.SetColSize(col, 55)
         for row in range(4):
-            self.table1.SetRowSize(row, 22)    
+            self.table1.SetRowSize(row, 22)
         # Attach to sizer
         sizerO1.Add(self.table1, flag=wx.ALL, border=10)
         # Statistics
@@ -270,7 +270,7 @@ class trilat(wx.Frame):
         sizerO11.Add(self.chiSquareBox, pos=(0, 1))
         self.numOfIterBox = wx.TextCtrl(panel, size=(80, 20), style=wx.TE_CENTRE)
         sizerO11.Add(self.numOfIterBox, pos=(1, 1))
-        # General commands  
+        # General commands
         sizerO12 = wx.BoxSizer(wx.HORIZONTAL)
         sizerO1.Add(sizerO12, flag=wx.ALIGN_CENTER_HORIZONTAL | wx.TOP, border=10)
         exportToPymol = wx.Button(panel, label='Export to PyMOL')
@@ -368,7 +368,7 @@ class trilat(wx.Frame):
             except:
                 self.labelCoordMean[self.curLabel][2] = None
                 self.statusbar.SetStatusText('Incorrect input data!')
-        elif (curCol == 4): 
+        elif (curCol == 4):
             try:
                 self.distMean[self.curLabel] = float(self.table.GetCellValue(curRow, curCol))
                 self.statusbar.SetStatusText('Entering new input data... Click "Accept" button after all input data has been entered.')
@@ -382,17 +382,17 @@ class trilat(wx.Frame):
             except:
                 self.distStd[self.curLabel] = None
                 self.statusbar.SetStatusText('Incorrect input data!')
-        # Update table 
-        self.UpdateInputTable() 
+        # Update table
+        self.UpdateInputTable()
         # Input data doesn't accepted
-        self.inputAccepted = False   
+        self.inputAccepted = False
 
         event.Skip()
 
     #-----------------------------------------------------------------------------------------------
     def OnLoadCoordFromFile(self, event):
         '''Loads label coordinates from data file'''
-        dlg = wx.FileDialog(self, message="Choose a file", defaultDir=os.getcwd(), defaultFile="", wildcard="Text Files (.txt, .dat)|*.txt;*.dat", style=wx.OPEN | wx.CHANGE_DIR) 
+        dlg = wx.FileDialog(self, message="Choose a file", defaultDir=os.getcwd(), defaultFile="", wildcard="Text Files (.txt, .dat)|*.txt;*.dat", style=wx.OPEN | wx.CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
             dataFile = open(path, 'r')
@@ -404,7 +404,7 @@ class trilat(wx.Frame):
             # Calculate average coordinates and their standard deviations
             self.labelCoordMean[self.curLabel], self.labelCoordStd[self.curLabel] = AverageCoordCalc(coord)
             # Update table
-            self.UpdateInputTable() 
+            self.UpdateInputTable()
             # Input data doesn't accepted
             self.inputAccepted = False
             # Statusbar message
@@ -429,7 +429,7 @@ class trilat(wx.Frame):
             # Calculate distance and its standard deviation
             self.distMean[self.curLabel], self.distStd[self.curLabel] = AverageDistCalc(dist, density)
             # Update table
-            self.UpdateInputTable() 
+            self.UpdateInputTable()
             # Input data doesn't accepted
             self.inputAccepted = False
             # Statusbar message
@@ -459,11 +459,11 @@ class trilat(wx.Frame):
             else:
                 self.table.SetCellValue(i + 2, 4, '')
             if not (self.distStd[i] == None):
-                self.table.SetCellValue(i + 2, 5, '{0:.2f}'.format(self.distStd[i])) 
+                self.table.SetCellValue(i + 2, 5, '{0:.2f}'.format(self.distStd[i]))
             else:
-                self.table.SetCellValue(i + 2, 5, '') 
+                self.table.SetCellValue(i + 2, 5, '')
             # Highlight complete sets of data
-            if not ((self.labelCoordMean[i][0] == None) | (self.labelCoordMean[i][1] == None) | (self.labelCoordMean[i][2] == None) | (self.distMean[i] == None) | (self.distStd[i] == None)):   
+            if not ((self.labelCoordMean[i][0] == None) | (self.labelCoordMean[i][1] == None) | (self.labelCoordMean[i][2] == None) | (self.distMean[i] == None) | (self.distStd[i] == None)):
                 for j in range(1, 6):
                     self.table.SetCellBackgroundColour(i + 2, j, wx.Colour(127, 255, 0))
             else:
@@ -512,7 +512,7 @@ class trilat(wx.Frame):
             self.inputAccepted = False
             self.numOfLabels = N
             # Statusbar message
-            self.statusbar.SetStatusText('The Number of the determined labels should be more than 3 to start the calculations!')   
+            self.statusbar.SetStatusText('The Number of the determined labels should be more than 3 to start the calculations!')
         event.Skip()
 
     #-----------------------------------------------------------------------------------------------
@@ -529,11 +529,11 @@ class trilat(wx.Frame):
         # Update table
         self.UpdateInputTable()
         # Input data doesn't accepted
-        self.inputAccepted = False 
+        self.inputAccepted = False
 
-        event.Skip() 
+        event.Skip()
 
-    #-----------------------------------------------------------------------------------------------  
+    #-----------------------------------------------------------------------------------------------
     def OnCompute(self, event):
         '''Computes target coordinates'''
         if (self.inputAccepted == False):
@@ -541,9 +541,9 @@ class trilat(wx.Frame):
             self.statusbar.SetStatusText('Correct input data is required!')
         else:
             # Linear least squares, Singular value decomposition
-            self.targetCoordMean, self.targetCoordStd, self.chiSquare = SingularValueDecomposition(self.numOfLabels, 
-                                                                                                 self.labelCoordMean, 
-                                                                                                 self.distMean, 
+            self.targetCoordMean, self.targetCoordStd, self.chiSquare = SingularValueDecomposition(self.numOfLabels,
+                                                                                                 self.labelCoordMean,
+                                                                                                 self.distMean,
                                                                                                  self.distStd)
             self.numOfIter = None
             # Statusbar message
@@ -558,17 +558,17 @@ class trilat(wx.Frame):
             self.chiSquareBox.SetValue('{0:.3f}'.format(self.chiSquare))
             self.numOfIterBox.SetValue('1')
             if self.calcMode == 0:
-                self.targetCoordMean, self.targetCoordStd, self.chiSquare, self.numOfIter = InverseHessian(self.numOfLabels, 
-                                                                                                        self.labelCoordMean, 
-                                                                                                        self.distMean, 
+                self.targetCoordMean, self.targetCoordStd, self.chiSquare, self.numOfIter = InverseHessian(self.numOfLabels,
+                                                                                                        self.labelCoordMean,
+                                                                                                        self.distMean,
                                                                                                         self.distStd,
                                                                                                         self.targetCoordMean,
                                                                                                         self.minChiSquare,
                                                                                                         self.maxNumOfIter)
             elif self.calcMode == 1:
-                self.targetCoordMean, self.targetCoordStd, self.chiSquare, self.numOfIter = LevenbergMarquardt(self.numOfLabels, 
-                                                                                                            self.labelCoordMean, 
-                                                                                                            self.distMean, 
+                self.targetCoordMean, self.targetCoordStd, self.chiSquare, self.numOfIter = LevenbergMarquardt(self.numOfLabels,
+                                                                                                            self.labelCoordMean,
+                                                                                                            self.distMean,
                                                                                                             self.distStd,
                                                                                                             self.targetCoordMean,
                                                                                                             self.minChiSquare,
@@ -589,9 +589,9 @@ class trilat(wx.Frame):
             self.chiSquareBox.SetValue('{0:.3f}'.format(self.chiSquare))
             self.numOfIterBox.SetValue('{0:d}'.format(self.numOfIter))
 
-        event.Skip()    
+        event.Skip()
 
-    #----------------------------------------------------------------------------------------------- 
+    #-----------------------------------------------------------------------------------------------
     def OnClearOutput(self, event):
         '''Clear all output data '''
         self.targetCoordMean = [[None for col in range(3)]]
@@ -642,13 +642,13 @@ class trilat(wx.Frame):
         coordN1 = []
         cmd.iterate_state(0, s + ' and name O1', 'coordO1.append([x,y,z])', space=locals(), atomic=0)
         cmd.iterate_state(0, s + ' and name N1', 'coordN1.append([x,y,z])', space=locals(), atomic=0)
-        coord = 0.5 * numpy.add(coordO1, coordN1)      
+        coord = 0.5 * numpy.add(coordO1, coordN1)
         # Save the name of spin label
         self.labelNames[self.curLabel] = s
         # Calculate average label coordinates and their standard deviations
         self.labelCoordMean[self.curLabel], self.labelCoordStd[self.curLabel] = AverageCoordCalc(coord)
         # Update table
-        self.UpdateInputTable() 
+        self.UpdateInputTable()
         # Statusbar message
         self.statusbar.SetStatusText('Coordinates of ' + s + ' label were imported from PyMOL. Click "Accept" button after all input data has been entered.')
         # except:
@@ -680,7 +680,7 @@ class trilat(wx.Frame):
 
         event.Skip()
 
-    #----------------------------------------------------------------------------------------------- 
+    #-----------------------------------------------------------------------------------------------
     def OnSave(self, event):
         '''Saves current session'''
         if (self.inputAccepted == False):
@@ -690,7 +690,7 @@ class trilat(wx.Frame):
             if dialog.ShowModal() == wx.ID_OK:
                 path = dialog.GetPath()
                 # Content of a data file
-                title = "*** Trilateration program data file ***"    
+                title = "*** Trilateration program data file ***"
                 object = "* Protein name:"
                 numOfLabels = "* Number of labels:"
                 labels = '''* Label parameters:
@@ -717,7 +717,7 @@ line 5: Obtained number of iterations'''
                 dataFile.write('name' + '\n')
                 dataFile.write(numOfLabels + '\n')
                 dataFile.write('{0:d}'.format(self.numOfLabels) + '\n')
-                dataFile.write(labels + '\n')  
+                dataFile.write(labels + '\n')
                 for i in range(self.numOfLabels):
                     dataFile.write('{0:16s}'.format(self.labelNames[i]) + ' ')
                     dataFile.write('{0:8.2f}'.format(self.labelCoordMean[i][0]) + ' ')
@@ -725,7 +725,7 @@ line 5: Obtained number of iterations'''
                     dataFile.write('{0:8.2f}'.format(self.labelCoordMean[i][2]) + ' ')
                     dataFile.write('{0:8.2f}'.format(self.distMean[i]) + ' ')
                     dataFile.write('{0:8.2f}'.format(self.distStd[i]) + '\n')
-                dataFile.write(settings + '\n') 
+                dataFile.write(settings + '\n')
                 if (self.calcMode == 0):
                     dataFile.write('1 0' + '\n')
                 else:
@@ -767,20 +767,20 @@ line 5: Obtained number of iterations'''
                         self.labelCoordMean[j][1] = float(line[3 * len + 2:4 * len + 2].replace(' ', ''))
                         self.labelCoordMean[j][2] = float(line[4 * len + 3:5 * len + 3].replace(' ', ''))
                         self.distMean[j] = float(line[5 * len + 4:6 * len + 4].replace(' ', ''))
-                        self.distStd[j] = float(line[6 * len + 5:7 * len + 5].replace(' ', ''))   
+                        self.distStd[j] = float(line[6 * len + 5:7 * len + 5].replace(' ', ''))
                 if (i == (17 + self.numOfLabels)):
                     if (line[0] == '1'):
                         self.calcMode = 0
                     else:
                         self.calcMode = 1
                 if (i == (18 + self.numOfLabels)):
-                    self.maxNumOfIter = int(line.replace(' ', ''))   
+                    self.maxNumOfIter = int(line.replace(' ', ''))
                 if (i == (19 + self.numOfLabels)):
-                    self.minChiSquare = float(line.replace(' ', ''))     
+                    self.minChiSquare = float(line.replace(' ', ''))
                 if (i == (20 + self.numOfLabels)):
-                    self.lambdaFirst = float(line.replace(' ', ''))  
+                    self.lambdaFirst = float(line.replace(' ', ''))
                 if (i == (21 + self.numOfLabels)):
-                    self.lambdaStep = float(line.replace(' ', ''))  
+                    self.lambdaStep = float(line.replace(' ', ''))
                 if (i == (29 + self.numOfLabels)):
                     self.targetCoordMean[0][0] = float(line[0:len].replace(' ', ''))
                     self.targetCoordMean[0][1] = float(line[len + 1:2 * len + 1].replace(' ', ''))
@@ -798,8 +798,8 @@ line 5: Obtained number of iterations'''
                 if (i == (31 + self.numOfLabels)):
                     self.chiSquare = float(line.replace(' ', ''))
                     self.chiSquareBox.SetValue(line.replace(' ', ''))
-                if (i == (32 + self.numOfLabels)):    
-                    self.numOfIter = float(line.replace(' ', '')) 
+                if (i == (32 + self.numOfLabels)):
+                    self.numOfIter = float(line.replace(' ', ''))
                     self.numOfIterBox.SetValue(line.replace(' ', ''))
             # Update table
             self.UpdateInputTable()
@@ -817,7 +817,7 @@ line 5: Obtained number of iterations'''
             self.statusbar.SetStatusText('Nothing was selected!')
         dlg.Destroy()
 
-    #----------------------------------------------------------------------------------------------- 
+    #-----------------------------------------------------------------------------------------------
     def OnClose(self, event):
         '''Close current session'''
         # Clear input arrays
@@ -853,7 +853,7 @@ line 5: Obtained number of iterations'''
         except:
             pass
 
-        event.Skip()        
+        event.Skip()
 
     #-----------------------------------------------------------------------------------------------
     def OnOpenPref(self, event):
@@ -907,7 +907,7 @@ line 5: Obtained number of iterations'''
         except:
             pass
 
-    #-----------------------------------------------------------------------------------------------   
+    #-----------------------------------------------------------------------------------------------
     def OnAbout(self, event):
         '''Programs info'''
         info = wx.AboutDialogInfo()
@@ -945,7 +945,7 @@ class ListCtrlLeft(wx.ListCtrl):
         for i in titles:
             self.InsertStringItem(0, i)
 
-    #-----------------------------------------------------------------------------------------------            
+    #-----------------------------------------------------------------------------------------------
     def OnSize(self, event):
         ''''''
         size = self.parent.GetSize()
@@ -1050,7 +1050,7 @@ class ListCtrlRight(wx.grid.Grid):
     #-----------------------------------------------------------------------------------------------
     def OnTableCellChange(self, event):
         ''''''
-        row = event.GetRow()       
+        row = event.GetRow()
         if self.index == 0:
             if row == 0:
                 self.param['input'][0][1] = float(self.GetCellValue(row, 1))
@@ -1081,7 +1081,7 @@ class ListCtrlRight(wx.grid.Grid):
 
         event.Skip()
 
-####################################################################################################        
+####################################################################################################
 
 
 class Preferences(wx.Frame):
@@ -1090,14 +1090,14 @@ class Preferences(wx.Frame):
 
     #-----------------------------------------------------------------------------------------------
 
-    def __init__(self, parent, 
+    def __init__(self, parent,
                  coordFactor, distFactor,
                  calcMode, maxNumOfIter, minChiSquare, lambdaFirst, lambdaStep,
                  spheresColor, spheresTransparency, ellipsoidColor, ellipsoidTransparency, confidenceLevel):
         wx.Frame.__init__(self, parent, -1, 'Preferences', size=(600, 400))
 
-        panelcolour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE) 
-        self.SetBackgroundColour(panelcolour) 
+        panelcolour = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BTNFACE)
+        self.SetBackgroundColour(panelcolour)
 
         mbox = wx.BoxSizer(wx.VERTICAL)
         self.SetSizer(mbox)
@@ -1208,7 +1208,7 @@ class PlotSpheres:
             obj.extend([SPHERE, float(centers[i][0]), float(centers[i][1]), float(centers[i][2]), float(radii[i])])
         cmd.load_cgo(obj, 'trilateration')
 
-####################################################################################################         
+####################################################################################################
 
 
 class PlotEllipsoid:
@@ -1224,7 +1224,7 @@ class PlotEllipsoid:
     #-----------------------------------------------------------------------------------------------
     def makeEllipsoid(self, x, y, z, a1, a2, a3, color, transparency):
         ''''''
-        return self.makeSuperQuadricEllipsoid(x, y, z, a1, a2, a3, 1.0, 1.0, -pi / 2, pi / 2, -pi, pi, 50, 50, color, transparency)   
+        return self.makeSuperQuadricEllipsoid(x, y, z, a1, a2, a3, 1.0, 1.0, -pi / 2, pi / 2, -pi, pi, 50, 50, color, transparency)
 
     #-----------------------------------------------------------------------------------------------
     def makeSuperQuadricEllipsoid(self, x, y, z, a1, a2, a3, n, event, u1, u2, v1, v2, u_segs, v_segs, color, transparency):
@@ -1304,7 +1304,7 @@ def AverageCoordCalc(coord):
     # Standard deviations
     coordStd = numpy.std(coord, axis=0)
 
-    return coordMean, coordStd         
+    return coordMean, coordStd
 
 #---------------------------------------------------------------------------------------------------
 
@@ -1322,7 +1322,7 @@ def AverageDistCalc(dist, density):
         demominator += density[i]
     distStd = sqrt(numerator / demominator)
 
-    return distAve, distStd  
+    return distAve, distStd
 
 #---------------------------------------------------------------------------------------------------
 
@@ -1333,7 +1333,7 @@ def SquaredRadiusVector(vector1, vector2):
     for i in range(3):
         srv += (vector1[i] - vector2[i]) ** 2
 
-    return srv 
+    return srv
 
 #---------------------------------------------------------------------------------------------------
 
@@ -1345,7 +1345,7 @@ def ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd):
         f = sqrt(SquaredRadiusVector(targetCoordMean[0], labelCoord[i])) - distMean[i]
         chiSquare += (1 / distStd[i] ** 2) * f ** 2
 
-    return chiSquare    
+    return chiSquare
 
 #---------------------------------------------------------------------------------------------------
 
@@ -1356,7 +1356,7 @@ def SingularValueDecomposition(numOfLabels, labelCoord, distMean, distStd):
     A = zeros((numOfLabels - 1, 3))
     b = zeros((numOfLabels - 1, 1))
     for i in range(1, numOfLabels):
-        for j in range(3): 
+        for j in range(3):
             A[i - 1][j] = (labelCoord[i][j] - labelCoord[0][j]) / distStd[i]
         b[i - 1] = 0.5 * (distMean[0] ** 2 - distMean[i] ** 2 + SquaredRadiusVector(labelCoord[i], labelCoord[0])) / distStd[i]
     # SVD decomposition
@@ -1365,24 +1365,24 @@ def SingularValueDecomposition(numOfLabels, labelCoord, distMean, distStd):
     # Compute the target coordinates and their standard deviations
     targetCoordMean = zeros((1, 3))
     targetCoordMean = dot(dot(dot(Vh.T, D), U.T), b).T
-    for j in range(3): 
+    for j in range(3):
         targetCoordMean[0][j] += labelCoord[0][j]
     targetCoordStd = zeros((1, 3))
-    for j in range(3): 
+    for j in range(3):
         for i in range(size(A, axis=1)):
             targetCoordStd[0][j] += (Vh.T[j][i] / S[i]) ** 2
-        targetCoordStd[0][j] = sqrt(targetCoordStd[0][j])  
+        targetCoordStd[0][j] = sqrt(targetCoordStd[0][j])
     # Compute the Chi-Square value
     chiSquare = ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd)
 
-    return targetCoordMean, targetCoordStd, chiSquare   
+    return targetCoordMean, targetCoordStd, chiSquare
 
 #---------------------------------------------------------------------------------------------------
 
 
-def InverseHessian(numOfLabels, labelCoord, distMean, distStd, targetCoordInitial, chiSquareMin, iterMax):  
+def InverseHessian(numOfLabels, labelCoord, distMean, distStd, targetCoordInitial, chiSquareMin, iterMax):
     '''Nonlinear Least Squares: Inverse-Hessian algorithm'''
-    # Use previously determined values of target coordinates as initial data 
+    # Use previously determined values of target coordinates as initial data
     targetCoordMean = targetCoordInitial
     # Calculate current Chi-Square value
     chiSquare = ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd)
@@ -1416,19 +1416,19 @@ def InverseHessian(numOfLabels, labelCoord, distMean, distStd, targetCoordInitia
         f = sqrt(SquaredRadiusVector(targetCoordMean[0], labelCoord[i])) - distMean[i]
         for j in range(3):
             for k in range(3):
-                d2f[j][k] += (2 / distStd[i] ** 2) * (targetCoordMean[0][j] - labelCoord[i][j]) * (targetCoordMean[0][k] - labelCoord[i][k]) / (f + distMean[i]) ** 2          
+                d2f[j][k] += (2 / distStd[i] ** 2) * (targetCoordMean[0][j] - labelCoord[i][j]) * (targetCoordMean[0][k] - labelCoord[i][k]) / (f + distMean[i]) ** 2
     correlationMatrix = inv(d2f)
     for j in range(3):
-        targetCoordStd[0][j] = sqrt(abs(correlationMatrix[j][j])) 
+        targetCoordStd[0][j] = sqrt(abs(correlationMatrix[j][j]))
 
-    return targetCoordMean, targetCoordStd, chiSquare, iter  
+    return targetCoordMean, targetCoordStd, chiSquare, iter
 
 #---------------------------------------------------------------------------------------------------
 
 
 def LevenbergMarquardt(numOfLabels, labelCoord, distMean, distStd, targetCoordInitial, chiSquareMin, iterMax, lambdaFirst, lambdaStep):
     '''Nonlinear Least Squares: Levenberg-Marquardt algorithm'''
-    # Use previously determined values of target coordinates as initial data 
+    # Use previously determined values of target coordinates as initial data
     targetCoordMean = targetCoordInitial
     # Calculate current Chi-Square value
     chiSquare = ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd)
@@ -1475,7 +1475,7 @@ def LevenbergMarquardt(numOfLabels, labelCoord, distMean, distStd, targetCoordIn
                 d2f[j][k] += (2 / distStd[i] ** 2) * (targetCoordMean[0][j] - labelCoord[i][j]) * (targetCoordMean[0][k] - labelCoord[i][k]) / (f + distMean[i]) ** 2
     correlationMatrix = inv(d2f)
     for j in range(3):
-        targetCoordStd[0][j] = sqrt(abs(correlationMatrix[j][j])) 
+        targetCoordStd[0][j] = sqrt(abs(correlationMatrix[j][j]))
 
     return targetCoordMean, targetCoordStd, chiSquare, iter
 
@@ -1499,7 +1499,7 @@ def run():
 def start():
     t = threading.Thread(target=run, args=())
     t.setDaemon(1),
-    t.start() 
+    t.start()
 
 
 def __init__(self):

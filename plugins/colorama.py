@@ -47,8 +47,8 @@ class Colorama:
         self.RadioFarbe12 = IntVar()
         self.Monobutton = Radiobutton(self.F3, text='M', indicatoron=0, variable=self.RadioMonoGradient, value=1, command=self.Mono)
         self.Gradbutton = Radiobutton(self.F3, text='G', indicatoron=0, variable=self.RadioMonoGradient, value=2, command=self.Grad)
-        self.Farbe1button = Radiobutton(self.F3, text='C1', indicatoron=0, variable=self.RadioFarbe12, value=1, command=self.Farbe1) 
-        self.Farbe2button = Radiobutton(self.F3, text='C2', indicatoron=0, variable=self.RadioFarbe12, value=2, command=self.Farbe2) 
+        self.Farbe1button = Radiobutton(self.F3, text='C1', indicatoron=0, variable=self.RadioFarbe12, value=1, command=self.Farbe1)
+        self.Farbe2button = Radiobutton(self.F3, text='C2', indicatoron=0, variable=self.RadioFarbe12, value=2, command=self.Farbe2)
 
         # preselect RGB and mono
         self.RGB.select()
@@ -174,7 +174,7 @@ class Colorama:
             if (self.colorsystem == 'rgb'):
                 startred = self.farbe1[0]
                 startgreen = self.farbe1[1]
-                startblue = self.farbe1[2]							  
+                startblue = self.farbe1[2]
                 self.ScaleRed.set(startred)
                 self.ScaleGreen.set(startgreen)
                 self.ScaleBlue.set(startblue)
@@ -195,7 +195,7 @@ class Colorama:
             if (self.colorsystem == 'rgb'):
                 startred = self.farbe2[0]
                 startgreen = self.farbe2[1]
-                startblue = self.farbe2[2]							  
+                startblue = self.farbe2[2]
                 self.ScaleRed.set(startred)
                 self.ScaleGreen.set(startgreen)
                 self.ScaleBlue.set(startblue)
@@ -244,11 +244,11 @@ class Colorama:
             self.Farbe1button.select()
             self.Farbe1()
 
-            # Set scales to initialcolor of the new object    
+            # Set scales to initialcolor of the new object
             if (self.colorsystem == 'rgb'):
                 startred = 255 * initialcolornterm[0]
                 startgreen = 255 * initialcolornterm[1]
-                startblue = 255 * initialcolornterm[2]							  
+                startblue = 255 * initialcolornterm[2]
                 self.ScaleRed.set(startred)
                 self.ScaleGreen.set(startgreen)
                 self.ScaleBlue.set(startblue)
@@ -471,7 +471,7 @@ def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11, sa
         if item == 'b':
             for i in range(len(m.atom)):
                 m.atom[i].b = m.atom[i].resi
-                b_list.append(m.atom[i].b) 
+                b_list.append(m.atom[i].b)
 
         elif item == 'q':
             for i in range(len(m.atom)):
@@ -524,13 +524,13 @@ def make_gradient(sel, gradient, nbins, sat, value, hs, he, ss, se, vs, ve, colo
         col = []
         coldesc = []
         for j in range(nbins):
-            # must append the str(sel[j]) to the color name so that it is unique 
+            # must append the str(sel[j]) to the color name so that it is unique
             # for the selection
             coldesc.append(colorname + str(j))
             # coldesc.append('col' + str(sel[j]) + str(j))
 
-            # create colors using hsv scale (fractional) starting at blue(.6666667) 
-            # through red(0.00000) in intervals of .6666667/(nbins -1) (the "nbins-1" 
+            # create colors using hsv scale (fractional) starting at blue(.6666667)
+            # through red(0.00000) in intervals of .6666667/(nbins -1) (the "nbins-1"
             # ensures that the last color is, in fact, red (0)
             # rewrote this to use the colorsys module to convert hsv to rgb
             hsv = (hs - (hs - he) * float(j) / (nbins - 1), ss - (ss - se) * float(j) / (nbins - 1), vs - (vs - ve) * float(j) / (nbins - 1))

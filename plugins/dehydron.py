@@ -199,7 +199,7 @@ USAGE
     high_sel = []
     total_wrappers = 0
     for pairs in hb:
-        wrappers = cmd.count_atoms('((%s and _nonpolar and _selection) within %f of byca (%s`%d %s`%d))' % 
+        wrappers = cmd.count_atoms('((%s and _nonpolar and _selection) within %f of byca (%s`%d %s`%d))' %
                                    ((pairs[0][0], desolv) + pairs[0] + pairs[1]))
         total_wrappers = total_wrappers + wrappers
         cmd.iterate(pairs[0], 'stored.donor = chain, resi, resn')

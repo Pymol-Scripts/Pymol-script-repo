@@ -28,17 +28,17 @@
 
 # Copyright Notice
 # ================
-# 
+#
 # The PyMOL Plugin source code in this file is copyrighted, but you can
 # freely use and copy it as long as you don't change or remove any of
 # the copyright notices.
-# 
+#
 # ----------------------------------------------------------------------
-#               This PyMOL Plugin is Copyright (C) 2011 by 
+#               This PyMOL Plugin is Copyright (C) 2011 by
 #            Hongbo Zhu <hongbo.zhu.cn at googlemail dot com>
-# 
+#
 #                        All Rights Reserved
-# 
+#
 # Permission to use, copy, modify, distribute, and distribute modified
 # versions of this software and its documentation for any purpose and
 # without fee is hereby granted, provided that the above copyright
@@ -47,7 +47,7 @@
 # the name(s) of the author(s) not be used in advertising or publicity
 # pertaining to distribution of the software without specific, written
 # prior permission.
-# 
+#
 # THE AUTHOR(S) DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 # INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.  IN
 # NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
@@ -59,7 +59,7 @@
 
 # python lib
 import os
-import sys 
+import sys
 import platform
 if sys.version_info >= (2, 4):
     import subprocess  # subprocess is introduced in python 2.4
@@ -74,14 +74,14 @@ import tkColorChooser
 import Tkinter
 
 # pymol lib
-try: 
+try:
     from pymol import cmd
     from pymol.cgo import *
 except ImportError:
     print 'Warning: pymol library cmd not found.'
     sys.exit(1)
 
-# external lib    
+# external lib
 try:
     import Pmw
 except ImportError:
@@ -170,15 +170,15 @@ class DSSPPlugin:
             self.stride_bin.set('')
 
         # DSSP visualization color
-        # - H        Alpha helix (4-12) 
-        # - G        3-10 helix 
+        # - H        Alpha helix (4-12)
+        # - G        3-10 helix
         # - I        pi helix
         #
-        # - E        Extended strand 
-        # - B        Isolated beta-bridge residue 
+        # - E        Extended strand
+        # - B        Isolated beta-bridge residue
         #
-        # - T        Turn 
-        # - S        Bend 
+        # - T        Turn
+        # - S        Bend
         # - -        None
         # STRIDE does not have S and None, but it has two more
         # codes: 'b' same as 'B' and 'C' for coil
@@ -197,15 +197,15 @@ class DSSPPlugin:
                         'C': 'L'
                         }
         self.SSE_name = {
-            'H': 'Alpha helix', 
-            'G': '3-10 helix', 
-            'I': 'Pi helix', 
+            'H': 'Alpha helix',
+            'G': '3-10 helix',
+            'I': 'Pi helix',
 
             'E': 'Extended strand',
             'B': 'Isolated beta-bridge',
 
-            'T': 'Turn', 
-            'S': 'Bend', 
+            'T': 'Turn',
+            'S': 'Bend',
             '-': 'None',
 
             'b': 'Isolated beta-bridge',
@@ -250,7 +250,7 @@ class DSSPPlugin:
         ######################
         # Tab : Structure Tab
         ######################
-        page = self.notebook.add('Structure')       
+        page = self.notebook.add('Structure')
         self.notebook.tab('Structure').focus_set()
         group_struc = Tkinter.LabelFrame(page, text='Structure')
         group_struc.pack(fill='both', expand=True, padx=10, pady=5)
@@ -297,15 +297,15 @@ class DSSPPlugin:
 
         # T = hydrogen bonded turn
         # S = bend
-        # 
-        #  H        Alpha helix (4-12) 
-        #  G        3-10 helix 
-        #  I        pi helix 
-        #  E        Strand 
-        #  B        Isolated beta-bridge residue 
-        #  T        Turn 
-        #  S        Bend 
-        #  -        None 
+        #
+        #  H        Alpha helix (4-12)
+        #  G        3-10 helix
+        #  I        pi helix
+        #  E        Strand
+        #  B        Isolated beta-bridge residue
+        #  T        Turn
+        #  S        Bend
+        #  -        None
 
         page = self.notebook.add('Color')
 
@@ -407,7 +407,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         label_about = Tkinter.Label(group_about, text=about_plugin)
         label_about.grid(sticky='we', row=0, column=0, padx=5, pady=10)
 
-        self.notebook.setnaturalsize()    
+        self.notebook.setnaturalsize()
 
         return
 
@@ -448,8 +448,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         pdb_os_fh, pdb_fn = tempfile.mkstemp(suffix='.pdb')  # file os handle, file name
         os.close(pdb_os_fh)
         # DSSP 2.0.4 ignores all residues after 1st TER in the same chain
-        v = cmd.get(name='pdb_use_ter_records') 
-        if v: cmd.set(name='pdb_use_ter_records', value=0)  # do not insert TER into the pdb 
+        v = cmd.get(name='pdb_use_ter_records')
+        if v: cmd.set(name='pdb_use_ter_records', value=0)  # do not insert TER into the pdb
         cmd.save(filename=pdb_fn, selection=one_obj_sel)
         if v: cmd.set(name='pdb_use_ter_records', value=v)  # restore old value
 
@@ -474,7 +474,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             os.system(dssp_cmd)
             fh = open(dssp_tmpout_fn)
             dssp_stdout = ''.join(fh.readlines())
-            fh.close()           
+            fh.close()
 
         sse_started = False
         for line in dssp_stdout.splitlines():
@@ -533,7 +533,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             @rtype: boolean
         """
         # delete old results
-        self.sel_obj_list = [] 
+        self.sel_obj_list = []
         self.dssp_rlt_dict = {}
         self.SSE_res_dict = {}
         self.SSE_sel_dict = {}
@@ -544,7 +544,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         if len(sel) > 0:  # if any pymol selection/object is specified
             # save the pymol selection/object in the tmp dir
-            all_sel_names = cmd.get_names('all')  # get names of all selections            
+            all_sel_names = cmd.get_names('all')  # get names of all selections
             if sel in all_sel_names:
                 if cmd.count_atoms(sel) == 0:
                     err_msg = 'ERROR: The selection %s is empty.' % (sel,)
@@ -556,8 +556,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             # no selection/object with the input name is found
             # we assume either a single-word selector or
             # some other selection-expression is used
-            # NOTE: if more than one selection is selected, they should be 
-            #       saved separately and SSE should be calculated for each 
+            # NOTE: if more than one selection is selected, they should be
+            #       saved separately and SSE should be calculated for each
             #       of the selections.
             else:
                 print 'The selection/object you specified is not found.'
@@ -620,7 +620,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             print 'WARNING: Stride has no pdb file to work on!'
             return None
 
-        print 'Running Stride for %s ...' % (one_obj_sel,)        
+        print 'Running Stride for %s ...' % (one_obj_sel,)
         stride_sse_dict = {}
         if sys.version_info >= (2, 4):
             stride_proc = subprocess.Popen([self.stride_bin.get(), pdb_fn],
@@ -643,7 +643,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 # according to stride doc, col 12-15 are used for residue number
                 # actually, resnum+icode is used in 12-15.
                 # In addition, if residue number is 4-digit or longer,
-                # the field 12-16 or more are used. 
+                # the field 12-16 or more are used.
 
                 if line[15] == ' ':  # col 16 is not occupied
                     residen, sscode = line[11:15].strip(), line[24]  # residen = resnum+icode
@@ -683,7 +683,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         if os.path.isfile(pdb_fn):
             os.remove(pdb_fn)
         if sys.version_info < (2, 4) and os.path.isfile(stride_tmpout_fn):
-            os.remove(stride_tmpout_fn)        
+            os.remove(stride_tmpout_fn)
 
         return True
 
@@ -691,7 +691,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         """
         """
         # delete old results
-        self.sel_obj_list = [] 
+        self.sel_obj_list = []
         self.stride_rlt_dict = {}
         self.SSE_res_dict = {}
         self.SSE_sel_dict = {}
@@ -701,7 +701,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         sel = self.pymol_sel.get()
 
         if len(sel) > 0:  # if any pymol selection/object is specified
-            all_sel_names = cmd.get_names('all')  # get names of all selections            
+            all_sel_names = cmd.get_names('all')  # get names of all selections
             if sel in all_sel_names:
                 if cmd.count_atoms(sel) == 0:
                     err_msg = 'ERROR: The selection %s is empty.' % (sel,)
@@ -859,7 +859,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
             # show cartoon for the input selection, and rebuild
             cmd.show('cartoon', self.pymol_sel.get())
-            cmd.rebuild(self.pymol_sel.get()) 
+            cmd.rebuild(self.pymol_sel.get())
             return
 
     def custermizeHColor(self):
@@ -922,7 +922,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
     def execute(self, butcmd):
         """ Run the cmd represented by the botton clicked by user.
-        """        
+        """
         if butcmd == 'OK':
             print 'is everything OK?'
 
@@ -953,7 +953,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             print 'Done.'
 
     def quit(self):
-        self.dialog.destroy() 
+        self.dialog.destroy()
 
 
 #############################################
@@ -972,7 +972,7 @@ if __name__ == '__main__':
 
     app = App()
     app.root = Tkinter.Tk()
-    Pmw.initialise(app.root)   
+    Pmw.initialise(app.root)
     app.root.title('It seems to work!')
 
     widget = DSSPPlugin(app)

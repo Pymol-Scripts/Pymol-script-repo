@@ -48,7 +48,7 @@ ARGUMENTS
                 print ' Error: please provide filename'
                 raise CmdException
             if not quiet:
-                print 'loading from %s' % (fname)        
+                print 'loading from %s' % (fname)
         for line in open(fname):
             if line.startswith('SITE '):
                 siteID = line[11:14].strip()

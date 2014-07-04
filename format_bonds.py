@@ -65,7 +65,7 @@ ARGUMENTS
         print "Valence display disabled!"
         return bonds
     else:
-        cmd.set('valence', 1)        
+        cmd.set('valence', 1)
         print "Valence display enabled!"
     # proceed
 

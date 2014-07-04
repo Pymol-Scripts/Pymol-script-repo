@@ -24,7 +24,7 @@ def resicolor(selection):
         cmd.select('polar', 'resn ser or resn thr or resn asn or resn gln or resn tyr')
         cmd.select('cys', 'resn cys or resn cyx')
         cmd.select('backbone', 'name ca or name n or name c or name o')
-        cmd.select('none')     
+        cmd.select('none')
         code = {'acid': 'red',
               'basic': 'blue',
               'nonpolar': 'orange',

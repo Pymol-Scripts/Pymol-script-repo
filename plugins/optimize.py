@@ -289,7 +289,7 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
         nrg = ff.Energy()
         conf_list = []
         for i in range(conformers):
-            mol.SetConformer(i) 
+            mol.SetConformer(i)
             ff.Setup(mol)
             nrg = ff.Energy()
             conf_list.append((nrg, i))
@@ -301,7 +301,7 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
             nrg, orden = conf_list[i]
             name_n = '%s%02d' % (name, i)
             cmd.delete(name_n)
-            mol.SetConformer(orden) 
+            mol.SetConformer(orden)
             pdb_string = obconversion.WriteString(mol)
             cmd.read_pdbstr(pdb_string, name_n)
             if i != 0:

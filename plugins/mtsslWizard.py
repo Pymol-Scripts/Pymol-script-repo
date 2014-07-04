@@ -127,7 +127,7 @@ class MtsslWizard(Wizard):
             [1, 'yes', 'cmd.get_wizard().set_writeToFile("yes")']
         ]
 
-    # some setter and getter functions	  
+    # some setter and getter functions
     def set_vdwRestraints(self, vdwRestraints):
         self.vdwRestraints = vdwRestraints
         if vdwRestraints == "loose":
@@ -316,9 +316,9 @@ class MtsslWizard(Wizard):
             self.cmd.refresh_wizard()
             return
 
-        # first click	
-        if self.pick_count == 0:	
-            self.residue1_name = self.createSelectionMacro("(sele)") 
+        # first click
+        if self.pick_count == 0:
+            self.residue1_name = self.createSelectionMacro("(sele)")
             # transfer the click selection to a named selection
             cmd.select(self.residue1_name, "(sele)")
             # find the name of the object which contains the selection
@@ -346,7 +346,7 @@ class MtsslWizard(Wizard):
                 cmd.deselect()
             self.cmd.refresh_wizard()
 
-        # second click	 
+        # second click
         elif self.pick_count == 1 and (self.mode == 'Measure' or self.mode == 'Copy & Move'):
             self.residue2_name = self.createSelectionMacro("(sele)")
             # print self.residue2_name
@@ -445,7 +445,7 @@ class MtsslWizard(Wizard):
                 stored.movingAtoms.extend(xyz)
             self.label.movingAtoms = numpy.array(stored.movingAtoms)
 
-            # create object with only the atoms around the label to speed everything up 
+            # create object with only the atoms around the label to speed everything up
             #cmd.color ("red", "%s &! %s within %f of %s" %(self.picked_object1, self.residue1_name, self.label.radius, self.label.pymolName))
             protein = "%s &! %s within %f of %s" % (self.picked_object1, self.residue1_name, self.label.radius, self.label.pymolName)
             cmd.create("environment", "byres " + protein)
@@ -456,7 +456,7 @@ class MtsslWizard(Wizard):
             result = self.fastMtsslify(environmentAtoms)
             # only switch on snuggly fit search for "painstaking"
             if self.thoroughness == "painstaking":
-                self.createSnugglyFitConformations()		
+                self.createSnugglyFitConformations()
             print ""
             print "Found: %i in %i tries." % (result[0], result[1])
             if result[0] > 0 and result[0] <= 10 and self.vdwRestraints == "tight" and not self.currentLabel == "CLABEL":
@@ -467,7 +467,7 @@ class MtsslWizard(Wizard):
 
         ##########################
         #Measure mode            #
-        ##########################		
+        ##########################
         elif self.pick_count == 2 and self.mode == 'Measure':
             print "\n\n\nDistance calculation:\n"
             print "The dashed lines are the c-beta distance (green),\nand the distance between the geometric averages\nof the two ensembles (yellow).\n"
@@ -514,7 +514,7 @@ class MtsslWizard(Wizard):
             if self.picked_object1.split('_')[-1] in options:
                 spinLocation = options[self.picked_object1.split('_')[-1]]()
                 cmd.iterate_state(0, "%s & name %s" % (self.residue1_name, spinLocation), 'stored.label1.append((x,y,z))')
-            else:	
+            else:
                 cmd.iterate_state(0, self.residue1_name, 'stored.label1.append((x,y,z))')
             if self.picked_object2.split('_')[-1] in options:
                 spinLocation = options[self.picked_object2.split('_')[-1]]()
@@ -562,7 +562,7 @@ class MtsslWizard(Wizard):
             envelopePlot = numpy.zeros((len(distListForOutput), 2))
             envelopePlot[0:99] = numpy.column_stack((histogram[1][0:len(histogram[1]) - 1], histogram[0]))
             # put point in mid of bin
-            envelopePlot[:, 0] += 0.5 
+            envelopePlot[:, 0] += 0.5
             normEnvelopePlot = numpy.copy(envelopePlot)
             normEnvelopePlot[:, 1] = normEnvelopePlot[:, 1] / numpy.amax(histogram[0])
             # combine dist and histogram to single array before output
@@ -591,7 +591,7 @@ class MtsslWizard(Wizard):
 
         ##########################
         #copy & move mode        #
-        ##########################	
+        ##########################
         elif self.pick_count == 2 and self.mode == 'Copy & Move':
             print "\n\n\nCopy labels:\n"
             self.copyAndMove()
@@ -650,7 +650,7 @@ class MtsslWizard(Wizard):
 
     ##########################
     #superpose               #
-    ##########################	
+    ##########################
     def superpose(self):
         # get the position of the selected residue's O atom
         stored.xyz = []
@@ -672,7 +672,7 @@ class MtsslWizard(Wizard):
             return False
 
     def copyAndMove(self):
-        newlabel = self.object_prefix + str(self.numberOfLabel)	   
+        newlabel = self.object_prefix + str(self.numberOfLabel)
         cmd.copy(newlabel + "_copied", self.picked_object1)
         self.superpose(newlabel + "_copied", self.residue2_name)
 
@@ -702,7 +702,7 @@ class MtsslWizard(Wizard):
 
     ##########################
     #fastMtsslify            #
-    ##########################	
+    ##########################
     def fastMtsslify(self, environmentAtoms):  # generate and check conformations semi-systematically
         # reference atoms are to detect internal clashes
         referenceAtoms = numpy.copy(self.label.movingAtoms)
@@ -713,7 +713,7 @@ class MtsslWizard(Wizard):
         numberToFind = self.label.numberToFind[self.thoroughness]
         found = 0
         ntries = 0
-        axis = numpy.zeros(shape=(2, 3)) 
+        axis = numpy.zeros(shape=(2, 3))
         print "Trying to find conformations for label %s with vdW restraints: %s" % (self.label.pymolName, self.vdwRestraints)
         while found < numberToFind and ntries < maxNtries:
             self.label.movingAtoms = numpy.copy(referenceAtoms)
@@ -745,7 +745,7 @@ class MtsslWizard(Wizard):
                     if self.thoroughness == "painstaking":
                         vdw = numberOfVdwContacts(self.label.movingAtoms[self.label.clashAtoms], environmentAtoms, self.cutoff)
                         thisConformation = [found, vdw]
-                        self.conformationList.append(thisConformation)	
+                        self.conformationList.append(thisConformation)
                     self.createRotamer(found)
                 else:
                     print "i",
@@ -790,8 +790,8 @@ class MtsslWizard(Wizard):
                                        'state': thisConformation[0]})
                 # print "%s_snuggly_%s" %(self.residue1_name, self.label.identifier), "%s_%s" %(self.residue1_name, self.label.identifier), thisConformation[0], counter
                 cmd.create("%s_snuggly_%s" % (self.residue1_name, self.label.identifier), "%s_%s" % (self.residue1_name, self.label.identifier), thisConformation[0], counter)
-                counter += 1		
-        # sort snugglyFitList so that best fitting conformation is on top   
+                counter += 1
+        # sort snugglyFitList so that best fitting conformation is on top
         snugglyFitList = sorted(snugglyFitList, key=itemgetter('vdw'))
         snugglyFitList.reverse()
         # print out the list
@@ -812,7 +812,7 @@ class MtsslWizard(Wizard):
             cmd.color("blue", "%s_%s" % (self.residue1_name, self.label.identifier))
             cmd.color("red", "%s_%s & name %s" % (self.residue1_name, self.label.identifier, self.label.highlight))
             util.cnc("%s_%s" % (self.residue1_name, self.label.identifier))
-            cmd.disable(self.label.pymolName) 
+            cmd.disable(self.label.pymolName)
             cmd.show("spheres", "%s_%s & name %s" % (self.residue1_name, self.label.identifier, self.label.highlight))
             cmd.set("sphere_scale", "0.2", "%s_%s & name %s" % (self.residue1_name, self.label.identifier, self.label.highlight))
             identifierLabel = "%s|%s|%s|%s" % (self.residue1_name, self.currentLabel, self.vdwRestraints, self.thoroughness)
@@ -837,7 +837,7 @@ class MtsslWizard(Wizard):
 
 ##########################
 #start wizard            #
-##########################						  
+##########################
 
 
 def open_wizard():
@@ -993,7 +993,7 @@ def setupRotationMatrix(angle, axisPoint):
 
 #########################################################################################
 #Label classes           																#
-#after adding a new class, don't forget to make changes in 'run',and add it to the GUI! # 
+#after adding a new class, don't forget to make changes in 'run',and add it to the GUI! #
 #########################################################################################
 
 
@@ -1007,7 +1007,7 @@ class MtsslLabel:
     clashAtoms = slice(5, numberOfAtoms)
     radius = 13.0
     atomNames = ['N', 'O', 'C', 'CA', 'CB', 'SG', 'SD', 'CE', 'C3', 'O1', 'C2', 'N1', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
-    #  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17 
+    #  0	1	 2	  3		4	  5		6	  7		8	  9		10	  11	12	  13	14	  15	16	  17
 
     unsortedAtomNames = ['N', 'CA', 'C', 'O', 'CB', 'SG', 'SD', 'CE', 'N1', 'O1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9']
     movingAtoms = []
@@ -1194,7 +1194,7 @@ class Dota1Label:
     clashAtoms = slice(5, numberOfAtoms)
     radius = 18.0
     atomNames = ['N', 'O', 'C', 'CA', 'CB', 'SG', 'SD', 'C17', 'C16', 'N5', 'C15', 'C3', 'N3', 'O3', 'C4', 'N4', 'O4', 'C5', 'N2', 'O5', 'C6', 'O6', 'C7', 'O7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'O2', 'C2', 'O1', 'C18', 'Gd', 'C1', 'N1']
-    #  0	1	  2	   3	 4	    5	  6	    7	  8	    9	  10	 11    12	 13    14	 15    16	 17    18    19    20    21    22    23    24    25    26     27     28     29     30     31     32     33     34     35    36   37 
+    #  0	1	  2	   3	 4	    5	  6	    7	  8	    9	  10	 11    12	 13    14	 15    16	 17    18    19    20    21    22    23    24    25    26     27     28     29     30     31     32     33     34     35    36   37
 
     unsortedAtomNames = ['N', 'CA', 'CB', 'SG', 'SD', 'C1', 'N1', 'O1', 'C2', 'N2', 'O2', 'C3', 'N3', 'O3', 'C4', 'N4', 'O4', 'C5', 'N5', 'O5', 'C6', 'O6', 'C7', 'O7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14', 'C15', 'C16', 'C17', 'C18', 'Gd', 'C', 'O']
     movingAtoms = []
@@ -1259,8 +1259,8 @@ class ByspLabel:
     rotationInfo = {'1': [3, slice(5, numberOfAtoms), False], '2': [4, slice(6, numberOfAtoms), False], '3': [5, slice(7, numberOfAtoms), False], '4': [6, slice(8, numberOfAtoms), False], '5': [7, slice(9, numberOfAtoms), False], '6': [17, slice(19, numberOfAtoms), False], '7': [18, slice(20, numberOfAtoms), False], '8': [19, slice(21, numberOfAtoms), False], '9': [20, slice(22, numberOfAtoms), False]}
     clashAtoms = slice(5, 5)
     radius = 16.0
-    atomNames = ['N', 'O', 'C', 'CA', 'CB', 'SG1', 'SG2', 'CL1', 'CS3', 'CS2', 'CS8', 'CS9', 'NS1', 'OS1', 'CS5', 'CS6', 'CS7', 'CS4', 'CL2', 'SG3', 'SG4', 'CB2', 'CA1'] 
-    #             0    1    2    3     4     5      6      7      8      9      10     11     12     13     14     15     16     17     18     19     20     21     22 
+    atomNames = ['N', 'O', 'C', 'CA', 'CB', 'SG1', 'SG2', 'CL1', 'CS3', 'CS2', 'CS8', 'CS9', 'NS1', 'OS1', 'CS5', 'CS6', 'CS7', 'CS4', 'CL2', 'SG3', 'SG4', 'CB2', 'CA1']
+    #             0    1    2    3     4     5      6      7      8      9      10     11     12     13     14     15     16     17     18     19     20     21     22
 
     unsortedAtomNames = ['N', 'CA', 'CA1', 'C', 'O', 'CB', 'CB2', 'SG1', 'SG2', 'SG3', 'SG4', 'CL1', 'CL2', 'CS2', 'CS3', 'CS4', 'CS5', 'CS6', 'CS7', 'CS8', 'CS9', 'NS1', 'OS1']
     movingAtoms = []

@@ -37,10 +37,10 @@ EXAMPLES:
     # there may be a more elegant way of doing this?
     import pymol
     pymol_color_list = []
-    for tuplepair in pymol.querying.get_color_indices(selection): 
+    for tuplepair in pymol.querying.get_color_indices(selection):
         pymol_color_list.append(tuplepair[0])
     pymol_color_list.sort()
-    # the str() is due to pymol passing aruments as strings, 
+    # the str() is due to pymol passing aruments as strings,
     # thus True becomes 'True'
     if str(output) == 'True': print pymol_color_list
     return pymol_color_list
