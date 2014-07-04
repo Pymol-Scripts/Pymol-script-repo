@@ -27,6 +27,7 @@ See more here: http://www.pymolwiki.org/index.php/ccp4_ncont
 from pymol import cmd
 import re
 
+
 def parseNCONTContacts( f ):
     # /1/B/ 282(PHE). / CE1[ C]:  /1/E/ 706(GLN). / O  [ O]:   3.32
     # * in the second group is needed when chain code is blank
@@ -53,6 +54,7 @@ def parseNCONTContacts( f ):
             pairs.append((len(s1)-1, len(s2)-1))
         else:
             print "Unknown mode", mode
+
 
 def ccp4_ncont( contactsfile, selName1 = "source", selName2 = "target" ):
     # read and parse contacts file into two lists of contact atoms and contact pair list

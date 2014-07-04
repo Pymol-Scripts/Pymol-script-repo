@@ -20,9 +20,6 @@ except:
     print '<'*80 + '\n\nOptimize plug-in needs openbabel to be installed in your system, please follow the instructions at\nhttp://openbabel.org/wiki/Get_Open_Babel\n\n' + '>'*80
 
 
-
-
-
 def __init__(self):
     """Add this Plugin to the PyMOL menu"""
     self.menuBar.addmenuitem('Plugin', 'command',
@@ -34,6 +31,7 @@ def __init__(self):
 def mainDialog():
     """ Creates the GUI """
     global entry_vdw, entry_elec, entry_conformers, entry_lowest
+
     def set_minimize():
         forcefield = ff_value.get()
         method = method_value.get()
@@ -45,7 +43,6 @@ def mainDialog():
         selection = sel_value.get()
         minimize(selection, forcefield, method, nsteps, conv, cutoff, cut_vdw, cut_elec)
 
-
     def set_conf_search():
         forcefield = ff_value.get()
         conf_method = conf_method_value.get()
@@ -54,7 +51,6 @@ def mainDialog():
         lowest_conf = int(entry_lowest.get())
         selection = sel_value.get()
         conf_search(selection, forcefield, conf_method, nsteps, conformers, lowest_conf)
-
 
     master = Tk()
     master.title(' Optimize ')

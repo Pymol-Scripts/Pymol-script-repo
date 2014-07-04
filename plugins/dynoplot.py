@@ -23,6 +23,7 @@ from pymol import cmd
 # workaround: Set to True if nothing gets drawn on canvas, for example on linux with "pymol -x"
 with_mainloop = False
 
+
 class SimplePlot(Tkinter.Canvas):
 
     # Class variables
@@ -68,7 +69,6 @@ class SimplePlot(Tkinter.Canvas):
             else:
                 nextspot += (xmax - xmin)/ (len(xlabels) - 1)
 
-
         nextspot = ymax
         for label in ylabels:
             self.create_line((yint+5,nextspot,yint-5,nextspot),fill="black",width=2)
@@ -77,7 +77,6 @@ class SimplePlot(Tkinter.Canvas):
                 nextspot = ymin
             else:
                 nextspot -= (ymax - ymin)/ (len(ylabels) - 1)
-
 
     # Plot a point
     def plot(self,xp,yp,meta):
@@ -188,7 +187,6 @@ class SimplePlot(Tkinter.Canvas):
 
         return pixel
 
-
     # Print out which data point you just clicked on..
     def pickWhich(self,event):
 
@@ -249,6 +247,7 @@ class SimplePlot(Tkinter.Canvas):
             self.lastx = event.x
             self.lasty = event.y
 
+
 def set_phipsi(model, index, phi, psi, state=-1):
     atsele = [
         'first ((%s`%d) extend 2 and name C)' % (model, index), # prev C
@@ -264,7 +263,10 @@ def set_phipsi(model, index, phi, psi, state=-1):
         print ' DynoPlot Error: cmd.set_dihedral failed'
 
 # New Callback object, so that we can update the structure when phi,psi points are moved.
+
+
 class DynoRamaObject:
+
     def __init__(self, selection=None, name=None, symbols='', state=-1):
         from pymol import _ext_gui as pmgapp
         if pmgapp is not None:
@@ -344,6 +346,7 @@ class DynoRamaObject:
                 set_phipsi(model, index, value[3], value[4], self.state)
                 value[2] = 0
 
+
 def rama(sel='(all)', name=None, symbols='aa', filename=None, state=-1):
     '''
 DESCRIPTION
@@ -372,6 +375,8 @@ cmd.extend('ramachandran', rama)
 cmd.auto_arg[0]['ramachandran'] = cmd.auto_arg[0]['zoom']
 
 # Add to plugin menu
+
+
 def __init_plugin__(self):
     self.menuBar.addcascademenu('Plugin', 'PlotTools', 'Plot Tools', label='DynoPlot Tools')
     self.menuBar.addmenuitem('PlotTools', 'command', 'Launch Rama Plot', label='Rama Plot',

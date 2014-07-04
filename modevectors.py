@@ -5,6 +5,7 @@ from pymol.cgo import *    # get constants
 from math import *
 from pymol import cmd
 
+
 def modevectors( first_obj_frame, last_obj_frame, first_state=1, last_state=1, outname="modevectors", head=1.0,tail=0.3, head_length=1.5, headrgb="1.0,1.0,1.0",tailrgb="1.0,1.0,1.0",cutoff=4.0,skip=0,cut=0.5,atom="CA",stat="show",factor=1.0,notail=0):
     """
     Authors Sean Law & Srinivasa
@@ -184,8 +185,6 @@ def modevectors( first_obj_frame, last_obj_frame, first_state=1, last_state=1, o
         cmd.delete(objectname)
         cmd.hide(representation="everything",selection=first_obj_frame)
         cmd.hide(representation="everything",selection=last_obj_frame)
-
-
 
     ###################################################
     #                                                 #

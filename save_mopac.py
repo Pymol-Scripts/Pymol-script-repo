@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def save_mopac(filename, selection='all', zero='none', state=-1, quiet=1):
     '''
 DESCRIPTION
@@ -32,6 +33,7 @@ ARGUMENTS
     cmd.iterate(zero, 'zero_idx.add((model,index))', space=locals())
 
     serial = [0]
+
     def callback(model, index, e, resn, resv, x, y, z, c):
         flag = (model, index) not in zero_idx and 1 or 0
         serial[0] += 1

@@ -9,6 +9,7 @@ License: BSD-2-Clause
 from pymol import cmd, cgo
 from chempy import cpv
 
+
 def cgo_cube(x, y, z, r):
     r *= 3**-.5
     return [
@@ -56,6 +57,7 @@ def cgo_cube(x, y, z, r):
         cgo.END,
     ]
 
+
 def cgo_tetrahedron(x, y, z, r):
     vertices = [cpv.add((x,y,z), cpv.scale(v, r)) for v in [
         [0., 1., 0.],
@@ -83,6 +85,7 @@ def cgo_tetrahedron(x, y, z, r):
         cgo.VERTEX ] + vertices[3] + [
         cgo.END,
     ]
+
 
 def cubes(selection='all', name='', state=0, scale=0.5, atomcolors=1, _func=cgo_cube):
     '''
@@ -116,6 +119,7 @@ SEE ALSO
         state = cmd.get_setting_int('state')
     states = [state] if state else range(1,
                                          cmd.count_states(selection) + 1)
+
     def callback(x, y, z, vdw, color):
         if atomcolors:
             obj.append(cgo.COLOR)
@@ -129,6 +133,7 @@ SEE ALSO
         cmd.load_cgo(obj, name, state)
     if not atomcolors:
         cmd.color('auto', name)
+
 
 def tetrahedra(selection='all', name='', state=0, scale=0.5, atomcolors=1):
     '''

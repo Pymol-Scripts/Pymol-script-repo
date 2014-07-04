@@ -177,6 +177,7 @@ global apbs_message, pdb2pqr_message
 apbs_message = """You must have APBS installed on your system."""
 pdb2pqr_message = """PDB2PQR can be used to generate .PQR files."""
 
+
 def get_default_location(name):
     """
     Given the name of an APBS-related binary, look in
@@ -314,6 +315,7 @@ def get_default_location(name):
     print "Could not find default location for file: %s" % name
     return ""
 
+
 def __init__(self):
     """
     Init PyMOL, by adding APBSTools to the GUI under Plugins
@@ -326,6 +328,7 @@ def __init__(self):
                              'Launch APBS Tools2.1',
                              label='APBS Tools2.1...',
                              command = lambda s=self: APBSTools2(s))
+
 
 def run(prog,args):
     '''
@@ -366,7 +369,9 @@ def run(prog,args):
         print prog_out
     return (retcode,prog_out)
 
+
 class util:
+
     """
     A quick collection of utility functions.
     """
@@ -376,6 +381,7 @@ class util:
         return [i for i in pymol.cmd.get_names() if pymol.cmd.get_type(i)=='object:molecule']
     getMolecules = staticmethod(getMolecules)
     #@staticmethod
+
     def getMaps():
         """returns all maps that PyMOL knows about"""
         return [i for i in pymol.cmd.get_names() if pymol.cmd.get_type(i)=='object:map']
@@ -394,6 +400,7 @@ util = util()
 ###                                                                        ###
 ##############################################################################
 ##############################################################################
+
 
 def getApbsInputFile(pqr_filename,
                      grid_points,
@@ -515,7 +522,6 @@ quit
                             )
 
 
-
 ##############################################################################
 ##############################################################################
 ###                                                                        ###
@@ -525,46 +531,56 @@ quit
 ##############################################################################
 
 
-
 class APBSTools2:
     # The current goal is to factor all of the APBS-specific code into
     # an ApbsInterface class.  The functions defined here before
     # __init__, as well as the functions defined on the various
     # Panels/Panes, will call through to self.ApbsInterface.
+
     def setPqrFile(self,name):
         print " APBS Tools: set pqr file to",name
         self.pqr_to_use.setvalue(name)
         self.radiobuttons.setvalue('Use another PQR')
+
     def getPqrFilename(self):
         if self.radiobuttons.getvalue() != 'Use another PQR':
             return self.pymol_generated_pqr_filename.getvalue()
         else:
             return self.pqr_to_use.getvalue()
+
     def setPsizeLocation(self,value):
         self.psize.setvalue(value)
+
     def setBinaryLocation(self,value):
         self.binary.setvalue(value)
+
     def setWebApbsLocation(self,value):
         self.webapbs.setvalue(value)
+
     def setPdb2pqrLocation(self,value):
         self.pdb2pqr.setvalue(value)
 
     def setPymolGeneratedPqrFilename(self,value):
         self.pymol_generated_pqr_filename.setvalue(value)
+
     def setPymolGeneratedPdbFilename(self,value):
         self.pymol_generated_pdb_filename.setvalue(value)
+
     def setPymolGeneratedDxFilename(self,value):
         self.pymol_generated_dx_filename.setvalue(value)
+
     def setPymolGeneratedInFilename(self,value):
         self.pymol_generated_in_filename.setvalue(value)
 
-
     def getPymolGeneratedPqrFilename(self):
         return self.pymol_generated_pqr_filename.getvalue()
+
     def getPymolGeneratedPdbFilename(self):
         return self.pymol_generated_pdb_filename.getvalue()
+
     def getPymolGeneratedDxFilename(self):
         return self.pymol_generated_dx_filename.getvalue()
+
     def getPymolGeneratedInFilename(self):
         return self.pymol_generated_in_filename.getvalue()
     defaults = {
@@ -660,12 +676,9 @@ class APBSTools2:
                                          label_text='\tChoose Externally Generated PQR:',
                                          )
 
-
-
         for entry in (self.selection,self.map,self.radiobuttons,self.pdb2pqr_options,self.pqr_to_use):
             #for entry in (self.selection,self.map,self.radiobuttons,):
             entry.pack(fill='x',padx=4,pady=1) # vertical
-
 
         # Set up the main "Calculation" page
         page = self.notebook.add('Configuration')
@@ -746,7 +759,6 @@ class APBSTools2:
         for entry in (self.max_mem_allowed,self.solvent_radius,self.system_temp,self.sdens,self.apbs_mode,self.bcfl,self.chgm,self.srfm):
             entry.pack(fill='x',expand=1,padx=4,pady=1) # vertical
 
-
         group = Pmw.Group(page,tag_text='Ions')
         group.pack(fill='both',expand=1, padx=4, pady=5)
         group.grid(column=0, row=1, )
@@ -820,7 +832,6 @@ class APBSTools2:
                     )
             getattr(self,'grid_coarse_%s'%coord).pack(fill='x', expand=1, padx=4, pady=1)
 
-
         group = Pmw.Group(page,tag_text = 'Fine Mesh Length')
         group.pack(fill = 'both', expand = 1, padx = 4, pady = 5)
         group.grid(column = 2, row = 0)
@@ -834,7 +845,6 @@ class APBSTools2:
                                                              )
                     )
             getattr(self,'grid_fine_%s'%coord).pack(fill='x', expand=1, padx=4, pady=1)
-
 
         group = Pmw.Group(page,tag_text = 'Grid Center')
         group.pack(fill = 'both', expand = 1, padx = 4, pady = 5)
@@ -864,17 +874,18 @@ class APBSTools2:
                     )
             getattr(self,'grid_points_%s'%coord).pack(fill='x', expand=1, padx=4, pady=1)
 
-
         page.grid_rowconfigure(2,weight=1)
         page.grid_columnconfigure(5,weight=1)
         page = self.notebook.add('Program Locations')
         group = Pmw.Group(page,tag_text='Locations')
         group.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
+
         def quickFileValidation(s):
             if s == '': return Pmw.PARTIAL
             elif os.path.isfile(s): return Pmw.OK
             elif os.path.exists(s): return Pmw.PARTIAL
             else: return Pmw.PARTIAL
+
         def quickFileDirValidation(s):
             '''
             assumes s ends in filename
@@ -954,7 +965,6 @@ protein residues and AMBER charges.  If wish that behavior, simply delete the "p
                               )
         label.pack()
 
-
         page = self.notebook.add('Temp File Locations')
         group = Pmw.Group(page,tag_text='Locations')
         group.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
@@ -984,7 +994,6 @@ protein residues and AMBER charges.  If wish that behavior, simply delete the "p
                                                           value = os.path.join(get_default_location('temp'),'pymol-generated.dx'),
                                                           )
         self.pymol_generated_dx_filename.pack(fill = 'x', padx = 20, pady = 10)
-
 
         self.pymol_generated_in_filename  = Pmw.EntryField(group.interior(),
                                                            labelpos='w',
@@ -1081,6 +1090,7 @@ Citation for PDB2PQR:
     def showAppModal(self):
         #self.dialog.activate() #geometry = 'centerscreenfirst',globalMode = 'nograb')
         self.dialog.show()
+
     def generatePqrFile(self):
         ''' Wrapper for all of our PQR generation routines.
 
@@ -1109,6 +1119,7 @@ Citation for PDB2PQR:
                 return False
             if DEBUG: print "GENERATED"
         return True
+
     def execute(self, result, refocus=True):
         if result == 'Register APBS Use':
             import webbrowser
@@ -1174,12 +1185,14 @@ Citation for PDB2PQR:
                 APBS_WEB_LOCATION = self.webapbs.getvalue()
             APBS_PSIZE_LOCATION = self.psize.getvalue()
             self.quit()
+
     def quit(self):
         self.dialog.destroy() # stops CPU hogging, perhaps fixes Ubuntu bug MGL
 
     def runPsize(self):
         class NoPsize(Exception):
             pass
+
         class NoPDB(Exception):
             pass
         try:
@@ -1210,7 +1223,6 @@ Citation for PDB2PQR:
                 print "WARNING: You have alternate locations for some of your atoms!"
             # pymol.cmd.save(pqr_filename,sel) # Pretty sure this was a bug. No need to write it when it's externally generated.
             f.close()
-
 
             size = psize.Psize()
             size.setConstant('gmemceil',int(self.max_mem_allowed.getvalue()))
@@ -1307,8 +1319,10 @@ Citation for PDB2PQR:
 
         if (finegridpoints[0]>0) and (finegridpoints[1]>0) and (finegridpoints[2]>0):
             max_mem_allowed = float(self.max_mem_allowed.getvalue())
+
             def memofgrid(finegridpoints):
                 return 200. * float(finegridpoints[0] * finegridpoints[1] * finegridpoints[2]) / 1024. / 1024
+
             def gridofmem(mem):
                 return mem * 1024. * 1024. / 200.
             max_grid_points = gridofmem(max_mem_allowed)
@@ -1460,7 +1474,6 @@ Citation for PDB2PQR:
         f.close()
         return '+'.join(unassigned)
 
-
     def generateApbsInputFile(self):
         if self.checkInput():
             #
@@ -1587,7 +1600,6 @@ Citation for PDB2PQR:
         if not self.map.getvalue():
             show_error('Please choose a name for the generated map.')
             return False
-
 
         #
         # Now, the ions
@@ -1725,7 +1737,6 @@ Citation for PDB2PQR:
             print "Unexpected error encountered while trying to import pdb2pqr:", sys.exc_info()
             retval = 1 # failure is nonzero here.
 
-
         if retval != 0:
             show_error('Could not run pdb2pqr: %s %s\n\nIt returned %s.\nCheck the PyMOL external GUI window for more information\n'%(self.pdb2pqr.getvalue(),
                                                                                                                                       args,
@@ -1742,7 +1753,6 @@ Citation for PDB2PQR:
             return False
         print "I WILL RETURN TRUE from pdb2pqr"
         return True
-
 
     # PQR generation routines are required to call
     # cleanupGeneratedPdbOrPqrFile themselves.
@@ -1861,6 +1871,7 @@ import Tkinter,Pmw
 #
 ################################################################################
 
+
 def _errorpop(master,text):
     d=Pmw.MessageDialog(master,
                         title="Error",
@@ -1870,8 +1881,11 @@ def _errorpop(master,text):
     d.activate()
     d.destroy()
 
+
 class PmwFileDialog(Pmw.Dialog):
+
     """File Dialog using Pmw"""
+
     def __init__(self, parent = None, **kw):
         # Define the megawidget options.
         optiondefs = (
@@ -2138,6 +2152,7 @@ class PmwFileDialog(Pmw.Dialog):
     lastdir=""
     lastfilter=None
     lasttime=0
+
     def fillit(self):
         """Get the directory list and show it in the two listboxes"""
         # Do not run unnecesarily
@@ -2179,6 +2194,7 @@ class PmwFileDialog(Pmw.Dialog):
 
 
 class PmwExistingFileDialog(PmwFileDialog):
+
     def filevalidate(self,string):
         if os.path.isfile(string):
             return Pmw.OK
@@ -2195,7 +2211,9 @@ class PmwExistingFileDialog(PmwFileDialog):
             _errorpop(self.interior(),"Please select an existing file")
             return 0
 
+
 class FileDialogButtonClassFactory:
+
     def get(fn,filter='*'):
         """This returns a FileDialogButton class that will
         call the specified function with the resulting file.
@@ -2209,6 +2227,7 @@ class FileDialogButtonClassFactory:
                 self.__toggle = 0
                 apply(Tkinter.Button.__init__, (self, master, cnf), kw)
                 self.configure(command=self.set)
+
             def set(self):
                 fd = PmwFileDialog(self.master,filter=filter)
                 fd.title('Please choose a file')
@@ -2227,7 +2246,10 @@ class FileDialogButtonClassFactory:
 ############################################################
 ############################################################
 ############################################################
+
+
 class VisualizationGroup(Pmw.Group):
+
     def __init__(self,*args,**kwargs):
         my_options = 'visgroup_num'.split()
         for option in my_options:
@@ -2241,6 +2263,7 @@ class VisualizationGroup(Pmw.Group):
         self.show_ms = False
         self.show_pi = False
         self.show_ni = False
+
     def refresh(self):
         things_to_kill = 'error_label update_buttonbox mm_group ms_group pi_group ni_group'.split()
         for thing in things_to_kill:
@@ -2378,8 +2401,6 @@ class VisualizationGroup(Pmw.Group):
             self.neg_surf_val.pack(side=LEFT)
             self.ni_group.pack(fill = 'both', expand = 1, padx = 4, pady = 5, side=LEFT)
 
-
-
         else:
             self.error_label = Tkinter.Label(self.interior(),
                                              pady = 10,
@@ -2402,6 +2423,7 @@ If you have a molecule and a map loaded, please click "Update"''',
         #return 'e_lvl'
         idx = [i for i in pymol.cmd.get_names() if pymol.cmd.get_type(i)=='object:molecule'].index(self.molecule.getvalue())
         return '_'.join(('e_lvl',str(idx),str(self.visgroup_num)))
+
     def getGradName(self):
         #return 'e_lvl'
         idx = [i for i in pymol.cmd.get_names() if pymol.cmd.get_type(i)=='object:molecule'].index(self.molecule.getvalue())
@@ -2427,6 +2449,7 @@ If you have a molecule and a map loaded, please click "Update"''',
         pymol.cmd.delete(ramp_name)
         pymol.cmd.ramp_new(ramp_name,map_name,range)
         pymol.cmd.set('surface_color',ramp_name,molecule_name)
+
     def updateMolSurface(self):
         molecule_name = self.molecule.getvalue()
         self.updateRamp()
@@ -2442,26 +2465,34 @@ If you have a molecule and a map loaded, please click "Update"''',
 
     def showPosSurface(self):
         self.updatePosSurface()
+
     def hidePosSurface(self):
         pymol.cmd.hide('everything',self.getIsoPosName())
+
     def updatePosSurface(self):
         pymol.cmd.delete(self.getIsoPosName())
         pymol.cmd.isosurface(self.getIsoPosName(),self.map.getvalue(),float(self.pos_surf_val.getvalue()))
         pymol.cmd.color('blue',self.getIsoPosName())
         pymol.cmd.show('everything',self.getIsoPosName())
+
     def showNegSurface(self):
         self.updateNegSurface()
+
     def hideNegSurface(self):
         pymol.cmd.hide('everything',self.getIsoNegName())
+
     def updateNegSurface(self):
         pymol.cmd.delete(self.getIsoNegName())
         pymol.cmd.isosurface(self.getIsoNegName(),self.map.getvalue(),float(self.neg_surf_val.getvalue()))
         pymol.cmd.color('red',self.getIsoNegName())
         pymol.cmd.show('everything',self.getIsoNegName())
+
     def showFieldLines(self):
         self.updateFieldLines()
+
     def hideFieldLines(self):
         pymol.cmd.hide('everything',self.getGradName())
+
     def updateFieldLines(self):
         print "IN update"
         pymol.cmd.gradient(self.getGradName(),self.map.getvalue())

@@ -1500,6 +1500,7 @@ def random_rotation_matrix(rand=None):
 
 
 class Arcball(object):
+
     """Virtual Trackball Control.
 
     >>> ball = Arcball()

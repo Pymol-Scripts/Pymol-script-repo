@@ -119,6 +119,7 @@ try: from pymol import cmd; runningpymol='yes'
 except: runningpymol='no'; pass
 import time, platform, os
 
+
 def propka(molecule="NIL",chain="*",resi="0",resn="NIL",method="upload",logtime=time.strftime("%m%d",time.localtime()),server_wait=3.0,version="v3.1",verbose="no",showresult="no",pkafile="NIL",makebonds="yes"):
     Script_Version="20110823"
     ### First we have to be sure, we give reasonable arguments
@@ -178,6 +179,7 @@ def propka(molecule="NIL",chain="*",resi="0",resn="NIL",method="upload",logtime=
     ##if runningpymol=='yes': cmd.do("@%s"%result_pka_pymol_name)
     return(list_results)
 if runningpymol !='no': cmd.extend("propka",propka)
+
 
 def getpropka(PDB="NIL",chain="*",resi="0",resn="NIL",source="upload",PDBID="",logtime=time.strftime("%Y%m%d%H%M%S",time.localtime()),server_wait=3.0,version="v3.1",verbose="no",showresult="no"):
     try: import modules.mechanize as mechanize; importedmechanize='yes'
@@ -374,10 +376,12 @@ def getpropka(PDB="NIL",chain="*",resi="0",resn="NIL",source="upload",PDBID="",l
     return(result_pka_pkafile)
 if runningpymol !='no': cmd.extend("getpropka",getpropka)
 
+
 def openpymolfiles(pkafile):
     result_pka_pymol_name = pkafile.replace(".pka",".pml")
     result_pka_pymol = open(result_pka_pymol_name, "w")
     return(result_pka_pymol, result_pka_pymol_name)
+
 
 def printpropkaresult(list_results, resi, resi_range, resn, resn_range, showresult, ligands_results):
     for l in list_results:
@@ -390,6 +394,7 @@ def printpropkaresult(list_results, resi, resi_range, resn, resn_range, showresu
         if resn != "NIL" and l[0] in resn_range:
             if showresult != 'yes': print("%3s %3s %s %6s %3s %5s %3s %4s %s"%(l[0],l[1],l[2],l[3],l[4],l[5],l[6],l[7],l[8]))
         if showresult == 'yes': print("%3s %3s %s %6s %3s %5s %3s %4s %s"%(l[0],l[1],l[2],l[3],l[4],l[5],l[6],l[7],l[8]))
+
 
 def importpropkaresult(result_pka_pkafile):
     result_pka_file = open(result_pka_pkafile, "r")
@@ -415,6 +420,7 @@ def importpropkaresult(result_pka_pkafile):
     result_pka_file.close()
     return(list_results,ligands_results)
 
+
 def importpropkabonds(result_pka_pkafile):
     bonds=[]
     result_pka_file_bonds=open(result_pka_pkafile[:-4]+".bonds", "r")
@@ -423,11 +429,13 @@ def importpropkabonds(result_pka_pkafile):
     result_pka_file_bonds.close()
     return(bonds)
 
+
 def createdirs():
     if platform.system() == 'Windows': Newdir = os.getcwd()+"\Results_propka\\"
     if platform.system() == 'Linux': Newdir = os.getcwd()+"/Results_propka/"
     if not os.path.exists(Newdir): os.makedirs(Newdir)
     return(Newdir)
+
 
 def openfiles(Newdir, filename, logtime, source):
     if source == "upload":
@@ -452,6 +460,7 @@ def openfiles(Newdir, filename, logtime, source):
     result_pka_file_bonds = open(result_pka_file_bonds_name, "w")
     return(result_pka_file, result_input_pka_file, result_log, filepath, result_pka_pkafile,result_pka_file_stripped,result_pka_file_bonds)
 
+
 def ResiRange(resi):
     resi = resi.split('.')
     resiList = []
@@ -463,14 +472,17 @@ def ResiRange(resi):
             resiList.append(int(i))
     return(resiList)
 
+
 def ResnRange(resn):
     resn_split = resn.split('.')
     resn_range = [resnr.upper() for resnr in resn_split]
     return(resn_range)
 
+
 def ChainRange(chain):
     chainstring = chain.replace(".","+").upper()
     return(chainstring)
+
 
 def writepymolcmd(newmolecule,pkafile,verbose,makebonds):
     list_results,ligands_results = importpropkaresult(pkafile)
@@ -685,10 +697,12 @@ def writepymolcmd(newmolecule,pkafile,verbose,makebonds):
     result_pka_pymol.close()
     return(result_pka_pymol_name)
 
+
 def replace_all(text, dic):
     for i, j in dic.iteritems():
         text = text.replace(i, j)
     return(text)
+
 
 def uniqifi(seq, idfun=None):
     ### Order preserving
@@ -703,6 +717,7 @@ def uniqifi(seq, idfun=None):
         result.append(item)
     return(result)
 
+
 def BondTypeName(NBname, NBbond):
     if NBbond=="SH":
         cutoff=""
@@ -714,6 +729,7 @@ def BondTypeName(NBname, NBbond):
         cutoff=""
         return(NBname,cutoff)
 
+
 def Check_bonding_partners(bonding_partners, NBname):
     answer = False
     for l in bonding_partners:
@@ -724,6 +740,7 @@ def Check_bonding_partners(bonding_partners, NBname):
         else:
             answer = False
     return(answer,NBname)
+
 
 def SetDashColor(NBbond):
     if NBbond=="SH": color="brightorange"

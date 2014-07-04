@@ -14,6 +14,7 @@ License: MIT
 
 from pymol import cmd
 
+
 def bbPlane(selection='(all)', color='gray', transp=0.3, state=-1, name=None, quiet=1):
     """
 DESCRIPTION

@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def save_settings(filename='~/.pymolrc-settings.py', quiet=1):
     '''
 DESCRIPTION

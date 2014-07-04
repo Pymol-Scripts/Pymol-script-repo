@@ -73,10 +73,8 @@ REQUIRES: numpy
     return R
 
 
-
 ################################################################################
 def elbow_angle(obj,light='L',heavy='H',limit_l=107,limit_h=113,draw=0):
-
     """
 
 DESCRIPTION
@@ -108,7 +106,6 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     limit_h = int(limit_h)
     draw = int(draw)
 
-
     # for temp object names
     tmp_prefix = "tmp_elbow_"
 
@@ -127,7 +124,6 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     ch_sel = 'polymer and %s and chain %s and not resi 1-%i' % (obj, heavy, limit_h)
     v_sel = '(('+vl_sel+') or ('+vh_sel+'))'
     c_sel = '(('+cl_sel+') or ('+ch_sel+'))'
-
 
     # create temp objects
     cmd.create(vl,vl_sel)
@@ -158,7 +154,6 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     elbow = int(numpy.degrees(numpy.arccos(numpy.dot(direction_v,direction_c))))
     # while (elbow < 90):
     #     elbow = 180 - elbow   # limit to physically reasonable range
-
 
     # compare the direction_v and direction_c axes to the vector defined by
     # the C-alpha atoms of limit_l and limit_h of the original fab

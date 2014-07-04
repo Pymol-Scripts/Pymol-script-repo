@@ -16,6 +16,7 @@ expression_sc = cmd.Shortcut([
     'pc',
 ])
 
+
 def spectrumany(expression, color_list, selection='(all)', minimum=None, maximum=None, quiet=1):
     '''
 DESCRIPTION

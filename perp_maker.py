@@ -58,6 +58,8 @@ from pymol.cgo import *
 # the next step's responsibility to move the plane back some so
 # it dosen't cut the molecule/scene in half.
 #
+
+
 def getPPlane( viewVector, center, side_length=100 ):
     """Returns a 3-tuple of 3D points representing the perp. plane."""
 
@@ -112,6 +114,7 @@ so I'm just making one up. :)"
 # End methods
 #
 ############################################################
+
 
 def perp_maker(name='pPlane', quiet=1):
     '''

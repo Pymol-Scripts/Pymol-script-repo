@@ -9,6 +9,7 @@ License: BSD-2-Clause
 import os
 from pymol import cmd, CmdException
 
+
 def select_sites(selection='all', filename=None, prefix=None, nice=1, quiet=0):
     '''
 DESCRIPTION
@@ -108,6 +109,7 @@ ARGUMENTS
         cmd.util.cnc('%s' % (allsites))
 cmd.extend('select_sites', select_sites)
 cmd.auto_arg[0]['select_sites'] = cmd.auto_arg[0]['pseudoatom']
+
 
 def sites(code, name='', *args, **kwargs):
     kwargs['async'] = 0

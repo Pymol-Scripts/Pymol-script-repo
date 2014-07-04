@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def save_pdb_with_anisou(filename, selection='(all)', state=1, quiet=1):
     '''
 DESCRIPTION

@@ -8,6 +8,7 @@ from pymol import cmd
 from math import cos, sin, pi, sqrt, acos, asin, atan2
 import os
 
+
 def compactSeq(seq):
     seq.sort()
     ret = []
@@ -28,6 +29,7 @@ def compactSeq(seq):
                 start = seq[i]
         i += 1
     return ','.join(ret)
+
 
 def parseObjMol(obj):
     name = obj[0]
@@ -94,6 +96,7 @@ def parseObjMol(obj):
         ret += "\ncolor:%.3f,%.3f,%.3f:%s" % (c[0], c[1], c[2], colors[c])
     return ret
 
+
 def parseDistObj(obj):
     if (obj[5][0][3][10] != 1): # 'show dashed' flag
         return ""
@@ -104,6 +107,7 @@ def parseDistObj(obj):
         ret.append("%.3f" % p)
     color = cmd.get_color_tuple(obj[5][0][2]);
     return "\ndists:%.3f,%.3f,%.3f:" % color + ','.join(ret)
+
 
 def dump_rep(name):
     if 'PYMOL_GIT_MOD' in os.environ:

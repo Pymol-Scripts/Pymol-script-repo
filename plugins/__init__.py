@@ -18,6 +18,7 @@ pymolplugins = sys.modules[__name__]
 import pmg_tk.PMGApp
 x__initializePlugins = pmg_tk.PMGApp.initializePlugins
 
+
 def initializePlugins(self):
     '''
     Overloaded version of pmg_tk.PMGApp.initializePlugins

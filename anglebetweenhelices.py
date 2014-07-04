@@ -15,6 +15,7 @@ else:
     from pymol.cmd import get_unused_name
     STATE = -1
 
+
 def _vec_sum(vec_list):
     # this is the same as
     # return numpy.array(vec_list).sum(0).tolist()
@@ -22,6 +23,7 @@ def _vec_sum(vec_list):
     for x in vec_list:
         vec = cpv.add(vec, x)
     return vec
+
 
 def _mean_and_std(x):
     # this is the same as
@@ -32,6 +34,7 @@ def _mean_and_std(x):
     mu = sum(x)/float(N)
     var = sum([(i - mu)**2 for i in x]) / float(N - 1)
     return (mu, var**0.5)
+
 
 def _common_orientation(selection, vec, visualize=1, quiet=0):
     '''
@@ -52,6 +55,7 @@ def _common_orientation(selection, vec, visualize=1, quiet=0):
     if not quiet:
         print 'Center: (%.2f, %.2f, %.2f) Direction: (%.2f, %.2f, %.2f)' % tuple(center + vec)
     return center, vec
+
 
 def visualize_orientation(direction, center=[0,0,0], scale=1.0, symmetric=False, color='green', color2='red'):
     '''
@@ -97,6 +101,7 @@ def visualize_orientation(direction, center=[0,0,0], scale=1.0, symmetric=False,
         ])
     cmd.load_cgo(obj, get_unused_name('oriVec'), zoom=0)
 
+
 def cafit_orientation(selection, visualize=1, quiet=0):
     '''
 DESCRIPTION
@@ -127,6 +132,7 @@ SEE ALSO
     if cpv.dot_product(vec, x[-1] - x[0]) < 0:
         vec = cpv.negate(vec)
     return _common_orientation(selection, vec, visualize, quiet)
+
 
 def loop_orientation(selection, visualize=1, quiet=0):
     '''
@@ -159,6 +165,7 @@ SEE ALSO
         raise CmdException
     vec = cpv.normalize(vec)
     return _common_orientation(selection, vec, visualize, quiet)
+
 
 def helix_orientation(selection, visualize=1, sigma_cutoff=1.5, quiet=0):
     '''
@@ -210,6 +217,7 @@ SEE ALSO
     vec = cpv.normalize(vec)
     return _common_orientation(selection, vec, visualize, quiet)
 
+
 def helix_orientation_hbond(selection, visualize=1, cutoff=3.5, quiet=0):
     '''
 DESCRIPTION
@@ -248,6 +256,7 @@ SEE ALSO
     vec = _vec_sum(vec_list)
     vec = cpv.normalize(vec)
     return _common_orientation(selection, vec, visualize, quiet)
+
 
 def angle_between_helices(selection1, selection2, method='helix_orientation', visualize=1, quiet=0):
     '''

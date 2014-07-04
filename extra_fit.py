@@ -10,6 +10,7 @@ __version__ = '1.0'
 
 from pymol import cmd, CmdException
 
+
 def extra_fit(selection='(all)', reference=None, method='align', zoom=1,
               quiet=0, _self=cmd, **kwargs):
     '''

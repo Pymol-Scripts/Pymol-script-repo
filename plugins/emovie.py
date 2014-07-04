@@ -46,12 +46,10 @@ class eMovie:
     #this is important for editing actions using the storyboard view
     actionToEdit = -1
 
-
     def __init__(self,master):
 
         frame = Frame(master)
         frame.pack()
-
 
         self.scenesButton = Button(frame, text = "Scenes (views, appearances)", command = self.scenes, width=25,relief=RIDGE,fg="black")
         self.scenesButton.pack()
@@ -89,7 +87,6 @@ class eMovie:
         self.loadMorphButton = Button(frame, text = "Load Previously Made Morph", command = self.loadMorph, width=25,relief=RIDGE,fg="darkblue")
         self.loadMorphButton.pack()
 
-
         self.storyButton = Button(frame, text = "     View Storyboard     ", command = self.story ,width=25,fg="blue",relief=RIDGE)
         self.storyButton.pack()
 
@@ -101,7 +98,6 @@ class eMovie:
 
         self.exportButton = Button(frame, text = "     Export eMovie     ", command = self.export ,width=25,fg="red",relief=RIDGE)
         self.exportButton.pack()
-
 
     def insertScene(self):
         insertSceneWindow = InsertScene(root,title="Insert Scene")
@@ -162,6 +158,7 @@ class eMovie:
 
 # need to initialize plugin:
 
+
 def __init__(self):
 
     self.menuBar.addcascademenu('Plugin','eMovie','eMovie plugin', label='eMovie')
@@ -211,7 +208,6 @@ def open_eMovie():
 
 class InsertScene(tkSimpleDialog.Dialog):
 
-
     def body(self,master):
 
         Label(master,text="Scene name to insert :").grid(row=0,column=0)
@@ -224,7 +220,6 @@ class InsertScene(tkSimpleDialog.Dialog):
         self.e2.grid(row=1,column=1)
 
         return self.e1
-
 
     def apply(self):
 
@@ -261,7 +256,6 @@ class Scenes(tkSimpleDialog.Dialog):
         scrollbar.config(command=self.yview)
         if verticalScrollFlag: scrollbar.grid(row=1,column=1,sticky=N+S)
 
-
         emovie.sceneList.sort()
 
         for a in emovie.sceneList:
@@ -277,8 +271,6 @@ class Scenes(tkSimpleDialog.Dialog):
         b3.grid(row=4, column=0)
         b4 = Button(master, text="Insert a scene into movie",command=self.addScene,width=27)
         b4.grid(row=5, column=0)
-
-
 
     def yview(self,*args):
         apply(self.lb1.yview, args)
@@ -317,10 +309,8 @@ class Scenes(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -337,6 +327,7 @@ class Scenes(tkSimpleDialog.Dialog):
     def help(self):
 
         tkMessageBox.showinfo("Scenes Help","Create new Scene:  Here you create a new PyMOL scene.  The current PyMOL view, colors, and/or representations, depending on your choices, are/is saved as a scene with the name of your choice.  This new scene will appear on the scene list, and can then be inserted to the movie at a specific frame.\n\nRecall Selected Scene: The selected scene is immediately recalled.  You can then edit it and save your changes to the scene by using the 'Create new scene/Save scene...' button.\n\nDelete Scene:  The selected scene is cleared.  Any instance of the scene inserted into the movie is not removed.  To do so, you must remove instances of the scene from the storyboard.\n\nInsert Scene into Movie: The scene of the given name is recalled at the given frame.") 
+
 
 class CreateScene(tkSimpleDialog.Dialog):
 
@@ -392,6 +383,7 @@ class CreateScene(tkSimpleDialog.Dialog):
 
         emovie.scenes()
 
+
 class Zoom(tkSimpleDialog.Dialog):
 
     def body(self,master):
@@ -409,7 +401,6 @@ class Zoom(tkSimpleDialog.Dialog):
         self.e3.grid(row=2, column=1)
 
         return self.e1	# initial focus	
-
 
     def apply(self):
 
@@ -440,10 +431,8 @@ class Zoom(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -461,6 +450,7 @@ class Zoom(tkSimpleDialog.Dialog):
 
         tkMessageBox.showinfo("Zoom Help","Moves the camera a given number of angstroms along the z-axis.  The action length is the amount of frames it takes for the completion of the zoom.  Positive angstroms will zoom-in, while negative angstroms constitute zooming-out.")
         self.lift()
+
 
 class Command(tkSimpleDialog.Dialog):
 
@@ -503,10 +493,8 @@ class Command(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -525,8 +513,8 @@ class Command(tkSimpleDialog.Dialog):
         tkMessageBox.showinfo("Command Help","Enter any PyMOL command to be executed at a particular frame.  The PyMOL command can include commas.  For the execution of many commands at once, try inserting a PyMOL command to execute an external script ('@script.py' or 'run script.py').")
         self.lift()
 
-class Rotation(tkSimpleDialog.Dialog):
 
+class Rotation(tkSimpleDialog.Dialog):
 
     def body(self,master):
 
@@ -577,10 +565,8 @@ class Rotation(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -598,6 +584,7 @@ class Rotation(tkSimpleDialog.Dialog):
 
         tkMessageBox.showinfo("Rotation Help","Inserts a rotation of a given degree about a given axis at a given frame.  The action length is the amount of frames it takes for the completion of the rotation.  Rotations along an axis other than x, y, or z can be created by stacking combinations of rotations.  To set the origin of rotation, use the PyMOL command 'origin selection', where selection is the object or selection at which you wish to place the origin of rotation.")
         self.lift()
+
 
 class Fading(tkSimpleDialog.Dialog):
 
@@ -643,10 +630,7 @@ class Fading(tkSimpleDialog.Dialog):
 
         endFrame = startFrame + actionLength - 1
 
-
         (startFrameState,endFrameState,blankCmd) = getStartEndFrameStates(startFrame,endFrame)
-
-
 
         #convert fadeFrom and fadeTo from percentage to fractions of a whole
         fadeFromMod = fadeFrom/100
@@ -687,10 +671,8 @@ class Fading(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -708,8 +690,8 @@ class Fading(tkSimpleDialog.Dialog):
 
         tkMessageBox.showinfo("Fading Help","The representation of the molecule/selection will be faded from one visibility level to the other visibility level over the action length.  Make sure this representation is being shown; otherwise the fading will not be visible.  You may fade one or more representations of a molecule/selection while simultaneously showing other representations.")
 
-class Worm(tkSimpleDialog.Dialog):
 
+class Worm(tkSimpleDialog.Dialog):
 
     def body(self,master):
 
@@ -758,10 +740,8 @@ class Worm(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -779,6 +759,7 @@ class Worm(tkSimpleDialog.Dialog):
 
         tkMessageBox.showinfo("Backbone Trace Help","This function first draws the first 30 residues between the given starting amino acid and the given ending amino acid in stick representation.  Then a cartoon of the carbon backbone (default setting = cartoon tube) begins to appear starting at the given start amino acid and ending at the given end amino acid.  The cartoon adds one amino acid to its structure with each passing frame.  Meanwhile, the 30 residues shown as sticks fade out entirely.  The cartoon is colored as a rainbow spectrum.  While this trace occurs, the molecule/selection rotates about the y axis.  The user cannot specify an action length with this feature because the action length depends on the amount of residues in the backbone trace.")
         self.lift()
+
 
 class Pause(tkSimpleDialog.Dialog):
 
@@ -820,10 +801,8 @@ class Pause(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -841,6 +820,7 @@ class Pause(tkSimpleDialog.Dialog):
 
         tkMessageBox.showinfo("Pause Help","A pause is added to the movie for the specified action length, at the specified frame.  This is not a hard-fast pause, as actions can be inserted into the pause.  Also, it is pointless to insert a pause in the middle of a movie, because simply by lack of inserted actions over a given frame range, a pause will occur.  The purpose of this button is to insert pauses to the end of movies.")
         self.lift()
+
 
 class Stop(tkSimpleDialog.Dialog):
 
@@ -876,10 +856,8 @@ class Stop(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -898,11 +876,12 @@ class Stop(tkSimpleDialog.Dialog):
         tkMessageBox.showinfo("Stop Help","A stop is inserted into the movie at the specified frame.  When the movie plays, and reaches the frame with the stop, the movie will stop until the user presses the play button again.  Stops are useful for automatically stopping the movie at specific points during a presentation so that the presenter can explain, and then continue the movie at his or her leisure.  Warning: Remove all stop actions from the storyboard before exporting a movie.")
         self.lift()
 
+
 class Story(tkSimpleDialog.Dialog):
 
     #override simpleDialog initialization to disable self.grab_set()
-    def __init__(self, parent, title = None):
 
+    def __init__(self, parent, title = None):
         '''Initialize a dialog.
 
         Arguments:
@@ -940,7 +919,6 @@ class Story(tkSimpleDialog.Dialog):
 
         self.wait_window(self)
 
-
     def body(self,master):
 
         #set the widths for the listboxes based on the entries in emovie.storyBoard
@@ -963,7 +941,6 @@ class Story(tkSimpleDialog.Dialog):
             if len(a[2]) > WidthLb4 :
                 WidthLb4 = len(a[2])
 
-
         #set the heights of the listboxes so that they are 10 max, but adaptive from 0 to 10
         if i <= 10:
             HeightLb = i
@@ -975,9 +952,6 @@ class Story(tkSimpleDialog.Dialog):
         if WidthLb4 > 45:
             WidthLb4 = 45
             horizontalScrollFlag = True
-
-
-
 
         scrollbar = Scrollbar(master,orient=VERTICAL)
         scrollbarInfo = Scrollbar(master,orient=HORIZONTAL)
@@ -993,7 +967,6 @@ class Story(tkSimpleDialog.Dialog):
         self.lb2.grid(row=1,column=1)
         self.lb3.grid(row=1,column=2)
         self.lb4.grid(row=1,column=3)
-
 
         Label(master, text="#",fg="red").grid(row=0,column=0)	
         Label(master, text="FRAME(S)",fg="red").grid(row=0,column=1)
@@ -1112,7 +1085,6 @@ class Story(tkSimpleDialog.Dialog):
             except ValueError: pass
             actionNumber = selection[0]
 
-
         if (deleteActionFlag == True) and (actionNumber != -1):
             #delete the actionNumber-th tuple in emovie.storyBoard
             deletedAction = emovie.storyBoard.pop(actionNumber)
@@ -1140,10 +1112,8 @@ class Story(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -1162,6 +1132,7 @@ class Story(tkSimpleDialog.Dialog):
         tkMessageBox.showinfo("Storyboard Help","A list of the actions that comprise the movie, organized according to the frame numbers in which they take place.  By selecting an action and clicking 'Delete selected action', the selected action is removed from the movie, and the movie is reloaded and the storyboard refreshed. 'Edit action' allows changing of a selected action's parameters. 'Move a group of actions' allows movement of a group of consecutive actions up or down by a specified number of frames.")
         self.lift()
 
+
 class MoveActions(tkSimpleDialog.Dialog):
         #take every action between and including firstAction and lastAction and remove them from our emovie.storyboard
         #store each of the actions we removed in an array 
@@ -1176,7 +1147,6 @@ class MoveActions(tkSimpleDialog.Dialog):
         Label(master,text="Group starts at action number :").grid(row=0,column=0)
         Label(master,text="Group ends with action number :").grid(row=1,column=0)
         Label(master,text="Move how many frames \n (negative number for backward) :").grid(row=2,column=0)
-
 
         self.e1 = Entry(master)
         self.e2 = Entry(master)
@@ -1226,6 +1196,7 @@ class MoveActions(tkSimpleDialog.Dialog):
             newValues = newFrameValues + currentValues[2:]
             #now reinsert the action
             insertActionByValues(newValues)
+
 
 class EditAction(tkSimpleDialog.Dialog):
         #the user selected some action in the storyboard
@@ -1357,11 +1328,7 @@ class EditAction(tkSimpleDialog.Dialog):
             else:
                 print "Error: Action type of selected action not found."
 
-
-
             return self.e1
-
-
 
     def apply(self):
 
@@ -1464,7 +1431,6 @@ class EditAction(tkSimpleDialog.Dialog):
             emovie.actionToEdit = -1
 
 
-
 # class Save(tkSimpleDialog.Dialog):
 # KR: same as with Load
 class Save:
@@ -1525,7 +1491,6 @@ class Save:
         movie()
         cmd.do("mstop")
 
-
     #
     # KR: again, some now dead code starts
     #
@@ -1557,9 +1522,7 @@ class Save:
         else:
             self.lift()
 
-
     def apply(self):
-
 
         fileName = self.e1.get()
 
@@ -1618,10 +1581,8 @@ class Save:
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -1645,6 +1606,8 @@ class Save:
 
 # class Load(tkSimpleDialog.Dialog):
 # KR: made Load dialog a simple class so no extra window will pop up 
+
+
 class Load:
 
     def __init__(self,root,title="Load"):
@@ -1667,7 +1630,6 @@ class Load:
         elif splitFileName[len(splitFileName) - 1] == "pse":
             fileName = fileName[:-4]
 
-
         cmd.delete("all")
 
         cmd.load("%s.pse"%(fileName))
@@ -1677,7 +1639,6 @@ class Load:
         f = open('%s.emov'%(fileName),'r')
 
         x = pickle.load(f)
-
 
         if type(x[len(x)-1]) == types.StringType : temp = x.pop() #to handle any old versions of emovies that saved initialview, just throws away the initial view
 
@@ -1693,7 +1654,6 @@ class Load:
         try: emovie.morphList.remove(("MORPHS (30 frames each)",0,0)) #to handle any versions of emovies that saved this within morphList
         except: pass
 
-
         # for compatibility with old versions of eMovie:
         for a in emovie.storyBoard:
             for b in a[3]:
@@ -1703,8 +1663,6 @@ class Load:
                     x = a[3]
                     index = x.index(b)
                     x[index] = newAction
-
-
 
         #clear movie and add scriptList commands to movie:
         mv_clear()
@@ -1721,7 +1679,6 @@ class Load:
 
         movie()
         cmd.do("mstop")
-
 
     # 
     # KR: the following stuff is IMHO unnecessary now
@@ -1766,7 +1723,6 @@ class Load:
         elif splitFileName[len(splitFileName) - 1] == "pse":
             fileName = fileName[:-4]
 
-
         cmd.delete("all")
 
         cmd.load("%s.pse"%(fileName))
@@ -1776,7 +1732,6 @@ class Load:
         f = open('%s.emov'%(fileName),'r')
 
         x = pickle.load(f)
-
 
         if type(x[len(x)-1]) == types.StringType : temp = x.pop() #to handle any old versions of emovies that saved initialview, just throws away the initial view
 
@@ -1792,7 +1747,6 @@ class Load:
         try: emovie.morphList.remove(("MORPHS (30 frames each)",0,0)) #to handle any versions of emovies that saved this within morphList
         except: pass
 
-
         # for compatibility with old versions of eMovie:
         for a in emovie.storyBoard:
             for b in a[3]:
@@ -1802,8 +1756,6 @@ class Load:
                     x = a[3]
                     index = x.index(b)
                     x[index] = newAction
-
-
 
         #clear movie and add scriptList commands to movie:
         mv_clear()
@@ -1829,10 +1781,8 @@ class Load:
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -1944,8 +1894,6 @@ class MakeMorph(tkSimpleDialog.Dialog):
         # ======================================
         # no changes usually required below here
 
-
-
         object_name = "refining"
 
         cmd.do("load %s,%s"%(input_file,object_name))
@@ -1986,10 +1934,8 @@ class MakeMorph(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -2008,11 +1954,12 @@ class MakeMorph(tkSimpleDialog.Dialog):
         tkMessageBox.showinfo("Make Morph Help","This feature only works with iPyMOL (incentive PyMOL), because iPyMOL is the only version to include the morphing tool RigiMOL.  A morph of 30 steps is created, the first and last steps being the structures the user specifies to morph from and to, and the 28 intermediate steps being RigiMOL's interpolations between the 2 specified structures.  The file 'eMovie_rigimol.inp' must be located in the current working directory.  The morph is generated and added to the eMovie session, but is also saved under the name 'morphname_eMorph.pdb' in the current working directory.  Refinement is important in creating real-looking motions/morphs, however it takes a lot of time.  If you specify a refinement value of 20, RigiMOL will cycle through your prepared morph 20 times, each time implementing its refinement algorithm.  A refinement value of 1 is pretty much no refinement, 20 is a medium amount, and 100 is a lot.  The entry entitled 'Place resulting morph on top of:' functions to align the molecules invovled in the morph; in this entry, specify the molecule (of the 2 being morphed) whose space you wish the resulting morph to occupy. If you have already performed alignment of the start and end states of the morph, leave this entry blank.  If you performing serial morphing of more than 2 morphs, it is suggested you do your own alignment using PyMOL and leave the 'Place resulting morph on top of:' entry blank.")
         self.lift()
 
+
 class AddMorph(tkSimpleDialog.Dialog):
 
     #override simpleDialog initialization to disable self.grab_set()
-    def __init__(self, parent, title = None):
 
+    def __init__(self, parent, title = None):
         '''Initialize a dialog.
 
         Arguments:
@@ -2066,7 +2013,6 @@ class AddMorph(tkSimpleDialog.Dialog):
         scrollbar.config(command=self.yview)
         if verticalScrollFlag: scrollbar.grid(row=1,column=1,sticky=N+S)
 
-
         for a in emovie.morphList:
             self.lb1.insert(END,a[0])
 
@@ -2090,10 +2036,8 @@ class AddMorph(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -2189,6 +2133,7 @@ class AddMorphParam(tkSimpleDialog.Dialog):
         movie()
         cmd.do("mstop")
 
+
 class LoadMorph(tkSimpleDialog.Dialog):
 
     def body(self,master):
@@ -2218,7 +2163,6 @@ class LoadMorph(tkSimpleDialog.Dialog):
             filename.close() #close the file that the tkFileDialog opened for reading
 
         self.lift()
-
 
     def apply(self):
 
@@ -2260,10 +2204,8 @@ class LoadMorph(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -2283,9 +2225,7 @@ class LoadMorph(tkSimpleDialog.Dialog):
         self.lift()
 
 
-
 class Export(tkSimpleDialog.Dialog):
-
 
     def body(self,master):
 
@@ -2322,7 +2262,6 @@ class Export(tkSimpleDialog.Dialog):
         prefix = self.e1.get()
         rayTrace = self.e2.get()
 
-
         if rayTrace=="y":
             rayTrace = "on"
         else:
@@ -2341,10 +2280,8 @@ class Export(tkSimpleDialog.Dialog):
 
         box = Frame(self)
 
-
         w = Button(box, text="OK", width=10, command=self.ok, default=ACTIVE)
         w.pack(side=LEFT, padx=5, pady=5)
-
 
         w = Button(box, text="Cancel", width=10, command=self.cancel)
         w.pack(side=LEFT, padx=5, pady=5)
@@ -2364,10 +2301,13 @@ class Export(tkSimpleDialog.Dialog):
         self.lift()
 
 #a function to figure out what state the movie is on during frame
+
+
 def getFrameState(frame):
     cmd.frame(frame)
     frameState = cmd.get_state()
     return frameState
+
 
 def wormFunction(molecule,startAA,endAA,startFrame,state):
     #Core Worm action Script		
@@ -2411,6 +2351,7 @@ def wormFunction(molecule,startAA,endAA,startFrame,state):
     mv_turn("%i-%i:%i"%(startFrame,range1 + 1,state),"y",360)
 
     return (range1 + 1)
+
 
 def getStartEndFrameStates(startFrame, endFrame=0):
 
@@ -2467,8 +2408,6 @@ def cmpStoryBoard(a,b):
     xStartFrame = int(x[0])
     yStartFrame = int(y[0])
 
-
-
     if xStartFrame > yStartFrame:
         return 1
     elif xStartFrame < yStartFrame:
@@ -2493,6 +2432,7 @@ def cmpStoryBoard(a,b):
             return -1
         else:
             return 0
+
 
 def getActionValues(action):
     #takes as input an element from emovie.storyboard and returns the type of action and all the 
@@ -2666,7 +2606,6 @@ def insertActionByValues(actionValues):
         endFrame = int(actionValues[1])
         direction = actionValues[4]
 
-
         blankCmd = ""
 
         #need to get the start and end states of the morph
@@ -2833,10 +2772,6 @@ def insertActionByValues(actionValues):
         return (0)
 
 
-
-
-
-
 # Here I have added code from Kristian Rother's "movie.py" (with some small edits)
 
 #"""
@@ -2874,6 +2809,7 @@ def insertActionByValues(actionValues):
 #
 #"""
 class Movie:    
+
     def __init__(self):
         """Stores data of what should appear in the movie."""
         self.movie=[]
@@ -2885,7 +2821,6 @@ class Movie:
 
     def add(self,framestate,command):
         self.movie.append((framestate[0],framestate[1],command))            
-
 
     def add_frame_states(self, framestates):
         """Stores list of (frame,state) tuples in a dictionary."""
@@ -2920,6 +2855,7 @@ def get_linear_values(number,start=0.0,end=1.0):
         i+=1
     return values
 
+
 def get_trigon_values(number,start=0.0,end=1.0):
     """
     Returns a list of 'number' float values, where the first
@@ -2941,6 +2877,7 @@ def get_trigon_values(number,start=0.0,end=1.0):
         i += 1
     return values
 
+
 def get_values(number,start,end,mode):
     if mode == 'linear': values = get_linear_values(number,start,end)
     elif mode == 'trigon': values = get_trigon_values(number,start,end)
@@ -2949,6 +2886,7 @@ def get_values(number,start,end,mode):
         return []
 
     return values
+
 
 def get_increment_values(number,start=0.0,end=1.0,mode='linear'):
     """
@@ -2969,6 +2907,7 @@ def get_increment_values(number,start=0.0,end=1.0,mode='linear'):
             incr.append(v - act)
             act = v
         return incr
+
 
 def get_frame_states(fstring):
     """Returns a list of (frame,state) tuples parsed from a string like
@@ -3014,7 +2953,6 @@ def get_frame_states(fstring):
             state = firstState + int(stateinc * i)
             framestates.append((frame,state))
 
-
     # put values into mv for compiling the movie later
     if moviedata.maxframe < lastFrame: moviedata.maxframe = lastFrame
     moviedata.add_frame_states(framestates)
@@ -3026,6 +2964,8 @@ def get_frame_states(fstring):
 # Commands revised 
 #
 #
+
+
 def mv_clear():
     """Deletes the movie."""
     moviedata.movie=[]
@@ -3084,6 +3024,7 @@ def mv_move(frames="1",axis="x",distance="0",mode='linear'):
     for i in range(nFrames):
         moviedata.add(framestates[i],"move %s,%f"%(axis,distanceIncrement[i]))
 
+
 def mv_trans(frames="1",axis="x",distance="0",selection='all',mode='linear'):
     """
     mv_move(frames,axis,distance,selection,mode) - moves the selection object over the given
@@ -3099,6 +3040,7 @@ def mv_trans(frames="1",axis="x",distance="0",selection='all',mode='linear'):
         elif axis== 'z': vector = "[0,0,%f]"%(distanceIncrement[i])
         moviedata.add(framestates[i],"translate %s,%s"%(vector,selection))
 
+
 def mv_set(frames="1",variable="",start="0.0",end="1.0",selection='all',mode='linear'):
     """
     mv_set(frames,variable,start,end,selection,mode) - lets a PyMOL variable go through a gradient
@@ -3110,6 +3052,7 @@ def mv_set(frames="1",variable="",start="0.0",end="1.0",selection='all',mode='li
 
     for i in range(nFrames):
         moviedata.add(framestates[i],"set %s,%f,%s"%(variable,values[i],selection))
+
 
 def movie(png_prefix="",ray="0"):
     """
@@ -3166,6 +3109,5 @@ def movie(png_prefix="",ray="0"):
     # now let action happen in the frames
     for i in range(nFrames):
         cmd.mdo(i+1,do[i+1])
-
 
     cmd.mplay() # start the movie

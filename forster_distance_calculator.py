@@ -48,7 +48,6 @@ except: runningpymol='no'; pass
 import os, platform, math
 
 
-
 def forster(D_Exi="ATTO488Exi.txt",D_Emi="ATTO488Emi.txt",A_Exi="ATTO590Exi.txt",A_Emi="ATTO590Emi.txt",A_e_Max_Y=120000,A_e_Max_X=594,Qd=0.8,k2=0.66667,n=1.33,Compare="yes",xunit="nm"):
     A_e_Max_Y=float(A_e_Max_Y);A_e_Max_X=float(A_e_Max_X);Qd=float(Qd);k2=float(k2);n=float(n);NA=6.02214179e+023
     print k2, Qd
@@ -209,20 +208,24 @@ def forster(D_Exi="ATTO488Exi.txt",D_Emi="ATTO488Emi.txt",A_Exi="ATTO590Exi.txt"
     return(ForsterAng)
 if runningpymol !='no': cmd.extend("forster",forster)
 
+
 def ForsterConstFactor6(NA,printAll):
     vForsterConstFactor6 = (9*math.log(10))/(128*math.pow(math.pi,5)*NA)
     if printAll == 'yes': print "Forster constant pre-factor is:", str(vForsterConstFactor6), "(units: mol)"
     return vForsterConstFactor6
+
 
 def ForsterVariableFactor6(Qd,k2,n,printAll):
     vForsterVariableFactor6 = (k2*Qd)/(math.pow(n,4))
     if printAll == 'yes': print "Forster variable pre-factor is:", str(vForsterVariableFactor6), "(units: NIL)"
     return vForsterVariableFactor6
 
+
 def ForsterPrefactor6(Qd,k2,n,NA,printAll):
     vForsterPrefactor6 = ForsterConstFactor6(NA,printAll)*ForsterVariableFactor6(Qd,k2,n,printAll)
     if printAll == 'yes': print "Forster pre-factor is:", str(vForsterPrefactor6), "(units: mol)"
     return vForsterPrefactor6
+
 
 def ForsterCalcnm(fFPreFactor6, fAreaOverlap,printAll):
     if printAll == 'yes': print "Overlap sum is: ", str(fAreaOverlap), "(units: cm-1 nm^4 L mol-1)"
@@ -235,6 +238,7 @@ def ForsterCalcnm(fFPreFactor6, fAreaOverlap,printAll):
     ForsterAng = math.pow(Forster6Ang, 1.0/6.0)
     print "Forster distance:", str(ForsterAng), "(units: Angstrom)"
     return ForsterAng
+
 
 def ForsterCalccm(fFPreFactor6, fAreaOverlap,printAll):
     if printAll == 'yes': print "Overlap sum is: ", str(fAreaOverlap), "(units: cm^3 L mol-1)"
@@ -250,6 +254,7 @@ def ForsterCalccm(fFPreFactor6, fAreaOverlap,printAll):
     print "Forster distance:", str(ForsterAng), "(units: Angstrom)"
     return ForsterAng
 
+
 def ForsterCalc(fFPreFactor6, fAreaOverlap,xunit,printAll):
     if xunit == "nm":
         Value = ForsterCalcnm(fFPreFactor6, fAreaOverlap,printAll)
@@ -257,12 +262,14 @@ def ForsterCalc(fFPreFactor6, fAreaOverlap,xunit,printAll):
         Value = ForsterCalccm(fFPreFactor6, fAreaOverlap,printAll)
     return Value
 
+
 def testfloat(x):
     try:
         v=float(x)
         return x
     except:
         return False
+
 
 def numintegrator(fluarray, col1=0, col2=1):
     xprev = 0; xpres = 0; yprev = 0; ypres = 0; summing = 0

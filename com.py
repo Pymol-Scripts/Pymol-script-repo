@@ -41,6 +41,7 @@ from pymol import cmd
 from pymol import stored
 from chempy import cpv
 
+
 def COM(selection='all', center=0, quiet=1):
 
     model = cmd.get_model(selection)

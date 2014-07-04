@@ -38,6 +38,7 @@ def upl(fname):
     cmd.do ("orient")
     cmd.set ('movie_delay', 1500)
 
+
 def cns(fname):
 
     f=open(fname,'r')

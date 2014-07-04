@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd
 
+
 def show_bumps(selection='(all)', name='bump_check', quiet=1):
     '''
 DESCRIPTION

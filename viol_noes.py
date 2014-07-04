@@ -14,7 +14,6 @@ from pymol import cmd
 
 
 def viol_noes(molecule, viol_file, viol_class=None, quiet=1):
-
     """
 DESCRIPTION
 
@@ -42,12 +41,10 @@ NOTES
     import sys
     import re
 
-
     status = None
     classMk = None
 
     workfile = open(viol_file,'r')
-
 
     for line in workfile.readlines():
 
@@ -80,7 +77,6 @@ NOTES
                 cmd.distance("viol_%d_%s_%s_%d" %(new_id, member1[0], member2[0], alt), " %s & i. %s & n. %s" %(molecule, member1[0], member1[1]), "%s & i. %s & n. %s" % (molecule, member2[0], member2[1]), quiet=int(quiet))
                 cmd.color("o%s" %(int((100)*float(delta))), "viol_%d_%s_%s_%d" %(new_id, member1[0], member2[0], alt))
 
-
             except ValueError:
 
                 alt += 1
@@ -99,10 +95,8 @@ NOTES
                     member1 = (line[0], line[2])
                     member2 = (line[-3], line[-1])
 
-
                 cmd.distance("viol_%d_%s_%s_%d" %(new_id, member1[0], member2[0], alt), " %s & i. %s & n. %s" %(molecule, member1[0], member1[1]), "%s & i. %s & n. %s" % (molecule, member2[0], member2[1]), quiet=int(quiet))
                 cmd.color("o%s" %(int((100)*float(delta))), "viol_%d_%s_%s_%d" %(new_id, member1[0], member2[0], alt))
-
 
     cmd.hide("labels","all")
     cmd.set("dash_radius",0.03)

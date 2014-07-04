@@ -15,6 +15,7 @@ import sys, os
 _aaindex = dict()
 _pymol_auto_arg_update = lambda: None
 
+
 def search(pattern, searchtitle=True, casesensitive=False):
     '''
     Search for pattern in description and title (optional) of all records and
@@ -30,6 +31,7 @@ def search(pattern, searchtitle=True, casesensitive=False):
             matches.append(record)
     return matches
 
+
 def grep(pattern):
     '''
     Search for pattern in title and description of all records (case
@@ -38,11 +40,14 @@ def grep(pattern):
     for record in search(pattern):
         print record
 
+
 class Record:
+
     '''
     Amino acid index (AAindex) Record
     '''
     aakeys = 'ARNDCQEGHILKMFPSTWYV'
+
     def __init__(self):
         self.key = None
         self.desc = ''
@@ -53,41 +58,52 @@ class Record:
         self.correlated = dict()
         self.index = dict()
         self.comment = ''
+
     def extend(self, row):
         i = len(self.index)
         for x in row:
             self.index[self.aakeys[i]] = x
             i += 1
+
     def get(self, aai, aaj=None, d=None):
         assert aaj is None
         return self.index.get(aai, d)
+
     def __getitem__(self, aai):
         return self.get(aai)
+
     def median(self):
         x = sorted(filter(None, self.index.values()))
         half = len(x)/2
         if len(x) % 2 == 1:
             return x[half]
         return (x[half-1] + x[half])/2.0
+
     def __str__(self):
         desc = self.desc.replace('\n', ' ').strip()
         return '%s(%s: %s)' % (self.__class__.__name__, self.key, desc)
 
+
 class MatrixRecord(Record):
+
     '''
     Matrix record for mutation matrices or pair-wise contact potentials
     '''
+
     def __init__(self):
         Record.__init__(self)
         self.index = []
         self.rows = dict()
         self.cols = dict()
+
     def extend(self, row):
         self.index.append(row)
+
     def _get(self, aai, aaj):
         i = self.rows[aai]
         j = self.cols[aaj]
         return self.index[i][j]
+
     def get(self, aai, aaj, d=None):
         try:
             return self._get(aai, aaj)
@@ -97,8 +113,10 @@ class MatrixRecord(Record):
             return self._get(aaj, aai)
         except:
             return d
+
     def __getitem__(self, aaij):
         return self.get(aaij[0], aaij[1])
+
     def median(self):
         x = []
         for y in self.index:
@@ -108,6 +126,7 @@ class MatrixRecord(Record):
             return x[len(x)/2]
         return sum(x[len(x)/2-1:len(x)/2+1])/2.0
 
+
 def get(key):
     '''
     Get record for key
@@ -116,10 +135,12 @@ def get(key):
         init()
     return _aaindex[key]
 
+
 def _float_or_None(x):
     if x == 'NA' or x == '-':
         return None
     return float(x)
+
 
 def init(path=None, index='13'):
     '''
@@ -142,8 +163,10 @@ def init(path=None, index='13'):
         _parse(path + '/aaindex3', MatrixRecord)
     _pymol_auto_arg_update()
 
+
 def init_from_file(filename, type=Record):
     _parse(filename, type)
+
 
 def _parse(filename, rec, quiet=True):
     '''
@@ -253,6 +276,7 @@ to_one_letter_code = {'PAQ': 'Y', 'AGM': 'R', 'ILE': 'I', 'PR3': 'C',
                       'KCX': 'K', 'SHC': 'C', 'C5C': 'C', 'HTR': 'W', 'ARG': 'R', 'TYS': 'Y',
                       'ARM': 'R', 'DNP': 'A'}
 
+
 def aaindex2b(key='KYTJ820101', selection='(all)', quiet=0, var='b'):
     '''
 DESCRIPTION
@@ -295,6 +319,7 @@ EXAMPLE
     stored.aaindex = lookup
 
     cmd.alter(selection, var + '=stored.aaindex(resn)')
+
 
 def pmf(key, cutoff=7.0, selection1='(name CB)', selection2='', state=1, quiet=1):
     '''
@@ -395,6 +420,7 @@ try:
     from pymol import cmd
     cmd.extend('aaindex2b', aaindex2b)
     cmd.extend('pmf', pmf)
+
     def pymol_auto_arg_update():
         aaindexkey_sc = cmd.Shortcut(_aaindex.keys())
         cmd.auto_arg[0].update({

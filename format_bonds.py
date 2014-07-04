@@ -20,6 +20,7 @@ VERSION NOTES:
 from pymol import cmd
 from pymol import stored
 
+
 def format_bonds(
     selection='all',
     bonds=4,
@@ -274,7 +275,6 @@ ARGUMENTS
     else:
         lines=1
         print "Formating as double bonds"
-
 
     # for all tuples (i.e format_dict.keys())
     for p in format_dict.keys():

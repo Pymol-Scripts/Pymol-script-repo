@@ -92,12 +92,17 @@ try:
     REAL_PYMOL = True
 except ImportError:
     REAL_PYMOL = False
+
     class pymol:
+
         class cmd:
+
             def load(self,name,sel=''):
                 pass
+
             def get_names(self):
                 return ['mol1','mol2','map1','map2']
+
             def get_type(self,thing):
                 if thing.startswith('mol'):
                     return 'object:molecule'
@@ -106,6 +111,7 @@ except ImportError:
                 f.close()
         cmd = cmd()
     pymol = pymol()
+
 
 def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command',
@@ -123,7 +129,10 @@ defaults = {
 }
 
 #   "atomselection": "all",
+
+
 class FileDialogButtonClassFactory:
+
     def get(fn,filter='*'):
         """This returns a FileDialogButton class that will
         call the specified function with the resulting file.
@@ -137,6 +146,7 @@ class FileDialogButtonClassFactory:
                 self.__toggle = 0
                 apply(Tkinter.Button.__init__, (self, master, cnf), kw)
                 self.configure(command=self.set)
+
             def set(self):
                 fd = PmwFileDialog(self.master,filter=filter)
                 fd.title('Please choose a file')
@@ -146,9 +156,12 @@ class FileDialogButtonClassFactory:
         return FileDialogButton
     get = staticmethod(get)
 
+
 class MOLETools:
+
     def setBinaryLocation(self,value):
         self.binlocation.setvalue(value)
+
     def __init__(self,app):
         parent = app.root
         self.parent = parent
@@ -204,7 +217,6 @@ class MOLETools:
 
         for entry in (self.selection,self.binlocation,self.numbertunnels):
             entry.pack(fill='x',padx=4,pady=1) # vertical
-
 
         labframe = Tkinter.Frame(group.interior())
         labframe.pack(fill='x',padx=4,pady=2)
@@ -385,6 +397,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
     def show_error1(self,message):
         error_dialog1 = Pmw.MessageDialog(self.parent, title = 'Error',message_text = message)
         junk1 = error_dialog1.activate()
+
     def showCrisscross(self):
         startpoint=(float(self.xlocvar.get()),float(self.ylocvar.get()),float(self.zlocvar.get()))
         cmd.delete("crisscross")
@@ -621,6 +634,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                 global MOLE_BINARY_LOCATION
                 MOLE_BINARY_LOCATION = self.binlocation.getvalue()
                 self.dialog.withdraw()
+
     def TestProgram(self,cmd):
         pathtoprog = os.path.join(os.path.split(MOLE_BINARY_LOCATION)[0],cmd)
         print '\nTesting command:',pathtoprog
@@ -772,6 +786,7 @@ import os,fnmatch,time
 import Tkinter,Pmw
 #Pmw.setversion("0.8.5")
 
+
 def _errorpop(master,text):
     d=Pmw.MessageDialog(master,
                         title="Error",
@@ -781,8 +796,11 @@ def _errorpop(master,text):
     d.activate()
     d.destroy()
 
+
 class PmwFileDialog(Pmw.Dialog):
+
     """File Dialog using Pmw"""
+
     def __init__(self, parent = None, **kw):
         # Define the megawidget options.
         optiondefs = (
@@ -1088,7 +1106,9 @@ class PmwFileDialog(Pmw.Dialog):
            exist"""
         return 1
 
+
 class PmwExistingFileDialog(PmwFileDialog):
+
     def filevalidate(self,string):
         if os.path.isfile(string):
             return Pmw.OK
@@ -1108,6 +1128,7 @@ class PmwExistingFileDialog(PmwFileDialog):
 # Create demo in root window for testing.
 if __name__ == '__main__':
     class App:
+
         def my_show(self,*args,**kwargs):
             pass
 

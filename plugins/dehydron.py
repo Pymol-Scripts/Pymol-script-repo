@@ -153,9 +153,9 @@ Springer-Verlag, Berlin, Heidelberg (2010).
 
     master.mainloop()
 
+
 def colorize():
     cmd.hide('(not (name C+CA+N+O))')
-
 
     cmd.spectrum('b', 'red_yellow_green', minimum='-1.0', maximum='1.0')
     cmd.select('missing', 'b = -2.0')
@@ -178,7 +178,6 @@ USAGE
     desolv, min_wrappers, max_wrappers = float(desolv), int(min_wrappers), int(max_wrappers)
     quiet = int(quiet)
 
-
     DH_name = cmd.get_legal_name('DH_%s' % selection)
     cmd.delete(DH_name)
     HBA_name = cmd.get_legal_name('HBA_%s' % selection)
@@ -188,7 +187,6 @@ USAGE
 
     selection_hb = '((%s) and polymer)' % (selection)
     hb = cmd.find_pairs("((byres "+selection_hb+") and n. n)","((byres "+selection_hb+") and n. o)",mode=1,cutoff=max_distance,angle=angle_range)
-
 
     cmd.select('_nonpolar', '(elem C) and not (solvent or (elem N+O) extend 1)', 0)
     try:
@@ -228,7 +226,6 @@ USAGE
     z_score_wrappers = ((total_wrappers/total_residues) - 17) / 2
     z_score_hb = ((len(hb)/total_residues) - 0.62) / 0.06
 
-
     if len(low_sel) > 0:
         cmd.show_as('dashes', DH_name)
         cmd.color('red', DH_name)
@@ -241,7 +238,6 @@ USAGE
         cmd.show_as('dashes', HBO_name)
         cmd.color('green', HBO_name)
         high_sel.sort()
-
 
     if not quiet:
         hb.sort(lambda x,y:(cmp(x[0][1],y[0][1])))

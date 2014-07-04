@@ -37,6 +37,7 @@ default_mode = 'Search'
 default_vdwRestraints = "tight"
 internalClash_cutoff = 2.5
 
+
 def __init__(self):
     self.menuBar.addmenuitem('Wizard', 'command',
                              'MtsslWizard',
@@ -46,7 +47,10 @@ def __init__(self):
 ##########################
 #wizard class            #
 ##########################
+
+
 class MtsslWizard(Wizard):
+
     def __init__(self):
         #print platform.system()
         Wizard.__init__(self)
@@ -140,21 +144,27 @@ class MtsslWizard(Wizard):
         def mtssl():
             tmp=MtsslLabel("tmp")
             return tmp
+
         def proxyl():
             tmp=ProxylLabel("tmp")
             return tmp
+
         def dota1():
             tmp=Dota1Label("tmp")
             return tmp
+
         def bysp():
             tmp=ByspLabel("tmp")
             return tmp
+
         def urip():
             tmp=UripLabel("tmp")
             return tmp
+
         def clabel():
             tmp=CLabel("tmp")
             return tmp
+
         def pacphe():
             tmp=PAcPheLabel("tmp")
             return tmp
@@ -233,6 +243,7 @@ class MtsslWizard(Wizard):
                 [ 2, 'Done','cmd.set_wizard()']
             ]
     #reset wizard to defaults
+
     def reset(self):
         self.running = False
         self.toggleStatesCaption='Toggle states: ON'
@@ -471,21 +482,27 @@ class MtsslWizard(Wizard):
             def mtssl():
                 tmp=MtsslLabel("tmp")
                 return tmp.spinLocation
+
             def proxyl():
                 tmp=ProxylLabel("tmp")
                 return tmp.spinLocation
+
             def dota1():
                 tmp=Dota1Label("tmp")
                 return tmp.spinLocation
+
             def bysp():
                 tmp=ByspLabel("tmp")
                 return tmp.spinLocation
+
             def urip():
                 tmp=UripLabel("tmp")
                 return tmp.spinLocation
+
             def clabel():
                 tmp=CLabel("tmp")
                 return tmp.spinLocation
+
             def pacphe():
                 tmp=PAcPheLabel("tmp")
                 return tmp.spinLocation
@@ -819,6 +836,8 @@ class MtsslWizard(Wizard):
 ##########################
 #start wizard            #
 ##########################						  
+
+
 def open_wizard():
     wiz = MtsslWizard()
     cmd.set_wizard(wiz)
@@ -826,9 +845,12 @@ def open_wizard():
 ##########################
 #helper functions        #
 ##########################
+
+
 def generateRandomChiAngle():
     chi=random.random()*360.0
     return chi
+
 
 def generatePeptideChiAngle():
     deltaChi=numpy.random.randint(-10,10)
@@ -837,6 +859,7 @@ def generatePeptideChiAngle():
     else:
         chi=0+deltaChi
     return chi
+
 
 def calculateStatistics2(distances):
     statisticsResult=""
@@ -853,10 +876,12 @@ def calculateStatistics2(distances):
     statisticsResult+= "Longest distance: %3.2f" %longest
     return statisticsResult
 
+
 def numberOfVdwContacts(atoms, environmentAtoms, cutoff):
     dist=scipy.spatial.distance.cdist(environmentAtoms, atoms)
     vdwContacts=len(dist[numpy.nonzero((dist > cutoff) & (dist < 4.5 ))])
     return vdwContacts
+
 
 def quick_dist2(atoms1, atoms2):
     # if there is only one atom it has to be duplicated for quick_dist2 to work
@@ -891,6 +916,7 @@ def quick_dist2(atoms1, atoms2):
 
     return dist
 
+
 def internalClash2(atoms, refDist):
     #distances in new rotamer
     dist=scipy.spatial.distance.cdist(atoms, atoms)
@@ -906,6 +932,7 @@ def internalClash2(atoms, refDist):
     else:
         return False
 
+
 def quickClash(rotatedAtoms, environmentAtoms, cutoff, maxClash):
     dist=scipy.spatial.distance.cdist(environmentAtoms, rotatedAtoms)
     clashes=len(numpy.nonzero(dist < cutoff)[0])
@@ -914,6 +941,7 @@ def quickClash(rotatedAtoms, environmentAtoms, cutoff, maxClash):
     else:
         return False
     return False
+
 
 def rotatePoints(points, rotationMatrix):
     rotatedPoints=[]
@@ -927,6 +955,7 @@ def rotatePoints(points, rotationMatrix):
         rotatedPoint=numpy.delete(rotatedPoint, 3)
         rotatedPoints.append(rotatedPoint)
     return numpy.array(rotatedPoints)
+
 
 def setupRotationMatrix(angle, axisPoint):
     #print axisPoint
@@ -964,6 +993,8 @@ def setupRotationMatrix(angle, axisPoint):
 #Label classes           																#
 #after adding a new class, don't forget to make changes in 'run',and add it to the GUI! # 
 #########################################################################################
+
+
 class MtsslLabel:
     identifier = "M-T-S-S-L"
     modifiedAA = True
@@ -1100,6 +1131,7 @@ ATOM      7 CS11 URI A   6     -24.829  73.681  18.029  0.00  0.00           C\n
     def __init__(self, pymolName):
         self.pymolName = pymolName
 
+
 class CLabel:
     identifier = "C-L-A-B-E-L"
     modifiedAA = False
@@ -1148,6 +1180,7 @@ HETATM   32  C23 EXC B   2      12.956  -1.146  15.215  1.00 19.65           C  
 
     def __init__(self, pymolName):
         self.pymolName = pymolName
+
 
 class Dota1Label:
     identifier = "D-O-T-A-1"
@@ -1214,6 +1247,7 @@ ATOM     38 Gd   DTA A   1       9.943   5.855   0.862  0.00  0.00          GD\n
     def __init__(self, pymolName):
         self.pymolName = pymolName
 
+
 class ByspLabel:
     identifier = "B-Y-S-P"
     modifiedAA = True
@@ -1263,6 +1297,7 @@ ATOM     90  SG4 BYSP   16       7.715  30.249  31.870  1.00  0.00      A\n"""
 
     def __init__(self, pymolName):
         self.pymolName = pymolName
+
 
 class PAcPheLabel:
     identifier = "p-A-c-P-h-e"

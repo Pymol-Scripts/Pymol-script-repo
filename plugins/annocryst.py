@@ -23,6 +23,7 @@ from datetime import datetime
 from user import home
 import platform
 
+
 def __init__(self):
     self.annotationService = None
     self.menuBar.addmenuitem('Plugin', 'command',
@@ -34,16 +35,19 @@ def __init__(self):
     cmd.extend('remoteurl', lambda pdbURL, s=self : readRemoteURL(pdbURL,s))
     cmd.extend('remotepdb', lambda pdbCode, s=self : readRemotePDB(pdbCode,s))
 
+
 def createAnnotationService(app):
     if (app.annotationService == None):
         app.annotationService = AnnotationService(app)
     else:
         app.annotationService.dialog.show()
 
+
 def showAllAnnotations(model, app):
     if (app.annotationService == None):
         createAnnotationService(app)
     app.annotationService.showAllAnnotations(model)
+
 
 def annotateFromCmd(app):
     # selection, type, description, 
@@ -52,18 +56,24 @@ def annotateFromCmd(app):
     app.annotationService.annotate()
 
 # Load a remote file: specify the full URL    
+
+
 def readRemoteURL(pdbURL, app):
     if (app.annotationService == None):
         createAnnotationService(app)
     app.annotationService.openRemote(pdbURL)
 
 # Load a remote file: specify the pdb code only
+
+
 def readRemotePDB(pdbCode, app):    
     if (app.annotationService == None):
         createAnnotationService(app)
     app.annotationService.openRemoteByPDBCode(pdbCode)
 
+
 class AnnotationService:
+
     def __init__(self,app):
         print("\nWrite the following in the PyMOL command window:")
         print("remotepdb 3ait")
@@ -324,7 +334,6 @@ class AnnotationService:
         copyButton.clipboard_clear()
         copyButton.clipboard_append(self.selectedText, type='STRING')
 
-
     def deleteAnnotation(self):
         anno = self.selectedAnno
         if anno != None and anno != '':
@@ -489,13 +498,13 @@ class AnnotationService:
                     if keyword != '':
                         print "Warning: Invalid keyword \'%s\' not added to annotation" % keyword
 
-
         anno += "</r:Description></r:RDF>"
         return anno
 
     def refreshAnnotationView(self, page = None):
         if page == None or (page == 'Browse Annotations' and not self.annotationsLoaded):
             self.showAllAnnotations()
+
     def clearAnnotations(self):
         self.tree_item = AnnotationTreeItem("",isTopLevel=True)
         self.node = AnnotationTreeNode(self.sc.component('canvas'), 
@@ -544,7 +553,6 @@ class AnnotationService:
         except HTTPError, e:
             print "Unable to load annotations"
             self.status.setvalue("Unable to load annotations")
-
 
     def updateDescriptionUI(self,result):
         # changes the UI depending on the type of annotation being created
@@ -626,7 +634,9 @@ class AnnotationService:
 
 ## tree widget classes for displaying ontology keywords
 
+
 class OntologyTreeNode(TreeNode):
+
     def __init__(self, canvas, parent, item):
         TreeNode.__init__(self, canvas, parent, item)
         self.classicon = """
@@ -634,6 +644,7 @@ R0lGODdhEAAQAOMPAAAAAIAAAACAAICAAAAAgIAAgACAgMDAwICAgP8AAAD/AP//AAAA//8A/wD/
 /////ywAAAAAEAAQAAAEI/DJSau9+IXN9+2g1VFexWVkiWoqeq5sAMfi974miIvh7GMRADs=
 """
     # overload to load the icon from a string instead of from an image file
+
     def geticonimage(self, name):
         if name == "none":
             return None;
@@ -665,6 +676,7 @@ R0lGODdhEAAQAOMPAAAAAIAAAACAAICAAAAAgIAAgACAgMDAwICAgP8AAAD/AP//AAAA//8A/wD/
 
 
 class OntologyTreeItem(TreeItem):
+
     def __init__(self, node, class_dict=None):
         self.children = []
         self.node = node
@@ -761,6 +773,8 @@ class OntologyTreeItem(TreeItem):
             return "Class"
 
 ## tree widget classes for displaying annotations           
+
+
 class AnnotationTreeNode(TreeNode):
 
     def __init__(self, canvas, parent, item):
@@ -848,6 +862,7 @@ RBmyQYWKDiMgIMDSEFWaHUae/DhBoYEGIWO2wDkkkBGeUrJiTZpxgQ5ixUD6zOLDKogAAlQA0Wlk
 50CENn9WzOoyawAmRbNkuTolCsUlMaEKzMoTKguNNQEA6F4gg8weKhhmefoCKNSmJRWscCl+XEIZ
 gZKaWEhQos4qREQmGPDAZlZAADs=
 """
+
     def setannotationservice(self, as1):
         self.annotationservice = as1
 
@@ -907,7 +922,6 @@ gZKaWEhQos4qREQmGPDAZlZAADs=
             if text.find("http") == 0:
                 webbrowser.open(text)
 
-
     #overload to set annotation service for context highlighting
     def draw(self,x,y):
         result = TreeNode.draw(self,x,y)
@@ -915,7 +929,9 @@ gZKaWEhQos4qREQmGPDAZlZAADs=
             child.setannotationservice(self.annotationservice)
         return result
 
+
 class AnnotationTreeItem(TreeItem):
+
     def __init__(self, annotation, isTopLevel=False, label=None, id=None):
         if annotation != "":
             self.anno = annotation
@@ -934,7 +950,6 @@ class AnnotationTreeItem(TreeItem):
         if annotation != "" and annotation.nodeType == annotation.ELEMENT_NODE and \
                 annotation.nodeName == "rdf:Description":
             self.annoID = annotation.getAttributeNS('http://www.w3.org/1999/02/22-rdf-syntax-ns#','about')
-
 
     def GetText(self):
         node = self.anno
@@ -967,7 +982,6 @@ class AnnotationTreeItem(TreeItem):
                 return nName
             elif node.nodeType == node.TEXT_NODE:
                 return node.nodeValue
-
 
     def IsExpandable(self):
         if self.isLeaf or self.label == "body":
@@ -1030,6 +1044,8 @@ class AnnotationTreeItem(TreeItem):
         return bodyContentStr.strip()
 
 # override urllib2 Request to support HTTP DELETE request
+
+
 class RequestWithMethod(urllib2.Request):
 
     def __init__(self, url, data=None, headers={}, origin_req_host=None, 

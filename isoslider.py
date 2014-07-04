@@ -15,8 +15,10 @@ from pymol import cmd, plugins
 DIGITS = 1
 DELTA = 10**(-DIGITS)
 
+
 def __init_plugin__(self=None):
     plugins.addmenuitem('Isocontour Slider', isoslider)
+
 
 def get_isoobjects(state=1, quiet=1):
     '''
@@ -34,23 +36,31 @@ def get_isoobjects(state=1, quiet=1):
             r.append((name, level))
     return r
 
+
 class LevelVar(Tkinter.Variable):
+
     '''
     Tk variable that is bound to an isocontour object
     '''
+
     def __init__(self, master, name, level):
         Tkinter.Variable.__init__(self, master, value=level)
         self.name = name
         self.trace('w', self.callback)
+
     def callback(self, *args):
         cmd.isolevel(self.name, self.get())
+
     def increment(self, event=None, delta=DELTA):
         self.set(round(float(self.get()) + delta, 2))
+
     def decrement(self, event=None):
         self.increment(None, -DELTA)
+
     def bindscrollwheel(self, element):
         element.bind('<Button-4>', self.increment)
         element.bind('<Button-5>', self.decrement)
+
 
 def isoslider(mm=5.0):
     '''
@@ -63,6 +73,7 @@ DESCRIPTION
     master = Tkinter.Frame(top, padx=5, pady=5)
     master.pack(fill="both", expand=1)
     mmvar = Tkinter.DoubleVar(top, value=mm)
+
     def fillmaster():
         ffmt = '%.' + str(DIGITS) + 'f'
         for child in master.children.values():

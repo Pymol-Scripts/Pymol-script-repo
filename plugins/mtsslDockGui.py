@@ -40,7 +40,9 @@ def __init__(self):
 
 #-----------------------------------------------------------------------------------------
 
+
 class ImportDialog(Pmw.Dialog):
+
     def __init__(self, parent = None, **kw):
         # Initialise base class
         Pmw.Dialog.__init__(self, parent, **kw)
@@ -79,7 +81,9 @@ class ImportDialog(Pmw.Dialog):
 
 #-----------------------------------------------------------------------------------------
 
+
 class SettingsDialog(Pmw.Dialog):
+
     def __init__(self, parent = None, **kw):
         # Initialise base class (after defining options).
         Pmw.Dialog.__init__(self, parent, **kw)
@@ -121,7 +125,9 @@ class SettingsDialog(Pmw.Dialog):
 
 #-----------------------------------------------------------------------------------------		
 
+
 class ABselect(Tkinter.Frame):
+
     def __init__( self, parent, **options ):
         Tkinter.Frame.__init__( self, parent, **options )
         self.checkbuttons = Pmw.RadioSelect(self,
@@ -139,7 +145,10 @@ class ABselect(Tkinter.Frame):
         self.objectLabel.pack(side = Tkinter.LEFT)
 
 #-----------------------------------------------------------------------------------------
+
+
 class DockingFrame(Tkinter.Frame):
+
     def __init__( self, parent, result, **options ):
         Tkinter.Frame.__init__( self, parent, **options )
 
@@ -166,7 +175,10 @@ class DockingFrame(Tkinter.Frame):
             labelSelector.labelText.set(pymolObject)
             self.listOfLabelSelectors.append(labelSelector)
 #-----------------------------------------------------------------------------------------
+
+
 class ResultsFrame(Tkinter.Frame):
+
     def __init__( self, parent, result, **options ):
         Tkinter.Frame.__init__( self, parent, **options )
         self.result = result
@@ -278,7 +290,6 @@ class ResultsFrame(Tkinter.Frame):
                     selectedSolution = population.chromosomes[0]
             cmd.zoom(selectedSolution.name)
 
-
             #print loglines
             loglines = selectedSolution.log.splitlines()
 
@@ -309,7 +320,6 @@ class ResultsFrame(Tkinter.Frame):
                     selectedSolution = population.chromosomes[0]
                     selectedPopulation = population
             cmd.zoom(selectedSolution.name)
-
 
             #print loglines
             loglines = selectedPopulation.log.splitlines()
@@ -405,6 +415,7 @@ class ResultsFrame(Tkinter.Frame):
 
 
 class StatusBar(Tkinter.Frame):
+
     def __init__( self, parent, **options ):
         Tkinter.Frame.__init__( self, parent, **options )
         #########
@@ -431,6 +442,7 @@ class StatusBar(Tkinter.Frame):
 class mtsslDockPlugin:
 
     #-------------------------------------------------------------------------------------
+
     def __init__(self, app):
         self.reset()
         self.parent = app.root
@@ -519,7 +531,6 @@ class mtsslDockPlugin:
         self.tframe.pack(fill = 'both', anchor='n', expand = 1, padx = 10, pady = 5)
         self.statusbar.messagebar.message('state', 'Waiting for input...')
 
-
     #-------------------------------------------------------------------------------------
 
     def loadResult(self):
@@ -536,7 +547,6 @@ class mtsslDockPlugin:
             self.notebook.tab(newTitle).focus_set()
             resultsFrame = ResultsFrame(self.notebookpages[newTitle], results)
             resultsFrame.pack(fill = 'both',expand = 1, anchor='w', padx = 10, pady = 5)
-
 
     #-------------------------------------------------------------------------------------
 
@@ -565,7 +575,6 @@ class mtsslDockPlugin:
         self.notebook.tab(newTitle).focus_set()
         resultsFrame = ResultsFrame(self.notebookpages[newTitle], self.dockingRuns[key])
         resultsFrame.pack(fill = 'both',expand = 1, anchor='w', padx = 10, pady = 5)
-
 
     #-------------------------------------------------------------------------------------	
 
@@ -628,8 +637,6 @@ class mtsslDockPlugin:
             self.dockingThread.start()
             self.parent.after(50, self.check_myQueue)
             self.parent.after(50, self.check_thread)
-
-
 
         #while self.idle == False:
         #	print "Working"
@@ -791,7 +798,6 @@ class mtsslDockPlugin:
         expDistances = numpy.reshape(expDistances, (-1, 1))
         expErrors = numpy.reshape(expErrors, (-1, 1))
 
-
         testing = False
         if testing:
             ###For testing: choose random distances
@@ -843,9 +849,6 @@ class mtsslDockPlugin:
             print expErrors
             ####
 
-
-
-
         results['constraints'] = expDistances
         #print expDistances
         noDataIndices = numpy.where(expDistances == 0)[0]
@@ -857,9 +860,6 @@ class mtsslDockPlugin:
 
         print "exp distances: "
         print expDistances
-
-
-
 
         myView = cmd.get_view()
         #cmd.delete("*solution*")
@@ -886,7 +886,6 @@ class mtsslDockPlugin:
         cmd.iterate_state(1, "%s & name ca" %self.proteinBpymolString, 'stored.atoms.append((x,y,z))')
         allPositionsProteinB = numpy.array(stored.atoms)
         proteinB = Protein(self.labelPositionsProteinB, allPositionsProteinB, self.proteinBpymolString)
-
 
         #move both to origin
         proteinA.moveToOrigin(proteinA.labelAtomsCog)
@@ -932,8 +931,6 @@ class mtsslDockPlugin:
             self.myQueue.put(1)
             #self.statusbar.progressbar["value"] += i
 
-
-
         #prepare for rigid body
         tmpBestSolutions = []
         for population in environment1.populations:
@@ -957,9 +954,6 @@ class mtsslDockPlugin:
         #	for solution in population.chromosomes:
         #		print solution.printChromosomeWithoutClashes()
 
-
-
-
         environment1.scoreClashes = self.scoreClashes
         environment1.farAwayPenalty = self.farAwayPenalty
         environment1.applySelectionPressure()
@@ -980,7 +974,6 @@ class mtsslDockPlugin:
             #	print ("Pop. %s:" %(population.name)),
             #	population.chromosomes[0].printChromosome()
             self.myQueue.put(1)
-
 
         #create solutions
         print ""
@@ -1023,7 +1016,6 @@ class mtsslDockPlugin:
         self.dockingRuns[key]['settings'] = settings
         self.dockingRuns[key]['environment'] = environment1
 
-
     #-------------------------------------------------------------------------------------
 
     def getPymolObjects(self, selection):
@@ -1033,9 +1025,6 @@ class mtsslDockPlugin:
 
     def quit(self):
         self.dialog.withdraw()
-
-
-
 
 
 ##########################################################################################
@@ -1054,12 +1043,14 @@ def createPseudoatom (coordinates, objectName, state):
 
 #-----------------------------------------------------------------------------------------
 
+
 def quickClash(atomsProteinA, atomsProteinB, cutoff):
     dist=scipy.spatial.distance.cdist(atomsProteinA, atomsProteinB)
     clashes=len(numpy.nonzero(dist < cutoff)[0])
     return clashes
 
 #-----------------------------------------------------------------------------------------
+
 
 def quickDist2(atoms1, atoms2):
     # if there is only one atom it has to be duplicated for quick_dist2 to work
@@ -1093,6 +1084,7 @@ def quickDist2(atoms1, atoms2):
 ##########################################################################################
 
 #-----------------------------------------------------------------------------------------
+
 
 class Protein:
 
@@ -1273,8 +1265,6 @@ class Protein:
 
             #print "zVector angle should be 0 again:", self.getAngle(zVector, numpy.array([0,0,1]))
 
-
-
             #print "Rotated back along x: ", self.getAngle(orientationVector, numpy.array([1,0,0])), self.getAngle(orientationVector, numpy.array([0,1,0])), self.getAngle(orientationVector, numpy.array([0,0,1]))
             #print "Rotated back to 1,0,0 xaxis: ", self.getAngle(orientationVector, numpy.array([1,0,0])), self.getAngle(orientationVector, numpy.array([0,1,0])), self.getAngle(orientationVector, numpy.array([0,0,1]))
 
@@ -1293,7 +1283,6 @@ class Protein:
             else:
                 self.allAtoms = newPosition
             return
-
 
     #-------------------------------------------------------------------------------------
 
@@ -1348,6 +1337,7 @@ class Protein:
 
 #-----------------------------------------------------------------------------------------
 
+
 class Environment:
 
     #-------------------------------------------------------------------------------------
@@ -1376,7 +1366,6 @@ class Environment:
 
         if self.scoreClashes:
             clashes = quickClash(self.proteinA.allAtoms, trialAtomsProteinB, 3.5)
-
 
         fitnessResults = [rmsd, chi2, clashes]
         return fitnessResults
@@ -1421,6 +1410,7 @@ class Environment:
             population.rank()
 
 #-----------------------------------------------------------------------------------------
+
 
 class Population:
 
@@ -1632,6 +1622,7 @@ class Population:
 
 #-----------------------------------------------------------------------------------------
 
+
 class Chromosome:
 
     #-------------------------------------------------------------------------------------
@@ -1656,7 +1647,6 @@ class Chromosome:
         self.c2RotationAngles = numpy.zeros(3)
         self.c2CrossProduct = numpy.zeros(3)
         self.zAngle = 0
-
 
     #-------------------------------------------------------------------------------------
 
@@ -1689,22 +1679,30 @@ class Chromosome:
         #print string
         return string
 
+
 class ConsoleText(Tkinter.Text):
+
     '''A Tkinter Text widget that provides a scrolling display of console
     stderr and stdout.'''
 
     class IORedirector(object):
+
         '''A general class for redirecting I/O to this Text widget.'''
+
         def __init__(self,text_area):
             self.text_area = text_area
 
     class StdoutRedirector(IORedirector):
+
         '''A class for redirecting stdout to this Text widget.'''
+
         def write(self,str):
             self.text_area.write(str,False)
 
     class StderrRedirector(IORedirector):
+
         '''A class for redirecting stderr to this Text widget.'''
+
         def write(self,str):
             self.text_area.write(str,True)
 

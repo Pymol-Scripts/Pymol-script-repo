@@ -1,4 +1,6 @@
 from pymol import cmd
+
+
 def removealt(obj="(all)", keep="A"):
     """
     removeAlt -- remove all alternate location-atoms not of altloc "keep" from object.

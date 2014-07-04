@@ -19,7 +19,6 @@ from math import *
 import os, re
 
 
-
 def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1=str(0), resi2=str(0), atom='CA', listlength=5, showsticks='yes'):
     if molecule1=="NIL":
         assert len(cmd.get_names())!=0, "Did you forget to load a molecule? There are no objects in pymol."
@@ -95,7 +94,6 @@ def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1
         ClosedOrderedPos.append((0,0,0))
     for i in range(int(stored.OpenPDB[-1][0])+1):
         BackboneDisp.append([i,0,"NIL",atom])
-
 
     ### Fill in data the right places
     j=0
@@ -292,23 +290,29 @@ def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1
             cmd.show("sticks", name)
 cmd.extend("dispmap",dispmap)
 
+
 def create_nXn_matrix(n):
     return [[0.0 for x in range(n)] for x in range(n)]
+
 
 def distance(array1, array2, i, j):
     i = int(i); j = int(j)
     dist = sqrt((array1[i][0] - array2[j][0])**2 + (array1[i][1] - array2[j][1])**2 + (array1[i][2] - array2[j][2])**2)
     return dist
 
+
 def Coord(Input):
     print cmd.get_atom_coords(Input)
 cmd.extend("Coord",Coord)
 
+
 def replace_words(text, word_dic):
     rc = re.compile('|'.join(map(re.escape, word_dic)))
+
     def translate(match):
         return word_dic[match.group(0)]
     return rc.sub(translate, text)
+
 
 def shortaa(longaa):
     aa_dic = {'ARG':'R','HIS':'H','LYS':'K',
@@ -317,6 +321,7 @@ def shortaa(longaa):
               'CYS':'C','SEC':'U','GLY':'G','PRO':'P',
               'ALA':'A','ILE':'I','LEU':'L','MET':'M','PHE':'F','TRP':'W','TYR':'Y','VAL':'V'}
     return(replace_words(longaa, aa_dic))
+
 
 def cysb62(aa):
     #BLOSUM62 cys mutation
@@ -328,6 +333,7 @@ def cysb62(aa):
                'C':'9','U':'9','G':'-3','P':'-3',
                'A':'0','I':'-1','L':'-1','M':'-1','F':'-2','W':'-2','Y':'-2','V':'-1'}
     return(replace_words(aa, b62_dic))
+
 
 def pam250(aa):
     #   A  R  N  D  C  Q  E  G  H  I  L  K  M  F  P  S  T  W  Y  V

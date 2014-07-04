@@ -17,6 +17,7 @@ SEE ALSO
 
 from pymol import cmd
 
+
 def com(selection,state=None,mass=None,object=None, quiet=1, **kwargs):
     quiet = int(quiet)
     if (object == None):
@@ -42,6 +43,7 @@ def com(selection,state=None,mass=None,object=None, quiet=1, **kwargs):
             cmd.show("spheres", 'last ' + object)
 
 cmd.extend("com",com)
+
 
 def get_com(selection,state=1,mass=None, quiet=1):
     """

@@ -1,6 +1,8 @@
 from Tkinter import *
 from pymol import cmd
 from tkFileDialog import *
+
+
 def __init__(self):
 
     self.menuBar.addcascademenu('Plugin', 'MyPlugin', 'CASTp file selection',
@@ -25,6 +27,7 @@ def __init__(self):
 
 
 class Feedback:
+
     def __init__(self,app):
         import os
         import string
@@ -55,11 +58,11 @@ class Feedback:
         bQuit.pack(side="left")
 
 
-
 #######################################################################################################
 # Get pocket information from CASTp web server database.                                              #
 #######################################################################################################
 class RemotePDB:
+
     def __init__(self,app):
         import tkSimpleDialog
         import tkMessageBox
@@ -178,8 +181,6 @@ class RemotePDB:
             pids.reverse()
             #####################################################################
 
-
-
             # Load the pocket information into pyMOL!  This section is a little messy.
             #  There is a bug!  If there are too many atoms in the pocket, it can't load
             #  them all.  Need to find a way around this.
@@ -262,7 +263,10 @@ class RemotePDB:
 ############################################################################################################
 # Get pocket information from the CASTp web server by job ID                                               #
 ############################################################################################################
+
+
 class RemoteJob:
+
     def __init__(self,app):
         import tkSimpleDialog
         import tkMessageBox
@@ -389,7 +393,10 @@ class RemoteJob:
 #######################################################################################################
 # Load pocket information from files on the local machine                                             #
 #######################################################################################################
+
+
 class LocalPDB:
+
     def __init__(self,app):
         import tkMessageBox
         import tkFileDialog

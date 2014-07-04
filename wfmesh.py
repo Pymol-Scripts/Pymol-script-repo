@@ -18,6 +18,8 @@ from pymol.callback import Callback
 from pymol import cmd 
 
 # Wrapper Function, to create a given WFObj with a specific name (flip = 1 if OpenFX + Crossroads used)
+
+
 def createWFObj(file, name,translate=[0,0,0],flip=0):
     obj = WFMesh(file,translate,flip)
     cmd.load_callback(obj,name)
@@ -49,7 +51,6 @@ class WFMesh(Callback):
                 # Find section line
                 if line[0] == 'g':    self.sections[len(self.polys)] = dat[1] 
 
-
     # Compute the normals for each polygon and each vertex              
     def computeNorms(self):
 
@@ -68,7 +69,6 @@ class WFMesh(Callback):
             # Compute poly normal
             polynorm = self.cross(v12,v13) 
             norm = self.normalize(polynorm)
-
 
             # Files created by OpenFX, Crossroads combination need have their normals flipped       
             if self.flip:
@@ -103,7 +103,6 @@ class WFMesh(Callback):
                                              ]
             except:
                 self.vnorms[int(p[2])-1] = [norm[0],norm[1],norm[2]]
-
 
         # Average out each vnorm..
         index = 0

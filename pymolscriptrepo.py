@@ -12,7 +12,6 @@ if 'PYMOL_GIT_MOD' in os.environ:
 
     repopath = [os.environ.get('PATH', '.')]
 
-
     ##
     ## this is ugly, we need proper paths for each platform, but not for
     ## every app an extra path!
@@ -34,6 +33,7 @@ if 'PYMOL_GIT_MOD' in os.environ:
 
     if len(repopath) > 1:
         os.environ['PATH'] = os.pathsep.join(repopath)
+
 
 def which(*names):
     '''

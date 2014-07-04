@@ -4,6 +4,7 @@ See more here: http://www.pymolwiki.org/index.php/stereo_ray
 
 from pymol import cmd
 
+
 def stereo_ray(filename, width=0, height=0, quiet=1):
     '''
  DESCRIPTION

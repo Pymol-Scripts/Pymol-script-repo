@@ -9,6 +9,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def movie_fade(setting, startFrame, startVal, endFrame, endVal=None, selection=""):
     """
 DESCRIPTION

@@ -13,7 +13,6 @@ from pymol import cmd
 
 
 def tensor(selection, name="tensor", state=1, scaling=0, quiet=1):
-
     """
 DESCRIPTION
 
@@ -41,9 +40,7 @@ NOTES
     Requires numpy.
     """
 
-
     import numpy
-
 
     def draw_axes(start,ends,cone_ends,radius=.2,name_obj="tensor"):
         radius = float(radius)
@@ -65,7 +62,6 @@ NOTES
         ]
 
         cmd.load_cgo(obj,name_obj)
-
 
     totmass=0.0
     x_com,y_com,z_com=0,0,0
@@ -107,7 +103,6 @@ NOTES
         I[5]-=a.get_mass()*temp_y*temp_z
         I[7]-=a.get_mass()*temp_y*temp_z
 
-
     tensor = numpy.array([(I[0:3]),(I[3:6]),(I[6:9])])
     vals,vects = numpy.linalg.eig(tensor) # they come out unsorted, so the command below is needed
 
@@ -126,7 +121,6 @@ NOTES
         print
         print ord_vects
 
-
     if int(scaling) == 0:
         norm_vals = [sum(numpy.sqrt(ord_vals/totmass)) / 3 for i in range(3)]
 
@@ -138,7 +132,6 @@ NOTES
     elif int(scaling) == 2:
         normalizer = numpy.sqrt(max(ord_vals)/totmass)
         norm_vals = numpy.sqrt(ord_vals/totmass)
-
 
     start=[x_com,y_com,z_com]
     ends=[[(norm_vals[0] - 1)*ord_vects[0][0],(norm_vals[0] - 1)*ord_vects[0][1],(norm_vals[0] - 1)*ord_vects[0][2]],

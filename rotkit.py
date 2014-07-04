@@ -22,6 +22,7 @@ def printMat(matrix):
     print("%s %s %s %s \n%s %s %s %s \n%s %s %s %s \n%s %s %s %s"%(matrix[0],matrix[1],matrix[2],matrix[3],matrix[4],matrix[5],matrix[6],matrix[7],matrix[8],matrix[9],matrix[10],matrix[11],matrix[12],matrix[13],matrix[14],matrix[15]))
     return None
 
+
 def getxyz(Sel):
     if type(Sel)==list and len(Sel)==3:
         return Sel, "listXYZ"
@@ -33,11 +34,13 @@ def getxyz(Sel):
         pos = cmd.get_atom_coords(Sel)
         return pos, "selXYZ"
 
+
 def vector(Sel1,Sel2):
     PosSel1 = getxyz(Sel1)[0]
     PosSel2 = getxyz(Sel2)[0]
     vectorcalc = [PosSel2[0]-PosSel1[0],PosSel2[1]-PosSel1[1],PosSel2[2]-PosSel1[2]]
     return(vectorcalc)
+
 
 def vectoradd(Sel1,Sel2):
     PosSel1 = getxyz(Sel1)[0]
@@ -45,20 +48,25 @@ def vectoradd(Sel1,Sel2):
     vectorcalc = [PosSel1[0]+PosSel2[0],PosSel1[1]+PosSel2[1],PosSel1[2]+PosSel2[2]]
     return(vectorcalc)
 
+
 def vectorstr(vector):
     return("[%s,%s,%s]"%(vector[0],vector[1],vector[2]))
+
 
 def transmat(vector,dist=1):
     mat = [1,0,0,0,0,1,0,0,0,0,1,0,dist*vector[0],dist*vector[1],dist*vector[2],1]
     return(mat)
+
 
 def unitvector(vector):
     vectorlen = math.sqrt(math.pow(vector[0],2)+math.pow(vector[1],2)+math.pow(vector[2],2))
     vectordiv = [vector[0]/vectorlen, vector[1]/vectorlen, vector[2]/vectorlen]
     return(vectordiv,vectorlen)
 
+
 def radangle(angle):
     return(math.radians(angle))
+
 
 def rotmat(angle,vectornorm,pointcoord):
     ### From: http://inside.mines.edu/~gmurray/ArbitraryAxisRotation/ Section 6.2
@@ -79,6 +87,7 @@ def rotmat(angle,vectornorm,pointcoord):
                   (0),(0),(0),(1),]
     return(makerotmat)
 
+
 def rotateline(Pos1,Pos2,degangle,molecule):
     diffvector = vector(Pos1,Pos2)
     uvector = unitvector(diffvector)[0]
@@ -87,6 +96,7 @@ def rotateline(Pos1,Pos2,degangle,molecule):
     cmd.transform_selection(molecule,rmat)
     return(None)
 cmd.extend("rotateline",rotateline)
+
 
 def mutate(molecule,chain,resi,target="CYS",mutframe="1"):
     target = target.upper()
@@ -111,6 +121,7 @@ def mutate(molecule,chain,resi,target="CYS",mutframe="1"):
 #python end
 cmd.extend("mutate",mutate)
 
+
 def toline(Pos1,Pos2,atom,molecule,dist=1):
     dist = float(dist)
     diffvector = vector(atom,Pos2)
@@ -123,13 +134,16 @@ def toline(Pos1,Pos2,atom,molecule,dist=1):
     return(None)
 cmd.extend("toline",toline)
 
+
 def crossprod(Vector1, Vector2):
     return([Vector1[1]*Vector2[2]-Vector1[2]*Vector2[1], Vector1[2]*Vector2[0]-Vector1[0]*Vector2[2],Vector1[0]*Vector2[1]-Vector1[1]*Vector2[0]])
+
 
 def crosspoint(Pos1, crossprod):
     Imp1 = getxyz(Pos1)[0]
     Imp2 = getxyz(crossprod)[0]
     return([Imp1[0]+Imp2[0],Imp1[1]+Imp2[1],Imp1[2]+Imp2[2]])
+
 
 def VectorToMatrix(Vector,MatColRank=4):
     try: import numpy
@@ -147,6 +161,7 @@ def VectorToMatrix(Vector,MatColRank=4):
     print rowsall
     return(numpy.matrix(rowsall))
 
+
 def findMinMax(datalist,index):
     minimum = datalist[0][index]
     maximum = datalist[0][index]
@@ -159,11 +174,13 @@ def findMinMax(datalist,index):
             maximum = l[index]
     return(minimum,maximum,datacolumn)  
 
+
 def createdirs(dirname):
     if platform.system() == 'Windows': Newdir = os.getcwd()+"\\%s\\"%dirname
     if platform.system() == 'Linux': Newdir = os.getcwd()+"/%s/"%dirname
     if not os.path.exists(Newdir): os.makedirs(Newdir)
     return(Newdir)
+
 
 def makehistogram(datalist,dataname="Histogram",datalistindex=2,nrbins=100,binrange=[0,0]):
     try: import numpy

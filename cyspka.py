@@ -17,6 +17,7 @@ from time import localtime, strftime
 # show cartoon, 4AKE-A
 # cyspka 4AKE-A, A, 18
 
+
 def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom ='no', SGatom=str((0,0,0))):
     #If SeeProgress='yes', computation time will take 10-20% extra, but nice to follow.
     cmd.refresh()
@@ -57,7 +58,6 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom ='no'
     MCchargeProCA = +0.1
     MCchargeProCD = +0.1
     MCchargeProN = -0.2
-
 
     ### Loading an Cys residue, give it a logic name, and aligning it. The oxygen atom can not be aligned in many cases, and are skipped.
     ### We use only this molecule, to find the initial position of the SG atom, and to rotate the SG atom around the CA-CB bond. The molecule atom positions are not used for electric potential calculatons.
@@ -294,6 +294,7 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom ='no'
     if breakDimer == "yes": print("##### ERROR; Dimer formation ###")
 cmd.extend("cyspka",cyspka)
 
+
 def loopcyspka(molecule, chain, residue, SeeProgress='no', pH=7.2, MoveSGatom = 'no', SGatom=str((0,0,0))):
     residue = residue.split('.')
     residueList = []
@@ -309,6 +310,7 @@ def loopcyspka(molecule, chain, residue, SeeProgress='no', pH=7.2, MoveSGatom = 
         cyspka(molecule, chain, str(i), SeeProgress, pH, MoveSGatom, SGatom)
 cmd.extend("loopcyspka",loopcyspka)
 
+
 def fNeighbourCount(molecule, Cysmolecule, chain, residue, DieElecSpheDist):
     nameselect = "(((/"+molecule+"//"+chain+" and not /"+molecule+"//"+chain+"/"+residue+") or /"+molecule+"//"+chain+"/"+residue+"/N+CA+C+O)  within "+str(DieElecSpheDist)+" of /"+Cysmolecule+"//"+"/"+"/SG) and not resn HOH"
     #print nameselect
@@ -318,17 +320,21 @@ def fNeighbourCount(molecule, Cysmolecule, chain, residue, DieElecSpheDist):
     cmd.delete(residue+"NC")
     return Neighbours
 
+
 def fNeighbourWater(DieElecSpheDist, DieElecWaterDist, NeighbourCount):
     Waters = 0.74*math.pow(DieElecSpheDist,3)/math.pow(DieElecWaterDist,3)-NeighbourCount
     return Waters
+
 
 def fDieElecEF(NeighbourWater, DieElecWater, NeighbourCount, DieElecCore):
     DieElecEF = (NeighbourWater*DieElecWater+NeighbourCount*DieElecCore)/(NeighbourWater+NeighbourCount)
     return DieElecEF
 
+
 def fBornPenalty(BornPenaltyB, DieElecEF, DieElecWater):
     BornPenalty = (1.39*math.pow(10,6))/(2*BornPenaltyB)*(1.0/DieElecEF-1.0/DieElecWater)
     return BornPenalty
+
 
 def fEnergyBornPenalty(DieElecSpheDist, DieElecWaterDist, NeighbourCount, DieElecWater, DieElecCore, BornPenaltyB):
     NeighbourWater = fNeighbourWater(DieElecSpheDist, DieElecWaterDist, NeighbourCount)
@@ -336,9 +342,11 @@ def fEnergyBornPenalty(DieElecSpheDist, DieElecWaterDist, NeighbourCount, DieEle
     BornPenalty = fBornPenalty(BornPenaltyB, DieElecEF, DieElecWater)
     return BornPenalty
 
+
 def fDeltapK(Energy, AvogadroR, Temp):
     DeltapK = -1*math.log10(math.exp(-Energy/(AvogadroR*Temp)))
     return DeltapK
+
 
 def fRotateAroundLine(OriPoint, ThroughLinePoint, LineVector, AngleDeg):
     ### See http://inside.mines.edu/~gmurray/ArbitraryAxisRotation/. Section 6.1
@@ -359,10 +367,12 @@ def fRotateAroundLine(OriPoint, ThroughLinePoint, LineVector, AngleDeg):
     NewPos = [xPos, yPos, zPos]
     return NewPos
 
+
 def fWSC(charge, DieElecSC, DistR):
     #print charge, DistR
     WSC = 1.39*math.pow(10,6)*charge/(DieElecSC*DistR)
     return WSC
+
 
 def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCchargeGLU, SCchargeOXT, SCchargeARG, SCchargeHIS, SCchargeLYS, SCchargeMET1, printSC):
     SumWSC = 0.0
@@ -448,9 +458,11 @@ def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCcha
     cmd.delete("SC")
     return SumWSC
 
+
 def fWMC(charge, DieElecMC, DistR):
     WMC = 1.39*math.pow(10,6)*charge/(DieElecMC*DistR)
     return WMC
+
 
 def fSumWMCFirst(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, MCchargeC, MCchargeO, printMC):
     #print "First", MCNeighbour
@@ -478,6 +490,7 @@ def fSumWMCFirst(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, 
     cmd.delete(residue+'distFirstO')
     cmd.delete("MC")
     return SumWMCFirst
+
 
 def fSumWMCresidue(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, MCchargeC, MCchargeO, MCchargeN, MCchargeH, AmideName, printMC):
     #print "residue", MCNeighbour
@@ -526,6 +539,7 @@ def fSumWMCresidue(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC
     cmd.show("nb_spheres", AmideName)
     cmd.delete("MC")
     return SumWMCresidue
+
 
 def fSumWMCLast(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, MCchargeN, MCchargeH, MCchargeProCA, MCchargeProCD, MCchargeProN, AmideName, printMC):
     #print "Last", MCNeighbour
@@ -583,6 +597,7 @@ def fSumWMCLast(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, M
     cmd.show("nb_spheres", AmideName)
     cmd.delete("MC")
     return SumWMCLast
+
 
 def fSumWMC(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, MCchargeC, MCchargeO, MCchargeN, MCchargeH, MCchargeProCA, MCchargeProCD, MCchargeProN, AmideName, printMC):
     #print "chain", MCNeighbour
@@ -669,27 +684,33 @@ def fSumWMC(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, MCcha
     cmd.delete("MC")
     return SumWMC
 
+
 def fBoltzSingleState(SumMCSC, AvogadroR , Temp):
     BoltzSingleState = math.exp(-SumMCSC/(AvogadroR*Temp))
     return BoltzSingleState
+
 
 def fpKm1(DeltapKMCSC, pK1):
     pKm1 = DeltapKMCSC + pK1
     return pKm1
 
+
 def fpKm2(DeltapKMCSC, DeltapKB, pK2):
     pKm2 = DeltapKMCSC + DeltapKB + pK2
     return pKm2
 
+
 def fFracCys(pKm, pH):
     FracCys = 1.0/(math.pow(10,(pKm-pH))+1)
     return FracCys
+
 
 def AtomVector(AtomStart, AtomEnd):
     PosStart = cmd.get_atom_coords(AtomStart)
     PosEnd = cmd.get_atom_coords(AtomEnd)
     VectorDiff = [(PosEnd[0]-PosStart[0]),(PosEnd[1]-PosStart[1]),(PosEnd[2]-PosStart[2])]
     return VectorDiff
+
 
 def pairfitCys(Cysmolecule, molecule, chain, residue):
     RN = "/"+Cysmolecule+"//"+"/"+"/N"
@@ -709,6 +730,7 @@ def pairfitCys(Cysmolecule, molecule, chain, residue):
         #cmd.pair_fit(RN,PN,RCA,PCA,RC,PC,RCB,PCB)
         cmd.pair_fit(RN,PN,RCA,PCA,RC,PC)
     cmd.delete("CBatom")
+
 
 def CheckDimer(dihedSG, molecule, chain, residue):
     breakDimer = "no"

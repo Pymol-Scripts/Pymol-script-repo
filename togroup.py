@@ -1,6 +1,7 @@
 import pymol
 from pymol import cmd
 
+
 def toGroup(groupName,sel,prefix="",delOrig=True):
     """
     DESCRIPTION

@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def hbplus(selection='all', exe='hbplus', prefix='hb_', state=-1, quiet=1):
     '''
 DESCRIPTION

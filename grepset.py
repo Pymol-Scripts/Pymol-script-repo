@@ -2,6 +2,7 @@ from pymol import cmd
 import re
 import pymol.setting
 
+
 def grepset(regexp=''):
     '''
 DESCRIPTION

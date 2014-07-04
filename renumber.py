@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def renumber(selection='all', start=1, startsele=None, quiet=1):
     '''
 DESCRIPTION
@@ -46,6 +47,7 @@ ARGUMENTS
         atoms[0].adjacent.append(atoms[1])
         atoms[1].adjacent.append(atoms[0])
     minmax = [start, start]
+
     def traverse(atom, resi):
         atom.resi = resi
         atom.visited = True

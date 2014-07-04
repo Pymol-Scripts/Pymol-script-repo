@@ -9,7 +9,9 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 class resid_mapper(dict):
+
     '''
 DESCRIPTION
 
@@ -46,6 +48,7 @@ DESCRIPTION
             if resv in self:
                 return self.get(resv)
         raise KeyError
+
 
 def uniprot_features(uniprot_id, selection='(all)', withss=0,
                      prefix='feature_', sm=None, quiet=1):
@@ -136,6 +139,7 @@ ARGUMENTS
 
     if not quiet:
         print 'Found %d feature records (without secondary structures)' % count
+
 
 def uniprot_auto(pdb_id, selection='', withss=0, quiet=1):
     '''

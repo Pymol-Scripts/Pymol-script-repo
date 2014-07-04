@@ -46,9 +46,11 @@ colors = ['red', 'blue', 'green', 'yellow', 'magenta', 'cyan', 'orange',
 colors_value = [tuple(int(i * 255) for i in cmd.get_color_tuple(color))
                 for color in colors]
 
+
 def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command', 'Contact Map Visualizer',
                              label='Contact Map Visualizer', command = lambda s=self: CMVDialog(s))
+
 
 def CMVDialog(self):
     import tkFileDialog, tkMessageBox
@@ -82,6 +84,7 @@ def CMVDialog(self):
     name = cmd.get_unused_name('protein')
     cmd.load(pdb_file, name)
     contact_map_visualizer(image_file, name, 1, 0)
+
 
 def contact_map_visualizer(image_file='', selection='all', screenshots=0, quiet=1):
     '''
@@ -118,6 +121,7 @@ SEE ALSO
     t = threading.Thread(target=_contact_map_visualizer, kwargs=locals())
     t.setDaemon(1)
     t.start()
+
 
 def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs):
     from datetime import datetime
@@ -246,6 +250,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
 
     pg.quit()
 
+
 def contact_map_generator(filename, selection='all', state=-1, quiet=1):
     '''
 DESCRIPTION
@@ -290,6 +295,7 @@ USAGE
         raise CmdException
     finally:
         shutil.rmtree(tempdir)
+
 
 def xpm_convert(infile, outfile):
     '''

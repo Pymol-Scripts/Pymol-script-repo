@@ -17,6 +17,7 @@ import os
 if 'PYMOL_GIT_MOD' in os.environ:
     os.environ['PYMOL_GIT_EX'] = os.path.join(os.path.split(os.environ['PYMOL_GIT_MOD'])[0],"examples")
 
+
 def ex(filename=''):
     if os.path.splitext(filename)[1] == '':
         filename = os.path.splitext(filename)[0]+'.pml'

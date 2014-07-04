@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def get_raw_distances(names='', state=1, selection='all', quiet=1):
     '''
 DESCRIPTION
@@ -71,6 +72,7 @@ SEE ALSO
                 if quiet < 0:
                     print ' Debug: no index for', xyz1, xyz2
     return r
+
 
 def select_distances(names='', name='sele', state=1, selection='all', cutoff=-1, quiet=1):
     '''

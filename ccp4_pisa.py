@@ -31,6 +31,7 @@ See more here: http://www.pymolwiki.org/index.php/ccp4_pisa
 from pymol import cmd
 from xml.etree import ElementTree
 
+
 def parseElement( element ):
     """ creates a dict for the sub elements of the element"""
     result = { }
@@ -39,9 +40,11 @@ def parseElement( element ):
             result[element[l].tag.strip()] = element[l].text.strip()
     return result;
 
+
 def parseBond( elementDir ):
     """ puts bond information into tuples"""
     return ((elementDir['chain-1'], elementDir['seqnum-1'], elementDir['atname-1']), (elementDir['chain-2'], elementDir['seqnum-2'], elementDir['atname-2']))
+
 
 def parseInterface( interface, bondname ):
     """ parses a single interface into the interface id, the two chain names connected 
@@ -62,10 +65,12 @@ def parseInterface( interface, bondname ):
         return id, (right_chain, left_chain), right, left
     return id, (left_chain, right_chain), left, right
 
+
 def createSelectionList( atomlist ):
     """creates a PYMOL selection string for a list of atoms"""
     atomnames = [chain+'/'+res+'/'+atom for chain, res, atom in atomlist]
     return " or ".join(atomnames)
+
 
 def createInterfaceSelection( interface, prefix ):
     """creates two selections for an interfaces"""
@@ -84,6 +89,7 @@ def createInterfaceSelection( interface, prefix ):
         print leftname, '\t', leftlist
         print rightname, '\t', rightlist
     return leftname, rightname
+
 
 def ccp4_pisa( filename ):
     bond_types = [

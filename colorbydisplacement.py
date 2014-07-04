@@ -43,8 +43,10 @@ Date    : January 2011
 from pymol import cmd
 from pymol import stored
 
+
 def strTrue(p):
     return p[0].upper() == "T"
+
 
 def displacementUpdateBAll(objA, alnAri, objB, alnBri):
     print "This will take a while to go through the for loops. Give me around 3-5 minutes..."
@@ -66,6 +68,7 @@ def displacementUpdateBAll(objA, alnAri, objB, alnBri):
         cmd.alter( s2, "b = " + str(Displacement))
         cmd.delete(tempObject)
     cmd.sort(objA); cmd.sort(objB)
+
 
 def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor="True", doAlign="True", AlignedWhite='yes'):
     ### First create backup copies; names starting with __ (underscores) are normally hidden by PyMOL

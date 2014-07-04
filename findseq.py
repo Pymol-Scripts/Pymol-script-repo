@@ -62,6 +62,7 @@ Jason Vertrees, 2009.
 from pymol import cmd
 import re,types,random
 
+
 def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
     # set the name of the selection to return.
     if selName == None:
@@ -356,6 +357,7 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
     cmd.delete("__h")
     return rSelName
 cmd.extend("findseq", findseq )
+
 
 def checkParams(needle,haystack,selName,het,firstOnly):
     """

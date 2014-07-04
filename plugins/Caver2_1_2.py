@@ -82,12 +82,17 @@ try:
     REAL_PYMOL = True
 except ImportError:
     REAL_PYMOL = False
+
     class pymol:
+
         class cmd:
+
             def load(self,name,sel=''):
                 pass
+
             def get_names(self):
                 return ['mol1','mol2','map1','map2']
+
             def get_type(self,thing):
                 if thing.startswith('mol'):
                     return 'object:molecule'
@@ -116,7 +121,9 @@ defaults = {
     "default_block": '10.0'
 }
 
+
 class FileDialogButtonClassFactory:
+
     def get(fn,filter='*'):
         """This returns a FileDialogButton class that will
         call the specified function with the resulting file.
@@ -130,6 +137,7 @@ class FileDialogButtonClassFactory:
                 self.__toggle = 0
                 apply(Tkinter.Button.__init__, (self, master, cnf), kw)
                 self.configure(command=self.set)
+
             def set(self):
                 fd = PmwFileDialog(self.master,filter=filter)
                 fd.title('Please choose a file')
@@ -139,15 +147,21 @@ class FileDialogButtonClassFactory:
         return FileDialogButton
     get = staticmethod(get)
 
+
 class MyThread ( threading.Thread ):
+
     def run ( self ):
         os.system("start http://loschmidt.chemi.muni.cz/caver")
 
+
 class AnBeKoM:
+
     def setBinaryLocation(self,value):
         self.binlocation.setvalue(value)
+
     def setPymolLocation(self,value):
         self.pymollocation.setvalue(value)
+
     def __init__(self,app):
         parent = app.root
         self.parent = parent
@@ -223,7 +237,6 @@ class AnBeKoM:
         #                             labelpos='w',
         #                             value = defaults["default_block"],
         #                             label_text = 'Blocking radius:')
-
 
         #self.block.pack(fill='x',padx=4,pady=1) # vertical
 
@@ -392,10 +405,12 @@ class AnBeKoM:
             val=float(self.xlocvar.get())+float(a)*0.2
             self.xlocvar.set(val)
             self.showCrisscross()
+
         def changeValueY(self,obj,a,b=0,c=0):
             val=float(self.ylocvar.get())+float(a)*0.2
             self.ylocvar.set(val)
             self.showCrisscross()
+
         def changeValueZ(self,obj,a,b=0,c=0):
             val=float(self.zlocvar.get())+float(a)*0.2
             self.zlocvar.set(val)
@@ -405,10 +420,12 @@ class AnBeKoM:
             val=float(self.xlocvar.get())+float(a)*0.2
             self.xlocvar.set(val)
             self.showCrisscross()
+
         def changeValueY(self,a):
             val=float(self.ylocvar.get())+float(a)*0.2
             self.ylocvar.set(val)
             self.showCrisscross()
+
         def changeValueZ(self,a):
             val=float(self.zlocvar.get())+float(a)*0.2
             self.zlocvar.set(val)
@@ -454,6 +471,7 @@ class AnBeKoM:
                 junk = error_dialog.activate()
                 return 0
         return 1
+
     def execute(self, result):
 
         if result == defaults["compute_command"]:
@@ -745,6 +763,7 @@ class AnBeKoM:
         ##analyse,save,load
         #aButton.grid(row = int(cntr/3), column = (cntr % 3))
         #self.buttonlist.append(aButton)
+
     def computecenter(self,selection="(all)"):
         gcentx=0
         gcenty=0
@@ -830,7 +849,6 @@ class AnBeKoM:
 
         cmd.load_cgo(obj,name)
 
-
     def crisscross(self,x,y,z,d,name="crisscross"):
         obj = [
             LINEWIDTH, 3,
@@ -879,6 +897,7 @@ import os,fnmatch,time
 import Tkinter,Pmw
 #Pmw.setversion("0.8.5")
 
+
 def _errorpop(master,text):
     d=Pmw.MessageDialog(master,
                         title="Error",
@@ -888,8 +907,11 @@ def _errorpop(master,text):
     d.activate()
     d.destroy()
 
+
 class PmwFileDialog(Pmw.Dialog):
+
     """File Dialog using Pmw"""
+
     def __init__(self, parent = None, **kw):
         # Define the megawidget options.
         optiondefs = (
@@ -1156,6 +1178,7 @@ class PmwFileDialog(Pmw.Dialog):
     lastdir=""
     lastfilter=None
     lasttime=0
+
     def fillit(self):
         """Get the directory list and show it in the two listboxes"""
         # Do not run unnecesarily
@@ -1195,7 +1218,9 @@ class PmwFileDialog(Pmw.Dialog):
            exist"""
         return 1
 
+
 class PmwExistingFileDialog(PmwFileDialog):
+
     def filevalidate(self,string):
         if os.path.isfile(string):
             return Pmw.OK
@@ -1215,6 +1240,7 @@ class PmwExistingFileDialog(PmwFileDialog):
 # Create demo in root window for testing.
 if __name__ == '__main__':
     class App:
+
         def my_show(self,*args,**kwargs):
             pass
     app = App()

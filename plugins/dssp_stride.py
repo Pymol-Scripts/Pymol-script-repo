@@ -93,6 +93,8 @@ VERBOSE = True
 #################
 ## here we go
 #################
+
+
 def __init__(self):
     """ DSSP and Stride plugin for PyMol
     """
@@ -245,7 +247,6 @@ class DSSPPlugin:
         self.notebook = Pmw.NoteBook(self.dialog.interior())
         self.notebook.pack(fill = 'both', expand=1, padx=10, pady=10)
 
-
         ######################
         # Tab : Structure Tab
         ######################
@@ -283,7 +284,6 @@ class DSSPPlugin:
         stride_bin_but.grid(sticky='we', row=2, column=1, padx=5, pady=1)
         group_struc.columnconfigure(0, weight=9)
         group_struc.columnconfigure(1, weight=1)
-
 
         ######################
         # Tab : Color Tab
@@ -329,7 +329,6 @@ class DSSPPlugin:
                                         activebackground=self.SSE_col['G'],
                                         command = self.custermizeIColor)
 
-
         E_col_lab = Tkinter.Label(group_sse_color, text='Extended strand (E):')
         self.E_col_but = Tkinter.Button(group_sse_color,
                                         bg=self.SSE_col['E'],
@@ -357,7 +356,6 @@ class DSSPPlugin:
                                         activebackground=self.SSE_col['-'],
                                         command = self.custermizeNColor)
 
-
         b_col_lab = Tkinter.Label(group_sse_color, text='Isolated beta-bridge (Stride b):')
         self.b_col_but = Tkinter.Button(group_sse_color,
                                         bg=self.SSE_col['b'],
@@ -369,8 +367,6 @@ class DSSPPlugin:
                                         bg=self.SSE_col['C'],
                                         activebackground=self.SSE_col['C'],
                                         command = self.custermizeCColor)
-
-
 
         H_col_lab.grid(sticky='e', row=0, column=0, padx=5, pady=3)
         self.H_col_but.grid(sticky='we', row=0, column=1, padx=5, pady=3)
@@ -414,7 +410,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         self.notebook.setnaturalsize()    
 
         return
-
 
     def getDSSPBin(self):
         dssp_bin_fname = tkFileDialog.askopenfilename(
@@ -532,7 +527,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         return
 
-
     def runDSSP(self):
         """
             @return: whether DSSP has been executed successfully
@@ -597,7 +591,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 ##        cmd.delete(tmpsel)
 
         return True
-
 
     def runStrideOneObj(self, one_obj_sel):
         """ Run Stride on only one object.
@@ -694,7 +687,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         return True
 
-
     def runStride(self):
         """
         """
@@ -752,7 +744,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         return True
 
-
     def randomSeleName(self, prefix='sele',suffix=''):
         """ generate a random selection name.
         """
@@ -763,7 +754,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             sel_name = '%s%d%s' % (prefix, random.randint(1000,9999), suffix)
 
         return sel_name
-
 
     def selectSSE(self, sel, sse):
         """ generate selector for selecting all residues having the given sse.
@@ -822,7 +812,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         return sel_name
 
-
     def updateColor(self):
         if self.ss_asgn_prog is None:
             err_msg = 'Run DSSP or Stride to assign secondary structures first!'
@@ -873,28 +862,33 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             cmd.rebuild(self.pymol_sel.get()) 
             return
 
-
     def custermizeHColor(self):
         self.custermizeSSEColor('H')
+
     def custermizeGColor(self):
         self.custermizeSSEColor('G')
+
     def custermizeIColor(self):
         self.custermizeSSEColor('I')
 
     def custermizeEColor(self):
         self.custermizeSSEColor('E')
+
     def custermizeBColor(self):
         self.custermizeSSEColor('B')
 
     def custermizeTColor(self):
         self.custermizeSSEColor('T')
+
     def custermizeSColor(self):
         self.custermizeSSEColor('S')
+
     def custermizeNColor(self):
         self.custermizeSSEColor('-')
 
     def custermizebColor(self):
         self.custermizeSSEColor('b')
+
     def custermizeCColor(self):
         self.custermizeSSEColor('C')
 
@@ -925,7 +919,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 SSE_col_but[sse].update()
         except Tkinter._tkinter.TclError:
             print 'Old color (%s) will be used.' % (self.mesh_col)
-
 
     def execute(self, butcmd):
         """ Run the cmd represented by the botton clicked by user.
@@ -959,7 +952,6 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             self.dialog.withdraw()
             print 'Done.'
 
-
     def quit(self):
         self.dialog.destroy() 
 
@@ -974,6 +966,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 if __name__ == '__main__':
 
     class App:
+
         def my_show(self,*args,**kwargs):
             pass
 

@@ -10,6 +10,7 @@ License: BSD-2-Clause
 from pymol import cmd, CmdException
 import re
 
+
 def plot_noe(filename, selection='', line_color='gray20', line_width='1.0', single=0, quiet=1, aria=0, per_atom=0, per_residue=1):
     """
 DESCRIPTION
@@ -62,7 +63,6 @@ EXAMPLE
                             (.*id=(?P<ID>\d+))?
                             .*
                         """, re.X)
-
 
     for line in open(filename):
         restraint = rgx_restraint.match(line)

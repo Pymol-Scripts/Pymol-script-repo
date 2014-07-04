@@ -9,6 +9,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def colorbyrmsd(mobile, target, doAlign=1, doPretty=1, guide=1, method='super', quiet=1):
     '''
 DESCRIPTION

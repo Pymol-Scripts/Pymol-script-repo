@@ -30,10 +30,14 @@ from wx.lib.pubsub import Publisher
 import  wx.lib.mixins.listctrl  as  listmix
 
 ####################################################################################################
+
+
 class trilat(wx.Frame):
+
     ''''''
 
     #-----------------------------------------------------------------------------------------------
+
     def __init__(self, parent, ID, title):
         ''''''
         wx.Frame.__init__(self, parent, ID, title, wx.DefaultPosition, wx.Size(700,525))
@@ -925,9 +929,11 @@ Foundation. See the GNU General Public License for more details."""
 
 ####################################################################################################
 class ListCtrlLeft(wx.ListCtrl):
+
     '''Content of Preferences menu'''
 
     #-----------------------------------------------------------------------------------------------
+
     def __init__(self, parent, id):
         ''''''
         wx.ListCtrl.__init__(self, parent, id, style=wx.LC_REPORT|wx.LC_HRULES|wx.LC_NO_HEADER|wx.LC_SINGLE_SEL)
@@ -954,10 +960,14 @@ class ListCtrlLeft(wx.ListCtrl):
         window.LoadData(index)
 
 ####################################################################################################
+
+
 class ListCtrlRight(wx.grid.Grid):
+
     '''Names and values of parameters'''
 
     #-----------------------------------------------------------------------------------------------
+
     def __init__(self, parent, id,
                  coordFactor, distFactor,
                  calcMode,maxNumOfIter,minChiSquare,lambdaFirst,lambdaStep,
@@ -1005,6 +1015,7 @@ class ListCtrlRight(wx.grid.Grid):
                        ['Confidence level', confidenceLevel]]
         }
     #-----------------------------------------------------------------------------------------------
+
     def LoadData(self, index):
         ''''''
         # Clear last grid
@@ -1071,10 +1082,14 @@ class ListCtrlRight(wx.grid.Grid):
         event.Skip()
 
 ####################################################################################################        
+
+
 class Preferences(wx.Frame):
+
     '''Preferences menu'''
 
     #-----------------------------------------------------------------------------------------------
+
     def __init__(self, parent, 
                  coordFactor, distFactor,
                  calcMode,maxNumOfIter,minChiSquare,lambdaFirst,lambdaStep,
@@ -1176,7 +1191,10 @@ class Preferences(wx.Frame):
         self.Close()
 
 ####################################################################################################
+
+
 class PlotSpheres:
+
     '''Plots spheres'''
 
     def __init__(self,num,centers,radii,color,transparency):
@@ -1191,10 +1209,14 @@ class PlotSpheres:
         cmd.load_cgo(obj,'trilateration')
 
 ####################################################################################################         
+
+
 class PlotEllipsoid:
+
     '''Plots ellipsoid'''
 
     #-----------------------------------------------------------------------------------------------
+
     def __init__(self, x, y, z, rx, ry, rz, color, transparency):
         ''''''
         cmd.load_cgo(self.makeEllipsoid(x, y, z, rx, ry, rz, color, transparency), 'target')
@@ -1267,10 +1289,14 @@ class PlotEllipsoid:
 
 # SUPLEMENTARY FUNCTIONS
 #---------------------------------------------------------------------------------------------------
+
+
 def getPymolObjects(selection):
     return cmd.get_object_list('(%s)' %selection)
 
 #---------------------------------------------------------------------------------------------------
+
+
 def AverageCoordCalc(coord):
     '''Calculates average coordinates and their standard deviations for a set of coordinates'''
     # Average coordinates
@@ -1281,6 +1307,8 @@ def AverageCoordCalc(coord):
     return coordMean, coordStd         
 
 #---------------------------------------------------------------------------------------------------
+
+
 def AverageDistCalc(dist,density):
     '''Calculates an average distance and its standard deviations for a distance distribution'''
     # Average distance
@@ -1297,6 +1325,8 @@ def AverageDistCalc(dist,density):
     return distAve, distStd  
 
 #---------------------------------------------------------------------------------------------------
+
+
 def SquaredRadiusVector(vector1, vector2):
     ''''''
     srv = 0
@@ -1306,6 +1336,8 @@ def SquaredRadiusVector(vector1, vector2):
     return srv 
 
 #---------------------------------------------------------------------------------------------------
+
+
 def ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd):
     ''''''
     chiSquare = 0
@@ -1316,6 +1348,8 @@ def ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd):
     return chiSquare    
 
 #---------------------------------------------------------------------------------------------------
+
+
 def SingularValueDecomposition(numOfLabels, labelCoord, distMean, distStd):
     '''Linear Least Squares: Singular Value Decomposition algorithm'''
     # Compute A and b coefficients
@@ -1344,6 +1378,8 @@ def SingularValueDecomposition(numOfLabels, labelCoord, distMean, distStd):
     return targetCoordMean, targetCoordStd, chiSquare   
 
 #---------------------------------------------------------------------------------------------------
+
+
 def InverseHessian(numOfLabels, labelCoord, distMean, distStd, targetCoordInitial, chiSquareMin, iterMax):  
     '''Nonlinear Least Squares: Inverse-Hessian algorithm'''
     # Use previously determined values of target coordinates as initial data 
@@ -1388,6 +1424,8 @@ def InverseHessian(numOfLabels, labelCoord, distMean, distStd, targetCoordInitia
     return targetCoordMean, targetCoordStd, chiSquare, iter  
 
 #---------------------------------------------------------------------------------------------------
+
+
 def LevenbergMarquardt(numOfLabels, labelCoord, distMean, distStd, targetCoordInitial, chiSquareMin, iterMax, lambdaFirst, lambdaStep):
     '''Nonlinear Least Squares: Levenberg-Marquardt algorithm'''
     # Use previously determined values of target coordinates as initial data 
@@ -1442,6 +1480,8 @@ def LevenbergMarquardt(numOfLabels, labelCoord, distMean, distStd, targetCoordIn
     return targetCoordMean, targetCoordStd, chiSquare, iter
 
 ####################################################################################################
+
+
 class MainApp(wx.App):
 
     def OnInit(self):
@@ -1454,7 +1494,6 @@ class MainApp(wx.App):
 def run():
     app = MainApp(0)
     app.MainLoop()
-
 
 
 def start():

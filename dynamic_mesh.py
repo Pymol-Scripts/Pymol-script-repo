@@ -25,7 +25,9 @@ from pymol.callback import Callback
 from pymol import cmd
 from chempy import cpv
 
+
 class DynamicMesh(Callback):
+
     def __init__(self, map_name, level, radius, name, sym_source):
         self.level = level
         self.radius = radius
@@ -81,6 +83,7 @@ class DynamicMesh(Callback):
     def get_extent(self):
         tmp = cmd.get_position()
         return [[i - self.radius for i in tmp], [i + self.radius for i in tmp]]
+
 
 def dynamic_mesh(map_name, level=1.0, radius=8, name='dynamic_mesh', sym_source=None):
     '''

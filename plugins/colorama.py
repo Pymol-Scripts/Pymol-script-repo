@@ -23,7 +23,10 @@ Literature:
 import colorsys,sys
 from pymol import cmd,stored
 from Tkinter import *
+
+
 class Colorama:
+
     def __init__ (self,master):
         #create frames
         self.F1 = Frame(roota, padx=5, pady=5, bg='red')
@@ -217,7 +220,6 @@ class Colorama:
                 stored.colorlist.append(cmd.get_object_color_index(self.selection))
                 stored.colorlist.append(cmd.get_object_color_index(self.selection))
 
-
             initialcolornterm=cmd.get_color_tuple(stored.colorlist[0])
             initialcolorcterm=cmd.get_color_tuple(stored.colorlist[len(stored.colorlist)-1])
             self.farbe1=initialcolornterm[0]*255, initialcolornterm[1]*255, initialcolornterm[2]*255
@@ -367,7 +369,6 @@ class Colorama:
         ve=hsvcolorend[2]
         color_grad(selection=self.selection, minimum=firstresidue, maximum=lastresidue, hs=hs, he=he,ss=ss,se=se,vs=vs,ve=ve)
 
-
     def RGBToHTMLColor(self, rgb_tuple):
             #by Paul Winkler
         """ convert an (R, G, B) tuple to #RRGGBB """
@@ -375,11 +376,13 @@ class Colorama:
         # that's it! '%02x' means zero-padded, 2-digit hex values
         return hexcolor
 
+
 def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command',
                              'Colorama',
                              label = 'Colorama',
                              command = lambda s=self : open_Colorama())
+
 
 def open_Colorama():
     #initialize window (roota)
@@ -388,6 +391,7 @@ def open_Colorama():
     roota.title(' COLORAMA by gha')
     global colorama
     colorama = Colorama(roota)
+
 
 def color_grad(selection='',item='b',mode='hist',gradient='bgr',nbins=11,sat=1,value=1,minimum='1',maximum='1',dummy='dummy_all', hs=1, he=1, ss=1,se=1,vs=1,ve=1, colorname='init'):
     """
@@ -484,7 +488,6 @@ def color_grad(selection='',item='b',mode='hist',gradient='bgr',nbins=11,sat=1,v
         print "Minimum and Maximum B-values: ", min_b, max_b
         #nbins = (max_b - min_b)
 
-
         if mode == 'hist':
 
             # check if minimum or maximum was specified and use the entered values
@@ -513,6 +516,8 @@ def color_grad(selection='',item='b',mode='hist',gradient='bgr',nbins=11,sat=1,v
     sel = []
     colours = []
 # function for creating the gradient
+
+
 def make_gradient(sel,gradient,nbins,sat,value,hs,he,ss,se,vs,ve,colorname):
     if gradient == 'bgr' or gradient == 'rainbow':
         col=[]

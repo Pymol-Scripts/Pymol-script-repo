@@ -8,6 +8,7 @@ __license__ = 'BSD-2-Clause'
 
 from pymol import cmd, CmdException
 
+
 def save_pdb_without_ter(filename, selection, **kwargs):
     '''
 DESCRIPTION
@@ -20,6 +21,7 @@ case of missing loops.
     if v: cmd.unset('pdb_use_ter_records')
     cmd.save(filename, selection, **kwargs)
     if v: cmd.set('pdb_use_ter_records')
+
 
 def alignwithanymethod(mobile, target, methods='align super cealign tmalign',
                        async=1, quiet=1):
@@ -43,6 +45,7 @@ cealign tmalign}
     methods = methods.split()
     async, quiet = int(async), int(quiet)
     mobile_obj = cmd.get_object_list('first (' + mobile + ')')[0]
+
     def myalign(method):
         newmobile = cmd.get_unused_name(mobile_obj + '_' + method)
         cmd.create(newmobile, mobile_obj)
@@ -57,6 +60,7 @@ cealign tmalign}
             t.start()
         else:
             myalign(method)
+
 
 def tmalign(mobile, target, args='', exe='TMalign', ter=0, transform=1, object=None, quiet=0):
     '''
@@ -182,6 +186,7 @@ tmscore, mmalign
 
     return r
 
+
 def tmscore(mobile, target, args='', exe='TMscore', quiet=0, **kwargs):
     '''
 DESCRIPTION
@@ -208,6 +213,7 @@ tmalign, mmalign
     '''
     kwargs.pop('_self', None)
     return tmalign(mobile, target, args, exe, quiet=quiet, **kwargs)
+
 
 def mmalign(mobile, target, args='', exe='MMalign', ter=0, transform=1, quiet=0):
     '''

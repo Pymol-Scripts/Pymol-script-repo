@@ -6,12 +6,14 @@ from Tkinter import *
 from pymol import cmd
 import tkSimpleDialog
 
+
 def __init__(self):
     # Simply add the menu entry and callback
     self.menuBar.addmenuitem('Plugin', 'command',
                              'resicolor',
                              label = 'resicolor',
                              command = lambda s=self : getselection(s))
+
 
 def resicolor(selection):
     if selection:   # None is returned for user cancel
@@ -36,6 +38,7 @@ def resicolor(selection):
         word='color white,backbone &'+selection
         print word
         cmd.do (word)
+
 
 def getselection(app):
     selection=tkSimpleDialog.askstring('resicolor',

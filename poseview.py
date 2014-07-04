@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def poseview(ligand='organic inorganic', protein='polymer', width=0, height=0,
              filename='', exe='poseview', state=-1, quiet=1):
     '''

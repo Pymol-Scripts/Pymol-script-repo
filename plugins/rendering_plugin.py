@@ -12,23 +12,31 @@ try:
     REAL_PYMOL = True
 except ImportError:
     REAL_PYMOL = False
+
     class pymol:
+
         class cmd:
+
             def ray(*args):
                 print "ray",args
+
             def png(*args,**kwargs):
                 print "png",args,kwargs
+
             def draw(*args,**kwargs):
                 print "draw",args,kwargs
             ray = staticmethod(ray)
             png = staticmethod(png)
             draw = staticmethod(draw)
 
+
 def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command',
                              'Launch Rendering Plugin',
                              label='Rendering...',
                              command = lambda s=self: RenderPlugin(s))
+
+
 class RenderPlugin:
 
     def __init__(self,app):
@@ -68,7 +76,6 @@ class RenderPlugin:
                                      validate = {'validator' : 'real',
                                                  'min':0,}
                                      )
-
 
         self.width = Pmw.EntryField(group.interior(),labelpos='w',
                                     label_text = 'Width:',
@@ -129,6 +136,7 @@ class RenderPlugin:
 # Create demo in root window for testing.
 if __name__ == '__main__':
     class App:
+
         def my_show(self,*args,**kwargs):
             pass
     app = App()

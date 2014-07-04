@@ -3,8 +3,8 @@ from math import *
 from pymol import cmd
 import re
 
-def spectrumbar (*args, **kwargs):
 
+def spectrumbar (*args, **kwargs):
     """
     Author Sean M. Law
     University of Michigan
@@ -141,7 +141,6 @@ def spectrumbar (*args, **kwargs):
 
     cmd.delete(name)
     cmd.load_cgo(bar,name)
-
 
     return
 cmd.extend("spectrumbar",spectrumbar)
