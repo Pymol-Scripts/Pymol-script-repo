@@ -58,7 +58,8 @@ def get_b_limits(input='[0,100]', selection='all'):
             # integer
             selection = str(selection)
             limits = abs(float(limits))
-            if limits > 50: return False
+            if limits > 50:
+                return False
             stored.temp = []
             cmd.iterate(selection, 'stored.temp.append(b)')
             stored.temp.sort()
@@ -121,7 +122,8 @@ PARAMETERS
         print "Input error"
         return False
 
-    if colors == 'False': color_s = color_h = color_l = False
+    if colors == 'False':
+        color_s = color_h = color_l = False
     elif colors.startswith('util.'):
         util_choices = ['util.cbc', 'util.rainbow', 'util.chainbow', 'util.ss']
         if colors in util_choices:
@@ -135,15 +137,18 @@ PARAMETERS
             if color_s != 'False':
                 cmd.color(color_s, None)
                 color_s = 'color %s, ' % color_s
-            else: color_s = False
+            else:
+                color_s = False
             if color_h != 'False':
                 cmd.color(color_h, None)
                 color_h = 'color %s, ' % color_h
-            else: color_h = False
+            else:
+                color_h = False
             if color_l != 'False':
                 cmd.color(color_l, None)
                 color_l = 'color %s, ' % color_l
-            else: color_l = False
+            else:
+                color_l = False
         except:
             print "Input error! Please check that three valid colors (or False) are provided"
             return False
@@ -155,16 +160,19 @@ PARAMETERS
         cmd.cartoon('dumbbell', 'ss h and %s and %s' % (selection, p))
         cmd.cartoon('loop', 'ss l+"" and %s and %s' % (selection, p))
         # sheets
-        if color_s: print cmd.do(color_s + '(ss s and %s and %s)' % (selection, p))
+        if color_s:
+            print cmd.do(color_s + '(ss s and %s and %s)' % (selection, p))
         cmd.set('cartoon_rect_length', 1.5, p)
         cmd.set('cartoon_rect_width', 0.25, p)
         # a-helices
-        if color_h: print cmd.do(color_h + '(ss h and %s and %s)' % (selection, p))
+        if color_h:
+            print cmd.do(color_h + '(ss h and %s and %s)' % (selection, p))
         cmd.set('cartoon_dumbbell_length', 1.5, p)
         cmd.set('cartoon_dumbbell_width', 0.25, p)
         cmd.set('cartoon_dumbbell_radius', 0.2, p)
         # loops
-        if color_l: print cmd.do(color_l + '(ss l+"" and %s and %s)' % (selection, p))
+        if color_l:
+            print cmd.do(color_l + '(ss l+"" and %s and %s)' % (selection, p))
         cmd.set('cartoon_loop_radius', 0.25, p)
 
         if only:
@@ -172,7 +180,7 @@ PARAMETERS
         else:
             cmd.show('cartoon', '%s and %s' % (selection, p))
 
-cmd.extend("disp_ss", disp_ss);
+cmd.extend("disp_ss", disp_ss)
 cmd.auto_arg[0]['disp_ss'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
 cmd.auto_arg[1]['disp_ss'] = [lambda: cmd.Shortcut(['default', 'blue', 'yellow']), 'color_s=', ',']
 cmd.auto_arg[2]['disp_ss'] = [lambda: cmd.Shortcut(['default', 'red', 'blue']), 'color_h=', ',']
@@ -233,7 +241,7 @@ PARAMETERS
         cmd.show('sticks', '%s' % (selection))
 
 
-cmd.extend("disp_ball_stick", disp_ball_stick);
+cmd.extend("disp_ball_stick", disp_ball_stick)
 cmd.auto_arg[0]['disp_ball_stick'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
 cmd.auto_arg[1]['disp_ball_stick'] = [lambda: cmd.Shortcut(['-1', '0', '1']), 'hydrogens=', ',']
 cmd.auto_arg[2]['disp_ball_stick'] = [lambda: cmd.Shortcut(['True', 'False']), 'only=', '']
@@ -246,7 +254,7 @@ def disp_stick_ball(selection='all', hydrogens=0, only=False):
     '''
     #disp_stick_ball - redirected
     disp_ball_stick(selection, hydrogens, only)
-cmd.extend("disp_stick_ball", disp_stick_ball);
+cmd.extend("disp_stick_ball", disp_stick_ball)
 cmd.auto_arg[0]['disp_stick_ball'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
 cmd.auto_arg[1]['disp_stick_ball'] = [lambda: cmd.Shortcut(['-1', '0', '1']), 'hydrogens=', ',']
 cmd.auto_arg[2]['disp_stick_ball'] = [lambda: cmd.Shortcut(['True', 'False']), 'only=', '']
@@ -322,7 +330,7 @@ PARAMETERS
             cmd.show('mesh', '%s and %s' % (selection, p))
         cmd.rebuild()
 
-cmd.extend("disp_mesh", disp_mesh);
+cmd.extend("disp_mesh", disp_mesh)
 cmd.auto_arg[0]['disp_mesh'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
 cmd.auto_arg[1]['disp_mesh'] = [lambda: cmd.Shortcut(['default', 'red', 'green', 'blue', 'yellow']), 'color_m=', ',']
 cmd.auto_arg[2]['disp_mesh'] = [lambda: cmd.Shortcut(['-1', '0', '1']), 'hydrogens=', ',']
@@ -425,7 +433,7 @@ PARAMETERS
             cmd.show_as('surface', '(%s and %s)' % (selection, p))
         else:
             cmd.show('surface', '(%s and %s)' % (selection, p))
-cmd.extend("disp_surf", disp_surf);
+cmd.extend("disp_surf", disp_surf)
 cmd.auto_arg[0]['disp_surf'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
 cmd.auto_arg[1]['disp_surf'] = [lambda: cmd.Shortcut(['default', 'red', 'green', 'blue', 'yellow']), 'color_s=', ',']
 cmd.auto_arg[2]['disp_surf'] = [lambda: cmd.Shortcut(['0', '0.10', '0.20', '0.30', '0.40', '0.50', '0.60', '0.70', '0.80', '0.90', '1.00']), 'transparency=', ',']
@@ -478,9 +486,11 @@ USEAGE
         cmd.set('cartoon_putty_transform', 0, p)
         cmd.spectrum('b', 'rainbow', '(not hetatm) and %s' % p, minimum='%f' % limits[0], maximum='%f' % limits[1], byres=1)
         cmd.cartoon('putty', '(%s and %s)' % (selection, p))
-        if only: cmd.show_as('cartoon', '(%s and %s)' % (selection, p))
-        else: cmd.show('cartoon', '(%s and %s)' % (selection, p))
-cmd.extend("disp_putty", disp_putty);
+        if only:
+            cmd.show_as('cartoon', '(%s and %s)' % (selection, p))
+        else:
+            cmd.show('cartoon', '(%s and %s)' % (selection, p))
+cmd.extend("disp_putty", disp_putty)
 cmd.auto_arg[0]['disp_putty'] = [lambda: cmd.Shortcut(['all', 'all and visible']), 'selection=', ',']
 cmd.auto_arg[1]['disp_putty'] = [lambda: cmd.Shortcut('0', '5', '10', '[10,50]'), 'limits=', ',']
 cmd.auto_arg[2]['disp_putty'] = [lambda: cmd.Shortcut(['True', 'False']), 'only=', '']

@@ -43,13 +43,16 @@ class WFMesh(Callback):
                 dat = re.split("\s+", line)
 
                 # Find vertex line
-                if line[0] == 'v' and line[1] != 't' and line[1] != 'n': self.verts.append([dat[1], dat[2], dat[3]])
+                if line[0] == 'v' and line[1] != 't' and line[1] != 'n':
+                    self.verts.append([dat[1], dat[2], dat[3]])
 
                 # Find polygon line
-                if line[0] == 'f': self.polys.append([dat[1], dat[2], dat[3]])
+                if line[0] == 'f':
+                    self.polys.append([dat[1], dat[2], dat[3]])
 
                 # Find section line
-                if line[0] == 'g': self.sections[len(self.polys)] = dat[1]
+                if line[0] == 'g':
+                    self.sections[len(self.polys)] = dat[1]
 
     # Compute the normals for each polygon and each vertex
     def computeNorms(self):
@@ -150,12 +153,12 @@ class WFMesh(Callback):
     # Draw Function
     def __call__(self):
 
-        glColorMaterial(GL_FRONT, GL_DIFFUSE);
-        glEnable(GL_COLOR_MATERIAL);
-        glShadeModel(GL_SMOOTH);
+        glColorMaterial(GL_FRONT, GL_DIFFUSE)
+        glEnable(GL_COLOR_MATERIAL)
+        glShadeModel(GL_SMOOTH)
 
         # Color Everything grey
-        glColor3f(0.5, 0.5, 0.5);
+        glColor3f(0.5, 0.5, 0.5)
 
         glPushMatrix()
         glTranslated(self.translate[0], self.translate[1], self.translate[2])

@@ -143,7 +143,7 @@ class RemotePDB:
                 stuff = line[12:16]  # Pocket Number
                 stuff = stuff.strip()
                 if(stuff.isdigit()):
-                    pocDict[stuff] = '';
+                    pocDict[stuff] = ''
                     idp = int(stuff)
                     pocNums[stuff] = idp
 
@@ -216,8 +216,8 @@ class RemotePDB:
 
                 newsel = ''
                 beg = ''
-                currSelections = {};
-                SelectionCntr = 0;
+                currSelections = {}
+                SelectionCntr = 0
                 for i in range(len(atms)):
                     if i == 0:
                         newsel = str(atms[i])
@@ -308,7 +308,7 @@ class RemoteJob:
             stuff = line[12:16]
             stuff = stuff.strip()
             if(stuff.isdigit()):
-                pocDict[stuff] = '';
+                pocDict[stuff] = ''
                 idp = int(stuff)
                 pocNums[stuff] = idp
         pocin.close()
@@ -349,8 +349,8 @@ class RemoteJob:
 
             newsel = ''
             beg = ''
-            currSelections = {};
-            SelectionCntr = 0;
+            currSelections = {}
+            SelectionCntr = 0
             for i in range(len(atms)):
                 if i == 0:
                     newsel = str(atms[i])
@@ -420,7 +420,7 @@ class LocalPDB:
             stuff = line[12:16]
             stuff = stuff.strip()
             if(stuff.isdigit()):
-                pocDict[stuff] = '';
+                pocDict[stuff] = ''
                 idp = int(stuff)
                 pocNums[stuff] = idp
         pocin.close()
@@ -462,8 +462,8 @@ class LocalPDB:
             numgrps = int(len(vls) / 5)  # attempt to make groups of atoms
             newsel = ''
             beg = ''
-            currSelections = {};
-            SelectionCntr = 0;
+            currSelections = {}
+            SelectionCntr = 0
             for i in range(len(atms)):
                 if i == 0:
                     newsel = str(atms[i])

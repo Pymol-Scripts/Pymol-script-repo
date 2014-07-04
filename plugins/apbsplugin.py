@@ -884,10 +884,14 @@ class APBSTools2:
         group.pack(fill='both', expand=1, padx=10, pady=5)
 
         def quickFileValidation(s):
-            if s == '': return Pmw.PARTIAL
-            elif os.path.isfile(s): return Pmw.OK
-            elif os.path.exists(s): return Pmw.PARTIAL
-            else: return Pmw.PARTIAL
+            if s == '':
+                return Pmw.PARTIAL
+            elif os.path.isfile(s):
+                return Pmw.OK
+            elif os.path.exists(s):
+                return Pmw.PARTIAL
+            else:
+                return Pmw.PARTIAL
 
         def quickFileDirValidation(s):
             '''
@@ -1106,21 +1110,25 @@ Citation for PDB2PQR:
         if self.radiobuttons.getvalue() == 'Use another PQR':
             pass
         elif self.radiobuttons.getvalue() == 'Use PDB2PQR':
-            if DEBUG: print "GENERATING PQR FILE via PDB2PQR"
+            if DEBUG:
+                print "GENERATING PQR FILE via PDB2PQR"
             good = self._generatePdb2pqrPqrFile()
             if not good:
                 if DEBUG:
                     print "Could not generate PDB2PQR file.  _generatePdb2pqrPqrFile failed."
                 return False
-            if DEBUG: print "GENERATED"
+            if DEBUG:
+                print "GENERATED"
         else:  # it's one of the pymol-generated options
-            if DEBUG: print "GENERATING PQR FILE via PyMOL"
+            if DEBUG:
+                print "GENERATING PQR FILE via PyMOL"
             good = self._generatePymolPqrFile()
             if not good:
                 if DEBUG:
                     print "Could not generate the PyMOL-basd PQR file.  generatePyMOLPqrFile failed."
                 return False
-            if DEBUG: print "GENERATED"
+            if DEBUG:
+                print "GENERATED"
         return True
 
     def execute(self, result, refocus=True):
@@ -1356,7 +1364,8 @@ Citation for PDB2PQR:
                 # print "tried new_prod",new_prod,"max_grid_points",max_grid_points,"small enough?",new_prod <= max_grid_points
                 if new_prod <= max_grid_points:
                     # print "able to round to closest"
-                    for i in 0, 1, 2: finegridpoints[i] = new_gp[i]
+                    for i in 0, 1, 2:
+                        finegridpoints[i] = new_gp[i]
                 else:
                     # darn .. have to round down.
                     # Note that this can still fail a little bit .. it can only get you back down to the next multiple <= what was in
@@ -2351,7 +2360,8 @@ class VisualizationGroup(Pmw.Group):
                                              )
             bars = (self.mol_surf_low, self.mol_surf_middle, self.mol_surf_high)
             Pmw.alignlabels(bars)
-            for bar in bars: bar.pack(side=LEFT)
+            for bar in bars:
+                bar.pack(side=LEFT)
             self.ms_group.pack(fill='both', expand=1, padx=4, pady=5, side=LEFT)
 
             self.fl_group = Pmw.Group(self.interior(), tag_text='Field Lines')

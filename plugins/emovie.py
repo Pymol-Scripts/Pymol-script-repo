@@ -32,8 +32,10 @@ from copy import deepcopy
 #
 # KR: Check whether Morphing is available
 #
-if cmd.keyword.has_key('rigimol'): MORPHING_OPTIONS = 1
-else: MORPHING_OPTIONS = 0
+if cmd.keyword.has_key('rigimol'):
+    MORPHING_OPTIONS = 1
+else:
+    MORPHING_OPTIONS = 0
 
 
 class eMovie:
@@ -254,7 +256,8 @@ class Scenes(tkSimpleDialog.Dialog):
         scrollbar = Scrollbar(master, orient=VERTICAL)
         self.lb1 = Listbox(master, yscrollcommand=scrollbar.set, relief=RIDGE, height=HeightLb)
         scrollbar.config(command=self.yview)
-        if verticalScrollFlag: scrollbar.grid(row=1, column=1, sticky=N + S)
+        if verticalScrollFlag:
+            scrollbar.grid(row=1, column=1, sticky=N + S)
 
         emovie.sceneList.sort()
 
@@ -282,7 +285,8 @@ class Scenes(tkSimpleDialog.Dialog):
         selection = self.lb1.curselection()
         try:
             selection = map(int, selection)
-        except ValueError: pass
+        except ValueError:
+            pass
         sceneToRecall = emovie.sceneList[selection[0]]
         cmd.scene("%s" % (sceneToRecall), "recall")
 
@@ -290,7 +294,8 @@ class Scenes(tkSimpleDialog.Dialog):
         selection = self.lb1.curselection()
         try:
             selection = map(int, selection)
-        except ValueError: pass
+        except ValueError:
+            pass
         sceneToDelete = emovie.sceneList[selection[0]]
         cmd.scene("%s" % (sceneToDelete), "clear")
         emovie.sceneList.remove(sceneToDelete)
@@ -960,9 +965,11 @@ class Story(tkSimpleDialog.Dialog):
         self.lb3 = Listbox(master, yscrollcommand=scrollbar.set, relief=FLAT, width=WidthLb3, height=HeightLb)
         self.lb4 = Listbox(master, yscrollcommand=scrollbar.set, xscrollcommand=scrollbarInfo.set, relief=FLAT, width=WidthLb4, height=HeightLb)
         scrollbar.config(command=self.yview)
-        if verticalScrollFlag: scrollbar.grid(row=1, column=4, sticky=N + S)
+        if verticalScrollFlag:
+            scrollbar.grid(row=1, column=4, sticky=N + S)
         scrollbarInfo.config(command=self.xview)
-        if horizontalScrollFlag: scrollbarInfo.grid(row=2, column=0, columnspan=5, sticky=E + W)
+        if horizontalScrollFlag:
+            scrollbarInfo.grid(row=2, column=0, columnspan=5, sticky=E + W)
         self.lb1.grid(row=1, column=0)
         self.lb2.grid(row=1, column=1)
         self.lb3.grid(row=1, column=2)
@@ -1006,25 +1013,29 @@ class Story(tkSimpleDialog.Dialog):
             selection = self.lb1.curselection()
             try:
                 selection = map(int, selection)
-            except ValueError: pass
+            except ValueError:
+                pass
             actionNumber = selection[0]
         elif len(self.lb2.curselection()) == 1:
             selection = self.lb2.curselection()
             try:
                 selection = map(int, selection)
-            except ValueError: pass
+            except ValueError:
+                pass
             actionNumber = selection[0]
         elif len(self.lb3.curselection()) == 1:
             selection = self.lb3.curselection()
             try:
                 selection = map(int, selection)
-            except ValueError: pass
+            except ValueError:
+                pass
             actionNumber = selection[0]
         elif len(self.lb4.curselection()) == 1:
             selection = self.lb4.curselection()
             try:
                 selection = map(int, selection)
-            except ValueError: pass
+            except ValueError:
+                pass
             actionNumber = selection[0]
         emovie.actionToEdit = actionNumber
         emovie.editAction()
@@ -1064,25 +1075,29 @@ class Story(tkSimpleDialog.Dialog):
             selection = self.lb1.curselection()
             try:
                 selection = map(int, selection)
-            except ValueError: pass
+            except ValueError:
+                pass
             actionNumber = selection[0]
         elif len(self.lb2.curselection()) == 1:
             selection = self.lb2.curselection()
             try:
                 selection = map(int, selection)
-            except ValueError: pass
+            except ValueError:
+                pass
             actionNumber = selection[0]
         elif len(self.lb3.curselection()) == 1:
             selection = self.lb3.curselection()
             try:
                 selection = map(int, selection)
-            except ValueError: pass
+            except ValueError:
+                pass
             actionNumber = selection[0]
         elif len(self.lb4.curselection()) == 1:
             selection = self.lb4.curselection()
             try:
                 selection = map(int, selection)
-            except ValueError: pass
+            except ValueError:
+                pass
             actionNumber = selection[0]
 
         if (deleteActionFlag == True) and (actionNumber != -1):
@@ -1441,7 +1456,8 @@ class Save:
         #
         filename = tkFileDialog.asksaveasfile(title=title, defaultextension=".emov", filetypes=[("eMovie files", ".emov"), ("All files", "*")])
         # added file type menu.
-        if not filename: return
+        if not filename:
+            return
         fileName = filename.name
 
         # want to make sure the extension is .emov
@@ -1616,7 +1632,8 @@ class Load:
         #
         filename = tkFileDialog.askopenfile(title=title, defaultextension=".emov", filetypes=[("eMovie files", ".emov"), ("All files", "*")])
         # added file type menu.
-        if not filename: return
+        if not filename:
+            return
         fileName = filename.name
 
         # here we want to look at the fileName
@@ -1640,7 +1657,8 @@ class Load:
 
         x = pickle.load(f)
 
-        if type(x[len(x) - 1]) == types.StringType: temp = x.pop()  # to handle any old versions of emovies that saved initialview, just throws away the initial view
+        if type(x[len(x) - 1]) == types.StringType:
+            temp = x.pop()  # to handle any old versions of emovies that saved initialview, just throws away the initial view
 
         if (type(x[len(x) - 1]) == types.ListType) and (type(x[len(x) - 2]) == types.ListType):  # check if sceneList and morphList are present because earlier versions didnt save sceneList
             emovie.sceneList = x.pop()
@@ -1651,8 +1669,10 @@ class Load:
             emovie.morphList = x.pop()
             emovie.storyBoard = x
 
-        try: emovie.morphList.remove(("MORPHS (30 frames each)", 0, 0))  # to handle any versions of emovies that saved this within morphList
-        except: pass
+        try:
+            emovie.morphList.remove(("MORPHS (30 frames each)", 0, 0))  # to handle any versions of emovies that saved this within morphList
+        except:
+            pass
 
         # for compatibility with old versions of eMovie:
         for a in emovie.storyBoard:
@@ -1733,7 +1753,8 @@ class Load:
 
         x = pickle.load(f)
 
-        if type(x[len(x) - 1]) == types.StringType: temp = x.pop()  # to handle any old versions of emovies that saved initialview, just throws away the initial view
+        if type(x[len(x) - 1]) == types.StringType:
+            temp = x.pop()  # to handle any old versions of emovies that saved initialview, just throws away the initial view
 
         if (type(x[len(x) - 1]) == types.ListType) and (type(x[len(x) - 2]) == types.ListType):  # check if sceneList and morphList are present because earlier versions didnt save sceneList
             emovie.sceneList = x.pop()
@@ -1744,8 +1765,10 @@ class Load:
             emovie.morphList = x.pop()
             emovie.storyBoard = x
 
-        try: emovie.morphList.remove(("MORPHS (30 frames each)", 0, 0))  # to handle any versions of emovies that saved this within morphList
-        except: pass
+        try:
+            emovie.morphList.remove(("MORPHS (30 frames each)", 0, 0))  # to handle any versions of emovies that saved this within morphList
+        except:
+            pass
 
         # for compatibility with old versions of eMovie:
         for a in emovie.storyBoard:
@@ -2011,7 +2034,8 @@ class AddMorph(tkSimpleDialog.Dialog):
         scrollbar = Scrollbar(master, orient=VERTICAL)
         self.lb1 = Listbox(master, yscrollcommand=scrollbar.set, relief=RIDGE, height=HeightLb)
         scrollbar.config(command=self.yview)
-        if verticalScrollFlag: scrollbar.grid(row=1, column=1, sticky=N + S)
+        if verticalScrollFlag:
+            scrollbar.grid(row=1, column=1, sticky=N + S)
 
         for a in emovie.morphList:
             self.lb1.insert(END, a[0])
@@ -2477,8 +2501,10 @@ def getActionValues(action):
     frames = action[0]
     t = string.split(frames, "-")
     startFrame = t[0]  # the first token is the start frame
-    if len(t) == 2: endFrame = t[1]
-    else: endFrame = 0
+    if len(t) == 2:
+        endFrame = t[1]
+    else:
+        endFrame = 0
 
     # next, we get the actionType
     actionType = action[1]
@@ -2508,8 +2534,10 @@ def getActionValues(action):
     elif actionType == "Zoom":
         info = action[2]
         q = string.split(info, " ")
-        if len(q) == 2: amtZoom = q[1]
-        else: amtZoom = 0
+        if len(q) == 2:
+            amtZoom = q[1]
+        else:
+            amtZoom = 0
 
         result = (startFrame, endFrame, actionType, amtZoom)
         return result
@@ -2847,7 +2875,8 @@ def get_linear_values(number, start=0.0, end=1.0):
     value is 'start', the last one is 'end' and the others
     are linearly in between them.
     """
-    if number == 1: return [end]
+    if number == 1:
+        return [end]
     values = []
     i = 0.0
     while i <= number:
@@ -2862,7 +2891,8 @@ def get_trigon_values(number, start=0.0, end=1.0):
     value is 'start', the last one is 'end' and the others
     are calculated using a trigonometric function.
     """
-    if number == 1: return [end]
+    if number == 1:
+        return [end]
     values = []
     arcIncrement = pi / (number - 1)
 
@@ -2879,8 +2909,10 @@ def get_trigon_values(number, start=0.0, end=1.0):
 
 
 def get_values(number, start, end, mode):
-    if mode == 'linear': values = get_linear_values(number, start, end)
-    elif mode == 'trigon': values = get_trigon_values(number, start, end)
+    if mode == 'linear':
+        values = get_linear_values(number, start, end)
+    elif mode == 'trigon':
+        values = get_trigon_values(number, start, end)
     else:
         print 'movie.py: INVALID MODE %s' % mode
         return []
@@ -2922,20 +2954,26 @@ def get_frame_states(fstring):
 
     t = string.split(fstring, ":")
     frames = t[0]  # the first token is frame range
-    if len(t) == 2: states = t[1]  # the second token is state range
-    else: states = '1'  # only state number 1 is used
+    if len(t) == 2:
+        states = t[1]  # the second token is state range
+    else:
+        states = '1'  # only state number 1 is used
 
     # parse frame substring
     t = string.split(frames, "-")
     firstFrame = int(t[0])  # first token is starting frame
-    if len(t) == 2: lastFrame = int(t[1])  # second token is end frame
-    else: lastFrame = firstFrame  # only one frame is used
+    if len(t) == 2:
+        lastFrame = int(t[1])  # second token is end frame
+    else:
+        lastFrame = firstFrame  # only one frame is used
 
     # parse state substring
     t = string.split(states, "-")
     firstState = int(t[0])  # first token is starting state
-    if len(t) == 2: lastState = int(t[1])  # second token is end state
-    else: lastState = firstState  # only one state is used
+    if len(t) == 2:
+        lastState = int(t[1])  # second token is end state
+    else:
+        lastState = firstState  # only one state is used
 
     # compile list of frames/states
     framestates = []
@@ -2954,7 +2992,8 @@ def get_frame_states(fstring):
             framestates.append((frame, state))
 
     # put values into mv for compiling the movie later
-    if moviedata.maxframe < lastFrame: moviedata.maxframe = lastFrame
+    if moviedata.maxframe < lastFrame:
+        moviedata.maxframe = lastFrame
     moviedata.add_frame_states(framestates)
 
     return framestates
@@ -3035,9 +3074,12 @@ def mv_trans(frames="1", axis="x", distance="0", selection='all', mode='linear')
     distanceIncrement = get_increment_values(nFrames, 0.0, float(distance), mode)
 
     for i in range(nFrames):
-        if axis == 'x': vector = "[%f,0,0]" % (distanceIncrement[i])
-        elif axis == 'y': vector = "[0,%f,0]" % (distanceIncrement[i])
-        elif axis == 'z': vector = "[0,0,%f]" % (distanceIncrement[i])
+        if axis == 'x':
+            vector = "[%f,0,0]" % (distanceIncrement[i])
+        elif axis == 'y':
+            vector = "[0,%f,0]" % (distanceIncrement[i])
+        elif axis == 'z':
+            vector = "[0,0,%f]" % (distanceIncrement[i])
         moviedata.add(framestates[i], "translate %s,%s" % (vector, selection))
 
 
@@ -3058,8 +3100,10 @@ def movie(png_prefix="", ray="0"):
     """
     Creates the movie and plays it.
     """
-    if png_prefix: moviedata.png_prefix = png_prefix
-    if ray != "0": moviedata.ray = 1
+    if png_prefix:
+        moviedata.png_prefix = png_prefix
+    if ray != "0":
+        moviedata.ray = 1
     if moviedata.png_prefix != "":
         # stop movie after first loop
         mv_cmd(str(moviedata.maxframe + 1), "mstop")
@@ -3080,19 +3124,25 @@ def movie(png_prefix="", ray="0"):
     for e in range(nFrames):
         actual = states[e]
         next = 0
-        if e < nFrames - 1: next = states[e + 1]
-        if next == actual: count += 1
+        if e < nFrames - 1:
+            next = states[e + 1]
+        if next == actual:
+            count += 1
         else:
-            if count > 0: statelist += "%s x%i " % (actual, count + 1)
-            else: statelist += "%s " % (actual)
+            if count > 0:
+                statelist += "%s x%i " % (actual, count + 1)
+            else:
+                statelist += "%s " % (actual)
             count = 0
 
     cmd.mset(statelist)
 
     do = ["zero unused"]  # create empty frame-2do-list
-    for i in range(nFrames): do.append("")
+    for i in range(nFrames):
+        do.append("")
 
-    for m in moviedata.movie: do[m[0]] += m[2] + ";"  # push all movie commands to the 2do-list
+    for m in moviedata.movie:
+        do[m[0]] += m[2] + ";"  # push all movie commands to the 2do-list
 
     # check for png output and raytracing:
     # if moviedata.png_prefix!="":
@@ -3101,7 +3151,8 @@ def movie(png_prefix="", ray="0"):
     #    cmd.mpng(moviedata.png_prefix)
     if moviedata.png_prefix != "":
         for i in range(nFrames):
-            if moviedata.ray: do[i] += "ray;"
+            if moviedata.ray:
+                do[i] += "ray;"
             num = "0000" + str(i)
             num = num[-4:]
             do[i] += "png %s.%s;" % (moviedata.png_prefix, num)

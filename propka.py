@@ -115,8 +115,12 @@ propka
 
 ##############################################################################################################################################################################################################################
 '''
-try: from pymol import cmd; runningpymol = 'yes'
-except: runningpymol = 'no'; pass
+try:
+    from pymol import cmd
+    runningpymol = 'yes'
+except:
+    runningpymol = 'no'
+    pass
 import time
 import platform
 import os
@@ -134,31 +138,46 @@ def propka(molecule="NIL", chain="*", resi="0", resn="NIL", method="upload", log
         assert len(cmd.get_names()) != 0, "Did you forget to load a molecule? There are no objects in pymol."
         molecule = cmd.get_names()[-1]
     # To print out to screen for selected residues. Can be separated with "." or make ranges with "-". Example: resi="4-8.10"
-    if resi != "0": resi_range = ResiRange(resi)
-    else: resi_range = []
+    if resi != "0":
+        resi_range = ResiRange(resi)
+    else:
+        resi_range = []
     # Also works for residue names. They are all converted to bigger letters. Example: resn="cys.Tyr"
-    if resn != "NIL": resn_range = ResnRange(resn)
-    else: resn_range = resn
+    if resn != "NIL":
+        resn_range = ResnRange(resn)
+    else:
+        resn_range = resn
     # Make chain range, and upper case.
     chain = ChainRange(chain)
     # Make result directory. We also the absolut path to the new directory.
     Newdir = createdirs()
     if method == "upload":
         # We try to load mechanize. If this fail, one can always get the .pka file manual and the run: method=file
-        try: from modules import mechanize; importedmechanize = 'yes'
-        except ImportError: print("Import error. Is a module missing?"); print(sys.exc_info()); print("Look if missing module is in your python path\n%s") % sys.path; importedmechanize = 'no'; import modules.mechanize as mechanize
+        try:
+            from modules import mechanize
+            importedmechanize = 'yes'
+        except ImportError:
+            print("Import error. Is a module missing?")
+            print(sys.exc_info())
+            print("Look if missing module is in your python path\n%s") % sys.path
+            importedmechanize = 'no'
+            import modules.mechanize as mechanize
         # The name for the new molecule
         newmolecule = "%s%s" % (molecule, logtime)
         # Create the new molecule from original loaded and for the specified chains. Save it, and disable the old molecule.
         cmd.create("%s" % newmolecule, "%s and chain %s" % (molecule, chain))
         cmd.save("%s%s.pdb" % (Newdir, newmolecule), "%s" % newmolecule)
         cmd.disable("%s" % molecule)
-        if molecule == "all": cmd.enable("%s" % molecule); cmd.show("cartoon", "%s" % molecule)
+        if molecule == "all":
+            cmd.enable("%s" % molecule)
+            cmd.show("cartoon", "%s" % molecule)
         # Let the new molecule be shown in cartoon.
         cmd.hide("everything", "%s" % newmolecule)
         cmd.show("cartoon", "%s" % newmolecule)
         # Make the absolut path to the newly created .pdb file.
-        PDB = "%s%s.pdb" % (Newdir, newmolecule); source = "upload"; PDBID = ""
+        PDB = "%s%s.pdb" % (Newdir, newmolecule)
+        source = "upload"
+        PDBID = ""
         # Request server, and get the absolut path to the result file.
         pkafile = getpropka(PDB, chain, resi, resn, source, PDBID, logtime, server_wait, version, verbose, showresult)
         # Open the result file and put in into a handy list.
@@ -177,27 +196,41 @@ def propka(molecule="NIL", chain="*", resi="0", resn="NIL", method="upload", log
     # Now create the pymol command file. This should label the protein. We get back the absolut path to the file, so we can execute it.
     result_pka_pymol_name = writepymolcmd(newmolecule, pkafile, verbose, makebonds)
     # Now run our command file. But only if we are running pymol.
-    if runningpymol == 'yes': cmd.do("run %s" % result_pka_pymol_name)
+    if runningpymol == 'yes':
+        cmd.do("run %s" % result_pka_pymol_name)
     ##if runningpymol=='yes': cmd.do("@%s"%result_pka_pymol_name)
     return(list_results)
-if runningpymol != 'no': cmd.extend("propka", propka)
+if runningpymol != 'no':
+    cmd.extend("propka", propka)
 
 
 def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID="", logtime=time.strftime("%Y%m%d%H%M%S", time.localtime()), server_wait=3.0, version="v3.1", verbose="no", showresult="no"):
-    try: import modules.mechanize as mechanize; importedmechanize = 'yes'
-    except ImportError: print("Import error. Is a module missing?"); print(sys.exc_info()); print("Look if missing module is in your python path \n %s" % sys.path); importedmechanize = 'no'
+    try:
+        import modules.mechanize as mechanize
+        importedmechanize = 'yes'
+    except ImportError:
+        print("Import error. Is a module missing?")
+        print(sys.exc_info())
+        print("Look if missing module is in your python path \n %s" % sys.path)
+        importedmechanize = 'no'
     propka_v_201108 = 3.1
     url = "http://propka.ki.ku.dk/"
     assert version in ['v2.0', 'v3.0', 'v3.1'], "'version' has to be either: 'v2.0', 'v3.0', 'v3.1'"
     assert source in ['ID', 'upload', 'addr', 'input_file'], "'source' has to be either: 'ID', 'upload', 'addr', 'input_file'"
-    if source == "upload": assert PDB not in ['NIL'], "You always have to provide PDB path. Example: PDB=.\Results_propka\4ins2011.pdb"
-    if source == "ID": assert len(PDBID) == 4, "PDBID has to be 4 characters"
+    if source == "upload":
+        assert PDB not in ['NIL'], "You always have to provide PDB path. Example: PDB=.\Results_propka\4ins2011.pdb"
+    if source == "ID":
+        assert len(PDBID) == 4, "PDBID has to be 4 characters"
     # To print out to screen for selected residues. Can be separated with "." or make ranges with "-". Example: resi="4-8.10"
-    if resi != "0": resi_range = ResiRange(resi)
-    else: resi_range = []
+    if resi != "0":
+        resi_range = ResiRange(resi)
+    else:
+        resi_range = []
     # Also works for residue names. They are all converted to bigger letters. Example: resn="cys.Tyr"
-    if resn != "NIL": resn_range = ResnRange(resn)
-    else: resn_range = resn
+    if resn != "NIL":
+        resn_range = ResnRange(resn)
+    else:
+        resn_range = resn
     # Start the browser
     br = mechanize.Browser()
     # We pass to the server, that we are not a browser, but this python script. Can be used for statistics at the propka server.
@@ -207,56 +240,90 @@ def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID
     # To open the start page.
     page_start = br.open(url)
     read_start = page_start.read()
-    if verbose == 'yes': print(br.title()); print(br.geturl())
+    if verbose == 'yes':
+        print(br.title())
+        print(br.geturl())
     # To get available forms
     page_forms = [f.name for f in br.forms()]
-    if verbose == 'yes': print(page_forms)
+    if verbose == 'yes':
+        print(page_forms)
     # Select first form
     br.select_form(name=page_forms[0])
     # Print the current selected form, so we see that we values we start with.
-    if verbose == 'yes': print(br.form)
+    if verbose == 'yes':
+        print(br.form)
     # Print the parameters of the 'version' RadioControl button and current value
-    if verbose == 'yes': print(br.find_control(name='version')), br.find_control(name='version').value
+    if verbose == 'yes':
+        print(br.find_control(name='version')), br.find_control(name='version').value
     # This is to check, that the current script is "up-to-date".
     propka_v_present = float(br.find_control(name='version').value[0].replace('v', ''))
     if propka_v_present > propka_v_201108:
         raise UserWarning('\nNew version of propka exist.\nCheck/Update your script.\nPresent:v%s > Script:v%s' % (propka_v_present, propka_v_201108))
     # Change the parameters of the 'version' radio button and then reprint the new value. Input has to be in a list [input].
     br.form['version'] = [version]
-    if verbose == 'yes': print(br.find_control(name='version').value)
+    if verbose == 'yes':
+        print(br.find_control(name='version').value)
     # Print the parameters of the 'source' RadioControl button and current value
-    if verbose == 'yes': print(br.find_control(name='source'), br.find_control(name='source').value)
+    if verbose == 'yes':
+        print(br.find_control(name='source'), br.find_control(name='source').value)
     # Change the parameters of the 'source' radio button and then reprint the new value. Input has to be in a list [input].
     br.form['source'] = [source]
-    if verbose == 'yes': print(br.find_control(name='source').value)
+    if verbose == 'yes':
+        print(br.find_control(name='source').value)
     # This step was the must strange and took a long time. For finding the information and the double negative way.
     # One have to enable the pdb button. Read more here: http://wwwsearch.sourceforge.net/old/ClientForm/ ("# All Controls may be disabled.....)
     PDBID_control = br.find_control("PDBID")
     PDB_control = br.find_control("PDB")
-    if verbose == 'yes': print(PDBID_control.disabled, PDB_control.disabled)
-    if source == "ID": PDBID_control.disabled = False; PDB_control.disabled = True
-    if source == "upload": PDBID_control.disabled = True; PDB_control.disabled = False
-    if verbose == 'yes': print(PDBID_control.disabled, PDB_control.disabled)
+    if verbose == 'yes':
+        print(PDBID_control.disabled, PDB_control.disabled)
+    if source == "ID":
+        PDBID_control.disabled = False
+        PDB_control.disabled = True
+    if source == "upload":
+        PDBID_control.disabled = True
+        PDB_control.disabled = False
+    if verbose == 'yes':
+        print(PDBID_control.disabled, PDB_control.disabled)
     # We create the result dir, and take with us the 'path' to the result dir.
     Newdir = createdirs()
     # Open all the files, and assign them.
-    if source == "upload": filename = PDB
-    if source == "ID": filename = PDBID
+    if source == "upload":
+        filename = PDB
+    if source == "ID":
+        filename = PDBID
     files = openfiles(Newdir, filename, logtime, source)
-    result_pka_file = files[0]; result_input_pka_file = files[1]; result_log = files[2]; filepath = files[3]; result_pka_pkafile = files[4]; result_pka_file_stripped = files[5]; result_pka_file_bonds = files[6]
+    result_pka_file = files[0]
+    result_input_pka_file = files[1]
+    result_log = files[2]
+    filepath = files[3]
+    result_pka_pkafile = files[4]
+    result_pka_file_stripped = files[5]
+    result_pka_file_bonds = files[6]
     # Print the parameters of the 'PDBID' TextControl button and current value
-    if source == "ID" and verbose == 'yes': print(br.find_control(name='PDBID')); print(br.find_control(name='PDBID').value)
+    if source == "ID" and verbose == 'yes':
+        print(br.find_control(name='PDBID'))
+        print(br.find_control(name='PDBID').value)
     # Change the parameters of the 'PDBID' TextControl and then reprint the new value. Input has just to be a string.
-    if source == "ID": br.form["PDBID"] = PDBID
-    if source == "ID" and verbose == 'yes': print(br.find_control(name='PDBID').value)
+    if source == "ID":
+        br.form["PDBID"] = PDBID
+    if source == "ID" and verbose == 'yes':
+        print(br.find_control(name='PDBID').value)
     # Print the parameters of the 'PDB' TextControl button and current value
-    if source == "upload" and verbose == 'yes': print(br.find_control(name='PDB')); print(br.find_control(name='PDB').value)
+    if source == "upload" and verbose == 'yes':
+        print(br.find_control(name='PDB'))
+        print(br.find_control(name='PDB').value)
     # Change the parameters of the 'PDB' FileControl and then reprint the new value. Input has just to be a string.
-    if source == "upload": PDBfilename = PDB; PDBfilenamepath = PDB
-    if source == "upload": br.form.add_file(open(PDBfilename), 'text/plain', PDBfilenamepath, name='PDB')
-    if source == "upload" and verbose == 'yes': print(br.find_control(name='PDB')); print(br.find_control(name='PDB').value)
+    if source == "upload":
+        PDBfilename = PDB
+        PDBfilenamepath = PDB
+    if source == "upload":
+        br.form.add_file(open(PDBfilename), 'text/plain', PDBfilenamepath, name='PDB')
+    if source == "upload" and verbose == 'yes':
+        print(br.find_control(name='PDB'))
+        print(br.find_control(name='PDB').value)
     # Now reprint the current selected form, so we see that we have the right values.
-    if verbose == 'yes': print(br.form)
+    if verbose == 'yes':
+        print(br.form)
     # Make "how" we would like the next request. We would like to "Click the submit button", but we have not opened the request yet.
     req = br.click(type="submit", nr=0)
     # Have to pass by a mechanize exception. Thats the reason for the why True
@@ -316,13 +383,17 @@ def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID
         for i in range(len(lneighbours)):
             bonds.append([lresn, lresi, lchain, lresn2, lchain2, lpka, ldesolvation, lneighbours[i]])
     # Now follow the link to the .propka_input resultpage
-    if len(links_result) > 1: br.follow_link(links_result[1])
+    if len(links_result) > 1:
+        br.follow_link(links_result[1])
     # Now get the page text for the current link
-    if len(links_result) > 1: read_result1 = br.response().read()
+    if len(links_result) > 1:
+        read_result1 = br.response().read()
     # Save the result
-    if len(links_result) > 1: result_input_pka_file.write(read_result1)
+    if len(links_result) > 1:
+        result_input_pka_file.write(read_result1)
     # Now follow the link to the .pka resultpage
-    if len(links_result) > 1: br.back()
+    if len(links_result) > 1:
+        br.back()
     result_input_pka_file.close()
     # Now follow first link. "Should be" available for all versions of propka.
     br.follow_link(links_result[0])
@@ -354,8 +425,10 @@ def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID
     bonds.sort()
     last = bonds[-1]
     for i in range(len(bonds) - 2, -1, -1):
-        if last == bonds[i]: del bonds[i]
-        else: last = bonds[i]
+        if last == bonds[i]:
+            del bonds[i]
+        else:
+            last = bonds[i]
     # Now make a selection for known residue
     bonds_selected = []
     bonds_ligands = []
@@ -376,7 +449,8 @@ def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID
         result_pka_file_bonds.write("%3s %3s %s %7s %7s %9s %17s %s" % (l[0][6:], l[1], l[2][:1], l[3][8:], l[4], l[5], l[6], nb) + '\n')
     result_pka_file_bonds.close()
     return(result_pka_pkafile)
-if runningpymol != 'no': cmd.extend("getpropka", getpropka)
+if runningpymol != 'no':
+    cmd.extend("getpropka", getpropka)
 
 
 def openpymolfiles(pkafile):
@@ -388,14 +462,19 @@ def openpymolfiles(pkafile):
 def printpropkaresult(list_results, resi, resi_range, resn, resn_range, showresult, ligands_results):
     for l in list_results:
         if resi != "0" and int(l[1]) in resi_range:
-            if showresult != 'yes': print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
+            if showresult != 'yes':
+                print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
         if resn != "NIL" and l[0] in resn_range and int(l[1]) not in resi_range:
-            if showresult != 'yes': print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
-        if showresult == 'yes': print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
+            if showresult != 'yes':
+                print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
+        if showresult == 'yes':
+            print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
     for l in ligands_results:
         if resn != "NIL" and l[0] in resn_range:
-            if showresult != 'yes': print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
-        if showresult == 'yes': print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
+            if showresult != 'yes':
+                print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
+        if showresult == 'yes':
+            print("%3s %3s %s %6s %3s %5s %3s %4s %s" % (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8]))
 
 
 def importpropkaresult(result_pka_pkafile):
@@ -433,9 +512,12 @@ def importpropkabonds(result_pka_pkafile):
 
 
 def createdirs():
-    if platform.system() == 'Windows': Newdir = os.getcwd() + "\Results_propka\\"
-    if platform.system() == 'Linux': Newdir = os.getcwd() + "/Results_propka/"
-    if not os.path.exists(Newdir): os.makedirs(Newdir)
+    if platform.system() == 'Windows':
+        Newdir = os.getcwd() + "\Results_propka\\"
+    if platform.system() == 'Linux':
+        Newdir = os.getcwd() + "/Results_propka/"
+    if not os.path.exists(Newdir):
+        os.makedirs(Newdir)
     return(Newdir)
 
 
@@ -452,8 +534,10 @@ def openfiles(Newdir, filename, logtime, source):
         result_log_name = "%s_Results.log" % (Newdir)
         result_pka_file_stripped_name = "%s%s%s.stripped" % (Newdir, filename, logtime)
         result_pka_file_bonds_name = "%s%s%s.bonds" % (Newdir, filename, logtime)
-    if platform.system() == 'Windows': filepath = "\\"
-    if platform.system() == 'Linux': filepath = "/"
+    if platform.system() == 'Windows':
+        filepath = "\\"
+    if platform.system() == 'Linux':
+        filepath = "/"
     # Open the files
     result_pka_file = open(result_pka_pkafile, "w")
     result_input_pka_file = open(result_pka_input_pkafile, "w")
@@ -497,13 +581,17 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
             bonding_partners_single = bonding_partners_split[3]
             bonding_partners.append(bonding_partners_single)
     bonding_partners = uniqifi(bonding_partners)
-    if verbose == 'yes': print("And other possible bonding partners is: %s" % (bonding_partners))
+    if verbose == 'yes':
+        print("And other possible bonding partners is: %s" % (bonding_partners))
     # Read in the bond file, if it exists
     writebonds = "no"
-    if os.path.isfile(pkafile[:-4] + ".bonds") and makebonds == "yes": bonds = importpropkabonds(pkafile); writebonds = "yes"
+    if os.path.isfile(pkafile[:-4] + ".bonds") and makebonds == "yes":
+        bonds = importpropkabonds(pkafile)
+        writebonds = "yes"
     # Open the pymol command file for writing
     files_pka_pymol = openpymolfiles(pkafile)
-    result_pka_pymol = files_pka_pymol[0]; result_pka_pymol_name = files_pka_pymol[1]
+    result_pka_pymol = files_pka_pymol[0]
+    result_pka_pymol_name = files_pka_pymol[1]
     # Make some dictionary for propka->pymol name conversion
     dictio = {'ASP': 'CG', 'GLU': 'CD', 'ARG': 'CZ', 'LYS': 'NZ', 'HIS': 'CG', 'CYS': 'SG', 'TYR': 'OH', 'C-': 'C', 'N+': 'N', 'NTR': 'N', 'CTR': 'C', 'GLN': 'CD', 'ASN': 'CG', 'SER': 'OG', 'THR': 'OG1', 'GLY': 'CA', 'PHE': 'CZ', 'LEU': 'CG', 'ALA': 'CB', 'ILE': 'CD1', 'TRP': 'NE1', 'MET': 'SD', 'PRO': 'CG', 'VAL': 'CB'}
     dictio2 = {'ASP': 'D', 'GLU': 'E', 'ARG': 'R', 'LYS': 'K', 'HIS': 'H', 'CYS': 'C', 'TYR': 'Y', 'C-': 'C-', 'N+': 'N+'}
@@ -528,20 +616,31 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
     # Create the groups now, so they come in order. They will be empty
     result_pka_pymol.write("cmd.group('%sResi','Res*')\n" % (newmolecule))
     result_pka_pymol.write("cmd.group('%sLigands','Lig*')\n" % (newmolecule))
-    if writebonds == "yes": result_pka_pymol.write("cmd.group('%sBonds','%sBond*')\n" % (newmolecule, newmolecule))
+    if writebonds == "yes":
+        result_pka_pymol.write("cmd.group('%sBonds','%sBond*')\n" % (newmolecule, newmolecule))
     # Create new empty pymol pka molecules. For pka atoms and its label. This is a "bucket" we where we will put in the atoms together.
     result_pka_pymol.write("cmd.create('%s','None')\n" % (pkamolecule))
     result_pka_pymol.write("cmd.create('%s','None')\n" % (pkalabelmolecule))
     # Now make the pka atoms and alter, color and such
     for l in list_results:
-        name = dictio[l[0]]; resn = dictio2[l[0]]; resi = l[1]; chain = l[2]; pka = l[3]; buried = l[4]
-        if "*" in pka: pka = pka.replace("*", ""); comment = "*Coupled residue"
-        else: comment = ""
+        name = dictio[l[0]]
+        resn = dictio2[l[0]]
+        resi = l[1]
+        chain = l[2]
+        pka = l[3]
+        buried = l[4]
+        if "*" in pka:
+            pka = pka.replace("*", "")
+            comment = "*Coupled residue"
+        else:
+            comment = ""
         if l[0] in pkaaminoacid:
             pkadiff = (float(pka) - pkadictio[l[0]])
             pkadiff = "(%s)" % pkadiff
-            if pka == "99.99": pkadiff = ""
-        else: pkadiff = ""
+            if pka == "99.99":
+                pkadiff = ""
+        else:
+            pkadiff = ""
         # Make the selection for which atom to copy
         newselection = ("/%s//%s/%s/%s" % (newmolecule, chain, resi, name))
         protselect = ("%sRes_%s%s%s" % (newmolecule, chain, resn, resi))
@@ -577,11 +676,19 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
     # Group the resi together
     result_pka_pymol.write("cmd.group('%sResi','%sRes*')\n" % (newmolecule, newmolecule))
     for l in ligands_results:
-        resn = l[0]; atom = l[1]; chain = l[2]; pka = l[3]; buried = l[4]
-        if verbose == 'yes': print("Ligand. resn:%s atom:%s chain:%s pka:%s buried:%s" % (resn, atom, chain, pka, buried))
+        resn = l[0]
+        atom = l[1]
+        chain = l[2]
+        pka = l[3]
+        buried = l[4]
+        if verbose == 'yes':
+            print("Ligand. resn:%s atom:%s chain:%s pka:%s buried:%s" % (resn, atom, chain, pka, buried))
         if Check_bonding_partners(bonding_partners, resn)[0]:
-            if "*" in pka: pka = pka.replace("*", ""); comment = "*Coupled residue"
-            else: comment = ""
+            if "*" in pka:
+                pka = pka.replace("*", "")
+                comment = "*Coupled residue"
+            else:
+                comment = ""
             # Make the selection for which atom to copy
             ligselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, chain, resn, atom))
             ligselect = ("%sLig_%s%s%s" % (newmolecule, chain, resn, atom))
@@ -629,7 +736,14 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
         naturalaminoacids = ['ASP', 'GLU', 'ARG', 'LYS', 'HIS', 'CYS', 'TYR', 'NTR', 'N+', 'CTR', 'C-', 'GLN', 'ASN', 'SER', 'THR', 'GLY', 'PHE', 'LEU', 'ALA', 'ILE', 'TRP', 'MET', 'PRO', 'VAL']
         for l in bonds:
             if l[0] in naturalaminoacids:
-                name = dictio[l[0]]; resi = l[1]; chain = l[2]; desolvation = l[6][12:]; pkachange = l[11]; NBresi = l[8][3:]; NBchain = l[9]; NBbond = l[-1][:2]
+                name = dictio[l[0]]
+                resi = l[1]
+                chain = l[2]
+                desolvation = l[6][12:]
+                pkachange = l[11]
+                NBresi = l[8][3:]
+                NBchain = l[9]
+                NBbond = l[-1][:2]
                 if l[8][:3] in naturalaminoacids:
                     NBname, cutoff = BondTypeName(dictio[l[8][:3]], NBbond)
                     fromselection = ("/%s//%s/%s/%s" % (newmolecule, chain, resi, name))
@@ -648,10 +762,13 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
                     # result_pka_pymol.write("cmd.disable('%s')\n"%(distname))
                     Bondgroups.append("%s%s" % (chain, resi))
                 if l[8][:3] not in naturalaminoacids and Check_bonding_partners(bonding_partners, l[8])[0]:
-                    cutoff = ""; NBresn = Check_bonding_partners(bonding_partners, l[8])[1]; NBname = l[8][len(NBresn):] + "*"
+                    cutoff = ""
+                    NBresn = Check_bonding_partners(bonding_partners, l[8])[1]
+                    NBname = l[8][len(NBresn):] + "*"
                     fromselection = ("/%s//%s/%s/%s" % (newmolecule, chain, resi, name))
                     toselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, NBchain, NBresn, NBname))
-                    if verbose == 'yes': print("Res->Ligand: (%s) -> (%s)" % (fromselection, toselection))
+                    if verbose == 'yes':
+                        print("Res->Ligand: (%s) -> (%s)" % (fromselection, toselection))
                     result_pka_pymol.write("cmd.show('sticks','%s')\n" % (toselection))
                     distname = ("%s_%s%s%s_%s_%s" % (newmolecule, chain, resi, NBresn, NBbond, pkachange))
                     result_pka_pymol.write("cmd.distance('%s','%s','%s'%s)\n" % (distname, fromselection, toselection, cutoff))
@@ -659,7 +776,14 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
                     # result_pka_pymol.write("cmd.disable('%s')\n"%(distname))
                     Bondgroups.append("%s%s" % (chain, resi))
             if l[0] in bonding_partners:
-                resn = l[0]; atom = l[1]; chain = l[2]; desolvation = l[6][12:]; pkachange = l[11]; NBresi = l[8][3:]; NBchain = l[9]; NBbond = l[-1][:2]
+                resn = l[0]
+                atom = l[1]
+                chain = l[2]
+                desolvation = l[6][12:]
+                pkachange = l[11]
+                NBresi = l[8][3:]
+                NBchain = l[9]
+                NBbond = l[-1][:2]
                 if not Check_bonding_partners(bonding_partners, l[8])[0]:
                     NBname, cutoff = BondTypeName(dictio[l[8][:3]], NBbond)
                     fromselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, chain, resn, atom))
@@ -678,10 +802,13 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
                     Bondgroups.append("%s%s%s" % (chain, resn, atom))
                     # result_pka_pymol.write("cmd.disable('%s')\n"%(distname))
                 if Check_bonding_partners(bonding_partners, l[8])[0]:
-                    cutoff = ""; NBresn = Check_bonding_partners(bonding_partners, l[8])[1]; NBname = l[8][len(NBresn):] + "*"
+                    cutoff = ""
+                    NBresn = Check_bonding_partners(bonding_partners, l[8])[1]
+                    NBname = l[8][len(NBresn):] + "*"
                     fromselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, chain, resn, atom))
                     toselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, NBchain, NBresn, NBname))
-                    if verbose == 'yes': print("Ligand->Ligand: (%s) -> (%s)" % (fromselection, toselection))
+                    if verbose == 'yes':
+                        print("Ligand->Ligand: (%s) -> (%s)" % (fromselection, toselection))
                     result_pka_pymol.write("cmd.show('sticks','%s')\n" % (toselection))
                     distname = ("%s_%s%s%s%s_%s_%s" % (newmolecule, chain, resn, atom, NBresn, NBbond, pkachange))
                     result_pka_pymol.write("cmd.distance('%s','%s','%s'%s)\n" % (distname, fromselection, toselection, cutoff))
@@ -709,12 +836,14 @@ def replace_all(text, dic):
 def uniqifi(seq, idfun=None):
     # Order preserving
     if idfun is None:
-        def idfun(x): return x
+        def idfun(x):
+            return x
     seen = {}
     result = []
     for item in seq:
         marker = idfun(item)
-        if marker in seen: continue
+        if marker in seen:
+            continue
         seen[marker] = 1
         result.append(item)
     return(result)
@@ -745,7 +874,10 @@ def Check_bonding_partners(bonding_partners, NBname):
 
 
 def SetDashColor(NBbond):
-    if NBbond == "SH": color = "brightorange"
-    if NBbond == "BH": color = "lightorange"
-    if NBbond == "CC": color = "red"
+    if NBbond == "SH":
+        color = "brightorange"
+    if NBbond == "BH":
+        color = "lightorange"
+    if NBbond == "CC":
+        color = "red"
     return(color)

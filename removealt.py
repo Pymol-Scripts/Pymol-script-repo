@@ -16,8 +16,8 @@ def removealt(obj="(all)", keep="A"):
             removeAlt pdbID, C  # remove all but C altlocations from pdbID
     """
     # select & remove all non A altlocs
-    remStr = "%s and not (alt ''+%s)" % (obj, keep);
-    cmd.remove(remStr);
+    remStr = "%s and not (alt ''+%s)" % (obj, keep)
+    cmd.remove(remStr)
     # reset the PDB information
     cmd.alter(obj, "alt=''")
 

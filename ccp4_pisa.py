@@ -38,7 +38,7 @@ def parseElement(element):
     for l in range(len(element)):
         if element[l].text != None:
             result[element[l].tag.strip()] = element[l].text.strip()
-    return result;
+    return result
 
 
 def parseBond(elementDir):

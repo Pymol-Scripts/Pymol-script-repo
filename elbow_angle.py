@@ -198,10 +198,18 @@ REQUIRES: com.py, transformations.py, numpy (see above)
         cmd.distance(pre + "c_vec", pre + "start_c", pre + "end_c")
 
         # customize appearance
-        cmd.hide("labels", pre + "hinge_vec"); cmd.hide("labels", pre + "v_vec"); cmd.hide("labels", pre + "c_vec");
-        cmd.color("green", pre + "hinge_l"); cmd.color("red", pre + "hinge_h"); cmd.color("black", pre + "hinge_vec");
-        cmd.color("black", pre + "start_v"); cmd.color("black", pre + "end_v"); cmd.color("black", pre + "v_vec");
-        cmd.color("black", pre + "start_c"); cmd.color("black", pre + "end_c"); cmd.color("black", pre + "c_vec")
+        cmd.hide("labels", pre + "hinge_vec")
+        cmd.hide("labels", pre + "v_vec")
+        cmd.hide("labels", pre + "c_vec")
+        cmd.color("green", pre + "hinge_l")
+        cmd.color("red", pre + "hinge_h")
+        cmd.color("black", pre + "hinge_vec")
+        cmd.color("black", pre + "start_v")
+        cmd.color("black", pre + "end_v")
+        cmd.color("black", pre + "v_vec")
+        cmd.color("black", pre + "start_c")
+        cmd.color("black", pre + "end_c")
+        cmd.color("black", pre + "c_vec")
         # draw spheres
         cmd.show("spheres", pre + "hinge_l or " + pre + "hinge_h")
         cmd.show("spheres", pre + "start_v or " + pre + "start_c")

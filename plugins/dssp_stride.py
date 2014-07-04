@@ -145,10 +145,12 @@ class DSSPPlugin:
             else:
                 pass
         if 'DSSP_BIN' in os.environ:
-            if VERBOSE: print 'Found DSSP_BIN in environmental variables', os.environ['DSSP_BIN']
+            if VERBOSE:
+                print 'Found DSSP_BIN in environmental variables', os.environ['DSSP_BIN']
             self.dssp_bin.set(os.environ['DSSP_BIN'])
         else:
-            if VERBOSE: print 'DSSP_BIN not found in environmental variables.'
+            if VERBOSE:
+                print 'DSSP_BIN not found in environmental variables.'
             self.dssp_bin.set('')
         if 'STRIDE_BIN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
             if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
@@ -163,10 +165,12 @@ class DSSPPlugin:
             else:
                 pass
         if 'STRIDE_BIN' in os.environ:
-            if VERBOSE: print 'Found STRIDE_BIN in environmental variables', os.environ['STRIDE_BIN']
+            if VERBOSE:
+                print 'Found STRIDE_BIN in environmental variables', os.environ['STRIDE_BIN']
             self.stride_bin.set(os.environ['STRIDE_BIN'])
         else:
-            if VERBOSE: print 'STRIDE_BIN not found in environmental variables.'
+            if VERBOSE:
+                print 'STRIDE_BIN not found in environmental variables.'
             self.stride_bin.set('')
 
         # DSSP visualization color
@@ -449,9 +453,11 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         os.close(pdb_os_fh)
         # DSSP 2.0.4 ignores all residues after 1st TER in the same chain
         v = cmd.get(name='pdb_use_ter_records')
-        if v: cmd.set(name='pdb_use_ter_records', value=0)  # do not insert TER into the pdb
+        if v:
+            cmd.set(name='pdb_use_ter_records', value=0)  # do not insert TER into the pdb
         cmd.save(filename=pdb_fn, selection=one_obj_sel)
-        if v: cmd.set(name='pdb_use_ter_records', value=v)  # restore old value
+        if v:
+            cmd.set(name='pdb_use_ter_records', value=v)  # restore old value
 
         if VERBOSE:
             print 'Selection %s saved to %s.' % (one_obj_sel, pdb_fn)
@@ -485,10 +491,12 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 sse_started = False
                 continue
             elif sse_started:
-                if len(line) < 10 or line[9] == ' ': continue
+                if len(line) < 10 or line[9] == ' ':
+                    continue
                 ch, resname = line[11], line[13]
                 residen, sscode = line[5:11].strip(), line[16]  # residen = resnum+icode, col 10 is for icode
-                if sscode == ' ': sscode = '-'
+                if sscode == ' ':
+                    sscode = '-'
                 k = (ch, resname, residen)
                 dssp_sse_dict[k] = sscode
 
@@ -501,7 +509,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             sse = self.dssp_rlt_dict[one_obj_sel][k]
             chn = k[0]
             res = k[2]
-            if VERBOSE: print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
+            if VERBOSE:
+                print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
                                                                chn.strip(), res, sse)
             SSE_res[sse].setdefault(chn, []).append(res)
 
@@ -662,7 +671,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             sse = self.stride_rlt_dict[one_obj_sel][k]
             chn = k[0]  # this can be a space!
             res = k[2]
-            if VERBOSE: print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
+            if VERBOSE:
+                print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
                                                                chn.strip(), res, sse)
             SSE_res[sse].setdefault(chn, []).append(res)
 
@@ -762,12 +772,16 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         #sel = self.pymol_sel.get()
         sel_list_chn = []
 
-        if VERBOSE: print '\nSelecting SSE %s ... \n' % (sse)
+        if VERBOSE:
+            print '\nSelecting SSE %s ... \n' % (sse)
 
         for chn in self.SSE_res_dict[sel][sse]:  # color one chain at a time
-            if chn == ' ': chn_str = '-'
-            else: chn_str = chn
-            if VERBOSE: print 'Selecting SSE %s on chain %s ... \n' % (sse, chn)
+            if chn == ' ':
+                chn_str = '-'
+            else:
+                chn_str = chn
+            if VERBOSE:
+                print 'Selecting SSE %s on chain %s ... \n' % (sse, chn)
             limit = 150  # color every 150 residues
             sel_name_chn = self.randomSeleName(prefix='%s_%s_%s_' % ('_'.join(sel.split()), chn_str, sse))
 
@@ -776,7 +790,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 # always quote chain name in case it is empty (otherwise sel misinterpreted)
                 sel_expr = '(%s) and \"%s\"/%s/' % (sel, chn.strip(), '+'.join(self.SSE_res_dict[sel][sse][chn]))
                 cmd.select(sel_name_chn, sel_expr)
-                if VERBOSE: print 'select %s, %s' % (sel_name_chn, sel_expr)
+                if VERBOSE:
+                    print 'select %s, %s' % (sel_name_chn, sel_expr)
                 sel_list_chn.append(sel_name_chn)
             else:
                 rn = len(self.SSE_res_dict[sel][sse][chn])
@@ -792,12 +807,14 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                                                         '+'.join(self.SSE_res_dict[sel][sse][chn][s:e]))
                     sel_name_seg = self.randomSeleName(prefix='%s_%s_%s_tmp_' % ('_'.join(sel.split()), chn_str, sse))
                     cmd.select(sel_name_seg, sel_expr)
-                    if VERBOSE: print 'select %s, %s' % (sel_name_seg, sel_expr)
+                    if VERBOSE:
+                        print 'select %s, %s' % (sel_name_seg, sel_expr)
                     sel_list_seg.append(sel_name_seg)
 
                 sel_expr = ' or '.join(sel_list_seg)
                 cmd.select(sel_name_chn, sel_expr)
-                if VERBOSE: print 'select %s, %s' % (sel_name_chn, sel_expr)
+                if VERBOSE:
+                    print 'select %s, %s' % (sel_name_chn, sel_expr)
                 [cmd.delete(asel) for asel in sel_list_seg]
                 sel_list_chn.append(sel_name_chn)
 
@@ -821,8 +838,10 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             print 'Update color for %s' % (self.pymol_sel.get()),
             print 'using secondary structure assignment by %s' % (self.ss_asgn_prog,)
 
-            if self.ss_asgn_prog == 'DSSP': SSE_list = self.DSSP_SSE_list
-            elif self.ss_asgn_prog == 'Stride': SSE_list = self.STRIDE_SSE_list
+            if self.ss_asgn_prog == 'DSSP':
+                SSE_list = self.DSSP_SSE_list
+            elif self.ss_asgn_prog == 'Stride':
+                SSE_list = self.STRIDE_SSE_list
 
             for sse in SSE_list:  # give color names
                 cmd.set_color('%s_color' % (sse,), self.SSE_col_RGB[sse])
@@ -846,8 +865,10 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             print 'using secondary structure assignment by %s' % (self.ss_asgn_prog,)
             print 'SSE mapping: (H,G,I) ==> H; (E,B,b) ==> S; (T,S,-,C) ==> L'
 
-            if self.ss_asgn_prog == 'DSSP': SSE_list = self.DSSP_SSE_list
-            elif self.ss_asgn_prog == 'Stride': SSE_list = self.STRIDE_SSE_list
+            if self.ss_asgn_prog == 'DSSP':
+                SSE_list = self.DSSP_SSE_list
+            elif self.ss_asgn_prog == 'Stride':
+                SSE_list = self.STRIDE_SSE_list
 
             for sse in SSE_list:
                 for sel_obj in self.sel_obj_list:
@@ -928,11 +949,13 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         elif butcmd == 'Run DSSP':
             rtn = self.runDSSP()
-            if rtn and VERBOSE: print 'Done with DSSP!'
+            if rtn and VERBOSE:
+                print 'Done with DSSP!'
 
         elif butcmd == 'Run Stride':
             rtn = self.runStride()
-            if rtn and VERBOSE: print 'Done with Stride!'
+            if rtn and VERBOSE:
+                print 'Done with Stride!'
 
         elif butcmd == 'Update Color':
             self.updateColor()

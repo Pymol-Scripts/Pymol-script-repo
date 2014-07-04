@@ -75,7 +75,9 @@ NOTES
         z_com += a.coord[2] * a.get_mass()
         totmass += a.get_mass()
 
-    x_com /= totmass; y_com /= totmass; z_com /= totmass
+    x_com /= totmass
+    y_com /= totmass
+    z_com /= totmass
 
     if not int(quiet):
         print
@@ -91,7 +93,9 @@ NOTES
     for a in model.atom:
 
         temp_x, temp_y, temp_z = a.coord[0], a.coord[1], a.coord[2]
-        temp_x -= x_com; temp_y -= y_com; temp_z -= z_com
+        temp_x -= x_com
+        temp_y -= y_com
+        temp_z -= z_com
 
         I[0] += a.get_mass() * (temp_y ** 2 + temp_z ** 2)
         I[4] += a.get_mass() * (temp_x ** 2 + temp_z ** 2)

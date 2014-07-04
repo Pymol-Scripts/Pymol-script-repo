@@ -57,7 +57,8 @@ def displacementUpdateBAll(objA, alnAri, objB, alnBri):
     for x in range(len(alnBri)):
         s2 = objB + " and resi " + alnBri[x][0] + " and name " + alnBri[x][1]
         cmd.alter(s2, "b = " + str(-0.01))
-    cmd.sort(objA); cmd.sort(objB)
+    cmd.sort(objA)
+    cmd.sort(objB)
     for x in range(len(alnAri)):
         s1 = objA + " and resi " + alnAri[x][0] + " and name " + alnAri[x][1]
         s2 = objB + " and resi " + alnAri[x][0] + " and name " + alnAri[x][1]
@@ -67,7 +68,8 @@ def displacementUpdateBAll(objA, alnAri, objB, alnBri):
         cmd.alter(s1, "b = " + str(Displacement))
         cmd.alter(s2, "b = " + str(Displacement))
         cmd.delete(tempObject)
-    cmd.sort(objA); cmd.sort(objB)
+    cmd.sort(objA)
+    cmd.sort(objB)
 
 
 def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor="True", doAlign="True", AlignedWhite='yes'):
@@ -98,7 +100,10 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
     cmd.alter(tObj1 + " or " + tObj2, "segi='A'")
 
     # Update pymol internal representations; one of these should do the trick
-    cmd.refresh(); cmd.rebuild(); cmd.sort(tObj1); cmd.sort(tObj2)
+    cmd.refresh()
+    cmd.rebuild()
+    cmd.sort(tObj1)
+    cmd.sort(tObj2)
 
     # Create lists for storage
     stored.alnAres, stored.alnBres = [], []
@@ -138,7 +143,10 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
         cmd.alter(objSel1 + " and resi " + str(stored.alnAres[x][0]) + " and name " + str(stored.alnAres[x][1]), "b = " + str(stored.alnAnb[x]))
     for x in range(len(stored.alnBres)):
         cmd.alter(objSel2 + " and resi " + str(stored.alnBres[x][0]) + " and name " + str(stored.alnBres[x][1]), "b = " + str(stored.alnBnb[x]))
-    cmd.rebuild(); cmd.refresh(); cmd.sort(objSel1); cmd.sort(objSel2)
+    cmd.rebuild()
+    cmd.refresh()
+    cmd.sort(objSel1)
+    cmd.sort(objSel2)
 
     # Provide some useful information
     stored.allRMSDval = []

@@ -148,8 +148,10 @@ def crosspoint(Pos1, crossprod):
 
 
 def VectorToMatrix(Vector, MatColRank=4):
-    try: import numpy
-    except ImportError: from modules import numpy
+    try:
+        import numpy
+    except ImportError:
+        from modules import numpy
     nextrow = range(MatColRank, MatColRank ** 2, MatColRank)
     rowsall = []
     rowcurrent = []
@@ -178,15 +180,20 @@ def findMinMax(datalist, index):
 
 
 def createdirs(dirname):
-    if platform.system() == 'Windows': Newdir = os.getcwd() + "\\%s\\" % dirname
-    if platform.system() == 'Linux': Newdir = os.getcwd() + "/%s/" % dirname
-    if not os.path.exists(Newdir): os.makedirs(Newdir)
+    if platform.system() == 'Windows':
+        Newdir = os.getcwd() + "\\%s\\" % dirname
+    if platform.system() == 'Linux':
+        Newdir = os.getcwd() + "/%s/" % dirname
+    if not os.path.exists(Newdir):
+        os.makedirs(Newdir)
     return(Newdir)
 
 
 def makehistogram(datalist, dataname="Histogram", datalistindex=2, nrbins=100, binrange=[0, 0]):
-    try: import numpy
-    except ImportError: from modules import numpy
+    try:
+        import numpy
+    except ImportError:
+        from modules import numpy
     fileout_name = "%s" % dataname + ".dat"
     fileout_write = open(fileout_name, "w")
     gnuplot_write = open("%s" % dataname + ".plt", "w")
@@ -207,8 +214,8 @@ def makehistogram(datalist, dataname="Histogram", datalistindex=2, nrbins=100, b
     # print DistHistMin,DistHistMax
     ydelta = DistHistMax - DistHistMin
     # Now write the output
-    fileout_write.write("#Datapoints=%s" % len(datacolumn) + "\n");
-    fileout_write.write("#Dist[Ang]    Frequency[#]    Probability" + "\n");
+    fileout_write.write("#Datapoints=%s" % len(datacolumn) + "\n")
+    fileout_write.write("#Dist[Ang]    Frequency[#]    Probability" + "\n")
     for dp in DistHist:
         textline = "%4.2f    %5i    %18.5f" % (dp[0], dp[1], dp[2])
         fileout_write.write(textline + "\n")

@@ -58,7 +58,8 @@ ARGUMENTS
         bonds = int(bonds)
     except:
         pass
-    if (not (bonds in [1, 2])): bonds = 4
+    if (not (bonds in [1, 2])):
+        bonds = 4
 
     if bonds == 1:
         cmd.set('valence', 0)
@@ -291,7 +292,7 @@ ARGUMENTS
                     cmd.bond('%s and name %s' % (q, r[0]), '%s and name %s' % (q, r[1]), 2)
 
     return bonds
-cmd.extend("format_bonds", format_bonds);
+cmd.extend("format_bonds", format_bonds)
 cmd.auto_arg[0]['format_bonds'] = [lambda: cmd.Shortcut(['all', 'resn PHE+TYR+PTR+NIY+PNIY+TRP+NIW+HIS', 'resn GLU+ASP', 'resn ARG', 'last all']), 'selection=', ', ']
 cmd.auto_arg[1]['format_bonds'] = [lambda: cmd.Shortcut(['4', '2', '1']), 'bonds=', '']
 ################################################################################

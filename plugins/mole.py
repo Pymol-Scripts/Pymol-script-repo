@@ -189,10 +189,14 @@ class MOLETools:
         self.notebook.pack(fill='both', expand=1, padx=10, pady=10)
 
         def quickFileValidation(s):
-            if s == '': return Pmw.PARTIAL
-            elif os.path.isfile(s): return Pmw.OK
-            elif os.path.exists(s): return Pmw.PARTIAL
-            else: return Pmw.PARTIAL
+            if s == '':
+                return Pmw.PARTIAL
+            elif os.path.isfile(s):
+                return Pmw.OK
+            elif os.path.exists(s):
+                return Pmw.PARTIAL
+            else:
+                return Pmw.PARTIAL
 
         # Set up the Main page
         page = self.notebook.add('Main')
@@ -273,18 +277,18 @@ class MOLETools:
         self.var.set(1)
 
         self.xlocfr = Tkinter.Frame(w.interior())
-        labX = Label(self.xlocfr, text="X:");
-        self.xlocation = Entry(self.xlocfr, textvariable=self.xlocvar);
+        labX = Label(self.xlocfr, text="X:")
+        self.xlocation = Entry(self.xlocfr, textvariable=self.xlocvar)
         self.scrX = Scrollbar(self.xlocfr, orient="horizontal", command=self.changeValueX)
 
         self.ylocfr = Tkinter.Frame(w.interior())
-        labY = Label(self.ylocfr, text="Y:");
-        self.ylocation = Entry(self.ylocfr, textvariable=self.ylocvar);
+        labY = Label(self.ylocfr, text="Y:")
+        self.ylocation = Entry(self.ylocfr, textvariable=self.ylocvar)
         self.scrY = Scrollbar(self.ylocfr, orient="horizontal", command=self.changeValueY)
 
         self.zlocfr = Tkinter.Frame(w.interior())
-        labZ = Label(self.zlocfr, text="Z:");
-        self.zlocation = Entry(self.zlocfr, textvariable=self.zlocvar);
+        labZ = Label(self.zlocfr, text="Z:")
+        self.zlocation = Entry(self.zlocfr, textvariable=self.zlocvar)
         self.scrZ = Scrollbar(self.zlocfr, orient="horizontal", command=self.changeValueZ)
 
         labX.pack(side=LEFT)
@@ -574,7 +578,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
             mole_stdout = os.path.join(outdir, "mole.stdout")
             mole_stderr = os.path.join(outdir, "mole.stderr")
             if sys.platform.startswith('win'):
-                command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"' % (self.binlocation.getvalue(), tmppdb, int(self.pymol_numinterp.getvalue()), float(self.pymol_activesiteradius.getvalue()), self.pymol_outdir.getvalue(), int(self.numbertunnels.getvalue()), startpoint[0], startpoint[1], startpoint[2], mole_stdout, mole_stderr);
+                command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"' % (self.binlocation.getvalue(), tmppdb, int(self.pymol_numinterp.getvalue()), float(self.pymol_activesiteradius.getvalue()), self.pymol_outdir.getvalue(), int(self.numbertunnels.getvalue()), startpoint[0], startpoint[1], startpoint[2], mole_stdout, mole_stderr)
                 print '\nRunning command:', command
                 status = subprocess.call(command)
             else:
@@ -589,7 +593,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                 # print(child_stderr)
 
                 #command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2],mole_stdout, mole_stderr);
-                command = '%s --fi pdb --input %s --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir %s --vmd --pymol --numtun %d --x %f --y %f --z %f' % (self.binlocation.getvalue(), tmppdb, int(self.pymol_numinterp.getvalue()), float(self.pymol_activesiteradius.getvalue()), self.pymol_outdir.getvalue(), int(self.numbertunnels.getvalue()), startpoint[0], startpoint[1], startpoint[2]);
+                command = '%s --fi pdb --input %s --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir %s --vmd --pymol --numtun %d --x %f --y %f --z %f' % (self.binlocation.getvalue(), tmppdb, int(self.pymol_numinterp.getvalue()), float(self.pymol_activesiteradius.getvalue()), self.pymol_outdir.getvalue(), int(self.numbertunnels.getvalue()), startpoint[0], startpoint[1], startpoint[2])
                 print '\nRunning command:', command
                 status = subprocess.call(command, shell=True)
             print("Result from execution was: %s" % status)

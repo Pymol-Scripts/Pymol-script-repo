@@ -89,7 +89,8 @@ SEE ALSO
     except:
         endframe = int(cmd.count_frames())
 
-    if endframe == 0: endframe = 1
+    if endframe == 0:
+        endframe = 1
 
     if startframe == endframe:
         print "start == end"

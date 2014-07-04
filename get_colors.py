@@ -42,7 +42,8 @@ EXAMPLES:
     pymol_color_list.sort()
     # the str() is due to pymol passing aruments as strings,
     # thus True becomes 'True'
-    if str(output) == 'True': print pymol_color_list
+    if str(output) == 'True':
+        print pymol_color_list
     return pymol_color_list
 cmd.extend('get_colors', get_colors)
 cmd.auto_arg[0]['get_colors'] = [lambda: cmd.Shortcut(['""', 'all']), 'selection=', ',']
@@ -71,7 +72,8 @@ EXAMPLES:
     '''
     import random
     randomcolor = random.choice(get_colors(selection, False))
-    if str(output) != 'False': print randomcolor
+    if str(output) != 'False':
+        print randomcolor
     return randomcolor
 cmd.extend('get_random_color', get_random_color)
 #-------------------------------------------------------------------------------

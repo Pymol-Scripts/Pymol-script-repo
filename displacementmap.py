@@ -137,7 +137,8 @@ def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1
                 distClosedClosed = distance(ClosedOrderedPos, ClosedOrderedPos, i, j)
                 distOpenClosed = distance(OpenOrderedPos, ClosedOrderedPos, i, j)
                 DeltaDist = distOpenClosed - distOpenOpen
-                if i == j: BackboneDisp[i] = [i, DeltaDist, OpenOrderedPDB[i][2], atom]
+                if i == j:
+                    BackboneDisp[i] = [i, DeltaDist, OpenOrderedPDB[i][2], atom]
                 # Test if distance is larger than threshold
                 if distOpenOpen >= float(mindist) and distClosedClosed >= float(mindist) and abs(DeltaDist) >= float(mindelta):
                     CalcMatrix[i][j] = str(round(DeltaDist, 0))
@@ -297,7 +298,8 @@ def create_nXn_matrix(n):
 
 
 def distance(array1, array2, i, j):
-    i = int(i); j = int(j)
+    i = int(i)
+    j = int(j)
     dist = sqrt((array1[i][0] - array2[j][0]) ** 2 + (array1[i][1] - array2[j][1]) ** 2 + (array1[i][2] - array2[j][2]) ** 2)
     return dist
 

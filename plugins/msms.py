@@ -118,10 +118,12 @@ class MSMSPlugin:
             else:
                 pass
         if 'MSMS_BIN' in os.environ:
-            if VERBOSE: print 'Found MSMS_BIN in environmental variables', os.environ['MSMS_BIN']
+            if VERBOSE:
+                print 'Found MSMS_BIN in environmental variables', os.environ['MSMS_BIN']
             self.msms_bin.set(os.environ['MSMS_BIN'])
         else:
-            if VERBOSE: print 'MSMS_BIN not found in environmental variables.'
+            if VERBOSE:
+                print 'MSMS_BIN not found in environmental variables.'
             self.msms_bin.set('')
 # self.pdb2xyzr_bin.set('')
         if 'PDB2XYZRN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
@@ -139,8 +141,10 @@ class MSMSPlugin:
                 os.environ['PDB2XYZRN'] = initialdir_msms
             else:
                 pass
-        if 'PDB2XYZRN' in os.environ: self.pdb2xyzrn_bin.set(os.environ['PDB2XYZRN'])
-        else: self.pdb2xyzrn_bin.set('')
+        if 'PDB2XYZRN' in os.environ:
+            self.pdb2xyzrn_bin.set(os.environ['PDB2XYZRN'])
+        else:
+            self.pdb2xyzrn_bin.set('')
         cmd.select("protpolymer", "polymer")
         cmd.disable("protpolymer")
         self.pymol_sel.set(cmd.get_names('selections')[-1])
@@ -478,11 +482,13 @@ http://pymol.sourceforge.net/faq.html#CITE
     def cleanMSMSOutput(self):
 
         if os.path.isfile(self.msms_vert_fn):
-            if VERBOSE: print 'Cleaning msms vert file', self.msms_vert_fn
+            if VERBOSE:
+                print 'Cleaning msms vert file', self.msms_vert_fn
             os.remove(self.msms_vert_fn)
             self.msms_vert_fn = None
         if os.path.isfile(self.msms_face_fn):
-            if VERBOSE: print 'Cleaning msms face file', self.msms_face_fn
+            if VERBOSE:
+                print 'Cleaning msms face file', self.msms_face_fn
             os.remove(self.msms_face_fn)
             self.msms_face_fn = None
 
@@ -490,10 +496,12 @@ http://pymol.sourceforge.net/faq.html#CITE
             vfn = self.msms_cpn_vert_fn_list[i]
             ffn = self.msms_cpn_face_fn_list[i]
             if os.path.isfile(vfn):
-                if VERBOSE: print 'Cleaning msms face file', vfn
+                if VERBOSE:
+                    print 'Cleaning msms face file', vfn
                 os.remove(vfn)
             if os.path.isfile(ffn):
-                if VERBOSE: print 'Cleaning msms face file', ffn
+                if VERBOSE:
+                    print 'Cleaning msms face file', ffn
                 os.remove(ffn)
 
         self.msms_cpn_vert_fn_list = []
@@ -526,7 +534,8 @@ http://pymol.sourceforge.net/faq.html#CITE
             print 'tmp dir   =', self.tmp_dir.get()
 
         pdb_fn = self.getStrucPDBFname()
-        if pdb_fn is None: return None
+        if pdb_fn is None:
+            return None
 
         print 'Running MSMS ...'
         if VERBOSE:
@@ -551,7 +560,8 @@ http://pymol.sourceforge.net/faq.html#CITE
         # remove temp file (saved pymol selection)
         if self.cleanup_saved_pymol_sel and \
                 len(self.pymol_sel.get()) > 0 and os.path.isfile(pdb_fn):
-            if VERBOSE: print 'Cleaning temp file(s)', pdb_fn
+            if VERBOSE:
+                print 'Cleaning temp file(s)', pdb_fn
             # !os.remove(pdb_fn)  # clean up (remove pdb file of the pymol selection)
 
         fn_list = msms.getOutputFiles()
@@ -620,7 +630,8 @@ http://pymol.sourceforge.net/faq.html#CITE
 
             if self.runMSMS() is not None:  # msms has been executed successfully
 
-                if VERBOSE: print 'Parsing MSMS output ...'
+                if VERBOSE:
+                    print 'Parsing MSMS output ...'
                 self.msp.parseVertFile(self.msms_vert_fn)
                 self.msp.parseFaceFile(self.msms_face_fn)
 
@@ -633,7 +644,8 @@ http://pymol.sourceforge.net/faq.html#CITE
                         cpn_msp.parseFaceFile(ffn)
                         self.cpn_msp_list.append(cpn_msp)
 
-                if VERBOSE: print 'done!'
+                if VERBOSE:
+                    print 'done!'
 
                 if self.cleanup_msms_output.get():  # clean up
                     self.cleanMSMSOutput()
@@ -838,7 +850,8 @@ class Msms:
         #xyzrn_fname = '%s/%s.xyzrn' % (self.output_dir, fname_root)
         xyzrn_fname = os.path.join(self.output_dir, "%s.xyzrn" % fname_root)
 
-        if ofn_root is None: ofn_root = '%s_surface' % (fname_root,)
+        if ofn_root is None:
+            ofn_root = '%s_surface' % (fname_root,)
 
         old_cwd = os.getcwd()
         os.chdir(self.msms_wd)
@@ -1403,8 +1416,10 @@ class MSMSSurfPymol:
         line_num = 0
         for t in self.face_tri:
 
-            if t[0] < t[1]: k = '%d_%d' % (t[0], t[1])
-            else: k = '%d_%d' % (t[1], t[0])
+            if t[0] < t[1]:
+                k = '%d_%d' % (t[0], t[1])
+            else:
+                k = '%d_%d' % (t[1], t[0])
 
             # NOTE: vertices indices are 1-based
             if k not in line_dict:
@@ -1419,8 +1434,10 @@ class MSMSSurfPymol:
                                  self.vert_coords[t[1] - 1][2]])
                 line_num += 1
 
-            if t[1] < t[2]: k = '%d_%d' % (t[1], t[2])
-            else: k = '%d_%d' % (t[2], t[1])
+            if t[1] < t[2]:
+                k = '%d_%d' % (t[1], t[2])
+            else:
+                k = '%d_%d' % (t[2], t[1])
             if k not in line_dict:
                 line_dict[k] = 1
                 mesh_cgo.extend([VERTEX,
@@ -1433,8 +1450,10 @@ class MSMSSurfPymol:
                                  self.vert_coords[t[2] - 1][2]])
                 line_num += 1
 
-            if t[0] < t[2]: k = '%d_%d' % (t[0], t[2])
-            else: k = '%d_%d' % (t[2], t[0])
+            if t[0] < t[2]:
+                k = '%d_%d' % (t[0], t[2])
+            else:
+                k = '%d_%d' % (t[2], t[0])
             if k not in line_dict:
                 line_dict[k] = 1
                 mesh_cgo.extend([VERTEX,

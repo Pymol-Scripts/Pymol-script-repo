@@ -72,7 +72,7 @@ def spectrumbar(*args, **kwargs):
                 print "Error: The length must be a value"
                 return
             else:
-                x2 = float(kwargs["length"]);
+                x2 = float(kwargs["length"])
         elif (key == "ends"):
             ends = kwargs["ends"]
         elif (key != "_self"):

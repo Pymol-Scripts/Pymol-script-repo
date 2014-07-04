@@ -652,7 +652,7 @@ R0lGODdhEAAQAOMPAAAAAIAAAACAAICAAAAAgIAAgACAgMDAwICAgP8AAAD/AP//AAAA//8A/wD/
 
     def geticonimage(self, name):
         if name == "none":
-            return None;
+            return None
         if name != "Class":
             return TreeNode.geticonimage(self, name)
         try:
@@ -784,7 +784,7 @@ class AnnotationTreeNode(TreeNode):
 
     def __init__(self, canvas, parent, item):
         TreeNode.__init__(self, canvas, parent, item)
-        self.annotationservice = None;
+        self.annotationservice = None
         self.comment_icon = """
 R0lGODdhEAAQAOeZAERERFJSUkxaZ1hbXU1eb1xcXF1dXVJgbmVlZVRthWtra3BwcG14g2l+k3Z7
 gHN9h3V9hGGFq2uFnnaMom6QsXSQq5CQkJGRkXyZtXObw4GZsXyevpmZmYmiuYakw5+fn4elwoqk
@@ -874,7 +874,7 @@ gZKaWEhQos4qREQmGPDAZlZAADs=
     # overload to load the annotation icon data from strings
     def geticonimage(self, name):
         if name == "none":
-            return None;
+            return None
         if name != "Comment" and name != "Question" and name != "Semantic" \
                 and name != "SeeAlso" and name != "Reference" and \
                 name != "Feedback" and name != "Rating":

@@ -391,11 +391,11 @@ class ADGridMap:
         print >>fp, 'object 2 class gridconnections counts %d %d %d' % (nx, ny, nz)
         print >>fp, 'object 3 class array type double rank 0 items %d data follows' % len(vals)
         for k in range(nz):
-            col = 0;
+            col = 0
             for j in range(ny):
                 for i in range(nx):
                     fp.write(" %12.5E" % vals[i * ny * nz + j * nz + k])
-                    col += 1;
+                    col += 1
                     if col == 3:
                         print >>fp
                         col = 0
@@ -2857,8 +2857,8 @@ class Autodock:
         self.upper_part2.pack(side=BOTTOM, fill='x')
 
         self.map_thresholdfr = Tkinter.Frame(self.upper_part1)
-        labmap_threshold = Label(self.map_thresholdfr, text="Threshold:");
-        self.map_thresholdloc = Entry(self.map_thresholdfr, textvariable=self.map_threshold[name], bg='black', fg='green', width=15);
+        labmap_threshold = Label(self.map_thresholdfr, text="Threshold:")
+        self.map_thresholdloc = Entry(self.map_thresholdfr, textvariable=self.map_threshold[name], bg='black', fg='green', width=15)
         self.scrmap_threshold = Scrollbar(self.map_thresholdfr, orient="horizontal", command=self.change_map_threshold)
 
         labmap_threshold.pack(side=LEFT)
@@ -2957,10 +2957,14 @@ class Autodock:
 ################################################################################
 
 def quickFileValidation(s):
-    if s == '': return Pmw.PARTIAL
-    elif os.path.isfile(s): return Pmw.OK
-    elif os.path.exists(s): return Pmw.PARTIAL
-    else: return Pmw.PARTIAL
+    if s == '':
+        return Pmw.PARTIAL
+    elif os.path.isfile(s):
+        return Pmw.OK
+    elif os.path.exists(s):
+        return Pmw.PARTIAL
+    else:
+        return Pmw.PARTIAL
 
 
 class FileDialogButtonClassFactory:
@@ -3560,8 +3564,10 @@ class Tail(object):
                 purge_idx = i
             else:
                 tot_n += i_n
-                if i_start < tot_start: tot_start = i_start
-                if i_stop > tot_stop: tot_stop = i_stop
+                if i_start < tot_start:
+                    tot_start = i_start
+                if i_stop > tot_stop:
+                    tot_stop = i_stop
         if purge_idx >= 0:
             # clean the old records out of the window (slide the window)
             self.window = self.window[purge_idx + 1:]
@@ -3781,7 +3787,8 @@ class ScoreTable(Frame):
             if args[2] == "pages":
                 offset *= self.windowSize
             newFirstVisible = self.firstVisible + offset
-            if newFirstVisible < 0: newFirstVisible = 0
+            if newFirstVisible < 0:
+                newFirstVisible = 0
             if newFirstVisible > self.rows - self.windowSize:
                 newFirstVisible = self.rows - self.windowSize
             self.updateScreen(newFirstVisible)

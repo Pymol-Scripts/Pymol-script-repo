@@ -18,9 +18,11 @@ DynDom stop reading PDB files at TER records, which might be undesired in
 case of missing loops.
     '''
     v = cmd.get_setting_boolean('pdb_use_ter_records')
-    if v: cmd.unset('pdb_use_ter_records')
+    if v:
+        cmd.unset('pdb_use_ter_records')
     cmd.save(filename, selection, **kwargs)
-    if v: cmd.set('pdb_use_ter_records')
+    if v:
+        cmd.set('pdb_use_ter_records')
 
 
 def alignwithanymethod(mobile, target, methods='align super cealign tmalign',

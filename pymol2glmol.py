@@ -105,7 +105,7 @@ def parseDistObj(obj):
     ret = []
     for p in points:
         ret.append("%.3f" % p)
-    color = cmd.get_color_tuple(obj[5][0][2]);
+    color = cmd.get_color_tuple(obj[5][0][2])
     return "\ndists:%.3f,%.3f,%.3f:" % color + ','.join(ret)
 
 
@@ -134,8 +134,10 @@ def dump_rep(name):
     cmd.turn('z', 180)
     view = cmd.get_view()
     cmd.turn('z', 180)
-    cx = -view[12]; cy = -view[13]; cz = -view[14]
-    cameraZ = - view[11] - 150;
+    cx = -view[12]
+    cy = -view[13]
+    cz = -view[14]
+    cameraZ = - view[11] - 150
     fov = float(cmd.get("field_of_view"))
     fogStart = float(cmd.get("fog_start"))
     slabNear = view[15] + view[11]

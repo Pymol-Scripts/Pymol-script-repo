@@ -43,15 +43,24 @@ n = 1.33  : 	Refractive index of the medium. water=1.33, protein=1.4, n2MGuHCl=1
 NA = 6.02214179e+023 # (units: Number*mol-1 )Avogadros number
 '''
 
-try: from pymol import cmd; runningpymol = 'yes'
-except: runningpymol = 'no'; pass
+try:
+    from pymol import cmd
+    runningpymol = 'yes'
+except:
+    runningpymol = 'no'
+    pass
 import os
 import platform
 import math
 
 
 def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.txt", A_Emi="ATTO590Emi.txt", A_e_Max_Y=120000, A_e_Max_X=594, Qd=0.8, k2=0.66667, n=1.33, Compare="yes", xunit="nm"):
-    A_e_Max_Y = float(A_e_Max_Y); A_e_Max_X = float(A_e_Max_X); Qd = float(Qd); k2 = float(k2); n = float(n); NA = 6.02214179e+023
+    A_e_Max_Y = float(A_e_Max_Y)
+    A_e_Max_X = float(A_e_Max_X)
+    Qd = float(Qd)
+    k2 = float(k2)
+    n = float(n)
+    NA = 6.02214179e+023
     print k2, Qd
     printAll = "ye"  # To print out all info
     fileDexi, extDexi = os.path.splitext(D_Exi)
@@ -111,7 +120,7 @@ def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.tx
     ForsterAng = ForsterCalc(Prefactor, AreaOverlap, xunit, printAll)
 
     # Outputting data
-    overlapfile.write("Emi-wavelength Emi-value-norm1 Emi-value-normA Exi-wavelength Exi-value-norm1 Exti-coefficient      Overlap   Overlap-Sum\n");
+    overlapfile.write("Emi-wavelength Emi-value-norm1 Emi-value-normA Exi-wavelength Exi-value-norm1 Exti-coefficient      Overlap   Overlap-Sum\n")
     for line in range(len(OverlapDataPoints)):
         textline = "%4.1f %24.4f %15.4e %14.1f %15.4e %16.4e %12.4e %13.4e" % (OverlapDataPoints[line][0], OverlapDataPoints[line][1], float(OverlapDataPoints[line][1] / AreaDemi), OverlapDataPoints[line][2], OverlapDataPoints[line][3], float(A_e_Max_Y * OverlapDataPoints[line][3] / Epsiloncorrection[2]), float(OverlapDataPoints[line][4]), float(OverlapDataPoints[line][5]))
         overlapfile.write(textline + "\n")
@@ -123,8 +132,10 @@ def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.tx
     overlapgnuplotfile.write("set xrange [400:800]" + "\n")
     overlapgnuplotfile.write("set ytics nomirror" + "\n")
     overlapgnuplotfile.write("set y2tics" + "\n")
-    if xunit == "cm": overlapgnuplotfile.write("set xlabel 'Wavelength (cm)'" + "\n")
-    else: overlapgnuplotfile.write("set xlabel 'Wavelength (nm)'" + "\n")
+    if xunit == "cm":
+        overlapgnuplotfile.write("set xlabel 'Wavelength (cm)'" + "\n")
+    else:
+        overlapgnuplotfile.write("set xlabel 'Wavelength (nm)'" + "\n")
     overlapgnuplotfile.write("set size ratio 0.5" + "\n")
     overlapgnuplotfile.write("\n")
     overlapgnuplotfile.write("A_e_Max_Y = " + str(A_e_Max_Y) + "\n")
@@ -208,50 +219,63 @@ def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.tx
     overlapgnuplotfile.close()
     overlapfile.close()
     return(ForsterAng)
-if runningpymol != 'no': cmd.extend("forster", forster)
+if runningpymol != 'no':
+    cmd.extend("forster", forster)
 
 
 def ForsterConstFactor6(NA, printAll):
     vForsterConstFactor6 = (9 * math.log(10)) / (128 * math.pow(math.pi, 5) * NA)
-    if printAll == 'yes': print "Forster constant pre-factor is:", str(vForsterConstFactor6), "(units: mol)"
+    if printAll == 'yes':
+        print "Forster constant pre-factor is:", str(vForsterConstFactor6), "(units: mol)"
     return vForsterConstFactor6
 
 
 def ForsterVariableFactor6(Qd, k2, n, printAll):
     vForsterVariableFactor6 = (k2 * Qd) / (math.pow(n, 4))
-    if printAll == 'yes': print "Forster variable pre-factor is:", str(vForsterVariableFactor6), "(units: NIL)"
+    if printAll == 'yes':
+        print "Forster variable pre-factor is:", str(vForsterVariableFactor6), "(units: NIL)"
     return vForsterVariableFactor6
 
 
 def ForsterPrefactor6(Qd, k2, n, NA, printAll):
     vForsterPrefactor6 = ForsterConstFactor6(NA, printAll) * ForsterVariableFactor6(Qd, k2, n, printAll)
-    if printAll == 'yes': print "Forster pre-factor is:", str(vForsterPrefactor6), "(units: mol)"
+    if printAll == 'yes':
+        print "Forster pre-factor is:", str(vForsterPrefactor6), "(units: mol)"
     return vForsterPrefactor6
 
 
 def ForsterCalcnm(fFPreFactor6, fAreaOverlap, printAll):
-    if printAll == 'yes': print "Overlap sum is: ", str(fAreaOverlap), "(units: cm-1 nm^4 L mol-1)"
+    if printAll == 'yes':
+        print "Overlap sum is: ", str(fAreaOverlap), "(units: cm-1 nm^4 L mol-1)"
     Forster6 = fFPreFactor6 * fAreaOverlap
-    if printAll == 'yes': print "Forster distance 6th power:", str(Forster6), "(units: cm-1 nm^4 L), obs(1L=1e-3m^3)"
+    if printAll == 'yes':
+        print "Forster distance 6th power:", str(Forster6), "(units: cm-1 nm^4 L), obs(1L=1e-3m^3)"
     Forster6m = Forster6 * 100 * math.pow(1e-9, 4) * 1e-3  # 1e-3 is conversion from 1L = 1e-3 m3
-    if printAll == 'yes': print "Forster distance 6th power:", str(Forster6m), "(units: meter m^6)"
+    if printAll == 'yes':
+        print "Forster distance 6th power:", str(Forster6m), "(units: meter m^6)"
     Forster6Ang = Forster6m * math.pow(1e10, 6.0)
-    if printAll == 'yes': print "Forster distance Angstrom 6th power:", "%e" % (Forster6Ang), "(units: Angstrom^6)"
+    if printAll == 'yes':
+        print "Forster distance Angstrom 6th power:", "%e" % (Forster6Ang), "(units: Angstrom^6)"
     ForsterAng = math.pow(Forster6Ang, 1.0 / 6.0)
     print "Forster distance:", str(ForsterAng), "(units: Angstrom)"
     return ForsterAng
 
 
 def ForsterCalccm(fFPreFactor6, fAreaOverlap, printAll):
-    if printAll == 'yes': print "Overlap sum is: ", str(fAreaOverlap), "(units: cm^3 L mol-1)"
+    if printAll == 'yes':
+        print "Overlap sum is: ", str(fAreaOverlap), "(units: cm^3 L mol-1)"
     Forster6 = fFPreFactor6 * fAreaOverlap
-    if printAll == 'yes': print "Forster distance 6th power:", str(Forster6), "(units: cm^3 L), obs(1L=1e-3m^3)"
+    if printAll == 'yes':
+        print "Forster distance 6th power:", str(Forster6), "(units: cm^3 L), obs(1L=1e-3m^3)"
     Forster6m = Forster6 * math.pow(1e-2, 3) * 1e-3  # 1e-3 is conversion from 1L = 1e-3 m3
-    if printAll == 'yes': print "Forster distance 6th power:", str(Forster6m), "(units: meter m^6)"
+    if printAll == 'yes':
+        print "Forster distance 6th power:", str(Forster6m), "(units: meter m^6)"
     Forster6cm = Forster6m * math.pow(1e2, 6.0)
-    if printAll == 'yes': print "Forster distance cm 6th power:", "%e" % (Forster6cm), "(units: cm^6)"
+    if printAll == 'yes':
+        print "Forster distance cm 6th power:", "%e" % (Forster6cm), "(units: cm^6)"
     Forster6Ang = Forster6m * math.pow(1e10, 6.0)
-    if printAll == 'yes': print "Forster distance Angstrom 6th power:", "%e" % (Forster6Ang), "(units: Angstrom^6)"
+    if printAll == 'yes':
+        print "Forster distance Angstrom 6th power:", "%e" % (Forster6Ang), "(units: Angstrom^6)"
     ForsterAng = math.pow(Forster6m, 1.0 / 6.0)
     print "Forster distance:", str(ForsterAng), "(units: Angstrom)"
     return ForsterAng
@@ -274,13 +298,20 @@ def testfloat(x):
 
 
 def numintegrator(fluarray, col1=0, col2=1):
-    xprev = 0; xpres = 0; yprev = 0; ypres = 0; summing = 0
+    xprev = 0
+    xpres = 0
+    yprev = 0
+    ypres = 0
+    summing = 0
     for i in range(len(fluarray)):
         # Have to skip first datapoint
         if i > 0:
-            xprev = xpres; yprev = ypres
-            xpres = fluarray[i][col1]; ypres = fluarray[i][col2]
+            xprev = xpres
+            yprev = ypres
+            xpres = fluarray[i][col1]
+            ypres = fluarray[i][col2]
             summing = yprev * (xpres - xprev) + (ypres - yprev) * (xpres - xprev) / 2.0 + summing
         else:
-            xpres = fluarray[i][col1]; ypres = fluarray[i][col2]
+            xpres = fluarray[i][col1]
+            ypres = fluarray[i][col2]
     return summing

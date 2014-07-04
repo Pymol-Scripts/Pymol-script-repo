@@ -170,7 +170,7 @@ class AnBeKoM:
         self.parent = parent
 
         # by default select all
-        self.whichModelSelect = 'all';
+        self.whichModelSelect = 'all'
         # backup the site
         self.originalX = -5
         self.originalY = -5
@@ -208,10 +208,14 @@ class AnBeKoM:
         #group.pack(fill = 'both', expand = 1, padx = 10, pady = 5)
 
         def quickFileValidation(s):
-            if s == '': return Pmw.PARTIAL
-            elif os.path.isfile(s): return Pmw.OK
-            elif os.path.exists(s): return Pmw.PARTIAL
-            else: return Pmw.PARTIAL
+            if s == '':
+                return Pmw.PARTIAL
+            elif os.path.isfile(s):
+                return Pmw.OK
+            elif os.path.exists(s):
+                return Pmw.PARTIAL
+            else:
+                return Pmw.PARTIAL
 
         if (1):
             self.pymollocation = Pmw.EntryField(self.dialog.interior(),
@@ -255,7 +259,7 @@ class AnBeKoM:
         self.varremovewater.set(1)
         # self.removewaterbutton.pack(side='left',expand='yes',)
 
-        self.inModelGroup = Pmw.Group(self.dialog.interior(), tag_text='Input model:');
+        self.inModelGroup = Pmw.Group(self.dialog.interior(), tag_text='Input model:')
         self.listbox1 = Tkinter.Listbox(self.inModelGroup.interior(), width=25, height=6, exportselection=0)
         self.listbox1.bind('<<ListboxSelect>>', self.inputAnalyseWrap)
         yscroll1 = Tkinter.Scrollbar(self.inModelGroup.interior(), command=self.listbox1.yview, orient=Tkinter.VERTICAL)
@@ -266,7 +270,7 @@ class AnBeKoM:
         self.reloadListButton.pack(side=LEFT)
         self.inModelGroup.pack()
 
-        self.filterGroup = Pmw.Group(self.dialog.interior(), tag_text='Input atoms:');
+        self.filterGroup = Pmw.Group(self.dialog.interior(), tag_text='Input atoms:')
         self.filterGroup.pack()
         self.checklist = []
         self.buttonlist = []
@@ -281,7 +285,7 @@ class AnBeKoM:
         #  tindex = tindex + 1;
 
         self.s = dict()
-        self.s["AA"] = IntVar();
+        self.s["AA"] = IntVar()
         self.reinitialise()
         self.inputAnalyse()
 
@@ -308,8 +312,10 @@ class AnBeKoM:
 #        cw = Tkinter.Frame(group1.interior())
 #        cw.pack(padx = 2, pady = 2, expand='yes', fill='both')
 #        radiogroups.append(group1)
-        try: defaults['surroundings'] = cmd.get_names('objects')[0]
-        except: defaults['surroundings'] = ''
+        try:
+            defaults['surroundings'] = cmd.get_names('objects')[0]
+        except:
+            defaults['surroundings'] = ''
         self.selectionlist = Pmw.EntryField(group1.interior(),
                                             labelpos='w',
                                             label_text='Specify selection: ',
@@ -336,18 +342,18 @@ class AnBeKoM:
         self.zlocvar.set(float(defaults["startingpoint"][2]))
 
         self.xlocfr = Tkinter.Frame(group2.interior())
-        labX = Label(self.xlocfr, text="x");
-        self.xlocation = Entry(self.xlocfr, textvariable=self.xlocvar);
+        labX = Label(self.xlocfr, text="x")
+        self.xlocation = Entry(self.xlocfr, textvariable=self.xlocvar)
         self.scrX = Scrollbar(self.xlocfr, orient="horizontal", command=self.changeValueX)
 
         self.ylocfr = Tkinter.Frame(group2.interior())
-        labY = Label(self.ylocfr, text="y");
-        self.ylocation = Entry(self.ylocfr, textvariable=self.ylocvar);
+        labY = Label(self.ylocfr, text="y")
+        self.ylocation = Entry(self.ylocfr, textvariable=self.ylocvar)
         self.scrY = Scrollbar(self.ylocfr, orient="horizontal", command=self.changeValueY)
 
         self.zlocfr = Tkinter.Frame(group2.interior())
-        labZ = Label(self.zlocfr, text="z");
-        self.zlocation = Entry(self.zlocfr, textvariable=self.zlocvar);
+        labZ = Label(self.zlocfr, text="z")
+        self.zlocation = Entry(self.zlocfr, textvariable=self.zlocvar)
         self.scrZ = Scrollbar(self.zlocfr, orient="horizontal", command=self.changeValueZ)
 
         labX.pack(side=LEFT)
@@ -364,7 +370,7 @@ class AnBeKoM:
         self.zlocfr.pack(fill='x', padx=4, pady=1)  # vertical
 
         self.OpGroup = Pmw.Group(radioframe, tag_text="Optimize starting point")
-        self.OpGroup.pack(fill='x');
+        self.OpGroup.pack(fill='x')
         self.optimizeLabel = Tkinter.Label(self.OpGroup.interior(), text='Neighbourhood:')
         self.optimizeLabel.pack(side=LEFT)
 
@@ -442,15 +448,15 @@ class AnBeKoM:
         # fill with data
         self.listbox1.insert(0, "all")
         self.listbox1.selection_set(0, 0)  # Default sel
-        tindex = 1;
+        tindex = 1
         for item in cmd.get_object_list():
             self.listbox1.insert(tindex, str(item))
-            tindex = tindex + 1;
+            tindex = tindex + 1
         self.inputAnalyse()
 
     def launchHelp(self):
         if WINDOWZ:
-            t = MyThread();
+            t = MyThread()
             t.start()
         else:
             import webbrowser
@@ -484,7 +490,7 @@ class AnBeKoM:
             # input
             sel1index = self.listbox1.curselection()[0]
             sel1text = self.listbox1.get(sel1index)
-            self.whichModelSelect = sel1text;
+            self.whichModelSelect = sel1text
             print 'selected ' + self.whichModelSelect
             sel = cmd.get_model(self.whichModelSelect)
             cnt = 0
@@ -549,7 +555,7 @@ class AnBeKoM:
             for i in range(tunnels):
                 tunpy = "%s/path_%i.py" % (outdir, i)
                 if (os.path.isfile(tunpy)):
-                    os.remove(tunpy);
+                    os.remove(tunpy)
             print commandXYZ
             # os.system(commandXYZ)
             status = subprocess.call(commandXYZ, shell=True)
@@ -560,7 +566,7 @@ class AnBeKoM:
                     execfile(pathpy)
                     cmd.set_view(view)
                     if i != 0:
-                        cmd.disable("tunnel%i" % i);
+                        cmd.disable("tunnel%i" % i)
                 else:
                     if i == 0:
                         error_dialog = Pmw.MessageDialog(self.parent, title='Error',
@@ -594,7 +600,7 @@ class AnBeKoM:
 
     def CreateDirectory(self, dir):
         if os.path.isdir(dir):
-            return;
+            return
         parent, base = os.path.split(dir)
         self.CreateDirectory(parent)
         os.mkdir(dir)
@@ -645,7 +651,7 @@ class AnBeKoM:
         # input
         sel1index = self.listbox1.curselection()[0]
         sel1text = self.listbox1.get(sel1index)
-        self.whichModelSelect = sel1text;
+        self.whichModelSelect = sel1text
 
         # save selected
         cmd.save(input, self.whichModelSelect)
@@ -657,7 +663,7 @@ class AnBeKoM:
 
         outAsite = "%s/startingPointOptimized.txt" % outdir
         if os.path.exists(outAsite):
-            os.remove(outAsite);
+            os.remove(outAsite)
 
         print commandOPT
         # os.system(commandOPT)
@@ -668,7 +674,7 @@ class AnBeKoM:
             junk = error_dialog.activate()
             return
         try:
-            optAsite = "";
+            optAsite = ""
             file = open(outAsite)
             while 1:
                 line = file.readline()
@@ -676,10 +682,10 @@ class AnBeKoM:
                     break
                 if line.startswith('%'):
                     break
-                optAsite = line.rstrip('\n').split(' ');
-            self.xlocvar.set(optAsite[0]);
-            self.ylocvar.set(optAsite[1]);
-            self.zlocvar.set(optAsite[2]);
+                optAsite = line.rstrip('\n').split(' ')
+            self.xlocvar.set(optAsite[0])
+            self.ylocvar.set(optAsite[1])
+            self.zlocvar.set(optAsite[2])
             self.crisscross(self.xlocvar.get(), self.ylocvar.get(), self.zlocvar.get(), 0.5, "crisscross")
             self.showCrisscross()
         except Exception:
@@ -701,7 +707,7 @@ class AnBeKoM:
     def inputAnalyse(self):
         sel1index = self.listbox1.curselection()[0]
         sel1text = self.listbox1.get(sel1index)
-        self.whichModelSelect = sel1text;
+        self.whichModelSelect = sel1text
         sel = cmd.get_model(self.whichModelSelect)
         # pripravit kontrolni strukturu pro nalezene
         self.s = dict()
