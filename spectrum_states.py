@@ -8,9 +8,10 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def spectrum_states(selection='all', representations='cartoon ribbon',
-        color_list='blue cyan green yellow orange red',
-        first=1, last=0, quiet=1):
+                    color_list='blue cyan green yellow orange red',
+                    first=1, last=0, quiet=1):
     '''
 DESCRIPTION
 
@@ -77,13 +78,13 @@ SEE ALSO
         col_list = [colvec[p1][j] * ii + colvec[p0][j] * (1.0 - ii) for j in range(3)]
         col_name = '0x%02x%02x%02x' % (col_list[0] * 255, col_list[1] * 255, col_list[2] * 255)
         for s in settings:
-            cmd.set(s, col_name, selection, state=i+first)
+            cmd.set(s, col_name, selection, state=i + first)
 
 cmd.extend('spectrum_states', spectrum_states)
 
 # tab-completion of arguments
 cmd.auto_arg[0]['spectrum_states'] = cmd.auto_arg[0]['disable']
-cmd.auto_arg[1]['spectrum_states'] = [ cmd.auto_arg[0]['show'][0], 'representation', ' ' ]
-cmd.auto_arg[2]['spectrum_states'] = [ cmd.auto_arg[0]['color'][0], 'color', ' ' ]
+cmd.auto_arg[1]['spectrum_states'] = [cmd.auto_arg[0]['show'][0], 'representation', ' ']
+cmd.auto_arg[2]['spectrum_states'] = [cmd.auto_arg[0]['color'][0], 'color', ' ']
 
 # vi:expandtab:smarttab

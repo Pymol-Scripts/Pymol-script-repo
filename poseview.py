@@ -8,8 +8,9 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def poseview(ligand='organic inorganic', protein='polymer', width=0, height=0,
-        filename='', exe='poseview', state=-1, quiet=1):
+             filename='', exe='poseview', state=-1, quiet=1):
     '''
 DESCRIPTION
 
@@ -40,7 +41,10 @@ SETUP
     1) Put poseview executable to PATH (e.g. /usr/bin/poseview)
     2) Set environment variable BIOSOLVE_LICENSE_FILE="/path/to/poseview.lic"
     '''
-    import tempfile, subprocess, os, shutil
+    import tempfile
+    import subprocess
+    import os
+    import shutil
 
     width, height = int(width), int(height)
     state, quiet = int(state), int(quiet)
@@ -74,7 +78,7 @@ SETUP
             print ' poseview: running...'
 
         process = subprocess.Popen(args,
-                stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+                                   stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         stdout, _ = process.communicate()
 
         if not quiet:
@@ -93,4 +97,3 @@ SETUP
         shutil.rmtree(tempdir)
 
 cmd.extend('poseview', poseview)
-

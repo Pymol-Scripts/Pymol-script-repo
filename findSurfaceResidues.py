@@ -4,6 +4,7 @@ http://pymolwiki.org/index.php/FindSurfaceResidues
 
 from pymol import cmd
 
+
 def findSurfaceAtoms(selection="all", cutoff=2.5, quiet=1):
     """
 DESCRIPTION
@@ -39,6 +40,7 @@ SEE ALSO
         print "Exposed atoms are selected in: " + selName
 
     return selName
+
 
 def findSurfaceResidues(selection="all", cutoff=2.5, doShow=0, quiet=1):
     """

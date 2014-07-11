@@ -9,80 +9,83 @@ License: BSD-2-Clause
 from pymol import cmd, cgo
 from chempy import cpv
 
+
 def cgo_cube(x, y, z, r):
-    r *= 3**-.5
+    r *= 3 ** -.5
     return [
-       cgo.BEGIN, cgo.TRIANGLE_STRIP,
-       cgo.NORMAL,  0.,  0.,  1.,
-       cgo.VERTEX, x+r, y+r, z+r,
-       cgo.VERTEX, x+r, y-r, z+r,
-       cgo.VERTEX, x-r, y+r, z+r,
-       cgo.VERTEX, x-r, y-r, z+r,
-       cgo.END,
-       cgo.BEGIN, cgo.TRIANGLE_STRIP,
-       cgo.NORMAL,  1.,  0.,  0.,
-       cgo.VERTEX, x+r, y-r, z-r,
-       cgo.VERTEX, x+r, y+r, z-r,
-       cgo.VERTEX, x+r, y-r, z+r,
-       cgo.VERTEX, x+r, y+r, z+r,
-       cgo.END,
-       cgo.BEGIN, cgo.TRIANGLE_STRIP,
-       cgo.NORMAL,  0.,  1.,  0.,
-       cgo.VERTEX, x+r, y+r, z-r,
-       cgo.VERTEX, x-r, y+r, z-r,
-       cgo.VERTEX, x+r, y+r, z+r,
-       cgo.VERTEX, x-r, y+r, z+r,
-       cgo.END,
-       cgo.BEGIN, cgo.TRIANGLE_STRIP,
-       cgo.NORMAL,  0.,  0., -1.,
-       cgo.VERTEX, x-r, y-r, z-r,
-       cgo.VERTEX, x-r, y+r, z-r,
-       cgo.VERTEX, x+r, y-r, z-r,
-       cgo.VERTEX, x+r, y+r, z-r,
-       cgo.END,
-       cgo.BEGIN, cgo.TRIANGLE_STRIP,
-       cgo.NORMAL, -1.,  0.,  0.,
-       cgo.VERTEX, x-r, y+r, z+r,
-       cgo.VERTEX, x-r, y-r, z+r,
-       cgo.VERTEX, x-r, y+r, z-r,
-       cgo.VERTEX, x-r, y-r, z-r,
-       cgo.END,
-       cgo.BEGIN, cgo.TRIANGLE_STRIP,
-       cgo.NORMAL,  0., -1.,  0.,
-       cgo.VERTEX, x-r, y-r, z+r,
-       cgo.VERTEX, x+r, y-r, z+r,
-       cgo.VERTEX, x-r, y-r, z-r,
-       cgo.VERTEX, x+r, y-r, z-r,
-       cgo.END,
-   ]
+        cgo.BEGIN, cgo.TRIANGLE_STRIP,
+        cgo.NORMAL, 0., 0., 1.,
+        cgo.VERTEX, x + r, y + r, z + r,
+        cgo.VERTEX, x + r, y - r, z + r,
+        cgo.VERTEX, x - r, y + r, z + r,
+        cgo.VERTEX, x - r, y - r, z + r,
+        cgo.END,
+        cgo.BEGIN, cgo.TRIANGLE_STRIP,
+        cgo.NORMAL, 1., 0., 0.,
+        cgo.VERTEX, x + r, y - r, z - r,
+        cgo.VERTEX, x + r, y + r, z - r,
+        cgo.VERTEX, x + r, y - r, z + r,
+        cgo.VERTEX, x + r, y + r, z + r,
+        cgo.END,
+        cgo.BEGIN, cgo.TRIANGLE_STRIP,
+        cgo.NORMAL, 0., 1., 0.,
+        cgo.VERTEX, x + r, y + r, z - r,
+        cgo.VERTEX, x - r, y + r, z - r,
+        cgo.VERTEX, x + r, y + r, z + r,
+        cgo.VERTEX, x - r, y + r, z + r,
+        cgo.END,
+        cgo.BEGIN, cgo.TRIANGLE_STRIP,
+        cgo.NORMAL, 0., 0., -1.,
+        cgo.VERTEX, x - r, y - r, z - r,
+        cgo.VERTEX, x - r, y + r, z - r,
+        cgo.VERTEX, x + r, y - r, z - r,
+        cgo.VERTEX, x + r, y + r, z - r,
+        cgo.END,
+        cgo.BEGIN, cgo.TRIANGLE_STRIP,
+        cgo.NORMAL, -1., 0., 0.,
+        cgo.VERTEX, x - r, y + r, z + r,
+        cgo.VERTEX, x - r, y - r, z + r,
+        cgo.VERTEX, x - r, y + r, z - r,
+        cgo.VERTEX, x - r, y - r, z - r,
+        cgo.END,
+        cgo.BEGIN, cgo.TRIANGLE_STRIP,
+        cgo.NORMAL, 0., -1., 0.,
+        cgo.VERTEX, x - r, y - r, z + r,
+        cgo.VERTEX, x + r, y - r, z + r,
+        cgo.VERTEX, x - r, y - r, z - r,
+        cgo.VERTEX, x + r, y - r, z - r,
+        cgo.END,
+    ]
+
 
 def cgo_tetrahedron(x, y, z, r):
-    vertices = [cpv.add((x,y,z), cpv.scale(v, r)) for v in [
+    vertices = [cpv.add((x, y, z), cpv.scale(v, r)) for v in [
         [0., 1., 0.],
         [0.0, -0.3338068592337708, 0.9426414910921784],
         [0.8163514779470693, -0.3338068592337708, -0.471320745546089],
         [-0.816351477947069, -0.3338068592337708, -0.4713207455460897]
     ]]
     return [
-       cgo.BEGIN, cgo.TRIANGLES,
-       cgo.NORMAL, 0.8165448970931916, 0.33317549135767066, 0.4714324161421696,
-       cgo.VERTEX ] + vertices[0] + [
-       cgo.VERTEX ] + vertices[1] + [
-       cgo.VERTEX ] + vertices[2] + [
-       cgo.NORMAL, 0., 0.3331754913576707, -0.9428648322843389,
-       cgo.VERTEX ] + vertices[0] + [
-       cgo.VERTEX ] + vertices[2] + [
-       cgo.VERTEX ] + vertices[3] + [
-       cgo.NORMAL, -0.8165448970931919, 0.3331754913576705, 0.4714324161421693,
-       cgo.VERTEX ] + vertices[0] + [
-       cgo.VERTEX ] + vertices[3] + [
-       cgo.VERTEX ] + vertices[1] + [
-       cgo.NORMAL,  0.,  -1., 0.,
-       cgo.VERTEX ] + vertices[1] + [
-       cgo.VERTEX ] + vertices[2] + [
-       cgo.VERTEX ] + vertices[3] + [
-       cgo.END,
-   ]
+        cgo.BEGIN, cgo.TRIANGLES,
+        cgo.NORMAL, 0.8165448970931916, 0.33317549135767066, 0.4714324161421696,
+        cgo.VERTEX] + vertices[0] + [
+        cgo.VERTEX] + vertices[1] + [
+        cgo.VERTEX] + vertices[2] + [
+        cgo.NORMAL, 0., 0.3331754913576707, -0.9428648322843389,
+        cgo.VERTEX] + vertices[0] + [
+        cgo.VERTEX] + vertices[2] + [
+        cgo.VERTEX] + vertices[3] + [
+        cgo.NORMAL, -0.8165448970931919, 0.3331754913576705, 0.4714324161421693,
+        cgo.VERTEX] + vertices[0] + [
+        cgo.VERTEX] + vertices[3] + [
+        cgo.VERTEX] + vertices[1] + [
+        cgo.NORMAL, 0., -1., 0.,
+        cgo.VERTEX] + vertices[1] + [
+        cgo.VERTEX] + vertices[2] + [
+        cgo.VERTEX] + vertices[3] + [
+        cgo.END,
+    ]
+
 
 def cubes(selection='all', name='', state=0, scale=0.5, atomcolors=1, _func=cgo_cube):
     '''
@@ -115,7 +118,8 @@ SEE ALSO
     if state < 0:
         state = cmd.get_setting_int('state')
     states = [state] if state else range(1,
-            cmd.count_states(selection) + 1)
+                                         cmd.count_states(selection) + 1)
+
     def callback(x, y, z, vdw, color):
         if atomcolors:
             obj.append(cgo.COLOR)
@@ -125,10 +129,11 @@ SEE ALSO
     for state in states:
         obj = []
         cmd.iterate_state(state, selection,
-                'xcb(x, y, z, vdw, color)', space=space)
+                          'xcb(x, y, z, vdw, color)', space=space)
         cmd.load_cgo(obj, name, state)
     if not atomcolors:
         cmd.color('auto', name)
+
 
 def tetrahedra(selection='all', name='', state=0, scale=0.5, atomcolors=1):
     '''

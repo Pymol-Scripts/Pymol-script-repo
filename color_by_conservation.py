@@ -17,40 +17,42 @@ See more here: http://www.pymolwiki.org/index.php/color_by_conservation
 '''
 
 from pymol import cmd
+
+
 def color_by_conservation(aln, names=(), color="rainbow", as_putty=0, _self=cmd):
     # PyMOL doesn't yet know about object:alignment
     # but we need to check that this exists or we might crash
     if _self.get_type(aln) not in ("object:", "object:alignment"):
         print "Error: Bad or incorrectly specified alignment object."
         return None
- 
+
     r = cmd.get_raw_alignment(aln)
- 
-    if names==():
+
+    if names == ():
         known_objs = []
         map(known_objs.extend, map(lambda x: map(lambda y: y[0], x), r))
-        known_objs=set(known_objs)
- 
+        known_objs = set(known_objs)
+
         # highest number of matches seen
-        M = max(map(len,r)) + 1
+        M = max(map(len, r)) + 1
     else:
         known_objs = set(names)
         M = len(known_objs) + 1
- 
+
     for obj in known_objs:
         _self.alter(obj, "b=0.0")
- 
+
     for af in r:
         c = float(1.0 + len(af)) / float(M)
         for y in af:
-            _self.alter("%s and index %s" % (y[0], y[1]), "b=c", space={'c':c})
- 
-    if as_putty!=0:
+            _self.alter("%s and index %s" % (y[0], y[1]), "b=c", space={'c': c})
+
+    if as_putty != 0:
         for obj in known_objs:
             _self.show_as("cartoon", "%s" % obj)
-            _self.cartoon("putty",  "%s" % obj)
+            _self.cartoon("putty", "%s" % obj)
             _self.spectrum('b', color, obj)
             _self.sort()
             _self.rebuild()
     return None
-cmd.extend("color_by_conservation",color_by_conservation)
+cmd.extend("color_by_conservation", color_by_conservation)

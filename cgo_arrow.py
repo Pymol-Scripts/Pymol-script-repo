@@ -8,8 +8,9 @@ License: BSD-2-Clause
 
 from pymol import cmd, cgo, CmdException
 
+
 def cgo_arrow(atom1='pk1', atom2='pk2', radius=0.5, gap=0.0, hlength=-1, hradius=-1,
-        color='blue red', name=''):
+              color='blue red', name=''):
     '''
 DESCRIPTION
 

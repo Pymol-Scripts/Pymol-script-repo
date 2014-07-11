@@ -8,6 +8,7 @@ from pymol import cmd
 from math import cos, sin, pi, sqrt, acos, asin, atan2
 import os
 
+
 def compactSeq(seq):
     seq.sort()
     ret = []
@@ -28,6 +29,7 @@ def compactSeq(seq):
                 start = seq[i]
         i += 1
     return ','.join(ret)
+
 
 def parseObjMol(obj):
     name = obj[0]
@@ -69,14 +71,14 @@ def parseObjMol(obj):
         if (ss == 'H'):
             helix.append(serial)
 
-        c =  cmd.get_color_tuple(atom[21])
+        c = cmd.get_color_tuple(atom[21])
         if (not c in colors):
             colors[c] = []
         colors[c].append(serial)
         ids.append("ID %d is %s in resi %s %s at chain %s"\
-                       % (atom[22], atom[6], atom[3], atom[5], atom[1]))
+                   % (atom[22], atom[6], atom[3], atom[5], atom[1]))
 
-    for c in colors.iterkeys(): # TODO: better compression
+    for c in colors.iterkeys():  # TODO: better compression
         colors[c] = compactSeq(colors[c])
 
     ret = ''
@@ -94,22 +96,24 @@ def parseObjMol(obj):
         ret += "\ncolor:%.3f,%.3f,%.3f:%s" % (c[0], c[1], c[2], colors[c])
     return ret
 
+
 def parseDistObj(obj):
-    if (obj[5][0][3][10] != 1): # 'show dashed' flag
+    if (obj[5][0][3][10] != 1):  # 'show dashed' flag
         return ""
     N = obj[5][2][0][0]
     points = obj[5][2][0][1]
     ret = []
     for p in points:
         ret.append("%.3f" % p)
-    color = cmd.get_color_tuple(obj[5][0][2]);
+    color = cmd.get_color_tuple(obj[5][0][2])
     return "\ndists:%.3f,%.3f,%.3f:" % color + ','.join(ret)
+
 
 def dump_rep(name):
     if 'PYMOL_GIT_MOD' in os.environ:
         import shutil
         try:
-            shutil.copytree(os.path.join(os.environ['PYMOL_GIT_MOD'],'pymol2glmol','js'),os.path.join(os.getcwd(),'js'))
+            shutil.copytree(os.path.join(os.environ['PYMOL_GIT_MOD'], 'pymol2glmol', 'js'), os.path.join(os.getcwd(), 'js'))
         except OSError:
             pass
 
@@ -120,18 +124,20 @@ def dump_rep(name):
     for obj in names:
         if (obj == None):
             continue
-        if (obj[2] == 0): # not visible
+        if (obj[2] == 0):  # not visible
             continue
         if (obj[1] == 0 and obj[4] == 1 and obj[0] == name):
             ret += parseObjMol(obj)
-        if (obj[1] == 0 and obj[4] == 4): # currently all dist objects are exported
+        if (obj[1] == 0 and obj[4] == 4):  # currently all dist objects are exported
             ret += parseDistObj(obj)
 
     cmd.turn('z', 180)
     view = cmd.get_view()
     cmd.turn('z', 180)
-    cx = -view[12]; cy = -view[13]; cz = -view[14]
-    cameraZ = - view[11] - 150;
+    cx = -view[12]
+    cy = -view[13]
+    cz = -view[14]
+    cameraZ = - view[11] - 150
     fov = float(cmd.get("field_of_view"))
     fogStart = float(cmd.get("fog_start"))
     slabNear = view[15] + view[11]
@@ -143,16 +149,16 @@ def dump_rep(name):
 
     bgcolor = cmd.get_setting_tuple('bg_rgb')[1]
     ret += "\nbgcolor:%02x%02x%02x" % (int(255 * float(bgcolor[0])), \
-              int(255 * float(bgcolor[1])), int(255 * float(bgcolor[2])))
+                                       int(255 * float(bgcolor[1])), int(255 * float(bgcolor[2])))
     if 'PYMOL_GIT_MOD' in os.environ:
-        template = open(os.path.join(os.environ['PYMOL_GIT_MOD'],'pymol2glmol','imported.html')).read().\
+        template = open(os.path.join(os.environ['PYMOL_GIT_MOD'], 'pymol2glmol', 'imported.html')).read().\
             replace("###INCLUDE_PDB_FILE_HERE###", cmd.get_pdbstr(name)).\
             replace('###INCLUDE_REPRESENTATION_HERE###', ret)
     else:
         template = open('imported.html').read().\
             replace("###INCLUDE_PDB_FILE_HERE###", cmd.get_pdbstr(name)).\
             replace('###INCLUDE_REPRESENTATION_HERE###', ret)
-        
+
     f = open(name + '.html', 'w')
     f.write(template)
     f.close()

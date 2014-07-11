@@ -25,11 +25,11 @@ from pymol import stored
 # MOVIE COLOR FADING
 #-------------------------------------------------------------------------------
 def movie_color_fade(
-startframe='', 
-startcolor='red', 
-endframe='', 
-endcolor='green',
-selection='all' 
+    startframe='',
+    startcolor='red',
+    endframe='',
+    endcolor='green',
+    selection='all'
 ):
     '''
 DESCRIPTION
@@ -78,22 +78,23 @@ SEE ALSO
 
     mdo, mappend, set, movie_fade
     '''
-    selection='('+str(selection)+')'
+    selection = '(' + str(selection) + ')'
 
     try:
         startframe = int(startframe)
     except:
-        startframe=int(cmd.get('frame'))        
+        startframe = int(cmd.get('frame'))
     try:
         endframe = int(endframe)
     except:
-        endframe=int(cmd.count_frames())
+        endframe = int(cmd.count_frames())
 
-    if endframe==0: endframe=1   
+    if endframe == 0:
+        endframe = 1
 
     if startframe == endframe:
-       print "start == end"
-       return False
+        print "start == end"
+        return False
 
     if startframe > endframe:
         startframe, endframe = endframe, startframe
@@ -101,29 +102,29 @@ SEE ALSO
 
     # color RGBs
     try:
-        startcolor=cmd.get_color_tuple(startcolor)
-        endcolor=cmd.get_color_tuple(endcolor)
-        diffcolor=[b-a for a,b in zip(startcolor,endcolor)]
+        startcolor = cmd.get_color_tuple(startcolor)
+        endcolor = cmd.get_color_tuple(endcolor)
+        diffcolor = [b - a for a, b in zip(startcolor, endcolor)]
     except:
-       print "Input error - please provide regular colors"
-       return False        
+        print "Input error - please provide regular colors"
+        return False
 
     for frame in range(startframe, endframe + 1):
         # calculate intermediates
         frac = float(frame - startframe) / (endframe - startframe)
-        endcolor=[a*frac for a in diffcolor]
-        endcolor=map(sum, zip(startcolor,endcolor))
-        colorname = selection+"_"+str(frame)
+        endcolor = [a * frac for a in diffcolor]
+        endcolor = map(sum, zip(startcolor, endcolor))
+        colorname = selection + "_" + str(frame)
         # define new color
-        cmd.set_color(colorname,endcolor)
+        cmd.set_color(colorname, endcolor)
 
         cmd.mappend(frame, "/cmd.color(%s, %s)" % (repr(colorname), repr(selection)))
 
 cmd.extend("movie_color_fade", movie_color_fade)
-cmd.auto_arg[0]['movie_color_fade']=[lambda: cmd.Shortcut(['auto', '1']), 'startframe=', ',']
-cmd.auto_arg[1]['movie_color_fade']=[lambda: cmd.Shortcut(['red','green','blue','yellow']), 'startcolor=', ',']
-cmd.auto_arg[2]['movie_color_fade']=[lambda: cmd.Shortcut(['auto']), 'endframe=', ',']
-cmd.auto_arg[3]['movie_color_fade']=[lambda: cmd.Shortcut(['red','green','blue','yellow']), 'endcolor=  ... more see "help movie_color_fade"', ',']
+cmd.auto_arg[0]['movie_color_fade'] = [lambda: cmd.Shortcut(['auto', '1']), 'startframe=', ',']
+cmd.auto_arg[1]['movie_color_fade'] = [lambda: cmd.Shortcut(['red', 'green', 'blue', 'yellow']), 'startcolor=', ',']
+cmd.auto_arg[2]['movie_color_fade'] = [lambda: cmd.Shortcut(['auto']), 'endframe=', ',']
+cmd.auto_arg[3]['movie_color_fade'] = [lambda: cmd.Shortcut(['red', 'green', 'blue', 'yellow']), 'endcolor=  ... more see "help movie_color_fade"', ',']
 #cmd.auto_arg[4]['movie_color_fade']=[lambda: cmd.Shortcut(['all']), 'selection=', '']
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------

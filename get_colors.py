@@ -20,7 +20,13 @@ from pymol import cmd
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
+<<<<<<< HEAD
 def get_colors(selection='', quiet=1):
+=======
+
+
+def get_colors(selection='', output=True):
+>>>>>>> autopep8
     '''
 DESCRIPTION:
     returns a list of available pymol colors
@@ -33,15 +39,26 @@ EXAMPLES:
     get colors all # larger range with intermediates
     '''
     import pymol
-    pymol_color_list=[]
-    for tuplepair in pymol.querying.get_color_indices(selection): 
+    pymol_color_list = []
+    for tuplepair in pymol.querying.get_color_indices(selection):
         pymol_color_list.append(tuplepair[0])
     pymol_color_list.sort()
+<<<<<<< HEAD
     if not int(quiet): print pymol_color_list
     return pymol_color_list
 cmd.extend('get_colors',get_colors)
 cmd.auto_arg[0]['get_colors']=[lambda: cmd.Shortcut(['""','all']), 'selection=', ',']
 cmd.auto_arg[1]['get_colors']=[lambda: cmd.Shortcut(['0']), 'quiet=', '']
+=======
+    # the str() is due to pymol passing aruments as strings,
+    # thus True becomes 'True'
+    if str(output) == 'True':
+        print pymol_color_list
+    return pymol_color_list
+cmd.extend('get_colors', get_colors)
+cmd.auto_arg[0]['get_colors'] = [lambda: cmd.Shortcut(['""', 'all']), 'selection=', ',']
+cmd.auto_arg[1]['get_colors'] = [lambda: cmd.Shortcut(['True']), 'output=', '']
+>>>>>>> autopep8
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
@@ -65,9 +82,15 @@ EXAMPLES:
     cmd.color(get_random_color())
     '''
     import random
+<<<<<<< HEAD
     randomcolor=random.choice(get_colors(selection, 1))
     if not int(quiet): print randomcolor
+=======
+    randomcolor = random.choice(get_colors(selection, False))
+    if str(output) != 'False':
+        print randomcolor
+>>>>>>> autopep8
     return randomcolor
-cmd.extend('get_random_color',get_random_color)
+cmd.extend('get_random_color', get_random_color)
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------

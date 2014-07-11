@@ -9,6 +9,7 @@ License: BSD-2-Clause
 import os
 from pymol import cmd, CmdException
 
+
 def select_sites(selection='all', filename=None, prefix=None, nice=1, quiet=0):
     '''
 DESCRIPTION
@@ -40,14 +41,14 @@ ARGUMENTS
 
         if fname is None:
             for fname in ['%s.pdb' % (name),
-                    '%s/%s.pdb' % (cmd.get('fetch_path'), name)]:
+                          '%s/%s.pdb' % (cmd.get('fetch_path'), name)]:
                 if os.path.exists(fname):
                     break
             else:
                 print ' Error: please provide filename'
                 raise CmdException
             if not quiet:
-                print 'loading from %s' % (fname)        
+                print 'loading from %s' % (fname)
         for line in open(fname):
             if line.startswith('SITE '):
                 siteID = line[11:14].strip()
@@ -55,7 +56,7 @@ ARGUMENTS
                 selenames.add(selename)
                 grpselenames.add(selename)
                 for i in range(4):
-                    res = line[18+11*i:29+11*i]
+                    res = line[18 + 11 * i:29 + 11 * i]
                     if res.strip():
                         chain = res[4]
                         resi = res[5:].strip()
@@ -100,14 +101,15 @@ ARGUMENTS
         cmd.show('labels', '*LINK*')
         cmd.color('gray', selection)
         for i, selename in enumerate(selenames):
-            cmd.color(i+2, '(%s) and (%s)' % (selection, selename))
-        #for i, selename in enumerate(cysselenames):
+            cmd.color(i + 2, '(%s) and (%s)' % (selection, selename))
+        # for i, selename in enumerate(cysselenames):
         #    cmd.color('sulfur', '(%s) and (%s)' % (selection, selename))
         for i, selename in enumerate(hetselenames):
-            cmd.show('spheres','%s and inorganic' % (selename))
+            cmd.show('spheres', '%s and inorganic' % (selename))
         cmd.util.cnc('%s' % (allsites))
 cmd.extend('select_sites', select_sites)
 cmd.auto_arg[0]['select_sites'] = cmd.auto_arg[0]['pseudoatom']
+
 
 def sites(code, name='', *args, **kwargs):
     kwargs['async'] = 0

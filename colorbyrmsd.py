@@ -9,6 +9,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def colorbyrmsd(mobile, target, doAlign=1, doPretty=1, guide=1, method='super', quiet=1):
     '''
 DESCRIPTION
@@ -24,7 +25,7 @@ DESCRIPTION
 ARGUMENTS
 
     mobile = string: atom selection for mobile atoms
-    
+
     target = string: atom selection for target atoms
 
     doAlign = 0 or 1: Superpose selections before calculating distances

@@ -8,6 +8,7 @@ License: BSD-2-Clause
 
 from pymol import cmd, CmdException
 
+
 def get_raw_distances(names='', state=1, selection='all', quiet=1):
     '''
 DESCRIPTION
@@ -50,19 +51,19 @@ SEE ALSO
 
     xyz2idx = {}
     cmd.iterate_state(state, selection, 'xyz2idx[x,y,z] = (model,index)',
-            space=locals())
+                      space=locals())
 
     r = []
     for obj in raw_objects:
         try:
-            points = obj[5][2][state-1][1]
+            points = obj[5][2][state - 1][1]
             if points is None:
                 raise ValueError
         except (KeyError, ValueError):
             continue
         for i in range(0, len(points), 6):
-            xyz1 = tuple(points[i:i+3])
-            xyz2 = tuple(points[i+3:i+6])
+            xyz1 = tuple(points[i:i + 3])
+            xyz2 = tuple(points[i + 3:i + 6])
             try:
                 r.append((xyz2idx[xyz1], xyz2idx[xyz2], cpv.distance(xyz1, xyz2)))
                 if not quiet:
@@ -71,6 +72,7 @@ SEE ALSO
                 if quiet < 0:
                     print ' Debug: no index for', xyz1, xyz2
     return r
+
 
 def select_distances(names='', name='sele', state=1, selection='all', cutoff=-1, quiet=1):
     '''
@@ -115,8 +117,8 @@ cmd.extend('get_raw_distances', get_raw_distances)
 cmd.extend('select_distances', select_distances)
 
 _auto_arg0_distances = [
-        lambda: cmd.Shortcut(cmd.get_names_of_type('object:measurement')),
-        'distance object', '']
+    lambda: cmd.Shortcut(cmd.get_names_of_type('object:measurement')),
+    'distance object', '']
 
 cmd.auto_arg[0].update([
     ('get_raw_distances', _auto_arg0_distances),

@@ -9,17 +9,17 @@ Author: Thomas Holder (Version 2.0)
 
 # Copyright Notice
 # ================
-# 
+#
 # The PyMOL Plugin source code in this file is copyrighted, but you are
 # free to use and copy it as long as you don't change or remove any of
 # the copyright notices.
-# 
+#
 # -----------------------------------------------------------------------------------
 # This PyMOL Plugin Contact Maps Visualizer is
 # Copyright (C) 2012 by Venkatramanan Krishnamani <venks@andrew.cmu.edu>
-# 
+#
 #                        All Rights Reserved
-# 
+#
 # Permission to use, copy, modify, distribute, and distribute modified
 # versions of this software and its documentation for any purpose and
 # without fee is hereby granted, provided that the above copyright
@@ -28,7 +28,7 @@ Author: Thomas Holder (Version 2.0)
 # the name(s) of the author(s) not be used in advertising or publicity
 # pertaining to distribution of the software without specific, written
 # prior permission.
-# 
+#
 # THE AUTHOR(S) DISCLAIM ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 # INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.  IN
 # NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY SPECIAL, INDIRECT OR
@@ -42,16 +42,19 @@ import os
 from pymol import cmd, CmdException
 
 colors = ['red', 'blue', 'green', 'yellow', 'magenta', 'cyan', 'orange',
-    'marine', 'chartreuse', 'purpleblue', 'violet', 'limon', ]
+          'marine', 'chartreuse', 'purpleblue', 'violet', 'limon', ]
 colors_value = [tuple(int(i * 255) for i in cmd.get_color_tuple(color))
-    for color in colors]
+                for color in colors]
+
 
 def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command', 'Contact Map Visualizer',
-            label='Contact Map Visualizer', command = lambda s=self: CMVDialog(s))
+                             label='Contact Map Visualizer', command=lambda s=self: CMVDialog(s))
+
 
 def CMVDialog(self):
-    import tkFileDialog, tkMessageBox
+    import tkFileDialog
+    import tkMessageBox
 
     try:
         import pygame as pg
@@ -59,20 +62,20 @@ def CMVDialog(self):
         tkMessageBox.showerror('Error', 'This plugin requires the "pygame" module')
         return
 
-    myFormats = [('Portable Network Graphics','*.png'),('JPEG / JFIF','*.jpg')]
+    myFormats = [('Portable Network Graphics', '*.png'), ('JPEG / JFIF', '*.jpg')]
     try:
         image_file = tkFileDialog.askopenfilename(parent=self.root,
-                filetypes=myFormats, title='Choose the contact map image file')
+                                                  filetypes=myFormats, title='Choose the contact map image file')
         if not image_file:
             raise
     except:
         tkMessageBox.showerror('Error', 'No Contact Map!')
         return
 
-    myFormatsPDB = [('Protein Data Bank','*.pdb'), ('MDL mol','*.mol'), ('PyMol Session File','*.pse')]
+    myFormatsPDB = [('Protein Data Bank', '*.pdb'), ('MDL mol', '*.mol'), ('PyMol Session File', '*.pse')]
     try:
         pdb_file = tkFileDialog.askopenfilename(parent=self.root,
-                filetypes=myFormatsPDB, title='Choose the corresponding PDB file')
+                                                filetypes=myFormatsPDB, title='Choose the corresponding PDB file')
         if not pdb_file:
             raise
     except:
@@ -82,6 +85,7 @@ def CMVDialog(self):
     name = cmd.get_unused_name('protein')
     cmd.load(pdb_file, name)
     contact_map_visualizer(image_file, name, 1, 0)
+
 
 def contact_map_visualizer(image_file='', selection='all', screenshots=0, quiet=1):
     '''
@@ -119,6 +123,7 @@ SEE ALSO
     t.setDaemon(1)
     t.start()
 
+
 def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs):
     from datetime import datetime
 
@@ -134,19 +139,19 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
 
     idx_list = []
     cmd.iterate('(%s) and name CA' % (selection),
-            'idx_list.append(((model,index),chain,resi))', space=locals())
+                'idx_list.append(((model,index),chain,resi))', space=locals())
     cmd.color("white", selection)
 
     # General variables
     count = 0
     sel = 0
-    ntime  = datetime.now()
+    ntime = datetime.now()
     BLACK = (0, 0, 0)
     WHITE = (255, 255, 255)
 
     if screenshots:
         outputname = "%s_selectedPoints_%d-%d-%d_%d%d.png" % (os.path.basename(image_file),
-                ntime.day, ntime.month, ntime.year, ntime.hour, ntime.minute)
+                                                              ntime.day, ntime.month, ntime.year, ntime.hour, ntime.minute)
 
     # Text related arrays nd variables
     text = []
@@ -222,9 +227,9 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
             textRect.append(text[textcount].get_rect())
             textRect[textcount][0] = event.pos[0] + 5
             textRect[textcount][1] = event.pos[1] + 5
-            
+
             screen.blit(image, image_rect)
-            for a in range(textcount+1):
+            for a in range(textcount + 1):
                 screen.blit(text[a], textRect[a])
             pg.display.flip()
 
@@ -240,11 +245,12 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
         # update screen
         screen.blit(image, image_rect)
         if sel == 1:
-            for a in range(textcount+1):
+            for a in range(textcount + 1):
                 screen.blit(text[a], textRect[a])
         pg.display.flip()
 
     pg.quit()
+
 
 def contact_map_generator(filename, selection='all', state=-1, quiet=1):
     '''
@@ -256,7 +262,10 @@ USAGE
 
     contact_map_generator filename [, selection [, state ]]
     '''
-    import os, shutil, tempfile, subprocess
+    import os
+    import shutil
+    import tempfile
+    import subprocess
 
     state, quiet = int(state), int(quiet)
 
@@ -278,7 +287,7 @@ USAGE
             file_s = file_f
 
         process = subprocess.Popen(['g_mdmat', '-f', file_f, '-s', file_s, '-mean', file_mean],
-                stdin=subprocess.PIPE)
+                                   stdin=subprocess.PIPE)
         print >> process.stdin, 'Protein-H'
         process.stdin.close()
         process.wait()
@@ -291,15 +300,17 @@ USAGE
     finally:
         shutil.rmtree(tempdir)
 
+
 def xpm_convert(infile, outfile):
     '''
     Strips comments and repeated spaces from XPM file and saves it as new file.
     '''
-    import re, Image
+    import re
+    import Image
     from StringIO import StringIO
 
     xpm = open(infile).read()
-    xpm = re.sub(r'/\*.*?\*/', '', xpm) # strip comments
+    xpm = re.sub(r'/\*.*?\*/', '', xpm)  # strip comments
     xpm = re.sub(r'  +', ' ', xpm)      # strip multi-spaces
     xpm = re.sub(r'\n\s+', '\n', xpm)   # strip empty lines
     xpm = '/* XPM */' + xpm

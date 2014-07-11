@@ -16,6 +16,7 @@ expression_sc = cmd.Shortcut([
     'pc',
 ])
 
+
 def spectrumany(expression, color_list, selection='(all)', minimum=None, maximum=None, quiet=1):
     '''
 DESCRIPTION
@@ -54,7 +55,7 @@ SEE ALSO
     parts = len(colvec) - 1
 
     expression = {'pc': 'partial_charge', 'fc': 'formal_charge',
-            'count': 'index'}.get(expression, expression)
+                  'count': 'index'}.get(expression, expression)
     minmax_expr = {'resi': 'resv'}.get(expression, expression)
     discrete_expr = ['index', 'resi']
 
@@ -89,8 +90,8 @@ SEE ALSO
     val_start = minimum
     for p in range(parts):
         for i in range(steps):
-            ii = float(i)/steps
-            col_list = [colvec[p+1][j] * ii + colvec[p][j] * (1.0 - ii) for j in range(3)]
+            ii = float(i) / steps
+            col_list = [colvec[p + 1][j] * ii + colvec[p][j] * (1.0 - ii) for j in range(3)]
             col_name = '0x%02x%02x%02x' % (col_list[0] * 255, col_list[1] * 255, col_list[2] * 255)
             val_end = val_range * (i + 1 + p * steps) / steps_total + minimum
             if expression in discrete_expr:
@@ -102,8 +103,8 @@ SEE ALSO
 cmd.extend('spectrumany', spectrumany)
 
 # tab-completion of arguments
-cmd.auto_arg[0]['spectrumany'] = [ expression_sc  , 'expression'      , ', ' ]
-cmd.auto_arg[1]['spectrumany'] = [ cmd.auto_arg[0]['color'][0], 'color', ' ' ]
+cmd.auto_arg[0]['spectrumany'] = [expression_sc, 'expression', ', ']
+cmd.auto_arg[1]['spectrumany'] = [cmd.auto_arg[0]['color'][0], 'color', ' ']
 cmd.auto_arg[2]['spectrumany'] = cmd.auto_arg[2]['spectrum']
 
 # vi:expandtab:smarttab

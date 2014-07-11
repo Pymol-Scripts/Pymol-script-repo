@@ -1,7 +1,8 @@
 from pymol import cmd
 import re
 import pymol.setting
- 
+
+
 def grepset(regexp=''):
     '''
 DESCRIPTION
@@ -9,19 +10,19 @@ DESCRIPTION
     regular expression as defined in the 're' module.
     It returns a list of settings/values matching the regexp.
     No regexp returns every setting.
- 
+
 USAGE
     grepset [regexp]
- 
+
 EXAMPLE
     grepset line
     grepset ray
     grepset (^line|color$)
- 
+
 SEE ALSO
-	Python re module
+        Python re module
     '''
- 
+
     count = 0
     regexp = re.compile(regexp)
     matches = []
@@ -29,7 +30,7 @@ SEE ALSO
         setting = pymol.setting._get_name(a)
         if regexp.search(setting):
             count += 1
-            matches.append( (setting, cmd.get_setting_text(a, '', -1)) )
+            matches.append((setting, cmd.get_setting_text(a, '', -1)))
     # max length of the setting names that matched
     maxlen = max([len(s[0]) for s in matches] + [0])
     fmt = "%%-%ds : %%s" % (maxlen,)

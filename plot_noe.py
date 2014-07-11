@@ -10,6 +10,7 @@ License: BSD-2-Clause
 from pymol import cmd, CmdException
 import re
 
+
 def plot_noe(filename, selection='', line_color='gray20', line_width='1.0', single=0, quiet=1, aria=0, per_atom=0, per_residue=1):
     """
 DESCRIPTION
@@ -48,7 +49,7 @@ EXAMPLE
     parent_id = None
 
     rgx_restraint = re.compile(
-                        r"""
+        r"""
                             \s*(?P<parent>\w*)\s+\(
                             (segid\s+\"\s*(?P<src_segid>[\w\d]+)\"\s+and\s+)?
                             resid\s+(?P<src_resid>\d+)\s+and\s+
@@ -62,7 +63,6 @@ EXAMPLE
                             (.*id=(?P<ID>\d+))?
                             .*
                         """, re.X)
-
 
     for line in open(filename):
         restraint = rgx_restraint.match(line)
@@ -104,7 +104,7 @@ EXAMPLE
 
             try:
                 cmd.distance(label, sele1, sele2, quiet=quiet,
-                        width=line_width, gap=0, label=0)
+                             width=line_width, gap=0, label=0)
             except CmdException:
                 print 'FAILED: %s - %s' % (sele1, sele2)
                 continue
@@ -119,4 +119,3 @@ EXAMPLE
         print ' Info: Created distance objects for %d restraints' % (count)
 
 cmd.extend("plot_noe", plot_noe)
-
