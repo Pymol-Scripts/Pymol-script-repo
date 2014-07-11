@@ -4,8 +4,7 @@ Described at: http://www.pymolwiki.org/format_bonds
 Version 1.0 (2014)
 ##################################################
 
-Bundled commands for quick representations.
-Type disp_list for listing of functions.
+Formats bonds in aromatic or charged residues
 
 ##################################################
 Plugin contributed by Andreas Warnecke
@@ -251,7 +250,7 @@ ARGUMENTS
     ['CZ','NH2']
     ]
     ARG_bonds_double=[
-    ['C','NH1']
+    ['CZ','NH1']
     ]
 
     ##### FORMATING #####
