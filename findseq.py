@@ -340,10 +340,11 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
 
     # get the AAs in the haystack
     aaDict = {'aaList': []}
-    cmd.iterate("(name ca) and __h", "aaList.append((resi,resn))", space=aaDict)
+    cmd.iterate("(name ca) and __h", "aaList.append((resi,resn,chain))", space=aaDict)
 
     IDs = map(lambda x: int(x[0]), aaDict['aaList'])
     AAs = ''.join(map(lambda x: one_letter[x[1]], aaDict['aaList']))
+    chains = [x[2] for x in aaDict['aaList']]
 
     reNeedle = re.compile(needle.upper())
     it = reNeedle.finditer(AAs)
@@ -353,7 +354,14 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
 
     for i in it:
         (start, stop) = i.span()
-        cmd.select(rSelName, rSelName + " __h and i. " + str(IDs[start]) + "-" + str(IDs[stop - 1]))
+        # we found some residues, which chains are they from?
+        i_chains = chains[start:stop]
+        # are all residues from one chain?
+        if len(set(i_chains)) != 1:
+        	# now they are not, this match is not really a match, skip it
+        	continue
+        chain = i_chains[0]
+        cmd.select(rSelName, rSelName + " or (__h and i. " + str(IDs[start]) + "-" + str(IDs[stop - 1]) + " and c. " + chain + " )")
         if int(firstOnly):
             break
     cmd.delete("__h")
