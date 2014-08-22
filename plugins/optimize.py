@@ -4,7 +4,7 @@ Described at PyMOL wiki: http://www.pymolwiki.org/index.php/optimize
 
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
-Date: march 2014
+Date: august 2014
 License: GNU General Public License
 Version 0.8
 '''
@@ -18,9 +18,6 @@ try:
     import openbabel as ob
 except:
     print '<'*80 + '\n\nOptimize plug-in needs openbabel to be installed in your system, please follow the instructions at\nhttp://openbabel.org/wiki/Get_Open_Babel\n\n' + '>'*80
-
-
-
 
 
 def __init__(self):
@@ -42,7 +39,7 @@ def mainDialog():
         cutoff = bool(cutoff_value.get())
         cut_vdw = float(entry_vdw.get())
         cut_elec = float(entry_elec.get())
-        selection = sel_value.get()
+        selection = sel0_value.get()
         minimize(selection, forcefield, method, nsteps0, conv, cutoff, cut_vdw, cut_elec)
 
     def set_conf_search():
@@ -51,7 +48,7 @@ def mainDialog():
         nsteps1 = int(entry_nsteps1.get())
         conformers = int(entry_conformers.get())
         lowest_conf = int(entry_lowest.get())
-        selection = sel_value.get()
+        selection = sel1_value.get()
         conf_search(selection, forcefield, conf_method, nsteps1, conformers, lowest_conf)
 
 
@@ -104,16 +101,16 @@ def mainDialog():
     entry_conv.grid(row=3, column=1)
     entry_conv.update()
     Label(group.interior(), text='selection').grid(row=4, column=0)
-    sel_value = StringVar(master=group.interior())
+    sel0_value = StringVar(master=group.interior())
     names = cmd.get_names('all')
     if len(names) > 0:
-        sel_value.set(names[0])
+        sel0_value.set(names[0])
     else:
-        sel_value.set('all')
-    entry_sel_value = Entry(group.interior(),textvariable=sel_value, width=15)
-    entry_sel_value.grid(row=4, column=1)
-    entry_sel_value.configure(state='normal')
-    entry_sel_value.update()
+        sel0_value.set('all')
+    entry_sel0_value = Entry(group.interior(),textvariable=sel0_value, width=15)
+    entry_sel0_value.grid(row=4, column=1)
+    entry_sel0_value.configure(state='normal')
+    entry_sel0_value.update()
 ###########################################################################
     cutoff_value = BooleanVar(master=group.interior())
     cutoff_value.set(False)
@@ -182,16 +179,16 @@ command=enable_entry).grid(row=6, columnspan=3)
     entry_lowest.configure(state='normal')
     entry_lowest.update()
     Label(group.interior(), text='selection').grid(row=5, column=0)
-    sel_value = StringVar(master=group.interior())
+    sel1_value = StringVar(master=group.interior())
     names = cmd.get_names('all')
     if len(names) > 0:
-        sel_value.set(names[0])
+        sel1_value.set(names[0])
     else:
-        sel_value.set('all')
-    entry_sel_value = Entry(group.interior(),textvariable=sel_value, width=15)
-    entry_sel_value.grid(row=5, column=1)
-    entry_sel_value.configure(state='normal')
-    entry_sel_value.update()
+        sel1_value.set('all')
+    entry_sel1_value = Entry(group.interior(),textvariable=sel1_value, width=15)
+    entry_sel1_value.grid(row=5, column=1)
+    entry_sel1_value.configure(state='normal')
+    entry_sel1_value.update()
 # Run
     Button(p2, text="Search", command=set_conf_search).pack(side=BOTTOM)
 ############################ About TAB ########################################
