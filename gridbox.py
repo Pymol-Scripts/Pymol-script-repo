@@ -12,26 +12,26 @@ from chempy import cpv
 from pymol.cgo import *
 
 def gridbox(center_x,center_y,center_z,size_x,size_y,size_z,name="gridbox",r1=0,g1=0,b1=1,trasp=0.2):
-	  """
-DESCRIPTION
-    Create a box from the center coordinate of the box and the size of box
-
-USAGE
-    run gridbox.py
-    1the simplest
-    gridbox center_x,center_y,center_z,size_x,size_y,size_z
-    2rename the box object
-    gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,
-    3set the color of the box object
-    gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,r1,g1,b1
-    4set the trasp of the box
-    gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,r1,g1,b1,trasp
-    
-    ps:the value of r1,g1,b1 trasp   range  is 0-1
-       trasp=1,no trasprent
-
-
-  """
+	"""
+	DESCRIPTION
+	Create a box from the center coordinate of the box and the size of box
+	
+	USAGE
+	run gridbox.py
+	1the simplest
+	gridbox center_x,center_y,center_z,size_x,size_y,size_z
+	2rename the box object
+	gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,
+	3set the color of the box object
+	gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,r1,g1,b1
+	4set the trasp of the box
+	gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,r1,g1,b1,trasp
+	
+	ps:the value of r1,g1,b1 trasp   range  is 0-1
+	   trasp=1,no trasprent
+	
+	
+	"""
 	center_x=float(center_x)
 	center_y=float(center_y)
 	center_z=float(center_z)
@@ -80,8 +80,8 @@ USAGE
 			 BEGIN, TRIANGLE_STRIP,
 			 VERTEX,p7[0],p7[1],p7[2],
 			 VERTEX,p3[0],p3[1],p3[2],
-			 VERTEX,p2[0],p2[1],p2[2],
 			 VERTEX,p6[0],p6[1],p6[2],
+			 VERTEX,p2[0],p2[1],p2[2],
 			 END,
 			 
 			 BEGIN, TRIANGLE_STRIP,
