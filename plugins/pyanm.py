@@ -53,8 +53,13 @@ except ImportError:
     raise ImportError('Failed to import numpy, which is required for building ANM')
     
 try:
-    import scipy.sparse.linalg
-    haveSP = True
+    # In MacPyMOL, even importing linalg causes a crash
+    import platform
+    if platform.system() == 'Darwin':
+        haveSP = False
+    else:
+        import scipy.sparse.linalg
+        haveSP = True
 except ImportError:
     haveSP = False
 
