@@ -28,7 +28,7 @@ def com(selection, state=None, mass=None, object=None, quiet=1, **kwargs):
             object = 'COM'
     cmd.delete(object)
 
-    if (state != None):
+    if (state == None):
         x, y, z = get_com(selection, mass=mass, quiet=quiet)
         if not quiet:
             print "%f %f %f" % (x, y, z)
