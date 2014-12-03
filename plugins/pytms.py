@@ -1,5 +1,5 @@
 '''
-This PyMOL plugin is described at: http://www.pymolwiki.org/Pytms
+This PyMOL plugin is described at: http://www.pymolwiki.org/index.php/Pytms
 ################################################################################
 
 Author : Andreas Warnecke
@@ -27,9 +27,7 @@ ABOUT
 ##################################################
 CITATION
     Please cite the use of PyTMs as follows:
-    Warnecke et al.,
-    "PyTMs: A useful PyMOL plugin for modeling common
-    post-translational modifications", BMC Bioinformatics, 2014
+    Warnecke et al.: PyTMs: a useful PyMOL plugin for modeling common post-translational modifications. BMC Bioinformatics 2014 15:370.
 
 ##################################################
 HELP
