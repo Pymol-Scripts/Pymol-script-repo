@@ -8,6 +8,12 @@ See more at: http://www.pymolwiki.org/index.php/emovie
 #Weizmann Institute of Science, Rehovot, Israel
 
 #editing functions for storyboard added 28-Jul-07 - EH
+
+CHANGELOG
+
+2015-01-23 Thomas Holder
+    * Fixed "Make Morph" feature for PyMOL 1.6+
+
 '''
 
 from Tkinter import *
@@ -32,7 +38,7 @@ from copy import deepcopy
 #
 # KR: Check whether Morphing is available
 #
-if cmd.keyword.has_key('rigimol'):
+if cmd.keyword.has_key('rigimol') or cmd.keyword.has_key('morph'):
     MORPHING_OPTIONS = 1
 else:
     MORPHING_OPTIONS = 0
@@ -1854,7 +1860,6 @@ class MakeMorph(tkSimpleDialog.Dialog):
         return self.e1
 
     def apply(self):
-        cmd.do("from ipymol import rigimol")
 
         morphName = self.e1.get()
         morphFrom = self.e2.get()
@@ -1870,67 +1875,80 @@ class MakeMorph(tkSimpleDialog.Dialog):
 
         numberOfSteps = 30  # this cannot be changed except through altering the rigimol input file (.inp)
 
-        # save morphFrom and morphTo as morphFrom.pdb and morphTo.pdb
-        cmd.save("morphFrom.pdb", morphFrom, state=1)
-        cmd.save("morphTo.pdb", morphTo, state=1)
+        try:
+            cmd.morph
+        except AttributeError:
+            # PyMOL version < 1.6
+            cmd.do("from ipymol import rigimol")
 
-        time.sleep(2)
+            # save morphFrom and morphTo as morphFrom.pdb and morphTo.pdb
+            cmd.save("morphFrom.pdb", morphFrom, state=1)
+            cmd.save("morphTo.pdb", morphTo, state=1)
 
-        # need to insert a pause here to allow for saving to finish
+            time.sleep(2)
 
-        cmd.do("delete all")
-        # call rigimol.inp because you can't run it except through an external script
-        cmd.do("rigimol eMovie_rigimol.inp")
+            # need to insert a pause here to allow for saving to finish
 
-        # time.sleep(120)  #change to pymol API command sync?
-        tkMessageBox.showinfo("Making Morph", "Morph is in the process of being made.\n Wait for the PyMOL Tcl/Tk GUI window to read: \n 'RigiMOL: normal program termination.' \n Before pressing 'OK'")
+            cmd.do("delete all")
+            # call rigimol.inp because you can't run it except through an external script
+            cmd.do("rigimol eMovie_rigimol.inp")
 
-        # delete morphFrom.pdb and morphTo.pdb
-        os.remove("morphFrom.pdb")
-        os.remove("morphTo.pdb")
+            # time.sleep(120)  #change to pymol API command sync?
+            tkMessageBox.showinfo("Making Morph", "Morph is in the process of being made.\n Wait for the PyMOL Tcl/Tk GUI window to read: \n 'RigiMOL: normal program termination.' \n Before pressing 'OK'")
 
-        # run Delano's refinement commands on eMovie_rigimol_morph.pdb
-        # refine.py:
-        # Copyright (C) 2004 DeLano Scientific LLC.  All Rights Reserved.
+            # delete morphFrom.pdb and morphTo.pdb
+            os.remove("morphFrom.pdb")
+            os.remove("morphTo.pdb")
 
-        # to run: "pymol -qc refine.py" (command mode)
-        #         "pymol -xFil refine.py" (to watch it run)
+            # run Delano's refinement commands on eMovie_rigimol_morph.pdb
+            # refine.py:
+            # Copyright (C) 2004 DeLano Scientific LLC.  All Rights Reserved.
 
-        # This script improves the atomic geometry of RigiMOL interpolations
-        # without losing the desirable smoothness of these interpolations.
+            # to run: "pymol -qc refine.py" (command mode)
+            #         "pymol -xFil refine.py" (to watch it run)
 
-        # NOTE: this script can take a while to run (up to dozens of minutes)
+            # This script improves the atomic geometry of RigiMOL interpolations
+            # without losing the desirable smoothness of these interpolations.
 
-        # define input and output files
+            # NOTE: this script can take a while to run (up to dozens of minutes)
 
-        input_file = "eMovie_rigimol_morph.pdb"
-        output_file = "%s_eMorph.pdb" % (morphName)
+            # define input and output files
 
-        # how much refinement should be done?
+            input_file = "eMovie_rigimol_morph.pdb"
+            output_file = "%s_eMorph.pdb" % (morphName)
 
-        # 1   = almost nothing
-        # 20  = a reasonable amount
-        # 100 = a lot
+            # how much refinement should be done?
 
-        how_much_refinement = refinementAmt
+            # 1   = almost nothing
+            # 20  = a reasonable amount
+            # 100 = a lot
 
-        # ======================================
-        # no changes usually required below here
+            how_much_refinement = refinementAmt
 
-        object_name = "refining"
+            # ======================================
+            # no changes usually required below here
 
-        cmd.do("load %s,%s" % (input_file, object_name))
-        # cmd.show("ribbon")
-        #cmd.spectrum(selection="elem c")
+            object_name = "refining"
 
-        cmd.do('rigimol.refine("%i","%s")' % (how_much_refinement, object_name))
+            cmd.do("load %s,%s" % (input_file, object_name))
+            # cmd.show("ribbon")
+            #cmd.spectrum(selection="elem c")
 
-        # cmd.alter('all','type="HETATM"')
+            cmd.do('rigimol.refine("%i","%s")' % (how_much_refinement, object_name))
 
-        cmd.save(output_file, object_name, state=-1)  # multimodel PDB file
+            # cmd.alter('all','type="HETATM"')
 
-        cmd.delete(object_name)
-        os.remove("eMovie_rigimol_morph.pdb")
+            cmd.save(output_file, object_name, state=-1)  # multimodel PDB file
+
+            cmd.delete(object_name)
+            os.remove("eMovie_rigimol_morph.pdb")
+        else:
+            # PyMOL version >= 1.6
+            cmd.morph(morphName, morphFrom, morphTo, refinement=refinementAmt, steps=numberOfSteps)
+
+            # save to disk and delete everything to stay compatible with eMovie protocol
+            cmd.save("%s_eMorph.pdb" % (morphName), morphName, 0)
+            cmd.delete("all")
 
         # append morphName.pdb into morphList
 
