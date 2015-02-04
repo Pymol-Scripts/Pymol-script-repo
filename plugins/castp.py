@@ -1,7 +1,20 @@
+'''
+http://pymolwiki.org/index.php/CASTp
+
+Author: Joe Dundas
+
+CHANGELOG
+
+2015-02-04 Thomas Holder
+    * Fixed hostname (sts.bioengr.uic.edu -> sts.bioe.uic.edu)
+
+'''
+
 from Tkinter import *
 from pymol import cmd
 from tkFileDialog import *
 
+CASTP_URL_BASE = 'http://sts.bioe.uic.edu/castp'
 
 def __init__(self):
 
@@ -91,9 +104,9 @@ class RemotePDB:
             pdbcode = remote_file
             jobid = pdbcode
             pdir = remote_file[1:3]
-            path = 'http://sts.bioengr.uic.edu/castp/cast/' + pdir + '/' + remote_file + '.pdb'
-            pocpath = 'http://sts.bioengr.uic.edu/castp/cast/' + pdir + '/' + remote_file + '.poc'
-            infopath = 'http://sts.bioengr.uic.edu/castp/cast/' + pdir + '/' + remote_file + '.pocInfo'
+            path = CASTP_URL_BASE + '/cast/' + pdir + '/' + remote_file + '.pdb'
+            pocpath = CASTP_URL_BASE + '/cast/' + pdir + '/' + remote_file + '.poc'
+            infopath = CASTP_URL_BASE + '/cast/' + pdir + '/' + remote_file + '.pocInfo'
 
         if sizeof == 5:
             pdbcode = remote_file[0:4]
@@ -102,9 +115,9 @@ class RemotePDB:
             chident = chident.upper()
             jobid = pdbcode + '.' + chident
             pdir = remote_file[1:3]
-            path = 'http://sts.bioengr.uic.edu/castp/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.pdb'
-            pocpath = 'http://sts.bioengr.uic.edu/castp/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.poc'
-            infopath = 'http://sts.bioengr.uic.edu/castp/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.pocInfo'
+            path = CASTP_URL_BASE + '/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.pdb'
+            pocpath = CASTP_URL_BASE + '/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.poc'
+            infopath = CASTP_URL_BASE + '/sccast/' + pdir + '/' + pdbcode + '.' + chident + '.pocInfo'
 
         # Try to retrieve the files if there are no previous errors.
         if noerror:
@@ -274,20 +287,20 @@ class RemoteJob:
         import os
         import string
         jobid = tkSimpleDialog.askstring('PDB Loader', 'Enter the Job ID given to you by the CASTp web server\nThe Job ID is case sensitive!', parent=app.root)
-        pdbfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.pdb')[0]
+        pdbfile = urllib.urlretrieve(CASTP_URL_BASE + '/working/' + jobid + '.pdb')[0]
         if(os.path.getsize(pdbfile) > 400):
-            pocfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.poc')[0]
-            pocInfofile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.pocInfo')[0]
-           # mouthfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.mouth')[0]
-           # mouthInfofile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/working/' + jobid + '.mouthInfo')[0]
+            pocfile = urllib.urlretrieve(CASTP_URL_BASE + '/working/' + jobid + '.poc')[0]
+            pocInfofile = urllib.urlretrieve(CASTP_URL_BASE + '/working/' + jobid + '.pocInfo')[0]
+           # mouthfile = urllib.urlretrieve(CASTP_URL_BASE + '/working/' + jobid + '.mouth')[0]
+           # mouthInfofile = urllib.urlretrieve(CASTP_URL_BASE + '/working/' + jobid + '.mouthInfo')[0]
 
         else:
             os.remove(pdbfile)
-            pdbfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/uploads/' + jobid + '.pdb')[0]
-            pocfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/uploads/' + jobid + '.poc')[0]
-            pocInfofile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/uploads/' + jobid + '.pocInfo')[0]
-           # mouthfile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/uploads/' + jobid + '.mouth')[0]
-           # mouthInfofile = urllib.urlretrieve('http://sts.bioengr.uic.edu/castp/uploads/' + jobid + '.mouthInfo')[0]
+            pdbfile = urllib.urlretrieve(CASTP_URL_BASE + '/uploads/' + jobid + '.pdb')[0]
+            pocfile = urllib.urlretrieve(CASTP_URL_BASE + '/uploads/' + jobid + '.poc')[0]
+            pocInfofile = urllib.urlretrieve(CASTP_URL_BASE + '/uploads/' + jobid + '.pocInfo')[0]
+           # mouthfile = urllib.urlretrieve(CASTP_URL_BASE + '/uploads/' + jobid + '.mouth')[0]
+           # mouthInfofile = urllib.urlretrieve(CASTP_URL_BASE + '/uploads/' + jobid + '.mouthInfo')[0]
 
         if(os.path.getsize(pdbfile) < 400):
             tkMessageBox.showerror('Oops!', 'Could not retrieve ' + jobid + '\nMake sure you entered it in correctly, the Job ID is case sensitive', parent=app.root)
