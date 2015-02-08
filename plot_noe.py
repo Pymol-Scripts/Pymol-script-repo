@@ -12,7 +12,7 @@ import re
 import shlex
 
 
-def plot_noe(filename, line_color=None, advanced_coloring=0, line_width='1.0', single=0, quiet=1, aria=0, per_atom=0,
+def plot_noe(filename, line_color=None, line_width='1.0', advanced_coloring=0, single=0, quiet=1, aria=0, per_atom=0,
              per_residue=1):
     """
 DESCRIPTION
@@ -23,13 +23,13 @@ ARGUMENTS
 
     filename = string: The filename of the NOE retraint file in XPLOR NIH format.
 
-    single = string: create a single object for all restraints.
-
-    selection = string: atom selection {default: all}
-
-    line_color = string: The color for the NOE lines. {default: black}
+    line_color = string: The color for the NOE lines. {default: yellow}
 
     line_width = float: The thickness of the NOE lines. {default: 1.0}
+
+    advanced_coloring = color restraints by distance.
+
+    single = string: create a single object for all restraints.
 
     aria = integer: Name NOEs after Aria IDs.
 
