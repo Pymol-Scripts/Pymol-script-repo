@@ -6,7 +6,7 @@
 #mpb21@pitt.edu
 #3-17-15 #woo! My birthday!
 
-#Copyright (c) <year> <copyright holders>
+#Copyright (c) 2015 Matthew Baumgartner
 #
 #Permission is hereby granted, free of charge, to any person obtaining a copy
 #of this software and associated documentation files (the "Software"), to deal
