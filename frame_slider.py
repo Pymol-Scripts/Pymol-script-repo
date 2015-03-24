@@ -6,7 +6,13 @@
 #mpb21@pitt.edu
 #3-17-15 #woo! My birthday!
 
-#Copyright (c) 2015 Matthew Baumgartner
+#It's pretty self explanatory, but here is the wiki page.
+#http://www.pymolwiki.org/index.php/Frame_slider
+
+
+#The MIT License (MIT)
+#
+#Copyright (c) 2015 Matthew Baumgartner 
 #
 #Permission is hereby granted, free of charge, to any person obtaining a copy
 #of this software and associated documentation files (the "Software"), to deal
@@ -45,15 +51,6 @@ class FrameSlider:
         
         self.app = app
         
-
-#        EMBED = False
-#        if EMBED:
-#            self.master = self.parent
-#            for thing in dir(self.master):
-#                print thing
-#                
-#            print self.master._getconfigure()
-#        else:
 
         #make a little window for the slider
         self.master = Tkinter.Tk()
@@ -192,5 +189,5 @@ def __init__(self):
         
 if __name__ == '__main__':
     print 'Error: This should be installed as a Pymol Plugin. Plugins > Install...'
-    sys.exit())
+    sys.exit()
 
