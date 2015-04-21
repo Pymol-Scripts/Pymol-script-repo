@@ -3,9 +3,7 @@ format_bonds.py
 Described at: http://www.pymolwiki.org/format_bonds
 Version 1.0 (2014)
 ##################################################
-
 Formats bonds in aromatic or charged residues
-
 ##################################################
 Plugin contributed by Andreas Warnecke
 (andreas.warnecke@ki.se, 4ndreas.warneck3@gmail.com)
@@ -63,7 +61,7 @@ ARGUMENTS
         print "Valence display disabled!"
         return bonds
     else:
-        cmd.set('valence',1)        
+        cmd.set('valence',1)
         print "Valence display enabled!"
     #proceed
 
