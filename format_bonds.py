@@ -251,13 +251,9 @@ ARGUMENTS
         ['CZ', 'NH1'],
         ['CZ', 'NH2']
     ]
-<<<<<<< HEAD
+
     ARG_bonds_double=[
     ['CZ','NH1']
-=======
-    ARG_bonds_double = [
-        ['C', 'NH1']
->>>>>>> autopep8
     ]
 
     ##### FORMATING #####
