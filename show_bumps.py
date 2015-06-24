@@ -27,7 +27,7 @@ ARGUMENTS
     cmd.show_as('cgo', name)
     cmd.set('sculpt_vdw_vis_mode', 1, name)
     cmd.set('sculpt_field_mask', 0x020)  # cSculptVDW
-    strain = cmd.sculpt_iterate(name, cycles=1)
+    strain = cmd.sculpt_iterate(name, cycles=0)
     if not int(quiet):
         print 'VDW Strain:', strain
     return strain
