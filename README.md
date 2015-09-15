@@ -1,4 +1,5 @@
-##This is the project to put all PyMOL script under Git control.
+[![Code Health](https://landscape.io/github/Pymol-Scripts/Pymol-script-repo/master/landscape.svg?style=flat)](https://landscape.io/github/Pymol-Scripts/Pymol-script-repo/master)
+###This is the project to put all PyMOL script under Git control.
 
 See more here: [Git intro](http://www.pymolwiki.org/index.php/Git_intro)
 
