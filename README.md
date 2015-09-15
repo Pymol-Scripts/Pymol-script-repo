@@ -7,4 +7,6 @@ See more here: [Git intro](http://www.pymolwiki.org/index.php/Git_intro)
 ```import colorbydisplacement```
 
 To see the functions in the script:
-```help(colorbydisplacement)```
+``` 
+help(colorbydisplacement)
+```
