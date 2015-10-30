@@ -1,6 +1,17 @@
 """
 flatten_obj.py - Flatten multi-state pymol objects into a single state.
 
+This is particularly useful for dealing with biological assemblies, which are
+loaded as multi-state objects when fetched using `fetch PDBID, type=pdb1`. It
+can also be used as a quick way to combine multiple objects without causing
+collisions between chain identifiers.
+
+The command re-letters chains to avoid collisions. Older versions of PyMOL
+restrict the chain id to a single character, so the script will fail for
+assemblies with >62 chains. With more recent versions, this problem is solved
+with multi-character chain IDs. Several options are available for how
+re-lettering should occur.
+
 Author: Spencer Bliven <spencer.bliven@gmail.com>
 Date: October 30, 2015
 Version: 1.0
