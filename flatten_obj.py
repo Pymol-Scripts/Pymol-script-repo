@@ -15,6 +15,7 @@ re-lettering should occur.
 Author: Spencer Bliven <spencer.bliven@gmail.com>
 Date: October 30, 2015
 Version: 1.0
+License: Public Domain
 """
 from pymol import cmd, stored
 import re
