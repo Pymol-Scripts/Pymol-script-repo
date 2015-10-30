@@ -1,3 +1,10 @@
+"""
+flatten_obj.py - Flatten multi-state pymol objects into a single state.
+
+Author: Spencer Bliven <spencer.bliven@gmail.com>
+Date: October 30, 2015
+Version: 1.0
+"""
 from pymol import cmd, stored
 import re
 try:
@@ -324,4 +331,5 @@ SEE ALSO
 cmd.extend('flatten_obj', flatten_obj)
 
 # tab-completion of arguments
-#cmd.auto_arg[3]['flatten_obj'] = [ cmd.object_sc, 'object', '']
+cmd.auto_arg[0]['flatten_obj'] = [ cmd.object_sc, 'name or selection', '']
+cmd.auto_arg[1]['flatten_obj'] = [ cmd.object_sc, 'selection', '']
