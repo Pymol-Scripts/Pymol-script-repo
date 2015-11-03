@@ -223,10 +223,6 @@ EXAMPLES
     flatten_obj flat, nmrObj
     flatten_obj ( obj1 or obj2 )
 
-PYMOL API
-
-    cmd.flatten_obj(string name, string selection)
-
 SEE ALSO
 
     split_states
@@ -295,10 +291,10 @@ SEE ALSO
                 origobj = m.group(1)
                 statenum = int(m.group(2))
 
-                chains = set([atom.chain for atom in cmd.get_model(obj).atom])
+                chains = cmd.get_chains(obj)
 
                 rev_chain_map = {} #old -> new, for this obj only
-                for chain in sorted(chains):
+                for chain in sorted(chains,key=lambda x:(len(x),x)):
                     new_chain = chainSet.map_chain(origobj,statenum,chain)
                     rev_chain_map[chain] = new_chain
                     if not quiet:
@@ -307,15 +303,8 @@ SEE ALSO
                         if len(new_chain) > 1:
                             raise OutOfChainsError("No additional chains available (max 62).")
 
-                try:
-                    stored_name = stored.get_unused_name()
-                except AttributeError:
-                    # backup solution for PyMOL < 1.6
-                    stored_name = "_flatten_obj_chainMapping"
-
-                setattr(stored,stored_name,rev_chain_map)
-                cmd.alter(obj,"chain = stored.%s[chain]"%stored_name)
-                delattr(stored,stored_name)
+                space = {'rev_chain_map':rev_chain_map}
+                cmd.alter(obj,"chain = rev_chain_map[chain]",space=space)
 
             print("Creating object from %s_*"%metaprefix)
             # Recombine into a single object
