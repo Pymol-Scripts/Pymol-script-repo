@@ -9,6 +9,8 @@ import tempfile
 import sys
 import shutil
 import platform
+from distutils.dir_util import copy_tree
+
 HOME_DIRECTORY=os.path.expanduser('~')
 LISICA_DIRECTORY=os.path.join(HOME_DIRECTORY,"LiSiCA")
 
@@ -47,17 +49,30 @@ class Configuration:
 class UpgraderGitlab:
  
     def __init__(self):
-        self.zipFileName="archive.zip"
-        self.firstVersionURL="https://git.insilab.com/insilab/lisicagui/raw/master/version.txt"        
-        self.secondVersionURL="https://gitlab.com/AthiraDilip/lisicagui/raw/master/version.txt"        
-        self.firstArchiveURL="https://git.insilab.com/insilab/lisicagui/repository/archive.zip"
-        self.secondArchiveURL="https://gitlab.com/AthiraDilip/lisicagui/repository/archive.zip"
+        try:
+            self.tmpDir= tempfile.mkdtemp()
+            print "created temporary ", self.tmpDir
+        except:
+            print "error : could not create temporary directory"
+        self.zipFileName=os.path.join(self.tmpDir, "archive.zip")
+        self.firstVersionURL="https://git.insilab.com/insilab/lisicagui/raw/ffa/version.txt"        
+        self.secondVersionURL="https://gitlab.com/AthiraDilip/lisicagui/raw/ffa/version.txt"        
+        self.firstArchiveURL="https://git.insilab.com/insilab/lisicagui/repository/archive.zip?ref=ffa"
+        self.secondArchiveURL="https://gitlab.com/AthiraDilip/lisicagui/repository/archive.zip?ref=ffa"
         self.licenseCodeGUI=""
         self.currentVersionGUI=""
         self.licenseCodeLisica=""
         self.currentVersionLisica=""
-        self.latestVersionGUI=""
-    
+        self.latestVersionGUI="1.0.0"
+
+
+    def __del__(self):
+        try:
+            shutil.rmtree(self.tmpDir)
+            print "deleted temporary ", self.tmpDir
+        except:
+            print "error : could not remove temporary directory"
+        
         
     def downloadInstall(self):
         try:
@@ -74,30 +89,34 @@ class UpgraderGitlab:
                 LiSiCAzipFile=open(self.zipFileName,'wb')
                 LiSiCAzipFile.write(zipcontent)   
             except HTTPError, e1:
-                print "HTTP Error:", e1.code, e.read()
+                print "HTTP Error:", e1.code, e1.reason
             except URLError, e2:
                 print "URL Error:", e2.reason
         finally:
             try:
                 LiSiCAzipFile.close()
-            except NameError:
+            except:
                 pass
             try:
                 urlcontent.close()
-            except NameError:
+            except:
                 pass
         
     def extractInstall(self):
+        #this must be called before import Plugin_GUI, otherwise
+        #rmtree will fail on NFS systems due to open log file handle
         try:
-            tmp_dir= tempfile.mkdtemp();
-            #with zipfile.ZipFile(zipFileName,"r") as LiSiCAzip:
             with zipfile.ZipFile(self.zipFileName,"r") as LiSiCAzip:
                 for member in LiSiCAzip.namelist():
                     masterDir = os.path.dirname(member)
                     break
-                LiSiCAzip.extractall(tmp_dir)
-            shutil.copytree(os.path.join(tmp_dir, masterDir, "LiSiCA"),LISICA_DIRECTORY)
-            shutil.rmtree(tmp_dir)
+                LiSiCAzip.extractall(self.tmpDir)
+            #copy new
+            copy_tree(os.path.join(self.tmpDir, masterDir, "LiSiCA"),LISICA_DIRECTORY)
+        except OSError as e:
+            print "error : ", e.strerror, e.errno, e.filename
+        except shutil.Error, e:
+            print "error : ", str(e)
         except:
             print "installation of lisicagui failed"
 
@@ -111,6 +130,7 @@ class UpgraderGitlab:
         sys.path.append(os.path.normpath(os.path.join(LISICA_DIRECTORY,"modules")))
         import License
         License.writeToInsilabTxt(self.latestVersionGUI)
+        print "Upgrade finished successfully!"
         
     def findCurrentVersion(self):
         import License
@@ -136,21 +156,32 @@ class UpgraderGitlab:
                 versionFile=urllib2.urlopen(self.secondVersionURL, timeout=5)
                 self.latestVersionGUI=versionFile.read().strip()
                 print "l2 = ", self.latestVersionGUI
-            except URLError as e:
-                print e.reason
-            except HTTPError as e:
-                print e.read()
-                print e.code
+            except HTTPError, e1:
+                print "HTTP Error:", e1.code, e1.reason
+            except URLError, e2:
+                print "URL Error:", e2.reason
             
 def run():
     
     print("Initialising LiSiCA...")
+    try:
+        sys.path.remove('')
+    except:
+        pass
+
     upgraderObj = UpgraderGitlab()
+
     if upgraderObj.firstUpgrade():
         upgraderObj.findLatestVersionGUI()
         upgraderObj.upgrade()
         
     sys.path.append(os.path.normpath(os.path.join(LISICA_DIRECTORY,"modules")))
+    import License
+    if License.checkVersionGUI()==None:
+        upgraderObj.findLatestVersionGUI()
+        upgraderObj.upgrade()
+
+    del upgraderObj
 
     configure=Configuration()
     exe_filename=configure.exe_File()
@@ -158,14 +189,14 @@ def run():
     st = os.stat(exe_path)
     os.chmod(exe_path, st.st_mode | stat.S_IEXEC)
             
-    import Plugin_GUI,License
 
     if License.checkLicenseStatus()==None:
         active=License.activate(exe_path)
         #if not active==1:
                 #pass
         
-    else:  
+    else:
+        import Plugin_GUI
         Plugin_GUI.main()
 
 
