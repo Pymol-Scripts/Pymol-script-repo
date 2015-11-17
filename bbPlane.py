@@ -105,8 +105,8 @@ NOTES
             continue
 
         normal = cpv.normalize(cpv.cross_product(
-            cpv.sub(pos[2], pos[0]),
-            cpv.sub(pos[1], pos[0])))
+            cpv.sub(pos[1], pos[0]),
+            cpv.sub(pos[2], pos[0])))
 
         obj.append(cgo.NORMAL)
         obj.extend(normal)
