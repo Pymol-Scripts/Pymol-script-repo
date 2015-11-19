@@ -7,7 +7,7 @@ email: 4ndreas.warneck3@gmail.com
 Date: July 2014
 License: GNU General Public License, version 2 (GPL-2.0)
 Citation: Warnecke et al.: PyTMs: a useful PyMOL plugin for modeling common post-translational modifications. BMC Bioinformatics 2014 15:370.
-Version: 1.1
+Version: 1.2
 
 Plugin contributed by Andreas Warnecke
 (andreas.warnecke@ki.se, 4ndreas.warneck3@gmail.com)
@@ -53,6 +53,7 @@ HELP
         Methionine oxidation:..oxidize_met
         Methylation............methylate
         Nitration:.............nitrate
+        S-Nitrosylation:.......nitrosylate
         Proline hydroxylation:.hydroxy_pro
         Phosphorylation:.......phosphorylate
     ##############################################
@@ -67,8 +68,21 @@ VERSION NOTES
         * new feature: integrated surface selection
         * new feature: integrated display of vdW clashes for all PTMs
         * new function: display of vdW clashes indpendent of modification
-    1.01 Minor fixes
+    1.1 Minor fixes
         * changed boolean processing of 'delocalized' keyword
+    1.2 Additional function and minor improvements
+        * fixed crashed related to random selections
+        * new function: nitrosylate (Cysteine S-Nitrosylation)
+        * updated usage descriptions
+        * the user interface window is now resizable
+        * changes in nitrate-function:
+            * the torsion angle can now be defined for the nitro group and has
+              a default of ~22.352 (slight angle);
+              this feature is currently only supported for Tyrosines!
+            * selecting a surface cutoff in conjuction with random placement
+              of CE1 or CE2 for Nitro-tyrosines will now select the most
+              accessible CE atom rather than a random one
+        * font size can now be adjusted from the Main menu
 
 ##################################################
 DISCLAIMER
@@ -81,12 +95,12 @@ DISCLAIMER
 
 Author = 'Andreas Warnecke'
 email = '4ndreas.warneck3@gmail.com'
-Date = 'July 2014'
+Date = 'October 2015'
 License = 'GNU General Public License, version 2 (GPL-2.0)'
 Citation = ('Citation: Warnecke et al.'
             ': PyTMs: a useful PyMOL plugin for modeling common '
             'post-translational modifications. BMC Bioinformatics 2014 15:370.')
-Version = '1.1'
+Version = '1.2'
 
 
 ################################################################################
@@ -98,6 +112,7 @@ import glob
 import datetime
 import math
 import copy
+import random
 from Tkinter import *
 import Pmw
 ################################################################################
@@ -160,6 +175,7 @@ keywords_default={
     'protonate'         :       -1,
     'torsions'          :       [106.5,180,0,-33,33,180,-180,0,120,60],
     'angles'            :       [118.35,120,120,110.5,120],
+    'angle'             :       22.3519420624,
 
     # final
     'quiet'             :       0 # for menu, is 1 as default in script function
@@ -186,6 +202,7 @@ class pytms:
                 'Methionine oxidation'      : 'oxidize_met',
                 'Methylation'               : 'methylate',
                 'Nitration'                 : 'nitrate',
+                'S-Nitrosylation'           : 'nitrosylate',
                 'Proline hydroxylation'     : 'hydroxy_pro',
                 'Phosphorylation'           : 'phosphorylate',
                 ' Display vdW strain'        : 'pytms_show_clashes'
@@ -202,6 +219,7 @@ class pytms:
                 'Methionine oxidation'      : oxidize_met,
                 'Methylation'               : methylate,
                 'Nitration'                 : nitrate,
+                'S-Nitrosylation'           : nitrosylate,
                 'Proline hydroxylation'     : hydroxy_pro,
                 'Phosphorylation'           : phosphorylate,
                 ' Display vdW strain'        : pytms_show_clashes
@@ -240,6 +258,18 @@ class pytms:
             'Info about PyTMs', font=custom_font_regular)
 
         ##### menubar entries in menubar/'Main'
+        #FONTS
+        self.pytmbar.addmenuitem('Main', 'command',
+            'Increase font size',
+            label='Increase font size',
+            font=custom_font_regular,
+            command= self.font_increase)
+        self.pytmbar.addmenuitem('Main', 'command',
+            'Decrease font size',
+            label='Decrease font size',
+            font=custom_font_regular,
+            command= self.font_decrease)
+        # Quit
         self.pytmbar.addmenuitem('Main', 'command',
             'Quit',
             label='Quit',
@@ -257,6 +287,29 @@ class pytms:
         #start layout procedure
         self.layout_general()
         self.layout_internal()
+    ############################################################################
+    def font_increase(self):
+        global custom_font_regular
+        global custom_font_bold
+        global custom_font_unispace
+        custom_font_regular = ('Arial', custom_font_regular[1]+1, 'normal')
+        custom_font_bold = ('Arial', custom_font_bold[1]+1, 'bold')
+        custom_font_unispace = ('Consolas', custom_font_unispace[1]+1, 'normal')
+        pytmsroot.destroy()
+        open_pytms()
+
+    def font_decrease(self):
+        global custom_font_regular
+        global custom_font_bold
+        global custom_font_unispace
+        if (custom_font_regular[1]>1):
+            custom_font_regular = ('Arial', custom_font_regular[1]-1, 'normal')
+        if (custom_font_bold[1]>1):
+            custom_font_bold = ('Arial', custom_font_bold[1]-1, 'bold')
+        if (custom_font_unispace[1]>1):
+            custom_font_unispace = ('Consolas', custom_font_unispace[1]-1, 'normal')
+        pytmsroot.destroy()
+        open_pytms()
 
     ############################################################################
     def layout_general(self):
@@ -619,8 +672,9 @@ class pytms:
                 widgetcolumn=2
 
                 self.rb_position_tyr = []
-                for button in [1,2]:
+                for button in [0,1,2]:
                     name='%s'%({
+                        0    :    '3: random or auto (if surface_cutoff is used)',
                         1    :    '3: CE1',
                         2    :    '3: CE2',
                     }[button])
@@ -1449,6 +1503,31 @@ class pytms:
                 self.opt_angles.set(settings[keyword])
                 continue # next keyword
 
+            # angle ###################################################
+            if keyword=='angle':
+                self.opt_angle = DoubleVar(master=self.pytmoptionsmenu)
+                Label(
+                    self.pytmoptionsmenu,
+                    text = 'Torsion angle CZ-CE1/2-NN-O1: ',
+                    font = custom_font_bold
+                    ).grid(
+                        row=widgetrow,
+                        column=0,
+                        sticky=W)
+                Entry(
+                    self.pytmoptionsmenu,
+                    textvariable = self.opt_angle,
+                    font=custom_font_regular,
+                    justify=CENTER
+                    ).grid(
+                        row=widgetrow,
+                        column=2,
+                        columnspan=1,
+                        sticky=W+E)
+                widgetrow=widgetrow+1
+                self.opt_angle.set(settings[keyword])
+                continue # next keyword
+
         # quiet ############################################################
             if keyword=='quiet':
                 self.opt_quiet = IntVar()
@@ -1716,6 +1795,8 @@ class pytms:
         except: pass
         try: keywords_set['angles'] = self.opt_angles.get()
         except: pass
+        try: keywords_set['angle'] = self.opt_angle.get()
+        except: pass
         try: keywords_set['quiet'] = self.opt_quiet.get()
         except: pass
 
@@ -1809,7 +1890,7 @@ def open_pytms():
     global pytmsvar
     pytmsroot = Tk()
     pytmsroot.title(' PyTMs ')
-    pytmsroot.resizable(0,0) # prevent rezise
+    pytmsroot.resizable(1,1) # prevent/allow rezise
     Pmw.initialise()
     pytmsvar = pytms(pytmsroot)
 
@@ -2323,7 +2404,7 @@ EXAMPLE
 
 USAGE
 
-    citrullinate [ selection [show_clashes, [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]
+    citrullinate [ selection [, surface_cutoff [, show_clashes [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]
 
 ARGUMENTS
 
@@ -2528,8 +2609,8 @@ EXAMPLE
 
 USAGE
 
-    carbamylate [ selection [, position [,show_clashes [, color_mod
-    [, color_base [, hydrogens [, quiet ]]]]]]
+    carbamylate [ selection [, surface_cutoff [, position [, show_clashes
+    [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]]
 
 ARGUMENTS
 
@@ -2863,6 +2944,7 @@ surface_cutoff=0,
 mode=0,
 position_tyr=1,
 position_trp=6,
+angle=22.3519420624,
 show_clashes=0,
 color_mod='',
 color_base='',
@@ -2885,8 +2967,10 @@ EXAMPLE
 
 USAGE
 
-    nitrate [ selection [, mode [, position_tyr [, position_trp [, show_clashes
-    [, color_mod [, color_base [, delocalized [, hydrogens [, quiet ]]]]]]]]]]
+    nitrate [ selection [, surface_cutoff [, mode
+    [, position_tyr [, position_trp [, show_clashes
+    [, color_mod [, color_base [, delocalized [, hydrogens
+    [, quiet ]]]]]]]]]]]
 
 
 ARGUMENTS
@@ -2909,7 +2993,7 @@ ARGUMENTS
                 2: Both
 
     position_tyr: <int> toggles the ortho-atom to be modified for TYR
-                    0: random/ per residue
+                    0: random/ per residue (if surface_cutoff is set >0 it will select the most accessible)
                     1: CE1 (position 3) {default}
                     2: CE2 (position 3)
 
@@ -2921,6 +3005,11 @@ ARGUMENTS
                     6: CH2  {default}
                     7: CZ2
                     1: CD1 (irrelevant)
+
+    angle: <float> torsion angle for CZ-CE(1/2)-NN-O1, i.e. the rotation of the nitro group
+                    note that negating this vlaue may yield different results,
+                    also depending on the choice of CE1 vs CE2
+                    the default is: 22.3519420624 as taken from PDB: 4NDA
 
     show_clashes: <boolean> toggles if clashes will be visualized {0}
     # consider removing potentially clashing heteroatoms
@@ -2958,6 +3047,7 @@ ARGUMENTS
         mode=abs(int(mode))
         position_tyr=abs(int(position_tyr))
         position_trp=abs(int(position_trp))
+        angle=float(angle)
         color_base, color_mod = str(color_base), str(color_mod)
         if color_base: cmd.color(color_base,selection)
         if color_mod: cmd.color(color_mod,
@@ -3076,7 +3166,15 @@ ARGUMENTS
             if position_tyr==1: posname='CE1'
             if position_tyr==2: posname='CE2'
             if position_tyr==0:
-                posname=random.choice(['CE1','CE2'])
+                if surface_cutoff>0:
+                    stored.b1=0
+                    stored.b2=0
+                    cmd.iterate('%s and (name CE1)' %(p), '"stored.b1=b"')
+                    cmd.iterate('%s and (name CE2)' %(p), '"stored.b2=b"')
+                    posname='CE1'
+                    if stored.b1<stored.b2: posname='CE2'
+                else:
+                    posname=random.choice(['CE1','CE2'])
 
         # build Nitro group
         cmd.remove('%s and ((neighbor (name %s)) and elem H)' %(p,posname))
@@ -3101,6 +3199,16 @@ ARGUMENTS
         else:
             cmd.bond('%s and name NN' %p, '%s and name O1' %p,'2')
             cmd.bond('%s and name NN' %p, '%s and name O2' %p,'1')
+
+        #fix angle in tyrosines
+        if (cmd.count_atoms('%s and name NE1'%p)==0):
+            #Y (==1)
+            cmd.set_dihedral(
+            '%s and name CZ' %p,
+            '%s and name %s' %(p,posname),
+            '%s and name NN' %p,
+            '%s and name O1' %p,
+            angle) # default value from PDB: 4NDA
 
         #Log
         last_time=log_pytms_prog(output,
@@ -3159,6 +3267,248 @@ cmd.extend( "nitrate", nitrate );
 
 
 ################################################################################
+# Automated in silico Cysteine S-Nitrosylation (Model)
+################################################################################
+def nitrosylate(
+selection='all',
+surface_cutoff=0,
+include_SEC=0,
+disulfides=0,
+show_clashes=0,
+color_mod='',
+color_base='',
+hydrogens=0,
+quiet=1
+):
+
+
+    '''
+DESCRIPTION
+
+    Modifies the Cysteins of a selection by S-Nitrosylation
+
+EXAMPLE
+
+    frag CYS
+    nitrosylate
+
+USAGE
+
+    nitrosylate [ selection [, surface_cutoff [, include_SEC [, disulfides
+    [, show_clashes [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]]]
+
+ARGUMENTS
+
+    selection: selection to be modified {default: 'all'}
+               Cysteines etc. are automatically sub-selected
+               (see also: include_SEC and disulfides)!
+
+    surface_cutoff: <float> variable for integrated selection of surface atoms.
+                    If set >0, PyTMs will automatically calculate the solvent-
+                    accessible surface area, and sub-select all atoms above this
+                    cutoff.
+                    Note that this operation will create a reserved selection:
+                    'pytms_surface_input', but only modify residues if the target atoms
+                    are also part of the original selection.
+                    see also: PyTMs wiki page or findSurfaceResidues (PyMOL wiki)
+
+    include_SEC: <boolean> toggles if the selenocysteines (SEC/CSE) will be included or not
+                 {default: 0}
+
+    disulfides: <boolean> toggles if disulfide bridges will be affected or not
+                {default: 0} NB! setting this True may give erroneous results
+
+    show_clashes: <boolean> toggles if clashes will be visualized {0}
+    # consider removing potentially clashing heteroatoms
+
+    color_base, color_mod: color names for
+                           object selection and modification, respectively
+                           {default: ''} = off
+
+    hydrogens: <int>     toggles if the object will have hydrogens or not
+                         after modification
+                         0  : as is (detection) {default}
+                         1  : adds hydrogens;
+                         -1 : no hydrogens;
+
+    quiet: <boolean> toggles output {default: quiet=1}
+                     updates on operation and remaining time
+                     * NB! print appears first in the console
+
+    '''
+    ##### BEGINNING OF SCRIPT #####
+
+    last_time=start_time=datetime.datetime.now()
+    try:
+        surface_cutoff=abs(float(surface_cutoff))
+    except:
+        raise Exception("Input error!\n Illegal value for surface cutoff!")
+    selection=pytms_get_sele(selection, surface_cutoff)
+
+    # argument settings
+    try:
+        color_base, color_mod = str(color_base), str(color_mod)
+        if color_base: cmd.color(color_base,selection)
+        if color_mod:
+            cmd.color(color_mod,
+            ('(%s and (resn CNO)) and '
+            '((name NO) or (name ON))' %selection))
+        # transform boolean to reduce checking loops
+        show_clashes=bool(int(show_clashes))
+        include_SEC=bool(int(include_SEC))
+        disulfides=bool(int(disulfides))
+        hydrogens=eval_hydrogens(selection, hydrogens)
+        output=bool(not int(quiet))
+    except:
+        raise Exception("Input error!\n Please check the input parameters!")
+
+    # SELECTION LIST ###########################################################
+
+    # rename to allow later conversion
+    if include_SEC:
+        cmd.alter('byres (%s and %s and (resn SCE or resn SEC))' %(p,selection),
+        'resn="CYS"')
+
+    # create a empty list for appending
+    stored.resi_list = []
+    stored.temp = []
+
+    # for each object and chain --> create selection lists
+    for p in names:
+        # for each object and chain get resi of residues
+        cmd.iterate((
+        '(%s) and (resn CYS) '
+        'and (name CA)' %(p)),
+        'stored.resi_list.append("(%s and resi "+str(resi)+")")'  %p
+        )
+
+    # kick out non-selected or missing
+    for p in list(stored.resi_list):
+        if (cmd.count_atoms('(%s) and (%s) and (elem S or elem SE)' %(selection,p))==0):
+            stored.resi_list.remove(p)
+
+    # kick out disulfides (if not set!)
+    if not disulfides:
+        for p in list(stored.resi_list):
+            if (cmd.count_atoms((
+            '(neighbor ((%s) and (elem S or elem SE))) '
+            'and (elem S or elem SE)' %(p)))!=0):
+                # not regular cysteine
+                stored.resi_list.remove(p)
+
+
+    ##### finished creating selection lists #####
+
+    # premature exit if nothing to process:
+    if stored.resi_list==[]:
+        print "PyTMs: No modifyable residues found in selection!"
+        return False
+
+    # VDW PREP
+    # OBJCHI (dictionary) structure
+    # obj: [umod. strain, mod. strain.]
+    OBJCHIS = {}
+
+    if show_clashes:
+        # get unmodified VDW strain
+        log_pytms_prog(output, 'Calculating base VdW strain!')
+        for p in objects:
+            if (hydrogens):
+                cmd.h_add(p)
+            else:
+                cmd.remove('((%s) and elem H)' %p)
+
+            OBJCHIS[p] = [get_strain('(%s)'%(p), temp_clash_A, 0),0]
+
+    last_time=log_pytms_prog(output,
+    'Initialized Cysteine S-Nitrosylation!')
+
+    ##### BUILDER #####
+
+    # cycles through residues
+    listcount=-1
+    for p in stored.resi_list:
+        cmd.unpick()
+        listcount=listcount+1
+
+        # get info on residue being processed
+        stored.residue=''
+        cmd.iterate('%s and name CA' %p, 'stored.residue=str(resn)')
+
+
+        ## change name
+        cmd.alter(p,'resn="CNO"')
+
+        # get rid of bound non-chain neighbors
+        # but conserve potential S
+        cmd.remove(('%s and (neighbor (elem SE or elem S)) '
+        'and not (elem C or elem S)' %p))
+        # edit
+        cmd.edit('%s and (elem SE or elem S)' %p)
+        cmd.attach('N','2','3')
+        cmd.alter('%s and (neighbor (elem SE or elem S)) and (elem N)' %p,'name="NO"')
+        cmd.edit('%s and (name NO)' %p)
+        cmd.attach('O','2','2')
+        cmd.alter('%s and (neighbor (name NO)) and (elem O)' %p,'name="ON"')
+        cmd.unbond('pk1', '%s and name ON' %p)
+        cmd.bond('pk1', '%s and name ON' %p,'2')
+
+        #Log
+        last_time=log_pytms_prog(output,
+        'Modified: %s'%get_resi_macro_name(p),listcount+1,len(stored.resi_list))
+
+        cmd.unpick()
+    # End of resi cycle
+    if (hydrogens):
+        for p in objects: cmd.h_add(p)
+    else:
+        for p in objects:
+            cmd.remove('((%s) and elem H)' %p)
+
+    # clashes
+    if show_clashes:
+        # get modified strain
+        log_pytms_prog(output, 'Calculating modified VdW strain!')
+        if output:
+            print 'STRAIN REPORT:'
+            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+        for p in objects:
+            OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
+            cmd.set_name(temp_clash_A,'%s_clashes'%p)
+            if output:
+                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+
+    # rebuild
+    pytms_rebuild()
+
+    # coloring
+    if color_base:
+        cmd.color(color_base,
+        '%s or ((%s extend 1) and hydrogens)' %(selection, selection))
+    for p in stored.resi_list:
+        # enable selection "p.PTM in s_nitrosylation"
+        if version_ok:
+            cmd.alter('%s and ((name NO) or (name ON))' %p,
+            'p.PTM="s_nitrosylation"')
+        if color_base:
+            cmd.color(color_base,
+            '(%s)' %(p))
+        if color_mod:
+            cmd.color(color_mod,
+            ('(%s and (resn CNO)) and '
+            '((name NO) or (name ON))' %p))
+    #exit
+    last_time=log_pytms_prog(output,
+    'Cysteine S-Nitrosylation complete!')
+    return [stored.resi_list, OBJCHIS]
+
+cmd.extend( "nitrosylate", nitrosylate );
+################################################################################
+################################################################################
+
+
+
+################################################################################
 # Automated in silico MDA modification (Model)
 ################################################################################
 def mda_modify(
@@ -3203,12 +3553,12 @@ EXAMPLE
 
 USAGE
 
-    mda_modify [ selection [, position [, group [, confomer [, type
-    [, torsions [, angles [, protonate [, optimize [, interpolate
-    [, local_radius [, base_strain_limit [, intervals [, states
-    [, remove_radius [, optimize_ignore [, optimize_add
+    mda_modify [ selection [, surface_cutoff [, position
+    [, group [, confomer [, type [, torsions [, angles [, protonate
+    [, optimize [, interpolate [, local_radius [, base_strain_limit
+    [, intervals [, states [, remove_radius [, optimize_ignore [, optimize_add
     [, show_clashes [, color_mod [, color_base [, hydrogens
-    [, quiet ]]]]]]]]]]]]]]]]]]]]]]
+    [, quiet ]]]]]]]]]]]]]]]]]]]]]]]
 
 NOTES
 
@@ -4866,10 +5216,10 @@ EXAMPLE
 
 USAGE
 
-    phosphorylate [ selection [, mode [, color_mod [, color_base
-    [, optimize [, interpolate [, local_radius [, interval [, states
-    [, remove_radius [, optimize_ignore [, optimize_add [, show_clashes
-    [, hydrogens [, quiet ]]]]]]]]]]]]]]
+    phosphorylate [ selection [, surface_cutoff [, mode
+    [, color_mod [, color_base [, optimize [, interpolate [, local_radius
+    [, interval [, states [, remove_radius [, optimize_ignore
+    [, optimize_add [, show_clashes [, hydrogens [, quiet ]]]]]]]]]]]]]]]]
 
 ARGUMENTS
 
@@ -5495,8 +5845,9 @@ EXAMPLE
 
 USAGE
 
-    oxidize_cys [ selection [, mode [, include_SEC [, disulfides [, show_clashes
-    [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]]]
+    oxidize_cys [ selection [, surface_cutoff [, mode [, include_SEC
+    [, disulfides [, show_clashes [, color_mod [, color_base [, hydrogens
+    [, quiet ]]]]]]]]]]
 
 ARGUMENTS
 
@@ -5816,8 +6167,8 @@ EXAMPLE
 
 USAGE
 
-    oxidize_met [ selection [, mode [, convert_MSE [, show_clashes
-    [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]]
+    oxidize_met [ selection [, surface_cutoff [, mode [, convert_MSE
+    [, show_clashes [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]]]
 
 ARGUMENTS
 
@@ -6129,8 +6480,8 @@ EXAMPLE
 
 USAGE
 
-    hydroxy_pro [ selection [, mode [, show_clashes
-    [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]
+    hydroxy_pro [ selection [, surface_cutoff [, mode [, show_clashes
+    [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]]
 
 ARGUMENTS
 
@@ -6377,8 +6728,8 @@ EXAMPLE
 
 USAGE
 
-    methylate [ selection [, mode [, position
-    [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]
+    methylate [ selection [, surface_cutoff [, mode [, position
+    [, show_clashes [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]]]
 
 ARGUMENTS
 
@@ -6737,8 +7088,8 @@ EXAMPLE
 
 USAGE
 
-    acetylate [ selection [, position
-    [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]
+    acetylate [ selection [, surface_cutoff [, position [, show_clashes
+    [, color_mod [, color_base [, hydrogens [, quiet ]]]]]]]]
 
 ARGUMENTS
 
@@ -7079,3 +7430,4 @@ ARGUMENTS
 cmd.extend( "acetylate", acetylate );
 ################################################################################
 ################################################################################
+

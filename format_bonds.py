@@ -3,16 +3,13 @@ format_bonds.py
 Described at: http://www.pymolwiki.org/format_bonds
 Version 1.0 (2014)
 ##################################################
-
 Formats bonds in aromatic or charged residues
-
 ##################################################
 Plugin contributed by Andreas Warnecke
 (andreas.warnecke@ki.se, 4ndreas.warneck3@gmail.com)
 ##################################################
 VERSION NOTES:
     1.0    2014    First release
-
 '''
 
 ################################################################################
@@ -27,14 +24,11 @@ def format_bonds(
     '''
 DESCRIPTION
     Formats bonds in aromatic or charged residues
-
 EXAMPLE
     frag PHE
     format_bonds
-
 USAGE
     format_bonds [ selection [, bonds ]]
-
 ARGUMENTS
     selection: <str> input selection {default: 'all'}
     bonds:     <int> toogles format of bonds
