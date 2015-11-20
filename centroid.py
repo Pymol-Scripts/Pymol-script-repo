@@ -56,7 +56,7 @@ def centroid(selection='all', center=0, quiet=1):
     if not int(quiet):
         print ' centroid: [%8.3f,%8.3f,%8.3f]' % tuple(centroid)
 
-    if int(move):
+    if int(center):
         cmd.alter_state(1, selection, "(x,y,z)=sub((x,y,z), centroid)",
                         space={'centroid': centroid, 'sub': cpv.sub})
 
