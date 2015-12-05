@@ -1,8 +1,8 @@
 '''
 Title   : mtsslTrilaterate
-Version : 1.0
+Version : 1.1
 Author  : Dinar Abdullin
-Date    : Feb 2013
+Date    : Dec 2015
 Email   : abdullin@pc.uni-bonn.de
 Website : http://www.schiemann.uni-bonn.de
 Short description:
@@ -26,8 +26,9 @@ from pymol import stored
 from pymol.cgo import *
 import wx
 import wx.grid
-from wx.lib.pubsub import Publisher
 import wx.lib.mixins.listctrl as listmix
+from wx.lib.pubsub import setuparg1
+from wx.lib.pubsub import pub as Publisher
 
 ####################################################################################################
 
@@ -42,7 +43,7 @@ class trilat(wx.Frame):
         ''''''
         wx.Frame.__init__(self, parent, ID, title, wx.DefaultPosition, wx.Size(700, 525))
         self.VariablesInitialization()
-        Publisher().subscribe(self.OnImportParam, ("parameters"))
+        Publisher.subscribe(self.OnImportParam, ("parameters"))
         self.UserInterface()
         self.Centre()
         self.Show()
@@ -83,7 +84,7 @@ class trilat(wx.Frame):
 
     #-----------------------------------------------------------------------------------------------
     def OnImportParam(self, msg):
-        '''Import parameters fron Preferences menu'''
+        '''Import parameters from Preferences menu'''
         self.calcMode = msg.data[0]
         self.maxNumOfIter = msg.data[1]
         self.minChiSquare = msg.data[2]
@@ -627,7 +628,7 @@ class trilat(wx.Frame):
         for key in sorted(items):
             self.labelList.Append(key)
         # Statusbar message
-        Publisher().sendMessage(('change_statusbar'), 'Choose label and push "Load".')
+        Publisher.sendMessage(('change_statusbar'), 'Choose label and push "Load".')
 
         event.Skip()
 
@@ -1021,7 +1022,8 @@ class ListCtrlRight(wx.grid.Grid):
         # Clear last grid
         self.ClearGrid()
         oldRows = self.GetNumberRows()
-        self.DeleteRows(0, oldRows, True)
+        if (oldRows > 0):
+            self.DeleteRows(0, oldRows, True)
         # Select type of parameters
         self.index = index
         if self.index == 0:
@@ -1078,7 +1080,6 @@ class ListCtrlRight(wx.grid.Grid):
                 self.param['output'][3][1] = float(self.GetCellValue(row, 1))
             elif row == 4:
                 self.param['output'][4][1] = int(self.GetCellValue(row, 1))
-
         event.Skip()
 
 ####################################################################################################
@@ -1187,7 +1188,7 @@ class Preferences(wx.Frame):
                ellipsoidColor,
                ellipsoidTransparency,
                confidenceLevel]
-        Publisher().sendMessage(("parameters"), msg)
+        Publisher.sendMessage(("parameters"), msg)
         self.Close()
 
 ####################################################################################################
