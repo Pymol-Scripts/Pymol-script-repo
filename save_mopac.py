@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/Save_Mopac
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd, CmdException
 
 
@@ -50,6 +52,7 @@ ARGUMENTS
     handle.close()
 
     if not quiet:
-        print ' Save-MOPAC: Wrote %i atoms to file' % (serial[0])
+        print(' Save-MOPAC: Wrote %i atoms to file' % (serial[0]))
+
 
 cmd.extend('save_mopac', save_mopac)
