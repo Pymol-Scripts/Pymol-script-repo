@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/show_bumps
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd
 
 
@@ -29,7 +31,7 @@ ARGUMENTS
     cmd.set('sculpt_field_mask', 0x020)  # cSculptVDW
     strain = cmd.sculpt_iterate(name, cycles=0)
     if not int(quiet):
-        print 'VDW Strain:', strain
+        print('VDW Strain:', strain)
     return strain
 
 cmd.extend('show_bumps', show_bumps)
