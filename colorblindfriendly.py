@@ -1,14 +1,14 @@
 '''
-More information and examples can be found at: 
+More information and examples can be found at:
 http://www.pymolwiki.org/index.php/color_blind_friendly
 
 DESCRIPTION
 
-    Certain colors are indistinguishable to people with the various forms of 
-    color blindness, and therefore are better not used in figures intended for 
+    Certain colors are indistinguishable to people with the various forms of
+    color blindness, and therefore are better not used in figures intended for
     public viewing.
 
-    This script generates a palette of named colors for PyMOL that are 
+    This script generates a palette of named colors for PyMOL that are
     unambiguous both to colorblind and non-colorblind people.
 
     The colors listed here are defined according to recommendations found at
@@ -36,7 +36,7 @@ USAGE
 REQUIREMENTS
 
     None.
-    
+
 AUTHOR
 
     Jared Sampson, NYU Langone Medical Center, 2014
@@ -61,10 +61,10 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.    
+THE SOFTWARE.
 
 '''
-
+from __future__ import print_function
 __author__ = 'Jared Sampson'
 __version__ = '0.1'
 
@@ -96,9 +96,9 @@ cb_colors = (
 for c in cb_colors:
     # main name
     cmd.set_color("cb_%s" % c[0], c[1])
-    print "Set color: cb_%s" % c[0]
+    print("Set color: cb_%s" % c[0])
 
     # alternate names
     for alt in c[2]:
         cmd.set_color("cb_%s" % alt, c[1])
-        print "           cb_%s" % alt
+        print("           cb_%s" % alt)

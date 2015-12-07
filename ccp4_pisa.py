@@ -2,32 +2,32 @@
 See more here: http://www.pymolwiki.org/index.php/ccp4_pisa
 
         parse a PISA contact file and create atoms selections for all interfaces
- 
-        For each interface, two selections are created containing the atoms of 
-        the interface on each chain. The selection names follow the convention 
-        bondtype_#Id_Chain1Chain2. If Chain1 equals Chain2 then the two selections are 
-        numbered. 
- 
+
+        For each interface, two selections are created containing the atoms of
+        the interface on each chain. The selection names follow the convention
+        bondtype_#Id_Chain1Chain2. If Chain1 equals Chain2 then the two selections are
+        numbered.
+
         bondtype corresponds to h-bonds, salt-bridges, ss-bonds and cov-bonds and
         are marked with the prefixes hb, sb, ss and cov.
- 
+
         For example, all h-bonds in interface 3 between chain A and D create the selections
         hb_3_AD and hb_3_DA.
- 
+
         Salt-bridges in interface 4 between chain A and a symmetry copy of A creates the selections
         sb_4_AA1 and sb_4_AA2.
- 
+
     PARAMS
-        filename 
+        filename
             filename of the PISA contacts file
- 
+
     RETURNS
-        a set of selections in PYMOL. 
-  
+        a set of selections in PYMOL.
+
     AUTHOR
         Gerhard Reitmayr and Dalia Daujotyte, 2011.
 '''
-
+from __future__ import print_function
 from pymol import cmd
 from xml.etree import ElementTree
 
@@ -47,7 +47,7 @@ def parseBond(elementDir):
 
 
 def parseInterface(interface, bondname):
-    """ parses a single interface into the interface id, the two chain names connected 
+    """ parses a single interface into the interface id, the two chain names connected
         and two lists of atoms for each chain"""
     bonds = interface.findall(bondname)
     id = interface.find('id').text.strip()
@@ -86,8 +86,8 @@ def createInterfaceSelection(interface, prefix):
         cmd.select(leftname, leftlist)
         cmd.select(rightname, rightlist)
     except:
-        print leftname, '\t', leftlist
-        print rightname, '\t', rightlist
+        print(leftname, '\t', leftlist)
+        print(rightname, '\t', rightlist)
     return leftname, rightname
 
 
@@ -115,11 +115,11 @@ def ccp4_pisa(filename):
             try:
                 cmd.select(name, " or ".join(allselections))
             except:
-                print name, '\t', " or ".join(allselections)
+                print(name, '\t', " or ".join(allselections))
 
-    print 'selectPISAContacts found interfaces with',
+    print('selectPISAContacts found interfaces with', end=' ')
     for number, type in zip(result, bond_types):
-        print number, type[0], ",",
+        print(number, type[0], ",", end=' ')
 
 try:
     cmd.extend("ccp4_pisa", ccp4_pisa)

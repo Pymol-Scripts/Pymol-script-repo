@@ -2,19 +2,19 @@
 See more here: http://www.pymolwiki.org/index.php/center_of_mass
 
 DESCRIPTION
- 
+
    Places a pseudoatom at the center of mass
- 
+
    Author: Sean Law
    Michigan State University
    slaw (at) msu . edu
- 
+
 SEE ALSO
- 
+
    pseudoatom, get_com
 '''
 
-
+from __future__ import print_function
 from pymol import cmd
 
 
@@ -31,14 +31,14 @@ def com(selection, state=None, mass=None, object=None, quiet=1, **kwargs):
     if (state != None):
         x, y, z = get_com(selection, mass=mass, quiet=quiet)
         if not quiet:
-            print "%f %f %f" % (x, y, z)
+            print("%f %f %f" % (x, y, z))
         cmd.pseudoatom(object, pos=[x, y, z], **kwargs)
         cmd.show("spheres", object)
     else:
         for i in range(cmd.count_states()):
             x, y, z = get_com(selection, mass=mass, state=i + 1, quiet=quiet)
             if not quiet:
-                print "State %d:%f %f %f" % (i + 1, x, y, z)
+                print("State %d:%f %f %f" % (i + 1, x, y, z))
             cmd.pseudoatom(object, pos=[x, y, z], state=i + 1, **kwargs)
             cmd.show("spheres", 'last ' + object)
 
@@ -59,7 +59,7 @@ def get_com(selection, state=1, mass=None, quiet=1):
 
     totmass = 0.0
     if mass != None and not quiet:
-        print "Calculating mass-weighted COM"
+        print("Calculating mass-weighted COM")
 
     state = int(state)
     model = cmd.get_model(selection, state)

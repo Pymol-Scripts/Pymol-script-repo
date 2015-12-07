@@ -1,3 +1,4 @@
+from __future__ import print_function
 from pymol import cmd
 import os
 import platform
@@ -72,7 +73,7 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom='no',
     # Give nice representations quickly
     cmd.show("sticks", Cysmolecule)
     cmd.select(str(molecule) + str(residue) + "Res", "/" + molecule + "//" + chain + "/" + residue)
-    print "/" + molecule + "//" + chain + "/" + residue
+    print("/" + molecule + "//" + chain + "/" + residue)
     cmd.show("sticks", str(molecule) + str(residue) + "Res")
     cmd.disable(str(molecule) + str(residue) + "Res")
     # Find out what is the residuename we are investigating for
@@ -80,9 +81,9 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom='no',
     Ressplit = Respdbstr.split()
     residueName = Ressplit[3]
 
-    print ""
-    print "# Hello, PyMOLers. It should take around 1 minute per residue."
-    print "# molecule: %s , chain: %s, residue: %s %s, pH: %s " % (molecule, chain, residueName, residue, pH)
+    print("")
+    print("# Hello, PyMOLers. It should take around 1 minute per residue.")
+    print("# molecule: %s , chain: %s, residue: %s %s, pH: %s " % (molecule, chain, residueName, residue, pH))
 
     # Determine the range of neighbour residues possible.
     Maxresidues = cmd.count_atoms("/" + molecule + "//" + chain + " and name CA")
@@ -157,7 +158,7 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom='no',
             # For the last residue, we test for Proline. We only calculate for the N,H atom, or if Proline, N,CA and CD atom.
             SumWMCLast = fSumWMCLast(molecule, SGNameAngle, chain, residue, Maxresidue, DieElecMC, MCchargeN, MCchargeH, MCchargeProCA, MCchargeProCD, MCchargeProN, AmideName, printMC)
             # Then loop over rest of the residues in the chain.
-            for j in (range(Minresidue + 1, int(residue)) + range(int(residue) + 1, Maxresidue)):
+            for j in (list(range(Minresidue + 1, int(residue))) + list(range(int(residue) + 1, Maxresidue))):
                 MCNeighbour = j
                 # print "Looking at neighbour", j
                 SumWMC = fSumWMC(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, MCchargeC, MCchargeO, MCchargeN, MCchargeH, MCchargeProCA, MCchargeProCD, MCchargeProN, AmideName, printMC)
@@ -203,10 +204,10 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom='no',
 
     nostates = "no"
     if len(ListofEnergies) == 0:
-        print "####################################################"
-        print "########### WARNING: No states available ###########"
-        print "########### Did you mutate a Glycine?    ###########"
-        print "####################################################"
+        print("####################################################")
+        print("########### WARNING: No states available ###########")
+        print("########### Did you mutate a Glycine?    ###########")
+        print("####################################################")
         BoltzSumNi = 0
         BoltzPartition = 0
         BoltzMCSC = 0
@@ -231,9 +232,9 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom='no',
         NeighbourCount = round(NCWeightedSum, 1)
     # If we found dimers
     if breakDimer == "yes":
-        print "####################################################"
-        print "########### WARNING: Dimer formation?    ###########"
-        print "####################################################"
+        print("####################################################")
+        print("########### WARNING: Dimer formation?    ###########")
+        print("####################################################")
         BoltzSumNi = 0
         BoltzPartition = 0
         BoltzMCSC = 0
@@ -298,13 +299,13 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom='no',
     outfile.close()
 
     # Now, we are done. Just print out. The ; is for a grep command to select these lines in the output.
-    print "# residue: %s %s. Average NeighbourCount NC= %s " % (residueName, residue, NeighbourCount)
-    print "# From residue %s to residue %s" % (Minresidue, Maxresidue)
-    print "# BoltzSumNi:  BoltzPartition:  BoltzMCSC"
-    print "# %.4f  %.4f  %.4f" % (BoltzSumNi, BoltzPartition, BoltzMCSC)
-    print "# Result written in file: %s" % (filename)
-    print "#    Res  NC    States  pKmcsc  pK1   pKB     pK2  pKm1     pKm2    f(C-)m1   f(C-)m2"
-    print "; %s %s   %s  %s     %.4f  %s  %.4f  %s  %.4f  %.4f  %.6f  %.6f" % (residueName, residue, NeighbourCount, AvailRotStates, DeltapKMCSC, pK1, DeltapKB, pK2, pKm1, pKm2, FracCysm1, FracCysm2)
+    print("# residue: %s %s. Average NeighbourCount NC= %s " % (residueName, residue, NeighbourCount))
+    print("# From residue %s to residue %s" % (Minresidue, Maxresidue))
+    print("# BoltzSumNi:  BoltzPartition:  BoltzMCSC")
+    print("# %.4f  %.4f  %.4f" % (BoltzSumNi, BoltzPartition, BoltzMCSC))
+    print("# Result written in file: %s" % (filename))
+    print("#    Res  NC    States  pKmcsc  pK1   pKB     pK2  pKm1     pKm2    f(C-)m1   f(C-)m2")
+    print("; %s %s   %s  %s     %.4f  %s  %.4f  %s  %.4f  %.4f  %.6f  %.6f" % (residueName, residue, NeighbourCount, AvailRotStates, DeltapKMCSC, pK1, DeltapKB, pK2, pKm1, pKm2, FracCysm1, FracCysm2))
     if nostates == "yes":
         print("##### ERROR; No states available ###")
     if breakDimer == "yes":
@@ -318,11 +319,11 @@ def loopcyspka(molecule, chain, residue, SeeProgress='no', pH=7.2, MoveSGatom='n
     for i in residue:
         if '-' in i:
             tmp = i.split('-')
-            residueList.extend(range(int(tmp[0]), int(tmp[-1]) + 1))
+            residueList.extend(list(range(int(tmp[0]), int(tmp[-1]) + 1)))
         if '-' not in i:
             residueList.append(int(i))
-    print "Looping over residues"
-    print residueList
+    print("Looping over residues")
+    print(residueList)
     for i in residueList:
         cyspka(molecule, chain, str(i), SeeProgress, pH, MoveSGatom, SGatom)
 cmd.extend("loopcyspka", loopcyspka)
@@ -403,7 +404,7 @@ def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCcha
         WSC = fWSC(SCchargeASP, DieElecSC, ResDist)
         SumWSC = SumWSC + WSC
         if printSC == 'yes':
-            print "SC ASP ", str(SClist[i]), " ", SCchargeASP, " ", DieElecSC, " ", ResDist, " ", WSC
+            print("SC ASP ", str(SClist[i]), " ", SCchargeASP, " ", DieElecSC, " ", ResDist, " ", WSC)
     cmd.delete(residue + 'distASP')
     # Sidechain GLU
     nameselect = "/" + molecule + " and resn GLU and name CD and not resi " + residue
@@ -414,7 +415,7 @@ def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCcha
         WSC = fWSC(SCchargeGLU, DieElecSC, ResDist)
         SumWSC = SumWSC + WSC
         if printSC == 'yes':
-            print "SC GLU ", str(SClist[i]), " ", SCchargeGLU, " ", DieElecSC, " ", ResDist, " ", WSC
+            print("SC GLU ", str(SClist[i]), " ", SCchargeGLU, " ", DieElecSC, " ", ResDist, " ", WSC)
     cmd.delete(residue + 'distGLU')
     # print "GLU", cmd.count_atoms("SC"), SumWSC
     # Sidechain OXT
@@ -427,7 +428,7 @@ def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCcha
         WSC = fWSC(SCchargeOXT, DieElecSC, ResDist)
         SumWSC = SumWSC + WSC
         if printSC == 'yes':
-            print "SC OXT ", str(SClist[i]), " ", SCchargeOXT, " ", DieElecSC, " ", ResDist, " ", WSC
+            print("SC OXT ", str(SClist[i]), " ", SCchargeOXT, " ", DieElecSC, " ", ResDist, " ", WSC)
     cmd.delete(residue + 'distOXT')
     # print "OXT", cmd.count_atoms("SC"), SumWSC
     # Sidechain ARG
@@ -439,7 +440,7 @@ def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCcha
         WSC = fWSC(SCchargeARG, DieElecSC, ResDist)
         SumWSC = SumWSC + WSC
         if printSC == 'yes':
-            print "SC ARG ", str(SClist[i]), " ", SCchargeARG, " ", DieElecSC, " ", ResDist, " ", WSC
+            print("SC ARG ", str(SClist[i]), " ", SCchargeARG, " ", DieElecSC, " ", ResDist, " ", WSC)
     cmd.delete(residue + 'distARG')
     # print "ARG", cmd.count_atoms("SC"), SumWSC
     # Sidechain HIS
@@ -451,7 +452,7 @@ def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCcha
         WSC = fWSC(SCchargeHIS, DieElecSC, ResDist)
         SumWSC = SumWSC + WSC
         if printSC == 'yes':
-            print "SC HIS ", str(SClist[i]), " ", SCchargeHIS, " ", DieElecSC, " ", ResDist, " ", WSC
+            print("SC HIS ", str(SClist[i]), " ", SCchargeHIS, " ", DieElecSC, " ", ResDist, " ", WSC)
     cmd.delete(residue + 'distHIS')
     # print "HIS", cmd.count_atoms("SC"), SumWSC
     # Sidechain LYS
@@ -463,7 +464,7 @@ def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCcha
         WSC = fWSC(SCchargeLYS, DieElecSC, ResDist)
         SumWSC = SumWSC + WSC
         if printSC == 'yes':
-            print "SC LYS ", str(SClist[i]), " ", SCchargeLYS, " ", DieElecSC, " ", ResDist, " ", WSC
+            print("SC LYS ", str(SClist[i]), " ", SCchargeLYS, " ", DieElecSC, " ", ResDist, " ", WSC)
     cmd.delete(residue + 'distLYS')
     # print "LYS", cmd.count_atoms("SC"), SumWSC
     # Sidechain MET1
@@ -476,7 +477,7 @@ def fSumWSC(molecule, SGNameAngle, chain, residue, DieElecSC, SCchargeASP, SCcha
         WSC = fWSC(SCchargeMET1, DieElecSC, ResDist)
         SumWSC = SumWSC + WSC
         if printSC == 'yes':
-            print "SC MET1 ", str(SClist[i]), " ", SCchargeMET1, " ", DieElecSC, " ", ResDist, " ", WSC
+            print("SC MET1 ", str(SClist[i]), " ", SCchargeMET1, " ", DieElecSC, " ", ResDist, " ", WSC)
     cmd.delete(residue + 'distMET1')
     # print "MET1", cmd.count_atoms("SC"), SumWSC
     cmd.delete("SC")
@@ -504,14 +505,14 @@ def fSumWMCFirst(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, 
     WMC = fWMC(MCchargeC, DieElecMC, ResDist)
     SumWMCFirst = SumWMCFirst + WMC
     if printMC == 'yes':
-        print "MC C ", MCNeighbour, " ", MCchargeC, " ", DieElecMC, " ", ResDist, " ", WMC
+        print("MC C ", MCNeighbour, " ", MCchargeC, " ", DieElecMC, " ", ResDist, " ", WMC)
     # Mainchain O
     Onameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/O"
     ResDist = cmd.dist(residue + 'distFirstO', SGnameselect, Onameselect)
     WMC = fWMC(MCchargeO, DieElecMC, ResDist)
     SumWMCFirst = SumWMCFirst + WMC
     if printMC == 'yes':
-        print "MC O ", MCNeighbour, " ", MCchargeO, " ", DieElecMC, " ", ResDist, " ", WMC
+        print("MC O ", MCNeighbour, " ", MCchargeO, " ", DieElecMC, " ", ResDist, " ", WMC)
     cmd.delete(residue + 'distFirstC')
     cmd.delete(residue + 'distFirstO')
     cmd.delete("MC")
@@ -540,28 +541,28 @@ def fSumWMCresidue(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC
     WMC = fWMC(MCchargeH, DieElecMC, ResDist)
     SumWMCresidue = SumWMCresidue + WMC
     if printMC == 'yes':
-        print "MC H ", MCNeighbour, " ", MCchargeH, " ", DieElecMC, " ", ResDist, " ", WMC
+        print("MC H ", MCNeighbour, " ", MCchargeH, " ", DieElecMC, " ", ResDist, " ", WMC)
     # Mainchain C
     Cnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/C"
     ResDist = cmd.dist(residue + 'distResC', SGnameselect, Cnameselect)
     WMC = fWMC(MCchargeC, DieElecMC, ResDist)
     SumWMCresidue = SumWMCresidue + WMC
     if printMC == 'yes':
-        print "MC C ", MCNeighbour, " ", MCchargeC, " ", DieElecMC, " ", ResDist, " ", WMC
+        print("MC C ", MCNeighbour, " ", MCchargeC, " ", DieElecMC, " ", ResDist, " ", WMC)
     # Mainchain O
     Onameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/O"
     ResDist = cmd.dist(residue + 'distResO', SGnameselect, Onameselect)
     WMC = fWMC(MCchargeO, DieElecMC, ResDist)
     SumWMCresidue = SumWMCresidue + WMC
     if printMC == 'yes':
-        print "MC O ", MCNeighbour, " ", MCchargeO, " ", DieElecMC, " ", ResDist, " ", WMC
+        print("MC O ", MCNeighbour, " ", MCchargeO, " ", DieElecMC, " ", ResDist, " ", WMC)
     # Mainchain N
     Nnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/N"
     ResDist = cmd.dist(residue + 'distResN', SGnameselect, Nnameselect)
     WMC = fWMC(MCchargeN, DieElecMC, ResDist)
     SumWMCresidue = SumWMCresidue + WMC
     if printMC == 'yes':
-        print "MC N ", MCNeighbour, " ", MCchargeN, " ", DieElecMC, " ", ResDist, " ", WMC
+        print("MC N ", MCNeighbour, " ", MCchargeN, " ", DieElecMC, " ", ResDist, " ", WMC)
     cmd.delete(residue + 'distResH')
     cmd.delete(residue + 'distResC')
     cmd.delete(residue + 'distResO')
@@ -588,21 +589,21 @@ def fSumWMCLast(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, M
         WMC = fWMC(MCchargeProCA, DieElecMC, ResDist)
         SumWMCLast = SumWMCLast + WMC
         if printMC == 'yes':
-            print "MC ProCA ", MCNeighbour, " ", MCchargeProCA, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC ProCA ", MCNeighbour, " ", MCchargeProCA, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Proline CD
         CDnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/CD"
         ResDist = cmd.dist(residue + 'distLastProCD', SGnameselect, CDnameselect)
         WMC = fWMC(MCchargeProCD, DieElecMC, ResDist)
         SumWMCLast = SumWMCLast + WMC
         if printMC == 'yes':
-            print "MC ProCD ", MCNeighbour, " ", MCchargeProCD, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC ProCD ", MCNeighbour, " ", MCchargeProCD, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Proline N
         Nnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/N"
         ResDist = cmd.dist(residue + 'distLastProN', SGnameselect, Nnameselect)
         WMC = fWMC(MCchargeProN, DieElecMC, ResDist)
         SumWMCLast = SumWMCLast + WMC
         if printMC == 'yes':
-            print "MC ProN ", MCNeighbour, " ", MCchargeProN, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC ProN ", MCNeighbour, " ", MCchargeProN, " ", DieElecMC, " ", ResDist, " ", WMC)
     else:
         AmideProt = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/H01"
         Hnameselect = "/" + AmideName + "//" + chain + "/" + str(MCNeighbour) + "/H01"
@@ -616,14 +617,14 @@ def fSumWMCLast(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, M
         WMC = fWMC(MCchargeH, DieElecMC, ResDist)
         SumWMCLast = SumWMCLast + WMC
         if printMC == 'yes':
-            print "MC H ", MCNeighbour, " ", MCchargeH, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC H ", MCNeighbour, " ", MCchargeH, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Mainchain N
         Nnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/N"
         ResDist = cmd.dist(residue + 'distLastN', SGnameselect, Nnameselect)
         WMC = fWMC(MCchargeN, DieElecMC, ResDist)
         SumWMCLast = SumWMCLast + WMC
         if printMC == 'yes':
-            print "MC N ", MCNeighbour, " ", MCchargeN, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC N ", MCNeighbour, " ", MCchargeN, " ", DieElecMC, " ", ResDist, " ", WMC)
     cmd.delete(residue + 'distLastProCA')
     cmd.delete(residue + 'distLastProCD')
     cmd.delete(residue + 'distLastProN')
@@ -651,35 +652,35 @@ def fSumWMC(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, MCcha
         WMC = fWMC(MCchargeProCA, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC ProCA ", MCNeighbour, " ", MCchargeProCA, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC ProCA ", MCNeighbour, " ", MCchargeProCA, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Proline CD
         CDnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/CD"
         ResDist = cmd.dist(residue + 'distProCD', SGnameselect, CDnameselect)
         WMC = fWMC(MCchargeProCD, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC ProCD ", MCNeighbour, " ", MCchargeProCD, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC ProCD ", MCNeighbour, " ", MCchargeProCD, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Proline N
         Nnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/N"
         ResDist = cmd.dist(residue + 'distProN', SGnameselect, Nnameselect)
         WMC = fWMC(MCchargeProN, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC ProN ", MCNeighbour, " ", MCchargeProN, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC ProN ", MCNeighbour, " ", MCchargeProN, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Proline C
         Cnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/C"
         ResDist = cmd.dist(residue + 'distProC', SGnameselect, Cnameselect)
         WMC = fWMC(MCchargeC, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC ProC ", MCNeighbour, " ", MCchargeC, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC ProC ", MCNeighbour, " ", MCchargeC, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Proline O
         Onameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/O"
         ResDist = cmd.dist(residue + 'distProO', SGnameselect, Onameselect)
         WMC = fWMC(MCchargeO, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC ProO ", MCNeighbour, " ", MCchargeO, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC ProO ", MCNeighbour, " ", MCchargeO, " ", DieElecMC, " ", ResDist, " ", WMC)
     else:
         AmideProt = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/H01"
         Hnameselect = "/" + AmideName + "//" + chain + "/" + str(MCNeighbour) + "/H01"
@@ -693,28 +694,28 @@ def fSumWMC(molecule, SGNameAngle, chain, residue, MCNeighbour, DieElecMC, MCcha
         WMC = fWMC(MCchargeH, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC H ", MCNeighbour, " ", MCchargeH, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC H ", MCNeighbour, " ", MCchargeH, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Mainchain C
         Cnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/C"
         ResDist = cmd.dist(residue + 'distC', SGnameselect, Cnameselect)
         WMC = fWMC(MCchargeC, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC C ", MCNeighbour, " ", MCchargeC, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC C ", MCNeighbour, " ", MCchargeC, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Mainchain O
         Onameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/O"
         ResDist = cmd.dist(residue + 'distO', SGnameselect, Onameselect)
         WMC = fWMC(MCchargeO, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC O ", MCNeighbour, " ", MCchargeO, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC O ", MCNeighbour, " ", MCchargeO, " ", DieElecMC, " ", ResDist, " ", WMC)
         # Mainchain N
         Nnameselect = "/" + molecule + "//" + chain + "/" + str(MCNeighbour) + "/N"
         ResDist = cmd.dist(residue + 'distN', SGnameselect, Nnameselect)
         WMC = fWMC(MCchargeN, DieElecMC, ResDist)
         SumWMC = SumWMC + WMC
         if printMC == 'yes':
-            print "MC N ", MCNeighbour, " ", MCchargeN, " ", DieElecMC, " ", ResDist, " ", WMC
+            print("MC N ", MCNeighbour, " ", MCchargeN, " ", DieElecMC, " ", ResDist, " ", WMC)
     cmd.delete(residue + 'distProCA')
     cmd.delete(residue + 'distProCD')
     cmd.delete(residue + 'distProN')
@@ -782,10 +783,10 @@ def CheckDimer(dihedSG, molecule, chain, residue):
     cmd.select(str(molecule) + str(residue) + "Dimer", nameselect)
     DimerSG = cmd.count_atoms(str(molecule) + str(residue) + "Dimer")
     if DimerSG > 0:
-        print "####################################################"
-        print "########### WARNING: SG in near detected ###########"
-        print "########### Is this a dimer?             ###########"
-        print "####################################################"
+        print("####################################################")
+        print("########### WARNING: SG in near detected ###########")
+        print("########### Is this a dimer?             ###########")
+        print("####################################################")
         cmd.select(str(molecule) + str(residue) + "Dimer", "byres " + str(molecule) + str(residue) + "Dimer")
         cmd.show("sticks", str(molecule) + str(residue) + "Dimer")
         breakDimer = "yes"

@@ -6,6 +6,7 @@ http://pymolwiki.org/index.php/cgo_arrow
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
 from pymol import cmd, cgo, CmdException
 
 

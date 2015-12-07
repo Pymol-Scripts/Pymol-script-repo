@@ -3,27 +3,27 @@ See more here: http://www.pymolwiki.org/index.php/ccp4_ncont
 
     ccp4_ncont -- parses CCP4/NCONT log file and selects residues and atoms.
     http://www.ccp4.ac.uk/html/ncont.html
- 
+
     PARAMS
         contactsfile
             filename of the CCP4/NCONT contacts log file
- 
+
         selName1
             the name prefix for the _res and _atom selections returned for the
             source set of chain
- 
+
         selName2
-            the name prefix for the _res and _atom selections returned for the 
+            the name prefix for the _res and _atom selections returned for the
             target set of chain
- 
+
     RETURNS
         4 selections of interface residues and atoms are created and named
         depending on what you passed into selName1 and selName2
-  
+
     AUTHOR
         Gerhard Reitmayr and Dalia Daujotyte, 2009.
 '''
-
+from __future__ import print_function
 from pymol import cmd
 import re
 
@@ -53,7 +53,7 @@ def parseNCONTContacts(f):
                 s2.append(matches[0])
             pairs.append((len(s1) - 1, len(s2) - 1))
         else:
-            print "Unknown mode", mode
+            print("Unknown mode", mode)
 
 
 def ccp4_ncont(contactsfile, selName1="source", selName2="target"):

@@ -40,6 +40,7 @@ Date    : January 2011
         Modifies the B-factor columns in your original structures.
 
 '''
+from __future__ import print_function
 from pymol import cmd
 from pymol import stored
 
@@ -49,7 +50,7 @@ def strTrue(p):
 
 
 def displacementUpdateBAll(objA, alnAri, objB, alnBri):
-    print "This will take a while to go through the for loops. Give me around 3-5 minutes..."
+    print("This will take a while to go through the for loops. Give me around 3-5 minutes...")
     # If residue is unassigned in one of the pdb files, we reset its value
     for x in range(len(alnAri)):
         s1 = objA + " and resi " + alnAri[x][0] + " and name " + str(alnAri[x][1])
@@ -138,7 +139,7 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
     cmd.delete(aln)
 
     # Assign the just stored NEW B-factors to the original objects
-    print "Sooon ready. 1 more minute"
+    print("Sooon ready. 1 more minute")
     for x in range(len(stored.alnAres)):
         cmd.alter(objSel1 + " and resi " + str(stored.alnAres[x][0]) + " and name " + str(stored.alnAres[x][1]), "b = " + str(stored.alnAnb[x]))
     for x in range(len(stored.alnBres)):
@@ -151,8 +152,8 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
     # Provide some useful information
     stored.allRMSDval = []
     stored.allRMSDval = stored.alnAnb + stored.alnBnb
-    print "\nColorByDisplacementAll completed successfully."
-    print "The MAXIMUM Displacement is: " + str(max(stored.allRMSDval)) + " residue " + str(stored.alnAres[int(stored.allRMSDval.index(max(stored.allRMSDval)))])
+    print("\nColorByDisplacementAll completed successfully.")
+    print("The MAXIMUM Displacement is: " + str(max(stored.allRMSDval)) + " residue " + str(stored.alnAres[int(stored.allRMSDval.index(max(stored.allRMSDval)))]))
 
     if strTrue(doColor):
         # Showcase what we did
@@ -178,8 +179,8 @@ def ColorByDisplacementAll(objSel1, objSel2, super1='all', super2='all', doColor
         cmd.delete("notUsedForAln")
         cmd.disable("ResNotInBothPDB")
         cmd.delete("ResNotInBothPDB")
-        print "\nObjects are now colored by C-alpha displacement deviation."
-        print "Blue is minimum and red is maximum..."
-        print "White is those residues used in the alignment algorithm. Can be turned off in top of algorithm."
-        print "Black is residues that does not exist in both files..."
+        print("\nObjects are now colored by C-alpha displacement deviation.")
+        print("Blue is minimum and red is maximum...")
+        print("White is those residues used in the alignment algorithm. Can be turned off in top of algorithm.")
+        print("Black is residues that does not exist in both files...")
 cmd.extend("ColorByDisplacementAll", ColorByDisplacementAll)
