@@ -1,10 +1,10 @@
-'''
+"""
 http://pymolwiki.org/index.php/spectrumany
 
 (c) 2010 Thomas Holder
 
 License: BSD-2-Clause
-'''
+"""
 
 from __future__ import print_function
 
@@ -20,16 +20,16 @@ expression_sc = cmd.Shortcut([
 
 
 def spectrumany(expression, color_list, selection='(all)', minimum=None, maximum=None, quiet=1):
-    '''
-DESCRIPTION
+    """
+    DESCRIPTION
 
     Define a color spectrum with as many color-stops as you like (at least 2).
 
-USAGE
+    USAGE
 
     spectrumany expression, color_list [, selection [, minimum [, maximum ]]]
 
-ARGUMENTS
+    ARGUMENTS
 
     expression = count, resi, b, q, or pc: respectively, atom count, residue
     index, temperature factor, occupancy, or partial charge {default: count}
@@ -38,15 +38,15 @@ ARGUMENTS
 
     ... all other arguments like with `spectrum` command
 
-EXAMPLE
+    EXAMPLE
 
     spectrumany count, forest green yellow white
     spectrumany b, red yellow white, (polymer), maximum=100.0
 
-SEE ALSO
+    SEE ALSO
 
     spectrum
-    '''
+    """
     quiet = int(quiet)
     colors = color_list.split()
     if len(colors) < 2:
@@ -67,7 +67,7 @@ SEE ALSO
 
     if None in [minimum, maximum]:
         stored.e = list()
-        cmd.iterate(selection, 'stored.e.append(%s)' % (minmax_expr))
+        cmd.iterate(selection, 'stored.e.append(%s)' % minmax_expr)
         if minimum is None:
             minimum = min(stored.e)
         if maximum is None:
@@ -77,7 +77,7 @@ SEE ALSO
         print(' Spectrum: range (%.5f to %.5f)' % (minimum, maximum))
 
     if maximum == minimum:
-        print('no spectrum possible, only equal %s values' % (expression))
+        print('no spectrum possible, only equal %s values' % expression)
         return
 
     if expression in discrete_expr:
