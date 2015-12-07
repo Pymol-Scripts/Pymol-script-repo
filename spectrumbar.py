@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from pymol.cgo import *
 from math import *
 from pymol import cmd
@@ -62,21 +64,21 @@ def spectrumbar(*args, **kwargs):
         elif (key == "head"):
             head = kwargs["head"]
             head = head.strip('" []()')
-            x1, y1, z1 = map(float, head.split(','))
+            x1, y1, z1 = list(map(float, head.split(',')))
         elif (key == "tail"):
             tail = kwargs["tail"]
             tail = tail.strip('" []()')
-            x2, y2, z2 = map(float, tail.split(','))
+            x2, y2, z2 = list(map(float, tail.split(',')))
         elif (key == "length"):
             if (abc.search(kwargs["length"])):
-                print "Error: The length must be a value"
+                print("Error: The length must be a value")
                 return
             else:
                 x2 = float(kwargs["length"])
         elif (key == "ends"):
             ends = kwargs["ends"]
         elif (key != "_self"):
-            print "Ignoring unknown option \"" + key + "\""
+            print("Ignoring unknown option \"" + key + "\"")
         else:
             continue
 
@@ -97,12 +99,12 @@ def spectrumbar(*args, **kwargs):
             else:
                 return
         else:
-            print "Error: Unrecognized color format \"" + args[0] + "\""
+            print("Error: Unrecognized color format \"" + args[0] + "\"")
             return
 
     if (len(rgb) % 3):
-        print "Error: Missing RGB value"
-        print "Please double check RGB values"
+        print("Error: Missing RGB value")
+        print("Please double check RGB values")
         return
 
     dx = x2 - x1
