@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/Renumber
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd, CmdException
 
 
@@ -35,7 +37,7 @@ ARGUMENTS
                 startatom = atom
                 break
         else:
-            print ' Error: startsele not in selection'
+            print(' Error: startsele not in selection')
             raise CmdException
     else:
         startatom = model.atom[0]
@@ -66,7 +68,7 @@ ARGUMENTS
     cmd.alter(selection, 'resi = atom_it.next().resi',
               space={'atom_it': iter(model.atom)})
     if not quiet:
-        print ' Renumber: range (%d to %d)' % tuple(minmax)
+        print(' Renumber: range (%d to %d)' % tuple(minmax))
 
 cmd.extend('renumber', renumber)
 
