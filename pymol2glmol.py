@@ -78,7 +78,7 @@ def parseObjMol(obj):
         ids.append("ID %d is %s in resi %s %s at chain %s"\
                    % (atom[22], atom[6], atom[3], atom[5], atom[1]))
 
-    for c in colors.iterkeys():  # TODO: better compression
+    for c in colors.keys():  # TODO: better compression
         colors[c] = compactSeq(colors[c])
 
     ret = ''
@@ -92,7 +92,7 @@ def parseObjMol(obj):
     ret += "\nline:" + compactSeq(line)
     ret += "\nsmallSphere:" + compactSeq(smallSphere)
     ret += "\ncross:" + compactSeq(cross)
-    for c in colors.iterkeys():
+    for c in colors.keys():
         ret += "\ncolor:%.3f,%.3f,%.3f:%s" % (c[0], c[1], c[2], colors[c])
     return ret
 
