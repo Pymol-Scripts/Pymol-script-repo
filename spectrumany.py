@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/spectrumany
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd, stored
 
 expression_sc = cmd.Shortcut([
@@ -48,7 +50,7 @@ SEE ALSO
     quiet = int(quiet)
     colors = color_list.split()
     if len(colors) < 2:
-        print 'failed! please provide at least 2 colors'
+        print('failed! please provide at least 2 colors')
         return
 
     colvec = [cmd.get_color_tuple(i) for i in colors]
@@ -60,7 +62,7 @@ SEE ALSO
     discrete_expr = ['index', 'resi']
 
     if cmd.count_atoms(selection) == 0:
-        print 'empty selection'
+        print('empty selection')
         return
 
     if None in [minimum, maximum]:
@@ -72,10 +74,10 @@ SEE ALSO
             maximum = max(stored.e)
     minimum, maximum = float(minimum), float(maximum)
     if not quiet:
-        print ' Spectrum: range (%.5f to %.5f)' % (minimum, maximum)
+        print(' Spectrum: range (%.5f to %.5f)' % (minimum, maximum))
 
     if maximum == minimum:
-        print 'no spectrum possible, only equal %s values' % (expression)
+        print('no spectrum possible, only equal %s values' % (expression))
         return
 
     if expression in discrete_expr:
