@@ -12,6 +12,7 @@ import ex
 ex rotkit_1.pml
 '''
 
+from __future__ import print_function
 from pymol import cmd
 import os
 if 'PYMOL_GIT_MOD' in os.environ:
@@ -21,7 +22,7 @@ if 'PYMOL_GIT_MOD' in os.environ:
 def ex(filename=''):
     if os.path.splitext(filename)[1] == '':
         filename = os.path.splitext(filename)[0] + '.pml'
-        print("filename is: %s" % filename)
+        print(("filename is: %s" % filename))
     if 'PYMOL_GIT_EX' in os.environ:
         expath = os.environ['PYMOL_GIT_EX']
         cmdrun = os.path.join(expath, filename)

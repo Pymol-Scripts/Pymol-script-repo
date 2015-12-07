@@ -1,11 +1,11 @@
 '''
 More information at: http://www.pymolwiki.org/index.php/elbow_angle
 
-Calculate the elbow angle of an antibody Fab complex and optionally draw a 
+Calculate the elbow angle of an antibody Fab complex and optionally draw a
 graphical representation of the vectors used to determine the angle.
 
-NOTE: There is no automatic checking of the validity of limit_l and limit_h 
-values or of the assignment of light and heavy chain IDs. If these are entered 
+NOTE: There is no automatic checking of the validity of limit_l and limit_h
+values or of the assignment of light and heavy chain IDs. If these are entered
 incorrectly or omitted, the reported angle will likely be incorrect.
 
 As always with these things, your mileage may vary.  Use at your own risk!
@@ -18,7 +18,7 @@ REQUIREMENTS
     transformations.py, version 2012.01.01
         by Christoph Gohlke
         www.lfd.uci.edu/~gohlke/code
-    
+
         May also require an edit to transformations.py:
         Changes `1e-8` to `1e-7` in lines 357 & 363 to avoid a numerical error.
 
@@ -31,6 +31,7 @@ __author__ = 'Jared Sampson'
 __version__ = '0.1'
 
 
+from __future__ import print_function
 from pymol import cmd
 import transformations
 import com
@@ -43,7 +44,7 @@ def calc_super_matrix(mobile, static):
 
 DESCRIPTION
 
-    Aligns two objects (or selections), returns the transformation matrix, 
+    Aligns two objects (or selections), returns the transformation matrix,
     and resets the matrix of the mobile object.
 
     Uses CEAlign PyMOL function for alignment.
@@ -79,8 +80,8 @@ def elbow_angle(obj, light='L', heavy='H', limit_l=107, limit_h=113, draw=0):
 
 DESCRIPTION
 
-    Calculates the integer elbow angle of an antibody Fab complex and 
-    optionally draws a graphical representation of the vectors used to 
+    Calculates the integer elbow angle of an antibody Fab complex and
+    optionally draws a graphical representation of the vectors used to
     determine the angle.
 
 ARGUMENTS
@@ -89,8 +90,8 @@ ARGUMENTS
 
     light/heavy = strings: chain ID of light and heavy chains, respectively
 
-    limit_l/limit_h = integers: residue numbers of the last residue in the 
-    light and heavy chain variable domains, respectively    
+    limit_l/limit_h = integers: residue numbers of the last residue in the
+    light and heavy chain variable domains, respectively
 
     draw = boolean: Choose whether or not to draw the angle visualization
 
@@ -167,7 +168,7 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     if (test > 0):
         elbow = 360 - elbow
 
-    print "    Elbow angle: %i degrees" % elbow
+    print("    Elbow angle: %i degrees" % elbow)
 
     if (draw == 1):
         # there is probably a more elegant way to do this, but
