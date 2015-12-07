@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/hbplus
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd, CmdException
 
 
@@ -34,7 +36,7 @@ DESCRIPTION
             stdout, _ = process.communicate()
 
             if not quiet:
-                print stdout
+                print(stdout)
 
             for line in open(hb2file):
                 if line[5] != '-' or line[19] != '-':
@@ -47,7 +49,7 @@ DESCRIPTION
                 cmd.distance(prefix + cat, sele1, sele2)
 
     except OSError:
-        print 'Error: Cannot execute exe=' + exe
+        print('Error: Cannot execute exe=' + exe)
         raise CmdException
     finally:
         shutil.rmtree(tempdir)
