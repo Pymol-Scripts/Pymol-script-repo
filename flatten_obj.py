@@ -17,6 +17,7 @@ Date: October 30, 2015
 Version: 1.0
 License: Public Domain
 """
+from __future__ import print_function
 from pymol import cmd, stored
 import re
 try:
@@ -164,7 +165,7 @@ class LongChainSet(ChainSet):
     """
     def map_chain(self, obj, state, origChain ):
         ch = "%s_%s_%04d"%(origChain,obj,state)
-        if self.has_key(ch):
+        if ch in self:
             raise ValueError("Duplicate chain %s"%(ch))
         self._chains[ch] = (obj,state,origChain)
         return ch
@@ -286,7 +287,7 @@ SEE ALSO
             for obj in cmd.get_object_list("(%s_*)"%(metaprefix) ):
                 m = statere.match(obj)
                 if m is None:
-                    print("Failed to match object %s" %obj)
+                    print(("Failed to match object %s" %obj))
                     continue
                 origobj = m.group(1)
                 statenum = int(m.group(2))
@@ -298,7 +299,7 @@ SEE ALSO
                     new_chain = chainSet.map_chain(origobj,statenum,chain)
                     rev_chain_map[chain] = new_chain
                     if not quiet:
-                        print("  %s state %d chain %s -> %s"%(origobj,statenum,chain, new_chain) )
+                        print(("  %s state %d chain %s -> %s"%(origobj,statenum,chain, new_chain) ))
                     if not _long_chains:
                         if len(new_chain) > 1:
                             raise OutOfChainsError("No additional chains available (max 62).")
@@ -306,7 +307,7 @@ SEE ALSO
                 space = {'rev_chain_map':rev_chain_map}
                 cmd.alter(obj,"chain = rev_chain_map[chain]",space=space)
 
-            print("Creating object from %s_*"%metaprefix)
+            print(("Creating object from %s_*"%metaprefix))
             # Recombine into a single object
             cmd.create(name,"%s_*"%metaprefix)
 
@@ -314,8 +315,8 @@ SEE ALSO
             if chain_map:
                 setattr(stored,chain_map,chainSet)
 
-            # Warn if lowercase chains were generated 
-            if cmd.get("ignore_case") == "on" and any([c.upper() != c for c in chainSet.keys()]):
+            # Warn if lowercase chains were generated
+            if cmd.get("ignore_case") == "on" and any([c.upper() != c for c in list(chainSet.keys())]):
                 print("Warning: using lower-case chain IDs. Consider running the "
                         "following command:\n  set ignore_case, 0" )
 

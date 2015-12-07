@@ -1,3 +1,4 @@
+from __future__ import print_function
 from pymol import cmd
 from tempfile import mkdtemp
 from shutil import rmtree
@@ -10,7 +11,7 @@ def FocalBlur(aperture=2.0, samples=10, ray=0, width=0, height=0):
 DESCRIPTION
 
     Creates fancy figures by introducing a focal blur to the image. The object
-    at the origin will be in focus. 
+    at the origin will be in focus.
 
 AUTHOR
 
@@ -66,7 +67,7 @@ EXAMPELS
         cmd.set('light', [lx, ly, lz])
 
         curFile = "%s/frame-%04d.png" % (tmpdir, frame)
-        print "Created frame %i/%i (%0.0f%%)" % (frame + 1, samples, 100 * (frame + 1) / samples)
+        print("Created frame %i/%i (%0.0f%%)" % (frame + 1, samples, 100 * (frame + 1) / samples))
 
         # Save the image to temporary directory
         if ray:

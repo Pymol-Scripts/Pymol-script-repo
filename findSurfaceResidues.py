@@ -2,6 +2,7 @@
 http://pymolwiki.org/index.php/FindSurfaceResidues
 '''
 
+from __future__ import print_function
 from pymol import cmd
 
 
@@ -37,7 +38,7 @@ SEE ALSO
     cmd.delete(tmpObj)
 
     if not quiet:
-        print "Exposed atoms are selected in: " + selName
+        print("Exposed atoms are selected in: " + selName)
 
     return selName
 
@@ -78,7 +79,7 @@ RETURNS
     cmd.select(selNameRes, "byres " + selName)
 
     if not quiet:
-        print "Exposed residues are selected in: " + selNameRes
+        print("Exposed residues are selected in: " + selNameRes)
 
     if doShow:
         cmd.show_as("spheres", "(" + selection + ") and polymer")

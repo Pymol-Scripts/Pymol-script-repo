@@ -14,7 +14,7 @@ needle (string)
 		examples.
 
 hastack (string or PyMOL selection)
-		name of the PyMOL object/selection in which 
+		name of the PyMOL object/selection in which
 		to find the needle.
 
 selName (string; defaults to None)
@@ -59,6 +59,7 @@ AUTHOR:
 Jason Vertrees, 2009.
 """
 
+from __future__ import print_function
 from pymol import cmd
 import re
 import types
@@ -77,8 +78,8 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
 
     # input checking
     if not checkParams(needle, haystack, selName, het, firstOnly):
-        print "There was an error with a parameter.  Please see"
-        print "the above error message for how to fix it."
+        print("There was an error with a parameter.  Please see")
+        print("the above error message for how to fix it.")
         return None
 
     one_letter = {
@@ -342,8 +343,8 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
     aaDict = {'aaList': []}
     cmd.iterate("(name ca) and __h", "aaList.append((resi,resn,chain))", space=aaDict)
 
-    IDs = map(lambda x: int(x[0]), aaDict['aaList'])
-    AAs = ''.join(map(lambda x: one_letter[x[1]], aaDict['aaList']))
+    IDs = [int(x[0]) for x in aaDict['aaList']]
+    AAs = ''.join([one_letter[x[1]] for x in aaDict['aaList']])
     chains = [x[2] for x in aaDict['aaList']]
 
     reNeedle = re.compile(needle.upper())
@@ -374,34 +375,34 @@ def checkParams(needle, haystack, selName, het, firstOnly):
     This is just a helper function for checking the user input
     """
     # check Needle
-    if len(needle) == 0 or type(needle) != types.StringType:
-        print "Error: Please provide a string 'needle' to search for."
-        print "Error: For help type 'help motifFinder'."
+    if len(needle) == 0 or type(needle) != bytes:
+        print("Error: Please provide a string 'needle' to search for.")
+        print("Error: For help type 'help motifFinder'.")
         return False
 
     # check Haystack
-    if len(haystack) == 0 or type(haystack) != types.StringType:
-        print "Error: Please provide valid PyMOL object or selection name"
-        print "Error: in which to search."
-        print "Error: For help type 'help motifFinder'."
+    if len(haystack) == 0 or type(haystack) != bytes:
+        print("Error: Please provide valid PyMOL object or selection name")
+        print("Error: in which to search.")
+        print("Error: For help type 'help motifFinder'.")
         return False
 
     # check het
     try:
         het = bool(int(het))
     except ValueError:
-        print "Error: The 'het' parameter was not 0 or 1."
+        print("Error: The 'het' parameter was not 0 or 1.")
         return False
 
     # check first Only
     try:
         firstOnly = bool(int(het))
     except ValueError:
-        print "Error: The 'firstOnly' parameter was not 0 or 1."
+        print("Error: The 'firstOnly' parameter was not 0 or 1.")
         return False
 
     # check selName
-    if type(selName) != types.StringType:
-        print "Error: selName was not a string."
+    if type(selName) != bytes:
+        print("Error: selName was not a string.")
         return False
     return True
