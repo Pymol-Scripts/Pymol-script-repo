@@ -1,10 +1,10 @@
-'''
+"""
 http://pymolwiki.org/index.php/Save_Mopac
 
 (c) 2012 Thomas Holder
 
 License: BSD-2-Clause
-'''
+"""
 
 from __future__ import print_function
 
@@ -12,12 +12,12 @@ from pymol import cmd, CmdException
 
 
 def save_mopac(filename, selection='all', zero='none', state=-1, quiet=1):
-    '''
-DESCRIPTION
+    """
+    DESCRIPTION
 
     Save to MOPAC format
 
-ARGUMENTS
+    ARGUMENTS
 
     filename = string: file path to be written
 
@@ -26,7 +26,7 @@ ARGUMENTS
     zero = string: atoms to save with zero flag {default: none}
 
     state = integer: state to save {default: -1 (current state)}
-    '''
+    """
     state, quiet = int(state), int(quiet)
 
     fmt = '%5s(%6i %3s%4i) %12.8f +%i %12.8f +%i %12.8f +%i %26.4f\n'
