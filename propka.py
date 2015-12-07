@@ -115,6 +115,9 @@ propka
 
 ##############################################################################################################################################################################################################################
 '''
+
+from __future__ import print_function
+
 try:
     from pymol import cmd
     runningpymol = 'yes'
@@ -124,6 +127,7 @@ except:
 import time
 import platform
 import os
+import sys
 
 
 def propka(molecule="NIL", chain="*", resi="0", resn="NIL", method="upload", logtime=time.strftime("%m%d", time.localtime()), server_wait=3.0, version="v3.1", verbose="no", showresult="no", pkafile="NIL", makebonds="yes"):
@@ -159,7 +163,7 @@ def propka(molecule="NIL", chain="*", resi="0", resn="NIL", method="upload", log
         except ImportError:
             print("Import error. Is a module missing?")
             print(sys.exc_info())
-            print("Look if missing module is in your python path\n%s") % sys.path
+            print("Look if missing module is in your python path\n%s" % sys.path)
             importedmechanize = 'no'
             import modules.mechanize as mechanize
         # The name for the new molecule
@@ -254,7 +258,7 @@ def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID
         print(br.form)
     # Print the parameters of the 'version' RadioControl button and current value
     if verbose == 'yes':
-        print(br.find_control(name='version')), br.find_control(name='version').value
+        print(br.find_control(name='version'), br.find_control(name='version').value)
     # This is to check, that the current script is "up-to-date".
     propka_v_present = float(br.find_control(name='version').value[0].replace('v', ''))
     if propka_v_present > propka_v_201108:
@@ -553,7 +557,7 @@ def ResiRange(resi):
     for i in resi:
         if '-' in i:
             tmp = i.split('-')
-            resiList.extend(range(int(tmp[0]), int(tmp[-1]) + 1))
+            resiList.extend(list(range(int(tmp[0]), int(tmp[-1]) + 1)))
         if '-' not in i:
             resiList.append(int(i))
     return(resiList)
@@ -582,7 +586,7 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
             bonding_partners.append(bonding_partners_single)
     bonding_partners = uniqifi(bonding_partners)
     if verbose == 'yes':
-        print("And other possible bonding partners is: %s" % (bonding_partners))
+        print("And other possible bonding partners is: %s" % bonding_partners)
     # Read in the bond file, if it exists
     writebonds = "no"
     if os.path.isfile(pkafile[:-4] + ".bonds") and makebonds == "yes":
@@ -828,7 +832,7 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
 
 
 def replace_all(text, dic):
-    for i, j in dic.iteritems():
+    for i, j in dic.items():
         text = text.replace(i, j)
     return(text)
 
