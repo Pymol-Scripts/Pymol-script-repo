@@ -20,6 +20,7 @@ VERSION NOTES:
     1.0    2014    First release
 '''
 
+from __future__ import print_function
 import sys
 from pymol import cmd
 from pymol import stored
@@ -42,7 +43,7 @@ def get_coord(v):
             # more than one atom --> use "center"
             # alt check!
             if cmd.count_atoms('(alt *) and not (alt "")')!=0:
-                print "distancetoatom: warning! alternative coordinates found for origin, using center!"
+                print("distancetoatom: warning! alternative coordinates found for origin, using center!")
             view_temp=cmd.get_view()
             cmd.zoom(v)
             v=cmd.get_position()
@@ -111,7 +112,7 @@ ARGUMENTS
         selection = '(%s)'%selection
         ori=get_coord(origin)
         if not ori:
-            print "distancetoatom: aborting - check input for 'origin'!"
+            print("distancetoatom: aborting - check input for 'origin'!")
             return False
         cutoff = abs(float(cutoff))
         filename = str(filename)
@@ -125,7 +126,7 @@ ARGUMENTS
         coordinates=bool(int(coordinates))
         quiet=bool(int(quiet))
     except:
-        print 'distancetoatom: aborting - input error!'
+        print('distancetoatom: aborting - input error!')
         return False
 
     # round origin
@@ -138,7 +139,7 @@ ARGUMENTS
         try:
             report=open(filename,'w') # file for writing
         except:
-            print 'distancetoatom: Unable to open report file! - Aborting!'
+            print('distancetoatom: Unable to open report file! - Aborting!')
             return False
 
     # temporary name for pseudoatom
@@ -215,7 +216,7 @@ ARGUMENTS
         else:
             output= '%s, %s' %(entry[0],entry[4]) #csv style
         if (not quiet):
-            print output
+            print(output)
         elif filename:
             report.write(output+'\n')
 
@@ -225,8 +226,8 @@ ARGUMENTS
     if filename: report.close()
 
     if (not quiet):
-        if property_name: print 'Distances saved to property: %s' %str(property_name)
-        else: print 'Distances NOT saved to property (illegal custom property)'
+        if property_name: print('Distances saved to property: %s' %str(property_name))
+        else: print('Distances NOT saved to property (illegal custom property)')
 
     # remove temp. selection
     cmd.delete(tempsel)
@@ -234,7 +235,7 @@ ARGUMENTS
     # return list for potential use:
     if coordinates:
         if len(distance_list)>2: # prevents crash if list is otherwise empty
-            distance_list2=map(distance_list.__getitem__, [1,4])
+            distance_list2=list(map(distance_list.__getitem__, [1,4]))
             return distance_list2
         else: return distance_list
     else:

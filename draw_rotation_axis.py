@@ -11,6 +11,8 @@ numpy (http://numpy.scipy.org) that should be built into the newers versions of 
 
 '''
 
+from __future__ import print_function
+
 __author__  = 'Pablo Guardado Calvo'
 __version__ = '0.1'
 __email__   = 'pablo.guardado (at) gmail.com'
@@ -227,26 +229,26 @@ def print_information(T, axis1, angle_degrees,  moduli_vector, obj, x1, y1, z1, 
 
     Print to basic information to the screen.
     '''
-    print "#################################################################################################"
-    print "Transformation (TTT) matrix"
-    print "%8.2f, %8.2f, %8.2f, %8.2f" %(T[0], T[1], T[2], T[3])
-    print "%8.2f, %8.2f, %8.2f, %8.2f" %(T[4], T[5], T[6], T[7])
-    print "%8.2f, %8.2f, %8.2f, %8.2f" %(T[8], T[9], T[10], T[11])
-    print "%8.2f, %8.2f, %8.2f, %8.2f" %(T[12], T[13], T[14], T[15])
-    print "................................................................................................."
-    print ""
-    print "The direction cosines of the rotation axis is: %3.2f, %3.2f, %3.2f" %(axis1[0], axis1[1], axis1[2])
-    print "The angle of rotation is %3.2f degrees" %(angle_degrees)
-    print "The lenght of the translation vector along the rotation axis is %3.2f Angstroms" %(modu_tr)
-    print "The distance between mass centers is %3.2f Angstroms" %(moduli_vector)
-    print "................................................................................................."
-    print ""
-    print "Lines to be used in a pml script to generate the axis"
-    print ""
-    print "CYLINDER, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, 0.0" %(x1, y1, z1, x2, y2, z2, w, r1, g1, b1, r2, g2, b2)
-    print "cmd.load_cgo(obj, %3.2f)" %(angle_degrees)
-    print ""
-    print "#################################################################################################"
+    print("#################################################################################################")
+    print("Transformation (TTT) matrix")
+    print("%8.2f, %8.2f, %8.2f, %8.2f" %(T[0], T[1], T[2], T[3]))
+    print("%8.2f, %8.2f, %8.2f, %8.2f" %(T[4], T[5], T[6], T[7]))
+    print("%8.2f, %8.2f, %8.2f, %8.2f" %(T[8], T[9], T[10], T[11]))
+    print("%8.2f, %8.2f, %8.2f, %8.2f" %(T[12], T[13], T[14], T[15]))
+    print(".................................................................................................")
+    print("")
+    print("The direction cosines of the rotation axis is: %3.2f, %3.2f, %3.2f" %(axis1[0], axis1[1], axis1[2]))
+    print("The angle of rotation is %3.2f degrees" %(angle_degrees))
+    print("The lenght of the translation vector along the rotation axis is %3.2f Angstroms" %(modu_tr))
+    print("The distance between mass centers is %3.2f Angstroms" %(moduli_vector))
+    print(".................................................................................................")
+    print("")
+    print("Lines to be used in a pml script to generate the axis")
+    print("")
+    print("CYLINDER, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, %3.2f, 0.0" %(x1, y1, z1, x2, y2, z2, w, r1, g1, b1, r2, g2, b2))
+    print("cmd.load_cgo(obj, %3.2f)" %(angle_degrees))
+    print("")
+    print("#################################################################################################")
 
 def draw_axis(chA, chB, scale_factor=20, w=0.6, r1=1, g1=1, b1=1, r2=1, g2=0, b2=0):
     T = transf_matrix(chA, chB)
