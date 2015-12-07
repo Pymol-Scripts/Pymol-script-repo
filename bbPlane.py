@@ -12,6 +12,7 @@ Author: Jason Vertrees, 06/2010
 License: MIT
 '''
 
+from __future__ import print_function
 from pymol import cmd
 
 
@@ -77,7 +78,7 @@ NOTES
 
     # need at least two amino acids
     if len(AAs) <= 1:
-        print "ERROR: Please provide at least two amino acids, the alpha-carbon on the 2nd is needed."
+        print("ERROR: Please provide at least two amino acids, the alpha-carbon on the 2nd is needed.")
         return
 
     # prepare the cgo
@@ -96,12 +97,12 @@ NOTES
         # if the data are incomplete for any residues, ignore
         if None in pos:
             if not quiet:
-                print ' bbPlane: peptide bond %s -> %s incomplete' % (curIdx, nextIdx)
+                print(' bbPlane: peptide bond %s -> %s incomplete' % (curIdx, nextIdx))
             continue
 
         if cpv.distance(pos[0], pos[3]) > 4.0:
             if not quiet:
-                print ' bbPlane: %s and %s not adjacent' % (curIdx, nextIdx)
+                print(' bbPlane: %s and %s not adjacent' % (curIdx, nextIdx))
             continue
 
         normal = cpv.normalize(cpv.cross_product(
