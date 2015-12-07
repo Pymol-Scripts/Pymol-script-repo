@@ -22,16 +22,16 @@ See more here: http://www.pymolwiki.org/index.php/perp_maker
 #
 # You should have received a copy of the GNU General Public License along with
 # this program; if not, write to the Free Software Foundation, Inc., 51 Franklin
-# Street, Fifth Floor, Boston, MA 02110-1301, USA 
+# Street, Fifth Floor, Boston, MA 02110-1301, USA
 #
 #
 #
- 
+
 #
 # To use: Load your scene.  Orient the scene as you wish.  Run the script.
 # Could it be any simpler?!
 #
- 
+
 # The TTT Matrix has to be the identity, do achieve this result.  So,
 # run the following:
 #   -- 'reset'
@@ -41,6 +41,8 @@ See more here: http://www.pymolwiki.org/index.php/perp_maker
 #   -- then run the script
 #
 '''
+
+from __future__ import print_function
 
 import pymol
 import random
@@ -101,8 +103,8 @@ def getPPlane(viewVector, center, side_length=100):
                   viewVector[2]) + center[2]
 
         else:
-            print "Z-component of viewVector is zero.  Now, I need a nonzero value here \
-so I'm just making one up. :)"
+            print("Z-component of viewVector is zero.  Now, I need a nonzero value here \
+so I'm just making one up. :)")
             z = random.randint(-200, 200)
 
         rVal[i] = [x, y, z]
@@ -131,8 +133,8 @@ DESCRIPTION
 
 # Sanity check
     if not quiet:
-        print "Camera is: " + str(camera)
-        print "Center is: " + str(center)
+        print("Camera is: " + str(camera))
+        print("Center is: " + str(center))
 
 # Create the vector through the two points directed
 # from the camera to the center - the viewVector
@@ -141,13 +143,13 @@ DESCRIPTION
                    center[2] - camera[2]]
 
     if not quiet:
-        print "ViewVector is: " + str(viewVector)
+        print("ViewVector is: " + str(viewVector))
 
 # Create the plane perpendicular to the viewVector
 # running through the origin
     pPlane = getPPlane(viewVector, center, side_length=100)
     if not quiet:
-        print "Plane points calculated as: " + str(pPlane)
+        print("Plane points calculated as: " + str(pPlane))
 
 # now create the CGO and load from the points
     obj = [
@@ -169,7 +171,7 @@ DESCRIPTION
     cmd.set_view(view)
 
 if __name__ in ['pymol', '__main__']:
-    print '__name__ =', __name__
+    print('__name__ =', __name__)
     perp_maker(quiet=0)
 
 cmd.extend('perp_maker', perp_maker)
