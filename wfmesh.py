@@ -10,6 +10,8 @@ See more here: http://www.pymolwiki.org/index.php/wfmesh
 ###############################################
 '''
 
+from __future__ import print_function
+
 import os
 import re
 import math
@@ -144,11 +146,11 @@ class WFMesh(Callback):
         self.translate = translate
         self.flip = flip
 
-        print "Read in file: " + str(file)
+        print("Read in file: " + str(file))
         self.readOBJ(file)
-        print "Done reading in WFMesh, now compute norms"
+        print("Done reading in WFMesh, now compute norms")
         self.computeNorms()
-        print "Done computing norms, now display WFMesh"
+        print("Done computing norms, now display WFMesh")
 
     # Draw Function
     def __call__(self):
