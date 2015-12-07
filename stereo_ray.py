@@ -1,15 +1,15 @@
-'''
+"""
 See more here: http://www.pymolwiki.org/index.php/stereo_ray
-'''
+"""
 
 from pymol import cmd
 
 
 def stereo_ray(filename, width=0, height=0, quiet=1):
-    '''
- DESCRIPTION
+    """
+    DESCRIPTION
 
-    "stereo_ray" ray-traces the current scene twice (separated by 
+    "stereo_ray" ray-traces the current scene twice (separated by
     a six-degree rotation around the y axis)
     and saves a pair of images that can be combined in any image
     manipulation software to form a stereoimage.
@@ -17,15 +17,15 @@ def stereo_ray(filename, width=0, height=0, quiet=1):
     The second and third arguments, the size of the image, are not.
     If the width is given, the height will be calculated.
 
- USAGE
+    USAGE
 
     stereo_ray filename [, width [, height]]
 
- EXAMPLE
+    EXAMPLE
 
     stereo_ray output, 1000, 600
     stereo_ray secondImage.png
-    '''
+    """
     if filename.lower().endswith('.png'):
         filename = filename[:-4]
 
