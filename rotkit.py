@@ -1,18 +1,18 @@
-'''
+"""
 Described at PyMOL wiki:
 http://www.pymolwiki.org/index.php/rotkit
 
 -------------------------------------------------------------------------------
- Name:		rotkit.py   examples
- Purpose:      To rotate molecules easier
+ Name:          rotkit.py   examples
+ Purpose:       To rotate molecules easier
 
- Author:      Troels Linnet
+ Author:        Troels Linnet
 
- Created:     30/08/2011
- Copyright:   (c) Troels Linnet 2011
- Licence:     Free
+ Created:       30/08/2011
+ Copyright:     (c) Troels Linnet 2011
+ Licence:       Free
 -------------------------------------------------------------------------------
-'''
+"""
 
 from __future__ import print_function
 
@@ -23,7 +23,13 @@ import platform
 
 
 def printMat(matrix):
-    print(("%s %s %s %s \n%s %s %s %s \n%s %s %s %s \n%s %s %s %s" % (matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5], matrix[6], matrix[7], matrix[8], matrix[9], matrix[10], matrix[11], matrix[12], matrix[13], matrix[14], matrix[15])))
+    print(
+        "%s %s %s %s \n%s %s %s %s \n%s %s %s %s \n%s %s %s %s" % (
+            matrix[0], matrix[1], matrix[2], matrix[3], matrix[4],
+            matrix[5], matrix[6], matrix[7], matrix[8], matrix[9],
+            matrix[10], matrix[11], matrix[12], matrix[13], matrix[14], matrix[15]
+        )
+    )
     return None
 
 
@@ -43,33 +49,33 @@ def vector(Sel1, Sel2):
     PosSel1 = getxyz(Sel1)[0]
     PosSel2 = getxyz(Sel2)[0]
     vectorcalc = [PosSel2[0] - PosSel1[0], PosSel2[1] - PosSel1[1], PosSel2[2] - PosSel1[2]]
-    return(vectorcalc)
+    return vectorcalc
 
 
 def vectoradd(Sel1, Sel2):
     PosSel1 = getxyz(Sel1)[0]
     PosSel2 = getxyz(Sel2)[0]
     vectorcalc = [PosSel1[0] + PosSel2[0], PosSel1[1] + PosSel2[1], PosSel1[2] + PosSel2[2]]
-    return(vectorcalc)
+    return vectorcalc
 
 
-def vectorstr(vector):
-    return("[%s,%s,%s]" % (vector[0], vector[1], vector[2]))
+def vectorstr(vector_):
+    return "[%s,%s,%s]" % (vector_[0], vector_[1], vector_[2])
 
 
-def transmat(vector, dist=1):
-    mat = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, dist * vector[0], dist * vector[1], dist * vector[2], 1]
-    return(mat)
+def transmat(vector_, dist=1):
+    mat = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, dist * vector_[0], dist * vector_[1], dist * vector_[2], 1]
+    return mat
 
 
-def unitvector(vector):
-    vectorlen = math.sqrt(math.pow(vector[0], 2) + math.pow(vector[1], 2) + math.pow(vector[2], 2))
-    vectordiv = [vector[0] / vectorlen, vector[1] / vectorlen, vector[2] / vectorlen]
-    return(vectordiv, vectorlen)
+def unitvector(vector_):
+    vectorlen = math.sqrt(math.pow(vector_[0], 2) + math.pow(vector_[1], 2) + math.pow(vector_[2], 2))
+    vectordiv = [vector_[0] / vectorlen, vector_[1] / vectorlen, vector_[2] / vectorlen]
+    return vectordiv, vectorlen
 
 
 def radangle(angle):
-    return(math.radians(angle))
+    return math.radians(angle)
 
 
 def rotmat(angle, vectornorm, pointcoord):
@@ -88,8 +94,8 @@ def rotmat(angle, vectornorm, pointcoord):
                   (v * w * (1 - math.cos(angle)) + u * math.sin(angle)),
                   (math.pow(w, 2) + (math.pow(u, 2) + math.pow(v, 2)) * math.cos(angle)),
                   ((c * (math.pow(u, 2) + math.pow(v, 2)) - w * (a * u + b * v)) * (1 - math.cos(angle)) + (a * v - b * u) * math.sin(angle)),
-                  (0), (0), (0), (1), ]
-    return(makerotmat)
+                  0, 0, 0, 1, ]
+    return makerotmat
 
 
 def rotateline(Pos1, Pos2, degangle, molecule):
@@ -98,7 +104,7 @@ def rotateline(Pos1, Pos2, degangle, molecule):
     xyz = getxyz(Pos2)[0]
     rmat = rotmat(radangle(float(degangle)), uvector, xyz)
     cmd.transform_selection(molecule, rmat)
-    return(None)
+    return None
 cmd.extend("rotateline", rotateline)
 
 
@@ -114,9 +120,9 @@ def mutate(molecule, chain, resi, target="CYS", mutframe="1"):
     # cmd.set_wizard("done")
     cmd.set_wizard()
     # cmd.refresh()
-#### Example in pymol
+# ## Example in pymol
 # python
-#MutList = [["5NT","A",308],["5NT","A",513],["5NT","B",513]]
+# MutList = [["5NT","A",308],["5NT","A",513],["5NT","B",513]]
 # for p,c,r in MutList:
 #    rotkit.mutate(p, chain=c, resi=r, target="CYS", mutframe=1)
 # Have do mutate first before selecting, or else it only select the lase?
@@ -135,18 +141,18 @@ def toline(Pos1, Pos2, atom, molecule, dist=1):
     uvector = unitvector(diffvector)[0]
     move = transmat(uvector, dist)
     cmd.transform_selection("%s" % molecule, move)
-    return(None)
+    return None
 cmd.extend("toline", toline)
 
 
 def crossprod(Vector1, Vector2):
-    return([Vector1[1] * Vector2[2] - Vector1[2] * Vector2[1], Vector1[2] * Vector2[0] - Vector1[0] * Vector2[2], Vector1[0] * Vector2[1] - Vector1[1] * Vector2[0]])
+    return [Vector1[1] * Vector2[2] - Vector1[2] * Vector2[1], Vector1[2] * Vector2[0] - Vector1[0] * Vector2[2], Vector1[0] * Vector2[1] - Vector1[1] * Vector2[0]]
 
 
-def crosspoint(Pos1, crossprod):
+def crosspoint(Pos1, crossprod_):
     Imp1 = getxyz(Pos1)[0]
-    Imp2 = getxyz(crossprod)[0]
-    return([Imp1[0] + Imp2[0], Imp1[1] + Imp2[1], Imp1[2] + Imp2[2]])
+    Imp2 = getxyz(crossprod_)[0]
+    return [Imp1[0] + Imp2[0], Imp1[1] + Imp2[1], Imp1[2] + Imp2[2]]
 
 
 def VectorToMatrix(Vector, MatColRank=4):
@@ -160,12 +166,11 @@ def VectorToMatrix(Vector, MatColRank=4):
     for i in range(len(Vector)):
         if i in nextrow:
             rowsall.append(rowcurrent)
-            rowcurrent = []
-            rowcurrent.append(Vector[i])
+            rowcurrent = [Vector[i]]
         else:
             rowcurrent.append(Vector[i])
     print(rowsall)
-    return(numpy.matrix(rowsall))
+    return numpy.matrix(rowsall)
 
 
 def findMinMax(datalist, index):
@@ -178,20 +183,22 @@ def findMinMax(datalist, index):
             minimum = l[index]
         if l[index] > maximum:
             maximum = l[index]
-    return(minimum, maximum, datacolumn)
+    return minimum, maximum, datacolumn
 
 
 def createdirs(dirname):
     if platform.system() == 'Windows':
-        Newdir = os.getcwd() + "\\%s\\" % dirname
-    if platform.system() == 'Linux':
-        Newdir = os.getcwd() + "/%s/" % dirname
-    if not os.path.exists(Newdir):
-        os.makedirs(Newdir)
-    return(Newdir)
+        new_dir = os.getcwd() + "\\%s\\" % dirname
+    elif platform.system() == 'Linux':
+        new_dir = os.getcwd() + "/%s/" % dirname
+    else:
+        raise OSError
+    if not os.path.exists(new_dir):
+        os.makedirs(new_dir)
+    return new_dir
 
 
-def makehistogram(datalist, dataname="Histogram", datalistindex=2, nrbins=100, binrange=[0, 0]):
+def makehistogram(datalist, dataname="Histogram", datalistindex=2, nrbins=100, binrange=(0, 0)):
     try:
         import numpy
     except ImportError:
@@ -214,6 +221,7 @@ def makehistogram(datalist, dataname="Histogram", datalistindex=2, nrbins=100, b
     # print DistHist
     DistHistMin, DistHistMax, tmp = findMinMax(DistHist, 2)
     # print DistHistMin,DistHistMax
+    xdelta = 1
     ydelta = DistHistMax - DistHistMin
     # Now write the output
     fileout_write.write("#Datapoints=%s" % len(datacolumn) + "\n")
@@ -260,4 +268,4 @@ def makehistogram(datalist, dataname="Histogram", datalistindex=2, nrbins=100, b
 
     fileout_write.close()
     gnuplot_write.close()
-    return(DistHist)
+    return DistHist
