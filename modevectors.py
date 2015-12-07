@@ -1,6 +1,7 @@
 '''
 See more here: http://www.pymolwiki.org/index.php/Modevectors
 '''
+from __future__ import print_function
 from pymol.cgo import *    # get constants
 from math import *
 from pymol import cmd
@@ -37,7 +38,7 @@ def modevectors(first_obj_frame, last_obj_frame, first_state=1, last_state=1, ou
     factor                   1.0               Float   Multiplies each mode vector length by a specified factor.
                                                        Values between 0 and 1 will decrease the relative mode vector length.
                                                        Values greater than 1 will increase the relative mode vector length.
-    notail                   0                 Integer Hides tails and only uses cones (porcupine plot) 
+    notail                   0                 Integer Hides tails and only uses cones (porcupine plot)
     """
 
     framefirst = cmd.get_model(first_obj_frame, first_state)
@@ -55,8 +56,8 @@ def modevectors(first_obj_frame, last_obj_frame, first_state=1, last_state=1, ou
 
     headrgb = headrgb.strip('" []()')
     tailrgb = tailrgb.strip('" []()')
-    hr, hg, hb = map(float, headrgb.split(','))
-    tr, tg, tb = map(float, tailrgb.split(','))
+    hr, hg, hb = list(map(float, headrgb.split(',')))
+    tr, tg, tb = list(map(float, tailrgb.split(',')))
 
     version = cmd.get_version()[1]
     arrow = []
@@ -138,10 +139,10 @@ def modevectors(first_obj_frame, last_obj_frame, first_state=1, last_state=1, ou
                     " ATMNUM " + str(atom.index)
 #				print current_atom
                 if 'current_atom' not in atom_lookup:
-                    print "\nError: " + current_atom + " from \""\
+                    print("\nError: " + current_atom + " from \""\
                           + last_obj_frame +\
-                          " \"is not found in \"" + first_obj_frame + "\"."
-                    print "\nPlease check your input and/or selections and try again."
+                          " \"is not found in \"" + first_obj_frame + "\".")
+                    print("\nPlease check your input and/or selections and try again.")
                     exit_flag = True
                     break
 
@@ -168,10 +169,10 @@ def modevectors(first_obj_frame, last_obj_frame, first_state=1, last_state=1, ou
     ###################################################
 
     if len(x2) != len(x1):
-        print "\nError: \"" + first_obj_frame +\
+        print("\nError: \"" + first_obj_frame +\
               "\" and \"" + last_obj_frame +\
-              "\" contain different number of residue/atoms."
-        print "\nPlease check your input and/or selections and try again."
+              "\" contain different number of residue/atoms.")
+        print("\nPlease check your input and/or selections and try again.")
         return
     else:
         # Continue with representing modevectors!
@@ -232,7 +233,7 @@ def modevectors(first_obj_frame, last_obj_frame, first_state=1, last_state=1, ou
         intfactor = int(factor)
         if version < 1.1:  # Version >= 1.1 has cone primitive
             for i in range(100, 0, -1):  # i=100 is tip of cone
-                print i
+                print(i)
                 t1 = seg * i
                 t2 = seg * (i + 1)
                 radius = arrow_head_radius * (1.0 - i / (100.0))  # Radius of each disc that forms cone
@@ -257,13 +258,13 @@ def modevectors(first_obj_frame, last_obj_frame, first_state=1, last_state=1, ou
 
     if stat == "show":
         natoms = skipcounter + keepcounter
-        print "\nTotal number of atoms = " + str(natoms)
-        print "Atoms skipped = " + str(skipcounter)
+        print("\nTotal number of atoms = " + str(natoms))
+        print("Atoms skipped = " + str(skipcounter))
         if keepcounter - cutoff_counter > 0:
-            print "Atoms counted = " + str(keepcounter - cutoff_counter) + " (see PyMOL object \"" + objectname + "\")"
+            print("Atoms counted = " + str(keepcounter - cutoff_counter) + " (see PyMOL object \"" + objectname + "\")")
         else:
-            print "Atoms counted = " + str(keepcounter - cutoff_counter) + " (Empty CGO object not loaded)"
-        print "Atoms cutoff  = " + str(cutoff_counter)  # Note that cutoff occurs AFTER skipping!
+            print("Atoms counted = " + str(keepcounter - cutoff_counter) + " (Empty CGO object not loaded)")
+        print("Atoms cutoff  = " + str(cutoff_counter))  # Note that cutoff occurs AFTER skipping!
     if keepcounter - cutoff_counter > 0:
         cmd.delete(objectname)
         cmd.load_cgo(arrow, objectname)  # Ray tracing an empty object will cause a segmentation fault.  No arrows = Do not display in PyMOL!!!

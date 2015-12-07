@@ -17,6 +17,7 @@ See more here: http://www.pymolwiki.org/index.php/nmr_cnstr
 ##############################################################################################################
 '''
 
+from __future__ import print_function
 
 def upl(fname):
 
@@ -26,7 +27,7 @@ def upl(fname):
 #
     while upl != '':
 
-        print upl, i
+        print(upl, i)
         cns = string.split(upl)
         cmd.dist('upl' + str(i), 'i. ' + cns[0] + ' & n. ' + cns[2], 'i. ' + cns[3] + ' & n. ' + cns[5])
         upl = f.readline()
@@ -44,21 +45,21 @@ def cns(fname):
     f = open(fname, 'r')
     i = 1
     upl = f.readline()
-    print upl, i
+    print(upl, i)
     while upl != '':
         if upl == '\n':
             upl = f.readline()
             continue
         cns = string.split(upl)
-        print cns, i
+        print(cns, i)
         if cns[0] == 'assign':
-            print 'CNS'
+            print('CNS')
             if cns[5] == 'HB*':
-                print 'CNS***'
+                print('CNS***')
             cmd.dist('upl' + str(i), 'i. ' + cns[2] + ' & n. ' + cns[5], 'i. ' + cns[7] + ' & n. ' + cns[10])
         i += 1
         upl = f.readline()
-        print '*' + upl + '*', i
+        print('*' + upl + '*', i)
 
     f.close()
     cmd.set('dash_gap', 0.05)

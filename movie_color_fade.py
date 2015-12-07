@@ -16,6 +16,7 @@ VERSION NOTES:
 '''
 #-------------------------------------------------------------------------------
 # IMPORT
+from __future__ import print_function
 from pymol import cmd
 from pymol import stored
 #-------------------------------------------------------------------------------
@@ -72,7 +73,7 @@ EXAMPLES
     movie_color_fade auto,white,auto,skyblue,ss s
     movie_color_fade auto,white,auto,red,ss h
     movie_color_fade auto,white,auto,grey,ss l+""
-    #####    
+    #####
 
 SEE ALSO
 
@@ -93,7 +94,7 @@ SEE ALSO
         endframe = 1
 
     if startframe == endframe:
-        print "start == end"
+        print("start == end")
         return False
 
     if startframe > endframe:
@@ -106,14 +107,14 @@ SEE ALSO
         endcolor = cmd.get_color_tuple(endcolor)
         diffcolor = [b - a for a, b in zip(startcolor, endcolor)]
     except:
-        print "Input error - please provide regular colors"
+        print("Input error - please provide regular colors")
         return False
 
     for frame in range(startframe, endframe + 1):
         # calculate intermediates
         frac = float(frame - startframe) / (endframe - startframe)
         endcolor = [a * frac for a in diffcolor]
-        endcolor = map(sum, zip(startcolor, endcolor))
+        endcolor = list(map(sum, list(zip(startcolor, endcolor))))
         colorname = selection + "_" + str(frame)
         # define new color
         cmd.set_color(colorname, endcolor)
