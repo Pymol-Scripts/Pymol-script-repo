@@ -1,4 +1,4 @@
-"""
+'''
 quickdisplays.py
 Described at: http://www.pymolwiki.org/quickdisplays
 Version 1.0 (2014)
@@ -13,23 +13,23 @@ Plugin contributed by Andreas Warnecke
 ##################################################
 VERSION NOTES:
     1.0    2014    First release
-"""
-# -------------------------------------------------------------------------------
+'''
+#-------------------------------------------------------------------------------
 # IMPORT
 from __future__ import print_function
 from pymol import cmd
 from pymol import stored
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # PRINT LIST OF FUNCTIONS
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 def disp_list():
     print(
         '''
-    quickdisplay - list of functions.
-    Enter, e.g. "help disp_ss" for more specific info.
+quickdisplay - list of functions.
+Enter, e.g. "help disp_ss" for more specific info.
 
     PURPOSE                          FUNCTION
     secondary structure cartoon......disp_ss
@@ -37,21 +37,21 @@ def disp_list():
     mesh display.....................disp_mesh
     surface display..................disp_surf
     Putty b-factor sausage...........disp_putty
-    '''
+'''
     )
 cmd.extend("disp_list", disp_list)
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # PERCENTILE LIMITS (used below)
-# -------------------------------------------------------------------------------
-def get_b_limits(input_='[0,100]', selection='all'):
+#-------------------------------------------------------------------------------
+def get_b_limits(input='[0,100]', selection='all'):
     from pymol import cmd, stored
     import math
     try:
-        limits = str(input_)
+        limits = str(input)
         if limits.startswith('['):
             # list
             limits = eval(limits)[:2]
@@ -82,27 +82,27 @@ def get_b_limits(input_='[0,100]', selection='all'):
     except:
         return False
     return limits
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # DISPLAY: SECONDARY STRUCTURE
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 def disp_ss(
         selection='all',
         colors='marine red white',
         only=False):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Formats the passed object into secondary structure cartoon
 
-    USAGE
+USAGE
 
     disp_ss [ selection [, colors [, only ]]]
 
-    PARAMETERS
+PARAMETERS
 
     NAME=DEFAULT               TYPE    FUNCTION
     selection='all'            <str>   input selection
@@ -113,7 +113,7 @@ def disp_ss(
                                        set='False' to supress coloring altogether, or enter False
                                        for the coloring to be omitted, e.g. 'marine False green'
     only                       <bool>  if True will use show_as; else show
-    """
+    '''
 
     try:
         selection = '(' + selection + ')'
@@ -186,42 +186,42 @@ cmd.auto_arg[0]['disp_ss'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
 cmd.auto_arg[1]['disp_ss'] = [lambda: cmd.Shortcut(['default', 'blue', 'yellow']), 'color_s=', ',']
 cmd.auto_arg[2]['disp_ss'] = [lambda: cmd.Shortcut(['default', 'red', 'blue']), 'color_h=', ',']
 cmd.auto_arg[3]['disp_ss'] = [lambda: cmd.Shortcut(['color_l=default, only=False']), 'remaining (defaults)...', '']
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # DISPLAY: BALL AND STICK
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 def disp_ball_stick(selection='all', hydrogens=0, only=False):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Formats the passed object into ball and stick
 
-    USAGE
+USEAGE
 
     disp_ball_stick [ selection [, hydrogens [, only ]]]
 
-    EXAMPLE
+EXAMPLE
 
     fetch 1hpv, async=0
     disp_ball_stick
     util.cbaw
 
-    PARAMETERS
+PARAMETERS
 
     NAME=DEFAULT       TYPE    FUNCTION
     selection='all'    <str>   input selection
     hydrogens          <int>   -1: remove; 1: add; else: as is
     only=False         <bool>  if True will use show_as; else show
 
-    """
+    '''
     try:
         selection = '(' + selection + ')'
         hydrogens = int(hydrogens)
         only = bool(str(only) != 'False')
-    except TypeError:
+    except:
         print("Input error")
         return False
 
@@ -237,50 +237,50 @@ def disp_ball_stick(selection='all', hydrogens=0, only=False):
         cmd.set('stick_radius', 0.12, p)
 
     if only:
-        cmd.show_as('sticks', '%s' % selection)
+        cmd.show_as('sticks', '%s' % (selection))
     else:
-        cmd.show('sticks', '%s' % selection)
+        cmd.show('sticks', '%s' % (selection))
 
 
 cmd.extend("disp_ball_stick", disp_ball_stick)
 cmd.auto_arg[0]['disp_ball_stick'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
 cmd.auto_arg[1]['disp_ball_stick'] = [lambda: cmd.Shortcut(['-1', '0', '1']), 'hydrogens=', ',']
 cmd.auto_arg[2]['disp_ball_stick'] = [lambda: cmd.Shortcut(['True', 'False']), 'only=', '']
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 
 def disp_stick_ball(selection='all', hydrogens=0, only=False):
-    """
+    '''
     see help disp_stick_ball
-    """
-    # disp_stick_ball - redirected
+    '''
+    #disp_stick_ball - redirected
     disp_ball_stick(selection, hydrogens, only)
 cmd.extend("disp_stick_ball", disp_stick_ball)
 cmd.auto_arg[0]['disp_stick_ball'] = [lambda: cmd.Shortcut(['all']), 'selection=', ',']
 cmd.auto_arg[1]['disp_stick_ball'] = [lambda: cmd.Shortcut(['-1', '0', '1']), 'hydrogens=', ',']
 cmd.auto_arg[2]['disp_stick_ball'] = [lambda: cmd.Shortcut(['True', 'False']), 'only=', '']
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # DISPLAY: MESH
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 def disp_mesh(selection='all', color_m='default', hydrogens=0, only=False, limits=5):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Adds a mesh to the object
     Has advanced coloring options and automatically accounts for the hydrogens
 
-    USAGE
+USEAGE
 
     disp_mesh [ selection [, color_m [, hydrogens [, only [, limits]]]]]
     disp_mesh selection=all, color_m=default
     disp_mesh selection=all, color_m=white
     disp_mesh selection=all, color_m=putty
 
-    PARAMETERS
+PARAMETERS
 
     NAME=DEFAULT       TYPE    FUNCTION
     selection='all'    <str>   input selection
@@ -294,7 +294,7 @@ def disp_mesh(selection='all', color_m='default', hydrogens=0, only=False, limit
                                sets the b-factor range limits
                                <list> [min,max] # absolute values
                                <float> percentile cutoff (both sides) # relative for each protein
-    """
+    '''
 
     try:
         selection = '(' + selection + ')'
@@ -312,7 +312,7 @@ def disp_mesh(selection='all', color_m='default', hydrogens=0, only=False, limit
 
     for p in cmd.get_object_list(selection):
         cmd.set('mesh_width', 0.25, p)
-        if color_m == 'putty':
+        if (color_m == 'putty'):
             limits = get_b_limits(limits, p)
             if not limits:
                 print("Input error (limits must be <list> or <float (<=50)>)!")
@@ -336,13 +336,13 @@ cmd.auto_arg[0]['disp_mesh'] = [lambda: cmd.Shortcut(['all']), 'selection=', ','
 cmd.auto_arg[1]['disp_mesh'] = [lambda: cmd.Shortcut(['default', 'red', 'green', 'blue', 'yellow']), 'color_m=', ',']
 cmd.auto_arg[2]['disp_mesh'] = [lambda: cmd.Shortcut(['-1', '0', '1']), 'hydrogens=', ',']
 cmd.auto_arg[3]['disp_mesh'] = [lambda: cmd.Shortcut(['only=False, limits=5']), 'remaining (defaults)...', '']
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # DISPLAY: SURFACE AND SURFACE AS PUTTY
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 def disp_surf(
         selection='all',
         color_s='default',
@@ -352,22 +352,22 @@ def disp_surf(
         ramp_above=1,
         only=False,
         limits=5):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Advanced surface representation (cf. examples)
 
-    USAGE
+USAGE
 
     disp_surf [ selection [, color_s [, transparency [, hydrogens [, solvent [, ramp_above [, only [, limits]]]]]]]]
 
-    EXAMPLES
+EXAMPLES
 
     disp_surf # opaque surface with default colors
     disp_surf all, white, 0.5 # half-transparent white surface
     disp_surf all, putty # b-factor on surface
 
-    PARAMETERS
+PARAMETERS
 
     NAME=DEFAULT       TYPE    FUNCTION
     selection='all'    <str>   input selection
@@ -384,7 +384,7 @@ def disp_surf(
                                sets the b-factor range limits
                                <list> [min,max] # absolute values
                                <float> percentile cutoff (both sides) # relative for each protein
-    """
+    '''
     try:
         selection = '(' + selection + ')'
         color_s = str(color_s)
@@ -416,7 +416,7 @@ def disp_surf(
         cmd.set('surface_ramp_above_mode', ramp_above, p)
         cmd.set('transparency', transparency, p)
 
-        if color_s == 'putty':
+        if (color_s == 'putty'):
             limits = get_b_limits(limits, p)
             if not limits:
                 print("Input error (limits must be <list> or <float (<=50)>)!")
@@ -439,23 +439,23 @@ cmd.auto_arg[0]['disp_surf'] = [lambda: cmd.Shortcut(['all']), 'selection=', ','
 cmd.auto_arg[1]['disp_surf'] = [lambda: cmd.Shortcut(['default', 'red', 'green', 'blue', 'yellow']), 'color_s=', ',']
 cmd.auto_arg[2]['disp_surf'] = [lambda: cmd.Shortcut(['0', '0.10', '0.20', '0.30', '0.40', '0.50', '0.60', '0.70', '0.80', '0.90', '1.00']), 'transparency=', ',']
 cmd.auto_arg[3]['disp_surf'] = [lambda: cmd.Shortcut(['hydrogens=0, solvent=0, ramp_above=1, only=False, limits=5']), 'remaining (deafults)...', ',']
-# cmd.auto_arg[4]['disp_surf']=[lambda: cmd.Shortcut(['0']), 'solvent=', ',']
-# cmd.auto_arg[5]['disp_surf']=[lambda: cmd.Shortcut(['1']), 'ramp_above=', ',']
-# cmd.auto_arg[6]['disp_surf']=[lambda: cmd.Shortcut(['True','False']), 'only=', '']
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
+#cmd.auto_arg[4]['disp_surf']=[lambda: cmd.Shortcut(['0']), 'solvent=', ',']
+#cmd.auto_arg[5]['disp_surf']=[lambda: cmd.Shortcut(['1']), 'ramp_above=', ',']
+#cmd.auto_arg[6]['disp_surf']=[lambda: cmd.Shortcut(['True','False']), 'only=', '']
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 
 
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # DISPLAY: PUTTY
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 def disp_putty(selection='all', limits=10, only=True):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Formats the passed object into a Putty b-factor sausage
 
-    USAGE
+USEAGE
 
     disp_putty [ selection ]
     selection    <str>    input selection
@@ -465,7 +465,7 @@ def disp_putty(selection='all', limits=10, only=True):
                           <list> [min,max]
                           <float> percentile cutoff (both sides)
     only=True             <bool>  if True will use show_as; else show
-    """
+    '''
 
     try:
         selection = '(' + selection + ')'
@@ -495,5 +495,5 @@ cmd.extend("disp_putty", disp_putty)
 cmd.auto_arg[0]['disp_putty'] = [lambda: cmd.Shortcut(['all', 'all and visible']), 'selection=', ',']
 cmd.auto_arg[1]['disp_putty'] = [lambda: cmd.Shortcut('0', '5', '10', '[10,50]'), 'limits=', ',']
 cmd.auto_arg[2]['disp_putty'] = [lambda: cmd.Shortcut(['True', 'False']), 'only=', '']
-# -------------------------------------------------------------------------------
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
