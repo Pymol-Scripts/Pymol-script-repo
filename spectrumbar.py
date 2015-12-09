@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 from pymol.cgo import *
+from math import *
 from pymol import cmd
 import re
 
@@ -56,44 +57,44 @@ def spectrumbar(*args, **kwargs):
     abc = re.compile('[a-z]')
 
     for key in kwargs:
-        if key == "radius":
+        if (key == "radius"):
             radius = float(kwargs["radius"])
-        elif key == "name":
+        elif (key == "name"):
             name = kwargs["name"]
-        elif key == "head":
+        elif (key == "head"):
             head = kwargs["head"]
             head = head.strip('" []()')
             x1, y1, z1 = list(map(float, head.split(',')))
-        elif key == "tail":
+        elif (key == "tail"):
             tail = kwargs["tail"]
             tail = tail.strip('" []()')
             x2, y2, z2 = list(map(float, tail.split(',')))
-        elif key == "length":
-            if abc.search(kwargs["length"]):
+        elif (key == "length"):
+            if (abc.search(kwargs["length"])):
                 print("Error: The length must be a value")
                 return
             else:
                 x2 = float(kwargs["length"])
-        elif key == "ends":
+        elif (key == "ends"):
             ends = kwargs["ends"]
-        elif key != "_self":
+        elif (key != "_self"):
             print("Ignoring unknown option \"" + key + "\"")
         else:
             continue
 
     args = list(args)
-    if len(args) >= 1:
+    if (len(args) >= 1):
         rgb = []
-    while len(args) >= 1:
-        if num.search(args[0]) and abc.search(args[0]):
-            if str(cmd.get_color_tuple(args[0])) != "None":
+    while (len(args) >= 1):
+        if (num.search(args[0]) and abc.search(args[0])):
+            if (str(cmd.get_color_tuple(args[0])) != "None"):
                 rgb.extend(cmd.get_color_tuple(args.pop(0)))
             else:
                 return
-        elif num.search(args[0]):
+        elif (num.search(args[0])):
             rgb.extend([float(args.pop(0))])
-        elif abc.search(args[0]):
-            if str(cmd.get_color_tuple(args[0])) != "None":
+        elif (abc.search(args[0])):
+            if (str(cmd.get_color_tuple(args[0])) != "None"):
                 rgb.extend(cmd.get_color_tuple(args.pop(0)))
             else:
                 return
@@ -101,7 +102,7 @@ def spectrumbar(*args, **kwargs):
             print("Error: Unrecognized color format \"" + args[0] + "\"")
             return
 
-    if len(rgb) % 3:
+    if (len(rgb) % 3):
         print("Error: Missing RGB value")
         print("Please double check RGB values")
         return
@@ -109,7 +110,7 @@ def spectrumbar(*args, **kwargs):
     dx = x2 - x1
     dy = y2 - y1
     dz = z2 - z1
-    if len(rgb) == 3:
+    if (len(rgb) == 3):
         rgb.extend([rgb[0]])
         rgb.extend([rgb[1]])
         rgb.extend([rgb[2]])
@@ -118,27 +119,27 @@ def spectrumbar(*args, **kwargs):
     s = 0
     bar = []
 
-    while s < c:
-        if len(rgb) > 0:
+    while (s < c):
+        if (len(rgb) > 0):
             r = rgb.pop(0)
             g = rgb.pop(0)
             b = rgb.pop(0)
-        if s == 0 and ends == "rounded":
+        if (s == 0 and ends == "rounded"):
             bar.extend([COLOR, float(r), float(g), float(b), SPHERE, x1 + (s * t) * dx, y1 + (s * t) * dy, z1 + (s * t) * dz, radius])
         bar.extend([CYLINDER])
         bar.extend([x1 + (s * t) * dx, y1 + (s * t) * dy, z1 + (s * t) * dz])
         bar.extend([x1 + (s + 1) * t * dx, y1 + (s + 1) * t * dy, z1 + (s + 1) * t * dz])
         bar.extend([radius, float(r), float(g), float(b)])
-        if len(rgb) >= 3:
+        if (len(rgb) >= 3):
             bar.extend([float(rgb[0]), float(rgb[1]), float(rgb[2])])
             r = rgb[0]
             g = rgb[1]
             b = rgb[2]
         else:
             bar.extend([float(r), float(g), float(b)])
-        if s == c - 1 and ends == "rounded":
+        if (s == c - 1 and ends == "rounded"):
             bar.extend([COLOR, float(r), float(g), float(b), SPHERE, x1 + (s + 1) * t * dx, y1 + (s + 1) * t * dy, z1 + (s + 1) * t * dz, radius])
-        s += 1
+        s = s + 1
 
     cmd.delete(name)
     cmd.load_cgo(bar, name)
