@@ -2273,7 +2273,7 @@ class VisualizationGroup(Pmw.Group):
         self.show_ni = False
 
     def refresh(self):
-        things_to_kill = 'error_label update_buttonbox mm_group ms_group pi_group ni_group'.split()
+        things_to_kill = 'fl_group error_label update_buttonbox mm_group ms_group pi_group ni_group'.split()
         for thing in things_to_kill:
             try:
                 getattr(self, thing).destroy()
