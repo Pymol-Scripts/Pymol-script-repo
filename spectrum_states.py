@@ -1,10 +1,10 @@
-"""
+'''
 http://pymolwiki.org/index.php/spectrum_states
 
 (c) 2011 Takanori Nakane and Thomas Holder
 
 License: BSD-2-Clause
-"""
+'''
 
 from __future__ import print_function
 
@@ -14,16 +14,16 @@ from pymol import cmd, CmdException
 def spectrum_states(selection='all', representations='cartoon ribbon',
                     color_list='blue cyan green yellow orange red',
                     first=1, last=0, quiet=1):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Color each state in a multi-state object different.
 
-    USAGE
+USAGE
 
     spectrum_states [ selection [, representations [, color_list [, first [, last ]]]]]
 
-    ARGUMENTS
+ARGUMENTS
 
     selection = string: object names (works with complete objects only)
     {default: all}
@@ -34,10 +34,10 @@ def spectrum_states(selection='all', representations='cartoon ribbon',
     color_list = string: space separated list of colors {default: blue cyan
     green yellow orange red}
 
-    SEE ALSO
+SEE ALSO
 
     spectrum, spectrumany
-    """
+    '''
     from math import floor, ceil
 
     first, last, quiet = int(first), int(last), int(quiet)
