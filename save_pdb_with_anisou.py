@@ -1,10 +1,10 @@
-"""
+'''
 http://pymolwiki.org/index.php/Save_pdb_with_anisou
 
 (c) 2012 Thomas Holder, MPI for Developmental Biology
 
 License: BSD-2-Clause
-"""
+'''
 
 from __future__ import print_function
 
@@ -12,15 +12,15 @@ from pymol import cmd, CmdException
 
 
 def save_pdb_with_anisou(filename, selection='(all)', state=1, quiet=1):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
      Save in PDB format including ANISOU records.
 
-    SEE ALSO
+SEE ALSO
 
     save
-    """
+    '''
     state, quiet = int(state), int(quiet)
 
     pdbstr = cmd.get_pdbstr(selection, state)
@@ -41,7 +41,7 @@ def save_pdb_with_anisou(filename, selection='(all)', state=1, quiet=1):
     f.close()
 
     if not quiet:
-        print(' Save with ANISOU: wrote "%s"' % filename)
+        print(' Save with ANISOU: wrote "%s"' % (filename))
 
 
 cmd.extend('save_pdb_with_anisou', save_pdb_with_anisou)
