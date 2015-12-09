@@ -32,10 +32,16 @@
 #OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 #THE SOFTWARE.
 
+from __future__ import print_function
+
 from pymol import cmd
 
-import Tkinter
-from Tkinter import *
+try:
+    import Tkinter
+    from Tkinter import *
+except ImportError:
+    import tkinter as Tkinter
+    from tkinter import *
 
 DEBUG = 2
 
@@ -115,7 +121,7 @@ class FrameSlider:
         '''
         
         if DEBUG > 3:
-            print 'Validating Text entry:', string
+            print('Validating Text entry:', string)
         
         #if the string is blank, say that it's valid, so that you can delete out the frame
         if string == '':
@@ -130,13 +136,13 @@ class FrameSlider:
             f = int(string)
         except TypeError:
             if DEBUG > 3:
-                print 'Not valid'
+                print('Not valid')
             return False
         
         except ValueError:
             #delete the last charchter
             if DEBUG > 2:
-                print 'Validation found an empty string'
+                print('Validation found an empty string')
             return False
         
         
@@ -172,13 +178,13 @@ class FrameSlider:
             frms = cmd.count_states(obj)
             
             if DEBUG > 4:
-                print 'obj:', obj, 'has', frms, 'frames'
+                print('obj:', obj, 'has', frms, 'frames')
                 
             #if it is higher, set it as the new max
             if frms >  fr_max:
                 fr_max = frms
         if DEBUG > 3:
-            print "Max frames:", fr_max
+            print("Max frames:", fr_max)
             
         return fr_max
             
@@ -188,6 +194,6 @@ def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command', 'Frame Slider', label = 'Frame Slider', command = lambda s=self : FrameSlider(s))  
         
 if __name__ == '__main__':
-    print 'Error: This should be installed as a Pymol Plugin. Plugins > Install...'
+    print('Error: This should be installed as a Pymol Plugin. Plugins > Install...')
     sys.exit()
 
