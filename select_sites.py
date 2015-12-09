@@ -1,10 +1,10 @@
-"""
+'''
 http://pymolwiki.org/index.php/select_sites
 
 (c) 2012 Thomas Holder
 
 License: BSD-2-Clause
-"""
+'''
 
 from __future__ import print_function
 
@@ -13,12 +13,12 @@ from pymol import cmd, CmdException
 
 
 def select_sites(selection='all', filename=None, prefix=None, nice=1, quiet=0):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Make named selections from SITE records.
 
-    ARGUMENTS
+ARGUMENTS
 
     name = string: molecular object {default: all}
 
@@ -28,7 +28,7 @@ def select_sites(selection='all', filename=None, prefix=None, nice=1, quiet=0):
     prefix = string: prefix for named selections {default: site_}
 
     nice = 0 or 1: make colored sticks representation for sites {default :1}
-    """
+    '''
     nice, quiet = int(nice), int(quiet)
 
     names = cmd.get_names('public_objects', 1, '(' + selection + ')')
@@ -42,7 +42,7 @@ def select_sites(selection='all', filename=None, prefix=None, nice=1, quiet=0):
         grpselenames = set()
 
         if fname is None:
-            for fname in ['%s.pdb' % name,
+            for fname in ['%s.pdb' % (name),
                           '%s/%s.pdb' % (cmd.get('fetch_path'), name)]:
                 if os.path.exists(fname):
                     break
@@ -50,7 +50,7 @@ def select_sites(selection='all', filename=None, prefix=None, nice=1, quiet=0):
                 print(' Error: please provide filename')
                 raise CmdException
             if not quiet:
-                print('loading from %s' % fname)
+                print('loading from %s' % (fname))
         for line in open(fname):
             if line.startswith('SITE '):
                 siteID = line[11:14].strip()
@@ -88,15 +88,15 @@ def select_sites(selection='all', filename=None, prefix=None, nice=1, quiet=0):
                 cmd.select(selename, selestr, 0, 1, 1)
         # Make selection for solvent
         selename = pfx + 'solv'
-        selestr = '%s & solvent' % name
+        selestr = '%s & solvent' % (name)
         grpselenames.add(selename)
         cmd.select(selename, selestr, 0, 1, 1)
         cmd.group(name + '_sites', ' '.join(grpselenames))
     if nice:
         allsites = ' '.join(selenames)
         cmd.show_as('cartoon', selection)
-        cmd.show('lines', '(%s) and not polymer' % selection)
-        cmd.show('nonbonded', '(%s) and not polymer' % selection)
+        cmd.show('lines', '(%s) and not polymer' % (selection))
+        cmd.show('nonbonded', '(%s) and not polymer' % (selection))
         cmd.show('sticks', '(%s) and (%s)' % (selection, allsites))
         cmd.show('nb_spheres', '(%s) and (%s)' % (selection, allsites))
         cmd.show('dashes', '*LINK*')
@@ -107,8 +107,8 @@ def select_sites(selection='all', filename=None, prefix=None, nice=1, quiet=0):
         # for i, selename in enumerate(cysselenames):
         #    cmd.color('sulfur', '(%s) and (%s)' % (selection, selename))
         for i, selename in enumerate(hetselenames):
-            cmd.show('spheres', '%s and inorganic' % selename)
-        cmd.util.cnc('%s' % allsites)
+            cmd.show('spheres', '%s and inorganic' % (selename))
+        cmd.util.cnc('%s' % (allsites))
 cmd.extend('select_sites', select_sites)
 cmd.auto_arg[0]['select_sites'] = cmd.auto_arg[0]['pseudoatom']
 
