@@ -1,4 +1,4 @@
-"""
+'''
 Described at PyMOL wiki:
 http://www.pymolwiki.org/index.php/propka
 
@@ -16,12 +16,12 @@ http://www.pymolwiki.org/index.php/propka
 #
 #-------------------------------------------------------------------------------
 
-        The PROPKA method is developed by the
-        Jensen Research Group
-        Department of Chemistry
-        University of Copenhagen
+	    The PROPKA method is developed by the
+		  Jensen Research Group
+		 Department of Chemistry
+		University of Copenhagen
 
-Please cite these references in publications:
+	Please cite these references in publications:
 Hui Li, Andrew D. Robertson, and Jan H. Jensen
 "Very Fast Empirical Prediction and Interpretation of Protein pKa Values"
 Proteins, 2005, 61, 704-721.
@@ -38,17 +38,17 @@ Chresten R. Soendergaard, Mats H.M. Olsson, Michaz Rostkowski, and Jan H. Jensen
 "Improved Treatment of Ligands and Coupling Effects in Empirical Calculation and Rationalization of pKa Values"
 Journal of Chemical Theory and Computation, 2011 in press
 """
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # The script needs mechanize to run.
 # On windows, it is not easy to make additional modules available for pymol. So put in into your working folder.
-# 1)The easy manual way:
-# a)Go to: http://wwwsearch.sourceforge.net/mechanize/download.html
-# b)Download mechanize-0.2.5.zip. http://pypi.python.org/packages/source/m/mechanize/mechanize-0.2.5.zip
-# c)Extract to .\mechanize-0.2.5 then move the in-side folder "mechanize" to your folder with propka.py. The rest of .\mechanize-0.2.5 you don't need.
-# You can also see other places where you could put the "mechanize" folder. Write this in pymol to see the paths where pymol is searching for "mechanize"
+#1)The easy manual way:
+#a)Go to: http://wwwsearch.sourceforge.net/mechanize/download.html
+#b)Download mechanize-0.2.5.zip. http://pypi.python.org/packages/source/m/mechanize/mechanize-0.2.5.zip
+#c)Extract to .\mechanize-0.2.5 then move the in-side folder "mechanize" to your folder with propka.py. The rest of .\mechanize-0.2.5 you don't need.
+#You can also see other places where you could put the "mechanize" folder. Write this in pymol to see the paths where pymol is searching for "mechanize"
 # import sys; print(sys.path)
 
-# -------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 """
 Example for pymol script to start the functions. For example: trypropka.pml
 Execute with pymol or start pymol and: File->Run->trypropka.pml
@@ -137,7 +137,7 @@ def propka(molecule="NIL", chain="*", resi="0", resn="NIL", method="upload", log
         method = 'file'
     assert method in ['upload', 'file'], "'method' has to be either: method=upload or method=file"
     # If molecule="all", then try to get the last molecule
-    # assert molecule not in ['NIL'], "You always have to provide molecule name. Example: molecule=4ins"
+    ##assert molecule not in ['NIL'], "You always have to provide molecule name. Example: molecule=4ins"
     if molecule == "NIL":
         assert len(cmd.get_names()) != 0, "Did you forget to load a molecule? There are no objects in pymol."
         molecule = cmd.get_names()[-1]
@@ -186,9 +186,9 @@ def propka(molecule="NIL", chain="*", resi="0", resn="NIL", method="upload", log
         pkafile = getpropka(PDB, chain, resi, resn, source, PDBID, logtime, server_wait, version, verbose, showresult)
         # Open the result file and put in into a handy list.
         list_results, ligands_results = importpropkaresult(pkafile)
-    elif method == "file":
+    if method == "file":
         assert pkafile not in ['NIL'], "You have to provide path to file. Example: pkafile=./Results_propka/4ins_2011.pka"
-        assert ".pka" in pkafile, 'The propka result file should end with ".pka" \nExample: pkafile=./Results_propka/4ins_2011.pka \npkafile=%s' % pkafile
+        assert ".pka" in pkafile, 'The propka result file should end with ".pka" \nExample: pkafile=./Results_propka/4ins_2011.pka \npkafile=%s' % (pkafile)
         # The name for the molecule we pass to the writing script of pymol commands
         newmolecule = "%s" % molecule
         cmd.hide("everything", "%s" % newmolecule)
@@ -197,15 +197,13 @@ def propka(molecule="NIL", chain="*", resi="0", resn="NIL", method="upload", log
         list_results, ligands_results = importpropkaresult(pkafile)
         # Then we print the interesting residues to the screen.
         printpropkaresult(list_results, resi, resi_range, resn, resn_range, showresult, ligands_results)
-    else:
-        raise ValueError
     # Now create the pymol command file. This should label the protein. We get back the absolut path to the file, so we can execute it.
     result_pka_pymol_name = writepymolcmd(newmolecule, pkafile, verbose, makebonds)
     # Now run our command file. But only if we are running pymol.
     if runningpymol == 'yes':
         cmd.do("run %s" % result_pka_pymol_name)
-    # if runningpymol=='yes': cmd.do("@%s"%result_pka_pymol_name)
-    return list_results
+    ##if runningpymol=='yes': cmd.do("@%s"%result_pka_pymol_name)
+    return(list_results)
 if runningpymol != 'no':
     cmd.extend("propka", propka)
 
@@ -213,13 +211,12 @@ if runningpymol != 'no':
 def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID="", logtime=time.strftime("%Y%m%d%H%M%S", time.localtime()), server_wait=3.0, version="v3.1", verbose="no", showresult="no"):
     try:
         import modules.mechanize as mechanize
-        importedmechanize = True
-    except ImportError as e:
+        importedmechanize = 'yes'
+    except ImportError:
         print("Import error. Is a module missing?")
         print(sys.exc_info())
         print("Look if missing module is in your python path \n %s" % sys.path)
-        importedmechanize = False
-        raise e
+        importedmechanize = 'no'
     propka_v_201108 = 3.1
     url = "http://propka.ki.ku.dk/"
     assert version in ['v2.0', 'v3.0', 'v3.1'], "'version' has to be either: 'v2.0', 'v3.0', 'v3.1'"
@@ -286,21 +283,19 @@ def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID
     if source == "ID":
         PDBID_control.disabled = False
         PDB_control.disabled = True
-    elif source == "upload":
+    if source == "upload":
         PDBID_control.disabled = True
         PDB_control.disabled = False
     if verbose == 'yes':
         print(PDBID_control.disabled, PDB_control.disabled)
     # We create the result dir, and take with us the 'path' to the result dir.
-    new_dir = createdirs()
+    Newdir = createdirs()
     # Open all the files, and assign them.
     if source == "upload":
         filename = PDB
-    elif source == "ID":
+    if source == "ID":
         filename = PDBID
-    else:
-        raise ValueError
-    files = openfiles(new_dir, filename, logtime, source)
+    files = openfiles(Newdir, filename, logtime, source)
     result_pka_file = files[0]
     result_input_pka_file = files[1]
     result_log = files[2]
@@ -457,7 +452,7 @@ def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID
         nb = replace_all(l[7], bonddic)
         result_pka_file_bonds.write("%3s %3s %s %7s %7s %9s %17s %s" % (l[0][6:], l[1], l[2][:1], l[3][8:], l[4], l[5], l[6], nb) + '\n')
     result_pka_file_bonds.close()
-    return result_pka_pkafile
+    return(result_pka_pkafile)
 if runningpymol != 'no':
     cmd.extend("getpropka", getpropka)
 
@@ -465,7 +460,7 @@ if runningpymol != 'no':
 def openpymolfiles(pkafile):
     result_pka_pymol_name = pkafile.replace(".pka", ".pml")
     result_pka_pymol = open(result_pka_pymol_name, "w")
-    return result_pka_pymol, result_pka_pymol_name
+    return(result_pka_pymol, result_pka_pymol_name)
 
 
 def printpropkaresult(list_results, resi, resi_range, resn, resn_range, showresult, ligands_results):
@@ -490,7 +485,7 @@ def importpropkaresult(result_pka_pkafile):
     result_pka_file = open(result_pka_pkafile, "r")
     list_results = []
     ligands_results = []
-    # bonding_partners = []
+    ##bonding_partners = []
     for l in result_pka_file:
         if not l.strip():
             continue
@@ -506,9 +501,9 @@ def importpropkaresult(result_pka_pkafile):
     list_results.sort(key=lambda residue: int(residue[1]))
     list_results.sort(key=lambda chain: chain[2])
     # bonding_partners=uniqifi(bonding_partners)
-    # bonding_partners[:] = [x for x in bonding_partners if x != "XXX"]
+    ##bonding_partners[:] = [x for x in bonding_partners if x != "XXX"]
     result_pka_file.close()
-    return list_results, ligands_results
+    return(list_results, ligands_results)
 
 
 def importpropkabonds(result_pka_pkafile):
@@ -517,49 +512,43 @@ def importpropkabonds(result_pka_pkafile):
     for l in result_pka_file_bonds:
         bonds.append(l.split())
     result_pka_file_bonds.close()
-    return bonds
+    return(bonds)
 
 
 def createdirs():
     if platform.system() == 'Windows':
-        new_dir = os.getcwd() + "\Results_propka\\"
-    elif platform.system() == 'Linux':
-        new_dir = os.getcwd() + "/Results_propka/"
-    else:
-        raise OSError
-    if not os.path.exists(new_dir):
-        os.makedirs(new_dir)
-    return new_dir
+        Newdir = os.getcwd() + "\Results_propka\\"
+    if platform.system() == 'Linux':
+        Newdir = os.getcwd() + "/Results_propka/"
+    if not os.path.exists(Newdir):
+        os.makedirs(Newdir)
+    return(Newdir)
 
 
 def openfiles(Newdir, filename, logtime, source):
     if source == "upload":
         result_pka_pkafile = filename.replace(".pdb", ".pka")
         result_pka_input_pkafile = filename.replace(".pdb", ".propka_input")
-        result_log_name = "%s_Results.log" % Newdir
+        result_log_name = "%s_Results.log" % (Newdir)
         result_pka_file_stripped_name = filename.replace(".pdb", ".stripped")
         result_pka_file_bonds_name = filename.replace(".pdb", ".bonds")
-    elif source == "ID":
+    if source == "ID":
         result_pka_pkafile = "%s%s%s.pka" % (Newdir, filename, logtime)
         result_pka_input_pkafile = "%s%s%s.propka_input" % (Newdir, filename, logtime)
-        result_log_name = "%s_Results.log" % Newdir
+        result_log_name = "%s_Results.log" % (Newdir)
         result_pka_file_stripped_name = "%s%s%s.stripped" % (Newdir, filename, logtime)
         result_pka_file_bonds_name = "%s%s%s.bonds" % (Newdir, filename, logtime)
-    else:
-        raise ValueError
     if platform.system() == 'Windows':
         filepath = "\\"
-    elif platform.system() == 'Linux':
+    if platform.system() == 'Linux':
         filepath = "/"
-    else:
-        raise OSError
     # Open the files
     result_pka_file = open(result_pka_pkafile, "w")
     result_input_pka_file = open(result_pka_input_pkafile, "w")
     result_log = open(result_log_name, "a")
     result_pka_file_stripped = open(result_pka_file_stripped_name, "w")
     result_pka_file_bonds = open(result_pka_file_bonds_name, "w")
-    return result_pka_file, result_input_pka_file, result_log, filepath, result_pka_pkafile, result_pka_file_stripped, result_pka_file_bonds
+    return(result_pka_file, result_input_pka_file, result_log, filepath, result_pka_pkafile, result_pka_file_stripped, result_pka_file_bonds)
 
 
 def ResiRange(resi):
@@ -571,25 +560,25 @@ def ResiRange(resi):
             resiList.extend(list(range(int(tmp[0]), int(tmp[-1]) + 1)))
         if '-' not in i:
             resiList.append(int(i))
-    return resiList
+    return(resiList)
 
 
 def ResnRange(resn):
     resn_split = resn.split('.')
     resn_range = [resnr.upper() for resnr in resn_split]
-    return resn_range
+    return(resn_range)
 
 
 def ChainRange(chain):
     chainstring = chain.replace(".", "+").upper()
-    return chainstring
+    return(chainstring)
 
 
 def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
     list_results, ligands_results = importpropkaresult(pkafile)
     # Now find the available bonding partners that pymol knows of
     bonding_partners = []
-    bonding_partners_str = cmd.get_pdbstr("%s and resn * and not resn ASP+GLU+ARG+LYS+HIS+CYS+TYR+GLN+ASN+SER+THR+GLY+PHE+LEU+ALA+ILE+TRP+MET+PRO+VAL+HOH" % newmolecule)
+    bonding_partners_str = cmd.get_pdbstr("%s and resn * and not resn ASP+GLU+ARG+LYS+HIS+CYS+TYR+GLN+ASN+SER+THR+GLY+PHE+LEU+ALA+ILE+TRP+MET+PRO+VAL+HOH" % (newmolecule))
     for i in range(len(bonding_partners_str.splitlines()) - 1):
         bonding_partners_split = bonding_partners_str.splitlines()[i].split()
         if bonding_partners_split[0] == "HETATM" or bonding_partners_split[0] == "ATOM":
@@ -626,16 +615,16 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
     # No auto zoom the new objects
     result_pka_pymol.write("cmd.set('auto_zoom','off')\n")
     # The name for the molecules are defined here
-    pkamolecule = "%spKa" % newmolecule
-    pkalabelmolecule = "%sLab" % newmolecule
+    pkamolecule = "%spKa" % (newmolecule)
+    pkalabelmolecule = "%sLab" % (newmolecule)
     # Create the groups now, so they come in order. They will be empty
-    result_pka_pymol.write("cmd.group('%sResi','Res*')\n" % newmolecule)
-    result_pka_pymol.write("cmd.group('%sLigands','Lig*')\n" % newmolecule)
+    result_pka_pymol.write("cmd.group('%sResi','Res*')\n" % (newmolecule))
+    result_pka_pymol.write("cmd.group('%sLigands','Lig*')\n" % (newmolecule))
     if writebonds == "yes":
         result_pka_pymol.write("cmd.group('%sBonds','%sBond*')\n" % (newmolecule, newmolecule))
     # Create new empty pymol pka molecules. For pka atoms and its label. This is a "bucket" we where we will put in the atoms together.
-    result_pka_pymol.write("cmd.create('%s','None')\n" % pkamolecule)
-    result_pka_pymol.write("cmd.create('%s','None')\n" % pkalabelmolecule)
+    result_pka_pymol.write("cmd.create('%s','None')\n" % (pkamolecule))
+    result_pka_pymol.write("cmd.create('%s','None')\n" % (pkalabelmolecule))
     # Now make the pka atoms and alter, color and such
     for l in list_results:
         name = dictio[l[0]]
@@ -660,7 +649,7 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
         newselection = ("/%s//%s/%s/%s" % (newmolecule, chain, resi, name))
         protselect = ("%sRes_%s%s%s" % (newmolecule, chain, resn, resi))
         result_pka_pymol.write("cmd.select('%s','byres %s')\n" % (protselect, newselection))
-        result_pka_pymol.write("cmd.show('sticks','byres %s')\n" % protselect)
+        result_pka_pymol.write("cmd.show('sticks','byres %s')\n" % (protselect))
         # The temporary name
         tempname = ("%s%s%s%s" % (pkamolecule, chain, resi, name))
         tempnamelabel = ("%s%s%s%s" % (pkalabelmolecule, chain, resi, name))
@@ -670,7 +659,7 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
         result_pka_pymol.write("cmd.create('%s','%s',quiet=1)\n" % (tempname, newselection))
         # Alter the name and the b value of the newly created atom
         result_pka_pymol.write("cmd.alter('%s','b=%s')\n" % (tempselect, pka))
-        result_pka_pymol.write("cmd.alter('%s','vdw=0.5')\n" % tempselect)
+        result_pka_pymol.write("cmd.alter('%s','vdw=0.5')\n" % (tempselect))
         result_pka_pymol.write("cmd.alter('%s','name=%s%s%s')\n" % (tempselect, '"', pka, '"'))
         # Now create a fake label atom, and translate it
         result_pka_pymol.write("cmd.create('%s','%s',quiet=1)\n" % (tempnamelabel, tempname))
@@ -683,11 +672,11 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
         result_pka_pymol.write("cmd.create('%s','%s or (%s)',quiet=1)\n" % (pkamolecule, pkamolecule, tempselect))
         result_pka_pymol.write("cmd.create('%s','%s or (%s)',quiet=1)\n" % (pkalabelmolecule, pkalabelmolecule, tempselectlabel))
         # Remove the temporary atoms
-        result_pka_pymol.write("cmd.remove('%s')\n" % tempname)
-        result_pka_pymol.write("cmd.remove('%s')\n" % tempnamelabel)
+        result_pka_pymol.write("cmd.remove('%s')\n" % (tempname))
+        result_pka_pymol.write("cmd.remove('%s')\n" % (tempnamelabel))
         # Delete the temporary molecule/selection
-        result_pka_pymol.write("cmd.delete('%s')\n" % tempname)
-        result_pka_pymol.write("cmd.delete('%s')\n" % tempnamelabel)
+        result_pka_pymol.write("cmd.delete('%s')\n" % (tempname))
+        result_pka_pymol.write("cmd.delete('%s')\n" % (tempnamelabel))
     # Group the resi together
     result_pka_pymol.write("cmd.group('%sResi','%sRes*')\n" % (newmolecule, newmolecule))
     for l in ligands_results:
@@ -708,8 +697,8 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
             ligselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, chain, resn, atom))
             ligselect = ("%sLig_%s%s%s" % (newmolecule, chain, resn, atom))
             result_pka_pymol.write("cmd.select('%s','%s')\n" % (ligselect, ligselection))
-            result_pka_pymol.write("cmd.show('sticks','byres %s')\n" % ligselect)
-            result_pka_pymol.write("cmd.util.cbap('byres %s')\n" % ligselect)
+            result_pka_pymol.write("cmd.show('sticks','byres %s')\n" % (ligselect))
+            result_pka_pymol.write("cmd.util.cbap('byres %s')\n" % (ligselect))
             # The temporary name
             tempname = ("%s%s%s%s" % (pkamolecule, chain, resn, atom))
             tempnamelabel = ("%s%s%s%s" % (pkalabelmolecule, chain, resn, atom))
@@ -719,7 +708,7 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
             result_pka_pymol.write("cmd.create('%s','%s',quiet=1)\n" % (tempname, ligselection))
             # Alter the name and the b value of the newly created atom
             result_pka_pymol.write("cmd.alter('%s','b=%s')\n" % (tempselect, pka))
-            result_pka_pymol.write("cmd.alter('%s','vdw=0.5')\n" % tempselect)
+            result_pka_pymol.write("cmd.alter('%s','vdw=0.5')\n" % (tempselect))
             result_pka_pymol.write("cmd.alter('%s','name=%s%s%s')\n" % (tempselect, '"', pka, '"'))
             # Now create a fake label atom, and translate it
             result_pka_pymol.write("cmd.create('%s','%s',quiet=1)\n" % (tempnamelabel, tempname))
@@ -732,19 +721,19 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
             result_pka_pymol.write("cmd.create('%s','%s or (%s)',quiet=1)\n" % (pkamolecule, pkamolecule, tempselect))
             result_pka_pymol.write("cmd.create('%s','%s or (%s)',quiet=1)\n" % (pkalabelmolecule, pkalabelmolecule, tempselectlabel))
             # Remove the temporary atoms
-            result_pka_pymol.write("cmd.remove('%s')\n" % tempname)
-            result_pka_pymol.write("cmd.remove('%s')\n" % tempnamelabel)
+            result_pka_pymol.write("cmd.remove('%s')\n" % (tempname))
+            result_pka_pymol.write("cmd.remove('%s')\n" % (tempnamelabel))
             # Delete the temporary molecule/selection
-            result_pka_pymol.write("cmd.delete('%s')\n" % tempname)
-            result_pka_pymol.write("cmd.delete('%s')\n" % tempnamelabel)
+            result_pka_pymol.write("cmd.delete('%s')\n" % (tempname))
+            result_pka_pymol.write("cmd.delete('%s')\n" % (tempnamelabel))
     # Group the resi together
     result_pka_pymol.write("cmd.group('%sLigands','%sLig*')\n" % (newmolecule, newmolecule))
     # Finish the pka atoms, and show spheres
-    result_pka_pymol.write("cmd.show('spheres','%s')\n" % pkamolecule)
-    result_pka_pymol.write("cmd.spectrum('b','red_white_blue',selection='%s',minimum='0',maximum='14')\n" % pkamolecule)
-    result_pka_pymol.write("cmd.alter('%s and name 99.9','vdw=0.8')\n" % pkamolecule)
-    result_pka_pymol.write("cmd.show('spheres','%s and name 99.9')\n" % pkamolecule)
-    result_pka_pymol.write("cmd.color('sulfur','%s and name 99.9')\n" % pkamolecule)
+    result_pka_pymol.write("cmd.show('spheres','%s')\n" % (pkamolecule))
+    result_pka_pymol.write("cmd.spectrum('b','red_white_blue',selection='%s',minimum='0',maximum='14')\n" % (pkamolecule))
+    result_pka_pymol.write("cmd.alter('%s and name 99.9','vdw=0.8')\n" % (pkamolecule))
+    result_pka_pymol.write("cmd.show('spheres','%s and name 99.9')\n" % (pkamolecule))
+    result_pka_pymol.write("cmd.color('sulfur','%s and name 99.9')\n" % (pkamolecule))
     # Now we make the bonds
     if writebonds == "yes":
         Bondgroups = []
@@ -764,11 +753,11 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
                     fromselection = ("/%s//%s/%s/%s" % (newmolecule, chain, resi, name))
                     toselection = ("/%s//%s/%s/%s" % (newmolecule, NBchain, NBresi, NBname))
                     if l[8][:3] == 'NTR':
-                        extind = cmd.identify("chain %s and name N" % NBchain)[0]
+                        extind = cmd.identify("chain %s and name N" % (NBchain))[0]
                         toselection = ("/%s and id %s and name N" % (newmolecule, extind))
                         NBresi = "N+"
                     if l[8][:3] == 'CTR':
-                        extind = cmd.identify("chain %s and name C" % NBchain)[-1]
+                        extind = cmd.identify("chain %s and name C" % (NBchain))[-1]
                         toselection = ("/%s and id %s and name C" % (newmolecule, extind))
                         NBresi = "C-"
                     distname = ("%s_%s%s%s%s_%s_%s" % (newmolecule, chain, resi, NBchain, NBresi, NBbond, pkachange))
@@ -784,7 +773,7 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
                     toselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, NBchain, NBresn, NBname))
                     if verbose == 'yes':
                         print("Res->Ligand: (%s) -> (%s)" % (fromselection, toselection))
-                    result_pka_pymol.write("cmd.show('sticks','%s')\n" % toselection)
+                    result_pka_pymol.write("cmd.show('sticks','%s')\n" % (toselection))
                     distname = ("%s_%s%s%s_%s_%s" % (newmolecule, chain, resi, NBresn, NBbond, pkachange))
                     result_pka_pymol.write("cmd.distance('%s','%s','%s'%s)\n" % (distname, fromselection, toselection, cutoff))
                     result_pka_pymol.write("cmd.color('%s','%s')\n" % (SetDashColor(NBbond), distname))
@@ -804,11 +793,11 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
                     fromselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, chain, resn, atom))
                     toselection = ("/%s//%s/%s/%s" % (newmolecule, NBchain, NBresi, NBname))
                     if l[8][:3] == 'NTR':
-                        extind = cmd.identify("chain %s and name N" % NBchain)[0]
+                        extind = cmd.identify("chain %s and name N" % (NBchain))[0]
                         toselection = ("/%s and id %s and name N" % (newmolecule, extind))
                         NBresi = "N+"
                     if l[8][:3] == 'CTR':
-                        extind = cmd.identify("chain %s and name C" % NBchain)[-1]
+                        extind = cmd.identify("chain %s and name C" % (NBchain))[-1]
                         toselection = ("/%s and id %s and name C" % (newmolecule, extind))
                         NBresi = "C-"
                     distname = ("%s_%s%s%s%s%s_%s_%s" % (newmolecule, chain, resn, atom, NBchain, NBresi, NBbond, pkachange))
@@ -824,7 +813,7 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
                     toselection = ("/%s and chain %s and resn %s and name %s" % (newmolecule, NBchain, NBresn, NBname))
                     if verbose == 'yes':
                         print("Ligand->Ligand: (%s) -> (%s)" % (fromselection, toselection))
-                    result_pka_pymol.write("cmd.show('sticks','%s')\n" % toselection)
+                    result_pka_pymol.write("cmd.show('sticks','%s')\n" % (toselection))
                     distname = ("%s_%s%s%s%s_%s_%s" % (newmolecule, chain, resn, atom, NBresn, NBbond, pkachange))
                     result_pka_pymol.write("cmd.distance('%s','%s','%s'%s)\n" % (distname, fromselection, toselection, cutoff))
                     result_pka_pymol.write("cmd.color('%s','%s')\n" % (SetDashColor(NBbond), distname))
@@ -839,13 +828,13 @@ def writepymolcmd(newmolecule, pkafile, verbose, makebonds):
     # result_pka_pymol.write("cmd.feedback('enable','all','actions')\n")
     # result_pka_pymol.write("cmd.feedback('enable','all','results')\n")
     result_pka_pymol.close()
-    return result_pka_pymol_name
+    return(result_pka_pymol_name)
 
 
 def replace_all(text, dic):
     for i, j in dic.items():
         text = text.replace(i, j)
-    return text
+    return(text)
 
 
 def uniqifi(seq, idfun=None):
@@ -861,19 +850,19 @@ def uniqifi(seq, idfun=None):
             continue
         seen[marker] = 1
         result.append(item)
-    return result
+    return(result)
 
 
 def BondTypeName(NBname, NBbond):
     if NBbond == "SH":
         cutoff = ""
-        return NBname, cutoff
-    elif NBbond == "BH":
+        return(NBname, cutoff)
+    if NBbond == "BH":
         cutoff = ""
-        return "N", cutoff
+        return("N", cutoff)
     else:
         cutoff = ""
-        return NBname, cutoff
+        return(NBname, cutoff)
 
 
 def Check_bonding_partners(bonding_partners, NBname):
@@ -885,16 +874,14 @@ def Check_bonding_partners(bonding_partners, NBname):
             break
         else:
             answer = False
-    return answer, NBname
+    return(answer, NBname)
 
 
 def SetDashColor(NBbond):
     if NBbond == "SH":
         color = "brightorange"
-    elif NBbond == "BH":
+    if NBbond == "BH":
         color = "lightorange"
-    elif NBbond == "CC":
+    if NBbond == "CC":
         color = "red"
-    else:
-        raise ValueError
-    return color
+    return(color)
