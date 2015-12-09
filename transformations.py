@@ -1472,7 +1472,7 @@ def random_quaternion(rand=None):
 
     """
     if rand is None:
-        rand = numpy.random.rand(3, 1)
+        rand = numpy.random.rand(3)
     else:
         assert len(rand) == 3
     r1 = numpy.sqrt(1.0 - rand[0])
