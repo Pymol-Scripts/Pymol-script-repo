@@ -1,10 +1,10 @@
-"""
+'''
 http://pymolwiki.org/index.php/Renumber
 
 (c) 2012 Thomas Holder
 
 License: BSD-2-Clause
-"""
+'''
 
 from __future__ import print_function
 
@@ -12,12 +12,12 @@ from pymol import cmd, CmdException
 
 
 def renumber(selection='all', start=1, startsele=None, quiet=1):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Set residue numbering (resi) based on connectivity.
 
-    ARGUMENTS
+ARGUMENTS
 
     selection = string: atom selection to renumber {default: all}
 
@@ -25,7 +25,7 @@ def renumber(selection='all', start=1, startsele=None, quiet=1):
 
     startsele = string: residue to start counting from {default: first in
     selection}
-    """
+    '''
     start, quiet = int(start), int(quiet)
     model = cmd.get_model(selection)
     cmd.iterate(selection, 'atom_it.next().model = model',
@@ -50,19 +50,19 @@ def renumber(selection='all', start=1, startsele=None, quiet=1):
         atoms[1].adjacent.append(atoms[0])
     minmax = [start, start]
 
-    def traverse(atom_, resi):
-        atom_.resi = resi
-        atom_.visited = True
-        for other in atom_.adjacent:
+    def traverse(atom, resi):
+        atom.resi = resi
+        atom.visited = True
+        for other in atom.adjacent:
             if other.visited:
                 continue
-            if (atom_.name, other.name) in [('C', 'N'), ("O3'", 'P')]:
+            if (atom.name, other.name) in [('C', 'N'), ("O3'", 'P')]:
                 minmax[1] = resi + 1
                 traverse(other, resi + 1)
-            elif (atom_.name, other.name) in [('N', 'C'), ('P', "O3'")]:
+            elif (atom.name, other.name) in [('N', 'C'), ('P', "O3'")]:
                 minmax[0] = resi - 1
                 traverse(other, resi - 1)
-            elif (atom_.name, other.name) not in [('SG', 'SG')]:
+            elif (atom.name, other.name) not in [('SG', 'SG')]:
                 traverse(other, resi)
     traverse(startatom, start)
     cmd.alter(selection, 'resi = atom_it.next().resi',
