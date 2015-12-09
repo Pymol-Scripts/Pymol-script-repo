@@ -1,6 +1,6 @@
 '''
 http://www.pymolwiki.org/index.php/viol_noes
-
+ 
 (c) August 2010 by Mateusz Maciejewski
 matt (at) mattmaciejewski . com
 
@@ -8,8 +8,9 @@ License: MIT
 
 '''
 
-from pymol import cmd
+
 from pymol.cgo import *
+from pymol import cmd
 
 
 def viol_noes(molecule, viol_file, viol_class=None, quiet=1):
@@ -37,10 +38,11 @@ NOTES
     The NOE violations will be shown as distances between the relevant residues/atoms and colored according to the severity of violation (the closer to the blue end of the spectrum, the more severe the violation; to closer to the red end, the less severe the violation).
     """
 
+    import sys
+    import re
+
     status = None
     classMk = None
-    alt = 0
-    delta = 0
 
     workfile = open(viol_file, 'r')
 
@@ -61,7 +63,7 @@ NOTES
         elif status == "new_class" and line.find("----") != -1:
             status = "in_class"
 
-        elif status == "in_class" and (viol_class is None or classMk == viol_class):
+        elif status == "in_class" and (viol_class == None or classMk == viol_class):
 
             try:
 
@@ -73,7 +75,7 @@ NOTES
                 delta = line[9]
 
                 cmd.distance("viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt), " %s & i. %s & n. %s" % (molecule, member1[0], member1[1]), "%s & i. %s & n. %s" % (molecule, member2[0], member2[1]), quiet=int(quiet))
-                cmd.color("o%s" % (int(100 * float(delta))), "viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt))
+                cmd.color("o%s" % (int((100) * float(delta))), "viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt))
 
             except ValueError:
 
@@ -94,7 +96,7 @@ NOTES
                     member2 = (line[-3], line[-1])
 
                 cmd.distance("viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt), " %s & i. %s & n. %s" % (molecule, member1[0], member1[1]), "%s & i. %s & n. %s" % (molecule, member2[0], member2[1]), quiet=int(quiet))
-                cmd.color("o%s" % (int(100 * float(delta))), "viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt))
+                cmd.color("o%s" % (int((100) * float(delta))), "viol_%d_%s_%s_%d" % (new_id, member1[0], member2[0], alt))
 
     cmd.hide("labels", "all")
     cmd.set("dash_radius", 0.03)
