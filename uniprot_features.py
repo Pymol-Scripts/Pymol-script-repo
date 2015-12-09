@@ -1,11 +1,11 @@
-"""
+'''
 http://pymolwiki.org/index.php/uniprot_features
 
 (c) 2010-2012 Thomas Holder, MPI for Developmental Biology
 (c) 2012 Troels Linnet, SBiNLab Copenhagen University
 
 License: BSD-2-Clause
-"""
+'''
 
 from __future__ import print_function
 
@@ -13,23 +13,23 @@ from pymol import cmd, CmdException
 
 
 class resid_mapper(dict):
-    """
+    '''
     DESCRIPTION
 
     Residue identifier mapping
-    """
+    '''
     @classmethod
     def from_seq_sel(cls, sequence, selection):
-        """
+        '''
         Constructor with sequence and PyMOL selection.
 
         Requires psico, biopython and needle.
-        """
+        '''
         from psico import one_letter
         from psico.seqalign import needle_alignment, alignment_mapping
 
         NL, VL = [], []
-        cmd.iterate('(%s) and guide' % selection,
+        cmd.iterate('(%s) and guide' % (selection),
                     'NL.append(resn);VL.append(resv)', space=locals())
         seq = ''.join(one_letter.get(resn, 'X') for resn in NL)
         align = needle_alignment(sequence, seq)
@@ -53,21 +53,21 @@ class resid_mapper(dict):
 
 def uniprot_features(uniprot_id, selection='(all)', withss=0,
                      prefix='feature_', sm=None, quiet=1):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Fetch feature list from uniprot.org and create named selections.
 
     Requires residue numbering (resi) to match uniprot sequence!
 
-    ARGUMENTS
+ARGUMENTS
 
     uniprot_id = string: UniProtKB name or accession
 
     selection = string: atom selection {default: all}
 
     withss = 0/1: update secondary structure {default: 0}
-    """
+    '''
     import xml.etree.ElementTree as etree
     try:
         from urllib import urlopen
@@ -94,9 +94,7 @@ def uniprot_features(uniprot_id, selection='(all)', withss=0,
             sm = resid_mapper.from_seq_sel(sequence, selection)
     except:
         print(' Warning: sequence mapping failed')
-
-        def sm(x):
-            return x
+        sm = lambda x: x
 
     if withss == 1:
         cmd.alter(selection, 'ss="L"')
@@ -148,7 +146,7 @@ def uniprot_features(uniprot_id, selection='(all)', withss=0,
 
 
 def uniprot_auto(pdb_id, selection='', withss=0, quiet=1):
-    """
+    '''
 DESCRIPTION
 
     Like "uniprot_features" but with automatic fetching of UniProtKB accession
@@ -162,7 +160,7 @@ ARGUMENTS
     no such object is loaded}
 
     withss = 0/1: update secondary structure {default: 0}
-    """
+    '''
     try:
         from urllib import urlopen
     except ImportError:
