@@ -1171,7 +1171,7 @@ Citation for PDB2PQR:
                     print "Could not find", fname, "so searching for",
                     fname = '-PE0'.join(os.path.splitext(fname))
                     print fname
-                pymol.cmd.load(fname)
+                pymol.cmd.load(fname,self.map.getvalue())
                 self.visualization_group_1.refresh()
                 self.visualization_group_2.refresh()
                 self.notebook.tab('Visualization (1)').focus_set()
