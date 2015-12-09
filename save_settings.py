@@ -1,10 +1,10 @@
-"""
+'''
 http://pymolwiki.org/index.php/save_settings
 
 (c) 2011 Thomas Holder, MPI for Developmental Biology
 
 License: BSD-2-Clause
-"""
+'''
 
 from __future__ import print_function
 
@@ -12,14 +12,14 @@ from pymol import cmd, CmdException
 
 
 def save_settings(filename='~/.pymolrc-settings.py', quiet=1):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Dumps all settings with non-default values to ~/.pymolrc-settings.py
 
     Feature Request: Save settings for later use - ID: 1009951
     https://sourceforge.net/tracker/?func=detail&aid=1009951&group_id=4546&atid=354546
-    """
+    '''
     from pymol.setting import get_name_list
     quiet = int(quiet)
     if not filename.endswith('.py'):
