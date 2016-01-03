@@ -149,7 +149,6 @@ import Pmw
 import distutils.spawn  # used for find_executable
 import traceback
 import pymol
-from pymol import *
 ###!!! Edited for Pymol-script-repo !!!###
 import subprocess
 ###!!!------------------------------!!!###
