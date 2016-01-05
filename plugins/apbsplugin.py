@@ -1401,25 +1401,6 @@ Citation for PDB2PQR:
         pymol.cmd.alter(sel, 'b=0')
         pymol.cmd.alter(sel, 'q=0')
 
-    # def fixColumns(self, sel):
-    #     """
-    #     Make sure that everything fits into the correct columns.
-    #     This means doing some rounding. It also means getting rid of
-    #     chain, occupancy and b-factor information. Modified to operate
-    #     on a copied object instead. Now doesn't break existing 
-    #     visualisations that depend on chain, beta values etc.
-    #     """
-    #     # For some reason creating directly from sel doesn't work and
-    #     # cmd.copy gives "Executive-Error: object not found" from selection.
-    #     # Can only copy/create from 'objects', but then pdb2pqr.py doesn't finish running?
-    
-        
-    #     pymol.cmd.alter_state(1, sel, '(x,y,z)=float("%.3f"%x),float("%.3f"%y),float("%.3f"%z)')
-    #     pymol.cmd.alter('apbs_clone', 'chain=""')
-    #     pymol.cmd.alter('apbs_clone', 'b=0')
-    #     pymol.cmd.alter('apbs_clone', 'q=0')
-
-
     def cleanupGeneratedPdbOrPqrFile(self, filename):
         """
         More cleanup on PQR files.
