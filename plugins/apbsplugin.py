@@ -486,7 +486,7 @@ elec
     swin 0.3         # Surface cubic spline window .. default 0.3
     temp %f          # System temperature (298.15 default)
     sdens %f         # Specify the number of grid points per square-angstrom to use in Vacc object. Ignored when srad is 0.0 (see srad) or srfm is spl2 (see srfm). There is a direct correlation between the value used for the Vacc sphere density, the accuracy of the Vacc object, and the APBS calculation time. APBS default value is 10.0.
-    #gammpa 0.105      # Surface tension parameter for apolar forces (in kJ/mol/A^2)
+    #gamma 0.105      # Surface tension parameter for apolar forces (in kJ/mol/A^2)
                      # only used for force calculations, so we don't care, but
                      # it *used to be* always required, and 0.105 is the default
     calcenergy no    # Energy I/O to stdout
