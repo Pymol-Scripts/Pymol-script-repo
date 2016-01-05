@@ -1388,37 +1388,36 @@ Citation for PDB2PQR:
         self.grid_points_y.setvalue(finegridpoints[1])
         self.grid_points_z.setvalue(finegridpoints[2])
 
-    # def fixColumns(self, sel):
-    #     """
-    #     Make sure that everything fits into the correct columns.
-    #     This means doing some rounding. It also means getting rid of
-    #     chain, occupancy and b-factor information.
-    #     """
-    #     #pymol.cmd.alter_state(1,'all','(x,y,z)=(int(x*1000)/1000.0, int(y*1000)/1000.0, int(z*1000)/1000.0)')
-    #     # pymol.cmd.alter_state(1,'all','(x,y,z)=float("%.2f"%x),float("%.2f"%y),float("%.2f"%z)')
-    #     pymol.cmd.alter_state(1, 'all', '(x,y,z)=float("%.3f"%x),float("%.3f"%y),float("%.3f"%z)')
-    #     pymol.cmd.alter(sel, 'chain=""')
-    #     pymol.cmd.alter(sel, 'b=0')
-    #     pymol.cmd.alter(sel, 'q=0')
-
     def fixColumns(self, sel):
         """
         Make sure that everything fits into the correct columns.
         This means doing some rounding. It also means getting rid of
-        chain, occupancy and b-factor information. Modified to operate
-        on a copied object instead. Now doesn't break existing 
-        visualisations that depend on chain, beta values etc.
+        chain, occupancy and b-factor information.
         """
-        # For some reason creating directly from sel doesn't work and
-        # cmd.copy gives "Executive-Error: object not found" from selection.
-        # Can only copy/create from 'objects', but then pdb2pqr.py doesn't finish running?
+        #pymol.cmd.alter_state(1,'all','(x,y,z)=(int(x*1000)/1000.0, int(y*1000)/1000.0, int(z*1000)/1000.0)')
+        # pymol.cmd.alter_state(1,'all','(x,y,z)=float("%.2f"%x),float("%.2f"%y),float("%.2f"%z)')
+        pymol.cmd.alter_state(1, 'all', '(x,y,z)=float("%.3f"%x),float("%.3f"%y),float("%.3f"%z)')
+        pymol.cmd.alter(sel, 'chain=""')
+        pymol.cmd.alter(sel, 'b=0')
+        pymol.cmd.alter(sel, 'q=0')
+
+    # def fixColumns(self, sel):
+    #     """
+    #     Make sure that everything fits into the correct columns.
+    #     This means doing some rounding. It also means getting rid of
+    #     chain, occupancy and b-factor information. Modified to operate
+    #     on a copied object instead. Now doesn't break existing 
+    #     visualisations that depend on chain, beta values etc.
+    #     """
+    #     # For some reason creating directly from sel doesn't work and
+    #     # cmd.copy gives "Executive-Error: object not found" from selection.
+    #     # Can only copy/create from 'objects', but then pdb2pqr.py doesn't finish running?
     
-        pymol.cmd.select('apbs_sel',sel)
-        pymol.cmd.create('apbs_clone','apbs_sel') 
-        pymol.cmd.alter_state(1, 'apbs_clone', '(x,y,z)=float("%.3f"%x),float("%.3f"%y),float("%.3f"%z)')
-        pymol.cmd.alter('apbs_clone', 'chain=""')
-        pymol.cmd.alter('apbs_clone', 'b=0')
-        pymol.cmd.alter('apbs_clone', 'q=0')
+        
+    #     pymol.cmd.alter_state(1, sel, '(x,y,z)=float("%.3f"%x),float("%.3f"%y),float("%.3f"%z)')
+    #     pymol.cmd.alter('apbs_clone', 'chain=""')
+    #     pymol.cmd.alter('apbs_clone', 'b=0')
+    #     pymol.cmd.alter('apbs_clone', 'q=0')
 
 
     def cleanupGeneratedPdbOrPqrFile(self, filename):
@@ -1688,13 +1687,19 @@ Citation for PDB2PQR:
         sel = "((%s) or (neighbor (%s) and hydro))" % (
             self.selection.getvalue(), self.selection.getvalue())
 
-        self.fixColumns(sel)
-        pymol.cmd.save(pdb_filename, 'apbs_clone')
+        apbs_sel = pymol.cmd.get_unused_name()
+        apbs_clone = pymol.cmd.get_unused_name()
+
+        pymol.cmd.select(apbs_sel,sel)
+        pymol.cmd.create(apbs_clone,apbs_sel) 
+
+        self.fixColumns(apbs_clone)
+        pymol.cmd.save(pdb_filename, apbs_clone)
         self.cleanupGeneratedPdbOrPqrFile(pdb_filename)
 
         # delete copies created in fixColumns
-        pymol.cmd.delete('apbs_clone')
-        pymol.cmd.delete('apbs_sel')
+        pymol.cmd.delete(apbs_clone)
+        pymol.cmd.delete(apbs_sel)
         #
         # Now, generate a PQR file
         #
@@ -1842,7 +1847,17 @@ Citation for PDB2PQR:
         #
         # WLD -- PyMOL now does this automatically with PQR files
         # pymol.cmd.alter(sel,'chain = ""')
-        self.fixColumns(sel)
+
+        apbs_sel = pymol.cmd.get_unused_name()
+        apbs_clone = pymol.cmd.get_unused_name()
+        pymol.cmd.select(apbs_sel,sel)
+        pymol.cmd.create(apbs_clone,apbs_sel) 
+        
+        self.fixColumns(apbs_clone)
+
+        pymol.cmd.delete(apbs_sel)
+        pymol.cmd.delete(apbs_clone) 
+
         pymol.cmd.save(pqr_filename, sel)
         self.cleanupGeneratedPdbOrPqrFile(pqr_filename)
         missed_count = pymol.cmd.count_atoms("(" + sel + ") and flag 23")
