@@ -1668,19 +1668,14 @@ Citation for PDB2PQR:
         sel = "((%s) or (neighbor (%s) and hydro))" % (
             self.selection.getvalue(), self.selection.getvalue())
 
-        apbs_sel = pymol.cmd.get_unused_name()
         apbs_clone = pymol.cmd.get_unused_name()
-
-        pymol.cmd.select(apbs_sel,sel)
-        pymol.cmd.create(apbs_clone,apbs_sel) 
+        pymol.cmd.create(apbs_clone,sel) 
 
         self.fixColumns(apbs_clone)
         pymol.cmd.save(pdb_filename, apbs_clone)
         self.cleanupGeneratedPdbOrPqrFile(pdb_filename)
 
-        # delete copies created in fixColumns
         pymol.cmd.delete(apbs_clone)
-        pymol.cmd.delete(apbs_sel)
         #
         # Now, generate a PQR file
         #
@@ -1829,14 +1824,11 @@ Citation for PDB2PQR:
         # WLD -- PyMOL now does this automatically with PQR files
         # pymol.cmd.alter(sel,'chain = ""')
 
-        apbs_sel = pymol.cmd.get_unused_name()
         apbs_clone = pymol.cmd.get_unused_name()
-        pymol.cmd.select(apbs_sel,sel)
-        pymol.cmd.create(apbs_clone,apbs_sel) 
+        pymol.cmd.create(apbs_clone,sel) 
         
         self.fixColumns(apbs_clone)
 
-        pymol.cmd.delete(apbs_sel)
         pymol.cmd.delete(apbs_clone) 
 
         pymol.cmd.save(pqr_filename, sel)
