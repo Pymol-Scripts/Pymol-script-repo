@@ -1667,10 +1667,15 @@ Citation for PDB2PQR:
         # copied from WLD code
         sel = "((%s) or (neighbor (%s) and hydro))" % (
             self.selection.getvalue(), self.selection.getvalue())
-        self.fixColumns(sel)
-        pymol.cmd.save(pdb_filename, sel)
+
+        apbs_clone = pymol.cmd.get_unused_name()
+        pymol.cmd.create(apbs_clone,sel) 
+
+        self.fixColumns(apbs_clone)
+        pymol.cmd.save(pdb_filename, apbs_clone)
         self.cleanupGeneratedPdbOrPqrFile(pdb_filename)
 
+        pymol.cmd.delete(apbs_clone)
         #
         # Now, generate a PQR file
         #
@@ -1818,8 +1823,15 @@ Citation for PDB2PQR:
         #
         # WLD -- PyMOL now does this automatically with PQR files
         # pymol.cmd.alter(sel,'chain = ""')
-        self.fixColumns(sel)
-        pymol.cmd.save(pqr_filename, sel)
+
+        apbs_clone = pymol.cmd.get_unused_name()
+        pymol.cmd.create(apbs_clone,sel) 
+        
+        self.fixColumns(apbs_clone)
+        pymol.cmd.save(pqr_filename, apbs_clone)
+        
+        pymol.cmd.delete(apbs_clone) 
+
         self.cleanupGeneratedPdbOrPqrFile(pqr_filename)
         missed_count = pymol.cmd.count_atoms("(" + sel + ") and flag 23")
         if missed_count > 0:
