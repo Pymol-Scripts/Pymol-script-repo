@@ -1828,10 +1828,10 @@ Citation for PDB2PQR:
         pymol.cmd.create(apbs_clone,sel) 
         
         self.fixColumns(apbs_clone)
-
+        pymol.cmd.save(pqr_filename, apbs_clone)
+        
         pymol.cmd.delete(apbs_clone) 
 
-        pymol.cmd.save(pqr_filename, sel)
         self.cleanupGeneratedPdbOrPqrFile(pqr_filename)
         missed_count = pymol.cmd.count_atoms("(" + sel + ") and flag 23")
         if missed_count > 0:
