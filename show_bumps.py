@@ -1,10 +1,10 @@
-"""
+'''
 http://pymolwiki.org/index.php/show_bumps
 
 (c) 2011 Thomas Holder, MPI for Developmental Biology
 
 License: BSD-2-Clause
-"""
+'''
 
 from __future__ import print_function
 
@@ -12,17 +12,17 @@ from pymol import cmd
 
 
 def show_bumps(selection='(all)', name='bump_check', quiet=1):
-    """
-    DESCRIPTION
+    '''
+DESCRIPTION
 
     Visualize VDW clashes
 
-    ARGUMENTS
+ARGUMENTS
 
     selection = string: atom selection {default: all}
 
     name = string: name of CGO object to create {default: bump_check}
-    """
+    '''
     cmd.delete(name)
     cmd.create(name, selection, zoom=0)
     cmd.sculpt_activate(name)
