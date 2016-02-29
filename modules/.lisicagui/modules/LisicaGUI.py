@@ -45,7 +45,7 @@ configure=lisica.Configuration()
 exe_filename=configure.exe_File()
 
 lisicaFolder=lisica.LISICA_DIRECTORY
-resultsFolder=lisica.HOME_DIRECTORY
+resultsFolder=os.path.abspath(os.curdir)
 logFolder=os.path.join(lisicaFolder,"Log")
 iconFolder=os.path.join(lisicaFolder,"Icons")
 
@@ -177,7 +177,7 @@ class GUI(Frame):
         if os.path.isfile(self.Rfilename):
             self.ref_Entry.delete(0,END)
             self.ref_Entry.insert(0,self.Rfilename)
-
+        self.updateCommand()
     def getTarFileName(self):
     #get Target Ligand database file name 
         self.tar_Entry
@@ -185,7 +185,8 @@ class GUI(Frame):
         if os.path.isfile(self.Tfilename):
             self.tar_Entry.delete(0,END)
             self.tar_Entry.insert(0,self.Tfilename)
-        
+        self.updateCommand()
+    
     def dim(self):
     #get the product graph dimension from the radio button
         if self.dimension.get()==3:
@@ -202,6 +203,9 @@ class GUI(Frame):
             # for 2D screening, remove the parameter "No of conformations"
             self.conf_Label.grid_remove()
             self.conformations.grid_remove()
+        self.updateCommand()
+
+        
             
     def inputValidation(self):
         msg=" "
@@ -264,6 +268,7 @@ class GUI(Frame):
                     
             
     def submitted(self):
+        self.updateCommand()
         try:
             alert=self.inputValidation()
             if alert==" ":
@@ -337,16 +342,6 @@ class GUI(Frame):
             print "note: something went wrong in the middle of calculation"
 
     def getResultsDir(self,arg):
-<<<<<<< HEAD:LiSiCA/modules/Plugin_GUI.py
-        self.results=tkFileDialog.askdirectory(initialdir=lisica.HOME_DIRECTORY)
-        if os.path.isdir(self.results):
-			if arg==0:
-				self.resultsFolder.delete(0,END)
-				self.resultsFolder.insert(0,self.results)
-			if arg==1:
-				self.results_Entry.delete(0,END)
-				self.results_Entry.insert(0,self.results)
-=======
         global resultsFolder
         rfolder=tkFileDialog.askdirectory(initialdir=resultsFolder)
         if os.path.isdir(rfolder):
@@ -357,8 +352,7 @@ class GUI(Frame):
             if arg==1:
                 self.loadResultsEntry.delete(0,END)
                 self.loadResultsEntry.insert(0,resultsFolder)
->>>>>>> a72b96a29b3c8f1bc2084d166349438d8d93d7f2:.lisicagui/modules/Plugin_GUI.py
-
+        self.updateCommand()
     def loadResults(self):
             
         self.timestamp_Folder=self.loadResultsEntry.get()
@@ -509,14 +503,26 @@ class GUI(Frame):
             
         except:
             print("None selected from box2")
-    def updateCommand(self,event):
+
+    def onEvent(self,event):
+
+        self.updateCommand()
+        
+    def updateCommand(self):
         self.input_Tab.update()
+		
+        x=self.createCommand()
         self.display_Command.delete(1.0, END)
-        self.display_Command.insert(1.0, self.createCommand()) 
-         
+        self.display_Command.insert(1.0, x) 
+    
     def retag(self,tag, *args):
         for widget in args:
-            widget.bindtags((tag,) + widget.bindtags())  
+            x0=widget.bindtags()[0]
+            x1=widget.bindtags()[1]
+            x2=widget.bindtags()[2]
+            x3=widget.bindtags()[3] 
+            widget.bindtags((x1,x0,tag, x2,x3))
+            
             
     
 ####################################################################
@@ -569,16 +575,10 @@ class GUI(Frame):
 #Load Project Tab Design
 
         Label(self.load_Project_Tab, text="Choose the results directory :").grid(row=1,sticky=W,padx=20,pady=(40))
-<<<<<<< HEAD:LiSiCA/modules/Plugin_GUI.py
-        self.results_Entry=Entry(self.load_Project_Tab,width=50)
-        self.results_Entry.grid(row=1,column=2)
-        
-=======
         self.loadResultsEntry=Entry(self.load_Project_Tab,width=50)
         self.loadResultsEntry.grid(row=1,column=2)
         self.loadResultsEntry.insert(0, resultsFolder) 
        
->>>>>>> a72b96a29b3c8f1bc2084d166349438d8d93d7f2:.lisicagui/modules/Plugin_GUI.py
         Button(self.load_Project_Tab,text="Browse",command=lambda: self.getResultsDir(1)).grid(row=1,column=4)
         Button(self.load_Project_Tab,text="Load",command=self.loadResults).grid(row=2,column=4)
         
@@ -587,17 +587,11 @@ class GUI(Frame):
        
         
 #About Tab Design
-        #Read License Code from .insilab-text file
-        
         #label_About_style=ttk.Style()
         #label_About_style.configure('AboutTabLabel.TLabel', font=('Helvetica', 12, 'Bold'),foreground="black", background="white")
         
-        self.license_Frame=tk.LabelFrame(self.about_Tab,text="Product License Information",labelanchor="nw",font=("Times", 12),relief="ridge",borderwidth=4)
         self.version_Frame=tk.LabelFrame(self.about_Tab,text="Product Version Information",labelanchor="nw",font=("Times", 12),relief="ridge",borderwidth=4)
         
-        #self.license_Frame.grid(row=0,sticky=W+E,padx=(10,10),pady=(40,10))
-        #self.version_Frame.grid(row=1,sticky=W+E,padx=(10,10),pady=(40,10))
-        self.license_Frame.pack(fill=X,padx=(10,10),pady=(20,20))
         self.version_Frame.pack(fill=X,padx=(10,10),pady=(20,20))
 
         from lisica import UpgraderGitlab
@@ -605,21 +599,11 @@ class GUI(Frame):
         upgraderObj.findCurrentVersion()
         upgraderObj.findLatestVersionGUI()
 
-        self.licenseCodeLisica=StringVar(master=self)
-        self.licenseCodeLisica.set(upgraderObj.licenseCodeLisica)
         self.currentVersionGUI=StringVar(master=self)
         self.currentVersionGUI.set(upgraderObj.currentVersionGUI)
 
-        print "lcode lisica = ", upgraderObj.licenseCodeLisica
-        print "lcode GUI = ", upgraderObj.licenseCodeGUI
         #~ upgraderObj.latestVersion = upgraderObj.latestVersion[1:]
         #~ print "lversion = ", upgraderObj.latestVersion
-        Label(self.license_Frame,text="LiSiCA Activation Key :",font=("Times",11)).grid(row=2,columnspan=2,padx=(10,10),pady=(10,10),sticky=W)
-        Label(self.license_Frame,textvariable=self.licenseCodeLisica,font=("Times",11)).grid(row=2,column=2,columnspan=2,padx=(10,10),pady=(10,10),sticky=W)
-        
-       
-        self.deactivate_Button=Button(self.license_Frame,text="Deactivate License",command=self.deactivate)
-        self.deactivate_Button.grid(row=4,column=1,sticky=E,pady=(5,5),padx=(5,5))
         
         Label(self.version_Frame,text="LiSiCA GUI Version :",font=("Times",11)).grid(row=7,columnspan=2,padx=(10,10),pady=(10,10),sticky=W)
         Label(self.version_Frame,textvariable=self.currentVersionGUI,font=("Times",11)).grid(row=7,column=2,columnspan=2,padx=(10,10),pady=(10,10),sticky=W)
@@ -721,7 +705,7 @@ class GUI(Frame):
         
         
         Label(self.input_Tab, text="Consider Hydrogens :").grid(row=11,sticky=W,pady=10,padx=20)
-        self.checkBox=Checkbutton(self.input_Tab,variable=self.hydrogen)
+        self.checkBox=Checkbutton(self.input_Tab,variable=self.hydrogen,command=self.updateCommand)
        
         self.checkBox.grid(row=11,column=2,sticky=W)
         
@@ -737,7 +721,8 @@ class GUI(Frame):
                           to=multiprocessing.cpu_count(),
                           length=100,
                           resolution=1,
-                          orient=HORIZONTAL)
+                          orient=HORIZONTAL,
+                          command=self.onEvent)
         self.slider.grid(row=12,column=2,pady=10,sticky=W)
 
         #Option to choose the directory for Results of LiSiCA
@@ -745,27 +730,18 @@ class GUI(Frame):
         self.saveResultsEntry=Entry(self.input_Tab,width=50)
         self.saveResultsEntry.grid(row=13,column=2,pady=10)
         self.saveResultsEntry.insert(0, resultsFolder) 
-        
         Button(self.input_Tab,text="Browse",command=lambda: self.getResultsDir(0)).grid(row=13,column=4)
-
-        
-
         
         self.display_Command=Text(self.input_Tab,height=3)
-        
-        self.display_Command.grid(row=14,columnspan=6,sticky=W+E)
-        
-        self.input_Tab.bind("<Key>", self.updateCommand)
-        
-        self.retag("Parameters", self.ref_Entry, self.tar_Entry, self.d2, self.d3, self.conformations,self.w_Entry,self.max_Entry,self.slider,self.saveResultsEntry,self.checkBox,self.input_Tab)
-        self.input_Tab.bind_class("Parameters", "<Button-1>", self.updateCommand)
-        
-        self.go_Button=Button(self.note,text="GO",command=self.submitted)
-        self.go_Button.grid(row=17,column=4,pady=(5,5),in_=self.input_Tab)
-        
-
-        
-
+	self.display_Command.grid(row=14,columnspan=6,sticky=W+E)
+	
+	self.retag("Parameters", self.ref_Entry, self.tar_Entry, self.conformations,self.w_Entry,self.max_Entry,self.saveResultsEntry,self.input_Tab)	
+	self.bind_class("Parameters", "<Button-1>", self.onEvent)
+	self.bind_class("Parameters", "<KeyPress>", self.onEvent)
+	
+	self.go_Button=Button(self.note,text="GO",command=self.submitted)
+	self.go_Button.grid(row=17,column=4,pady=(5,5),in_=self.input_Tab)
+    
     # Output Tab Design
         #Frame on the left half of Output Tab for displaying the Results
         self.frame_Result=Frame(self.output_Tab)
@@ -806,31 +782,6 @@ class GUI(Frame):
         
         
         self.pack()
-        
-    def deactivate(self):
-        self.deactivate_command=[exe_path, "--deactivate", "--plugin"]
-        print "deactivate_command = ", self.deactivate_command
-        exitCode=1
-        try:
-            exitCode = subprocess.call(self.deactivate_command)
-            if exitCode == 0:
-                tkMessageBox.showinfo("License", "License deactivation succeded.")
-                self.plugin.destroy()
-                
-            elif exitCode == 205:
-                
-                tkMessageBox.showerror("License Error","Something went wrong. Please contact us at info@insilab.com for detailed information.")
-            elif exitCode == 206:
-                
-                tkMessageBox.showerror("License Error","You don't have permission to deactivate this license. Please contact us at info@insilab.com for detailed information.")
-            elif exitCode == 207:
-                
-                tkMessageBox.showerror("License Error","Error getting info about computer. Please contact us at info@insilab.com for detailed information.")
-            elif exitCode == 208:
-                
-                tkMessageBox.showerror("License Error","Failed connecting to server. Please check your internet connection or try again later. Feel free to contact us at info@insilab.com for detailed information.")
-        except subprocess.CalledProcessError as licenseStatus:
-            tkMessageBox.showerror('License Error', licenseStatus.output)  
         
     def openWebsite(self,event):
         import webbrowser

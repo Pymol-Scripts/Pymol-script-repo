@@ -33,7 +33,10 @@ class Configuration:
         self.python_version=platform.python_version_tuple()
 
     def is_os_64bit(self):
-        return platform.machine().endswith('64')
+        if self.system == 'Windows':
+            return platform.architecture()[0] == "64bit"
+        else:
+            return platform.machine().endswith('64')
         
     def exe_File(self):
         if self.system=='Windows':
@@ -60,14 +63,11 @@ class UpgraderGitlab:
         except:
             print "error : could not create temporary directory"
         self.zipFileName=os.path.join(self.tmpDir, "archive.zip")
-        self.firstVersionURL="https://git.insilab.com/insilab/lisicagui/raw/master/version.txt"        
-        self.secondVersionURL="https://gitlab.com/AthiraDilip/lisicagui/raw/master/version.txt"        
+        self.firstVersionURL="https://git.insilab.com/insilab/lisicagui/raw/master/.lisicagui/version.txt"        
+        self.secondVersionURL="https://gitlab.com/AthiraDilip/lisicagui/raw/master/.lisicagui/version.txt"        
         self.firstArchiveURL="https://git.insilab.com/insilab/lisicagui/repository/archive.zip?ref=master"
         self.secondArchiveURL="https://gitlab.com/AthiraDilip/lisicagui/repository/archive.zip?ref=master"
-        self.licenseCodeGUI=""
         self.currentVersionGUI=""
-        self.licenseCodeLisica=""
-        self.currentVersionLisica=""
         self.latestVersionGUI="1.0.0"
 
 
@@ -108,7 +108,7 @@ class UpgraderGitlab:
                 pass
         
     def extractInstall(self):
-        #this must be called before import Plugin_GUI, otherwise
+        #this must be called before import LisicaGUI, otherwise
         #rmtree will fail on NFS systems due to open log file handle
         try:
             with zipfile.ZipFile(self.zipFileName,"r") as LiSiCAzip:
@@ -133,20 +133,12 @@ class UpgraderGitlab:
         self.downloadInstall()
         self.extractInstall()
         sys.path.append(os.path.normpath(os.path.join(LISICA_DIRECTORY,"modules")))
-        import License
-        License.writeToInsilabTxt(self.latestVersionGUI)
         print "Upgrade finished successfully!"
         
     def findCurrentVersion(self):
         import License
         #for GUI
-        license_details=License.checkVersionGUI()
-        self.licenseCodeGUI = license_details['Key']
-        self.currentVersionGUI = license_details['Version']
-        #for lisica program
-        license_details=License.checkLicenseStatus()
-        self.licenseCodeLisica = license_details['Key']
-        self.currentVersionLisica = license_details['Version']
+        self.currentVersionGUI = License.checkVersionGUI()['Version']
 
     def findLatestVersionGUI(self):
         try:
@@ -195,14 +187,8 @@ def run():
     os.chmod(exe_path, st.st_mode | stat.S_IEXEC)
             
 
-    if License.checkLicenseStatus()==None:
-        active=License.activate(exe_path)
-        #if not active==1:
-                #pass
-        
-    else:
-        import Plugin_GUI
-        Plugin_GUI.main()
+    import LisicaGUI
+    LisicaGUI.main()
 
 
 	
