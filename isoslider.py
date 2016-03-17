@@ -9,7 +9,13 @@ http://www.ebi.ac.uk/~gareth/pymol/downloads/scripts/density_slider.py
 License: BSD-2-Clause
 '''
 
-import Tkinter
+from __future__ import print_function
+
+try:
+    import Tkinter
+except ImportError:
+    import tkinter as Tkinter
+
 from pymol import cmd, plugins
 
 DIGITS = 1
@@ -32,7 +38,7 @@ def get_isoobjects(state=1, quiet=1):
         if t in ('object:mesh', 'object:surface'):
             level = cmd.isolevel(name, 0, state, 1)
             if not quiet:
-                print '%-20s %5.2f' % (name, level)
+                print('%-20s %5.2f' % (name, level))
             r.append((name, level))
     return r
 
@@ -76,7 +82,7 @@ DESCRIPTION
 
     def fillmaster():
         ffmt = '%.' + str(DIGITS) + 'f'
-        for child in master.children.values():
+        for child in list(master.children.values()):
             child.destroy()
         mm = mmvar.get()
         mmf = Tkinter.Frame(master)

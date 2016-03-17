@@ -2,6 +2,7 @@
 (c) 2010 Thomas Holder
 '''
 
+from __future__ import print_function
 from pymol import cmd, stored, CmdException
 from chempy import cpv
 import math
@@ -45,7 +46,7 @@ def _common_orientation(selection, vec, visualize=1, quiet=0):
     cmd.iterate_state(STATE, '(%s) and name CA' % (selection),
                       'stored.x.append([x,y,z])')
     if len(stored.x) < 2:
-        print 'warning: count(CA) < 2'
+        print('warning: count(CA) < 2')
         raise CmdException
     center = cpv.scale(_vec_sum(stored.x), 1. / len(stored.x))
     if visualize:
@@ -53,7 +54,7 @@ def _common_orientation(selection, vec, visualize=1, quiet=0):
         visualize_orientation(vec, center, scale, True)
         cmd.zoom(selection, buffer=2)
     if not quiet:
-        print 'Center: (%.2f, %.2f, %.2f) Direction: (%.2f, %.2f, %.2f)' % tuple(center + vec)
+        print('Center: (%.2f, %.2f, %.2f) Direction: (%.2f, %.2f, %.2f)' % tuple(center + vec))
     return center, vec
 
 
@@ -156,12 +157,12 @@ SEE ALSO
                       'stored.x.setdefault(chain + resi, dict())[name] = x,y,z')
     vec = cpv.get_null()
     count = 0
-    for x in stored.x.itervalues():
+    for x in stored.x.values():
         if 'C' in x and 'N' in x:
             vec = cpv.add(vec, cpv.sub(x['C'], x['N']))
             count += 1
     if count == 0:
-        print 'warning: count == 0'
+        print('warning: count == 0')
         raise CmdException
     vec = cpv.normalize(vec)
     return _common_orientation(selection, vec, visualize, quiet)
@@ -198,12 +199,12 @@ SEE ALSO
                       'stored.x.setdefault(chain + resi, dict())[name] = x,y,z')
     vec_list = []
     count = 0
-    for x in stored.x.itervalues():
+    for x in stored.x.values():
         if 'C' in x and 'O' in x:
             vec_list.append(cpv.sub(x['O'], x['C']))
             count += 1
     if count == 0:
-        print 'warning: count == 0'
+        print('warning: count == 0')
         raise CmdException
     vec = _vec_sum(vec_list)
     if count > 2 and sigma_cutoff > 0:
@@ -212,7 +213,7 @@ SEE ALSO
         vec_list = [vec_list[i] for i in range(len(vec_list))
                     if abs(angle_list[i] - angle_mu) < angle_sigma * sigma_cutoff]
         if not quiet:
-            print 'Dropping %d outlier(s)' % (len(angle_list) - len(vec_list))
+            print('Dropping %d outlier(s)' % (len(angle_list) - len(vec_list)))
         vec = _vec_sum(vec_list)
     vec = cpv.normalize(vec)
     return _common_orientation(selection, vec, visualize, quiet)
@@ -251,7 +252,7 @@ SEE ALSO
                 if cpv.length(vec) < cutoff:
                     vec_list.append(vec)
     if len(vec_list) == 0:
-        print 'warning: count == 0'
+        print('warning: count == 0')
         raise CmdException
     vec = _vec_sum(vec_list)
     vec = cpv.normalize(vec)
@@ -291,20 +292,20 @@ SEE ALSO
         '2': loop_orientation,
         '3': cafit_orientation,
     }
-    methods.update([(x.__name__, x) for x in methods.values()])
+    methods.update([(x.__name__, x) for x in list(methods.values())])
     try:
         orientation = methods[str(method)]
     except KeyError:
-        print 'no such method:', method
+        print('no such method:', method)
         raise CmdException
     if not quiet:
-        print 'Using method:', orientation.__name__
+        print('Using method:', orientation.__name__)
     cen1, dir1 = orientation(selection1, visualize, quiet=1)
     cen2, dir2 = orientation(selection2, visualize, quiet=1)
     angle = cpv.get_angle(dir1, dir2)
     angle_deg = math.degrees(angle)
     if not quiet:
-        print 'Angle: %.2f deg' % (angle_deg)
+        print('Angle: %.2f deg' % (angle_deg))
     if visualize:
         cmd.zoom('(%s) or (%s)' % (selection1, selection2), buffer=2)
     return angle_deg

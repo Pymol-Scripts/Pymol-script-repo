@@ -7,6 +7,7 @@ Complete rewrite by Thomas Holder
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
 from pymol import cmd, CmdException
 
 
@@ -48,7 +49,7 @@ EXAMPLE
     try:
         align = cmd.keyword[method][0]
     except:
-        print ' Error: no such method:', method
+        print(' Error: no such method:', method)
         raise CmdException
 
     if guide:
@@ -63,7 +64,7 @@ EXAMPLE
         # get alignment without superposing
         align(mobile, target, cycles=0, transform=0, object=aln)
     except:
-        print ' Error: Alignment with method %s failed' % (method)
+        print(' Error: Alignment with method %s failed' % (method))
         raise CmdException
 
     cmd.select(seleboth, '(%s) or (%s)' % (mobile, target))
@@ -91,9 +92,9 @@ EXAMPLE
         cmd.spectrum('b', 'blue_red', seleboth + ' and b > -0.5')
 
     if not quiet:
-        print " ColorByRMSD: Minimum Distance: %.2f" % (min(b_dict.values()))
-        print " ColorByRMSD: Maximum Distance: %.2f" % (max(b_dict.values()))
-        print " ColorByRMSD: Average Distance: %.2f" % (sum(b_dict.values()) / len(b_dict))
+        print(" ColorByRMSD: Minimum Distance: %.2f" % (min(b_dict.values())))
+        print(" ColorByRMSD: Maximum Distance: %.2f" % (max(b_dict.values())))
+        print(" ColorByRMSD: Average Distance: %.2f" % (sum(b_dict.values()) / len(b_dict)))
 
     cmd.delete(aln)
     cmd.delete(seleboth)

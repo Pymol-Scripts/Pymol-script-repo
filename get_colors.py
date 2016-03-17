@@ -16,17 +16,12 @@ VERSION NOTES:
     1.0    2014    First release
 '''
 #-------------------------------------------------------------------------------
+from __future__ import print_function
 from pymol import cmd
 
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
-<<<<<<< HEAD
 def get_colors(selection='', quiet=1):
-=======
-
-
-def get_colors(selection='', output=True):
->>>>>>> autopep8
     '''
 DESCRIPTION:
     returns a list of available pymol colors
@@ -43,22 +38,11 @@ EXAMPLES:
     for tuplepair in pymol.querying.get_color_indices(selection):
         pymol_color_list.append(tuplepair[0])
     pymol_color_list.sort()
-<<<<<<< HEAD
-    if not int(quiet): print pymol_color_list
+    if not int(quiet): print(pymol_color_list)
     return pymol_color_list
 cmd.extend('get_colors',get_colors)
 cmd.auto_arg[0]['get_colors']=[lambda: cmd.Shortcut(['""','all']), 'selection=', ',']
 cmd.auto_arg[1]['get_colors']=[lambda: cmd.Shortcut(['0']), 'quiet=', '']
-=======
-    # the str() is due to pymol passing aruments as strings,
-    # thus True becomes 'True'
-    if str(output) == 'True':
-        print pymol_color_list
-    return pymol_color_list
-cmd.extend('get_colors', get_colors)
-cmd.auto_arg[0]['get_colors'] = [lambda: cmd.Shortcut(['""', 'all']), 'selection=', ',']
-cmd.auto_arg[1]['get_colors'] = [lambda: cmd.Shortcut(['True']), 'output=', '']
->>>>>>> autopep8
 #-------------------------------------------------------------------------------
 #-------------------------------------------------------------------------------
 
@@ -75,21 +59,15 @@ USAGE:
     get_random_color [ selection [, quiet ]]
 
 EXAMPLES:
-    # print a random color name: 
+    # print a random color name:
     get_random_color
     # color object randomly:
     fetch 1hpv, async=0
     cmd.color(get_random_color())
     '''
     import random
-<<<<<<< HEAD
     randomcolor=random.choice(get_colors(selection, 1))
-    if not int(quiet): print randomcolor
-=======
-    randomcolor = random.choice(get_colors(selection, False))
-    if str(output) != 'False':
-        print randomcolor
->>>>>>> autopep8
+    if not int(quiet): print(randomcolor)
     return randomcolor
 cmd.extend('get_random_color', get_random_color)
 #-------------------------------------------------------------------------------

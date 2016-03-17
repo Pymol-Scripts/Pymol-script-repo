@@ -18,7 +18,7 @@ cgo_grid renders a mesh-like grid with overlapping sine waves (cf. examples).
 
 ################################################################################
 '''
-
+from __future__ import print_function
 from pymol import cmd
 from pymol import stored
 from pymol.cgo import *
@@ -167,7 +167,7 @@ ARGUMENTS
                 # more than one atom --> use "center"
                 # alt check!
                 if cmd.count_atoms('(alt *) and not (alt "")')!=0:
-                    print "cgo_grid: warning! alternative coordinates found for origin, using center!"
+                    print("cgo_grid: warning! alternative coordinates found for origin, using center!")
                 view_temp=cmd.get_view()
                 cmd.zoom(v)
                 v=cmd.get_position()
@@ -180,8 +180,8 @@ ARGUMENTS
         try:
             if not v:
                 v=eval(cmd.get('bg_rgb'))
-                v=map(sum, zip(v,[-1,-1,-1]))
-                v=map(abs, v)
+                v=list(map(sum, list(zip(v,[-1,-1,-1]))))
+                v=list(map(abs, v))
                 if v[0]==v[1]==v[2]==0.5: # grey
                     v=[0,0,0]
                 return v
@@ -209,7 +209,7 @@ ARGUMENTS
         nstates=int(nstates)
         if nstates<1:
             nstates=1
-            print "NB! nstates set to 1 (automatic minimum)"
+            print("NB! nstates set to 1 (automatic minimum)")
         length_x=float(length_x)
         if length_z=='':
             length_z=length_x
@@ -221,14 +221,14 @@ ARGUMENTS
             npoints_x=int(npoints_x)
         if npoints_x<1:
             npoints_x=1
-            print "NB! npoints_x set to 1 (automatic minimum)"
+            print("NB! npoints_x set to 1 (automatic minimum)")
         if npoints_z =='':
             npoints_z=int(length_z)+1
         else:
             npoints_z=int(npoints_z)
         if npoints_z<1:
             npoints_z=1
-            print "NB! npoints_x set to 1 (automatic minimum)"
+            print("NB! npoints_x set to 1 (automatic minimum)")
 
         nwaves_x=abs(float(nwaves_x))
         if nwaves_z=='':
@@ -314,11 +314,11 @@ ARGUMENTS
         raise Exception("Unexpected error!")
 
     if (nstates==1):
-        if not quiet: print "Creating one state object!"
+        if not quiet: print("Creating one state object!")
 
     if startframe > endframe:
         startframe, endframe = endframe, startframe
-        if not quiet: print "Inverted start and end frames!"
+        if not quiet: print("Inverted start and end frames!")
 
 
     ########## BEGIN OF FUNCTIONAL SCRIPT ##########
@@ -464,36 +464,36 @@ ARGUMENTS
                     framecount=0
             # count up from first state
             if framecount==1: countvar=1
-        if not quiet: print "object loaded and animated with frames!"
+        if not quiet: print("object loaded and animated with frames!")
     else:
-        if not quiet: print "object loaded!"
+        if not quiet: print("object loaded!")
 
     #OUTPUT
     if not quiet:
-        print "Grid variables for:",name
-        print "corner:", xyz1
-        print "vector 1:", xyz2
-        print "vector 2:", xyz3
+        print("Grid variables for:",name)
+        print("corner:", xyz1)
+        print("vector 1:", xyz2)
+        print("vector 2:", xyz3)
 
-        print "length_x:",length_x
-        print "length_z:",length_z
-        print "npoints_x:", npoints_x
-        print "npoints_z:", npoints_z
+        print("length_x:",length_x)
+        print("length_z:",length_z)
+        print("npoints_x:", npoints_x)
+        print("npoints_z:", npoints_z)
 
-        print "nwaves_x:", nwaves_x
-        print "nwaves_z:", nwaves_z
+        print("nwaves_x:", nwaves_x)
+        print("nwaves_z:", nwaves_z)
 
-        print "offset_x:",offset_x
-        print "offset_z:",offset_z
+        print("offset_x:",offset_x)
+        print("offset_z:",offset_z)
 
-        print "gain_x:",gain_x
-        print "gain_z:",gain_z
+        print("gain_x:",gain_x)
+        print("gain_z:",gain_z)
 
-        print "thickness:",thickness
+        print("thickness:",thickness)
 
-        print "states", nstates
+        print("states", nstates)
         if (not endframe==startframe):
-            print "frames: start:",startframe,"end:",endframe
+            print("frames: start:",startframe,"end:",endframe)
 
     return grid_xyz
 

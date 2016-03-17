@@ -80,10 +80,10 @@ NOTES
     z_com /= totmass
 
     if not int(quiet):
-        print
-        print "Center of mass: "
-        print
-        print x_com, y_com, z_com
+        print()
+        print("Center of mass: ")
+        print()
+        print(x_com, y_com, z_com)
 
     I = []
 
@@ -116,14 +116,14 @@ NOTES
     ord_vects = vects[:, eig_ord].T
 
     if not int(quiet):
-        print
-        print "Inertia tensor z, y, x eigenvalues:"
-        print
-        print ord_vals
-        print
-        print "Inertia tensor z, y, x eigenvectors:"
-        print
-        print ord_vects
+        print()
+        print("Inertia tensor z, y, x eigenvalues:")
+        print()
+        print(ord_vals)
+        print()
+        print("Inertia tensor z, y, x eigenvectors:")
+        print()
+        print(ord_vects)
 
     if int(scaling) == 0:
         norm_vals = [sum(numpy.sqrt(ord_vals / totmass)) / 3 for i in range(3)]

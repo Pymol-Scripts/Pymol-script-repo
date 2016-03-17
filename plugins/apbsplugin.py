@@ -1171,7 +1171,7 @@ Citation for PDB2PQR:
                     print "Could not find", fname, "so searching for",
                     fname = '-PE0'.join(os.path.splitext(fname))
                     print fname
-                pymol.cmd.load(fname)
+                pymol.cmd.load(fname,self.map.getvalue())
                 self.visualization_group_1.refresh()
                 self.visualization_group_2.refresh()
                 self.notebook.tab('Visualization (1)').focus_set()
@@ -1667,10 +1667,15 @@ Citation for PDB2PQR:
         # copied from WLD code
         sel = "((%s) or (neighbor (%s) and hydro))" % (
             self.selection.getvalue(), self.selection.getvalue())
-        self.fixColumns(sel)
-        pymol.cmd.save(pdb_filename, sel)
+
+        apbs_clone = pymol.cmd.get_unused_name()
+        pymol.cmd.create(apbs_clone,sel) 
+
+        self.fixColumns(apbs_clone)
+        pymol.cmd.save(pdb_filename, apbs_clone)
         self.cleanupGeneratedPdbOrPqrFile(pdb_filename)
 
+        pymol.cmd.delete(apbs_clone)
         #
         # Now, generate a PQR file
         #
@@ -1818,8 +1823,15 @@ Citation for PDB2PQR:
         #
         # WLD -- PyMOL now does this automatically with PQR files
         # pymol.cmd.alter(sel,'chain = ""')
-        self.fixColumns(sel)
-        pymol.cmd.save(pqr_filename, sel)
+
+        apbs_clone = pymol.cmd.get_unused_name()
+        pymol.cmd.create(apbs_clone,sel) 
+        
+        self.fixColumns(apbs_clone)
+        pymol.cmd.save(pqr_filename, apbs_clone)
+        
+        pymol.cmd.delete(apbs_clone) 
+
         self.cleanupGeneratedPdbOrPqrFile(pqr_filename)
         missed_count = pymol.cmd.count_atoms("(" + sel + ") and flag 23")
         if missed_count > 0:
@@ -2273,7 +2285,7 @@ class VisualizationGroup(Pmw.Group):
         self.show_ni = False
 
     def refresh(self):
-        things_to_kill = 'error_label update_buttonbox mm_group ms_group pi_group ni_group'.split()
+        things_to_kill = 'fl_group error_label update_buttonbox mm_group ms_group pi_group ni_group'.split()
         for thing in things_to_kill:
             try:
                 getattr(self, thing).destroy()

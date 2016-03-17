@@ -13,6 +13,7 @@ VERSION NOTES:
 '''
 
 ################################################################################
+from __future__ import print_function
 from pymol import cmd
 from pymol import stored
 
@@ -43,7 +44,7 @@ ARGUMENTS
         # checks functional selection
         cmd.count_atoms(selection)
     except:
-        print "invalid selection"
+        print("invalid selection")
         return False
 
     # PARAMETERS
@@ -56,11 +57,11 @@ ARGUMENTS
 
     if bonds == 1:
         cmd.set('valence', 0)
-        print "Valence display disabled!"
+        print("Valence display disabled!")
         return bonds
     else:
         cmd.set('valence', 1)
-        print "Valence display enabled!"
+        print("Valence display enabled!")
     # proceed
 
     ##### SELECTION BY OBJECT AND CHAIN #####
@@ -266,13 +267,13 @@ ARGUMENTS
 
     if bonds != 2:
         lines = 4
-        print "Formating as delocalized bonds"
+        print("Formating as delocalized bonds")
     else:
         lines = 1
-        print "Formating as double bonds"
+        print("Formating as double bonds")
 
     # for all tuples (i.e format_dict.keys())
-    for p in format_dict.keys():
+    for p in list(format_dict.keys()):
         # go through list except ID at pos 1
         for q in p[1:]:
             # format bonds

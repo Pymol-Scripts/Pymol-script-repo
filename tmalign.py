@@ -2,6 +2,8 @@
 (c) 2011-2012 Thomas Holder, MPI for Developmental Biology
 '''
 
+from __future__ import print_function
+
 __author__ = 'Thomas Holder'
 __version__ = '1.1'
 __license__ = 'BSD-2-Clause'
@@ -54,7 +56,8 @@ cealign tmalign}
         start = time.time()
         cmd.do('%s mobile=%s in %s, target=%s' % (method, newmobile, mobile, target))
         if not quiet:
-            print 'Finished: %s (%.2f sec)' % (method, time.time() - start)
+            print('Finished: %s (%.2f sec)' % (method, time.time() - start))
+
     for method in methods:
         if async:
             t = threading.Thread(target=myalign, args=(method,))
@@ -119,7 +122,7 @@ tmscore, mmalign
         process = subprocess.Popen(args, stdout=subprocess.PIPE)
         lines = process.stdout.readlines()
     except OSError:
-        print 'Cannot execute "%s", please provide full path to TMscore or TMalign executable' % (exe)
+        print('Cannot execute "%s", please provide full path to TMscore or TMalign executable' % (exe))
         raise CmdException
     finally:
         os.remove(mobile_filename)
@@ -139,7 +142,7 @@ tmscore, mmalign
     for line in line_it:
         if 4 >= rowcount > 0:
             if rowcount >= 2:
-                a = map(float, line.split())
+                a = list(map(float, line.split()))
                 matrix.extend(a[2:5])
                 matrix.append(a[1])
             rowcount += 1
@@ -152,13 +155,13 @@ tmscore, mmalign
             if match is not None:
                 r = float(match.group(1))
         if not quiet:
-            print line.rstrip()
+            print(line.rstrip())
 
     if not quiet:
         for i in range(0, len(alignment[0]) - 1, 78):
             for line in alignment:
-                print line[i:i + 78]
-            print ''
+                print(line[i:i + 78])
+            print('')
 
     assert len(matrix) == 3 * 4
     matrix.extend([0, 0, 0, 1])
@@ -184,10 +187,10 @@ tmscore, mmalign
                 ' '.join(idx for (idx, m) in zip(target_idx, alignment[1]) if m in ':.'),
                 cycles=0, matchmaker=4, object=object)
         else:
-            print 'Could not load alignment object'
+            print('Could not load alignment object')
 
     if not quiet and r is not None:
-        print 'Found in output TM-score = %.4f' % (r)
+        print('Found in output TM-score = %.4f' % (r))
 
     return r
 

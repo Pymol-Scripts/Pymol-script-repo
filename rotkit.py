@@ -14,6 +14,8 @@ http://www.pymolwiki.org/index.php/rotkit
 -------------------------------------------------------------------------------
 '''
 
+from __future__ import print_function
+
 from pymol import cmd
 import math
 import os
@@ -21,7 +23,7 @@ import platform
 
 
 def printMat(matrix):
-    print("%s %s %s %s \n%s %s %s %s \n%s %s %s %s \n%s %s %s %s" % (matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5], matrix[6], matrix[7], matrix[8], matrix[9], matrix[10], matrix[11], matrix[12], matrix[13], matrix[14], matrix[15]))
+    print(("%s %s %s %s \n%s %s %s %s \n%s %s %s %s \n%s %s %s %s" % (matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5], matrix[6], matrix[7], matrix[8], matrix[9], matrix[10], matrix[11], matrix[12], matrix[13], matrix[14], matrix[15])))
     return None
 
 
@@ -152,7 +154,7 @@ def VectorToMatrix(Vector, MatColRank=4):
         import numpy
     except ImportError:
         from modules import numpy
-    nextrow = range(MatColRank, MatColRank ** 2, MatColRank)
+    nextrow = list(range(MatColRank, MatColRank ** 2, MatColRank))
     rowsall = []
     rowcurrent = []
     for i in range(len(Vector)):
@@ -162,7 +164,7 @@ def VectorToMatrix(Vector, MatColRank=4):
             rowcurrent.append(Vector[i])
         else:
             rowcurrent.append(Vector[i])
-    print rowsall
+    print(rowsall)
     return(numpy.matrix(rowsall))
 
 

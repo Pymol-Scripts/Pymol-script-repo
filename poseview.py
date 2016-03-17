@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/PoseView
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd, CmdException
 
 
@@ -75,23 +77,23 @@ SETUP
                 '-o', filename, '-s', str(width), str(height)]
 
         if not quiet:
-            print ' poseview: running...'
+            print(' poseview: running...')
 
         process = subprocess.Popen(args,
                                    stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         stdout, _ = process.communicate()
 
         if not quiet:
-            print stdout
-            print ' poseview: done'
+            print(stdout)
+            print(' poseview: done')
 
         if filename.endswith('.png'):
             cmd.load(filename)
         elif not quiet:
-            print ' Warning: cannot load "%s" into PyMOL, unsupported file type' % (filename)
+            print(' Warning: cannot load "%s" into PyMOL, unsupported file type' % (filename))
 
     except OSError:
-        print ' Error: Cannot execute "%s", please provide full path to poseview executable' % (exe)
+        print(' Error: Cannot execute "%s", please provide full path to poseview executable' % (exe))
         raise CmdException
     finally:
         shutil.rmtree(tempdir)

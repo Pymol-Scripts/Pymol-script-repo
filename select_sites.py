@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/select_sites
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 import os
 from pymol import cmd, CmdException
 
@@ -45,10 +47,10 @@ ARGUMENTS
                 if os.path.exists(fname):
                     break
             else:
-                print ' Error: please provide filename'
+                print(' Error: please provide filename')
                 raise CmdException
             if not quiet:
-                print 'loading from %s' % (fname)
+                print('loading from %s' % (fname))
         for line in open(fname):
             if line.startswith('SITE '):
                 siteID = line[11:14].strip()

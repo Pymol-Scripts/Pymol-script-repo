@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/spectrum_states
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd, CmdException
 
 
@@ -41,7 +43,7 @@ SEE ALSO
     first, last, quiet = int(first), int(last), int(quiet)
     colors = color_list.split()
     if len(colors) < 2:
-        print ' Error: please provide at least 2 colors'
+        print(' Error: please provide at least 2 colors')
         raise CmdException
 
     colvec = [cmd.get_color_tuple(i) for i in colors]
@@ -55,12 +57,12 @@ SEE ALSO
         if s in cmd.setting.name_list:
             settings.append(s)
         elif not quiet:
-            print ' Warning: no such setting:', s
+            print(' Warning: no such setting:', s)
 
     # object names only
     selection = ' '.join(cmd.get_object_list('(' + selection + ')'))
     if cmd.count_atoms(selection) == 0:
-        print ' Error: empty selection'
+        print(' Error: empty selection')
         raise CmdException
 
     if last < 1:
@@ -68,7 +70,7 @@ SEE ALSO
 
     val_range = int(last - first + 1)
     if val_range < 2:
-        print ' Error: no spectrum possible, need more than 1 state'
+        print(' Error: no spectrum possible, need more than 1 state')
         raise CmdException
 
     for i in range(val_range):

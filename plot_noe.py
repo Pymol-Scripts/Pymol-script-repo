@@ -7,12 +7,14 @@ http://pymolwiki.org/index.php/plot_noe
 License: BSD-2-Clause
 """
 
+from __future__ import print_function
+
 from pymol import cmd, CmdException
 import re
 import shlex
 
 
-def plot_noe(filename, line_color=None, advanced_coloring=0, line_width='1.0', single=0, quiet=1, aria=0, per_atom=0,
+def plot_noe(filename, line_color=None, line_width='1.0', advanced_coloring=0, single=0, quiet=1, aria=0, per_atom=0,
              per_residue=1):
     """
 DESCRIPTION
@@ -23,13 +25,13 @@ ARGUMENTS
 
     filename = string: The filename of the NOE retraint file in XPLOR NIH format.
 
-    single = string: create a single object for all restraints.
-
-    selection = string: atom selection {default: all}
-
-    line_color = string: The color for the NOE lines. {default: black}
+    line_color = string: The color for the NOE lines. {default: yellow}
 
     line_width = float: The thickness of the NOE lines. {default: 1.0}
+
+    advanced_coloring = color restraints by distance.
+
+    single = string: create a single object for all restraints.
 
     aria = integer: Name NOEs after Aria IDs.
 
@@ -85,17 +87,17 @@ EXAMPLE
         try:
             shlex_split = shlex.split(restraint_block[0])
         except ValueError:
-            print 'Cannot process "%s"' % restraint_block[0]
+            print('Cannot process "%s"' % restraint_block[0])
         try:
             restraints["distance"] = float(shlex_split[11].strip())
         except IndexError:
-            print 'Cannot process "%s"' % "".join(restraint_block)
+            print('Cannot process "%s"' % "".join(restraint_block))
             continue
         except ValueError:
             try:
                 restraints["distance"] = float(shlex_split[17].strip())
             except ValueError:
-                print "Failed to extract distance, setting to 1A"
+                print("Failed to extract distance, setting to 1A")
                 restraints["distance"] = 1
 
         if len(shlex_split) > 20:
@@ -125,13 +127,13 @@ EXAMPLE
                         distance["dst_atom"] = shlex_split[13].strip().replace("^", "'")
 
                 else:
-                    print 'Cannot process "%s"' % restraint_line
+                    print('Cannot process "%s"' % restraint_line)
                     continue
             except IndexError:
-                print 'Cannot process "%s"' % restraint_line
+                print('Cannot process "%s"' % restraint_line)
                 continue
             except ValueError:
-                print 'Cannot process "%s"' % restraint_line
+                print('Cannot process "%s"' % restraint_line)
                 continue
 
             restraints["connections"].append(distance)
@@ -148,7 +150,7 @@ EXAMPLE
         )
 
     if not quiet:
-        print ' Info: Created distance objects for %d restraints' % count
+        print(' Info: Created distance objects for %d restraints' % count)
 
     cmd.order("NOE*", "yes")
 
@@ -192,8 +194,8 @@ def _draw_restraint(restraints, line_color, line_width, single, quiet, per_resid
                                  width=line_width, gap=0, label=0)
                     _color_restraint(label, line_color)
                 except CmdException:
-                    print 'FAILED: %s - %s' % (sele1, sele2)
-                    print restraints["ID"]
+                    print('FAILED: %s - %s' % (sele1, sele2))
+                    print(restraints["ID"])
                     return 0
 
         else:
@@ -209,8 +211,8 @@ def _draw_restraint(restraints, line_color, line_width, single, quiet, per_resid
 
                 _color_restraint(label, line_color)
             except CmdException:
-                print 'FAILED: %s - %s' % (sele1, sele2)
-                print restraints["ID"]
+                print('FAILED: %s - %s' % (sele1, sele2))
+                print(restraints["ID"])
                 return 0
 
     return 1

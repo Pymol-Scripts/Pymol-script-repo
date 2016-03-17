@@ -7,13 +7,14 @@ http://pymolwiki.org/index.php/uniprot_features
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd, CmdException
 
 
 class resid_mapper(dict):
-
     '''
-DESCRIPTION
+    DESCRIPTION
 
     Residue identifier mapping
     '''
@@ -68,19 +69,22 @@ ARGUMENTS
     withss = 0/1: update secondary structure {default: 0}
     '''
     import xml.etree.ElementTree as etree
-    from urllib import urlopen
+    try:
+        from urllib import urlopen
+    except ImportError:
+        from urllib.request import urlopen
 
     withss, quiet = int(withss), int(quiet)
 
     url = 'http://www.uniprot.org/uniprot/%s.xml' % uniprot_id
     if not quiet:
-        print 'Downloading', url
+        print('Downloading', url)
     doc = etree.parse(urlopen(url))
 
     ns = 'http://uniprot.org/uniprot'
     NS = {'u': ns}
     if not quiet:
-        print 'Parsing Features'
+        print('Parsing Features')
     features = doc.findall('{%s}entry/{%s}feature' % (ns, ns))
     sequence = doc.findtext('{%s}entry/{%s}sequence' % (ns, ns))
     sequence = ''.join(sequence.split())
@@ -89,7 +93,7 @@ ARGUMENTS
         if sm is None:
             sm = resid_mapper.from_seq_sel(sequence, selection)
     except:
-        print ' Warning: sequence mapping failed'
+        print(' Warning: sequence mapping failed')
         sm = lambda x: x
 
     if withss == 1:
@@ -100,24 +104,24 @@ ARGUMENTS
 
     count = 0
     for feature in features:
-        type = feature.get('type')
+        type_ = feature.get('type')
         begin = feature.find('{%s}location/{%s}begin' % (ns, ns))
         if begin is not None:
             end = feature.find('{%s}location/{%s}end' % (ns, ns))
             values = begin.get('position'), end.get('position')
-            if type in norange_types:
+            if type_ in norange_types:
                 try:
                     values = sm(values[0]), sm(values[1])
                     sel = '(' + selection + ') and resi %s+%s' % values
                 except KeyError:
-                    print ' Warning: could not map', values
+                    print(' Warning: could not map', values)
                     sel = 'none'
             else:
                 try:
                     values = sm(values)
                     sel = '(' + selection + ') and resi %s-%s' % values
                 except KeyError:
-                    print ' Warning: could not map', values
+                    print(' Warning: could not map', values)
                     sel = 'none'
         else:
             position = feature.find('{%s}location/{%s}position' % (ns, ns))
@@ -126,19 +130,19 @@ ARGUMENTS
                 sel = '(%s) and resi %s' % (selection, value)
             except KeyError:
                 sel = 'none'
-        if type in ['helix', 'strand', 'turn'] and withss < 2:
+        if type_ in ['helix', 'strand', 'turn'] and withss < 2:
             if withss == 1:
-                cmd.alter(sel, 'ss="%s"' % ssmap.get(type, 'L'))
+                cmd.alter(sel, 'ss="%s"' % ssmap.get(type_, 'L'))
         else:
             count += 1
             name = cmd.get_legal_name('%s%03d_%s' % (prefix, count,
                                                      feature.get('description', '').replace('.', '')))
-            groupname = cmd.get_legal_name('%s%s' % (prefix, type))
+            groupname = cmd.get_legal_name('%s%s' % (prefix, type_))
             cmd.select(name, sel)
             cmd.group(groupname, name, 'add')
 
     if not quiet:
-        print 'Found %d feature records (without secondary structures)' % count
+        print('Found %d feature records (without secondary structures)' % count)
 
 
 def uniprot_auto(pdb_id, selection='', withss=0, quiet=1):
@@ -157,10 +161,13 @@ ARGUMENTS
 
     withss = 0/1: update secondary structure {default: 0}
     '''
-    from urllib import urlopen
+    try:
+        from urllib import urlopen
+    except ImportError:
+        from urllib.request import urlopen
 
     if len(pdb_id) != 4 or not pdb_id[0].isdigit():
-        print ' Error: invalid pdb_id:', pdb_id
+        print(' Error: invalid pdb_id:', pdb_id)
         raise CmdException
 
     if not selection:
@@ -195,10 +202,10 @@ ARGUMENTS
 
             mappings[chain][1][int(number)] = resno
     except Exception as e:
-        print ' Error:', e
+        print(' Error:', e)
         raise CmdException
 
-    for chain, (acc, sm) in mappings.iteritems():
+    for chain, (acc, sm) in mappings.items():
         uniprot_features(acc, '(%s) and chain %s' % (selection, chain),
                          withss, 'feature_' + chain + '_', sm, quiet)
 

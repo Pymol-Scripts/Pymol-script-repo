@@ -16,6 +16,7 @@ VERSION NOTES:
 '''
 #-------------------------------------------------------------------------------
 # IMPORT
+from __future__ import print_function
 from pymol import cmd
 from pymol import stored
 #-------------------------------------------------------------------------------
@@ -27,7 +28,7 @@ from pymol import stored
 def disp_list():
     print(
         '''
-quickdisplay - list of functions. 
+quickdisplay - list of functions.
 Enter, e.g. "help disp_ss" for more specific info.
 
     PURPOSE                          FUNCTION
@@ -107,7 +108,7 @@ PARAMETERS
     selection='all'            <str>   input selection
     colors='marine red white'  <str>   any three colors for: sheets, helices and loops
                                        e.g. 'marine red white'
-                                       can also be set to either util.cbc, util.rainbow, 
+                                       can also be set to either util.cbc, util.rainbow,
                                        or util.chainbow (alone)
                                        set='False' to supress coloring altogether, or enter False
                                        for the coloring to be omitted, e.g. 'marine False green'
@@ -119,7 +120,7 @@ PARAMETERS
         colors = str(colors)
         only = bool(str(only) != 'False')
     except:
-        print "Input error"
+        print("Input error")
         return False
 
     if colors == 'False':
@@ -129,7 +130,7 @@ PARAMETERS
         if colors in util_choices:
             color_s = color_h = color_l = '%s ' % util_choices[util_choices.index(colors)]
         else:
-            print "Input error! Please check the color setting using util. is one of:", util_choices
+            print("Input error! Please check the color setting using util. is one of:", util_choices)
             return False
     else:
         try:
@@ -150,7 +151,7 @@ PARAMETERS
             else:
                 color_l = False
         except:
-            print "Input error! Please check that three valid colors (or False) are provided"
+            print("Input error! Please check that three valid colors (or False) are provided")
             return False
 
     for p in cmd.get_object_list(selection):
@@ -161,18 +162,18 @@ PARAMETERS
         cmd.cartoon('loop', 'ss l+"" and %s and %s' % (selection, p))
         # sheets
         if color_s:
-            print cmd.do(color_s + '(ss s and %s and %s)' % (selection, p))
+            print(cmd.do(color_s + '(ss s and %s and %s)' % (selection, p)))
         cmd.set('cartoon_rect_length', 1.5, p)
         cmd.set('cartoon_rect_width', 0.25, p)
         # a-helices
         if color_h:
-            print cmd.do(color_h + '(ss h and %s and %s)' % (selection, p))
+            print(cmd.do(color_h + '(ss h and %s and %s)' % (selection, p)))
         cmd.set('cartoon_dumbbell_length', 1.5, p)
         cmd.set('cartoon_dumbbell_width', 0.25, p)
         cmd.set('cartoon_dumbbell_radius', 0.2, p)
         # loops
         if color_l:
-            print cmd.do(color_l + '(ss l+"" and %s and %s)' % (selection, p))
+            print(cmd.do(color_l + '(ss l+"" and %s and %s)' % (selection, p)))
         cmd.set('cartoon_loop_radius', 0.25, p)
 
         if only:
@@ -221,7 +222,7 @@ PARAMETERS
         hydrogens = int(hydrogens)
         only = bool(str(only) != 'False')
     except:
-        print "Input error"
+        print("Input error")
         return False
 
     if hydrogens == 1:
@@ -288,7 +289,7 @@ PARAMETERS
                                'putty': b-factor on surface
     hydrogens=0        <int>   -1: remove; 1: add; else: as is
     only=False         <bool>  if True will use show_as; else show
-    limits=5           <list or flaot> 
+    limits=5           <list or flaot>
                                applies only if color_m=='putty'
                                sets the b-factor range limits
                                <list> [min,max] # absolute values
@@ -301,7 +302,7 @@ PARAMETERS
         hydrogens = int(hydrogens)
         only = bool(str(only) != 'False')
     except:
-        print "Input error"
+        print("Input error")
         return False
 
     if hydrogens == 1:
@@ -314,15 +315,15 @@ PARAMETERS
         if (color_m == 'putty'):
             limits = get_b_limits(limits, p)
             if not limits:
-                print "Input error (limits must be <list> or <float (<=50)>)!"
+                print("Input error (limits must be <list> or <float (<=50)>)!")
                 return False
 
             cmd.set('mesh_color', 'default', p)
             cmd.spectrum('b', 'rainbow', '(not hetatm) and %s' % p, minimum='%f' % limits[0], maximum='%f' % limits[1], byres=0)
-            print "disp_ss:", p, "displayed in putty mode - mesh as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1])
+            print("disp_ss:", p, "displayed in putty mode - mesh as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1]))
         else:
             cmd.set('mesh_color', color_m, p)
-            print"regular mode - mesh - " + p
+            print("regular mode - mesh - " + p)
 
         if only:
             cmd.show_as('mesh', '%s and %s' % (selection, p))
@@ -378,7 +379,7 @@ PARAMETERS
     solvent=0          <int>   defines 'surface_solvent'
     ramp_above=1       <int>   defines 'surface_ramp_above_mode'
     only=False         <bool>  if True will use show_as; else show
-    limits=5           <list or flaot> 
+    limits=5           <list or flaot>
                                applies only if color_s=='putty'
                                sets the b-factor range limits
                                <list> [min,max] # absolute values
@@ -393,7 +394,7 @@ PARAMETERS
         ramp_above = int(ramp_above)
         only = bool(str(only) != 'False')
     except:
-        print "Input error"
+        print("Input error")
         return False
 
     for p in cmd.get_object_list(selection):
@@ -418,17 +419,17 @@ PARAMETERS
         if (color_s == 'putty'):
             limits = get_b_limits(limits, p)
             if not limits:
-                print "Input error (limits must be <list> or <float (<=50)>)!"
+                print("Input error (limits must be <list> or <float (<=50)>)!")
                 return False
 
             cmd.set('surface_color', 'default', p)
             cmd.spectrum('b', 'rainbow',
                          '(not hetatm) and %s' % p, minimum='%f' % limits[0],
                          maximum='%f' % limits[1], byres=0)
-            print "disp_ss:", p, "displayed in putty mode - surface as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1])
+            print("disp_ss:", p, "displayed in putty mode - surface as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1]))
         else:
             cmd.set('surface_color', color_s, selection)
-            print "disp_ss:", p, "displayed as regular surface"
+            print("disp_ss:", p, "displayed as regular surface")
         if only:
             cmd.show_as('surface', '(%s and %s)' % (selection, p))
         else:
@@ -458,7 +459,7 @@ USEAGE
 
     disp_putty [ selection ]
     selection    <str>    input selection
-    limits=10    <list or flaot> 
+    limits=10    <list or flaot>
                           applies only if color_m=='putty'
                           sets the b-factor range limits (by protein)
                           <list> [min,max]
@@ -470,13 +471,13 @@ USEAGE
         selection = '(' + selection + ')'
         only = bool(str(only) != 'False')
     except:
-        print "Input error"
+        print("Input error")
         return False
 
     for p in cmd.get_object_list(selection):
         limits = get_b_limits(limits, p)
         if not limits:
-            print "Input error (limits must be <list> or <float (<=50)>)!"
+            print("Input error (limits must be <list> or <float (<=50)>)!")
             return False
         # settings
         cmd.set('cartoon_discrete_colors', 'off', p)

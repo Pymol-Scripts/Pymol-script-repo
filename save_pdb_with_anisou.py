@@ -6,6 +6,8 @@ http://pymolwiki.org/index.php/Save_pdb_with_anisou
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
+
 from pymol import cmd, CmdException
 
 
@@ -39,7 +41,8 @@ SEE ALSO
     f.close()
 
     if not quiet:
-        print ' Save with ANISOU: wrote "%s"' % (filename)
+        print(' Save with ANISOU: wrote "%s"' % (filename))
+
 
 cmd.extend('save_pdb_with_anisou', save_pdb_with_anisou)
 

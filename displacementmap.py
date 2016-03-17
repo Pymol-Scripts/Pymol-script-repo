@@ -14,6 +14,7 @@ Example input from pymol. with 2 objects.
 dispmap O5NT-1HP1-A, C5NT-1HPU-C, 30.0, 15.0, resi1=23-25, atom=CA, showsticks=yes
 '''
 
+from __future__ import print_function
 from pymol import cmd, stored, selector
 from math import *
 import os
@@ -27,7 +28,7 @@ def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1
     if molecule2 == "NIL":
         assert len(cmd.get_names()) != 0, "Did you forget to load a molecule? There are no objects in pymol."
         molecule2 = cmd.get_names()[1]
-    print "You passed in %s and %s" % (molecule1, molecule2)
+    print("You passed in %s and %s" % (molecule1, molecule2))
 
     # Open filenames
     filename = str(molecule1) + "-" + str(molecule2) + "-" + str(atom) + "-dist"
@@ -35,7 +36,7 @@ def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1
     outfile = open(filename + ".txt", "w")
     backboneoutfile = open(filename + "-backbone.txt", "w")
     gnuoutfile = open(filename + ".plt", "w")
-    print("I have opened matrix %s for you\n" % (filename + ".txt"))
+    print(("I have opened matrix %s for you\n" % (filename + ".txt")))
 
     # Sorting for interesting residues for Obj1 and Obj2.
     # Input is a string, and need to be sorted.
@@ -46,13 +47,13 @@ def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1
     for i in resi1:
         if '-' in i:
             tmp = i.split('-')
-            resi1List.extend(range(int(tmp[0]), int(tmp[-1]) + 1))
+            resi1List.extend(list(range(int(tmp[0]), int(tmp[-1]) + 1)))
         if '-' not in i:
             resi1List.append(int(i))
     for i in resi2:
         if '-' in i:
             tmp = i.split('-')
-            resi2List.extend(range(int(tmp[0]), int(tmp[-1]) + 1))
+            resi2List.extend(list(range(int(tmp[0]), int(tmp[-1]) + 1)))
         if '-' not in i:
             resi2List.append(int(i))
     resi1List.sort()
@@ -120,7 +121,7 @@ def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1
 
     # Make the data matrix
     CalcMatrix = create_nXn_matrix(len(OpenOrderedPos))
-    print("Calculating a %s X %s distance Matrix" % (len(OpenOrderedPos), len(ClosedOrderedPos)))
+    print(("Calculating a %s X %s distance Matrix" % (len(OpenOrderedPos), len(ClosedOrderedPos))))
 
     # Make a list with 10 most negative/positive distances
     MaxNegDist = []
@@ -162,9 +163,9 @@ def dispmap(molecule1="NIL", molecule2="NIL", mindist=30.0, mindelta=15.0, resi1
                         MaxPosDist = sorted(MaxPosDist, reverse=True)
 
     print("I made a datamatrix and backbone.txt file for you")
-    print("matrix: %s backbone: %s" % (filename + ".txt", filename + "-backbone.txt"))
+    print(("matrix: %s backbone: %s" % (filename + ".txt", filename + "-backbone.txt")))
     print("I made a gnuplot file for you, to view the datamatrix and the backbone displacement")
-    print("filename: %s\n" % (filename + ".plt"))
+    print(("filename: %s\n" % (filename + ".plt")))
 
     # Print distance matrix
     line01 = "# Input 1: %s  and Input 2: %s" % (molecule1, molecule2)
@@ -305,7 +306,7 @@ def distance(array1, array2, i, j):
 
 
 def Coord(Input):
-    print cmd.get_atom_coords(Input)
+    print(cmd.get_atom_coords(Input))
 cmd.extend("Coord", Coord)
 
 

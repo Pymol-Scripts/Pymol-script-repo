@@ -34,6 +34,7 @@ ehthumbs.db
 Icon?
 Thumbs.db
 *~
+*.bak
 
 # IDE #
 #######

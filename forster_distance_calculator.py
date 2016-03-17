@@ -8,13 +8,13 @@ http://www.pymolwiki.org/index.php/forster_distance_calculator
 #		Input is manufactor provided spectres of Donor emission and
 #		acceptor excitation spectrum.
 #
-#		Carl Boswell and co. have made a new homepage with a long list of dyes which can be downloaded. 
-#		With a graphics program, they have traced several spectre of dyes from the literature and made this easily public at: 
-#		http://www.spectra.arizona.edu/    I highly recommend this homepage. 
-#		With these Spectra, the script can calculate the Forster Distance for different dyes from different companies. 
+#		Carl Boswell and co. have made a new homepage with a long list of dyes which can be downloaded.
+#		With a graphics program, they have traced several spectre of dyes from the literature and made this easily public at:
+#		http://www.spectra.arizona.edu/    I highly recommend this homepage.
+#		With these Spectra, the script can calculate the Forster Distance for different dyes from different companies.
 #		Download "one spectrum at the time" by "deselecting" one of the spectre in the right side of the graph window.
-#		Then get the datafile with the button in the lower right corner. 
-##		
+#		Then get the datafile with the button in the lower right corner.
+##
 #		Made from
 #		http://en.wikipedia.org/wiki/F%C3%B6rster_resonance_energy_transfer#Theoretical_basis
 #		{R_0}^6 = \frac{9\,Q_0 \,(\ln 10) \kappa^2 \, J}{128 \, \pi^5 \,n^4 \, N_A}
@@ -43,6 +43,8 @@ n = 1.33  : 	Refractive index of the medium. water=1.33, protein=1.4, n2MGuHCl=1
 NA = 6.02214179e+023 # (units: Number*mol-1 )Avogadros number
 '''
 
+from __future__ import print_function
+
 try:
     from pymol import cmd
     runningpymol = 'yes'
@@ -61,7 +63,7 @@ def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.tx
     k2 = float(k2)
     n = float(n)
     NA = 6.02214179e+023
-    print k2, Qd
+    print(k2, Qd)
     printAll = "ye"  # To print out all info
     fileDexi, extDexi = os.path.splitext(D_Exi)
     fileDemi, extDemi = os.path.splitext(D_Emi)
@@ -71,12 +73,12 @@ def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.tx
     overlapfile = open(overlapname, "w")
     overlapgnuplotname = fileDemi + "-" + fileAexi + "-overlap.plt"
     overlapgnuplotfile = open(overlapgnuplotname, "w")
-    print "\nI have opened two files for you: \n%s and %s" % (overlapname, overlapgnuplotname)
-    print "The .plt should be opened with gnuplot to make the graphs."
-    print "The created graphs are .eps files."
-    print "They can be converted to pdf with the program: epstopdf or eps2pdf"
-    print 'Part of LaTeX: C:\Program Files (x86)\MiKTeX 2.9\miktex' + "\\" + "bin"
-    print "Or download here: http://tinyurl.com/eps2pdf"
+    print("\nI have opened two files for you: \n%s and %s" % (overlapname, overlapgnuplotname))
+    print("The .plt should be opened with gnuplot to make the graphs.")
+    print("The created graphs are .eps files.")
+    print("They can be converted to pdf with the program: epstopdf or eps2pdf")
+    print('Part of LaTeX: C:\Program Files (x86)\MiKTeX 2.9\miktex' + "\\" + "bin")
+    print("Or download here: http://tinyurl.com/eps2pdf")
 
     DonorEmi = open(D_Emi, "r")
     AcceptorExi = open(A_Exi, "r")
@@ -92,7 +94,7 @@ def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.tx
             if testfloat(str.split(i)[0]):
                 Demi.append([float(str.split(i)[0]), float(str.split(i)[1])])
     AreaDemi = numintegrator(Demi)
-    print "Nummerical integration of Donor emission spectrum, used for normalization, gives: Area=", AreaDemi
+    print("Nummerical integration of Donor emission spectrum, used for normalization, gives: Area=", AreaDemi)
 
     for i in lineAexi:
         if not i.strip():
@@ -226,58 +228,58 @@ if runningpymol != 'no':
 def ForsterConstFactor6(NA, printAll):
     vForsterConstFactor6 = (9 * math.log(10)) / (128 * math.pow(math.pi, 5) * NA)
     if printAll == 'yes':
-        print "Forster constant pre-factor is:", str(vForsterConstFactor6), "(units: mol)"
+        print("Forster constant pre-factor is:", str(vForsterConstFactor6), "(units: mol)")
     return vForsterConstFactor6
 
 
 def ForsterVariableFactor6(Qd, k2, n, printAll):
     vForsterVariableFactor6 = (k2 * Qd) / (math.pow(n, 4))
     if printAll == 'yes':
-        print "Forster variable pre-factor is:", str(vForsterVariableFactor6), "(units: NIL)"
+        print("Forster variable pre-factor is:", str(vForsterVariableFactor6), "(units: NIL)")
     return vForsterVariableFactor6
 
 
 def ForsterPrefactor6(Qd, k2, n, NA, printAll):
     vForsterPrefactor6 = ForsterConstFactor6(NA, printAll) * ForsterVariableFactor6(Qd, k2, n, printAll)
     if printAll == 'yes':
-        print "Forster pre-factor is:", str(vForsterPrefactor6), "(units: mol)"
+        print("Forster pre-factor is:", str(vForsterPrefactor6), "(units: mol)")
     return vForsterPrefactor6
 
 
 def ForsterCalcnm(fFPreFactor6, fAreaOverlap, printAll):
     if printAll == 'yes':
-        print "Overlap sum is: ", str(fAreaOverlap), "(units: cm-1 nm^4 L mol-1)"
+        print("Overlap sum is: ", str(fAreaOverlap), "(units: cm-1 nm^4 L mol-1)")
     Forster6 = fFPreFactor6 * fAreaOverlap
     if printAll == 'yes':
-        print "Forster distance 6th power:", str(Forster6), "(units: cm-1 nm^4 L), obs(1L=1e-3m^3)"
+        print("Forster distance 6th power:", str(Forster6), "(units: cm-1 nm^4 L), obs(1L=1e-3m^3)")
     Forster6m = Forster6 * 100 * math.pow(1e-9, 4) * 1e-3  # 1e-3 is conversion from 1L = 1e-3 m3
     if printAll == 'yes':
-        print "Forster distance 6th power:", str(Forster6m), "(units: meter m^6)"
+        print("Forster distance 6th power:", str(Forster6m), "(units: meter m^6)")
     Forster6Ang = Forster6m * math.pow(1e10, 6.0)
     if printAll == 'yes':
-        print "Forster distance Angstrom 6th power:", "%e" % (Forster6Ang), "(units: Angstrom^6)"
+        print("Forster distance Angstrom 6th power:", "%e" % (Forster6Ang), "(units: Angstrom^6)")
     ForsterAng = math.pow(Forster6Ang, 1.0 / 6.0)
-    print "Forster distance:", str(ForsterAng), "(units: Angstrom)"
+    print("Forster distance:", str(ForsterAng), "(units: Angstrom)")
     return ForsterAng
 
 
 def ForsterCalccm(fFPreFactor6, fAreaOverlap, printAll):
     if printAll == 'yes':
-        print "Overlap sum is: ", str(fAreaOverlap), "(units: cm^3 L mol-1)"
+        print("Overlap sum is: ", str(fAreaOverlap), "(units: cm^3 L mol-1)")
     Forster6 = fFPreFactor6 * fAreaOverlap
     if printAll == 'yes':
-        print "Forster distance 6th power:", str(Forster6), "(units: cm^3 L), obs(1L=1e-3m^3)"
+        print("Forster distance 6th power:", str(Forster6), "(units: cm^3 L), obs(1L=1e-3m^3)")
     Forster6m = Forster6 * math.pow(1e-2, 3) * 1e-3  # 1e-3 is conversion from 1L = 1e-3 m3
     if printAll == 'yes':
-        print "Forster distance 6th power:", str(Forster6m), "(units: meter m^6)"
+        print("Forster distance 6th power:", str(Forster6m), "(units: meter m^6)")
     Forster6cm = Forster6m * math.pow(1e2, 6.0)
     if printAll == 'yes':
-        print "Forster distance cm 6th power:", "%e" % (Forster6cm), "(units: cm^6)"
+        print("Forster distance cm 6th power:", "%e" % (Forster6cm), "(units: cm^6)")
     Forster6Ang = Forster6m * math.pow(1e10, 6.0)
     if printAll == 'yes':
-        print "Forster distance Angstrom 6th power:", "%e" % (Forster6Ang), "(units: Angstrom^6)"
+        print("Forster distance Angstrom 6th power:", "%e" % (Forster6Ang), "(units: Angstrom^6)")
     ForsterAng = math.pow(Forster6m, 1.0 / 6.0)
-    print "Forster distance:", str(ForsterAng), "(units: Angstrom)"
+    print("Forster distance:", str(ForsterAng), "(units: Angstrom)")
     return ForsterAng
 
 

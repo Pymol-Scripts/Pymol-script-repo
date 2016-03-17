@@ -6,6 +6,7 @@ http://pymolwiki.org/index.php/Extra_fit
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
 __version__ = '1.0'
 
 from pymol import cmd, CmdException
@@ -45,16 +46,16 @@ SEE ALSO
         if method in cmd.keyword:
             method = cmd.keyword[method][0]
         else:
-            print 'Unknown method', method
+            print('Unknown method', method)
             raise CmdException
     for model in models:
         x = method(mobile='(%s) and model %s' % (selection, model),
                    target='(%s) and model %s' % (selection, reference), **kwargs)
         if not quiet:
             if cmd.is_sequence(x):
-                print '%-20s RMS = %8.3f (%d atoms)' % (model, x[0], x[1])
+                print('%-20s RMS = %8.3f (%d atoms)' % (model, x[0], x[1]))
             elif isinstance(x, float):
-                print '%-20s RMS = %8.3f' % (model, x)
+                print('%-20s RMS = %8.3f' % (model, x))
     if zoom:
         cmd.zoom(selection)
 

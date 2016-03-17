@@ -6,6 +6,7 @@ Square and Tetrahedra representations
 License: BSD-2-Clause
 '''
 
+from __future__ import print_function
 from pymol import cmd, cgo
 from chempy import cpv
 
@@ -117,8 +118,8 @@ SEE ALSO
     state, scale, atomcolors = int(state), float(scale), int(atomcolors)
     if state < 0:
         state = cmd.get_setting_int('state')
-    states = [state] if state else range(1,
-                                         cmd.count_states(selection) + 1)
+    states = [state] if state else list(range(1,
+                                         cmd.count_states(selection) + 1))
 
     def callback(x, y, z, vdw, color):
         if atomcolors:

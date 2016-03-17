@@ -10,6 +10,8 @@ See more here: http://www.pymolwiki.org/index.php/wfmesh
 ###############################################
 '''
 
+from __future__ import print_function
+
 import os
 import re
 import math
@@ -20,7 +22,7 @@ from pymol import cmd
 # Wrapper Function, to create a given WFObj with a specific name (flip = 1 if OpenFX + Crossroads used)
 
 
-def createWFObj(file, name, translate=[0, 0, 0], flip=0):
+def createWFObj(file, name, translate=(0, 0, 0), flip=0):
     obj = WFMesh(file, translate, flip)
     cmd.load_callback(obj, name)
 
@@ -59,14 +61,14 @@ class WFMesh(Callback):
 
         # Compute norms for each polygon
         for p in self.polys:
-            v12 = [float(self.verts[int(p[1]) - 1][0]) - float(self.verts[int(p[0]) - 1][0]),\
-                   float(self.verts[int(p[1]) - 1][1]) - float(self.verts[int(p[0]) - 1][1]),\
-                   float(self.verts[int(p[1]) - 1][2]) - float(self.verts[int(p[0]) - 1][2]) \
+            v12 = [float(self.verts[int(p[1]) - 1][0]) - float(self.verts[int(p[0]) - 1][0]),
+                   float(self.verts[int(p[1]) - 1][1]) - float(self.verts[int(p[0]) - 1][1]),
+                   float(self.verts[int(p[1]) - 1][2]) - float(self.verts[int(p[0]) - 1][2])
                    ]
 
-            v13 = [float(self.verts[int(p[2]) - 1][0]) - float(self.verts[int(p[0]) - 1][0]),\
-                   float(self.verts[int(p[2]) - 1][1]) - float(self.verts[int(p[0]) - 1][1]),\
-                   float(self.verts[int(p[2]) - 1][2]) - float(self.verts[int(p[0]) - 1][2]) \
+            v13 = [float(self.verts[int(p[2]) - 1][0]) - float(self.verts[int(p[0]) - 1][0]),
+                   float(self.verts[int(p[2]) - 1][1]) - float(self.verts[int(p[0]) - 1][1]),
+                   float(self.verts[int(p[2]) - 1][2]) - float(self.verts[int(p[0]) - 1][2])
                    ]
 
             # Compute poly normal
@@ -129,13 +131,13 @@ class WFMesh(Callback):
         y = 1
         z = 2
 
-        return [v1[y] * v2[z] - v1[z] * v2[y],\
-                v1[z] * v2[x] - v1[x] * v2[z],\
+        return [v1[y] * v2[z] - v1[z] * v2[y],
+                v1[z] * v2[x] - v1[x] * v2[z],
                 v1[x] * v2[y] - v1[y] * v2[x]
                 ]
 
     # Constructor
-    def __init__(self, file, translate=[0, 0, 0], flip=0):
+    def __init__(self, file, translate=(0, 0, 0), flip=0):
         self.verts = []
         self.polys = []
         self.pnorms = []
@@ -144,11 +146,11 @@ class WFMesh(Callback):
         self.translate = translate
         self.flip = flip
 
-        print "Read in file: " + str(file)
+        print("Read in file: " + str(file))
         self.readOBJ(file)
-        print "Done reading in WFMesh, now compute norms"
+        print("Done reading in WFMesh, now compute norms")
         self.computeNorms()
-        print "Done computing norms, now display WFMesh"
+        print("Done computing norms, now display WFMesh")
 
     # Draw Function
     def __call__(self):

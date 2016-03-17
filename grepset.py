@@ -1,3 +1,4 @@
+from __future__ import print_function
 from pymol import cmd
 import re
 import pymol.setting
@@ -35,7 +36,7 @@ SEE ALSO
     maxlen = max([len(s[0]) for s in matches] + [0])
     fmt = "%%-%ds : %%s" % (maxlen,)
     for setting in matches:
-        print fmt % setting
-    print '%d settings matched' % (count,)
+        print((fmt % setting))
+    print(('%d settings matched' % (count,)))
     cmd.set('text', 1)
 cmd.extend('grepset', grepset)

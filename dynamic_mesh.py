@@ -21,6 +21,7 @@ Note: On PyMOL <= 1.4, you have to download the electron density
 map from the Uppsala Electron Density Server manually.
 '''
 
+from __future__ import print_function
 from pymol.callback import Callback
 from pymol import cmd
 from chempy import cpv
@@ -55,7 +56,7 @@ class DynamicMesh(Callback):
 
     def contour_plus(self, d=0.1):
         self.level += d
-        print "Map level: " + str(self.level)
+        print("Map level: " + str(self.level))
         self.update()
 
     def contour_minus(self):

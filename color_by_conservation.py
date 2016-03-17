@@ -10,12 +10,13 @@ See more here: http://www.pymolwiki.org/index.php/color_by_conservation
                from the alignment object
     color
         (string) valid PyMOL spectrum name
- 
+
     as_putty
         (0 or 1) if 0 display is not changed, else participating objects are shown
                  as cartoon putty, colored by the 'color' field
 '''
 
+from __future__ import print_function
 from pymol import cmd
 
 
@@ -23,18 +24,18 @@ def color_by_conservation(aln, names=(), color="rainbow", as_putty=0, _self=cmd)
     # PyMOL doesn't yet know about object:alignment
     # but we need to check that this exists or we might crash
     if _self.get_type(aln) not in ("object:", "object:alignment"):
-        print "Error: Bad or incorrectly specified alignment object."
+        print("Error: Bad or incorrectly specified alignment object.")
         return None
 
     r = cmd.get_raw_alignment(aln)
 
     if names == ():
         known_objs = []
-        map(known_objs.extend, map(lambda x: map(lambda y: y[0], x), r))
+        list(map(known_objs.extend, [[y[0] for y in x] for x in r]))
         known_objs = set(known_objs)
 
         # highest number of matches seen
-        M = max(map(len, r)) + 1
+        M = max(list(map(len, r))) + 1
     else:
         known_objs = set(names)
         M = len(known_objs) + 1

@@ -3,12 +3,12 @@ See more here: http://www.pymolwiki.org/index.php/centroid
 
 DESCRIPTION
         get the centroid (geometric center) of a selection or move selection to the origin.
- 
+
 ARGUMENTS
         selection = string: a valid PyMOL selection {default: all}
         center = 0 or 1: if center=1 center the selection {default: 0}
         returns: centroid: [ x, y, z ]
- 
+
 SEE ALSO
         get_extent, get_position, http://pymolwiki.org/index.php/Center_Of_Mass
 
@@ -37,6 +37,7 @@ SEE ALSO
 # REV   : 1
 
 '''
+from __future__ import print_function
 from pymol import cmd
 from pymol import stored
 from chempy import cpv
@@ -54,7 +55,7 @@ def centroid(selection='all', center=0, quiet=1):
     centroid = cpv.scale(centroid, 1. / nAtom)
 
     if not int(quiet):
-        print ' centroid: [%8.3f,%8.3f,%8.3f]' % tuple(centroid)
+        print(' centroid: [%8.3f,%8.3f,%8.3f]' % tuple(centroid))
 
     if int(center):
         cmd.alter_state(1, selection, "(x,y,z)=sub((x,y,z), centroid)",
