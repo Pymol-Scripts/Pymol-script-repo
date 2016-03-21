@@ -1,18 +1,15 @@
 '''
 Title   : mtsslTrilaterate
-Version : 1.1
+Version : 1.2
 Author  : Dinar Abdullin
-Date    : Dec 2015
-Email   : abdullin@pc.uni-bonn.de
-Website : http://www.schiemann.uni-bonn.de
+Date    : March 2016
+E-mail  : abdullin@pc.uni-bonn.de
 Short description:
-    Trilateration is a plugin for the PyMOL Molecular Graphics System. It provides a set of
-    mathematical tools which can be used to locate spin centers in biomolecules by means of EPR 
-    spectroscopy.
+          mtsslTrilaterate is a PyMOL plugin, which provides a set of mathematical tools 
+          to trilaterate paramagnetic spin centers in biomolecules using spin labels and
+          ESR distance constraints
 '''
 
-####################################################################################################
-'''Import libraries'''
 import os
 import sys
 import threading
@@ -27,28 +24,21 @@ from pymol.cgo import *
 import wx
 import wx.grid
 import wx.lib.mixins.listctrl as listmix
-from wx.lib.pubsub import setuparg1
-from wx.lib.pubsub import pub as Publisher
-
-####################################################################################################
+from wx.lib.pubsub import setupkwargs
+from wx.lib.pubsub import pub
 
 
-class trilat(wx.Frame):
-
-    ''''''
-
-    #-----------------------------------------------------------------------------------------------
+class mtsslTrilaterate(wx.Frame):
+    '''GUI of mtsslTrilaterate'''
 
     def __init__(self, parent, ID, title):
-        ''''''
         wx.Frame.__init__(self, parent, ID, title, wx.DefaultPosition, wx.Size(700, 525))
         self.VariablesInitialization()
-        Publisher.subscribe(self.OnImportParam, ("parameters"))
+        pub.subscribe(self.OnImportParam, 'import.param')
         self.UserInterface()
         self.Centre()
         self.Show()
 
-    #-----------------------------------------------------------------------------------------------
     def VariablesInitialization(self):
         '''Initialize variables'''
         # System parameters
@@ -82,33 +72,29 @@ class trilat(wx.Frame):
         self.ellipsoidTransparency = 0.0
         self.confidenceLevel = 1
 
-    #-----------------------------------------------------------------------------------------------
-    def OnImportParam(self, msg):
-        '''Import parameters from Preferences menu'''
-        self.calcMode = msg.data[0]
-        self.maxNumOfIter = msg.data[1]
-        self.minChiSquare = msg.data[2]
-        self.lambdaFirst = msg.data[3]
-        self.lambdaStep = msg.data[4]
-        self.coordFactor = msg.data[5]
-        self.distFactor = msg.data[6]
-        self.spheresColor = msg.data[7]
-        self.spheresTransparency = msg.data[8]
-        self.ellipsoidColor = msg.data[9]
-        self.ellipsoidTransparency = msg.data[10]
-        self.confidenceLevel = msg.data[11]
+    def OnImportParam(self, data):
+        '''Import the parameters from the preferences menu'''
+        self.calcMode = data[0]
+        self.maxNumOfIter = data[1]
+        self.minChiSquare = data[2]
+        self.lambdaFirst = data[3]
+        self.lambdaStep = data[4]
+        self.coordFactor = data[5]
+        self.distFactor = data[6]
+        self.spheresColor = data[7]
+        self.spheresTransparency = data[8]
+        self.ellipsoidColor = data[9]
+        self.ellipsoidTransparency = data[10]
+        self.confidenceLevel = data[11]
 
-    #-----------------------------------------------------------------------------------------------
     def UserInterface(self):
-        '''Graphical User Interface'''
+        '''Make GUI'''
         panel = wx.Panel(self, -1)
         panel.SetFont(wx.Font(9, wx.DEFAULT, wx.NORMAL, wx.NORMAL))
-
         # MAIN SIZER
         sizer = wx.GridBagSizer(hgap=1, vgap=1)
         sizer.AddGrowableCol(1)
         panel.SetSizer(sizer)
-
         # INPUT BOX
         inputBox = wx.StaticBox(panel, label='')
         sizerI1 = wx.StaticBoxSizer(inputBox, wx.VERTICAL)
@@ -206,7 +192,6 @@ class trilat(wx.Frame):
         clearInput.Bind(wx.EVT_BUTTON, self.OnClearInput)
         sizerI13.Add(clearInput, flag=wx.LEFT, border=10)
         sizerI1.Add(sizerI13, proportion=0, flag=wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, border=10)
-
         # OUTPUT BOX
         outputBox = wx.StaticBox(panel, label='')
         sizerO1 = wx.StaticBoxSizer(outputBox, wx.VERTICAL)
@@ -280,8 +265,7 @@ class trilat(wx.Frame):
         clearOutput = wx.Button(panel, label='Clear')
         clearOutput.Bind(wx.EVT_BUTTON, self.OnClearOutput)
         sizerO12.Add(clearOutput, flag=wx.LEFT, border=10)
-
-        # CREATE MENU BAR
+        # MENU BAR
         menubar = wx.MenuBar()
         fileMenu = wx.Menu()
         openItem = wx.MenuItem(fileMenu, 11, '&Open\tCtrl+O')
@@ -323,13 +307,15 @@ class trilat(wx.Frame):
         menubar.Append(pymolMenu, '&PyMOL')
         menubar.Append(helpMenu, '&Help')
         self.SetMenuBar(menubar)
-
-        # CREATE STATUS BAR
+        # STATUS BAR
         self.statusbar = self.CreateStatusBar()
+        pub.subscribe(self.OnStatusUpdate, 'statusbar.update')
+        
+    def OnStatusUpdate(self, status):
+        self.statusbar.SetStatusText(status,0)
 
-    #-----------------------------------------------------------------------------------------------
     def OnInputTableCellSelect(self, event):
-        '''Reads the number of selected cell'''
+        '''Read the number of the clicked cell'''
         curRow = event.GetRow()
         if (curRow >= 2):
             # Highlight selected label
@@ -338,12 +324,10 @@ class trilat(wx.Frame):
             self.table.Refresh()
             # Set number of current label
             self.curLabel = curRow - 2
-
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnInputTableCellChange(self, event):
-        '''Saves the data entered to the table in input arrays'''
+        '''Save the data entered into the table as input arrays'''
         curRow = event.GetRow()
         curCol = event.GetCol()
         if (curCol == 0):
@@ -351,35 +335,35 @@ class trilat(wx.Frame):
         elif (curCol == 1):
             try:
                 self.labelCoordMean[self.curLabel][0] = float(self.table.GetCellValue(curRow, curCol))
-                self.statusbar.SetStatusText('Entering new input data... Click "Accept" button after all input data has been entered.')
+                self.statusbar.SetStatusText('Enter the coordinates and distances. Click the Accept button after all input data has been entered.')
             except:
                 self.labelCoordMean[self.curLabel][0] = None
                 self.statusbar.SetStatusText('Incorrect input data!')
         elif (curCol == 2):
             try:
                 self.labelCoordMean[self.curLabel][1] = float(self.table.GetCellValue(curRow, curCol))
-                self.statusbar.SetStatusText('Entering new input data... Click "Accept" button after all input data has been entered.')
+                self.statusbar.SetStatusText('Enter the coordinates and distances. Click the Accept button after all input data has been entered.')
             except:
                 self.labelCoordMean[self.curLabel][1] = None
                 self.statusbar.SetStatusText('Incorrect input data!')
         elif (curCol == 3):
             try:
                 self.labelCoordMean[self.curLabel][2] = float(self.table.GetCellValue(curRow, curCol))
-                self.statusbar.SetStatusText('Entering new input data... Click "Accept" button after all input data has been entered.')
+                self.statusbar.SetStatusText('Enter the coordinates and distances. Click the Accept button after all input data has been entered.')
             except:
                 self.labelCoordMean[self.curLabel][2] = None
                 self.statusbar.SetStatusText('Incorrect input data!')
         elif (curCol == 4):
             try:
                 self.distMean[self.curLabel] = float(self.table.GetCellValue(curRow, curCol))
-                self.statusbar.SetStatusText('Entering new input data... Click "Accept" button after all input data has been entered.')
+                self.statusbar.SetStatusText('Enter the coordinates and distances. Click the Accept button after all input data has been entered.')
             except:
                 self.distMean[self.curLabel] = None
                 self.statusbar.SetStatusText('Incorrect input data!')
         elif (curCol == 5):
             try:
                 self.distStd[self.curLabel] = float(self.table.GetCellValue(curRow, curCol))
-                self.statusbar.SetStatusText('Entering new input data... Click "Accept" button after all input data has been entered.')
+                self.statusbar.SetStatusText('Enter the coordinates and distances. Click the Accept button after all input data has been entered.')
             except:
                 self.distStd[self.curLabel] = None
                 self.statusbar.SetStatusText('Incorrect input data!')
@@ -387,12 +371,10 @@ class trilat(wx.Frame):
         self.UpdateInputTable()
         # Input data doesn't accepted
         self.inputAccepted = False
-
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnLoadCoordFromFile(self, event):
-        '''Loads label coordinates from data file'''
+        '''Load the labels' coordinates from a data file'''
         dlg = wx.FileDialog(self, message="Choose a file", defaultDir=os.getcwd(), defaultFile="", wildcard="Text Files (.txt, .dat)|*.txt;*.dat", style=wx.OPEN | wx.CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
@@ -409,13 +391,11 @@ class trilat(wx.Frame):
             # Input data doesn't accepted
             self.inputAccepted = False
             # Statusbar message
-            self.statusbar.SetStatusText('Coordinates of label no. ' + str(self.curLabel + 1) + ' were imported from data file! Click "Accept" button after all input data has been entered.')
-
+            self.statusbar.SetStatusText('The coordinates of the label ' + str(self.curLabel + 1) + ' are imported from data file!')
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnLoadDistFromFile(self, event):
-        '''Load the distance from data file'''
+        '''Load the distance from a data file'''
         dlg = wx.FileDialog(self, message="Choose a file", defaultDir=os.getcwd(), defaultFile="", wildcard="Text Files (.txt, .dat)|*.txt;*.dat", style=wx.OPEN | wx.CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
@@ -434,13 +414,11 @@ class trilat(wx.Frame):
             # Input data doesn't accepted
             self.inputAccepted = False
             # Statusbar message
-            self.statusbar.SetStatusText('Distance between target and label no. ' + str(self.curLabel + 1) + ' was imported from data file! Click "Accept" button after all input data has been entered.')
-
+            self.statusbar.SetStatusText('The distance between the target and the label ' + str(self.curLabel + 1) + ' is imported from a data file!')
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def UpdateInputTable(self):
-        '''Fills in the table by data'''
+        '''Fill the table with input data'''
         for i in range(self.maxNumOfLabels):
             self.table.SetCellValue(i + 2, 0, self.labelNames[i])
             if not (self.labelCoordMean[i][0] == None):
@@ -471,9 +449,8 @@ class trilat(wx.Frame):
                 for j in range(1, 6):
                     self.table.SetCellBackgroundColour(i + 2, j, wx.WHITE)
 
-    #-----------------------------------------------------------------------------------------------
     def OnAcceptInput(self, event):
-        '''Accepts input data if input data is correct'''
+        '''Appropriation of the entered input data'''
         # Number of defined labels
         N = 0
         # Rearrange input data arrays & calculate number of defined labels
@@ -485,19 +462,16 @@ class trilat(wx.Frame):
                 tempLabelCoordStd = self.labelCoordMean[N]
                 tempDistMean = self.distMean[N]
                 tempDistStd = self.distStd[N]
-
                 self.labelNames[N] = self.labelNames[i]
                 self.labelCoordMean[N] = self.labelCoordMean[i]
                 self.labelCoordStd[N] = self.labelCoordStd[i]
                 self.distMean[N] = self.distMean[i]
                 self.distStd[N] = self.distStd[i]
-
                 self.labelNames[i] = tempLabelName
                 self.labelCoordMean[i] = tempLabelCoordMean
                 self.labelCoordStd[i] = tempLabelCoordStd
                 self.distMean[i] = tempDistMean
                 self.distStd[i] = tempDistStd
-
                 N += 1
         # Update table
         self.UpdateInputTable()
@@ -513,12 +487,11 @@ class trilat(wx.Frame):
             self.inputAccepted = False
             self.numOfLabels = N
             # Statusbar message
-            self.statusbar.SetStatusText('The Number of the determined labels should be more than 3 to start the calculations!')
+            self.statusbar.SetStatusText('The number of defined labels should exceed 3!')
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnClearInput(self, event):
-        '''Clears all input data '''
+        '''Clear all input data'''
         # Clear input arrays
         self.labelNames = [None for col in range(self.maxNumOfLabels)]
         for index in range(self.maxNumOfLabels):
@@ -531,24 +504,22 @@ class trilat(wx.Frame):
         self.UpdateInputTable()
         # Input data doesn't accepted
         self.inputAccepted = False
-
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnCompute(self, event):
-        '''Computes target coordinates'''
+        '''Compute the target coordinates'''
         if (self.inputAccepted == False):
             # Statusbar message
             self.statusbar.SetStatusText('Correct input data is required!')
         else:
             # Linear least squares, Singular value decomposition
             self.targetCoordMean, self.targetCoordStd, self.chiSquare = SingularValueDecomposition(self.numOfLabels,
-                                                                                                 self.labelCoordMean,
-                                                                                                 self.distMean,
-                                                                                                 self.distStd)
+                                                                                                   self.labelCoordMean,
+                                                                                                   self.distMean,
+                                                                                                   self.distStd)
             self.numOfIter = None
             # Statusbar message
-            self.statusbar.SetStatusText('Target coordinates were calculated by means of SVD!')
+            self.statusbar.SetStatusText('Target coordinates are calculated!')
             # Fill in the otput fields
             self.table1.SetCellValue(2, 1, '{0:.1f}'.format(self.targetCoordMean[0][0]))
             self.table1.SetCellValue(2, 2, '{0:.1f}'.format(self.targetCoordMean[0][1]))
@@ -560,26 +531,26 @@ class trilat(wx.Frame):
             self.numOfIterBox.SetValue('1')
             if self.calcMode == 0:
                 self.targetCoordMean, self.targetCoordStd, self.chiSquare, self.numOfIter = InverseHessian(self.numOfLabels,
-                                                                                                        self.labelCoordMean,
-                                                                                                        self.distMean,
-                                                                                                        self.distStd,
-                                                                                                        self.targetCoordMean,
-                                                                                                        self.minChiSquare,
-                                                                                                        self.maxNumOfIter)
+                                                                                                           self.labelCoordMean,
+                                                                                                           self.distMean,
+                                                                                                           self.distStd,
+                                                                                                           self.targetCoordMean,
+                                                                                                           self.minChiSquare,
+                                                                                                           self.maxNumOfIter)
             elif self.calcMode == 1:
                 self.targetCoordMean, self.targetCoordStd, self.chiSquare, self.numOfIter = LevenbergMarquardt(self.numOfLabels,
-                                                                                                            self.labelCoordMean,
-                                                                                                            self.distMean,
-                                                                                                            self.distStd,
-                                                                                                            self.targetCoordMean,
-                                                                                                            self.minChiSquare,
-                                                                                                            self.maxNumOfIter,
-                                                                                                            self.lambdaFirst,
-                                                                                                            self.lambdaStep)
+                                                                                                               self.labelCoordMean,
+                                                                                                               self.distMean,
+                                                                                                               self.distStd,
+                                                                                                               self.targetCoordMean,
+                                                                                                               self.minChiSquare,
+                                                                                                               self.maxNumOfIter,
+                                                                                                               self.lambdaFirst,
+                                                                                                               self.lambdaStep)
             if self.numOfIter == self.maxNumOfIter:
-                self.statusbar.SetStatusText('Can not find a solution for a given set of input data! (Try to increase number of iterations.)')
+                self.statusbar.SetStatusText('Cannot find the solution for the given set of input data! (Try to increase number of iterations.)')
             else:
-                self.statusbar.SetStatusText('Target coordinates were calculated by use of nonlinear least squares algorithm!')
+                self.statusbar.SetStatusText('Target coordinates are calculated!')
             # Fill in output fields
             self.table1.SetCellValue(2, 1, '{0:.1f}'.format(self.targetCoordMean[0][0]))
             self.table1.SetCellValue(2, 2, '{0:.1f}'.format(self.targetCoordMean[0][1]))
@@ -589,10 +560,8 @@ class trilat(wx.Frame):
             self.table1.SetCellValue(3, 3, '{0:.1f}'.format(self.targetCoordStd[0][2]))
             self.chiSquareBox.SetValue('{0:.3f}'.format(self.chiSquare))
             self.numOfIterBox.SetValue('{0:d}'.format(self.numOfIter))
-
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnClearOutput(self, event):
         '''Clear all output data '''
         self.targetCoordMean = [[None for col in range(3)]]
@@ -613,56 +582,43 @@ class trilat(wx.Frame):
             cmd.delete('target')
         except:
             pass
-
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnImportCoordFromPymol(self, event):
-        '''Import list of labels from current PyMOL session'''
+        '''Import the list of spin labels from the running PyMOL session'''
         self.labelList.Enable()
         self.loadFromPymol.Enable()
         # Load a dictionary with labels and their coordinates from PyMOL
-        items = getPymolObjects("*_M-T-S-S-L")
+        items = cmd.get_object_list("*_label")
         # Write names of labels to the combobox list
         self.labelList.Clear()
         for key in sorted(items):
             self.labelList.Append(key)
-        # Statusbar message
-        Publisher.sendMessage(('change_statusbar'), 'Choose label and push "Load".')
-
+        # Statusbar message      
+        pub.sendMessage('statusbar.update', status='Choose the label and push the Load button...')
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnLoadFromPymol(self, event):
-        '''Import names and coordinates of labels from PyMOL'''
-        # try:
+        '''Import the names and the coordinates of the spin labels from PyMOL'''
         # Read the name of the label
         s = self.labelList.GetStringSelection()
-        # Load the coordinates of epr-active center of the spin label
-        coordO1 = []
-        coordN1 = []
-        cmd.iterate_state(0, s + ' and name O1', 'coordO1.append([x,y,z])', space=locals(), atomic=0)
-        cmd.iterate_state(0, s + ' and name N1', 'coordN1.append([x,y,z])', space=locals(), atomic=0)
-        coord = 0.5 * numpy.add(coordO1, coordN1)
-        # Save the name of spin label
+        # Determine the coordinates of epr-active center of the spin label
+        coord = []
+        cmd.iterate_state(0, s, 'coord.append([x,y,z])', space=locals(), atomic=0)
+        # Set the name of spin label and its average coordinates
         self.labelNames[self.curLabel] = s
-        # Calculate average label coordinates and their standard deviations
-        self.labelCoordMean[self.curLabel], self.labelCoordStd[self.curLabel] = AverageCoordCalc(coord)
+        self.labelCoordMean[self.curLabel] = coord[0]
+        self.labelCoordStd[self.curLabel] = [0.0, 0.0, 0.0]
         # Update table
         self.UpdateInputTable()
         # Statusbar message
-        self.statusbar.SetStatusText('Coordinates of ' + s + ' label were imported from PyMOL. Click "Accept" button after all input data has been entered.')
-        # except:
-        # Statusbar message
-        #self.statusbar.SetStatusText('No label was chosen!')
+        self.statusbar.SetStatusText('The coordinates of the label ' + s + ' are imported from PyMOL!')
         # Input data doesn't accepted
         self.inputAccepted = False
-
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnExportToPymol(self, event):
-        '''Creates a plot in PyMOL'''
+        '''Create a plot in PyMOL'''
         if (self.inputAccepted == False):
             # Plot spheres
             PlotSpheres(self.numOfLabels, self.labelCoordMean, self.distMean,
@@ -678,12 +634,10 @@ class trilat(wx.Frame):
                               self.ellipsoidColor, self.ellipsoidTransparency)
             except:
                 pass
-
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnSave(self, event):
-        '''Saves current session'''
+        '''Save a current session of the program'''
         if (self.inputAccepted == False):
             self.statusbar.SetStatusText('Data set is not complete!')
         else:
@@ -708,9 +662,9 @@ line 5: Lambda increment'''
                 target = '''* Target parameters:
 line 1: Name
 line 2: (x,y,z) coordinates
-line 3: Standard deviation of (x,y,z) coordinates
-line 4: Obtained chi-square value
-line 5: Obtained number of iterations'''
+line 3: Standard deviations of (x,y,z) coordinates
+line 4: Chi-square value
+line 5: Number of iterations'''
                 # Write data to file
                 dataFile = open(path, 'w')
                 dataFile.write(title + '\n\n')
@@ -747,12 +701,11 @@ line 5: Obtained number of iterations'''
                 dataFile.write('{0:d}'.format(self.numOfIter))
                 dataFile.close()
                 # Statusbar message
-                self.statusbar.SetStatusText('Current session is saved!')
+                self.statusbar.SetStatusText('The current session is saved!')
             dialog.Destroy()
 
-    #-----------------------------------------------------------------------------------------------
     def OnOpen(self, event):
-        '''Opens saved session'''
+        '''Open the earlier saved session'''
         dlg = wx.FileDialog(self, message="Choose a file", defaultDir=os.getcwd(), defaultFile="", wildcard="*.dat", style=wx.OPEN | wx.CHANGE_DIR)
         if dlg.ShowModal() == wx.ID_OK:
             path = dlg.GetPath()
@@ -806,7 +759,7 @@ line 5: Obtained number of iterations'''
             self.UpdateInputTable()
             self.inputAccepted = True
             # Statusbar message
-            self.statusbar.SetStatusText('New session was loaded from data file!')
+            self.statusbar.SetStatusText('The selected session is started!')
             # Remove figures from PyMOL
             try:
                 cmd.delete('trilateration')
@@ -818,9 +771,8 @@ line 5: Obtained number of iterations'''
             self.statusbar.SetStatusText('Nothing was selected!')
         dlg.Destroy()
 
-    #-----------------------------------------------------------------------------------------------
     def OnClose(self, event):
-        '''Close current session'''
+        '''Close the current session'''
         # Clear input arrays
         self.labelNames = [None for col in range(self.maxNumOfLabels)]
         for index in range(self.maxNumOfLabels):
@@ -853,12 +805,10 @@ line 5: Obtained number of iterations'''
             cmd.delete('target')
         except:
             pass
-
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnOpenPref(self, event):
-        '''Preferences menu'''
+        '''Open the preferences menu'''
         prefFrame = Preferences(self,
                                 self.coordFactor, self.distFactor,
                                 self.calcMode, self.maxNumOfIter, self.minChiSquare, self.lambdaFirst, self.lambdaStep,
@@ -866,38 +816,32 @@ line 5: Obtained number of iterations'''
                                 self.confidenceLevel)
         prefFrame.Show()
 
-    #-----------------------------------------------------------------------------------------------
     def OnExit(self, event):
-        '''Close program'''
+        '''Close the program'''
         self.Close()
 
-    #-----------------------------------------------------------------------------------------------
     def OnLoad(self, event):
-        '''Load new structure to PyMOL'''
-        dialog = wx.FileDialog(None, message='Set PDB file', style=wx.OPEN)
+        '''Load a new structure into PyMOL'''
+        dialog = wx.FileDialog(None, message='Choise the PyMOL file', style=wx.OPEN)
         if dialog.ShowModal() == wx.ID_OK:
             pdbfile = dialog.GetPath()
             cmd.load(pdbfile)
             # make PyMOL view nicer
             cmd.remove("solvent")
             cmd.show("cartoon")
-            # util.cbag("all")
             # Statusbar message
-            self.statusbar.SetStatusText('New structure was loaded to PyMOL!')
+            self.statusbar.SetStatusText('A new structure is loaded into PyMOL!')
         else:
             # Statusbar message
-            self.statusbar.SetStatusText('Nothing was selected.')
-
+            self.statusbar.SetStatusText('Nothing was selected!')
         dialog.Destroy()
 
-    #-----------------------------------------------------------------------------------------------
     def OnRemove(self, event):
-        '''Remove current structure from PyMOL'''
+        '''Remove a current structure from PyMOL'''
         cmd.delete("all")
         # Statusbar message
-        self.statusbar.SetStatusText('Current structure was removeded from PyMOL!')
+        self.statusbar.SetStatusText('The previous structure is removed from PyMOL!')
 
-    #-----------------------------------------------------------------------------------------------
     def OnRunMtsslWizard(self, event):
         '''Run MtsslWizard'''
         try:
@@ -908,35 +852,27 @@ line 5: Obtained number of iterations'''
         except:
             pass
 
-    #-----------------------------------------------------------------------------------------------
     def OnAbout(self, event):
-        '''Programs info'''
+        '''Show the program's info'''
         info = wx.AboutDialogInfo()
-        info.SetIcon(wx.Icon(os.path.dirname(os.path.abspath(__file__)) + '/icons/about.png', wx.BITMAP_TYPE_PNG))
         info.SetName('mtsslTrilaterate')
-        info.SetVersion('1.0')
+        info.SetVersion('1.2')
         description = """
-This program calculates coordinates of the point object which is defined by
-distances from this object to few (more than 3) fixed points in 3D space."""
+mtsslTrilaterate is a PyMOL plugin which provides a set of 
+mathematical tools to trilaterate paramagnetic spin centers in 
+biomolecules using spin labels and ESR distance constraints."""
         info.SetDescription(description)
-        info.SetCopyright('(C) 2012 Dinar Abdullin')
-        info.SetWebSite('http://www.schiemann.uni-bonn.de')
-        licence = """This program is free software. You can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation. See the GNU General Public License for more details."""
+        info.AddDeveloper("Dinar Abdullin, abdullin@pc.uni-bonn.de")
+        info.SetCopyright('(C) 2012-2016')
+        licence = """This program can be distributed under GNU General Public License."""
         info.SetLicence(licence)
         wx.AboutBox(info)
 
 
-####################################################################################################
 class ListCtrlLeft(wx.ListCtrl):
-
-    '''Content of Preferences menu'''
-
-    #-----------------------------------------------------------------------------------------------
+    '''The content of the preferences menu'''
 
     def __init__(self, parent, id):
-        ''''''
         wx.ListCtrl.__init__(self, parent, id, style=wx.LC_REPORT | wx.LC_HRULES | wx.LC_NO_HEADER | wx.LC_SINGLE_SEL)
         self.parent = parent
         self.Bind(wx.EVT_SIZE, self.OnSize)
@@ -946,34 +882,24 @@ class ListCtrlLeft(wx.ListCtrl):
         for i in titles:
             self.InsertStringItem(0, i)
 
-    #-----------------------------------------------------------------------------------------------
     def OnSize(self, event):
-        ''''''
         size = self.parent.GetSize()
         self.SetColumnWidth(0, size.x - 5)
         event.Skip()
 
-    #-----------------------------------------------------------------------------------------------
     def OnSelect(self, event):
-        ''''''
         window = self.parent.GetGrandParent().FindWindowByName('ListControlOnRight')
         index = event.GetIndex()
         window.LoadData(index)
 
-####################################################################################################
-
 
 class ListCtrlRight(wx.grid.Grid):
-
-    '''Names and values of parameters'''
-
-    #-----------------------------------------------------------------------------------------------
+    '''The parameters of the preferences menu'''
 
     def __init__(self, parent, id,
                  coordFactor, distFactor,
                  calcMode, maxNumOfIter, minChiSquare, lambdaFirst, lambdaStep,
                  spheresColor, spheresTransparency, ellipsoidColor, ellipsoidTransparency, confidenceLevel):
-        ''''''
         wx.grid.Grid.__init__(self, parent, id)
         # Create hollow grid
         self.CreateGrid(0, 2)
@@ -990,35 +916,31 @@ class ListCtrlRight(wx.grid.Grid):
                          calcMode, maxNumOfIter, minChiSquare, lambdaFirst, lambdaStep,
                          spheresColor, spheresTransparency, ellipsoidColor, ellipsoidTransparency, confidenceLevel)
 
-    #-----------------------------------------------------------------------------------------------
     def OnParamInit(self,
                     coordFactor, distFactor,
                     calcMode, maxNumOfIter, minChiSquare, lambdaFirst, lambdaStep,
                     spheresColor, spheresTransparency, ellipsoidColor, ellipsoidTransparency, confidenceLevel):
-        ''''''
         colorLine1 = ''
         colorLine2 = ''
         for i in range(3):
             colorLine1 += str(int(spheresColor[i] * 255.0)) + ' '
             colorLine2 += str(int(ellipsoidColor[i] * 255.0)) + ' '
         self.param = {
-            'input': [['Multiply the coordinates loaded from data file by factor of', coordFactor],
-                      ['Multiply the distances loaded from data file by factor of', distFactor]],
+            'input': [['Multiply coordinates loaded from data files by factor of', coordFactor],
+                      ['Multiply distances loaded from data files by factor of', distFactor]],
             'calc': [['Inverse-Hessian method (0) vs Lavenberg-Marquardt method (1)', calcMode],
                      ['Maximal number of iterations', maxNumOfIter],
                      ['Minimal chi-square value', minChiSquare],
                      ['Initial lambda (for Lavenberg-Marquardt method only)', lambdaFirst],
                      ['Lambda increment (for Lavenberg-Marquardt method only)', lambdaStep]],
-            'output': [['Color of <trilateration> graphical object (RGB)', colorLine1],
-                       ['Transparency of <trilateration> graphical object', spheresTransparency],
-                       ['Color of <target> graphical object (RGB)', colorLine2],
-                       ['Transparency of <target> graphical object', ellipsoidTransparency],
-                       ['Confidence level', confidenceLevel]]
+            'output': [['Color of <trilateration> object (RGB)', colorLine1],
+                       ['Transparency of <trilateration> object', spheresTransparency],
+                       ['Color of <target> object (RGB)', colorLine2],
+                       ['Transparency of <target> object', ellipsoidTransparency],
+                       ['Confidence level in sigma', confidenceLevel]]
         }
-    #-----------------------------------------------------------------------------------------------
 
     def LoadData(self, index):
-        ''''''
         # Clear last grid
         self.ClearGrid()
         oldRows = self.GetNumberRows()
@@ -1049,9 +971,7 @@ class ListCtrlRight(wx.grid.Grid):
             self.SetCellValue(i, 1, str(data[i][1]))
             self.SetReadOnly(i, 0, isReadOnly=True)
 
-    #-----------------------------------------------------------------------------------------------
     def OnTableCellChange(self, event):
-        ''''''
         row = event.GetRow()
         if self.index == 0:
             if row == 0:
@@ -1082,14 +1002,9 @@ class ListCtrlRight(wx.grid.Grid):
                 self.param['output'][4][1] = int(self.GetCellValue(row, 1))
         event.Skip()
 
-####################################################################################################
-
 
 class Preferences(wx.Frame):
-
-    '''Preferences menu'''
-
-    #-----------------------------------------------------------------------------------------------
+    '''GUI of the preferences menu'''
 
     def __init__(self, parent,
                  coordFactor, distFactor,
@@ -1155,9 +1070,7 @@ class Preferences(wx.Frame):
         self.Centre()
         self.Show(True)
 
-    #-----------------------------------------------------------------------------------------------
     def OnReloadParam(self, event):
-
         calcMode = self.list2.param['calc'][0][1]
         maxNumOfIter = self.list2.param['calc'][1][1]
         minChiSquare = self.list2.param['calc'][2][1]
@@ -1188,18 +1101,14 @@ class Preferences(wx.Frame):
                ellipsoidColor,
                ellipsoidTransparency,
                confidenceLevel]
-        Publisher.sendMessage(("parameters"), msg)
+        pub.sendMessage('import.param', data = msg)      
         self.Close()
-
-####################################################################################################
 
 
 class PlotSpheres:
-
-    '''Plots spheres'''
+    '''Plots spheres in PyMOL'''
 
     def __init__(self, num, centers, radii, color, transparency):
-        ''''''
         obj = []
         cmd.set("cgo_sphere_quality", 4)
         for i in range(num):
@@ -1209,38 +1118,25 @@ class PlotSpheres:
             obj.extend([SPHERE, float(centers[i][0]), float(centers[i][1]), float(centers[i][2]), float(radii[i])])
         cmd.load_cgo(obj, 'trilateration')
 
-####################################################################################################
-
 
 class PlotEllipsoid:
-
-    '''Plots ellipsoid'''
-
-    #-----------------------------------------------------------------------------------------------
-
+    '''Plots an ellipsoid in PyMOL'''
+    
     def __init__(self, x, y, z, rx, ry, rz, color, transparency):
-        ''''''
         cmd.load_cgo(self.makeEllipsoid(x, y, z, rx, ry, rz, color, transparency), 'target')
 
-    #-----------------------------------------------------------------------------------------------
     def makeEllipsoid(self, x, y, z, a1, a2, a3, color, transparency):
-        ''''''
         return self.makeSuperQuadricEllipsoid(x, y, z, a1, a2, a3, 1.0, 1.0, -pi / 2, pi / 2, -pi, pi, 50, 50, color, transparency)
 
-    #-----------------------------------------------------------------------------------------------
     def makeSuperQuadricEllipsoid(self, x, y, z, a1, a2, a3, n, event, u1, u2, v1, v2, u_segs, v_segs, color, transparency):
-        ''''''
         r, g, b = color
-        # Calculate delta variables
         dU = (u2 - u1) / u_segs
         dV = (v2 - v1) / v_segs
         obj = [BEGIN, TRIANGLES]
         U = u1
         for Y in range(0, u_segs):
-                # Initialize variables for loop
             V = v1
             for X in range(0, v_segs):
-                        # VERTEX #1 */
                 x1, y1, z1, n1x, n1y, n1z = self.sqEllipsoid(x, y, z, a1, a2, a3, U, V, n, event)
                 x2, y2, z2, n2x, n2y, n2z = self.sqEllipsoid(x, y, z, a1, a2, a3, U + dU, V, n, event)
                 x3, y3, z3, n3x, n3y, n3z = self.sqEllipsoid(x, y, z, a1, a2, a3, U + dU, V + dV, n, event)
@@ -1251,16 +1147,12 @@ class PlotEllipsoid:
                 obj.extend([COLOR, r, g, b, ALPHA, 1 - transparency, NORMAL, n2x, n2y, n2z, VERTEX, x2, y2, z2])
                 obj.extend([COLOR, r, g, b, ALPHA, 1 - transparency, NORMAL, n3x, n3y, n3z, VERTEX, x3, y3, z3])
                 obj.extend([COLOR, r, g, b, ALPHA, 1 - transparency, NORMAL, n4x, n4y, n4z, VERTEX, x4, y4, z4])
-                # Update variables for next loop
                 V += dV
-            # Update variables for next loop
             U += dU
         obj.append(END)
         return obj
 
-    #-----------------------------------------------------------------------------------------------
     def sqEllipsoid(self, x, y, z, a1, a2, a3, u, v, n, event):
-        ''''''
         x = a1 * self.sqC(u, n) * self.sqC(v, event) + x
         y = a2 * self.sqC(u, n) * self.sqS(v, event) + y
         z = a3 * self.sqS(u, n) + z
@@ -1269,53 +1161,36 @@ class PlotEllipsoid:
         nz = self.sqS(u, 2 - n) / a3
         return x, y, z, nx, ny, nz
 
-    #-----------------------------------------------------------------------------------------------
     def signOfFloat(self, f):
-        ''''''
         if f < 0:
             return -1
         if f > 0:
             return 1
         return 0
 
-    #-----------------------------------------------------------------------------------------------
     def sqC(self, v, n):
-        ''''''
         return self.signOfFloat(cos(v)) * pow(fabs(cos(v)), n)
 
-    #-----------------------------------------------------------------------------------------------
     def sqS(self, v, n):
-        ''''''
         return self.signOfFloat(sin(v)) * pow(fabs(sin(v)), n)
 
-####################################################################################################
 
-# SUPLEMENTARY FUNCTIONS
-#---------------------------------------------------------------------------------------------------
-
-
-def getPymolObjects(selection):
-    return cmd.get_object_list('(%s)' % selection)
-
-#---------------------------------------------------------------------------------------------------
-
+########################
+# ADDITIONAL FUNCTIONS #
+########################
 
 def AverageCoordCalc(coord):
-    '''Calculates average coordinates and their standard deviations for a set of coordinates'''
+    '''Calculates the average coordinates and the standard deviations for a set of coordinates'''
     # Average coordinates
     coordMean = numpy.mean(coord, axis=0)
     # Standard deviations
     coordStd = numpy.std(coord, axis=0)
-
     return coordMean, coordStd
-
-#---------------------------------------------------------------------------------------------------
 
 
 def AverageDistCalc(dist, density):
-    '''Calculates an average distance and its standard deviations for a distance distribution'''
+    '''Calculates the average distance and the standard deviation for a distance distribution'''
     # Average distance
-
     distAve = dist[numpy.argmax(density)]
     # Standard deviation
     numerator = 0
@@ -1324,37 +1199,28 @@ def AverageDistCalc(dist, density):
         numerator += density[i] * (dist[i] - distAve) ** 2
         demominator += density[i]
     distStd = sqrt(numerator / demominator)
-
     return distAve, distStd
-
-#---------------------------------------------------------------------------------------------------
 
 
 def SquaredRadiusVector(vector1, vector2):
-    ''''''
+    '''Calculate a square of a radius-vector''' 
     srv = 0
     for i in range(3):
         srv += (vector1[i] - vector2[i]) ** 2
-
     return srv
-
-#---------------------------------------------------------------------------------------------------
 
 
 def ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd):
-    ''''''
+    '''Calculate Chi-Squared'''
     chiSquare = 0
     for i in range(numOfLabels):
         f = sqrt(SquaredRadiusVector(targetCoordMean[0], labelCoord[i])) - distMean[i]
         chiSquare += (1 / distStd[i] ** 2) * f ** 2
-
     return chiSquare
-
-#---------------------------------------------------------------------------------------------------
 
 
 def SingularValueDecomposition(numOfLabels, labelCoord, distMean, distStd):
-    '''Linear Least Squares: Singular Value Decomposition algorithm'''
+    '''Optimization via Singular Value Decomposition algorithm'''
     # Compute A and b coefficients
     A = zeros((numOfLabels - 1, 3))
     b = zeros((numOfLabels - 1, 1))
@@ -1377,14 +1243,11 @@ def SingularValueDecomposition(numOfLabels, labelCoord, distMean, distStd):
         targetCoordStd[0][j] = sqrt(targetCoordStd[0][j])
     # Compute the Chi-Square value
     chiSquare = ChiSquareCalc(numOfLabels, labelCoord, targetCoordMean, distMean, distStd)
-
     return targetCoordMean, targetCoordStd, chiSquare
-
-#---------------------------------------------------------------------------------------------------
 
 
 def InverseHessian(numOfLabels, labelCoord, distMean, distStd, targetCoordInitial, chiSquareMin, iterMax):
-    '''Nonlinear Least Squares: Inverse-Hessian algorithm'''
+    '''Optimization via Inverse-Hessian algorithm'''
     # Use previously determined values of target coordinates as initial data
     targetCoordMean = targetCoordInitial
     # Calculate current Chi-Square value
@@ -1423,14 +1286,11 @@ def InverseHessian(numOfLabels, labelCoord, distMean, distStd, targetCoordInitia
     correlationMatrix = inv(d2f)
     for j in range(3):
         targetCoordStd[0][j] = sqrt(abs(correlationMatrix[j][j]))
-
     return targetCoordMean, targetCoordStd, chiSquare, iter
-
-#---------------------------------------------------------------------------------------------------
 
 
 def LevenbergMarquardt(numOfLabels, labelCoord, distMean, distStd, targetCoordInitial, chiSquareMin, iterMax, lambdaFirst, lambdaStep):
-    '''Nonlinear Least Squares: Levenberg-Marquardt algorithm'''
+    '''Optimization via Levenberg-Marquardt algorithm'''
     # Use previously determined values of target coordinates as initial data
     targetCoordMean = targetCoordInitial
     # Calculate current Chi-Square value
@@ -1479,16 +1339,17 @@ def LevenbergMarquardt(numOfLabels, labelCoord, distMean, distStd, targetCoordIn
     correlationMatrix = inv(d2f)
     for j in range(3):
         targetCoordStd[0][j] = sqrt(abs(correlationMatrix[j][j]))
-
     return targetCoordMean, targetCoordStd, chiSquare, iter
 
-####################################################################################################
 
-
+###################
+# Launch in PyMOL # 
+###################
+  
 class MainApp(wx.App):
 
     def OnInit(self):
-        frame = trilat(None, -1, "Trilateration")
+        frame = mtsslTrilaterate(None, -1, "mtsslTrilaterate")
         frame.Show(True)
         self.SetTopWindow(frame)
         return True
@@ -1506,6 +1367,6 @@ def start():
 
 
 def __init__(self):
-    self.menuBar.addmenuitem('Plugin', 'command', 'trilater',
+    self.menuBar.addmenuitem('Plugin', 'command', 'mtsslTrilaterate',
                              label='mtsslTrilaterate',
                              command=lambda s=self: start())
