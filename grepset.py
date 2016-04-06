@@ -1,4 +1,3 @@
-from __future__ import print_function
 from pymol import cmd
 import re
 import pymol.setting

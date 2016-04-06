@@ -59,7 +59,6 @@ AUTHOR:
 Jason Vertrees, 2009.
 """
 
-from __future__ import print_function
 from pymol import cmd
 import re
 import types
@@ -375,13 +374,13 @@ def checkParams(needle, haystack, selName, het, firstOnly):
     This is just a helper function for checking the user input
     """
     # check Needle
-    if len(needle) == 0 or type(needle) != bytes:
+    if len(needle) == 0 or not cmd.is_string(needle):
         print("Error: Please provide a string 'needle' to search for.")
         print("Error: For help type 'help motifFinder'.")
         return False
 
     # check Haystack
-    if len(haystack) == 0 or type(haystack) != bytes:
+    if len(haystack) == 0 or not cmd.is_string(haystack):
         print("Error: Please provide valid PyMOL object or selection name")
         print("Error: in which to search.")
         print("Error: For help type 'help motifFinder'.")
@@ -402,7 +401,7 @@ def checkParams(needle, haystack, selName, het, firstOnly):
         return False
 
     # check selName
-    if type(selName) != bytes:
+    if not cmd.is_string(selName):
         print("Error: selName was not a string.")
         return False
     return True

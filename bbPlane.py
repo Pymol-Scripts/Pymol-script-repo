@@ -12,7 +12,6 @@ Author: Jason Vertrees, 06/2010
 License: MIT
 '''
 
-from __future__ import print_function
 from pymol import cmd
 
 

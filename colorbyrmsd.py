@@ -7,7 +7,6 @@ Complete rewrite by Thomas Holder
 License: BSD-2-Clause
 '''
 
-from __future__ import print_function
 from pymol import cmd, CmdException
 
 
@@ -49,7 +48,7 @@ EXAMPLE
     try:
         align = cmd.keyword[method][0]
     except:
-        print(' Error: no such method:', method)
+        print(' Error: no such method: ' + str(method))
         raise CmdException
 
     if guide:

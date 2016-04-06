@@ -17,7 +17,6 @@ Date: October 30, 2015
 Version: 1.0
 License: Public Domain
 """
-from __future__ import print_function
 from pymol import cmd, stored
 import re
 try:
@@ -98,7 +97,7 @@ class ChainSet(object):
         if base < 0 or 62 < base:
             raise ValueError("Invalid base")
 
-        quot = int(i)/base
+        quot = int(i)//base
         rem = i%base
         if rem < 26:
             letter = chr( ord("A") + rem)

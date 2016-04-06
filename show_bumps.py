@@ -6,8 +6,6 @@ http://pymolwiki.org/index.php/show_bumps
 License: BSD-2-Clause
 '''
 
-from __future__ import print_function
-
 from pymol import cmd
 
 

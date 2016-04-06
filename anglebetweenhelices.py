@@ -2,7 +2,6 @@
 (c) 2010 Thomas Holder
 '''
 
-from __future__ import print_function
 from pymol import cmd, stored, CmdException
 from chempy import cpv
 import math
@@ -296,10 +295,10 @@ SEE ALSO
     try:
         orientation = methods[str(method)]
     except KeyError:
-        print('no such method:', method)
+        print('no such method: ' + str(method))
         raise CmdException
     if not quiet:
-        print('Using method:', orientation.__name__)
+        print('Using method: ' + orientation.__name__)
     cen1, dir1 = orientation(selection1, visualize, quiet=1)
     cen2, dir2 = orientation(selection2, visualize, quiet=1)
     angle = cpv.get_angle(dir1, dir2)
