@@ -11,6 +11,7 @@ from pymol import cmd, CmdException
 def dssr_block(selection='all', state=-1,
         block_file='face',
         block_depth=0.5,
+        block_color='',
         name='',
         exe='x3dna-dssr',
         quiet=1):
@@ -24,7 +25,7 @@ DESCRIPTION
 USAGE
 
     dssr_block [ selection [, state [, block_file [, block_depth
-        [, name [, exe ]]]]]]
+        [, block_color [, name [, exe ]]]]]]]
 
 ARGUMENTS
 
@@ -37,6 +38,9 @@ ARGUMENTS
     {default: face}
 
     block_depth = float: thickness of rectangular blocks {default: 0.5}
+
+    block_color = str: Corresponds to the --block-color option (new in DSSR
+    v1.5.2) {default: }
 
     name = str: name of new CGO object {default: dssr_block##}
 
@@ -55,6 +59,10 @@ EXAMPLE
     fetch 2n2d, async=0
     dssr_block 2n2d, 0
     set all_states
+
+    # custom coloring
+    fetch 1msy, async=0
+    dssr_block block_color=N red : minor 0.9 : major yellow
     '''
     import subprocess
     import tempfile, os
@@ -70,6 +78,9 @@ EXAMPLE
         '-i=' + tmpfilepdb,
         '-o=' + tmpfiler3d,
     ]
+
+    if block_color:
+        args.append('--block-color=' + block_color)
 
     if not name:
         name = cmd.get_unused_name('dssr_block')
