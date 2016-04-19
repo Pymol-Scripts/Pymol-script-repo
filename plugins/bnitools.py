@@ -6,7 +6,7 @@
 # Copyright notices.  bni-tools is made available under the
 # following open-source license terms:
 # ----------------------------------------------------------------------
-# bni-tools is Copyright (C) 2008-2015 Georg Steinkellner / Schroedinger LLC
+# bni-tools is Copyright (C) 2008-2016 Georg Steinkellner / Schrodinger LLC
 #                         All Rights Reserved
 # Permission to use, copy, modify, distribute, and distribute modified
 # versions of this software and its built-in documentation for any
@@ -43,8 +43,8 @@ import base64
 import zlib
 import Tkinter
 import tkSimpleDialog
-__version__ = "0.38"
-__bni_year__ = "2014"
+__version__ = "0.39"
+__bni_year__ = "2016"
 __copyright__ = "(c) %s" % __bni_year__
 __pymol_version__ = cmd.get_version()[1]
 # Look for integrated BNI Tools in menu.py by checking preset settings
@@ -53,14 +53,14 @@ menu_list = [1 for i in menu.presets(None, "None") if "track main chain" in i]
 if menu_list:
     show_bni = 0
 #
-# Pymol Tools v.038
+# Pymol Tools v.039
 #
 # AUTHOR: Georg Steinkellner
 #
 #.
 sidebar_stdwidth = int(cmd.get("internal_gui_width"))
 # set keys
-if __pymol_version__: 
+if __pymol_version__: #<= 1.41:
     try:
         #cmd.set_key('CTRL-X',cmd.create,(None,"sele",-1,-1,0))
         cmd.set_key('CTRL-A', cmd.select, ("sele", "visible", 1))
@@ -453,7 +453,7 @@ class AboutGui:
         except:
             self.about_image = ""
         self.dialog = Pmw.Dialog(parent,
-                                 title='BNI-Tools (c) SCHROEDINGER',
+                                 title='BNI-Tools (c) SCHRODINGER',
                                  buttons=self.buttons,
                                  defaultbutton=self.buttons[0],
                                  command=self.execute,
@@ -570,6 +570,7 @@ class AboutGui:
         elif action == self.buttons[2]:
             namelist = ["Schrodinger LLC",
                         "J. Vertrees",
+                        "T. Holder",
                         "K. Gruber",
                         "M. Uhl",
                         "G. Oberdorfer",
@@ -1503,7 +1504,7 @@ def polyala(selection="(sele)", name=None):
     except:
         print("# Empty selection. Select at least one atom.")
         return
-    if name <> None:
+    if name != None:
         if name in cmd.get_names():
             cmd.delete(name)
         cmd.select(tmpname2, "((byobj %s) and not (byres %s))" %
@@ -1553,7 +1554,7 @@ def get_triangle(selection, name="tri", invert=1, sphere=0):
         print("# Empty selection %s" % selection)
         return
     else:
-        if len(mol.atom) <> 3:
+        if len(mol.atom) != 3:
             print("# Please select exactly three atoms.")
             return
         for a in mol.atom:
@@ -1738,7 +1739,7 @@ def get_plane(selection, name="plane", size=100, invert=0, sphere=1):
         print("# Empty selection %s" % selection)
         return
     else:
-        if len(mol.atom) <> 3:
+        if len(mol.atom) != 3:
             print("# Please select exactly three atoms.")
             return
         for a in mol.atom:
@@ -1800,7 +1801,7 @@ def _maxnamelenght(types):
             except AttributeError:
                 titles.append("")
             titles.append(title)
-        if len(names) <> len(titles):
+        if len(names) != len(titles):
             print("# WARNING: name and title mismatch/nnames:%s/ntitles:%s" %
                   (names, titles))
         else:
@@ -1858,7 +1859,7 @@ def sidebar(set="", value=None):
         except:
             pass
     elif set == "width":
-        if type(value) <> type(None):
+        if type(value) != type(None):
             if value == "fit1":#fit to names
                 fit = _maxnamelenght(1)
                 valuedic.update({"width": fit})
@@ -2149,7 +2150,7 @@ def _seq_format(selection="sele", wrap=60, format="fasta", gap=1, gap_sign="-"):
                 source = "source"
                 rfac = -1.0
                 resolution = -1.0
-                if gap <> 1:
+                if gap != 1:
                     allnu.append("%s:%s:%s:%d:%s:%d:SeqLenght %d:%s:%.2f:%.2f" % (
                         label, obj, chain, int(nr[0]), chain, int(nr[-1]), lenght, source, rfac, resolution))
                 else:
@@ -2880,7 +2881,7 @@ def get_pdb_lines(selection="all", state="0", enabled="0"):
                                  0: get all items
     '''
     selection = _remove_brakets(selection)
-    if selection <> "all":
+    if selection != "all":
         names = [selection]
     else:
         names = [i for i in cmd.get_names(selection, enabled_only=int(enabled)) if cmd.get_type(
@@ -2997,7 +2998,7 @@ def get_center_atom(selection='all', name="patom", enabled="0", onlysele="0"):
     PYMOL: bni_get_center_atom selection,[name=center,enabled=0,onlysele=0])
     '''
     selection = _remove_brakets(selection)
-    if selection <> "all":
+    if selection != "all":
         names = [selection]
         #enabled="0"
     else:
@@ -3701,7 +3702,7 @@ class multi_pdb:
                      level 6 --> "red"         --> casox ligsite level 7 (complete closed cavity)
                      level-1 -->  "blue"       --> casox protein level 0 grid hull                   
         '''
-        if len(filenamelist) <> 1:
+        if len(filenamelist) != 1:
             print("# please select just one CASoX map.")
             file_path = norm_path(filenamelist[0])
             self.__class__.filedir = file_path.dirname
@@ -4297,7 +4298,6 @@ def bni_ramp_surf(sele, mapp, command='surface'):
     cmd.set(surfcommand, rampname, sele)
 class Bni_func_pymol:
     '''Class for passing BNI-functions in plug-in for PyMOL sidebar calls and actions.
-       The sidebar menu has to be configured in menu.py
     '''
     def __init__(self):
         self.new_views = new_views 
@@ -4314,3 +4314,421 @@ class Bni_func_pymol:
     def test(self):
         print("Bni sidebar actions")
 stored.bni_func = Bni_func_pymol()
+#
+# GUI TWEAK - CHANGES TO SIDEBAR MENU for bni-tools
+#
+from pymol import menu
+dummy = lambda *args,**kwargs: []
+# MENU DECORATOR
+def menuappend(f):
+    '''Decorator for overloading menu functions by appending to them'''
+    orig = getattr(menu, f.__name__, dummy)
+    wrapped = lambda *args,**kwargs: orig(*args,**kwargs) + f(*args,**kwargs)
+    setattr(menu, f.__name__, wrapped)
+    return wrapped
+# BNIADD
+@menuappend
+def mol_show(self_cmd, sele, action) :
+    return [
+        #BNI-Tools Transparency and Surface
+        [ 0, ''           , ''                               ],
+        [ 1, 'transparency'    , bni_transparency_all(self_cmd,sele) ],
+        [ 1, 'surface flag'    , bni_surface(self_cmd,sele) ]]
+def bni_transparency_all(self_cmd,sele):
+    result=[[2,'transp:','']]
+    transitems_obj=["surface","sphere","cgo","nonbonded","space","stick","ribbon","cartoon","cartoon_ring","ellipsoid"]
+    transitems=transitems_obj
+    if sele in [a.lower() for a in self_cmd.get_names('objects')]:
+        transitems=transitems_obj
+    for transitem in transitems:
+        if transitem=="space":
+             result.append([0,'',''])
+        else:
+             result.append([1,transitem,bni_transparency(self_cmd,sele,object=transitem)])
+    return result
+def bni_transparency(self_cmd,sele,object="cgo",label="%:"):
+    result= [[2,label,'']]
+    if object=="surface": 
+       object=""
+    else:
+       object=object+"_"
+    transproc=[0,10,20,30,40,50,60,70,80,90]
+    for proc in transproc:
+        result.append([1,str(proc)+'%','cmd.set("%stransparency",%s,"'%(object,(proc/100.0))+sele+'")'])
+    return result
+#BNI-Transparency END
+#BNI-Surface BEGIN
+def bni_surface(self_cmd,sele):
+    result= [[2,"alter surface",''],
+             [1,"back to standard",'stored.bni_func.get_surface_handler("'+sele+'","Standard")'],
+             [0,''                ,''                                                          ],
+             ]
+    surf_settings=["Methionine","Exclude","Hide","separator","Include","Show"]
+    surf_settings_name=['include seleno-methionine',"exclude for atom(s)","hide for atom(s)","separator","include for atom(s)","show for atom(s)"]
+    for setting_name,setting in zip(surf_settings_name,surf_settings):
+        if setting_name=="separator":
+             result.append([ 0, ''           , ''                               ])
+             continue
+        result.append([1,str(setting_name).lower(),'stored.bni_func.get_surface_handler("'+sele+'","'+setting+'")'])
+    return result
+@menuappend
+def cgo_show(self_cmd, sele):
+    return [
+            #BNI-Tools transparency add to cgo
+            [ 1, 'transp'    , bni_transparency(self_cmd,sele,object="cgo") ]
+             ]   
+#BNI Tools surf colors,lable colors
+if not hasattr(menu,"by_rep"):
+    @menuappend
+    def by_surf(self_cmd, sele,command='cmd.set("surface_color",'):
+        return [[2,'Color',''                                               ],
+               [ 1, 'by atom','%s-1,selection="'%command+sele+'")'                    ],
+               [ 0, ''                                , ''                  ],
+               [ 1, 'by map',bni_surf_map(self_cmd,sele)                    ]
+               ] + all_surf_colors(self_cmd,sele,command)
+    @menuappend
+    def by_mesh(self_cmd, sele,command='cmd.set("mesh_color",'):
+        return [[2,'Color',''                                               ],
+               [ 1, 'by atom','%s-1,selection="'%command+sele+'")'                    ],
+               [ 0, ''                                , ''                  ],
+               [ 1, 'by map',bni_surf_map(self_cmd,sele,command='mesh')     ]
+               ] + all_surf_colors(self_cmd,sele,command)
+    @menuappend
+    def by_label(self_cmd, sele,command='cmd.set("label_color",'):
+        return [[2,'Color',''                                               ],
+               [ 1, 'by atom','%s"default",selection="'%command+sele+'")'    ],
+               [ 0, ''                                , ''                 ]
+               ] + all_surf_colors(self_cmd,sele,command)
+    @menuappend
+    def by_stick(self_cmd, sele,command='cmd.set_bond("stick_color",',selekey="selection1"):
+        self_cmd.set("stick_ball_color","atom")
+        return [[2,'Color',''                                               ],
+               [ 1, 'by atom','%s"'%'cmd.unset_bond("stick_color",'+sele+'")'    ],
+               [ 0, ''                                , ''                 ]
+               ] + all_surf_colors(self_cmd,sele,command,selekey)
+else:
+    @menuappend
+    def by_rep_sub(self_cmd, rep, setting, sele):
+        r = [[ 0, ''                                , ''                 ],
+             [ 1, 'my colors',owncolors_surf(self_cmd,sele,command='cmd.color(')]]
+        return r
+@menuappend
+def by_helix(self_cmd, sele,command='cmd.color('):
+    sele="(ss H and ("+sele+"))"
+    return [[2,'Color',''                                               ],
+           ] + all_surf_colors(self_cmd,sele,command)
+@menuappend
+def by_sheet(self_cmd, sele,command='cmd.color('):
+    sele="(ss S and ("+sele+"))"
+    return [[2,'Color',''                                               ],
+           ] + all_surf_colors(self_cmd,sele,command)
+@menuappend
+def by_loop(self_cmd, sele,command='cmd.color('):
+    sele="((not (ss S+H)) and ("+sele+"))"
+    return [[2,'Color',''                                               ],
+           ] + all_surf_colors(self_cmd,sele,command)
+def bni_surf_map(self_cmd,sele,command='surface'):
+    result=[[2,'Map',''                                               ]]
+    list = self_cmd.get_names("public_objects")[0:25] # keep this practical
+    list = [x for x in list if (self_cmd.get_type(x)=="object:map" or self_cmd.get_type(x)=="object:")]
+    for mapp in list:
+        if mapp != sele:
+            result.append([1,mapp,'stored.bni_func.bni_ramp_surf("'+sele+'","'+mapp+'","'+command+'")'])
+    if len(result) == 1:
+        result.append([1,"no map",''])
+    return result
+def all_surf_colors(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+        return [
+        [ 1, '\\900reds'        ,reds_surf(self_cmd, sele, command,selekey) ],
+        [ 1, '\\090greens'      ,greens_surf(self_cmd, sele, command,selekey) ],
+        [ 1, '\\009blues'       ,blues_surf(self_cmd, sele, command,selekey) ],
+        [ 1, '\\990yellows'      ,yellows_surf(self_cmd, sele, command,selekey) ],
+        [ 1, '\\909magentas'    , magentas_surf(self_cmd, sele, command,selekey) ],
+        [ 1, '\\099cyans'        , cyans_surf(self_cmd, sele, command,selekey) ],
+        [ 1, '\\950oranges'        , oranges_surf(self_cmd, sele, command,selekey) ],   
+        [ 1, '\\978tints'        ,tints_surf(self_cmd, sele, command,selekey) ],
+        [ 1, '\\666grays'        ,grays_surf(self_cmd, sele, command,selekey) ],
+        [ 0, '', ''],
+        [ 1, '\\999my colors'        ,owncolors_surf(self_cmd, sele, command,selekey) ],
+            ]
+def reds_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Reds'     ,''                               ],
+        [1,'\\900red','%s4,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\922tv_red','%s32,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\634raspberry','%s5268,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\755darksalmon','%s5280,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\955salmon','%s9,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\944deepsalmon','%s5258,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\824warmpink','%s5279,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\611firebrick','%s49,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\522ruby','%s21,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\521chocolate','%s50,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\632brown','%s51,%s="'%(command,selekey)+sele+'")'],
+        ]
+def greens_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Greens'     ,''                               ],
+        [1,'\\090green','%s3,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\292tv_green','%s33,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\490chartreuse','%s14,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\570splitpea','%s5267,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\564smudge','%s5270,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\686palegreen','%s5259,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\094limegreen','%s15,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\494lime','%s10,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\792limon','%s5276,%s="'%(command,selekey)+sele+'")'],      
+        [1,'\\252forest','%s22,%s="'%(command,selekey)+sele+'")'],
+        ]
+def blues_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Blues'     ,''                               ],
+        [1,'\\009blue','%s2,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\339tv_blue','%s34,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\049marine','%s17,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\449slate','%s11,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\779lightblue','%s5263,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\247skyblue','%s5277,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\409purpleblue','%s16,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\226deepblue','%s23,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\115density','%s4155,%s="'%(command,selekey)+sele+'")'],
+        ]
+def yellows_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Yellows'     ,''                               ],
+        [1,'\\990yellow','%s6,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\992tv_yellow','%s35,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\994paleyellow','%s5256,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\983yelloworange','%s36,%s="'%(command,selekey)+sele+'")'],            
+        [1,'\\792limon','%s5276,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\976wheat','%s52,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\653sand','%s5269,%s="'%(command,selekey)+sele+'")'],
+        ]
+def magentas_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Magentas'     ,''                               ],
+        [1,'\\909magenta','%s8,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\927lightmagenta','%s154,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\904hotpink','%s12,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\968pink','%s48,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\978lightpink','%s5274,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\644dirtyviolet','%s5272,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\949violet','%s53,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\525violetpurple','%s5271,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\707purple','%s19,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\515deeppurple','%s5261,%s="'%(command,selekey)+sele+'")'],
+        ]
+def cyans_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Cyans'     ,''                               ],
+        [1,'\\099cyan','%s5,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\799palecyan','%s5265,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\499aquamarine','%s5257,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\297greencyan','%s5275,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\077teal','%s20,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\155deepteal','%s5262,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\466lightteal','%s5266,%s="'%(command,selekey)+sele+'")'],
+        ]
+def oranges_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Oranges'     ,''                               ],
+        [1,'\\950orange','%s13,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\951tv_orange','%s37,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\962brightorange','%s30,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\985lightorange','%s5264,%s="'%(command,selekey)+sele+'")'],      
+        [1,'\\983yelloworange','%s36,%s="'%(command,selekey)+sele+'")'],      
+        [1,'\\760olive','%s18,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\551deepolive','%s5260,%s="'%(command,selekey)+sele+'")'],
+        ]
+def tints_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Tints'     ,''                               ],
+        [1,'\\976wheat','%s52,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\686palegreen','%s5259,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\779lightblue','%s5263,%s="'%(command,selekey)+sele+'")'],      
+        [1,'\\994paleyellow','%s5256,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\978lightpink','%s5274,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\799palecyan','%s5265,%s="'%(command,selekey)+sele+'")'],
+        [1,'\\985lightorange','%s5264,%s="'%(command,selekey)+sele+'")'],            
+        [1,'\\889bluewhite','%s5278,%s="'%(command,selekey)+sele+'")'],
+        ]
+def grays_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    return [
+        [ 2, 'Grays'     ,''                               ],
+        [ 1, '\\999white ', '%s"white",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\999gray90 ', '%s"grey90",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\888gray80 ', '%s"grey80",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\777gray70 ', '%s"grey70",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\666gray60 ', '%s"grey60",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\555gray50 ', '%s"grey50",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\444gray40 ', '%s"grey40",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\333gray30 ', '%s"grey30",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\222gray20 ', '%s"grey20",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\222gray10 ', '%s"grey10",%s="'%(command,selekey)+sele+'")'  ],
+        [ 1, '\\222black ', '%s"black",%s="'%(command,selekey)+sele+'")'  ],
+        ]
+def owncolors_surf(self_cmd, sele,command='cmd.set("surface_color",',selekey="selection"):
+    owncolors=[(colname,colnumber) for (colname,colnumber) in self_cmd.get_color_indices() if int(colnumber)>=(5387)]
+    result=[[ 2, 'My Colors'     ,''                               ]]
+    for (colname,colnumber) in owncolors:
+        result.append([ 1, '\\999%s '%colname, '%s%s,%s="'%(command,colnumber,selekey)+sele+'")'  ])
+    return result
+@menuappend
+def by_ss(self_cmd, sele):
+    return [
+    #BNI-Tools color
+    [ 0, ''                                    , ''                      ],
+    [ 1, '\\900H\\950e\\990l\\090i\\099x'      , by_helix(self_cmd, sele)],
+    [ 1, '\\900S\\950c\\990h\\090e\\099e\\059t', by_sheet(self_cmd, sele)],
+    [ 1, '\\900L\\950o\\990o\\090p'            , by_loop(self_cmd, sele) ]
+    ]
+#BNI-Surface END
+@menuappend
+def spectrum(self_cmd, sele):
+    r = [
+        #BNI-Tools color by occupancy
+        [ 0, ''                                , ''                 ],
+        [ 1, 'occupancy'   , 'cmd.spectrum("q",selection=("'+sele+'"),quiet=0)'         ],
+        [ 1, 'occupancy(*/ca)'   , 'cmd.spectrum("q",selection="(('+sele+')&*/ca)",quiet=0)'         ],
+        ]
+    return r
+# check for older menu versions of PyMOL
+# check if by_rep is present
+if hasattr(menu,"menucontext") and hasattr(menu,"by_rep"):
+    @menuappend
+    def mol_color(self_cmd, sele):
+        with menu.menucontext(self_cmd, sele):
+          return (
+            [[ 0, ''                                , ''                 ],
+             [ 1, 'my colors',owncolors_surf(self_cmd,sele,command='cmd.color(')],])
+elif hasattr(menu,"menucontext"):
+    @menuappend
+    def mol_color(self_cmd, sele):
+        with menu.menucontext(self_cmd, sele):
+          return (
+            [[ 0, ''                                , ''                 ],
+             [ 1, 'my colors',owncolors_surf(self_cmd,sele,command='cmd.color(')],
+             [ 0, ''                                , ''                 ],
+             [ 1, 'surface'  ,by_surf(self_cmd, sele) ],
+             [ 1, 'mesh'     ,by_mesh(self_cmd, sele) ],
+             [ 1, 'label'    ,by_label(self_cmd,sele) ],
+             [ 1, 'stick'    ,by_stick(self_cmd,sele) ],
+             [ 0, ''                                , ''                 ],
+             ] )
+else:
+    @menuappend
+    def mol_color(self_cmd, sele):
+          return (
+            [[ 0, ''                                , ''                 ],
+             [ 1, 'my colors',owncolors_surf(self_cmd,sele,command='cmd.color(')],
+             [ 0, ''                                , ''                 ],
+             [ 1, 'surface'  ,by_surf(self_cmd, sele) ],
+             [ 1, 'mesh'     ,by_mesh(self_cmd, sele) ],
+             [ 1, 'label'    ,by_label(self_cmd,sele) ],
+             [ 1, 'stick'    ,by_stick(self_cmd,sele) ],
+             [ 0, ''                                , ''                 ],
+             ] )
+def bni_preset_hp(self_cmd,sele):
+    return [[ 2, 'HP values:', ''],
+              [ 1, 'KandD'   , 'stored.bni_func.select_hp("KandD","'+sele+'")'          ],
+              [ 1, 'Rose'    , 'stored.bni_func.select_hp("Rose","'+sele+'")'          ],
+              [ 1, 'GES'     , 'stored.bni_func.select_hp("GES","'+sele+'")'           ],
+              ]
+def bni_preset_sym(self_cmd,sele):
+    result=[[ 2, 'A', '']]
+    distances=[2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5]
+    for dist in distances:
+       result.append([ 1, str(dist)   , 'stored.bni_func.fast_sym(cutoff="'+str(dist)+'",selection="'+sele+'")'])
+    return result
+def bni_preset_symops(self_cmd,sele):
+    return [[ 2, 'show symmetry patch within',''],
+            [ 1, 'set distance',bni_preset_sym(self_cmd,sele)],
+            [ 1, 'set surface patch color',bni_preset_sym_color(self_cmd,sele)]]
+def bni_preset_sym_color(self_cmd,sele):
+    return [[ 2, 'surface patch color',''],
+            [ 1, 'to symmetry representation','stored.bni_func.set_surface(mode="symmetry")'],
+            [ 1, 'to standard representation','stored.bni_func.set_surface(mode="standard")']]
+#BNI Presets end
+@menuappend
+def presets(self_cmd, sele):
+    return [
+              #BNI-Tools 0.3 BEGIN
+              [ 0, ''               ,''                             ],
+              [ 1, 'track main chain'   ,'stored.bni_func.new_views("track_mainchain","'+sele+'")'],
+              [ 1, 'symmetry surface'   ,bni_preset_symops(self_cmd,sele)],
+              [ 1, 'hydrophobic residues'   , bni_preset_hp(self_cmd,sele)         ],
+              [ 1, 'surface inspection'   , 'stored.bni_func.new_views("surf_rel_res","'+sele+'")'],
+              ]
+@menuappend
+def sele_action(self_cmd, sele):
+    return [
+              #BNI-Tools sequence begin
+              [ 0, ''          ,''                                              ],
+              [ 1, 'sequences', bni_sequence(self_cmd,sele)],
+              [ 0, ''          ,''                                              ],
+              #BNI Tools sequence end
+              ]
+@menuappend
+def group_action(self_cmd, sele):
+    return [
+            #BNI-Tools sequence begin
+            [ 0, ''          ,''                                              ],
+            [ 1, 'sequences', bni_sequence(self_cmd,sele)],
+            [ 0, ''          ,''                                              ],
+            #BNI-Tools sequence end
+            ]
+@menuappend
+def mol_action(self_cmd, sele):
+    return [
+            #BNI-Tools sequence begin
+            [ 0, ''          ,''                                              ],
+            [ 1, 'sequences', bni_sequence(self_cmd,sele)],
+            [ 0, ''          ,''                                              ],
+            #BNI-Tools sequence end
+              ]
+@menuappend
+def all_action(self_cmd, sele):
+    return [
+              #BNI-Tools BEGIN
+              [ 0, ''          ,''                                              ],
+              [ 1, 'delete enabled', bni_selection_del(self_cmd,sele)],
+              [ 1, 'invert enabled/disabled', bni_selection_switch(self_cmd,sele)],
+              [ 1, 'combine selections',bni_selection_combine(self_cmd,sele)],
+              [ 0, ''          ,''                                              ],
+              ]
+#BNI-Selection BEGIN 
+def bni_sequence(self_cmd,sele):
+    return [[2,'Format',''],
+            [1,'fasta','stored.bni_func.get_sequence(selection="'+sele+'",format="fasta")'],
+            [1,'pir','stored.bni_func.get_sequence(selection="'+sele+'",format="pir")'],
+            [1,'modeller','stored.bni_func.get_sequence(selection="'+sele+'",format="modeller")'],
+            [1,'list',bni_sequence_list(self_cmd,sele)],
+            [1,'pdb','stored.bni_func.get_pdb_lines(selection="'+sele+'",state="0",enabled="1")']]
+def bni_sequence_list(self_cmd,sele):
+   return [[ 2, 'List',''],
+           [ 1, 'residues','stored.bni_func.get_sequence(selection="'+sele+'",format="normal")'],
+           [ 1, 'bfac per res',bni_sequence_all(self_cmd,sele,format="normalb")],
+           [ 1, 'occ  per res',bni_sequence_all(self_cmd,sele,format="normalq")],
+           [ 1, 'all atoms','stored.bni_func.get_sequence(selection="'+sele+'",selecting="atom",format="normal")']]
+def bni_sequence_all(self_cmd,sele,format):
+   return [[ 2,'include',''],
+	       [ 1,'all atoms','stored.bni_func.get_sequence(selection="'+sele+'",format="%s_all")'%format],
+		   [ 1,'mainchain','stored.bni_func.get_sequence(selection="'+sele+'",format="%s_main")'%format],
+	       [ 1,'sidechain','stored.bni_func.get_sequence(selection="'+sele+'",format="%s_side")'%format]]
+def bni_selection_switch(self_cmd,sele):
+    return [[2,'Invert',''],
+            [1,'all','stored.bni_func.inv_enabled("all")'],
+            [1,'objects','stored.bni_func.inv_enabled("obj")'],
+            [1,'selecions','stored.bni_func.inv_enabled("selections")']]
+def bni_selection_combine(self_cmd,sele):
+    return [[2,'Combine to (sele)',''],
+            [1,'all','stored.bni_func.combine_sele(check="all")'],
+            [1,'enabled','stored.bni_func.combine_sele(check="enabled")'],
+            [1,'disabled','stored.bni_func.combine_sele(check="disabled")']]
+def bni_selection_del(self_cmd,sele):
+    return [[2,'Delete Enabled',''],
+            [1,'all','stored.bni_func.del_enabled("all")'],
+            [1,'objects','stored.bni_func.del_enabled("obj")'],
+            [1,'selecions','stored.bni_func.del_enabled("selections")']]
+#BNI-Selection END
+# BNIADDEND
