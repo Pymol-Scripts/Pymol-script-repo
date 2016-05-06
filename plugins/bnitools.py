@@ -4328,7 +4328,7 @@ def menuappend(f):
     return wrapped
 # BNIADD
 @menuappend
-def mol_show(self_cmd, sele, action) :
+def mol_show(self_cmd, sele):
     return [
         #BNI-Tools Transparency and Surface
         [ 0, ''           , ''                               ],
