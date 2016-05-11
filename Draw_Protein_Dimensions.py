@@ -9,6 +9,12 @@ REQUIREMENTS
 
 numpy (http://numpy.scipy.org) that should be built into the newers versions of Pymol
 
+(c) Pablo Guardado Calvo
+
+Based on "inertia_tensor.py" (c) 2010 by Mateusz Maciejewski
+
+License: MIT
+
 '''
 
 from __future__ import print_function
