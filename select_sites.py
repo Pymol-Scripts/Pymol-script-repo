@@ -6,8 +6,6 @@ http://pymolwiki.org/index.php/select_sites
 License: BSD-2-Clause
 '''
 
-from __future__ import print_function
-
 import os
 from pymol import cmd, CmdException
 
@@ -115,6 +113,7 @@ cmd.auto_arg[0]['select_sites'] = cmd.auto_arg[0]['pseudoatom']
 
 def sites(code, name='', *args, **kwargs):
     kwargs['async'] = 0
+    kwargs['type'] = 'pdb'
     cmd.fetch(code, name, *args, **kwargs)
     select_sites(name or code)
 cmd.extend('sites', sites)
