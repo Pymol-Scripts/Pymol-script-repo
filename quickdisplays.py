@@ -1,7 +1,6 @@
 '''
 quickdisplays.py
 Described at: http://www.pymolwiki.org/quickdisplays
-Version 1.0 (2014)
 ##################################################
 
 Bundled commands for quick default representations.
@@ -12,7 +11,9 @@ Plugin contributed by Andreas Warnecke
 (andreas.warnecke@ki.se, 4ndreas.warneck3@gmail.com)
 ##################################################
 VERSION NOTES:
-    1.0    2014    First release
+    1.0    2014     First release
+    1.1    2016     disabled disp_surf from setting surface_carve_selection
+                    corrected print output
 '''
 #-------------------------------------------------------------------------------
 # IMPORT
@@ -320,10 +321,10 @@ PARAMETERS
 
             cmd.set('mesh_color', 'default', p)
             cmd.spectrum('b', 'rainbow', '(not hetatm) and %s' % p, minimum='%f' % limits[0], maximum='%f' % limits[1], byres=0)
-            print("disp_ss:", p, "displayed in putty mode - mesh as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1]))
+            print("disp_mesh:", p, "displayed in putty mode - mesh as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1]))
         else:
             cmd.set('mesh_color', color_m, p)
-            print("regular mode - mesh - " + p)
+            print("disp_mesh: regular mode - mesh - " + p)
 
         if only:
             cmd.show_as('mesh', '%s and %s' % (selection, p))
@@ -409,7 +410,9 @@ PARAMETERS
         cmd.set('surface_quality', '2', p)
         cmd.set('solvent_radius', '1.5', p)
         cmd.set('cavity_cull', '2', p)
-        cmd.set('surface_carve_selection', p)
+        #cmd.set('surface_carve_selection', p)
+        # this causes issues when using the command on different objects
+        # it is better to define surface_carve_selection manually
 
         # defined
         cmd.set('surface_solvent', solvent, p)
@@ -426,10 +429,10 @@ PARAMETERS
             cmd.spectrum('b', 'rainbow',
                          '(not hetatm) and %s' % p, minimum='%f' % limits[0],
                          maximum='%f' % limits[1], byres=0)
-            print("disp_ss:", p, "displayed in putty mode - surface as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1]))
+            print("disp_surf:", p, "displayed in putty mode - surface as putty - limits=[%.4f,%.4f]" % (limits[0], limits[1]))
         else:
             cmd.set('surface_color', color_s, selection)
-            print("disp_ss:", p, "displayed as regular surface")
+            print("disp_surf:", p, "displayed as regular surface")
         if only:
             cmd.show_as('surface', '(%s and %s)' % (selection, p))
         else:
