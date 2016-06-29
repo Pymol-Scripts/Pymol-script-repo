@@ -25,10 +25,10 @@ def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command',
                             'Optimize',
                             label = 'Optimize',
-                            command = lambda : mainDialog())
+                            command = lambda : mainDialog(self.root))
 
 
-def mainDialog():
+def mainDialog(root=None):
     """ Creates the GUI """
     global entry_vdw, entry_elec, entry_conformers, entry_lowest
     def set_minimize():
@@ -52,7 +52,7 @@ def mainDialog():
         conf_search(selection, forcefield, conf_method, nsteps1, conformers, lowest_conf)
 
 
-    master = Tk()
+    master = Toplevel(root)
     master.title(' Optimize ')
     w = Tkinter.Label(master, text="\nOptimize: Let's find that minimum!\n",
                                 background = 'black',
@@ -201,7 +201,6 @@ If you find Optimize useful great!
 If you don't and have some suggestions or comments 
 to do please write to me (aloctavodia@gmail.com).
 """,justify=CENTER).pack()
-    master.mainloop()
 
 
 def enable_entry():

@@ -24,10 +24,10 @@ def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command',
                              'wrappy',
                              label='Wrappy',
-                             command=lambda: mainDialog())
+                             command=lambda: mainDialog(self.root))
 
 
-def mainDialog():
+def mainDialog(root=None):
     """ Creates the GUI"""
 
     def get_dehydrons():
@@ -43,7 +43,7 @@ def mainDialog():
             print '#' * 40
             print 'Please load a protein structure'
             print '#' * 40
-    master = Tkinter.Tk()
+    master = Tkinter.Toplevel(root)
     master.title(' Wrappy ')
     w = Tkinter.Label(master, text='dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
                       background='#000000',
@@ -150,8 +150,6 @@ Springer-Verlag, Berlin, Heidelberg (2010).
     text_holder.pack(side=LEFT, expand="yes", fill="both")
     bar.pack(side=LEFT, expand="yes", fill="y")
     interior_frame.pack(expand="yes", fill="both")
-
-    master.mainloop()
 
 
 def colorize():
