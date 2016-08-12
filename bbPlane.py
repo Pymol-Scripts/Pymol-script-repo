@@ -83,9 +83,7 @@ NOTES
     # prepare the cgo
     obj = [
         BEGIN, TRIANGLES,
-        COLOR,
     ]
-    obj.extend(cmd.get_color_tuple(color))
 
     for res in range(0, len(AAs) - 1):
         curIdx, nextIdx = str(AAs[res]), str(AAs[res + 1])
@@ -128,6 +126,7 @@ NOTES
     # update the UI
     cmd.load_cgo(obj, name, state, zoom=0)
     cmd.set("cgo_transparency", transp, name)
+    cmd.color(color, name)
 
 cmd.extend("bbPlane", bbPlane)
 
