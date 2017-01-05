@@ -11,6 +11,8 @@ PyMOL commands:
 '''
 
 from __future__ import print_function
+from __future__ import absolute_import
+
 import sys
 import os
 
@@ -75,8 +77,8 @@ class Record:
         return self.get(aai)
 
     def median(self):
-        x = sorted([_f for _f in list(self.index.values()) if _f])
-        half = len(x) / 2
+        x = sorted(filter(None, self.index.values()))
+        half = len(x) // 2
         if len(x) % 2 == 1:
             return x[half]
         return (x[half - 1] + x[half]) / 2.0
@@ -122,11 +124,11 @@ class MatrixRecord(Record):
     def median(self):
         x = []
         for y in self.index:
-            x.extend([_f for _f in y if _f])
+            x.extend(filter(None, y))
         x.sort()
         if len(x) % 2 == 1:
-            return x[len(x) / 2]
-        return sum(x[len(x) / 2 - 1:len(x) / 2 + 1]) / 2.0
+            return x[len(x) // 2]
+        return sum(x[len(x) // 2 - 1:len(x) // 2 + 1]) / 2.0
 
 
 def get(key):
@@ -176,10 +178,13 @@ def _parse(filename, rec, quiet=True):
     `MarixRecord` for aaindex2 and aaindex3.
     '''
     if not os.path.exists(filename):
-        import urllib.request, urllib.parse, urllib.error
+        if sys.version_info[0] < 3:
+            from urllib import urlretrieve
+        else:
+            from urllib.request import urlretrieve
         url = 'ftp://ftp.genome.jp/pub/db/community/aaindex/' + os.path.split(filename)[1]
         print('Downloading "%s"' % (url))
-        filename = urllib.request.urlretrieve(url, filename)[0]
+        filename = urlretrieve(url, filename)[0]
         print('Saved to "%s"' % (filename))
     f = open(filename)
 
@@ -215,7 +220,7 @@ def _parse(filename, rec, quiet=True):
         elif key == 'I ':
             a = line[1:].split()
             if a[0] != 'A/L':
-                current.extend(list(map(_float_or_None, a)))
+                current.extend(map(_float_or_None, a))
             elif list(Record.aakeys) != [i[0] for i in a] + [i[-1] for i in a]:
                 print('Warning: wrong amino acid sequence for', current.key)
             else:
@@ -239,7 +244,7 @@ def _parse(filename, rec, quiet=True):
                     current.cols[aa] = i
                     i += 1
             else:
-                current.extend(list(map(_float_or_None, a)))
+                current.extend(map(_float_or_None, a))
         elif not quiet:
             print('Warning: line starts with "%s"' % (key))
 
@@ -424,7 +429,7 @@ try:
     cmd.extend('pmf', pmf)
 
     def pymol_auto_arg_update():
-        aaindexkey_sc = cmd.Shortcut(list(_aaindex.keys()))
+        aaindexkey_sc = cmd.Shortcut(_aaindex.keys())
         cmd.auto_arg[0].update({
             'aaindex2b': [aaindexkey_sc, 'aaindexkey', ', '],
             'pmf': [aaindexkey_sc, 'aaindexkey', ', '],
