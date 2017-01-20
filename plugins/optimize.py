@@ -230,7 +230,7 @@ def enable_disable_entry(var):
     entry_lowest.update()
 
 
-def minimize(selection='all', forcefield='MMFF94s', method='conjugate gradients', nsteps0= 500, conv=0.0001, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
+def minimize(selection='all', forcefield='MMFF94s', method='Conjugate Gradients', nsteps0= 500, conv=0.0001, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
     pdb_string = cmd.get_pdbstr(selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
@@ -244,7 +244,7 @@ def minimize(selection='all', forcefield='MMFF94s', method='conjugate gradients'
         ff.EnableCutOff(True)
         ff.SetVDWCutOff(cut_vdw)
         ff.SetElectrostaticCutOff(cut_elec)
-    if method == 'conjugate gradients':
+    if method == 'Conjugate Gradients':
         ff.ConjugateGradients(nsteps0, conv)
     else:
         ff.SteepestDescent(nsteps0, conv)
