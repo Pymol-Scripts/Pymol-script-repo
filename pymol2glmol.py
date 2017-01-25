@@ -46,7 +46,7 @@ def parseObjMol(obj):
     sheet = []
     colors = {}
     for atom in obj[5][7]:
-        rep = atom[20]
+        rep = atom[20] + [0] * 12
         serial = atom[22]
         ss = atom[10]
         bonded = (atom[25] == 1)
@@ -117,6 +117,11 @@ def dump_rep(name):
         except OSError:
             pass
 
+    try:
+        cmd.set('pse_export_version', 1.74)
+    except:
+        pass
+
     names = cmd.get_session()['names']
     cmd.set('pdb_retain_ids', 1)
 
@@ -148,6 +153,10 @@ def dump_rep(name):
         ret += ",%.3f" % view[i]
 
     bgcolor = cmd.get_setting_tuple('bg_rgb')[1]
+
+    if len(bgcolor) == 1:
+        bgcolor = cmd.get_color_tuple(bgcolor[0])
+
     ret += "\nbgcolor:%02x%02x%02x" % (int(255 * float(bgcolor[0])), \
                                        int(255 * float(bgcolor[1])), int(255 * float(bgcolor[2])))
     if 'PYMOL_GIT_MOD' in os.environ:
