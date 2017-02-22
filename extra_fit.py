@@ -55,6 +55,13 @@ SEE ALSO
                 print('%-20s RMS = %8.3f (%d atoms)' % (model, x[0], x[1]))
             elif isinstance(x, float):
                 print('%-20s RMS = %8.3f' % (model, x))
+            elif _self.is_dict(x) and 'RMSD' in x:
+                natoms = x.get('alignment_length', 0)
+                suffix = (' (%s atoms)' % natoms) if natoms else ''
+                print('%-20s RMS = %8.3f' % (model, x['RMSD']) + suffix)
+            else:
+                print('%-20s' % (model,))
+
     if zoom:
         cmd.zoom(selection)
 
