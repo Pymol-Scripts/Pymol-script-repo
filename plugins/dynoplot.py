@@ -16,9 +16,15 @@ See more here: http://www.pymolwiki.org/index.php/dynoplot
 
 from __future__ import division
 from __future__ import generators
+from __future__ import print_function
 
-import Tkinter
+import sys
 from pymol import cmd
+
+if sys.version_info[0] > 2:
+    import tkinter as Tkinter
+else:
+    import Tkinter
 
 # workaround: Set to True if nothing gets drawn on canvas, for example on linux with "pymol -x"
 with_mainloop = False
@@ -111,7 +117,7 @@ class SimplePlot(Tkinter.Canvas):
         if color >= 0x40000000:
             color = '#%06x' % (color & 0xffffff)
         else:
-            color = '#%02x%02x%02x' % tuple([255 * i
+            color = '#%02x%02x%02x' % tuple([int(0xFF * i)
                                              for i in cmd.get_color_tuple(color)])
 
         oval = create_shape(width=1, outline="black", fill=color, *coords)
@@ -260,7 +266,7 @@ def set_phipsi(model, index, phi, psi, state=-1):
         cmd.set_dihedral(atsele[0], atsele[1], atsele[2], atsele[3], phi, state)
         cmd.set_dihedral(atsele[1], atsele[2], atsele[3], atsele[4], psi, state)
     except:
-        print ' DynoPlot Error: cmd.set_dihedral failed'
+        print(' DynoPlot Error: cmd.set_dihedral failed')
 
 # New Callback object, so that we can update the structure when phi,psi points are moved.
 
@@ -268,11 +274,15 @@ def set_phipsi(model, index, phi, psi, state=-1):
 class DynoRamaObject:
 
     def __init__(self, selection=None, name=None, symbols='', state=-1):
-        from pymol import _ext_gui as pmgapp
+        try:
+            from pymol.plugins import get_pmgapp
+            pmgapp = get_pmgapp()
+        except ImportError:
+            pmgapp = None
+
         if pmgapp is not None:
-            import Pmw
-            rootframe = Pmw.MegaToplevel(pmgapp.root)
-            parent = rootframe.interior()
+            rootframe = Tkinter.Toplevel(pmgapp.root)
+            parent = rootframe
         else:
             rootframe = Tkinter.Tk()
             parent = rootframe
@@ -287,7 +297,6 @@ class DynoRamaObject:
         canvas.axis(xint=150,
                     xlabels=[-180, -120, -60, 0, 60, 120, 180],
                     ylabels=[-180, -150, -120, -90, -60, -30, 0, 30, 60, 90, 120, 150, 180])
-        canvas.update()
 
         if symbols == 'ss':
             canvas.symbols = 1
@@ -327,8 +336,8 @@ class DynoRamaObject:
         self.lock = 1
         cmd.iterate('(%s) and name CA' % sel, 'idx2resn[model,index] = (resn, color, ss)',
                     space={'idx2resn': self.canvas.idx2resn})
-        for model_index, (phi, psi) in cmd.get_phipsi(sel, self.state).iteritems():
-            print " Plotting Phi,Psi: %8.2f,%8.2f" % (phi, psi)
+        for model_index, (phi, psi) in cmd.get_phipsi(sel, self.state).items():
+            print(" Plotting Phi,Psi: %8.2f,%8.2f" % (phi, psi))
             self.canvas.plot(phi, psi, model_index)
         self.lock = 0
 
@@ -337,12 +346,12 @@ class DynoRamaObject:
             return
 
         # Loop through each item on plot to see if updated
-        for value in self.canvas.shapes.itervalues():
+        for value in self.canvas.shapes.values():
             # Look for update flag...
             if value[2]:
                 # Set residue's phi,psi to new values
                 model, index = value[5]
-                print " Re-setting Phi,Psi: %8.2f,%8.2f" % (value[3], value[4])
+                print(" Re-setting Phi,Psi: %8.2f,%8.2f" % (value[3], value[4]))
                 set_phipsi(model, index, value[3], value[4], self.state)
                 value[2] = 0
 
