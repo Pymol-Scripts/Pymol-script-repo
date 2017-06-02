@@ -13,32 +13,35 @@ CHANGELOG
 
 2015-01-23 Thomas Holder
     * Fixed "Make Morph" feature for PyMOL 1.6+
+2017-06-02 Thomas Holder
+    * Python 3 compatibility
 
 '''
 
-from Tkinter import *
 from pymol import cmd
-import tkSimpleDialog
-import tkMessageBox
-import tkFileDialog
-import FileDialog
+import sys
+
+if sys.version_info[0] < 3:
+    from Tkinter import *
+    import tkSimpleDialog
+    import tkMessageBox
+    import tkFileDialog
+else:
+    from tkinter import *
+    import tkinter as Tkinter
+    from tkinter import simpledialog as tkSimpleDialog
+    from tkinter import messagebox as tkMessageBox
+    from tkinter import filedialog as tkFileDialog
+
 import string
 import os
 import pickle
 import time
-import types
-
-# not sure how many of these are needed, but these are from movie.py's import cmds
-import re
-from math import *
-import math
-from math import sqrt, acos, sin
-from copy import deepcopy
 
 #
 # KR: Check whether Morphing is available
 #
-if cmd.keyword.has_key('rigimol') or cmd.keyword.has_key('morph'):
+if 'rigimol' in cmd.keyword or 'morph' in cmd.keyword:
     MORPHING_OPTIONS = 1
 else:
     MORPHING_OPTIONS = 0
@@ -282,7 +285,7 @@ class Scenes(tkSimpleDialog.Dialog):
         b4.grid(row=5, column=0)
 
     def yview(self, *args):
-        apply(self.lb1.yview, args)
+        self.lb1.yview(*args)
 
     def addScene(self):
         emovie.insertScene()
@@ -290,7 +293,7 @@ class Scenes(tkSimpleDialog.Dialog):
     def recallScene(self):
         selection = self.lb1.curselection()
         try:
-            selection = map(int, selection)
+            selection = list(map(int, selection))
         except ValueError:
             pass
         sceneToRecall = emovie.sceneList[selection[0]]
@@ -299,7 +302,7 @@ class Scenes(tkSimpleDialog.Dialog):
     def deleteScene(self):
         selection = self.lb1.curselection()
         try:
-            selection = map(int, selection)
+            selection = list(map(int, selection))
         except ValueError:
             pass
         sceneToDelete = emovie.sceneList[selection[0]]
@@ -1018,28 +1021,28 @@ class Story(tkSimpleDialog.Dialog):
             # get the selection but in some versions of Tkinter, the selection is given as ints, and some as strings, so we check for both
             selection = self.lb1.curselection()
             try:
-                selection = map(int, selection)
+                selection = list(map(int, selection))
             except ValueError:
                 pass
             actionNumber = selection[0]
         elif len(self.lb2.curselection()) == 1:
             selection = self.lb2.curselection()
             try:
-                selection = map(int, selection)
+                selection = list(map(int, selection))
             except ValueError:
                 pass
             actionNumber = selection[0]
         elif len(self.lb3.curselection()) == 1:
             selection = self.lb3.curselection()
             try:
-                selection = map(int, selection)
+                selection = list(map(int, selection))
             except ValueError:
                 pass
             actionNumber = selection[0]
         elif len(self.lb4.curselection()) == 1:
             selection = self.lb4.curselection()
             try:
-                selection = map(int, selection)
+                selection = list(map(int, selection))
             except ValueError:
                 pass
             actionNumber = selection[0]
@@ -1064,13 +1067,13 @@ class Story(tkSimpleDialog.Dialog):
         emovie.story()
 
     def yview(self, *args):
-        apply(self.lb1.yview, args)
-        apply(self.lb2.yview, args)
-        apply(self.lb3.yview, args)
-        apply(self.lb4.yview, args)
+        self.lb1.yview(*args)
+        self.lb2.yview(*args)
+        self.lb3.yview(*args)
+        self.lb4.yview(*args)
 
     def xview(self, *args):
-        apply(self.lb4.xview, args)
+        self.lb4.xview(*args)
 
     def apply(self, deleteActionFlag=False):
 
@@ -1080,28 +1083,28 @@ class Story(tkSimpleDialog.Dialog):
             # get the selection but in some versions of Tkinter, the selection is given as ints, and some as strings, so we check for both
             selection = self.lb1.curselection()
             try:
-                selection = map(int, selection)
+                selection = list(map(int, selection))
             except ValueError:
                 pass
             actionNumber = selection[0]
         elif len(self.lb2.curselection()) == 1:
             selection = self.lb2.curselection()
             try:
-                selection = map(int, selection)
+                selection = list(map(int, selection))
             except ValueError:
                 pass
             actionNumber = selection[0]
         elif len(self.lb3.curselection()) == 1:
             selection = self.lb3.curselection()
             try:
-                selection = map(int, selection)
+                selection = list(map(int, selection))
             except ValueError:
                 pass
             actionNumber = selection[0]
         elif len(self.lb4.curselection()) == 1:
             selection = self.lb4.curselection()
             try:
-                selection = map(int, selection)
+                selection = list(map(int, selection))
             except ValueError:
                 pass
             actionNumber = selection[0]
@@ -1347,7 +1350,7 @@ class EditAction(tkSimpleDialog.Dialog):
             elif actionType == "Stop":
                 pass
             else:
-                print "Error: Action type of selected action not found."
+                print("Error: Action type of selected action not found.")
 
             return self.e1
 
@@ -1443,7 +1446,7 @@ class EditAction(tkSimpleDialog.Dialog):
                 editedValues = startFrame, endFrame, actionType, molecule, startAA, endAA
 
             else:
-                print "Error: Action type of selected action not found."
+                print("Error: Action type of selected action not found.")
 
             # now reinsert the action
             insertActionByValues(editedValues)
@@ -1663,10 +1666,10 @@ class Load:
 
         x = pickle.load(f)
 
-        if type(x[len(x) - 1]) == types.StringType:
+        if isinstance(x[-1], bytes):
             temp = x.pop()  # to handle any old versions of emovies that saved initialview, just throws away the initial view
 
-        if (type(x[len(x) - 1]) == types.ListType) and (type(x[len(x) - 2]) == types.ListType):  # check if sceneList and morphList are present because earlier versions didnt save sceneList
+        if isinstance(x[-1], list) and isinstance(x[-2], list):  # check if sceneList and morphList are present because earlier versions didnt save sceneList
             emovie.sceneList = x.pop()
             emovie.morphList = x.pop()
             emovie.storyBoard = x
@@ -1759,10 +1762,10 @@ class Load:
 
         x = pickle.load(f)
 
-        if type(x[len(x) - 1]) == types.StringType:
+        if isinstance(x[-1], bytes):
             temp = x.pop()  # to handle any old versions of emovies that saved initialview, just throws away the initial view
 
-        if (type(x[len(x) - 1]) == types.ListType) and (type(x[len(x) - 2]) == types.ListType):  # check if sceneList and morphList are present because earlier versions didnt save sceneList
+        if isinstance(x[-1], list) and isinstance(x[-2], list):  # check if sceneList and morphList are present because earlier versions didnt save sceneList
             emovie.sceneList = x.pop()
             emovie.morphList = x.pop()
             emovie.storyBoard = x
@@ -2064,7 +2067,7 @@ class AddMorph(tkSimpleDialog.Dialog):
         b.grid(row=2, column=0)
 
     def yview(self, *args):
-        apply(self.lb1.yview, args)
+        self.lb1.yview(*args)
 
     def openAddMorphParam(self):
 
@@ -2604,7 +2607,7 @@ def getActionValues(action):
         result = (startFrame, endFrame, actionType, molecule, startAA, endAA)
         return result
     else:
-        print "Error: ActionType not found in getActionValues function."
+        print("Error: ActionType not found in getActionValues function.")
         return (0)
 
 
@@ -2814,7 +2817,7 @@ def insertActionByValues(actionValues):
         emovie.storyBoard.append(("%i-%i" % (startFrame, lastFrame), "Worm", "Molecule: %s; Residues: %i-%i" % (molecule, startAA, endAA), ['eMovie.wormFunction("%s",%i,%i,%i,%i)' % (molecule, startAA, endAA, startFrame, startFrameState), blankCmd]))
 
     else:
-        print "Error: ActionType not found in insertActionByValues function."
+        print("Error: ActionType not found in insertActionByValues function.")
         return (0)
 
 
@@ -2875,7 +2878,7 @@ class Movie:
 
     def get_state(self, frame):
         key = str(frame)
-        if self.framestates.has_key(key):
+        if key in self.framestates:
             return self.framestates[key]
         else:
             return 1  # state one, if none specified
@@ -2932,7 +2935,7 @@ def get_values(number, start, end, mode):
     elif mode == 'trigon':
         values = get_trigon_values(number, start, end)
     else:
-        print 'movie.py: INVALID MODE %s' % mode
+        print('movie.py: INVALID MODE %s' % mode)
         return []
 
     return values
@@ -3126,7 +3129,7 @@ def movie(png_prefix="", ray="0"):
         # stop movie after first loop
         mv_cmd(str(moviedata.maxframe + 1), "mstop")
         mv_cmd(str(moviedata.maxframe + 2), "dummy")
-        print "done"
+        print("done")
 
     cmd.frame(1)  # reset frame counter
     nFrames = moviedata.maxframe
