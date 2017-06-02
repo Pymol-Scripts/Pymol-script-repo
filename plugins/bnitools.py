@@ -31,6 +31,9 @@ plug in for the PyMOL molecular visualization
 system which adds additional functionalities and 
 presets to the PyMOL GUI. 
 '''
+
+from __future__ import print_function
+
 # for plugin description end
 from pymol import cmd
 from pymol import util
@@ -41,8 +44,19 @@ from chempy import cpv
 import os
 import base64
 import zlib
-import Tkinter
-import tkSimpleDialog
+import sys
+
+if sys.version_info[0] < 3:
+    from Tkinter import *
+    import Tkinter
+    import tkSimpleDialog
+    import tkFileDialog
+else:
+    from tkinter import *
+    import tkinter as Tkinter
+    from tkinter import simpledialog as tkSimpleDialog
+    from tkinter import filedialog as tkFileDialog
+
 __version__ = "0.39"
 __bni_year__ = "2016"
 __copyright__ = "(c) %s" % __bni_year__
@@ -70,7 +84,7 @@ if __pymol_version__: #<= 1.41:
 # ICON and IMAGE GENERATION START
 ###################
 #DATA BEGIN
-bni_gif = '''
+bni_gif = b'''
 eJzF0/k/E3wAwPFvO9pyrGXuVk+6SHO0NU3qcSSictRInsViQpGjkp4eZUtJrJej6G7LKiy1x31U
 D3MNw5hJS4hhjrQimcmep7/i+fzw+Q/erm4uJNvjUQALfgAAtNQY3UyI8S0NbDZ67R0t/UXM2rtg
 433opgcYgyXNzY90zNhQy6cG5rkIq2eAWLByWx7Y8UIHn4/bsLSMVKhHKDAgcOG2r5C2eRq2vFV2
@@ -100,7 +114,7 @@ ViFwPgv0byzkzjPH4o7sYgQSPa4YfO++WKjThIKgutKeBsGoiRA0J5O8UhtrXQOqkqRicrS97i3L
 inm+pjV8U12q1VlT0nBcX2LgOZqzN/w06fSVPeT5T2nFOxwN010tlbIsA0XccFp1ZtPog/PTyrEL
 MoZSzsk5vTB+GA4Ddv8CMmpssw==
 '''
-about_gif = '''
+about_gif = b'''
 eJwVlGkg04/jgHeZbXZ8FHK3SiVH30lKIUO5ksZXhNQmQsSU5IjmZq45kyMjRUZNzlzNfWtz5whR
 lGREzvb9//5vnjfP6+cxMjHUPEdRARuDFv4DgdD/ie5Pwsg9RUvswY7msITUDyi9QP7zCqRRDDpb
 qnJEIKHOgp0rBOlVHdCpUFYToC/WApcqquUvg0wbRcxbQNe69XX3tM1Y+GuNWNt+nF0n6CYPROmv
@@ -596,7 +610,7 @@ class AboutGui:
 # ABOUT SECTION END
 ###################
 def bni_toggleHelp(a):
-    print 'Toggle value:', a.bni_toggleHelp.get()
+    print('Toggle value:', a.bni_toggleHelp.get())
 ####################
 # system variable settings
 ####################
@@ -640,7 +654,7 @@ def __init__(self):
                              activeforeground="blue",
                              label='v. %s %s' % (__version__, __copyright__),
                              command=do_nothing)
-    self.bni_toggleHelp = Tkinter.IntVar()
+    self.bni_toggleHelp = Tkinter.IntVar(self.root)
     # Initialise the checkbutton to 0:
     self.bni_toggleHelp.set(0)
     self.menuBar.addmenuitem('bni-tools', 'separator', '')
@@ -675,7 +689,7 @@ def __init__(self):
             self.menuBar.addmenuitem('symview', 'command',
                                      'Distance %s' % item,
                                      label='%s' % item,
-                                     command=lambda (a, b)=(item, self): fast_sym(cutoff=a, app=b, selection="sele"))#fast_sym(cutoff=item))
+                                     command=lambda a=item, b=self: fast_sym(cutoff=a, app=b, selection="sele"))
         self.menuBar.addmenuitem('symview', 'separator', '')
         self.menuBar.addcascademenu(
             'symview', 'colorsym', 'Color surface', label="Surface Patch Color ->")
@@ -702,7 +716,7 @@ def __init__(self):
         self.menuBar.addmenuitem('width', 'command',
                                  'Width %s' % item,
                                  label='%s' % item,
-                                 command=lambda (a, b)=(item, self): runsidebar(set="width", value=a, app=b))
+                                 command=lambda a=item, b=self: runsidebar(set="width", value=a, app=b))
     self.menuBar.addmenuitem('SideBar', 'command',
                              'fit sidebar to names',
                              label='fit to name',
@@ -887,7 +901,7 @@ def __init__(self):
         self.menuBar.addmenuitem('Image', 'command',
                                  'Ray %s' % item,
                                  label='%s' % item_names,
-                                 command=lambda (a, b)=(item, self): _set_bni_ray(setting=a, app=b))#fast_sym(cutoff=item))
+                                 command=lambda a=item, b=self: _set_bni_ray(setting=a, app=b))#fast_sym(cutoff=item))
     #self.menuBar.addmenuitem('Ray',
     #                         'command',
     #                         'His2',
@@ -916,7 +930,7 @@ def __init__(self):
         self.menuBar.addmenuitem('GetPlane', 'command',
                                  'Plane %s' % item,
                                  label='%s' % itemnames,
-                                 command=lambda (a, b)=(item, self): get_plane_handler(action=a, app=b))
+                                 command=lambda a=item, b=self: get_plane_handler(action=a, app=b))
     #Plane end
     #Box begin
     self.menuBar.addcascademenu('Create', 'GetBox', 'Get Box',
@@ -929,7 +943,7 @@ def __init__(self):
         self.menuBar.addmenuitem('GetBox', 'command',
                                  'Box %s' % item,
                                  label='%s' % itemname,
-                                 command=lambda (a, b)=(item, self): get_box_handler(action=a, app=b))
+                                 command=lambda a=item, b=self: get_box_handler(action=a, app=b))
     #Box End
     #Triangle BEGIN
     self.menuBar.addcascademenu('Create', 'Triangle',
@@ -956,7 +970,7 @@ def __init__(self):
             self.menuBar.addmenuitem('SetSurface', 'command',
                                      'Surface %s' % item,
                                      label='%s' % item,
-                                     command=lambda (a, b)=(item, self): get_surface_handler(action=a, app=b))
+                                     command=lambda a=item, b=self: get_surface_handler(action=a, app=b))
         #Set Surface End
         # Create END
     # Show selection  on BNI Tools or in PyMOL directly
@@ -1146,7 +1160,7 @@ def bni_fetch(parent, typ="pdb"):
                         (code, "fofc"), 3.0, "tv_green"]
             names = [nam.lower() for nam in cmd.get_names()]
             if map1[2].lower() not in names or map2[2].lower() not in names:
-                print map1[2], map2[2], names
+                print(map1[2], map2[2], names)
                 print(
                     "# Some maps could not be loaded. Density Wizard closed.")
                 return
@@ -3657,11 +3671,7 @@ def fast_sym(selection='', cutoff=4.0, delete_sym=1, use=1, app=None):
                     cryst.show_sym(select_name=sym_select, show_name="stick",
                                    cutoff=cutoff, surf_transparency=0.5, object="s_*")
                 cmd.delete("tmp_org")
-import tkSimpleDialog
-import tkMessageBox
-import tkFileDialog
-from Tkinter import *
-import Tkinter
+
 import Pmw
 class multi_pdb:
     '''Multiple input load. 
@@ -3866,7 +3876,7 @@ class multi_pdb:
                             pass
                 objfunc.append(objf)
                 seqid.append(sid)
-        s = zip(objfunc, filelist, object, seqid)
+        s = list(zip(objfunc, filelist, object, seqid))
         s.sort()
         print("# Modeller Files")
         print("# --------------")
@@ -3939,7 +3949,7 @@ class multi_pdb:
                     if begin_energy == 1:
                         try:
                             energy = float(a.split()[1])
-                        except IndexError, ValueError:
+                        except (IndexError, ValueError):
                             energy = 0.0
                         begin_energy = 0
                     if energy_sign in a:
