@@ -13,20 +13,31 @@ See more at: http://www.pymolwiki.org/index.php/annocryst
 ######################################################
 '''
 
+from __future__ import absolute_import
+from __future__ import print_function
+
 import Pmw
 import sys
-import urllib2
-import urllib
 import string
 import webbrowser
-from modules.idlelib.TreeWidget import TreeItem, TreeNode
-from Tkinter import PhotoImage
 from pymol import cmd
-from urllib2 import URLError, HTTPError
 from xml.dom.minidom import parseString
 from datetime import datetime
-from user import home
 import platform
+
+import os
+home = os.path.expanduser('~')
+
+if sys.version_info[0] < 3:
+    import urllib2
+    from urllib2 import URLError, HTTPError
+    from idlelib.TreeWidget import TreeItem, TreeNode
+    from Tkinter import PhotoImage
+else:
+    import urllib.request as urllib2
+    from urllib.error import URLError, HTTPError
+    from idlelib.tree import TreeItem, TreeNode
+    from tkinter import PhotoImage
 
 
 def __init__(self):
@@ -246,7 +257,7 @@ class AnnotationService:
                                          title = 'AnnoCryst Settings',
                                          command = self.saveSettings,
                                          deactivatecommand = self.saveSettings)
-        attrs = self.settings.keys()
+        attrs = list(self.settings.keys())
         attrs.sort()
         for att in attrs:
             entryfield = Pmw.EntryField(self.settingsDialog.interior(),
@@ -271,9 +282,9 @@ class AnnotationService:
                 settingsfile = open(self.settingsFile, 'w')
                 settingsfile.write(settingsStr)
                 settingsfile.close()
-                print "Settings saved in %s" % self.settingsFile
+                print("Settings saved in %s" % self.settingsFile)
             except:
-                print "Unable to save settings"
+                print("Unable to save settings")
         else:
             for k in self.settings.keys():
                 entryfield = getattr(self, k)
@@ -298,7 +309,7 @@ class AnnotationService:
                 if len(elems) > 0 and len(elems[0].childNodes) > 0:
                     self.settings[k] = elems[0].childNodes[0].nodeValue
         except:
-            print "Unable to read settings from %s, using AnnoCryst defaults" % self.settingsFile
+            print("Unable to read settings from %s, using AnnoCryst defaults" % self.settingsFile)
 
     def handleMainWindowButtons(self, result):
         # hide or show UI dialogs
@@ -331,7 +342,7 @@ class AnnotationService:
             cmd.enable(modelName)
         except:
             self.status.setvalue("Unable to load model " + pdbURL)
-            print "Unable to load model %s:" % pdbURL, sys.exc_info()[0]
+            print("Unable to load model %s:" % pdbURL, sys.exc_info()[0])
 
     # button actions for browse page
     def copyText(self):
@@ -348,7 +359,7 @@ class AnnotationService:
                 self.showAllAnnotations()
                 self.status.setvalue("Annotation deleted")
             except:
-                print "Unable to delete annotation"
+                print("Unable to delete annotation")
                 self.status.setvalue("Unable to delete annotation")
 
     # button actions for annotate page
@@ -422,7 +433,7 @@ class AnnotationService:
             try:
                 req = urllib2.Request(self.annotationServerURL.getvalue(), anno)
                 response = urllib2.urlopen(req)
-            except HTTPError, e:
+            except HTTPError as e:
                 if e.code == 201:
                     self.showAllAnnotations()
                     self.status.setvalue("Annotation created")
@@ -501,7 +512,7 @@ class AnnotationService:
                     anno += "r:resource='%s#%s'/>" % (self.keywordOntologyNamespace.getvalue(), keyword)
                 else:
                     if keyword != '':
-                        print "Warning: Invalid keyword \'%s\' not added to annotation" % keyword
+                        print("Warning: Invalid keyword \'%s\' not added to annotation" % keyword)
 
         anno += "</r:Description></r:RDF>"
         return anno
@@ -553,10 +564,10 @@ class AnnotationService:
                 child.expand()
             self.status.setvalue("Annotations loaded")
             self.annotationsLoaded = True
-        except URLError, e:
+        except URLError as e:
             self.status.setvalue("No annotations found")
-        except HTTPError, e:
-            print "Unable to load annotations"
+        except HTTPError as e:
+            print("Unable to load annotations")
             self.status.setvalue("Unable to load annotations")
 
     def updateDescriptionUI(self, result):
@@ -598,7 +609,7 @@ class AnnotationService:
                 self.ontology_tree_node.expand()
                 self.loadedOntology = ontURL
             except:
-                print "Unable to load ontology: %s" % ontURL
+                print("Unable to load ontology: %s" % ontURL)
                 self.status.setvalue("Unable to load ontology")
 
     def addKeyword(self):
@@ -627,7 +638,7 @@ class AnnotationService:
                     cmd.indicate(self.selection)
                     self.current.setvalue("Showing context for annotation")
                 except:
-                    print "Unable to select context"
+                    print("Unable to select context")
 
     def deselectAnnotation(self):
         cmd.indicate("none")
@@ -726,7 +737,7 @@ class OntologyTreeItem(TreeItem):
                         if cID:
                             tmpchildren[cID] = c
                 # save list of keywords
-                self.keywords = tmpchildren.keys()
+                self.keywords = list(tmpchildren.keys())
                 # iterate over all classes that have super classes,
                 # remove them from the children of the top element
                 for childList in self.class_dict.values():
@@ -739,7 +750,7 @@ class OntologyTreeItem(TreeItem):
                                 'about').replace("#", "")
                         if childId in tmpchildren:
                             del tmpchildren[childId]
-                self.children = tmpchildren.values()
+                self.children = list(tmpchildren.values())
             elif self.tag.find("Class") != -1:
                 # look up the subclasses (children) of this class
                 self.class_dict = class_dict
@@ -1045,7 +1056,7 @@ class AnnotationTreeItem(TreeItem):
                     if child.nodeType == node.TEXT_NODE:
                         bodyContentStr += child.nodeValue
         except:
-            print "Unable to read annotation body"
+            print("Unable to read annotation body")
         return bodyContentStr.strip()
 
 # override urllib2 Request to support HTTP DELETE request
