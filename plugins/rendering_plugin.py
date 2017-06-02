@@ -4,7 +4,14 @@ Described at: http://www.pymolwiki.org/index.php/rendering_plugin
 Plugin contributed by Michael Lerner (mglerner@gmail.com)
 '''
 
-import Tkinter
+from __future__ import print_function
+
+import sys
+if sys.version_info[0] < 3:
+    import Tkinter
+else:
+    import tkinter as Tkinter
+
 import Pmw
 
 try:
@@ -18,13 +25,13 @@ except ImportError:
         class cmd:
 
             def ray(*args):
-                print "ray", args
+                print("ray", args)
 
             def png(*args, **kwargs):
-                print "png", args, kwargs
+                print("png", args, kwargs)
 
             def draw(*args, **kwargs):
-                print "draw", args, kwargs
+                print("draw", args, kwargs)
             ray = staticmethod(ray)
             png = staticmethod(png)
             draw = staticmethod(draw)

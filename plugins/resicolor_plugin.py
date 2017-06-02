@@ -2,9 +2,13 @@
 Described at: http://www.pymolwiki.org/index.php/resicolor_plugin
 plugin contributed by Philippe Garteiser garteiserp@omrf.org
 '''
-from Tkinter import *
 from pymol import cmd
-import tkSimpleDialog
+
+import sys
+if sys.version_info[0] < 3:
+    import tkSimpleDialog
+else:
+    from tkinter import simpledialog as tkSimpleDialog
 
 
 def __init__(self):
@@ -33,10 +37,10 @@ def resicolor(selection):
         cmd.select('none')
         for elem in code:
             line = 'color ' + code[elem] + ',' + elem + '&' + selection
-            print line
+            print(line)
             cmd.do(line)
         word = 'color white,backbone &' + selection
-        print word
+        print(word)
         cmd.do(word)
 
 
