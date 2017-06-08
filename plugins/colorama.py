@@ -20,10 +20,17 @@ Literature:
  DeLano, W.L. The PyMOL Molecular Graphics System (2002) DeLano Scientific, San Carlos, CA, USA. http://www.pymol.org
 '''
 
+from __future__ import print_function
+from __future__ import absolute_import
+
 import colorsys
 import sys
 from pymol import cmd, stored
-from Tkinter import *
+
+if sys.version_info[0] < 3:
+    from Tkinter import *
+else:
+    from tkinter import *
 
 
 class Colorama:
@@ -373,7 +380,7 @@ class Colorama:
     def RGBToHTMLColor(self, rgb_tuple):
             # by Paul Winkler
         """ convert an (R, G, B) tuple to #RRGGBB """
-        hexcolor = '#%02x%02x%02x' % rgb_tuple
+        hexcolor = '#%02x%02x%02x' % tuple(map(int, rgb_tuple))
         # that's it! '%02x' means zero-padded, 2-digit hex values
         return hexcolor
 
@@ -382,13 +389,13 @@ def __init__(self):
     self.menuBar.addmenuitem('Plugin', 'command',
                              'Colorama',
                              label='Colorama',
-                             command=lambda s=self: open_Colorama())
+                             command=lambda s=self: open_Colorama(s.root))
 
 
-def open_Colorama():
+def open_Colorama(master):
     # initialize window (roota)
     global roota
-    roota = Tk()
+    roota = Toplevel(master)
     roota.title(' COLORAMA by gha')
     global colorama
     colorama = Colorama(roota)
@@ -443,21 +450,21 @@ def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11, sa
 
 # Sanity checking
     if nbins == 1:
-        print "\n     WARNING: You specified nbins=1, which doesn't make sense...resetting nbins=11\n"
+        print("\n     WARNING: You specified nbins=1, which doesn't make sense...resetting nbins=11\n")
         nbins = 11
 
     if mode not in ('hist', 'ramp'):
-        print "\n     WARNING: Unknown mode ", mode, "    ----->   Nothing done.\n"
+        print("\n     WARNING: Unknown mode ", mode, "    ----->   Nothing done.\n")
         return
     if selection == '':
-        print "\n USAGE: color_grad dimB, minimum=380, maximum=531, hs=0.3, he=0.25,ss=0.7,se=0.2,vs=1,ve=0.5\n"
+        print("\n USAGE: color_grad dimB, minimum=380, maximum=531, hs=0.3, he=0.25,ss=0.7,se=0.2,vs=1,ve=0.5\n")
         return
     elif gradient not in ('bgr', 'rgb', 'rainbow', 'reverserainbow', 'bwr', 'rwb',
                           'bmr', 'rmb', 'rw', 'wr', 'gw', 'wg', 'bw', 'wb', 'gy', 'yg', 'gray', 'grey', 'reversegray', 'reversegrey'):
-        print "\n     WARNING: Unknown gradient: ", gradient, "    ----->   Nothing done.\n"
+        print("\n     WARNING: Unknown gradient: ", gradient, "    ----->   Nothing done.\n")
         return
 
-    print "MODE, GRADIENT, NBINS:", mode, gradient, nbins
+    print("MODE, GRADIENT, NBINS:", mode, gradient, nbins)
 
 # get list of B-factors from selection
     m = cmd.get_model(selection)
@@ -465,7 +472,7 @@ def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11, sa
     b_list = []
 
     if len(m.atom) == 0:
-        print "Sorry, no atoms selected"
+        print("Sorry, no atoms selected")
 
     else:
         if item == 'b':
@@ -478,15 +485,15 @@ def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11, sa
                 b_list.append(m.atom[i].q)
 
         else:
-            print "Not configured to work on item %s" % item
+            print("Not configured to work on item %s" % item)
             return
 
         cmd.load_model(m, dummy)
 
-        print selection
+        print(selection)
         max_b = maximum
         min_b = minimum
-        print "Minimum and Maximum B-values: ", min_b, max_b
+        print("Minimum and Maximum B-values: ", min_b, max_b)
         #nbins = (max_b - min_b)
 
         if mode == 'hist':
@@ -512,7 +519,7 @@ def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11, sa
 
 # do the colouring now
         for j in range(nbins):
-            print "Color select: ", sel[j]
+            print("Color select: ", sel[j])
             cmd.color(colours[j], sel[j])
     sel = []
     colours = []

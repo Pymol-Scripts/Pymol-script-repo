@@ -9,15 +9,27 @@ License: GNU General Public License
 Version 0.8
 '''
 
-import Tkinter
-from Tkinter import *
+import sys
+
+if sys.version_info[0] < 3:
+    import Tkinter
+    from Tkinter import *
+else:
+    import tkinter as Tkinter
+    from tkinter import *
+
 import Pmw
 from pymol import cmd
 
 try:
     import openbabel as ob
 except:
-    print '<'*80 + '\n\nOptimize plug-in needs openbabel to be installed in your system, please follow the instructions at\nhttp://openbabel.org/wiki/Get_Open_Babel\n\n' + '>'*80
+    print('<' * 80 + '''
+
+Optimize plug-in needs openbabel to be installed in your system, please follow the instructions at
+http://openbabel.org/wiki/Get_Open_Babel
+
+''' + '>' * 80)
 
 
 def __init__(self):
@@ -26,6 +38,10 @@ def __init__(self):
                             'Optimize',
                             label = 'Optimize',
                             command = lambda : mainDialog(self.root))
+
+
+def _tk_update(elem):
+    elem.update_idletasks()
 
 
 def mainDialog(root=None):
@@ -93,13 +109,13 @@ def mainDialog(root=None):
     nsteps0.set(500)
     entry_nsteps0 = Entry(group.interior(), textvariable=nsteps0, width=15)
     entry_nsteps0.grid(row=2, column=1)
-    entry_nsteps0.update()
+    _tk_update(entry_nsteps0)
     Label(group.interior(), text='convergence').grid(row=3, column=0)
     conv = StringVar(master=group.interior())
     conv.set(0.0001)
     entry_conv = Entry(group.interior(), textvariable=conv, width=15)
     entry_conv.grid(row=3, column=1)
-    entry_conv.update()
+    _tk_update(entry_conv)
     Label(group.interior(), text='selection').grid(row=4, column=0)
     sel0_value = StringVar(master=group.interior())
     names = cmd.get_names('all')
@@ -110,7 +126,7 @@ def mainDialog(root=None):
     entry_sel0_value = Entry(group.interior(),textvariable=sel0_value, width=15)
     entry_sel0_value.grid(row=4, column=1)
     entry_sel0_value.configure(state='normal')
-    entry_sel0_value.update()
+    _tk_update(entry_sel0_value)
 ###########################################################################
     cutoff_value = BooleanVar(master=group.interior())
     cutoff_value.set(False)
@@ -123,14 +139,14 @@ command=enable_entry).grid(row=6, columnspan=3)
     entry_elec = Entry(group.interior(),textvariable=vdw_value, width=15)
     entry_elec.grid(row=7, column=1)
     entry_elec.configure(state='disabled')
-    entry_elec.update()
+    _tk_update(entry_elec)
     Label(group.interior(), text='Electrostatic').grid(row=8, column=0)
     elec_value = StringVar(master=group.interior())
     elec_value.set(8.0)
     entry_vdw = Entry(group.interior(),textvariable=elec_value, width=15)
     entry_vdw.grid(row=8, column=1)
     entry_vdw.configure(state='disabled')
-    entry_vdw.update()
+    _tk_update(entry_vdw)
 
 # Run
     Button(p1, text="Minimize", command=set_minimize).pack(side=BOTTOM)
@@ -163,21 +179,21 @@ command=enable_entry).grid(row=6, columnspan=3)
     nsteps1.set(500)
     entry_nsteps1 = Entry(group.interior(), textvariable=nsteps1, width=15)
     entry_nsteps1.grid(row=2, column=1)
-    entry_nsteps1.update()
+    _tk_update(entry_nsteps1)
     Label(group.interior(), text='conformers ').grid(row=3, column=0)
     conformers = StringVar(master=group.interior())
     conformers.set(25)
     entry_conformers = Entry(group.interior(), textvariable=conformers, width=15)
     entry_conformers.grid(row=3, column=1)
     entry_conformers.configure(state='normal')
-    entry_conformers.update()
+    _tk_update(entry_conformers)
     Label(group.interior(), text=' lowest conf    ').grid(row=4, column=0)
     lowest = StringVar(master=group.interior())
     lowest.set(5)
     entry_lowest = Entry(group.interior(), textvariable=lowest, width=15)
     entry_lowest.grid(row=4, column=1)
     entry_lowest.configure(state='normal')
-    entry_lowest.update()
+    _tk_update(entry_lowest)
     Label(group.interior(), text='selection').grid(row=5, column=0)
     sel1_value = StringVar(master=group.interior())
     names = cmd.get_names('all')
@@ -188,7 +204,7 @@ command=enable_entry).grid(row=6, columnspan=3)
     entry_sel1_value = Entry(group.interior(),textvariable=sel1_value, width=15)
     entry_sel1_value.grid(row=5, column=1)
     entry_sel1_value.configure(state='normal')
-    entry_sel1_value.update()
+    _tk_update(entry_sel1_value)
 # Run
     Button(p2, text="Search", command=set_conf_search).pack(side=BOTTOM)
 ############################ About TAB ########################################
@@ -206,17 +222,17 @@ to do please write to me (aloctavodia@gmail.com).
 def enable_entry():
     """enables the fields for proxy and port"""
     entry_vdw.configure(state='normal')
-    entry_vdw.update()
+    _tk_update(entry_vdw)
     entry_elec.configure(state='normal')
-    entry_elec.update()
+    _tk_update(entry_elec)
 
 
 def disable_entry():
     """disables all the fields related to the proxy tab"""
     entry_vdw.configure(state='disabled')
-    entry_vdw.update()
+    _tk_update(entry_vdw)
     entry_elec.configure(state='disabled')
-    entry_elec.update()
+    _tk_update(entry_elec)
 
 
 def enable_disable_entry(var):
@@ -226,8 +242,8 @@ def enable_disable_entry(var):
     else:
         entry_conformers.configure(state='normal')
         entry_lowest.configure(state='normal')
-    entry_conformers.update()
-    entry_lowest.update()
+    _tk_update(entry_conformers)
+    _tk_update(entry_lowest)
 
 
 def minimize(selection='all', forcefield='MMFF94s', method='Conjugate Gradients', nsteps0= 500, conv=0.0001, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
@@ -255,9 +271,9 @@ def minimize(selection='all', forcefield='MMFF94s', method='Conjugate Gradients'
     if name == 'all':
         name = 'all_'
     cmd.read_pdbstr(pdb_string, name)
-    print '#########################################'
-    print 'The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit())
-    print '#########################################'
+    print('#########################################')
+    print('The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit()))
+    print('#########################################')
 
 
 def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps1= 500, conformers=25, lowest_conf=5):
@@ -280,8 +296,8 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
         name = 'all_'
     if method in ['Weighted', 'Random']:
         ff.GetConformers(mol)
-        print '##############################################'
-        print '   Conformer    |         Energy      |  RMSD'
+        print('##############################################')
+        print('   Conformer    |         Energy      |  RMSD')
         nrg_unit = ff.GetUnit()
         rmsd = 0
         ff.GetCoordinates(mol)
@@ -305,17 +321,17 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
             cmd.read_pdbstr(pdb_string, name_n)
             if i != 0:
                 rmsd = cmd.fit(name_n, '%s00' % name, quiet=1)
-            print '%15s | %10.2f%9s |%6.1f'    % (name_n, nrg, nrg_unit, rmsd)
-        print '##############################################'
+            print('%15s | %10.2f%9s |%6.1f'    % (name_n, nrg, nrg_unit, rmsd))
+        print('##############################################')
     else:
         ff.GetCoordinates(mol)
         nrg = ff.Energy()
         pdb_string = obconversion.WriteString(mol)
         cmd.delete(name)
         cmd.read_pdbstr(pdb_string, name)
-        print '#########################################'
-        print 'The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit())
-        print '#########################################'
+        print('#########################################')
+        print('The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit()))
+        print('#########################################')
 
 cmd.extend('minimize', minimize)
 cmd.extend('conf_search', conf_search)
