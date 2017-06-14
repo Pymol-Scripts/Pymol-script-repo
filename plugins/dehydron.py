@@ -7,13 +7,20 @@ http://www.pymolwiki.org/index.php/dehydron
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
 Date: March 2014
-License: GNU General Public License
+License: MIT License
 Acknowledgement: The H-bond detection code is based on the list_mc_hbonds.py
 script from Robert L. Campbell http://pldserver1.biochem.queensu.ca/~rlc/work/pymol/
 '''
 
-import Tkinter
-from Tkinter import *
+import sys
+
+if sys.version_info[0] < 3:
+    import Tkinter
+    from Tkinter import *
+else:
+    import tkinter as Tkinter
+    from tkinter import *
+
 import Pmw
 from pymol import cmd
 from pymol import stored
@@ -40,9 +47,9 @@ def mainDialog(root=None):
         if len(cmd.get_names()) > 0:
             dehydron(selection, angle_range, max_distance, desolv, min_wrappers, max_wrappers)
         else:
-            print '#' * 40
-            print 'Please load a protein structure'
-            print '#' * 40
+            print('#' * 40)
+            print('Please load a protein structure')
+            print('#' * 40)
     master = Tkinter.Toplevel(root)
     master.title(' Wrappy ')
     w = Tkinter.Label(master, text='dehydron calculator\nOsvaldo Martin - omarti@unsl.edu.ar',
@@ -239,24 +246,24 @@ USAGE
 
     if not quiet:
         hb.sort()
-        print "--------------------------------------------------------------------"
-        print "------------------------------Results ------------------------------"
-        print "--------------------------------------------------------------------"
-        print "           Donor             |            Aceptor           |"
-        print "    Object   Chain Residue   |     Object   Chain Residue   | # wrappers  wrapping"
+        print("--------------------------------------------------------------------")
+        print("------------------------------Results ------------------------------")
+        print("--------------------------------------------------------------------")
+        print("           Donor             |            Aceptor           |")
+        print("    Object   Chain Residue   |     Object   Chain Residue   | # wrappers  wrapping")
         for line in low_sel:
-            print line[1]
+            print(line[1])
         for line in mean_sel:
-            print line[1]
+            print(line[1])
         for line in high_sel:
-            print line[1]
-        print '\nProtein global statistics:'
-        print '\nz-score wrappers = %6.2f\nz-score hydrogen bonds = %6.2f\n' % (z_score_wrappers, z_score_hb)
+            print(line[1])
+        print('\nProtein global statistics:')
+        print('\nz-score wrappers = %6.2f\nz-score hydrogen bonds = %6.2f\n' % (z_score_wrappers, z_score_hb))
     elif not quiet and len(hb) != 0:
-        print '\n - no dehydrons were found - '
-        print '\nz-score hydrogen bonds = %6.2f\n' % (z_score_hb)
+        print('\n - no dehydrons were found - ')
+        print('\nz-score hydrogen bonds = %6.2f\n' % (z_score_hb))
     else:
-        print '\n - no hydrogen bonds were found - '
+        print('\n - no hydrogen bonds were found - ')
 
 cmd.extend('wrappy', dehydron)
 
