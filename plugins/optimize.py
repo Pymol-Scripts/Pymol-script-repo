@@ -5,7 +5,7 @@ Described at PyMOL wiki: http://www.pymolwiki.org/index.php/optimize
 Author : Osvaldo Martin
 email: aloctavodia@gmail.com
 Date: august 2014
-License: GNU General Public License
+License: MIT License
 Version 0.8
 '''
 
