@@ -4,7 +4,7 @@ https://pymolwiki.org/index.php/Plane_Wizard
 
 Authors : Troels Schwarz-Linnet
 Date    : Dec 2016
-Modified: From previous contributors. 
+Modified: From previous contributors.
 '''
 
 import pymol
@@ -222,7 +222,7 @@ class PlaneWizard(Wizard):
             cmd.edit("%s and not %s*" % (name, self.object_prefix))
             self.do_pick(0)
         except pymol.CmdException, pmce:
-            print pmce
+            print(pmce)
 
     def pickNextAtom(self, atom_name):
         # transfer the click selection to a named selection
@@ -247,7 +247,7 @@ class PlaneWizard(Wizard):
         # this shouldn't actually happen if going through the "do_select"
         if picked_bond:
             self.error = "Error: please select bonds, not atoms"
-            print self.error
+            print(self.error)
             return
 
         atom_name = self.object_prefix + str(self.pick_count)
