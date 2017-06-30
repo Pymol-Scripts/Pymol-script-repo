@@ -166,7 +166,7 @@ cmd.extend("match_peptides", match_peptides)
 
 def get_resi_stats(target_sel="all", residues=[], group_id="X", atom="NZ", atom_dist=8, resi_n_term=8, resi_c_term=8,  verb=True):
     # The distance in angstrom to look for
-    var_dist = 15
+    var_dist = 12
 
     if type(residues) != list:
         print("\nERROR: The residues should be supplied as a list\n")
@@ -205,6 +205,15 @@ def get_resi_stats(target_sel="all", residues=[], group_id="X", atom="NZ", atom_
         resn_resi = "%s%s" % (resn_1, resi)
         sel_str_text = "%s_%s_%s" % (target_sel, group_id, resn_resi)
         cmd.select(sel_str_text, sel_str)
+
+        # Make quick test, to see if the atom is there
+        sel_str_atom_test = "%s and name %s" % (sel_str_text, atom)
+        test_str = "Test_nr_atoms"
+        cmd.select(test_str, sel_str_atom_test)
+        nr_test = cmd.count_atoms(test_str)
+        if nr_test != 1:
+            print("\nERROR: The selection '%s', has only nr of atoms:%s. SKIPPING"%(sel_str_atom_test, nr_test))
+            continue
 
         # MSA = Molecular Surface Area
         cmd.set("dot_solvent", "off")
@@ -264,7 +273,8 @@ def get_resi_stats(target_sel="all", residues=[], group_id="X", atom="NZ", atom_
         nr_atoms_around = len(stored.list)
 
         # Make selection around NZ atom for variable distance
-        for i in range(2, var_dist+1):
+        #for i in range(2, var_dist+1):
+        for i in range(2, var_dist+1, 2):
             dist = i
             dist_pre = dist - 1
             # Select for an angstrom shorter
