@@ -87,8 +87,6 @@ from __future__ import print_function
 __author__ = 'Jared Sampson'
 __version__ = '0.2.0'
 
-import textwrap
-
 import pymol
 from pymol import cmd
 
@@ -155,13 +153,13 @@ def set_colors(replace=False):
             if replace:
                 cmd.set_color(name, rgb)
                 spacer = (20 - len(name)) * ' '
-                added_colors.append('{}{}{}'.format(name, spacer, cb_name))
+                added_colors.append('    {}{}{}'.format(name, spacer, cb_name))
             else:
-                added_colors.append(cb_name)
+                added_colors.append('    {}'.format(cb_name))
 
     # Notify user of newly available colors
     print('\nColor blind-friendly colors are now available:')
-    print(textwrap.indent('\n'.join(added_colors), '    '))
+    print('\n'.join(added_colors))
     print('')
 
 
