@@ -1,6 +1,6 @@
 '''
 More information and examples can be found at:
-http://www.pymolwiki.org/index.php/color_blind_friendly
+http://www.pymolwiki.org/index.php/colorblindfriendly
 
 DESCRIPTION
 
