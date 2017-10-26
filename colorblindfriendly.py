@@ -37,15 +37,14 @@ USAGE
 
     # Replace built-in colors with cbf ones
     cbf.set_colors(replace=True)
-    color my_other_object, yellow   # actually cb_yellow
+    color myOtherObject, yellow   # actually cb_yellow
 
     # Add a cb_colors menu item to the OpenGL GUI ([C] menu in the right panel)
-    # Note: `__main__` argument is required for this to work!
-    cbf.add_menu(__main__)
+    cbf.add_menu()
 
 REQUIREMENTS
 
-    None.
+    The `add_menu()` function is only available for PyMOL 2.0 and later.
 
 AUTHOR
 
