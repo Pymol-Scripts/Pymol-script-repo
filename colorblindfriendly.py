@@ -29,9 +29,19 @@ DESCRIPTION
 
 USAGE
 
-    import colorblindfriendly
+    import colorblindfriendly as cbf
+
+    # Add the new colors
+    cbf.set_colors()
     color myObject, cb_red
-    color mySel, cb_yellow
+
+    # Replace built-in colors with cbf ones
+    cbf.set_colors(replace=True)
+    color my_other_object, yellow   # actually cb_yellow
+
+    # Add a cb_colors menu item to the OpenGL GUI ([C] menu in the right panel)
+    # Note: `__main__` argument is required for this to work!
+    cbf.add_menu(__main__)
 
 REQUIREMENTS
 
@@ -39,11 +49,12 @@ REQUIREMENTS
 
 AUTHOR
 
-    Jared Sampson, NYU Langone Medical Center, 2014
+    Jared Sampson
+    Github: @jaredsampson
 
 LICENSE
 
-Copyright (c) 2014 Jared Sampson
+Copyright (c) 2014-2017 Jared Sampson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -63,42 +74,138 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+CHANGELOG
+
+    0.2.0   Complete overhaul for PyMOL 2.0 with conversion to module format.
+            Now, setting the new `cb_*` color values requires a call to the
+           `set_colors()` function after import.  You can also now add a
+           `cb_colors` menu to the OpenGL GUI via the `add_menu()` function.
+            [10/26/2017]
+
 '''
 from __future__ import print_function
-__author__ = 'Jared Sampson'
-__version__ = '0.1'
 
+__author__ = 'Jared Sampson'
+__version__ = '0.2.0'
+
+import textwrap
+
+import pymol
 from pymol import cmd
 
-# Color blind friendly color list based on information found at:
+
+# Color blind-friendly color list based on information found at:
 # http://jfly.iam.u-tokyo.ac.jp/html/color_blind/#pallet
-# The RGB percentage values given on that page are less precise than the 0-255
-# values, so the 0-255 values are converted here (e.g. 230/255 = 0.902).
-cb_colors = (
-    ("black", (0.000, 0.000, 0.000),                   # (  0,   0,   0)
-            ()),
-    ("orange", (0.902, 0.624, 0.000),                   # (230, 159,   0)
-     ()),
-    ("sky_blue", (0.337, 0.706, 0.914),                   # ( 86, 180, 233)
-     ("skyblue", "light_blue", "lightblue")),
-    ("bluish_green", (0.000, 0.620, 0.451),                   # (  0, 158, 115)
-     ("bluishgreen", "green")),
-    ("yellow", (0.941, 0.894, 0.259),                   # (240, 228,  66)
-     ()),
-    ("blue", (0.000, 0.447, 0.698),                   # (  0, 114, 178)
-     ()),
-    ("vermillion", (0.835, 0.369, 0.000),                   # (213,  94,   0)
-     ("red", "red_orange", "redorange")),
-    ("reddish_purple", (0.800, 0.475, 0.655),                   # (204, 121, 167)
-     ("reddishpurple", "rose", "violet", "magenta")),
-)
+CB_COLORS = {
+    'black': {
+        'rgb': [0, 0, 0],
+        'alt': None,
+    },
+    'orange': {
+        'rgb': [230, 159, 0],
+        'alt': None,
+    },
+    'sky_blue': {
+        'rgb': [86, 180, 233],
+        'alt': ['skyblue', 'light_blue', 'lightblue'],
+    },
+    'bluish_green': {
+        'rgb': [0, 158, 115],
+        'alt': ['bluishgreen', 'green'],
+    },
+    'yellow': {
+        'rgb': [240, 228, 66],
+        'alt': None,
+    },
+    'blue': {
+        'rgb': [0, 114, 178],
+        'alt': None,
+    },
+    'vermillion': {
+        'rgb': [213, 94, 0],
+        'alt': ['red', 'red_orange', 'redorange'],
+    },
+    'reddish_purple': {
+        'rgb': [204, 121, 167],
+        'alt': ['reddishpurple', 'rose', 'violet', 'magenta'],
+    },
+}
 
-for c in cb_colors:
-    # main name
-    cmd.set_color("cb_%s" % c[0], c[1])
-    print("Set color: cb_%s" % c[0])
 
-    # alternate names
-    for alt in c[2]:
-        cmd.set_color("cb_%s" % alt, c[1])
-        print("           cb_%s" % alt)
+def set_colors(replace=False):
+    '''Add the color blind-friendly colors to PyMOL.'''
+    # Track the added colors
+    added_colors = []
+
+    for color, properties in CB_COLORS.items():
+        # RGB tuple shortcut
+        rgb = properties['rgb']
+
+        # Get the primary and alternate color names into a single list
+        names = [color]
+        if properties['alt']:
+            names.extend(properties['alt'])
+
+        # Set the colors
+        for name in names:
+            # Set the cb_color
+            cb_name = 'cb_{}'.format(name)
+            cmd.set_color(cb_name, rgb)
+
+            # Optionally replace built-in colors
+            if replace:
+                cmd.set_color(name, rgb)
+                spacer = (20 - len(name)) * ' '
+                added_colors.append('{}{}{}'.format(name, spacer, cb_name))
+            else:
+                added_colors.append(cb_name)
+
+    # Notify user of newly available colors
+    print('\nColor blind-friendly colors are now available:')
+    print(textwrap.indent('\n'.join(added_colors), '    '))
+    print('')
+
+
+def add_menu():
+    '''Add a color blind-friendly list of colors to the PyMOL OpenGL menu.'''
+
+    # Check for cb_colors
+    print('Checking for colorblindfriendly colors...')
+    if cmd.get_color_index('cb_red') == -1:
+        print('Adding colorblindfriendly colors...')
+        set_colors()
+
+    # Add the menu
+    print('Adding cb_colors menu...')
+    # mimic pymol.menu.all_colors_list format in PyMOL 2.0
+    # first color in list is used for menu item color
+    cb_colors = ('cb_colors', [
+        ('830', 'cb_red'),
+        ('064', 'cb_green'),
+        ('046', 'cb_blue'),
+        ('882', 'cb_yellow'),
+        ('746', 'cb_magenta'),
+        ('368', 'cb_skyblue'),
+        ('860', 'cb_orange'),
+    ])
+    # First `pymol` is the program instance, second is the Python module
+    all_colors_list = pymol.pymol.menu.all_colors_list
+    if cb_colors in all_colors_list:
+        print('Menu was already added!')
+    else:
+        all_colors_list.append(cb_colors)
+    print('  done.')
+
+
+def remove_menu():
+    '''Remove the cb_colors menu.'''
+    all_colors_list = pymol.pymol.menu.all_colors_list
+    if all_colors_list[-1][0] == 'cb_colors':
+        all_colors_list.pop()
+        print('The `cb_colors` menu has been removed.')
+    else:
+        print('The `cb_colors` menu was not found! Aborting.')
+
+
+if __name__ == "pymol":
+    add_menu()
