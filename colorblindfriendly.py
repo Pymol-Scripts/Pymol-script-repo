@@ -39,12 +39,12 @@ USAGE
     cbf.set_colors(replace=True)
     color myOtherObject, yellow   # actually cb_yellow
 
-    # Add a cb_colors menu item to the OpenGL GUI ([C] menu in the right panel)
+    # Add a `cb_colors` menu item to the OpenGL GUI ([C] menu in the right panel)
     cbf.add_menu()
 
 REQUIREMENTS
 
-    The `add_menu()` function is only available for PyMOL 2.0 and later.
+    The cb_colors menu (`add_menu()` function) requires PyMOL 1.6.0 or later.
 
 AUTHOR
 
@@ -166,15 +166,26 @@ def set_colors(replace=False):
 def add_menu():
     '''Add a color blind-friendly list of colors to the PyMOL OpenGL menu.'''
 
-    # Check for cb_colors
+    # Make sure cb_colors are installed.
     print('Checking for colorblindfriendly colors...')
-    if cmd.get_color_index('cb_red') == -1:
+    try:
+        if cmd.get_color_index('cb_red') == -1:
+            # mimic pre-1.7.4 behavior
+            raise pymol.CmdException
+    except pymol.CmdException:
         print('Adding colorblindfriendly colors...')
         set_colors()
 
+    # Abort if PyMOL is too old.
+    try:
+        from pymol.menu import all_colors_list
+    except ImportError:
+        print('PyMOL version too old for cb_colors menu. Requires 1.6.0 or later.')
+        return
+
     # Add the menu
     print('Adding cb_colors menu...')
-    # mimic pymol.menu.all_colors_list format in PyMOL 2.0
+    # mimic pymol.menu.all_colors_list format
     # first color in list is used for menu item color
     cb_colors = ('cb_colors', [
         ('830', 'cb_red'),
