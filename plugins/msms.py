@@ -33,32 +33,39 @@
 # PERFORMANCE OF THIS SOFTWARE.
 # ----------------------------------------------------------------------
 
+from __future__ import absolute_import
+from __future__ import print_function
+
 # python lib
 import os
 import sys
 import platform
 import subprocess
 import time
-import tkSimpleDialog
-import tkMessageBox
-import tkFileDialog
-import tkColorChooser
-
-import Tkinter
+if sys.version_info[0] < 3:
+    import Tkinter
+    import tkMessageBox
+    import tkFileDialog
+    import tkColorChooser
+else:
+    import tkinter as Tkinter
+    import tkinter.messagebox as tkMessageBox
+    import tkinter.filedialog as tkFileDialog
+    import tkinter.colorchooser as tkColorChooser
 
 # pymol lib
 try:
     from pymol import cmd
     from pymol.cgo import *
 except ImportError:
-    print 'Warning: pymol library cmd not found.'
+    print('Warning: pymol library cmd not found.')
     sys.exit(1)
 
 # external lib
 try:
     import Pmw
 except ImportError:
-    print 'Warning: failed to import Pmw. Exit ...'
+    print('Warning: failed to import Pmw. Exit ...')
     sys.exit(1)
 
 VERBOSE = True
@@ -119,11 +126,11 @@ class MSMSPlugin:
                 pass
         if 'MSMS_BIN' in os.environ:
             if VERBOSE:
-                print 'Found MSMS_BIN in environmental variables', os.environ['MSMS_BIN']
+                print('Found MSMS_BIN in environmental variables', os.environ['MSMS_BIN'])
             self.msms_bin.set(os.environ['MSMS_BIN'])
         else:
             if VERBOSE:
-                print 'MSMS_BIN not found in environmental variables.'
+                print('MSMS_BIN not found in environmental variables.')
             self.msms_bin.set('')
 # self.pdb2xyzr_bin.set('')
         if 'PDB2XYZRN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
@@ -459,22 +466,22 @@ http://pymol.sourceforge.net/faq.html#CITE
                 pdb_fn = os.path.join(self.tmp_dir.get(), "pymol_sele_%s_%s.pdb" % (sel, str(time.time()).replace('.', '')))
                 cmd.save(filename=pdb_fn, selection=sel)
                 if VERBOSE:
-                    print 'Selection %s saved to %s.' % (sel, pdb_fn)
+                    print('Selection %s saved to %s.' % (sel, pdb_fn))
             else:  # sel is unknown
                 err_msg = 'Unknown selection name: %s' % (sel,)
-                print 'ERROR: %s' % (err_msg,)
+                print('ERROR: %s' % (err_msg,))
                 tkMessageBox.showinfo(title='ERROR', message=err_msg)
 
         elif len(self.pdb_fn.get()) > 0:  # if no selection specified, use specified PDB file
             pdb_fn = self.pdb_fn.get()
             if not os.path.isfile(pdb_fn):
                 err_msg = 'PDB file does not exist: %s' % (pdb_fn,)
-                print 'ERROR: %s' % (err_msg,)
+                print('ERROR: %s' % (err_msg,))
                 tkMessageBox.showinfo(title='ERROR', message=err_msg)
 
         else:   # what structure do you want MSMS to work on?
             err_msg = 'Neither PyMOL selection nor PDB file specified!'
-            print 'ERROR: %s' % (err_msg,)
+            print('ERROR: %s' % (err_msg,))
             tkMessageBox.showinfo(title='ERROR', message=err_msg)
 
         return pdb_fn
@@ -483,25 +490,25 @@ http://pymol.sourceforge.net/faq.html#CITE
 
         if os.path.isfile(self.msms_vert_fn):
             if VERBOSE:
-                print 'Cleaning msms vert file', self.msms_vert_fn
+                print('Cleaning msms vert file', self.msms_vert_fn)
             os.remove(self.msms_vert_fn)
             self.msms_vert_fn = None
         if os.path.isfile(self.msms_face_fn):
             if VERBOSE:
-                print 'Cleaning msms face file', self.msms_face_fn
+                print('Cleaning msms face file', self.msms_face_fn)
             os.remove(self.msms_face_fn)
             self.msms_face_fn = None
 
-        for i in xrange(len(self.msms_cpn_vert_fn_list)):
+        for i in range(len(self.msms_cpn_vert_fn_list)):
             vfn = self.msms_cpn_vert_fn_list[i]
             ffn = self.msms_cpn_face_fn_list[i]
             if os.path.isfile(vfn):
                 if VERBOSE:
-                    print 'Cleaning msms face file', vfn
+                    print('Cleaning msms face file', vfn)
                 os.remove(vfn)
             if os.path.isfile(ffn):
                 if VERBOSE:
-                    print 'Cleaning msms face file', ffn
+                    print('Cleaning msms face file', ffn)
                 os.remove(ffn)
 
         self.msms_cpn_vert_fn_list = []
@@ -528,22 +535,22 @@ http://pymol.sourceforge.net/faq.html#CITE
             self.tmp_dir.set(tmp_dir)
 
         if VERBOSE:
-            print 'MSMS bin  =', self.msms_bin.get()
+            print('MSMS bin  =', self.msms_bin.get())
 # print self.pdb2xyzr_bin.get()
-            print 'pdb2xyzrn =', self.pdb2xyzrn_bin.get()
-            print 'tmp dir   =', self.tmp_dir.get()
+            print('pdb2xyzrn =', self.pdb2xyzrn_bin.get())
+            print('tmp dir   =', self.tmp_dir.get())
 
         pdb_fn = self.getStrucPDBFname()
         if pdb_fn is None:
             return None
 
-        print 'Running MSMS ...'
+        print('Running MSMS ...')
         if VERBOSE:
-            print 'Probe raidus            =', self.probe_radius.get()
-            print 'Surface vertex density  =', self.density.get()
-            print 'Surface vertex hdensity =', self.hdensity.get()
-            print 'Ignore hydrogen atoms   =', str(self.noh.get())
-            print 'Consider all surface components =', str(self.allcpn.get())
+            print('Probe raidus            =', self.probe_radius.get())
+            print('Surface vertex density  =', self.density.get())
+            print('Surface vertex hdensity =', self.hdensity.get())
+            print('Ignore hydrogen atoms   =', str(self.noh.get()))
+            print('Consider all surface components =', str(self.allcpn.get()))
 
         msms = Msms(msms_bin=self.msms_bin.get(),
                     # pdb2xyzr_bin=self.pdb2xyzr_bin.get(),
@@ -555,13 +562,13 @@ http://pymol.sourceforge.net/faq.html#CITE
                     output_dir=self.tmp_dir.get()
                     )
         msms.run(pdb_fn)
-        print 'done!'
+        print('done!')
 
         # remove temp file (saved pymol selection)
         if self.cleanup_saved_pymol_sel and \
                 len(self.pymol_sel.get()) > 0 and os.path.isfile(pdb_fn):
             if VERBOSE:
-                print 'Cleaning temp file(s)', pdb_fn
+                print('Cleaning temp file(s)', pdb_fn)
             # !os.remove(pdb_fn)  # clean up (remove pdb file of the pymol selection)
 
         fn_list = msms.getOutputFiles()
@@ -573,8 +580,8 @@ http://pymol.sourceforge.net/faq.html#CITE
         [self.msms_cpn_face_fn_list.append(fni) for fni in fn_list[3]]
 
         if VERBOSE:
-            print 'MSMS .vert file:', self.msms_vert_fn
-            print 'MSMS .face file:', self.msms_face_fn
+            print('MSMS .vert file:', self.msms_vert_fn)
+            print('MSMS .face file:', self.msms_face_fn)
 
         return msms
 
@@ -588,7 +595,7 @@ http://pymol.sourceforge.net/faq.html#CITE
                 self.mesh_col_but['activebackground'] = self.mesh_col
                 self.mesh_col_but.update()
         except Tkinter._tkinter.TclError:
-            print 'Old color (%s) will be used.' % (self.mesh_col)
+            print('Old color (%s) will be used.' % (self.mesh_col))
 
         return
 
@@ -602,7 +609,7 @@ http://pymol.sourceforge.net/faq.html#CITE
                 self.vert_col_but['activebackground'] = self.vert_col
                 self.vert_col_but.update()
         except Tkinter._tkinter.TclError:
-            print 'Old color (%s) will be used.' % (self.vert_col)
+            print('Old color (%s) will be used.' % (self.vert_col))
 
         return
 
@@ -616,7 +623,7 @@ http://pymol.sourceforge.net/faq.html#CITE
                 self.norm_col_but['activebackground'] = self.norm_col
                 self.norm_col_but.update()
         except Tkinter._tkinter.TclError:
-            print 'Old color (%s) will be used.' % (self.norm_col)
+            print('Old color (%s) will be used.' % (self.norm_col))
 
         return
 
@@ -624,19 +631,19 @@ http://pymol.sourceforge.net/faq.html#CITE
         """ Run the cmd represented by the botton clicked by user.
         """
         if cmd == 'OK':
-            print 'is everything OK?'
+            print('is everything OK?')
 
         elif cmd == 'Run MSMS':
 
             if self.runMSMS() is not None:  # msms has been executed successfully
 
                 if VERBOSE:
-                    print 'Parsing MSMS output ...'
+                    print('Parsing MSMS output ...')
                 self.msp.parseVertFile(self.msms_vert_fn)
                 self.msp.parseFaceFile(self.msms_face_fn)
 
                 if self.allcpn:  # all componenents of surface
-                    for i in xrange(len(self.msms_cpn_vert_fn_list)):
+                    for i in range(len(self.msms_cpn_vert_fn_list)):
                         vfn = self.msms_cpn_vert_fn_list[i]
                         ffn = self.msms_cpn_face_fn_list[i]
                         cpn_msp = MSMSSurfPymol()
@@ -645,7 +652,7 @@ http://pymol.sourceforge.net/faq.html#CITE
                         self.cpn_msp_list.append(cpn_msp)
 
                 if VERBOSE:
-                    print 'done!'
+                    print('done!')
 
                 if self.cleanup_msms_output.get():  # clean up
                     self.cleanMSMSOutput()
@@ -653,14 +660,14 @@ http://pymol.sourceforge.net/faq.html#CITE
         elif cmd == 'Display Mesh':
             if len(self.msp.vert_coords) == 0:
                 err_msg = 'Please execute MSMS first.'
-                print 'ERROR: %s' % (err_msg,)
+                print('ERROR: %s' % (err_msg,))
                 tkMessageBox.showinfo(title='ERROR', message=err_msg)
             else:
                 self.msp.displayMsmsSurfMesh(mesh_cgo_color=(self.mesh_col_R / 255.0,
                                               self.mesh_col_G / 255.0,
                                               self.mesh_col_B / 255.0))
                 if self.allcpn:
-                    for i in xrange(len(self.cpn_msp_list)):
+                    for i in range(len(self.cpn_msp_list)):
                         self.cpn_msp_list[i].displayMsmsSurfMesh(
                             mesh_cgo_name='msms_surf_mesh_%d' % (i + 1),
                             mesh_cgo_color=(self.mesh_col_R / 255.0,
@@ -670,16 +677,16 @@ http://pymol.sourceforge.net/faq.html#CITE
         elif cmd == 'Display Vertices':
             if len(self.msp.vert_coords) == 0:
                 err_msg = 'Please execute MSMS first.'
-                print 'ERROR: %s' % (err_msg,)
+                print('ERROR: %s' % (err_msg,))
                 tkMessageBox.showinfo(title='ERROR', message=err_msg)
 
             else:
-                print 'Vertex sphere radius =', self.vert_rad.get()
-                print 'Normal vector length =', self.norm_len.get()
-                print 'Vertex color = (%.2f, %.2f, %.2f)' % \
-                      (self.vert_col_R / 255.0, self.vert_col_G / 255.0, self.vert_col_B / 255.0)
-                print 'Normal vector color = (%.2f, %.2f, %.2f)' % \
-                      (self.norm_col_R / 255.0, self.norm_col_G / 255.0, self.norm_col_B / 255.0)
+                print('Vertex sphere radius =', self.vert_rad.get())
+                print('Normal vector length =', self.norm_len.get())
+                print('Vertex color = (%.2f, %.2f, %.2f)' % \
+                      (self.vert_col_R / 255.0, self.vert_col_G / 255.0, self.vert_col_B / 255.0))
+                print('Normal vector color = (%.2f, %.2f, %.2f)' % \
+                      (self.norm_col_R / 255.0, self.norm_col_G / 255.0, self.norm_col_B / 255.0))
                 self.msp.displayMsmsSurfVert(r=self.vert_rad.get(),
                                              norm_len=self.norm_len.get(),
                                              vert_cgo_color=(self.vert_col_R / 255.0,
@@ -690,7 +697,7 @@ http://pymol.sourceforge.net/faq.html#CITE
                                                              self.norm_col_B / 255.0)
                                              )
                 if self.allcpn:
-                    for i in xrange(len(self.cpn_msp_list)):
+                    for i in range(len(self.cpn_msp_list)):
                         self.cpn_msp_list[i].displayMsmsSurfVert(
                             r=self.vert_rad.get(),
                             norm_len=self.norm_len.get(),
@@ -705,16 +712,16 @@ http://pymol.sourceforge.net/faq.html#CITE
                         )
 
         elif cmd == 'Exit':
-            print 'Exiting MSMS Plugin ...'
+            print('Exiting MSMS Plugin ...')
             if __name__ == '__main__':
                 self.parent.destroy()
             else:
                 self.dialog.withdraw()
-            print 'Done.'
+            print('Done.')
         else:
-            print 'Exiting MSMS Plugin ...'
+            print('Exiting MSMS Plugin ...')
             self.dialog.withdraw()
-            print 'Done.'
+            print('Done.')
 
     def quit(self):
         self.dialog.destroy()
@@ -828,11 +835,11 @@ class Msms:
         return
 
     def printMsmsParam(self):
-        print 'Probe radius               = %.2f' % (self.param_pr,)
-        print 'Triangulation density      = %.2f' % (self.param_den,)
-        print 'Triangulation high density = %.2f' % (self.param_hden,)
-        print 'No hydrogen    = %s' % (self.noh,)
-        print 'All components = %s' % (self.all_components,)
+        print('Probe radius               = %.2f' % (self.param_pr,))
+        print('Triangulation density      = %.2f' % (self.param_den,))
+        print('Triangulation high density = %.2f' % (self.param_hden,))
+        print('No hydrogen    = %s' % (self.noh,))
+        print('All components = %s' % (self.all_components,))
         return
 
     def run(self, pdb_fn, ofn_root=None):
@@ -859,7 +866,7 @@ class Msms:
 # os.system(cmd)
         cmd = '%s %s > %s' % (self.pdb2xyzrn_bin, pdb_fn, xyzrn_fname)
         # os.system(cmd)
-        print cmd
+        print(cmd)
         if sys.platform.startswith('win') and 'PYMOL_GIT_MOD' in os.environ:
             pymol_env = os.environ.copy()
             callfunc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=pymol_env)
@@ -867,7 +874,7 @@ class Msms:
             print(child_stdout)
             print(child_stderr)
             retval = callfunc.returncode
-            print "pdb2xyzrn's mainCommand returned", retval
+            print("pdb2xyzrn's mainCommand returned", retval)
         else:
             status = subprocess.call(cmd, shell=True)
         # read in .xyzr and .xyzrn data
@@ -886,9 +893,9 @@ class Msms:
             self.xyzrn_fd = xyzrn_fh.readlines()
             xyzrn_fh.close()
         except IOError:
-            print 'ERROR: pdb2xyzrn failed to convert pdb file to xyzrn file!'
-            print '       pdb2xyzrn = %s' % (self.pdb2xyzrn_bin,)
-            print '       pdb file  = %s' % (pdb_fn,)
+            print('ERROR: pdb2xyzrn failed to convert pdb file to xyzrn file!')
+            print('       pdb2xyzrn = %s' % (self.pdb2xyzrn_bin,))
+            print('       pdb file  = %s' % (pdb_fn,))
             sys.exit()
 
         #output_root = '%s/%s' % (self.output_dir, ofn_root)
@@ -908,8 +915,8 @@ class Msms:
             cmd += ' -all_components'
 
         if VERBOSE:
-            print 'command line for running msms:'
-            print cmd
+            print('command line for running msms:')
+            print(cmd)
 
         # os.system(cmd)
         status = subprocess.call(cmd, shell=True)
@@ -1084,10 +1091,10 @@ class MsmsOutputParser:
 
                 if ck in coord_dict:  # coord has been reported before
 
-                    print "this vertex found before:", vid, 'dup to', coord_dict[ck]
-                    print ck
+                    print("this vertex found before:", vid, 'dup to', coord_dict[ck])
+                    print(ck)
                     dup_vdict[vid] = coord_dict[ck]  # point this v to its dup
-                    print dup_vdict
+                    print(dup_vdict)
                     new_vid_dict[vid] = coord_dict[ck]
                     continue
 
@@ -1106,7 +1113,7 @@ class MsmsOutputParser:
                     surf.surf_vert.append(vert)
 
             surf.surf_vert_num -= len(dup_vdict)  # update number of vertex
-            print "INFO: Remove %d surface vertices due to duplicate coordinates." % (len(dup_vdict))
+            print("INFO: Remove %d surface vertices due to duplicate coordinates." % (len(dup_vdict)))
 
         # In the MSMS output .vert file, each vertice is related to a sphere,
         #    which is an atom. The surface atoms can be extracted.
@@ -1169,7 +1176,7 @@ class MsmsOutputParser:
                                             (vid1, vid2, vid3), ftype, fnum)
                     surf.surf_face.append(face)
 
-            print "INFO: Remove %d surface faces due to duplicate coordinates." % (ignored_face_num)
+            print("INFO: Remove %d surface faces due to duplicate coordinates." % (ignored_face_num))
 
         return surf
 
@@ -1237,14 +1244,14 @@ class MsmsSurface:
             vert_fdata = fh.readlines()
             fh.close()
         except IOError:
-            print 'File not found:', self.surf_vert_fn
+            print('File not found:', self.surf_vert_fn)
 
         try:
             fh = open(self.surf_face_fn)
             face_fdata = fh.readlines()
             fh.close()
         except IOError:
-            print 'File not found:', self.surf_face_fn
+            print('File not found:', self.surf_face_fn)
 
         # the first three lines are not needed
         vert_fdata = vert_fdata[3:]
@@ -1310,7 +1317,7 @@ class MSMSSurfPymol:
             fd = fh.readlines()
             fh.close()
         except IOError:
-            print 'Error: MSMS .vert file not found:', self.vert_fn
+            print('Error: MSMS .vert file not found:', self.vert_fn)
             return
 
         self.vert_coords = []
@@ -1333,8 +1340,8 @@ class MSMSSurfPymol:
             self.vert_sidx.append(int(line[68:75]))
             self.vert_feature.append(int(line[76:78]))
 
-        print 'Number of vertices =', len(self.vert_coords)
-        print 'Number of normal vectors =', len(self.vert_norms)
+        print('Number of vertices =', len(self.vert_coords))
+        print('Number of normal vectors =', len(self.vert_norms))
 
         return
 
@@ -1348,7 +1355,7 @@ class MSMSSurfPymol:
             fd = fh.readlines()
             fh.close()
         except IOError:
-            print 'Error: MSMS .face file not found:', self.face_fn
+            print('Error: MSMS .face file not found:', self.face_fn)
             return
 
         self.face_tri = []
@@ -1363,7 +1370,7 @@ class MSMSSurfPymol:
             self.face_indicator.append(int(line[21:23]))
             self.face_ana_num.append(int(line[24:30]))
 
-        print 'Number of surface triangles =', len(self.face_tri)
+        print('Number of surface triangles =', len(self.face_tri))
 
         return
 
@@ -1386,7 +1393,7 @@ class MSMSSurfPymol:
         [vert_cgo.extend([SPHERE, c[0], c[1], c[2], r]) for c in self.vert_coords]
         # vert_cgo.append(END)
         cmd.load_cgo(vert_cgo, vert_cgo_name)
-        print 'Number of spheres for vertices =', len(self.vert_coords)
+        print('Number of spheres for vertices =', len(self.vert_coords))
 
         if display_norm and len(self.vert_norms) > 0:
             norm_cgo = [BEGIN, LINES,
@@ -1399,7 +1406,7 @@ class MSMSSurfPymol:
              for c, n, in zip(self.vert_coords, self.vert_norms)]
             norm_cgo.append(END)
             cmd.load_cgo(norm_cgo, norm_cgo_name)
-            print 'Number of lines for normal vectors =', len(self.vert_norms)
+            print('Number of lines for normal vectors =', len(self.vert_norms))
 
         return
 
@@ -1468,7 +1475,7 @@ class MSMSSurfPymol:
 
         mesh_cgo.append(END)
         cmd.load_cgo(mesh_cgo, mesh_cgo_name)
-        print 'Number of lines in the mesh =', line_num
+        print('Number of lines in the mesh =', line_num)
 
         return
 
@@ -1499,7 +1506,7 @@ class ObjPymol:
             fd = fh.readlines()
             fh.close()
         except IOError:
-            print 'Error: MSMS .vert file not found:', self.obj_fn
+            print('Error: MSMS .vert file not found:', self.obj_fn)
             return
 
         for line in fd:
@@ -1521,8 +1528,8 @@ class ObjPymol:
                     vt = [int(v.split('/')[1]) for v in buf[1:]]  # vertex texture
                     self.face_vtexture.append(vt)
 
-        print 'Number of vertices =', len(self.vert_coords)
-        print 'Number of normal vectors =', len(self.vert_norms)
+        print('Number of vertices =', len(self.vert_coords))
+        print('Number of normal vectors =', len(self.vert_norms))
 
         return
 
@@ -1539,7 +1546,7 @@ class ObjPymol:
                     vert_cgo_color[0], vert_cgo_color[1], vert_cgo_color[2]]
         [vert_cgo.extend([SPHERE, c[0], c[1], c[2], r]) for c in self.vert_coords]
         cmd.load_cgo(vert_cgo, vert_cgo_name)
-        print 'Number of spheres for vertices =', len(self.vert_coords)
+        print('Number of spheres for vertices =', len(self.vert_coords))
 
         if display_norm and len(self.vert_norms) > 0:
             norm_cgo = [BEGIN, LINES,
@@ -1552,7 +1559,7 @@ class ObjPymol:
              for c, n, in zip(self.vert_coords, self.vert_norms)]
             norm_cgo.append(END)
             cmd.load_cgo(norm_cgo, norm_cgo_name)
-            print 'Number of lines for normal vectors =', len(self.vert_norms)
+            print('Number of lines for normal vectors =', len(self.vert_norms))
 
         return
 

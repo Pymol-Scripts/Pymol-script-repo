@@ -9,12 +9,12 @@ See more here: http://www.pymolwiki.org/index.php/caver2
 '''
 from __future__ import division
 from __future__ import generators
+from __future__ import print_function
+from __future__ import absolute_import
 
 import os
 import math
 import platform
-import Tkinter
-from Tkinter import *
 import Pmw
 import distutils.spawn  # used for find_executable
 from pymol import cmd, selector
@@ -25,6 +25,13 @@ from pymol.cgo import *
 from chempy.models import Indexed
 from chempy import Bond, Atom
 import threading
+
+if sys.version_info[0] < 3:
+    import Tkinter
+    from Tkinter import *
+else:
+    import tkinter as Tkinter
+    from tkinter import *
 
 #
 # Global config variables
@@ -68,15 +75,6 @@ if WINDOWZ:
 else:
     LABEL_TEXT = "Directory with plugin .jar:"
 
-# Python backward-compatibility...
-try:
-    True
-except:
-    True = 1
-try:
-    False
-except:
-    False = 0
 #
 # Cheap hack for testing purposes
 #
@@ -138,7 +136,7 @@ class FileDialogButtonClassFactory:
                 '''when we get a file, we call fn(filename)'''
                 self.fn = fn
                 self.__toggle = 0
-                apply(Tkinter.Button.__init__, (self, master, cnf), kw)
+                Tkinter.Button.__init__(self, master, cnf, **kw)
                 self.configure(command=self.set)
 
             def set(self):
@@ -491,12 +489,12 @@ class AnBeKoM:
             sel1index = self.listbox1.curselection()[0]
             sel1text = self.listbox1.get(sel1index)
             self.whichModelSelect = sel1text
-            print 'selected ' + self.whichModelSelect
+            print('selected ' + self.whichModelSelect)
             sel = cmd.get_model(self.whichModelSelect)
             cnt = 0
             for a in sel.atom:
                 cnt += 1
-            print cnt
+            print(cnt)
 
             if cnt == 0:
                 error_dialog = Pmw.MessageDialog(self.parent, title='Error',
@@ -523,10 +521,10 @@ class AnBeKoM:
                         generatedString = generatedString + "+" + key
 
             generatedString = generatedString[1:]
-            print "Checked: " + generatedString
+            print("Checked: " + generatedString)
 
             mmodel = cmd.get_model(self.whichModelSelect)
-            print self.whichModelSelect + " asize: " + str(len(mmodel.atom))
+            print(self.whichModelSelect + " asize: " + str(len(mmodel.atom)))
             newmodel = Indexed()
             for matom in mmodel.atom:
                 if generatedString.find(matom.resn) > -1:
@@ -556,14 +554,14 @@ class AnBeKoM:
                 tunpy = "%s/path_%i.py" % (outdir, i)
                 if (os.path.isfile(tunpy)):
                     os.remove(tunpy)
-            print commandXYZ
+            print(commandXYZ)
             # os.system(commandXYZ)
             status = subprocess.call(commandXYZ, shell=True)
             for i in range(tunnels):
                 pathpy = "%s/path_%i.py" % (outdir, i)
                 if os.access(pathpy, os.F_OK):
                     view = cmd.get_view()
-                    execfile(pathpy)
+                    exec(compile(open(pathpy).read(), pathpy, 'exec'))
                     cmd.set_view(view)
                     if i != 0:
                         cmd.disable("tunnel%i" % i)
@@ -665,7 +663,7 @@ class AnBeKoM:
         if os.path.exists(outAsite):
             os.remove(outAsite)
 
-        print commandOPT
+        print(commandOPT)
         # os.system(commandOPT)
         status = subprocess.call(commandOPT, shell=True)
         if not os.path.exists(outAsite):
@@ -715,7 +713,7 @@ class AnBeKoM:
         self.s["AA"] = IntVar()
         #cntr = 0
         for a in sel.atom:
-            if not (self.s.has_key(a.resn)):
+            if not (a.resn in self.s):
                 if (self.containsValue(self.stdam_list, a.resn)):
                     self.s["AA"].set(1)
                 else:
@@ -905,8 +903,6 @@ class AnBeKoM:
 import os
 import fnmatch
 import time
-import Tkinter
-import Pmw
 # Pmw.setversion("0.8.5")
 
 
@@ -1207,7 +1203,7 @@ class PmwFileDialog(Pmw.Dialog):
         try:
             fl = os.listdir(dir)
             fl.sort()
-        except os.error, arg:
+        except os.error as arg:
             if arg[0] in (2, 20):
                 return
             raise

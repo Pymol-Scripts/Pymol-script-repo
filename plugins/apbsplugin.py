@@ -131,20 +131,28 @@ Known hacks:
 '''
 from __future__ import division
 from __future__ import generators
+from __future__ import print_function
 
 INCLUDEWEBAPBS = False
 
-global DEBUG
 DEBUG = 1
 
 APBS_DEFAULT = True
 
+import tempfile
 import os
 import math
 import re
 import string
-import Tkinter
-from Tkinter import *
+import sys
+
+if sys.version_info[0] < 3:
+    import Tkinter
+    from Tkinter import *
+else:
+    import tkinter as Tkinter
+    from tkinter import *
+
 import Pmw
 import distutils.spawn  # used for find_executable
 import traceback
@@ -163,12 +171,11 @@ APBS_BINARY_LOCATION = None  # corresponding environment variable: APBS_BINARY_D
 APBS_WEB_LOCATION = None  # corresponding environment variable: APBS_WEB_DIR
 APBS_PSIZE_LOCATION = None  # corresponding environment variable: APBS_PSIZE_DIR
 APBS_PDB2PQR_LOCATION = None  # corresponding environment variable: APBS_PDB2PQR_DIR
-# TEMPORARY_FILE_DIR = None # corresponding environment variable: TEMP
-TEMPORARY_FILE_DIR = os.getcwd()  # corresponding environment variable: TEMP
+TEMPORARY_FILE_DIR = tempfile.gettempdir() # corresponding environment variable: TEMP
 
 apbs_plea = ("IMPORTANT REQUEST: If you have not already done so, please register\n"
              "your use of the open-source Adaptive Poisson-Boltzmann Solver (APBS) at\n"
-             "-> http://agave.wustl.edu/apbs/download\n"
+             "-> http://www.poissonboltzmann.org/\n"
              "Such proof of usage is vital in securing funding for APBS development!\n")
 
 pdb2pqr_plea = ("IMPORTANT REQUEST: If you have not already done so, please register\n"
@@ -215,7 +222,7 @@ def get_default_location(name):
             # on that always.
             (retcode, prog_out) = run(f, '--version')
             if 'dyld: Library not loaded' in prog_out:
-                print "Skipping", f, "because it appears to be broken (dyld)"
+                print("Skipping", f, "because it appears to be broken (dyld)")
                 return False
         if name in 'ApbsClient.py ApbsClient'.split():
             # The python script does seem to return 0 on success.
@@ -224,12 +231,12 @@ def get_default_location(name):
             # wants to import.
             (retcode, prog_out) = run(f, '')
             if retcode != 0:
-                print 'Bad ApbsClient.py'
-                print 'Program out'
-                print prog_out
-                print "Just so you know, os.system returns"
-                print os.system(f)
-                print "."
+                print('Bad ApbsClient.py')
+                print('Program out')
+                print(prog_out)
+                print("Just so you know, os.system returns")
+                print(os.system(f))
+                print(".")
                 return False
         return True
     searchDirs = []
@@ -301,20 +308,23 @@ def get_default_location(name):
                 return f
         else:
             f = os.path.join(d, name)  # make path/name.py
-            # print "trying",f     ###!!!
+            if DEBUG:
+                print("trying",f)
             if os.path.exists(f) and verify(name, f):
                 return f
             elif name.endswith('.exe'):
                 f = os.path.join(d, name[:-4])  # make path/name.exe
-                # print "trying",f    ###!!!
+                if DEBUG:
+                    print("trying",f)
                 if os.path.exists(f) and verify(name, f):
                     return f
             elif name.endswith('.py'):
                 f = os.path.join(d, name[:-3])  # make path/name
-                # print "trying",f    ###!!!
+                if DEBUG:
+                    print("trying",f)
                 if os.path.exists(f) and verify(name, f):
                     return f
-    print "Could not find default location for file: %s" % name
+    print("Could not find default location for file: %s" % name)
     return ""
 
 
@@ -357,19 +367,19 @@ def run(prog, args):
     try:
         output_file = tempfile.TemporaryFile(mode="w+")  # <-- shouldn't this point to the temp dir
     except IOError:
-        print "Error opening output_file when trying to run the APBS command."
+        print("Error opening output_file when trying to run the APBS command.")
 
-    print "Running:\n\tprog=%s\n\targs=%s" % (prog, args)
+    print("Running:\n\tprog=%s\n\targs=%s" % (prog, args))
     retcode = subprocess.call(args, stdout=output_file.fileno(), stderr=subprocess.STDOUT)
     output_file.seek(0)
     #prog_out = output_file.read()
     prog_out = ''.join(output_file.readlines())
     output_file.close()  # windows doesn't do this automatically
     if DEBUG:
-        print "Results were:"
-        print "Return value:", retcode
-        print "Output:"
-        print prog_out
+        print("Results were:")
+        print("Return value:", retcode)
+        print("Output:")
+        print(prog_out)
     return (retcode, prog_out)
 
 
@@ -424,7 +434,7 @@ def getApbsInputFile(pqr_filename,
                      sdens,
                      dx_filename,
                      ):
-    print "Getting APBS input"
+    print("Getting APBS input")
     # print "system_temp",system_temp,type(system_temp)
     # print "sdens",sdens,type(sdens)
     #
@@ -541,7 +551,7 @@ class APBSTools2:
     # Panels/Panes, will call through to self.ApbsInterface.
 
     def setPqrFile(self, name):
-        print " APBS Tools: set pqr file to", name
+        print(" APBS Tools: set pqr file to", name)
         self.pqr_to_use.setvalue(name)
         self.radiobuttons.setvalue('Use another PQR')
 
@@ -602,8 +612,8 @@ class APBSTools2:
         "ion_minus_two_rad": 2.0,
         #"max_mem_allowed" : 400,
         "max_mem_allowed": 1500,
-        "potential_at_sas": 0,
-        "surface_solvent": 1,
+        "potential_at_sas": 1,
+        "surface_solvent": 0,
         "show_surface_for_scanning": 1,
         #"grid_buffer" : 0,
         #"grid_buffer" : 20,
@@ -1104,24 +1114,24 @@ Citation for PDB2PQR:
             pass
         elif self.radiobuttons.getvalue() == 'Use PDB2PQR':
             if DEBUG:
-                print "GENERATING PQR FILE via PDB2PQR"
+                print("GENERATING PQR FILE via PDB2PQR")
             good = self._generatePdb2pqrPqrFile()
             if not good:
                 if DEBUG:
-                    print "Could not generate PDB2PQR file.  _generatePdb2pqrPqrFile failed."
+                    print("Could not generate PDB2PQR file.  _generatePdb2pqrPqrFile failed.")
                 return False
             if DEBUG:
-                print "GENERATED"
+                print("GENERATED")
         else:  # it's one of the pymol-generated options
             if DEBUG:
-                print "GENERATING PQR FILE via PyMOL"
+                print("GENERATING PQR FILE via PyMOL")
             good = self._generatePymolPqrFile()
             if not good:
                 if DEBUG:
-                    print "Could not generate the PyMOL-basd PQR file.  generatePyMOLPqrFile failed."
+                    print("Could not generate the PyMOL-basd PQR file.  generatePyMOLPqrFile failed.")
                 return False
             if DEBUG:
-                print "GENERATED"
+                print("GENERATED")
         return True
 
     def execute(self, result, refocus=True):
@@ -1135,7 +1145,7 @@ Citation for PDB2PQR:
             good = self.generateApbsInputFile()
             if not good:
                 if DEBUG:
-                    print "ERROR: Something went wrong trying to generate the APBS input file."
+                    print("ERROR: Something went wrong trying to generate the APBS input file.")
                 return False
             # START
             good = self.generatePqrFile()
@@ -1168,9 +1178,9 @@ Citation for PDB2PQR:
                 #
                 fname = self.pymol_generated_dx_filename.getvalue()
                 if not os.path.isfile(fname):
-                    print "Could not find", fname, "so searching for",
+                    print("Could not find", fname, "so searching for", end=' ')
                     fname = '-PE0'.join(os.path.splitext(fname))
-                    print fname
+                    print(fname)
                 pymol.cmd.load(fname,self.map.getvalue())
                 self.visualization_group_1.refresh()
                 self.visualization_group_2.refresh()
@@ -1204,7 +1214,7 @@ Citation for PDB2PQR:
                 raise NoPsize
             good = self.generatePqrFile()
             if not good:
-                print "Could not generate PQR file!"
+                print("Could not generate PQR file!")
                 return False
             pqr_filename = self.getPqrFilename()
             try:
@@ -1224,7 +1234,7 @@ Citation for PDB2PQR:
                 self.selection.getvalue(), self.selection.getvalue())
 
             if pymol.cmd.count_atoms(self.selection.getvalue() + " and not alt ''") != 0:
-                print "WARNING: You have alternate locations for some of your atoms!"
+                print("WARNING: You have alternate locations for some of your atoms!")
             # pymol.cmd.save(pqr_filename,sel) # Pretty sure this was a bug. No need to write it when it's externally generated.
             f.close()
 
@@ -1236,9 +1246,9 @@ Citation for PDB2PQR:
             # could use procgrid for multiprocessors
             finegridpoints = size.getFineGridPoints()  # dime
             center = size.getCenter()  # cgcent and fgcent
-            print "APBS's psize.py was used to calculated grid dimensions"
+            print("APBS's psize.py was used to calculated grid dimensions")
         except (NoPsize, ImportError):
-            print "This plugin was used to calculated grid dimensions"
+            print("This plugin was used to calculated grid dimensions")
             #
             # First, we need to get the dimensions of the molecule
             #
@@ -1307,11 +1317,11 @@ Citation for PDB2PQR:
 
             finegridpoints = [mult_fac * c + 1 for c in cs]
 
-            print "cs", cs
-            print "finedim", finedim
-            print "nlev", nlev
-            print "mult_fac", mult_fac
-            print "finegridpoints", finegridpoints
+            print("cs", cs)
+            print("finedim", finedim)
+            print("nlev", nlev)
+            print("mult_fac", mult_fac)
+            print("finegridpoints", finegridpoints)
 
         except NoPDB:
             error_dialog = Pmw.MessageDialog(self.parent,
@@ -1330,15 +1340,15 @@ Citation for PDB2PQR:
             def gridofmem(mem):
                 return mem * 1024. * 1024. / 200.
             max_grid_points = gridofmem(max_mem_allowed)
-            print "Estimated memory usage", memofgrid(finegridpoints), 'MB out of maximum allowed', max_mem_allowed
+            print("Estimated memory usage", memofgrid(finegridpoints), 'MB out of maximum allowed', max_mem_allowed)
             if memofgrid(finegridpoints) > max_mem_allowed:
-                print "Maximum memory usage exceeded.  Old grid dimensions were", finegridpoints
+                print("Maximum memory usage exceeded.  Old grid dimensions were", finegridpoints)
                 product = float(finegridpoints[0] * finegridpoints[1] * finegridpoints[2])
                 factor = pow(max_grid_points / product, 0.333333333)
                 finegridpoints[0] = (int(factor * finegridpoints[0] / 2)) * 2 + 1
                 finegridpoints[1] = (int(factor * finegridpoints[1] / 2)) * 2 + 1
                 finegridpoints[2] = (int(factor * finegridpoints[2] / 2)) * 2 + 1
-                print "Fine grid points rounded down from", finegridpoints
+                print("Fine grid points rounded down from", finegridpoints)
                 #
                 # Now we have to make sure that this still fits the equation n = c*2^(l+1) + 1.  Here, we'll
                 # just assume nlev == 4, which means that we need to be (some constant times 32) + 1.
@@ -1370,20 +1380,20 @@ Citation for PDB2PQR:
                     for i in 0, 1, 2:
                         # print finegridpoints[i],divmod(finegridpoints[i] - 1,32),
                         finegridpoints[i] = divmod(finegridpoints[i] - 1, 32)[0] * 32 + 1
-                print "New grid dimensions are", finegridpoints
-        print " APBS Tools: coarse grid: (%5.3f,%5.3f,%5.3f)" % tuple(coarsedim)
+                print("New grid dimensions are", finegridpoints)
+        print(" APBS Tools: coarse grid: (%5.3f,%5.3f,%5.3f)" % tuple(coarsedim))
         self.grid_coarse_x.setvalue(coarsedim[0])
         self.grid_coarse_y.setvalue(coarsedim[1])
         self.grid_coarse_z.setvalue(coarsedim[2])
-        print " APBS Tools: fine grid: (%5.3f,%5.3f,%5.3f)" % tuple(finedim)
+        print(" APBS Tools: fine grid: (%5.3f,%5.3f,%5.3f)" % tuple(finedim))
         self.grid_fine_x.setvalue(finedim[0])
         self.grid_fine_y.setvalue(finedim[1])
         self.grid_fine_z.setvalue(finedim[2])
-        print " APBS Tools: center: (%5.3f,%5.3f,%5.3f)" % tuple(center)
+        print(" APBS Tools: center: (%5.3f,%5.3f,%5.3f)" % tuple(center))
         self.grid_center_x.setvalue(center[0])
         self.grid_center_y.setvalue(center[1])
         self.grid_center_z.setvalue(center[2])
-        print " APBS Tools: fine grid points (%d,%d,%d)" % tuple(finegridpoints)
+        print(" APBS Tools: fine grid points (%d,%d,%d)" % tuple(finegridpoints))
         self.grid_points_x.setvalue(finegridpoints[0])
         self.grid_points_y.setvalue(finegridpoints[1])
         self.grid_points_z.setvalue(finegridpoints[2])
@@ -1418,7 +1428,7 @@ Citation for PDB2PQR:
         f = open(filename, 'r')
         txt = f.read()
         f.close()
-        print "Erasing contents of", filename, "in order to clean it up"
+        print("Erasing contents of", filename, "in order to clean it up")
         f = open(filename, 'w')
         # APBS accepts whitespace-delimited columns
         # it doesn't care about non-coord lines, so there's not need to be careful about
@@ -1540,18 +1550,18 @@ Citation for PDB2PQR:
                                                dx_filename,
                                                )
             if DEBUG:
-                print "GOT THE APBS INPUT FILE"
+                print("GOT THE APBS INPUT FILE")
 
             #
             # write out the input text
             #
             try:
-                print "Erasing contents of", self.pymol_generated_in_filename.getvalue(), "in order to write new input file"
+                print("Erasing contents of", self.pymol_generated_in_filename.getvalue(), "in order to write new input file")
                 f = open(self.pymol_generated_in_filename.getvalue(), 'w')
                 f.write(apbs_input_text)
                 f.close()
             except IOError:
-                print "ERROR: Got the input file from APBS, but failed when trying to write to %s" % self.pymol_generated_in_filename.getvalue()
+                print("ERROR: Got the input file from APBS, but failed when trying to write to %s" % self.pymol_generated_in_filename.getvalue())
             return True
         else:
             # self.checkInput()
@@ -1561,7 +1571,7 @@ Citation for PDB2PQR:
         """No silent checks. Always show error.
         """
         def show_error(message):
-            print "In show error 1"
+            print("In show error 1")
             error_dialog = Pmw.MessageDialog(self.parent,
                                              title='Error',
                                              message_text=message,
@@ -1646,7 +1656,7 @@ Citation for PDB2PQR:
         Call this via the wrapper generatePqrFile()
         """
         def show_error(message):
-            print "In show error 2"
+            print("In show error 2")
             error_dialog = Pmw.MessageDialog(self.parent,
                                              title='Error',
                                              message_text=message,
@@ -1658,7 +1668,7 @@ Citation for PDB2PQR:
         #
         pdb_filename = self.pymol_generated_pdb_filename.getvalue()
         try:
-            print "Erasing contents of", pdb_filename, "in order to generate new PDB file"
+            print("Erasing contents of", pdb_filename, "in order to generate new PDB file")
             f = open(pdb_filename, 'w')
             f.close()
         except:
@@ -1689,9 +1699,9 @@ Citation for PDB2PQR:
         #
         # We have to be a little cute about args, because _options could have several options in it.
 
-        print "TESTING"
+        print("TESTING")
         # run('/tmp/tmp.py',())
-        print "DONE TESTING"
+        print("DONE TESTING")
         args = '%s %s %s' % (self.pdb2pqr_options.getvalue(),
                             pdb_filename,
                             self.pymol_generated_pqr_filename.getvalue(),
@@ -1720,7 +1730,7 @@ Citation for PDB2PQR:
             try:
                 ###!!! Edited for Pymol-script-repo !!!###
                 args = ' '.join(map(str, args))
-                print "args are now converted to string: ", args
+                print("args are now converted to string: ", args)
 #                retval = main.mainCommand(args)
                 if 'PYMOL_GIT_MOD' in os.environ:
                     os.environ['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD']) + ":" + os.path.join(os.environ['PYMOL_GIT_MOD'], "pdb2pqr")
@@ -1730,7 +1740,7 @@ Citation for PDB2PQR:
                 print(child_stdout)
                 print(child_stderr)
                 retval = callfunc.returncode
-                print "PDB2PQR's mainCommand returned", retval
+                print("PDB2PQR's mainCommand returned", retval)
 #                if retval == 1:
 # retval = 0 # success condition is backwards in pdb2pqr
 #                elif retval == 0:
@@ -1740,11 +1750,11 @@ Citation for PDB2PQR:
 # return anything, it's a success.
 ###!!!-------------------------------!!!###
             except:
-                print "Exception raised by main.mainCommand!"
-                print sys.exc_info()
+                print("Exception raised by main.mainCommand!")
+                print(sys.exc_info())
                 retval = 1
         except:
-            print "Unexpected error encountered while trying to import pdb2pqr:", sys.exc_info()
+            print("Unexpected error encountered while trying to import pdb2pqr:", sys.exc_info())
             retval = 1  # failure is nonzero here.
 
         if retval != 0:
@@ -1758,10 +1768,10 @@ Citation for PDB2PQR:
         if unassigned_atoms:
             pymol.cmd.select('unassigned', 'ID %s' % unassigned_atoms)
             message_text = "Unable to assign parameters for the %s atoms in selection 'unassigned'.\nPlease either remove these unassigned atoms and re-start the calculation\nor fix their parameters in the generated PQR file and run the calculation\nusing the modified PQR file (select 'Use another PQR' in 'Main')." % len(unassigned_atoms.split('+'))
-            print "Unassigned atom IDs", unassigned_atoms
+            print("Unassigned atom IDs", unassigned_atoms)
             show_error(message_text)
             return False
-        print "I WILL RETURN TRUE from pdb2pqr"
+        print("I WILL RETURN TRUE from pdb2pqr")
         return True
 
     # PQR generation routines are required to call
@@ -1790,7 +1800,7 @@ Citation for PDB2PQR:
 
         pqr_filename = self.getPqrFilename()
         try:
-            print "Erasing previous contents of", pqr_filename
+            print("Erasing previous contents of", pqr_filename)
             f = open(pqr_filename, 'w')
             f.close()
         except:
@@ -1866,7 +1876,6 @@ PMW interface.
 import os
 import fnmatch
 import time
-import Tkinter
 import Pmw
 # Pmw.setversion("0.8.5")
 
@@ -2189,7 +2198,7 @@ class PmwFileDialog(Pmw.Dialog):
         try:
             fl = os.listdir(dir)
             fl.sort()
-        except os.error, arg:
+        except os.error as arg:
             if arg[0] in (2, 20):
                 return
             raise
@@ -2245,7 +2254,7 @@ class FileDialogButtonClassFactory:
                 '''when we get a file, we call fn(filename)'''
                 self.fn = fn
                 self.__toggle = 0
-                apply(Tkinter.Button.__init__, (self, master, cnf), kw)
+                Tkinter.Button.__init__(self, master, cnf, **kw)
                 self.configure(command=self.set)
 
             def set(self):
@@ -2466,7 +2475,7 @@ If you have a molecule and a map loaded, please click "Update"''',
         mid = float(self.mol_surf_middle.getvalue())
         high = float(self.mol_surf_high.getvalue())
         range = [low, mid, high]
-        print " APBS Tools: range is", range
+        print(" APBS Tools: range is", range)
         pymol.cmd.delete(ramp_name)
         pymol.cmd.ramp_new(ramp_name, map_name, range)
         pymol.cmd.set('surface_color', ramp_name, molecule_name)
@@ -2515,11 +2524,11 @@ If you have a molecule and a map loaded, please click "Update"''',
         pymol.cmd.hide('everything', self.getGradName())
 
     def updateFieldLines(self):
-        print "IN update"
+        print("IN update")
         pymol.cmd.gradient(self.getGradName(), self.map.getvalue())
-        print "Made gradient"
+        print("Made gradient")
         self.updateRamp()
-        print "Updated ramp"
+        print("Updated ramp")
         pymol.cmd.color(self.getRampName(), self.getGradName())
-        print "set colors"
+        print("set colors")
         pymol.cmd.show('mesh', self.getGradName())

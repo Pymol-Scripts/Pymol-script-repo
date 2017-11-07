@@ -10,9 +10,20 @@ CHANGELOG
 
 '''
 
-from Tkinter import *
 from pymol import cmd
-from tkFileDialog import *
+import sys
+if sys.version_info[0] < 3:
+    from Tkinter import *
+    from tkFileDialog import *
+    import tkSimpleDialog
+    import tkMessageBox
+    import urllib
+else:
+    from tkinter import *
+    from tkinter.filedialog import *
+    import tkinter.simpledialog as tkSimpleDialog
+    import tkinter.messagebox as tkMessageBox
+    import urllib.request as urllib
 
 CASTP_URL_BASE = 'http://sts.bioe.uic.edu/castp'
 
@@ -42,10 +53,6 @@ def __init__(self):
 class Feedback:
 
     def __init__(self, app):
-        import os
-        import string
-        import urllib
-#        import tkCommonDiaglog
         top = Tk()
 
         F = Frame(top)
@@ -77,11 +84,7 @@ class Feedback:
 class RemotePDB:
 
     def __init__(self, app):
-        import tkSimpleDialog
-        import tkMessageBox
-        import urllib
         import os
-        import string
         remote_file = tkSimpleDialog.askstring('PDB Loader', 'Enter the PDB or Job ID\n\nFor PDB id\'s, you may also enter the chain.\ni.e. 1a2zA for PDB 1a2z Chain A ', parent=app.root)
         sizeof = len(remote_file)
         noerror = 1
@@ -189,7 +192,7 @@ class RemotePDB:
             # Make an array of the pocket numbers and sort them by pocket number.
             #  Reverse the order of the sort (like CASTp webserver) such that
             #  the larger pockets will be listed first.
-            pids = pocNums.values()
+            pids = list(pocNums.values())
             pids.sort()
             pids.reverse()
             #####################################################################
@@ -216,7 +219,7 @@ class RemotePDB:
                     currAtms[counter] = ivl
                     counter = counter + 1
 
-                atms = currAtms.values()
+                atms = list(currAtms.values())
                 atms.sort()
                 #############################################################
 
@@ -281,11 +284,7 @@ class RemotePDB:
 class RemoteJob:
 
     def __init__(self, app):
-        import tkSimpleDialog
-        import tkMessageBox
-        import urllib
         import os
-        import string
         jobid = tkSimpleDialog.askstring('PDB Loader', 'Enter the Job ID given to you by the CASTp web server\nThe Job ID is case sensitive!', parent=app.root)
         pdbfile = urllib.urlretrieve(CASTP_URL_BASE + '/working/' + jobid + '.pdb')[0]
         if(os.path.getsize(pdbfile) > 400):
@@ -342,7 +341,7 @@ class RemoteJob:
         os.remove(pocfile)
         os.remove(pocInfofile)
         os.remove(pdbout)
-        pids = pocNums.values()
+        pids = list(pocNums.values())
 
         pids.sort()
         pids.reverse()
@@ -357,7 +356,7 @@ class RemoteJob:
                 currAtms[counter] = ivl
                 counter = counter + 1
 
-            atms = currAtms.values()
+            atms = list(currAtms.values())
             atms.sort()
 
             newsel = ''
@@ -411,10 +410,7 @@ class RemoteJob:
 class LocalPDB:
 
     def __init__(self, app):
-        import tkMessageBox
-        import tkFileDialog
         import os
-        import string
 #        cwd = askdirectory(title = 'Choose the directory where all of the CASTp files are located')
         pdbfile = tkFileDialog.askopenfilename(parent=app.root, title='Open the structure file\nWithin the same directory you must have the corresponding .poc and .pocInfo files')
         wd = os.path.dirname(pdbfile)  # + os.sep + jobid + '.pdb'
@@ -454,7 +450,7 @@ class LocalPDB:
 #        os.remove(pocfile)
 #        os.remove(pocInfofile)
 #        os.remove(pdbout)
-        pids = pocNums.values()
+        pids = list(pocNums.values())
 
         pids.sort()
         pids.reverse()
@@ -469,7 +465,7 @@ class LocalPDB:
                 currAtms[counter] = ivl
                 counter = counter + 1
 
-            atms = currAtms.values()
+            atms = list(currAtms.values())
             atms.sort()
 
             numgrps = int(len(vls) / 5)  # attempt to make groups of atoms

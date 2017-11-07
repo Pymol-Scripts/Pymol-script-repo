@@ -8,12 +8,12 @@
 
 from __future__ import division
 from __future__ import generators
+from __future__ import print_function
+from __future__ import absolute_import
 
 import os
 import math
 import platform
-import Tkinter
-from Tkinter import *
 import Pmw
 import distutils.spawn  # used for find_executable
 import pymol
@@ -24,6 +24,13 @@ from pymol.cmd import _feedback, fb_module, fb_mask, is_list, _cmd
 from pymol.cgo import *
 from chempy.models import Indexed
 from chempy import Bond, Atom
+
+if sys.version_info[0] < 3:
+    import Tkinter
+    from Tkinter import *
+else:
+    import tkinter as Tkinter
+    from tkinter import *
 
 #
 # Global config variables
@@ -78,15 +85,6 @@ if MOLE_BINARY_LOCATION is None:
         if MOLE_BINARY_LOCATION is None:
             MOLE_BINARY_LOCATION = ''
 
-# Python backward-compatibility...
-try:
-    True
-except:
-    True = 1
-try:
-    False
-except:
-    False = 0
 #
 # Cheap hack for testing purposes
 #
@@ -147,7 +145,7 @@ class FileDialogButtonClassFactory:
                 '''when we get a file, we call fn(filename)'''
                 self.fn = fn
                 self.__toggle = 0
-                apply(Tkinter.Button.__init__, (self, master, cnf), kw)
+                Tkinter.Button.__init__(self, master, cnf, **kw)
                 self.configure(command=self.set)
 
             def set(self):
@@ -490,7 +488,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
         if self.varremovewater.get():
             selection = '(%s) and not resn HOH and not resn H2O and not resn WAT' % (selection)
 
-        print selection
+        print(selection)
         outdir = self.pymol_outdir.getvalue()
         tmppdb = os.path.join(outdir, "tmp.pdb")
         cmd.save(tmppdb, selection)
@@ -560,7 +558,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                 if (choice == 1):
                     startpoint = (float(self.xlocvar.get()), float(self.ylocvar.get()), float(self.zlocvar.get()))
 
-            print "Starting point of MOLE: %f %f %f\n" % startpoint
+            print("Starting point of MOLE: %f %f %f\n" % startpoint)
             cmd.delete("crisscross")
 
             self.crisscross(startpoint[0], startpoint[1], startpoint[2], 0.5, "crisscross")
@@ -579,7 +577,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
             mole_stderr = os.path.join(outdir, "mole.stderr")
             if sys.platform.startswith('win'):
                 command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"' % (self.binlocation.getvalue(), tmppdb, int(self.pymol_numinterp.getvalue()), float(self.pymol_activesiteradius.getvalue()), self.pymol_outdir.getvalue(), int(self.numbertunnels.getvalue()), startpoint[0], startpoint[1], startpoint[2], mole_stdout, mole_stderr)
-                print '\nRunning command:', command
+                print('\nRunning command:', command)
                 status = subprocess.call(command)
             else:
                 #command = [self.binlocation.getvalue(),'--fi','pdb','--input',tmppdb,'--numinterp',str(int(self.pymol_numinterp.getvalue())),'--activesiteradius',str(float(self.pymol_activesiteradius.getvalue())),'--noclustering','--selection','all','--outdir',self.pymol_outdir.getvalue(),'--vmd','--pymol','--numtun',str(int(self.numbertunnels.getvalue())),'--x',str(startpoint[0]),'--y',str(startpoint[1]),'--z',str(startpoint[2])]
@@ -594,7 +592,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
 
                 #command = '%s --fi pdb --input "%s" --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir "%s" --vmd --pymol --numtun %d --x %f --y %f --z %f >"%s" 2>"%s"'  % (self.binlocation.getvalue(),tmppdb,int(self.pymol_numinterp.getvalue()),float(self.pymol_activesiteradius.getvalue()),self.pymol_outdir.getvalue(),int(self.numbertunnels.getvalue()),startpoint[0],startpoint[1],startpoint[2],mole_stdout, mole_stderr);
                 command = '%s --fi pdb --input %s --numinterp %d --activesiteradius %f --noclustering --selection "all" --outdir %s --vmd --pymol --numtun %d --x %f --y %f --z %f' % (self.binlocation.getvalue(), tmppdb, int(self.pymol_numinterp.getvalue()), float(self.pymol_activesiteradius.getvalue()), self.pymol_outdir.getvalue(), int(self.numbertunnels.getvalue()), startpoint[0], startpoint[1], startpoint[2])
-                print '\nRunning command:', command
+                print('\nRunning command:', command)
                 status = subprocess.call(command, shell=True)
             print("Result from execution was: %s" % status)
             view = cmd.get_view()
@@ -611,7 +609,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
                     # print(child_stdout)
                     # print(child_stderr)
                 else:
-                    print "Error: Tunnel number %d wasn't found by MOLE." % i
+                    print("Error: Tunnel number %d wasn't found by MOLE." % i)
                     if sys.platform.startswith('win'):
                         print("Did you set your variables??")
                         print("PATH = PATH + ;%s" % qhull_dir)
@@ -644,7 +642,7 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
 
     def TestProgram(self, cmd):
         pathtoprog = os.path.join(os.path.split(MOLE_BINARY_LOCATION)[0], cmd)
-        print '\nTesting command:', pathtoprog
+        print('\nTesting command:', pathtoprog)
         if sys.platform.startswith('win'):
             status = subprocess.call(pathtoprog)
         else:
@@ -792,7 +790,6 @@ LCC Group, NCBR Brno <http://ncbr.chemi.muni.cz/>"""
 import os
 import fnmatch
 import time
-import Tkinter
 import Pmw
 # Pmw.setversion("0.8.5")
 
@@ -1093,7 +1090,7 @@ class PmwFileDialog(Pmw.Dialog):
         try:
             fl = os.listdir(dir)
             fl.sort()
-        except os.error, arg:
+        except os.error as arg:
             if arg[0] in (2, 20):
                 return
             raise

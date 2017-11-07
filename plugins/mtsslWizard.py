@@ -17,6 +17,10 @@ Hagelueken G, Ward R, Naismith JH, Schiemann O. MtsslWizard: In silico Spin-Labe
 ----------------------------------------------------------------------
  
 """
+
+from __future__ import absolute_import
+from __future__ import print_function
+
 import pymol
 import string
 import threading
@@ -29,7 +33,12 @@ from pymol import util
 from pymol.wizard import Wizard
 from pymol import stored
 from operator import itemgetter
-from Tkinter import Tk
+import sys
+
+if sys.version_info[0] < 3:
+    from Tkinter import Tk
+else:
+    from tkinter import Tk
 
 default_thoroughness = "thorough search"
 default_label = "MTSSL"
@@ -57,17 +66,17 @@ class MtsslWizard(Wizard):
 	def __init__(self):
 		#print platform.system()
 		Wizard.__init__(self)
-		print ""
-		print "**************************************************************************************************"
-		print "* MtsslWizard by gha.                                                                            *"
-		print "* Please remove any solvent or unwanted heteroatoms before using the wizard!                     *"
-		print "* You can do this e.g. by issuing 'remove solvent'.                                              *"
-		print "**************************************************************************************************"
-		print ""
+		print("")
+		print("**************************************************************************************************")
+		print("* MtsslWizard by gha.                                                                            *")
+		print("* Please remove any solvent or unwanted heteroatoms before using the wizard!                     *")
+		print("* You can do this e.g. by issuing 'remove solvent'.                                              *")
+		print("**************************************************************************************************")
+		print("")
 		
 		#create array for plots
 		try:
-			print stored.plots
+			print(stored.plots)
 		except:
 			stored.plots = []
 		
@@ -178,7 +187,7 @@ class MtsslWizard(Wizard):
 			return tmp
 		options = {"MTSSL":mtssl, "PROXYL":proxyl, "DOTA1":dota1, "BYSP":bysp, "URIP":urip, "CLABEL":clabel, "pAcPhe":pacphe, "TPA":tpa, "TRITYL":trityl, "Rx":rx, "Kzn":kzn}
 		self.set_vdwRestraints(options[currentLabel]().defaultVdw)
-		print options[currentLabel]().info
+		print(options[currentLabel]().info)
 		self.currentLabel = currentLabel
 		self.cmd.refresh_wizard()
 	
@@ -296,20 +305,20 @@ class MtsslWizard(Wizard):
 		cmd.refresh_wizard()
  
 	def delete_all(self):
-		print "Deleting everything..."
+		print("Deleting everything...")
 		cmd.delete(self.object_prefix + "*")
  
 	def delete_last(self):
 		try:
-			print self.numberOfLabel
+			print(self.numberOfLabel)
 			if self.numberOfLabel >= 1:
 				cmd.delete(self.object_prefix+str(self.numberOfLabel)+"*")
 				self.numberOfLabel-=1
-		except pymol.CmdException, pmce:
-			print pmce
+		except pymol.CmdException as pmce:
+			print(pmce)
 	
 	def cleanup(self):
-		print "Cleaning up..."
+		print("Cleaning up...")
 		cmd.set("mouse_selection_mode",self.selection_mode) # restore selection mode
 		#self.reset()
 		#self.delete_all()
@@ -317,8 +326,8 @@ class MtsslWizard(Wizard):
 	def do_select(self, name):
 		try:
 			self.do_pick(0)
-		except pymol.CmdException, pmce:
-			print pmce
+		except pymol.CmdException as pmce:
+			print(pmce)
  
 	def do_pick(self, picked_bond):
 		if self.mode == 'Search' or self.mode == 'Measure' or self.mode == 'Distance Map':
@@ -348,7 +357,7 @@ class MtsslWizard(Wizard):
 							self.picked_object1 = object
 							break
 				if self.picked_object1 == None:
-					print "MtsslWizard: object not found."
+					print("MtsslWizard: object not found.")
 				self.pick_count += 1
 
 				#deselect before next pick
@@ -378,7 +387,7 @@ class MtsslWizard(Wizard):
 							break
 
 				if self.picked_object2 == None:
-					print "MtsslWizard: object not found."
+					print("MtsslWizard: object not found.")
 				self.pick_count += 1
 				#deselect before next pick
 				if self.mode == "Distance Map" or self.mode == "Measure" or (self.mode == "Search" and self.currentLabel == "Rx"):
@@ -485,26 +494,26 @@ class MtsslWizard(Wizard):
 			elif self.currentLabel == "Kzn":
 				self.label = KznLabel("Kzn"+str(self.numberOfLabel))
 				cmd.read_pdbstr(self.label.pdbStr, self.label.pymolName)
-			print self.residue1_name, self.label.identifier
+			print(self.residue1_name, self.label.identifier)
 		
 		if self.pick_count == 1 and self.mode == 'Search':
-			print "\n\n\nNew run:\n"	
+			print("\n\n\nNew run:\n")	
 			#attach identifier for identification in pymol
 			#cmd.set_name(self.residue1_name, "%s_%s" %(self.residue1_name, self.label.identifier))
 			#self.residue1_name = "%s_%s" %(self.residue1_name, self.label.identifier)
 			
-			print "Attempting superposition..."
+			print("Attempting superposition...")
 			if not self.superpose():
-				print "Superposition does not work."
-				print "Possible reasons:"
-				print "1) Glycine? Mutate to Ala first."
-				print "2) Trying to attach DNA label to Protein or vice versa?"
+				print("Superposition does not work.")
+				print("Possible reasons:")
+				print("1) Glycine? Mutate to Ala first.")
+				print("2) Trying to attach DNA label to Protein or vice versa?")
 				if len(self.label.errorMessage) > 0:
-					print "3) %s" %self.label.errorMessage
+					print("3) %s" %self.label.errorMessage)
 				self.cleanupAfterRun(my_view)
 				return
 			else:
-				print "Superposition worked!"
+				print("Superposition worked!")
 			
 			#prepare movingAtoms array of label, put into correct order...
 			stored.movingAtoms = []
@@ -525,18 +534,18 @@ class MtsslWizard(Wizard):
 			#only switch on snuggly fit search for "painstaking"
 			if self.thoroughness == "painstaking":
 				self.createSnugglyFitConformations()		
-			print ""
-			print "Found: %i in %i tries." %(result[0], result[1])
+			print("")
+			print("Found: %i in %i tries." %(result[0], result[1]))
 			if result[0] > 0 and result[0] <= 10 and self.vdwRestraints == "tight" and not self.currentLabel == "CLABEL":
-				print "The number of conformations is very small!"
-				print "Consider switching vdW restraints to 'loose' for this position!"
-			print "Done!"
+				print("The number of conformations is very small!")
+				print("Consider switching vdW restraints to 'loose' for this position!")
+			print("Done!")
 			self.finalCosmetics(result[0])
 			self.cleanupAfterRun(my_view)
 		
 		#Rx label
 		if self.pick_count == 2 and self.mode == 'Search' and self.currentLabel == 'Rx':
-			print "\n\n\nNew run:\n"
+			print("\n\n\nNew run:\n")
 			ca1 = numpy.array(cmd.get_model(self.residue1_name + " & name CA", 1).get_coord_list()[0])
 			ca2 = numpy.array(cmd.get_model(self.residue2_name + " & name CA", 1).get_coord_list()[0])
 			try:
@@ -568,7 +577,7 @@ class MtsslWizard(Wizard):
 				self.createRotamer(idx)
 			self.cleanupAfterRun(my_view)
 			if len(solutions) == 0:
-				print "Did not find any possible Rx positions. Are the two residues too far apart?"
+				print("Did not find any possible Rx positions. Are the two residues too far apart?")
 			else:
 				#print "Found %i possible Rx positions." %len(solutions)
 				self.finalCosmetics(len(solutions))
@@ -728,8 +737,8 @@ class MtsslWizard(Wizard):
 								plotDictionary = self.makeGraphDataDictionary(fileName, "DistancePlot", "Number of Residue", "Distance (Angstrom)", x, y, 0)
 								stored.plots.append(plotDictionary)
 							except:
-								print "Could not plot map!"
-						print "Still working..."
+								print("Could not plot map!")
+						print("Still working...")
 			
 			#if different objects were picked 
 			elif self.picked_object1 != self.picked_object2:
@@ -829,14 +838,14 @@ class MtsslWizard(Wizard):
 							cbetaDifferences = numpy.abs(cbetaDistancesObject1-cbetaDistancesObject2)
 							calculatedDifferenceDistanceMatrix = True
 						except:
-							print len(intraDistancesObject1)
-							print len(intraDistancesObject2)
-							print len(cbetaDistancesObject1)
-							print len(cbetaDistancesObject2)
-							print "\nCannot subtract matrices. Please check if both objects have the same number of residues!\nRemove alternate conformations.\n"
-							print "Try:"
-							print "remove not (alt ''+A)"
-							print "alter all, alt=''"
+							print(len(intraDistancesObject1))
+							print(len(intraDistancesObject2))
+							print(len(cbetaDistancesObject1))
+							print(len(cbetaDistancesObject2))
+							print("\nCannot subtract matrices. Please check if both objects have the same number of residues!\nRemove alternate conformations.\n")
+							print("Try:")
+							print("remove not (alt ''+A)")
+							print("alter all, alt=''")
 						
 						#plot and write distance maps
 						if cmd.count_atoms(self.picked_object1) > 1 and cmd.count_atoms(self.picked_object2) > 1:
@@ -863,7 +872,7 @@ class MtsslWizard(Wizard):
 								plotDictionary = self.makeGraphDataDictionary(fileName, "DistanceMap", "Number of Residue", "Number of Residue", x, y, z)
 								stored.plots.append(plotDictionary)
 							except:
-								print "Could not plot map!"
+								print("Could not plot map!")
 						
 							#intramolecular map 1
 							fileName = "%s_%s_distanceMatrix.txt" %(self.picked_object1,  chain_1)
@@ -885,7 +894,7 @@ class MtsslWizard(Wizard):
 								plotDictionary = self.makeGraphDataDictionary(fileName, "DistanceMap", "Number of Residue", "Number of Residue", x, y, z)
 								stored.plots.append(plotDictionary)
 							except:
-								print "Could not plot map!"
+								print("Could not plot map!")
 						
 							#intramolecular map 2
 							fileName = "%s_%s_distanceMatrix.txt" %(self.picked_object2,  chain_2)
@@ -908,7 +917,7 @@ class MtsslWizard(Wizard):
 								plotDictionary = self.makeGraphDataDictionary(fileName, "DistanceMap", "Number of Residue", "Number of Residue", x, y, z)
 								stored.plots.append(plotDictionary)
 							except:
-								print "Could not plot map!"
+								print("Could not plot map!")
 							
 							
 							#difference distance map
@@ -941,7 +950,7 @@ class MtsslWizard(Wizard):
 									#plotDictionary = self.makeGraphDataDictionary(fileName+"_diagonal", "DistancePlot", "Number of Residue", "Distance (Angstrom)", x, diagonal, 0)
 									#stored.plots.append(plotDictionary)
 								except:
-									print "Could not plot map!"
+									print("Could not plot map!")
 						
 						#if one object was a single atom, make a scatter plot
 						if cmd.count_atoms(self.picked_object1) == 1 or cmd.count_atoms(self.picked_object2) == 1:
@@ -970,19 +979,19 @@ class MtsslWizard(Wizard):
 								plotDictionary = self.makeGraphDataDictionary(fileName, "DistancePlot", "Number of Residue", "Distance (Angstrom)", x, y, 0)
 								stored.plots.append(plotDictionary)
 							except:
-								print "Could not plot map!"
+								print("Could not plot map!")
 						
 			self.cleanupAfterRun(my_view)
-			print "Done!"
+			print("Done!")
 							
 
 ##########################################################################################
 #Measure																				 #
 ##########################################################################################
 		elif self.pick_count == 2 and self.mode == 'Measure':
-			print "\n\n\nDistance calculation:\n"
-			print "The dashed lines are the c-beta distance (green),\nand the distance between the geometric averages\nof the two ensembles (yellow).\n"
-			print "The following statistics refer to the distribution\nof the individual distances between all conformers (may take a while):\n"
+			print("\n\n\nDistance calculation:\n")
+			print("The dashed lines are the c-beta distance (green),\nand the distance between the geometric averages\nof the two ensembles (yellow).\n")
+			print("The following statistics refer to the distribution\nof the individual distances between all conformers (may take a while):\n")
 			#find out what the selections are
 			stored.label1 = []
 			stored.label2 = []
@@ -1091,7 +1100,7 @@ class MtsslWizard(Wizard):
 			graphtitle = "%s-%s" %(self.residue1_name, self.residue2_name)
 			plotDictionary = self.makeGraphDataDictionary (graphtitle, "DistanceDistribution", "Distance (Angstrom)", "Relative Probability", output[:,1], output[:,3], 0)
 			stored.plots.append(plotDictionary)
-			print "Distribution plot added to memory. Check it with mtsslPlotter."
+			print("Distribution plot added to memory. Check it with mtsslPlotter.")
 			
 			#Copy to clipboard
 			self.copyStringToClipboard(outputStr)
@@ -1101,16 +1110,16 @@ class MtsslWizard(Wizard):
 				try:
 					filename = "%s-%s" %(self.residue1_name, self.residue2_name)
 					numpy.savetxt(filename, output, delimiter='\t')
-					print "Written to file:"
-					print "%s/%s" %(os.getcwd(), filename)
+					print("Written to file:")
+					print("%s/%s" %(os.getcwd(), filename))
 				except:
-					print "Writing to file failed!"
+					print("Writing to file failed!")
 					
-			print calculateStatistics2(dist)
+			print(calculateStatistics2(dist))
 			if len(cBeta) > 0:
-				print "Cbeta distance: %3.1f" %cBeta[0]
+				print("Cbeta distance: %3.1f" %cBeta[0])
 			self.cleanupAfterRun(my_view)
-			print "Done."
+			print("Done.")
 	
 ##########################################################################################
 #various methods																				 #
@@ -1149,18 +1158,18 @@ class MtsslWizard(Wizard):
 		try:
 			import pyperclip
 			pyperclip.copy(string)
-			print "Copied to clipboard."
+			print("Copied to clipboard.")
 			return
 		except:
 			pass
 		try:
 			import xerox
 			xerox.copy(string)
-			print "Copied to clipboard."
+			print("Copied to clipboard.")
 			return
 		except:
 			pass
-		print "Copy to clipboard failed. Try to install either the 'pyperclip' or 'xerox' module for Python."
+		print("Copy to clipboard failed. Try to install either the 'pyperclip' or 'xerox' module for Python.")
 	
 	def cleanupAfterRun(self, my_view):
 		self.pick_count = 0
@@ -1196,8 +1205,8 @@ class MtsslWizard(Wizard):
 			args.append("%s & name %s" %(self.label.pymolName, self.label.atomsForSuperposition[i]))
 			args.append("%s & name %s" %(self.residue1_name, self.label.atomsForSuperposition[i]))
 			i+=1
-		print args
-		if apply(cmd.pair_fit, args):
+		print(args)
+		if cmd.pair_fit(*args):
 			#set the label's O atom to the stored position
 			if self.label.modifiedAA:
 				cmd.alter_state(1,self.label.pymolName+" & name O","(x,y,z)=stored.xyz.pop(0)")
@@ -1248,7 +1257,7 @@ class MtsslWizard(Wizard):
 		found=0
 		ntries=0
 		axis = numpy.zeros(shape=(2,3)) 
-		print "Trying to find conformations for label %s with vdW restraints: %s" % (self.label.pymolName, self.vdwRestraints)
+		print("Trying to find conformations for label %s with vdW restraints: %s" % (self.label.pymolName, self.vdwRestraints))
 		while found < numberToFind and ntries < maxNtries:
 			self.label.movingAtoms = numpy.copy(referenceAtoms)
 			if self.label.rotate:
@@ -1274,7 +1283,7 @@ class MtsslWizard(Wizard):
 			if not quickClash(self.label.movingAtoms[self.label.clashAtoms], environmentAtoms, self.cutoff, self.clashes) or not self.label.rotate:
 				if not internalClash2(self.label.movingAtoms, refDist):
 					found+=1
-					print found,
+					print(found, end=' ')
 					#only switch on snuggly fit search for "painstaking"
 					if self.thoroughness == "painstaking":
 						vdw = numberOfVdwContacts(self.label.movingAtoms[self.label.clashAtoms], environmentAtoms, self.cutoff)
@@ -1282,9 +1291,9 @@ class MtsslWizard(Wizard):
 						self.conformationList.append(thisConformation)	
 					self.createRotamer(found)
 				else:
-					print "i",
+					print("i", end=' ')
 			else:
-				print ".",
+				print(".", end=' ')
 			ntries+=1
 		results = [found, ntries]
 		return results
@@ -1323,7 +1332,7 @@ class MtsslWizard(Wizard):
 #create Snuggly fits																	 #
 ##########################################################################################
 	def createSnugglyFitConformations(self): #select conformations with the best fit to the molecular surface, rank them and create an object
-		print "Snuggliest fit(s):"
+		print("Snuggliest fit(s):")
 		#calculate average atom count of all conformations
 		atomCountSum=0
 		snugglyFitList=[]
@@ -1351,8 +1360,8 @@ class MtsslWizard(Wizard):
 		#print out the list
 		if len(snugglyFitList)>0:
 			for i in range (0,len(snugglyFitList)):
-				print "Conformation %i: \t\t%i \t\t\t vdW contacts" %(snugglyFitList[i]['state'],snugglyFitList[i]['vdw'])
-		print "Average vdW contacts of all possible conformations: ",averageAtomCount
+				print("Conformation %i: \t\t%i \t\t\t vdW contacts" %(snugglyFitList[i]['state'],snugglyFitList[i]['vdw']))
+		print("Average vdW contacts of all possible conformations: ",averageAtomCount)
 	
 	
 	def calculateCone(self, ca, cb, environmentAtoms, numberOfAtoms=500):
@@ -1397,7 +1406,7 @@ class MtsslWizard(Wizard):
 ##########################################################################################
 	def finalCosmetics(self, found): #make everything look nice
 		if found >= 1:
-			print "Found %i conformations." %found
+			print("Found %i conformations." %found)
 			#show all conformations and do some coloring
 			cmd.set("all_states",1)
 			self.toggleStatesCaption='Toggle states: ON'
@@ -1420,14 +1429,14 @@ class MtsslWizard(Wizard):
 			avgAtoms=numpy.average(atoms1,axis=0)
 			self.createPseudoatom (avgAtoms, "%s_label" %(self.residue1_name), 1)
 			cmd.set("sphere_scale", "0.5", "%s_label" %(self.residue1_name))
-			cmd.label("%s_label" %(self.residue1_name), `identifierLabel`)
+			cmd.label("%s_label" %(self.residue1_name), repr(identifierLabel))
 			cmd.show("label")
 			cmd.show("spheres", "name PS1")
 			#print label+"*"+","+"labelEnvironment_"+label
 			cmd.delete(self.label.pymolName+"*")
 			cmd.group("%s%s" %(self.object_prefix, str(self.numberOfLabel)), "%s*, labelEnvironment_%s,%s*" %(self.label.pymolName, self.label.pymolName, self.residue1_name))
 		else:
-			print "Sorry, I did not find anything. Your options are:\n1) Try again, maybe with increased thoroughness,\n2) change vdW restraints to 'loose'"
+			print("Sorry, I did not find anything. Your options are:\n1) Try again, maybe with increased thoroughness,\n2) change vdW restraints to 'loose'")
 			cmd.delete("%s*" %(self.label.pymolName))
 
 ##########################################################################################

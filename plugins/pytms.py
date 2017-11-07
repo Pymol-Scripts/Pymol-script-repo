@@ -93,6 +93,9 @@ DISCLAIMER
 ################################################################################
 '''
 
+from __future__ import print_function
+from __future__ import absolute_import
+
 Author = 'Andreas Warnecke'
 email = '4ndreas.warneck3@gmail.com'
 Date = 'October 2015'
@@ -113,7 +116,11 @@ import datetime
 import math
 import copy
 import random
-from Tkinter import *
+import sys
+if sys.version_info[0] < 3:
+    from Tkinter import *
+else:
+    from tkinter import *
 import Pmw
 ################################################################################
 
@@ -381,7 +388,7 @@ class pytms:
 
         # variable for selected function/options
         self.opt_pytmselected = StringVar(master=self.pytmselector)
-        sortednames=function_names.keys()
+        sortednames=list(function_names)
         sortednames.sort()
         self.rb_selector = []
         for button in sortednames:
@@ -448,7 +455,7 @@ class pytms:
         widgetrow=0
         # cycle through function keywords
         # selection ############################################################
-        for keyword in functions_exec[funcname].func_code.co_varnames:
+        for keyword in functions_exec[funcname].__code__.co_varnames:
 
             if keyword=='confomer': continue # see 'group'
             if keyword=='type': continue # see 'group'
@@ -1815,7 +1822,7 @@ class pytms:
 
         # create and append kwarg dictionary
         keywordarguments={}
-        for keyword in functions_exec[funcname].func_code.co_varnames:
+        for keyword in functions_exec[funcname].__code__.co_varnames:
             if keyword in ['mode', 'optimize']:
                 keywordarguments[keyword]=(keywords_set[keyword][funcname])
             else:
@@ -1876,6 +1883,9 @@ def infotext(title=' INFO ',messagetext=''):
 ################################################################################
 def __init__(self):
     '''Add PyTMs to PyMOL Plugin menu'''
+    # trigger PyMOL 2.0 legacy initialization
+    self.root
+
     self.menuBar.addmenuitem('Plugin', 'separator')
     self.menuBar.addmenuitem('Plugin', 'command',
                              'PyTMs',
@@ -1998,7 +2008,7 @@ def pytms_get_sele(selection='none', surface_cutoff=0):
     # cf. findSurfaceResidues by Jason Vertrees (PyMOL wiki)
     if surface_cutoff!=0:
         if (cmd.get('dot_solvent') in [0,'off']):
-            print "PyTMs: NB! setting 'dot_solvent' to 1 for surface selection."
+            print("PyTMs: NB! setting 'dot_solvent' to 1 for surface selection.")
             cmd.set('dot_solvent', 1)
 
         tmpObj = cmd.get_unused_name("_tmp")
@@ -2126,7 +2136,7 @@ axis=''):
     else:
         ax3 = get_coord(axis)
     if ax3==[0.0, 0.0, 0.0]:
-        print "Cannot calculate rotation axis!"
+        print("Cannot calculate rotation axis!")
         ax3=False
         return ax3
     ax3=[round(y,6) for y in ax3]
@@ -2138,7 +2148,7 @@ axis=''):
         increment=1
         last_count=cmd.count_atoms(selection)
         if last_count==0:
-            print "atom 3 does not define a selection! - aborting"
+            print("atom 3 does not define a selection! - aborting")
             return False
         # select everything distal including atom3
         while increment>0:
@@ -2195,7 +2205,7 @@ def get_strain(obj, objname, optimize=0):
             "Sorry, an error (zero strain) occured during optimization or strain calulation!\n"
             "Try restarting PyMOL (or disable optimization / display of clashes).\n#####"))
         else:
-            print 'Warning! Unexpected zero strain occured during VdW strain calculation!'
+            print('Warning! Unexpected zero strain occured during VdW strain calculation!')
     return strain
 ################################################################################
 
@@ -2231,10 +2241,10 @@ def log_pytms_prog(output=False, message='', count='', total='', last=''):
                     datetime.timedelta(seconds=(100-percent)
                     *td/percent)+now)
                 # print finish
-                print "ETA of completion: [%s]"%finish
+                print("ETA of completion: [%s]"%finish)
         else:
             # log time and message only
-            print "[%s]: %s" %(now,message)
+            print("[%s]: %s" %(now,message))
     # can be used to update time, even without output
     return now
 ################################################################################
@@ -2344,7 +2354,7 @@ ARGUMENTS
     # obj: [strain]
     OBJCHIS = {}
     if objects==[]:
-        print 'PyTMS: no objects in selection!'
+        print('PyTMS: no objects in selection!')
         return OBJCHIS
 
     if show_clashes:
@@ -2358,10 +2368,10 @@ ARGUMENTS
             OBJCHIS[p] = [get_strain('(%s)'%(p), temp_clash_A, 0)]
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
         if output:
-            print 'PyTMs: STRAIN REPORT:'
-            print 'OBJECT','vdW_STRAIN'
+            print('PyTMs: STRAIN REPORT:')
+            print('OBJECT','vdW_STRAIN')
             for p in objects:
-                print '%s'%p,OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0])
     # rebuild
     pytms_rebuild()
 
@@ -2482,7 +2492,7 @@ ARGUMENTS
 
     # premature exit if nothing to process
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -2542,13 +2552,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
     # rebuild
     pytms_rebuild()
 
@@ -2757,7 +2767,7 @@ ARGUMENTS
 
     # premature exit if nothing to process
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -2894,13 +2904,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
 
     # rebuild
     pytms_rebuild()
@@ -3101,7 +3111,7 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -3227,13 +3237,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
 
     # rebuild
     pytms_rebuild()
@@ -3401,7 +3411,7 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -3470,13 +3480,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
 
     # rebuild
     pytms_rebuild()
@@ -3910,13 +3920,13 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     if (output):
-        print "----------------------------------------"
-        print "--------- mda_modify output ------------"
-        print "----------------------------------------"
+        print("----------------------------------------")
+        print("--------- mda_modify output ------------")
+        print("----------------------------------------")
     last_time=log_pytms_prog(output, 'Initialized MDA modification!')
 
     # VDW PREP
@@ -5106,62 +5116,62 @@ ARGUMENTS
     #OUTPUT
     if (output):
         CHIS=[ 'CA-CB', 'CB-CG', 'CG-CD', 'CD-CE', 'CE-NZ']
-        print "----------------------------------------"
-        print "VDW STRAIN REPORT:"
-        print "----------------------------------------"
+        print("----------------------------------------")
+        print("VDW STRAIN REPORT:")
+        print("----------------------------------------")
         for p in objects:
-            print "Protein:",p
-            print "     Original:", OBJCHIS[p][0][0]
-            print "     Modified:", OBJCHIS[p][0][1]
+            print("Protein:",p)
+            print("     Original:", OBJCHIS[p][0][0])
+            print("     Modified:", OBJCHIS[p][0][1])
             if optimize==0:
-                print "Optimization off!"
+                print("Optimization off!")
             else:
-                print "    Optimized:", OBJCHIS[p][0][2]
-            print "--------------------"
+                print("    Optimized:", OBJCHIS[p][0][2])
+            print("--------------------")
 
             #only print if optimize was set
             for q in OBJCHIS[p][1]:
-                print "  Residue:", q[0]
+                print("  Residue:", q[0])
                 if q[1]==0:
-                    print "not part of selection - skipped!"
-                    print "--------------------"
+                    print("not part of selection - skipped!")
+                    print("--------------------")
                     continue
                 x=('    Group: %d'
                    ' Confomer: %d'
                    ' Type: %d' %(q[3][0],q[3][1],q[3][2]))
-                print x
-                if q[1]==4: print "Lysine"
-                if q[1]==3: print "N-term-LYS-NZ"
-                if q[1]==2: print "N-term-LYS-N"
-                if q[1]==1: print "N-term"
-                print "--Torsion angles--"
-                print "Bond".ljust(6)+\
+                print(x)
+                if q[1]==4: print("Lysine")
+                if q[1]==3: print("N-term-LYS-NZ")
+                if q[1]==2: print("N-term-LYS-N")
+                if q[1]==1: print("N-term")
+                print("--Torsion angles--")
+                print("Bond".ljust(6)+\
                       "Original".ljust(14)+\
-                      " Optimal".ljust(14)
+                      " Optimal".ljust(14))
                 if q[1]>2:
                     x=0
                     for c in range(4,0,-1):
                         x=x+1
-                        print CHIS[c].ljust(6)+\
+                        print(CHIS[c].ljust(6)+\
                               str(round(q[2][0][c],3)).ljust(14)+\
-                              " "+str(round(q[2][1][c],3)).ljust(14)
+                              " "+str(round(q[2][1][c],3)).ljust(14))
                         if x==optimize: break
                 else:
-                    print "CA-N".ljust(6)+\
+                    print("CA-N".ljust(6)+\
                           str(round(q[2][0],3)).ljust(14)+\
-                          " "+str(round(q[2][1],3)).ljust(14)
-                print "--Local strain--"
-                print "Start".ljust(10)+\
+                          " "+str(round(q[2][1],3)).ljust(14))
+                print("--Local strain--")
+                print("Start".ljust(10)+\
                               "Optimal".ljust(10)+\
-                              "Difference".ljust(10)
+                              "Difference".ljust(10))
                 print ("%.2f".ljust(10)%(q[4][0])+
                        "%.2f".ljust(10)%(q[4][1])+
                        "%.2f".ljust(10)%(q[4][1]-q[4][0])
                       )
-                print "--------------------"
-        print "----------------------------------------"
-        print "required time:",datetime.datetime.now()-start_time
-        print "----------------------------------------"
+                print("--------------------")
+        print("----------------------------------------")
+        print("required time:",datetime.datetime.now()-start_time)
+        print("----------------------------------------")
         #print OBJCHIS
 
     # rebuild
@@ -5369,7 +5379,7 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     last_time=log_pytms_prog(output,
@@ -5490,10 +5500,10 @@ ARGUMENTS
     pytms_rebuild()
 
     if (not version_ok):
-        print "NB! Charge assignment is incorrect due do outdated PyMOL version!"
+        print("NB! Charge assignment is incorrect due do outdated PyMOL version!")
         if hydrogens:
-            print "hydrogens were added to oxygens that should have negative charge!"
-        print "Recommended: PyMOL Version >=1.7"
+            print("hydrogens were added to oxygens that should have negative charge!")
+        print("Recommended: PyMOL Version >=1.7")
 
     # coloring
     if color_base:
@@ -5756,48 +5766,48 @@ ARGUMENTS
     ##### ANIMATE VDW OPTIMIZATION END #####
     #OUTPUT
     if (output):
-        print "----------------------------------------"
-        print "VDW STRAIN REPORT:"
-        print "----------------------------------------"
+        print("----------------------------------------")
+        print("VDW STRAIN REPORT:")
+        print("----------------------------------------")
         for p in objects:
-            print "Protein:",p
-            print "     Original:", OBJCHIS[p][0][0]
-            print "     Modified:", OBJCHIS[p][0][1]
+            print("Protein:",p)
+            print("     Original:", OBJCHIS[p][0][0])
+            print("     Modified:", OBJCHIS[p][0][1])
             if not optimize:
-                print "Optimization off!"
+                print("Optimization off!")
             else:
-                print "    Optimized:", OBJCHIS[p][0][2]
-            print "--------------------"
+                print("    Optimized:", OBJCHIS[p][0][2])
+            print("--------------------")
 
             #only prints if optimize was set
             for q in OBJCHIS[p][1]:
-                print "  Residue:", q[0]
+                print("  Residue:", q[0])
                 if q[1]==0:
-                    print "not part of selection - skipped!"
-                    print "--------------------"
+                    print("not part of selection - skipped!")
+                    print("--------------------")
                     continue
-                if q[1]==1: print "Type: SERINE"
-                if q[1]==2: print "Type: THREONINE"
-                if q[1]==3: print "Type: TYROSINE"
-                print "--Torsion angles--"
-                print "Bond".ljust(6)+\
+                if q[1]==1: print("Type: SERINE")
+                if q[1]==2: print("Type: THREONINE")
+                if q[1]==3: print("Type: TYROSINE")
+                print("--Torsion angles--")
+                print("Bond".ljust(6)+\
                       "Original".ljust(14)+\
-                      " Optimal".ljust(14)
-                print "C-O".ljust(6)+\
+                      " Optimal".ljust(14))
+                print("C-O".ljust(6)+\
                       str(round(q[2][0],3)).ljust(14)+\
-                      " "+str(round(q[2][1],3)).ljust(14)
-                print "--Local strain--"
-                print "Start".ljust(10)+\
+                      " "+str(round(q[2][1],3)).ljust(14))
+                print("--Local strain--")
+                print("Start".ljust(10)+\
                               "Optimal".ljust(10)+\
-                              "Difference".ljust(10)
+                              "Difference".ljust(10))
                 print ("%.2f".ljust(10)%(q[3][0])+
                        "%.2f".ljust(10)%(q[3][1])+
                        "%.2f".ljust(10)%(q[3][1]-q[3][0])
                       )
-                print "--------------------"
-            print "----------------------------------------"
-            print "required time:",datetime.datetime.now()-start_time
-            print "----------------------------------------"
+                print("--------------------")
+            print("----------------------------------------")
+            print("required time:",datetime.datetime.now()-start_time)
+            print("----------------------------------------")
             #print OBJCHIS
 
     # rebuild and remove temporary
@@ -5962,7 +5972,7 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -6099,13 +6109,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
 
     # rebuild
     pytms_rebuild()
@@ -6265,7 +6275,7 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -6413,13 +6423,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
 
     # rebuild
     pytms_rebuild()
@@ -6567,7 +6577,7 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -6658,13 +6668,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
 
     # rebuild
     pytms_rebuild()
@@ -6885,7 +6895,7 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -7019,13 +7029,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
 
     # rebuild
     pytms_rebuild()
@@ -7233,7 +7243,7 @@ ARGUMENTS
 
     # premature exit if nothing to process:
     if stored.resi_list==[]:
-        print "PyTMs: No modifyable residues found in selection!"
+        print("PyTMs: No modifyable residues found in selection!")
         return False
 
     # VDW PREP
@@ -7395,13 +7405,13 @@ ARGUMENTS
         # get modified strain
         log_pytms_prog(output, 'Calculating modified VdW strain!')
         if output:
-            print 'STRAIN REPORT:'
-            print 'OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE'
+            print('STRAIN REPORT:')
+            print('OBJECT','NATIVE_STRAIN','MODIFIED_STRAIN', 'DIFFERENCE')
         for p in objects:
             OBJCHIS[p][1] = get_strain('(%s)'%(p), temp_clash_A, 0)
             cmd.set_name(temp_clash_A,'%s_clashes'%p)
             if output:
-                print '%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0]
+                print('%s'%p,OBJCHIS[p][0],OBJCHIS[p][1],OBJCHIS[p][1]-OBJCHIS[p][0])
 
     # rebuild
     pytms_rebuild()
