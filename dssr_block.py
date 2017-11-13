@@ -8,6 +8,12 @@ License: BSD-2
 
 from pymol import cmd, CmdException
 
+def unquote(s):
+    s = str(s)
+    if s.rstrip()[-1:] not in ('"', "'"):
+        return s
+    return cmd.safe_eval(s)
+
 def dssr_block(selection='all', state=-1,
         block_file='face',
         block_depth=0.5,
@@ -62,7 +68,7 @@ EXAMPLE
 
     # custom coloring
     fetch 1msy, async=0
-    dssr_block block_color=N red : minor 0.9 : major yellow
+    dssr_block block_color=N red | minor 0.9 | major yellow
     '''
     import subprocess
     import tempfile, os
@@ -73,14 +79,14 @@ EXAMPLE
     tmpfiler3d = tempfile.mktemp('.r3d')
 
     args = [exe,
-        '--block-file=' + block_file,
-        '--block-depth=' + str(block_depth),
+        '--block-file=' + unquote(block_file),
+        '--block-depth=' + unquote(block_depth),
         '-i=' + tmpfilepdb,
         '-o=' + tmpfiler3d,
     ]
 
     if block_color:
-        args.append('--block-color=' + block_color)
+        args.append('--block-color=' + unquote(block_color))
 
     if not name:
         name = cmd.get_unused_name('dssr_block')
