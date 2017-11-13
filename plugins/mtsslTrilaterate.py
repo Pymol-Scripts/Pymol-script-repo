@@ -845,8 +845,14 @@ line 5: Number of iterations'''
     def OnRunMtsslWizard(self, event):
         '''Run MtsslWizard'''
         try:
-            sys.path.append(os.path.dirname(os.path.abspath(__file__)) + '\mtsslWizard.py')
-            from mtsslWizard import MtsslWizard
+            from .mtsslWizard import MtsslWizard
+        except ImportError:
+            try:
+                from mtsslWizard import MtsslWizard
+            except ImportError:
+                print('could not import mtsslWizard')
+                return
+        try:
             wiz = MtsslWizard()
             cmd.set_wizard(wiz)
         except:

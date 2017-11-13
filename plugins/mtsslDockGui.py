@@ -20,11 +20,20 @@ from pymol import cmd
 from pymol import util
 from pymol import stored
 from operator import attrgetter
-import Tkinter
-import tkFileDialog
-import Queue
+import sys
+
+if sys.version_info[0] < 3:
+    import Tkinter
+    import tkFileDialog
+    import Queue
+    import ttk
+else:
+    import tkinter as Tkinter
+    import tkinter.filedialog as tkFileDialog
+    import queue as Queue
+    import tkinter.ttk as tkk
+
 import Pmw
-import ttk
 from tkintertable.Tables import TableCanvas
 from tkintertable.TableModels import TableModel
 import pickle
@@ -204,7 +213,7 @@ class ResultsFrame(Tkinter.Frame):
                                        )
         self.box.pack(fill='both', expand=1, anchor='nw', padx=10, pady=5)
         for population in result['environment'].populations:
-            print population.chromosomes[0].name
+            print(population.chromosomes[0].name)
             self.box.insert('end', population.chromosomes[0].name)
 
         #########
@@ -391,7 +400,7 @@ class ResultsFrame(Tkinter.Frame):
             try:
                 cmd.zoom(selectedSolution.name)
             except:
-                print "Can't find that object in PyMOL ..."
+                print("Can't find that object in PyMOL ...")
 
             rowheaders = self.result['environment'].constraintNames
             expDistances = self.result['environment'].expDistances
@@ -563,7 +572,7 @@ class mtsslDockPlugin:
                 # print self.notebookpages[selectedPage].children
                 children = self.notebookpages[selectedPage].children
                 # print children
-                for v in children.itervalues():
+                for v in children.values():
                     # print v.result
                     pickle.dump(v.result, file)
                     file.close()
@@ -678,8 +687,8 @@ class mtsslDockPlugin:
         self.scoreClashes = self.settingsDialog.scoreClashes
         #self.c2 = self.settingsDialog.c2
         self.symmetry = self.settingsDialog.symmetry
-        print self.symmetry
-        print self.scoreClashes
+        print(self.symmetry)
+        print(self.scoreClashes)
         self.settingsDialog.withdraw()
 
     #-------------------------------------------------------------------------------------
@@ -789,14 +798,14 @@ class mtsslDockPlugin:
                 elif len(meanAndError) == 1:
                     expErrors[rowCounter][colCounter] = 1
                 else:
-                    print "Something wrong with input data!"
+                    print("Something wrong with input data!")
                     return
                 colCounter += 1
             rowCounter += 1
         # print constraintNames
         trialDistances = quickDist2(numpy.array(self.labelPositionsProteinA), self.labelPositionsProteinB)
-        print trialDistances
-        print numpy.reshape(trialDistances, (self.numberOfLabelsForA, self.numberOfLabelsForB))
+        print(trialDistances)
+        print(numpy.reshape(trialDistances, (self.numberOfLabelsForA, self.numberOfLabelsForB)))
         expDistances = numpy.reshape(expDistances, (-1, 1))
         expErrors = numpy.reshape(expErrors, (-1, 1))
 
@@ -808,7 +817,7 @@ class mtsslDockPlugin:
             expErrors.fill(1)
             #expDistances = numpy.reshape(expDistances, (-1, 1))
             trialDistancesTest = numpy.reshape(trialDistances, (self.numberOfLabelsForA, self.numberOfLabelsForB))
-            print trialDistancesTest
+            print(trialDistancesTest)
 
             pickedDistances = 1
             alreadyPickedA = numpy.zeros(self.numberOfLabelsForA)
@@ -847,8 +856,8 @@ class mtsslDockPlugin:
 
             expDistances = numpy.reshape(expDistances, (-1, 1))
             expErrors = numpy.reshape(expErrors, (-1, 1))
-            print expDistances
-            print expErrors
+            print(expDistances)
+            print(expErrors)
             ####
 
         results['constraints'] = expDistances
@@ -857,11 +866,11 @@ class mtsslDockPlugin:
         noDataIndices = numpy.where(expErrors == 0)[0]
         # print numpy.array(self.labelPositionsProteinA), self.labelPositionsProteinB
 
-        print "trial distances: "
-        print trialDistances
+        print("trial distances: ")
+        print(trialDistances)
 
-        print "exp distances: "
-        print expDistances
+        print("exp distances: ")
+        print(expDistances)
 
         myView = cmd.get_view()
         # cmd.delete("*solution*")
@@ -901,7 +910,7 @@ class mtsslDockPlugin:
         #######
 
         # setup populations
-        print "setting up populations..."
+        print("setting up populations...")
         populations = []
         for i in range(0, self.numberOfPopulations):
             if self.symmetry == "C2":
@@ -919,7 +928,7 @@ class mtsslDockPlugin:
             population.log += population.chromosomes[0].printChromosomeWithoutClashes()
 
         # first evolution
-        print "evolving..."
+        print("evolving...")
         for i in range(0, self.numberOfGenerations):
             for population in environment1.populations:
                 population.sacrifice(0.05)
@@ -963,7 +972,7 @@ class mtsslDockPlugin:
             population.log += population.chromosomes[0].printChromosomeWithoutClashes()
         environment1.scoreVdw = self.scoreVdw
 
-        print "rigid body starts"
+        print("rigid body starts")
         for i in range(0, self.numberOfRigidBodyCycles):
             for population in environment1.populations:
                 population.sacrifice(0.95)
@@ -978,8 +987,8 @@ class mtsslDockPlugin:
             self.myQueue.put(1)
 
         # create solutions
-        print ""
-        print "Solutions:"
+        print("")
+        print("Solutions:")
         nonClashingSolution = 1
         clashingSolution = 1
         for population in environment1.populations:
@@ -999,7 +1008,7 @@ class mtsslDockPlugin:
                 # for testing
                 rms_cur = cmd.rms_cur(nameOfSolution, "target")
                 # print rms_cur
-                print "%s, %1.2f" % (nameOfSolution, rms_cur)
+                print("%s, %1.2f" % (nameOfSolution, rms_cur))
                 ###
             elif solution.clashes > 5:
                 nameOfSolution = "%s-%i_clash-%i" % (self.objectPrefix, self.dockingRunNumber, clashingSolution)
@@ -1012,7 +1021,7 @@ class mtsslDockPlugin:
         cmd.group("%s-%i" % (self.objectPrefix, self.dockingRunNumber), "%s-%i*" % (self.objectPrefix, self.dockingRunNumber))
         cmd.set_view(myView)
 
-        print "Done!"
+        print("Done!")
 
         # add results to dictionary
         self.dockingRuns[key]['settings'] = settings

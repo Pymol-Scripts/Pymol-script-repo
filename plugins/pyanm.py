@@ -39,12 +39,20 @@
 # ------------------------------------
 import warnings
 import os 
-import Tkinter
-import tkSimpleDialog
-import tkMessageBox
-import tkFileDialog
+import sys
+if sys.version_info[0] < 3:
+    import Tkinter
+    import tkSimpleDialog
+    import tkMessageBox
+    import tkFileDialog
+    import tkColorChooser
+else:
+    import tkinter as Tkinter
+    import tkinter.simpledialog as tkSimpleDialog
+    import tkinter.messagebox as tkMessageBox
+    import tkinter.filedialog as tkFileDialog
+    import tkinter.colorchooser as tkColorChooser
 import Pmw
-import tkColorChooser
 from pymol.cgo import *
 
 try:
@@ -410,12 +418,12 @@ class PyANMPlugin:
             anm.calcModes()
             if anm.freqChecker(): 
                 self.anmBuilt = True
-                print "ANM Built successfully"
+                print("ANM Built successfully")
                 tkMessageBox.showinfo("Built Successfully","ANM was built successfully",
                                       parent = self.parent)
             else:
                 self.anmBuilt = True
-                print "Not all of first 6 eigenvalues are zero"
+                print("Not all of first 6 eigenvalues are zero")
                 tkMessageBox.showwarning("Warning","Not all of first 6 eigenvalues are zero, calculations can continue but might not be accurate")
         
         
@@ -469,7 +477,7 @@ class PyANMPlugin:
                                                            initialvalue = '1 2 3',
                                                            parent = self.parent)
             if self.modesForMovies is not None:
-                self.modesForMovies = map(int, self.modesForMovies.split())
+                self.modesForMovies = list(map(int, self.modesForMovies.split()))
                 modes = self.modesForMovies
             else:
                 return
@@ -496,7 +504,7 @@ class PyANMPlugin:
                                                            initialvalue = '1 2 3',
                                                            parent = self.parent)
             if self.modesForArrows is not None:
-                self.modesForArrows = map(int, self.modesForArrows.split())
+                self.modesForArrows = list(map(int, self.modesForArrows.split()))
                 modes = self.modesForArrows
             else:
                 return
@@ -789,7 +797,7 @@ class ANM:
             
         if not self.freqChecker():
             warnings.warn("Not all eigenvalues converged, results might be inaccurate")
-            print self.e[0:7]
+            print(self.e[0:7])
             
     
     def freqChecker(self):

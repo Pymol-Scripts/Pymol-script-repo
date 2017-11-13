@@ -38,6 +38,9 @@ Author: Thomas Holder (Version 2.0)
 # PERFORMANCE OF THIS SOFTWARE.
 #
 
+from __future__ import absolute_import
+from __future__ import print_function
+
 import os
 from pymol import cmd, CmdException
 
@@ -53,8 +56,13 @@ def __init__(self):
 
 
 def CMVDialog(self):
-    import tkFileDialog
-    import tkMessageBox
+    import sys
+    if sys.version_info[0] < 3:
+        import tkFileDialog
+        import tkMessageBox
+    else:
+        import tkinter.filedialog as tkFileDialog
+        import tkinter.messagebox as tkMessageBox
 
     try:
         import pygame as pg
@@ -107,14 +115,14 @@ SEE ALSO
         import tempfile
         image_file = tempfile.mktemp(suffix='.png')
         if not quiet:
-            print ' Warning: no image_file provided!'
-            print ' Will try to generate it for selection "%s"' % (selection)
-            print ' Writing image to', image_file
+            print(' Warning: no image_file provided!')
+            print(' Will try to generate it for selection "%s"' % (selection))
+            print(' Writing image to', image_file)
         contact_map_generator(image_file, selection, quiet=quiet)
     elif image_file.lower().endswith('.xpm'):
         image_file_png = image_file[:-4] + '.png'
         if not quiet:
-            print ' Converting image to', image_file_png
+            print(' Converting image to', image_file_png)
         xpm_convert(image_file, image_file_png)
         image_file = image_file_png
 
@@ -130,7 +138,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
     try:
         import pygame as pg
     except ImportError:
-        print ' Error: This plugin requires the "pygame" module'
+        print(' Error: This plugin requires the "pygame" module')
         raise CmdException
 
     screenshots, quiet = int(screenshots), int(quiet)
@@ -162,7 +170,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
     try:
         screen_height = cmd.pymol._ext_gui.root.winfo_screenheight()
     except:
-        print ' Warning: could not determine screen height'
+        print(' Warning: could not determine screen height')
         screen_height = 700
 
     # use an image you have (.bmp  .jpg  .png  .gif)
@@ -174,8 +182,8 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
     factor = 1.0 / factor
 
     if image_height != len(idx_list):
-        print ' Warning: Dimension of image and number of CA atoms in selection',
-        print 'differ! (%d vs. %d)' % (image_height, len(idx_list))
+        print(' Warning: Dimension of image and number of CA atoms in selection', end=' ')
+        print('differ! (%d vs. %d)' % (image_height, len(idx_list)))
 
     # initialize pygame
     pg.init()
@@ -199,10 +207,10 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
                 idx1, chain1, resi1 = idx_list[int(coor[0])]
                 idx2, chain2, resi2 = idx_list[int(coor[1])]
             except IndexError:
-                print ' Error: selection to small'
+                print(' Error: selection to small')
                 continue
 
-            print ' You clicked %s/%s/ %s/%s/' % (chain1, resi1, chain2, resi2)
+            print(' You clicked %s/%s/ %s/%s/' % (chain1, resi1, chain2, resi2))
 
             sel = 1
             textcount += 1
@@ -235,7 +243,7 @@ def _contact_map_visualizer(image_file, selection, screenshots, quiet, **kwargs)
 
             if screenshots:
                 if not quiet:
-                    print ' Writing image to', outputname
+                    print(' Writing image to', outputname)
                 pg.image.save(screen, outputname)
 
             count += 1
@@ -270,7 +278,7 @@ USAGE
     state, quiet = int(state), int(quiet)
 
     if not os.path.splitext(filename)[-1].lower() in ['.png', '.jpg', '.jpeg']:
-        print ' Error: filename must have png or jpg extension'
+        print(' Error: filename must have png or jpg extension')
         raise CmdException
 
     try:
@@ -288,14 +296,15 @@ USAGE
 
         process = subprocess.Popen(['g_mdmat', '-f', file_f, '-s', file_s, '-mean', file_mean],
                                    stdin=subprocess.PIPE)
-        print >> process.stdin, 'Protein-H'
+        print('Protein-H', file=process.stdin)
         process.stdin.close()
         process.wait()
 
         xpm_convert(file_mean, filename)
 
-    except OSError:
-        print ' Error: calling external applications failed'
+    except OSError as e:
+        print(e)
+        print(' Error: calling external applications failed')
         raise CmdException
     finally:
         shutil.rmtree(tempdir)
@@ -306,14 +315,17 @@ def xpm_convert(infile, outfile):
     Strips comments and repeated spaces from XPM file and saves it as new file.
     '''
     import re
-    import Image
-    from StringIO import StringIO
+    try:
+        from PIL import Image
+    except ImportError:
+        import Image
+    from io import StringIO
 
     xpm = open(infile).read()
     xpm = re.sub(r'/\*.*?\*/', '', xpm)  # strip comments
     xpm = re.sub(r'  +', ' ', xpm)      # strip multi-spaces
     xpm = re.sub(r'\n\s+', '\n', xpm)   # strip empty lines
-    xpm = '/* XPM */' + xpm
+    xpm = u'/* XPM */' + xpm
 
     image = Image.open(StringIO(xpm))
     image.save(outfile)

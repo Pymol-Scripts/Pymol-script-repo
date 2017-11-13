@@ -3,12 +3,24 @@ Described at PyMOL wiki: http://www.pymolwiki.org/index.php/lisica
  
 '''
 
+from __future__ import absolute_import
+from __future__ import print_function
+
 import os
 import stat
-import urllib2
-from urllib2 import urlopen,URLError,HTTPError
+
+import sys
+if sys.version_info[0] < 3:
+    import tkMessageBox
+    import urllib2
+    from urllib2 import urlopen,URLError,HTTPError
+else:
+    import tkinter.messagebox as tkMessageBox
+    import urllib.request as urllib2
+    from urllib.request import urlopen
+    from urllib.error import URLError, HTTPError
+
 import zipfile
-import tkMessageBox
 import json
 import tempfile
 import sys
@@ -48,7 +60,7 @@ class Configuration:
         elif self.system=='Linux':
             exe_filename="lisica"
         else:
-            print "The plugin might not be compatible with your machine"
+            print("The plugin might not be compatible with your machine")
             exe_filename="lisica"
         return exe_filename
         
@@ -59,9 +71,9 @@ class UpgraderGitlab:
     def __init__(self):
         try:
             self.tmpDir= tempfile.mkdtemp()
-            print "created temporary ", self.tmpDir
+            print("created temporary ", self.tmpDir)
         except:
-            print "error : could not create temporary directory"
+            print("error : could not create temporary directory")
         self.zipFileName=os.path.join(self.tmpDir, "archive.zip")
         self.firstVersionURL="https://git.insilab.com/insilab/lisicagui/raw/master/.lisicagui/version.txt"        
         self.secondVersionURL="https://gitlab.com/AthiraDilip/lisicagui/raw/master/.lisicagui/version.txt"        
@@ -74,29 +86,29 @@ class UpgraderGitlab:
     def __del__(self):
         try:
             shutil.rmtree(self.tmpDir)
-            print "deleted temporary ", self.tmpDir
+            print("deleted temporary ", self.tmpDir)
         except:
-            print "error : could not remove temporary directory"
+            print("error : could not remove temporary directory")
         
         
     def downloadInstall(self):
         try:
-            print "Fetching plugin from the git server"
+            print("Fetching plugin from the git server")
             urlcontent=urlopen(self.firstArchiveURL, timeout=5)
             zipcontent=urlcontent.read() 
             LiSiCAzipFile=open(self.zipFileName,'wb')
             LiSiCAzipFile.write(zipcontent)
         except:
-            print "Primary git server unavailable, re-trying from secondary server"
+            print("Primary git server unavailable, re-trying from secondary server")
             try:
                 urlcontent=urlopen(self.secondArchiveURL, timeout=5)
                 zipcontent=urlcontent.read() 
                 LiSiCAzipFile=open(self.zipFileName,'wb')
                 LiSiCAzipFile.write(zipcontent)   
-            except HTTPError, e1:
-                print "HTTP Error:", e1.code, e1.reason
-            except URLError, e2:
-                print "URL Error:", e2.reason
+            except HTTPError as e1:
+                print("HTTP Error:", e1.code, e1.reason)
+            except URLError as e2:
+                print("URL Error:", e2.reason)
         finally:
             try:
                 LiSiCAzipFile.close()
@@ -119,21 +131,21 @@ class UpgraderGitlab:
             #copy new
             copy_tree(os.path.join(self.tmpDir, masterDir, ".lisicagui"),LISICA_DIRECTORY)
         except OSError as e:
-            print "error : ", e.strerror, e.errno, e.filename
-        except shutil.Error, e:
-            print "error : ", str(e)
+            print("error : ", e.strerror, e.errno, e.filename)
+        except shutil.Error as e:
+            print("error : ", str(e))
         except:
-            print "installation of lisicagui failed"
+            print("installation of lisicagui failed")
 
     def firstUpgrade(self):
         return not os.path.isdir(LISICA_DIRECTORY)
         
     def upgrade(self):
-        print "upgrading lisicagui to the latest version = ", self.latestVersionGUI
+        print("upgrading lisicagui to the latest version = ", self.latestVersionGUI)
         self.downloadInstall()
         self.extractInstall()
         sys.path.append(os.path.normpath(os.path.join(LISICA_DIRECTORY,"modules")))
-        print "Upgrade finished successfully!"
+        print("Upgrade finished successfully!")
         
     def findCurrentVersion(self):
         import License
@@ -145,18 +157,18 @@ class UpgraderGitlab:
             #from insilab git server
             versionFile=urllib2.urlopen(self.firstVersionURL, timeout=5)
             self.latestVersionGUI=versionFile.read().strip()
-            print "l1 = ", self.latestVersionGUI
+            print("l1 = ", self.latestVersionGUI)
             
         except:
             try:
                 #from secondary git server
                 versionFile=urllib2.urlopen(self.secondVersionURL, timeout=5)
                 self.latestVersionGUI=versionFile.read().strip()
-                print "l2 = ", self.latestVersionGUI
-            except HTTPError, e1:
-                print "HTTP Error:", e1.code, e1.reason
-            except URLError, e2:
-                print "URL Error:", e2.reason
+                print("l2 = ", self.latestVersionGUI)
+            except HTTPError as e1:
+                print("HTTP Error:", e1.code, e1.reason)
+            except URLError as e2:
+                print("URL Error:", e2.reason)
             
 def run():
     

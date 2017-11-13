@@ -34,6 +34,10 @@ Is described at: http://www.pymolwiki.org/index.php/autodock_plugin
 
 #================================================================
 '''
+
+from __future__ import absolute_import
+from __future__ import print_function
+
 import sys
 import os
 import math
@@ -44,12 +48,20 @@ from os import stat
 from os.path import abspath
 from stat import ST_SIZE
 from time import sleep, time
-import Tkinter
-import Tkinter
-import Pmw
-from Tkinter import *
-import tkMessageBox
-import tkFileDialog
+
+if sys.version_info[0] < 3:
+    import Tkinter
+    from Tkinter import *
+    import tkMessageBox
+    import tkFileDialog
+    import tkColorChooser
+else:
+    import tkinter as Tkinter
+    from tkinter import *
+    import tkinter.messagebox as tkMessageBox
+    import tkinter.filedialog as tkFileDialog
+    import tkinter.colorchooser as tkColorChooser
+
 import Pmw
 from threading import Thread
 #from commands import getstatusoutput
@@ -69,7 +81,6 @@ from pymol.cmd import _feedback, fb_module, fb_mask, is_list, _cmd
 from pymol.cgo import *
 from pymol import stored
 from numpy import *
-import tkColorChooser
 from pymol.vfont import plain
 from glob import glob
 import platform
@@ -169,7 +180,7 @@ else:
 tmp_dir = os.path.join(home, '.ADplugin')
 if not os.path.isdir(tmp_dir):
     os.mkdir(tmp_dir)
-    print "Created temporary files directory:  %s" % tmp_dir
+    print("Created temporary files directory:  %s" % tmp_dir)
 
 default_settings = {
     "grid_spacing": '0.375',
@@ -236,7 +247,7 @@ class Thread_log(Thread):
         self.logfile = logfile
 
     def run(self):
-        if not os.environ.has_key('ADPLUGIN_NO_OUTPUT_REDIRECT'):
+        if 'ADPLUGIN_NO_OUTPUT_REDIRECT' not in os.environ:
             t = Tail(self.logfile)
             line = t.nextline()
 #!!! Tk thread problem in windows
@@ -358,17 +369,17 @@ class ADGridMap:
         return s
 
     def write(self, fp):
-        print >>fp, 'GRID_PARAMETER_FILE %s' % self.paramfile
-        print >>fp, 'GRID_DATA_FILE %s' % self.datafile
-        print >>fp, 'MACROMOLECULE %s' % self.molecule
-        print >>fp, 'SPACING %4.3f' % self.spacing
-        print >>fp, 'NELEMENTS %d %d %d' % (self.npts[0], self.npts[1], self.npts[2])
-        print >>fp, 'CENTER %5.3f %5.3f %5.3f' % (self.center[0], self.center[1], self.center[2])
+        print('GRID_PARAMETER_FILE %s' % self.paramfile, file=fp)
+        print('GRID_DATA_FILE %s' % self.datafile, file=fp)
+        print('MACROMOLECULE %s' % self.molecule, file=fp)
+        print('SPACING %4.3f' % self.spacing, file=fp)
+        print('NELEMENTS %d %d %d' % (self.npts[0], self.npts[1], self.npts[2]), file=fp)
+        print('CENTER %5.3f %5.3f %5.3f' % (self.center[0], self.center[1], self.center[2]), file=fp)
         for x in self.values:
             if abs(x) < self.precision:
-                print >>fp, '0.'
+                print('0.', file=fp)
             else:
-                print >>fp, '%.3f' % x
+                print('%.3f' % x, file=fp)
 
     def writeDX(self, fname):
         fp = open(fname, 'w')
@@ -379,17 +390,17 @@ class ADGridMap:
         spacing = self.spacing
         vals = self.values
 
-        print >>fp, '#=================================='
-        print >>fp, '# AutoGrid Map File: %s' % self.name
-        print >>fp, '# Receptor File Name: %s' % self.molecule
-        print >>fp, '#=================================='
-        print >>fp, 'object 1 class gridpositions counts %d %d %d' % (nx, ny, nz)
-        print >>fp, 'origin %12.5E %12.5E %12.5E' % (ori[0], ori[1], ori[2])
-        print >>fp, 'delta %12.5E %12.5E %12.5E' % (spacing, 0, 0)
-        print >>fp, 'delta %12.5E %12.5E %12.5E' % (0, spacing, 0)
-        print >>fp, 'delta %12.5E %12.5E %12.5E' % (0, 0, spacing)
-        print >>fp, 'object 2 class gridconnections counts %d %d %d' % (nx, ny, nz)
-        print >>fp, 'object 3 class array type double rank 0 items %d data follows' % len(vals)
+        print('#==================================', file=fp)
+        print('# AutoGrid Map File: %s' % self.name, file=fp)
+        print('# Receptor File Name: %s' % self.molecule, file=fp)
+        print('#==================================', file=fp)
+        print('object 1 class gridpositions counts %d %d %d' % (nx, ny, nz), file=fp)
+        print('origin %12.5E %12.5E %12.5E' % (ori[0], ori[1], ori[2]), file=fp)
+        print('delta %12.5E %12.5E %12.5E' % (spacing, 0, 0), file=fp)
+        print('delta %12.5E %12.5E %12.5E' % (0, spacing, 0), file=fp)
+        print('delta %12.5E %12.5E %12.5E' % (0, 0, spacing), file=fp)
+        print('object 2 class gridconnections counts %d %d %d' % (nx, ny, nz), file=fp)
+        print('object 3 class array type double rank 0 items %d data follows' % len(vals), file=fp)
         for k in range(nz):
             col = 0
             for j in range(ny):
@@ -397,13 +408,13 @@ class ADGridMap:
                     fp.write(" %12.5E" % vals[i * ny * nz + j * nz + k])
                     col += 1
                     if col == 3:
-                        print >>fp
+                        print(file=fp)
                         col = 0
-        print >>fp, 'attribute \"dep\" string \"positions\"'
-        print >>fp, 'object \"regular positions regular connections\" class field'
-        print >>fp, 'component \"positions\" value 1'
-        print >>fp, 'component \"connections\" value 2'
-        print >>fp, 'component \"data\" value 3'
+        print('attribute \"dep\" string \"positions\"', file=fp)
+        print('object \"regular positions regular connections\" class field', file=fp)
+        print('component \"positions\" value 1', file=fp)
+        print('component \"connections\" value 2', file=fp)
+        print('component \"data\" value 3', file=fp)
         fp.close()
 
 #==========================================================================
@@ -1332,9 +1343,9 @@ class Autodock:
             if sel:
                 stored.xyz = []
                 cmd.iterate_state(1, sel, "stored.xyz.append([x,y,z])")
-                xx = average(map(lambda a: a[0], stored.xyz))
-                yy = average(map(lambda a: a[1], stored.xyz))
-                zz = average(map(lambda a: a[2], stored.xyz))
+                xx = average([a[0] for a in stored.xyz])
+                yy = average([a[1] for a in stored.xyz])
+                zz = average([a[2] for a in stored.xyz])
                 self.grid_center[0].set(round(xx, 2))
                 self.grid_center[1].set(round(yy, 2))
                 self.grid_center[2].set(round(zz, 2))
@@ -1387,13 +1398,13 @@ class Autodock:
         xmin, xmax = self.box_coords[0]
         ymin, ymax = self.box_coords[1]
         zmin, zmax = self.box_coords[2]
-        lst = filter(lambda a: a.coord[0] >= xmin and \
+        lst = [a for a in m.atom if a.coord[0] >= xmin and \
                      a.coord[0] <= xmax and \
                      a.coord[1] >= ymin and \
                      a.coord[1] <= ymax and \
                      a.coord[2] >= zmin and \
-                     a.coord[2] <= zmax, m.atom)
-        by_id = map(lambda a: a.id, lst)
+                     a.coord[2] <= zmax]
+        by_id = [a.id for a in lst]
         if len(by_id) > 1:
             cmd.select("binding_site", "ID %d" % by_id[0])
             for idx in by_id[1:]:
@@ -1504,9 +1515,9 @@ class Autodock:
         center_X = self.grid_center[0].get()
         center_Y = self.grid_center[1].get()
         center_Z = self.grid_center[2].get()
-        print >>fp, 'npts %d %d %d' % (n_points_X, n_points_Y, n_points_Z)
-        print >>fp, 'spacing %5.3f' % spacing
-        print >>fp, 'gridcenter  %8.3f %8.3f %8.3f' % (center_X, center_Y, center_Z)
+        print('npts %d %d %d' % (n_points_X, n_points_Y, n_points_Z), file=fp)
+        print('spacing %5.3f' % spacing, file=fp)
+        print('gridcenter  %8.3f %8.3f %8.3f' % (center_X, center_Y, center_Z), file=fp)
         fp.close()
         self.status_line.configure(text='Wrote box info to %s' % filename)
 
@@ -1564,12 +1575,12 @@ class Autodock:
         center_x = self.grid_center[0].get()
         center_y = self.grid_center[1].get()
         center_z = self.grid_center[2].get()
-        print >>fp, "size_x = %6.2f" % size_x
-        print >>fp, "size_y = %6.2f" % size_y
-        print >>fp, "size_z = %6.2f" % size_z
-        print >>fp, "center_x = %6.2f" % center_x
-        print >>fp, "center_y = %6.2f" % center_y
-        print >>fp, "center_z = %6.2f" % center_z
+        print("size_x = %6.2f" % size_x, file=fp)
+        print("size_y = %6.2f" % size_y, file=fp)
+        print("size_z = %6.2f" % size_z, file=fp)
+        print("center_x = %6.2f" % center_x, file=fp)
+        print("center_y = %6.2f" % center_y, file=fp)
+        print("center_z = %6.2f" % center_z, file=fp)
         fp.close()
         self.status_line.configure(text='Wrote box info to %s' % filename)
 
@@ -1826,15 +1837,15 @@ class Autodock:
     def save_plugin_config_file(self):
         config_file_name = os.path.join(tmp_dir, "pymol_autodock_plugin.conf")
         fp = self.fileopen(config_file_name, 'w')
-        print >>fp, '#========================================'
-        print >>fp, '# Autodock/Vina Plugin configuration file'
+        print('#========================================', file=fp)
+        print('# Autodock/Vina Plugin configuration file', file=fp)
         self.config_settings['autogrid_exe'] = self.autogrid_location.getvalue()
         self.config_settings['autodock_exe'] = self.autodock_location.getvalue()
         self.config_settings['vina_exe'] = self.vina_location.getvalue()
         self.config_settings['autodock_tools_path'] = self.autodock_tools_location.getvalue()
         # print 'ADDD', self.autodock_location.getvalue()
         for key, val in self.config_settings.items():
-            print >>fp, key, '=', val
+            print(key, '=', val, file=fp)
         fp.close()
         self.status_line.configure(text='Wrote configuration file %s' % config_file_name)
 
@@ -1883,10 +1894,10 @@ class Autodock:
         self.ligand_selection_list.setlist(lst)
 
     def generate_receptor(self):
-        print self.work_dir()
+        print(self.work_dir())
         sel = self.selection_list.getcurselection()
         tmp_rec_pdb = os.path.join(self.work_dir(), "receptor.%s.pdb" % sel[0])
-        print tmp_rec_pdb
+        print(tmp_rec_pdb)
         cmd.save(tmp_rec_pdb, sel[0])
         util_program = os.path.join(self.autodock_tools_path.get(), "prepare_receptor4.py")
         outfilename = os.path.join(self.work_dir(), "receptor.%s.pdbqt" % sel[0])
@@ -1928,7 +1939,7 @@ class Autodock:
         chains = {}
         for chain, resn, resi in stored.list:
             if resn not in ['ALA', 'GLY', 'PRO']:
-                if chains.has_key(chain):
+                if chain in chains:
                     chains[chain].append([int(resi), resn])
                 else:
                     chains[chain] = [[int(resi), resn]]
@@ -2204,9 +2215,9 @@ class Autodock:
         template_gpf = os.path.join(self.work_dir(), 'template.gpf')
         outfile_gpf = rec + '.gpf'
         fp = self.fileopen(template_gpf, 'w')
-        print >>fp, 'npts %d %d %d' % (n_points_X, n_points_Y, n_points_Z)
-        print >>fp, 'spacing %5.3f' % spacing
-        print >>fp, 'gridcenter  %8.3f %8.3f %8.3f' % (center_X, center_Y, center_Z)
+        print('npts %d %d %d' % (n_points_X, n_points_Y, n_points_Z), file=fp)
+        print('spacing %5.3f' % spacing, file=fp)
+        print('gridcenter  %8.3f %8.3f %8.3f' % (center_X, center_Y, center_Z), file=fp)
         fp.close()
         util_program = os.path.join(self.autodock_tools_path.get(), "prepare_gpf4.py")
         command = "%s -r %s -i %s -o %s" % (util_program, rigid_receptor_file, template_gpf, outfile_gpf)
@@ -2279,7 +2290,7 @@ class Autodock:
         template_dpf = os.path.join(self.work_dir(), 'template.dpf')
 
         fp = self.fileopen(template_dpf, 'w')
-        print >>fp, 'ga_run %d ' % (nposes)
+        print('ga_run %d ' % (nposes), file=fp)
         fp.close()
 
         util_program = os.path.join(self.autodock_tools_path.get(), "prepare_dpf4.py")
@@ -2388,19 +2399,19 @@ class Autodock:
             self.ligand_dic[ligands].outfile_log = outfile_log
             self.ligand_dic[ligands].vina_conf = outfile_conf
             fp = self.fileopen(outfile_conf, 'w')
-            print >>fp, "receptor = %s" % rigid_receptor_file
+            print("receptor = %s" % rigid_receptor_file, file=fp)
             if flex_receptor_file is not None:
-                print >>fp, "flex = %s" % flex_receptor_file
-            print >>fp, "ligand = %s" % lig_pdbqt
-            print >>fp, "center_x = %s" % center_X
-            print >>fp, "center_y = %s" % center_Y
-            print >>fp, "center_z = %s" % center_Z
-            print >>fp, "size_x = %6.2f" % size_X
-            print >>fp, "size_y = %6.2f" % size_Y
-            print >>fp, "size_z = %6.2f" % size_Z
-            print >>fp, "out = %s" % outfile_poses
-            print >>fp, "log = %s" % outfile_log
-            print >>fp, "num_modes = %d" % nposes
+                print("flex = %s" % flex_receptor_file, file=fp)
+            print("ligand = %s" % lig_pdbqt, file=fp)
+            print("center_x = %s" % center_X, file=fp)
+            print("center_y = %s" % center_Y, file=fp)
+            print("center_z = %s" % center_Z, file=fp)
+            print("size_x = %6.2f" % size_X, file=fp)
+            print("size_y = %6.2f" % size_Y, file=fp)
+            print("size_z = %6.2f" % size_Z, file=fp)
+            print("out = %s" % outfile_poses, file=fp)
+            print("log = %s" % outfile_log, file=fp)
+            print("num_modes = %d" % nposes, file=fp)
             fp.close()
             self.status_line.configure(text="Wrote VINA input file for ligand: %s" % ligands)
 #            self.docking_page_log_text.insert('end',"Running VINA.....\n")
@@ -2534,7 +2545,7 @@ class Autodock:
         except:
             pass
         self.pose_viewer_ligand_pages[name] = {'name': self.pose_viewer_notebook.add(name)}
-        pose_list = self.pose_viewer_ligand_dic[name].keys()
+        pose_list = list(self.pose_viewer_ligand_dic[name].keys())
 
         pose_list.sort(lambda a, b: cmp(int(a.split('::')[1]), int(b.split('::')[1])))
         self.pose_viewer_ligand_pages[name].update({'poses': pose_list})
@@ -2662,10 +2673,10 @@ class Autodock:
             ligand_list = self.all_ligands
         elif what == 'Show Only Best Pose':
             ligand_list = self.best_ligand_list
-        print >>fp, "# RANK         NAME              POSE #   SCORE"
+        print("# RANK         NAME              POSE #   SCORE", file=fp)
         for i, ligand in enumerate(ligand_list):
-            print >>fp, "%8d %20s %5d %8.3f" % \
-                (i + 1, ligand.name, ligand.poseN, ligand.energy)
+            print("%8d %20s %5d %8.3f" % \
+                (i + 1, ligand.name, ligand.poseN, ligand.energy), file=fp)
         self.status_line.configure(text="Exported docking results to %s" % filename)
 
     def export_score_csv_file(self):
@@ -2676,10 +2687,10 @@ class Autodock:
             ligand_list = self.all_ligands
         elif what == 'Show Only Best Pose':
             ligand_list = self.best_ligand_list
-        print >>fp, "RANK,      NAME,       POSE,      SCORE"
+        print("RANK,      NAME,       POSE,      SCORE", file=fp)
         for i, ligand in enumerate(ligand_list):
-            print >>fp, "%8d, %20s, %5d, %8.3f" % \
-                (i + 1, ligand.name, ligand.poseN, ligand.energy)
+            print("%8d, %20s, %5d, %8.3f" % \
+                (i + 1, ligand.name, ligand.poseN, ligand.energy), file=fp)
         self.status_line.configure(text="Exported docking results to %s" % filename)
 
     def export_score_pose_file(self):
@@ -2690,14 +2701,14 @@ class Autodock:
             ligand_list = self.all_ligands
         elif what == 'Show Only Best Pose':
             ligand_list = self.best_ligand_list
-        print >>fp, "TITLE      DOCKING POSES    "
+        print("TITLE      DOCKING POSES    ", file=fp)
         for i, ligand in enumerate(ligand_list):
-            print >>fp, "MODEL%5d" % (i + 1)
-            print >>fp, "REMARK    ligand: %s" % ligand.name
-            print >>fp, "REMARK    pose #: %d" % ligand.poseN
-            print >>fp, "REMARK    energy: %8.3f" % ligand.energy
-            print >>fp, ligand.as_string.rstrip()
-            print >>fp, "ENDMDL"
+            print("MODEL%5d" % (i + 1), file=fp)
+            print("REMARK    ligand: %s" % ligand.name, file=fp)
+            print("REMARK    pose #: %d" % ligand.poseN, file=fp)
+            print("REMARK    energy: %8.3f" % ligand.energy, file=fp)
+            print(ligand.as_string.rstrip(), file=fp)
+            print("ENDMDL", file=fp)
         self.status_line.configure(text="Exported docking poses to %s" % filename)
 
     #-------------------------------------------
@@ -2784,7 +2795,7 @@ class Autodock:
             mode = 'isosurface'
         elif self.map_radiobuttons.getvalue() == 'isomesh':
             mode = 'isomesh'
-        if self.map_dic[name].has_key(surfname):
+        if surfname in self.map_dic[name]:
             mmp = self.map_dic[name][surfname]
         else:
             self.map_dic[name].update({surfname: {
@@ -2980,7 +2991,7 @@ class FileDialogButtonClassFactory:
                 '''when we get a file, we call fn(filename)'''
                 self.fn = fn
                 self.__toggle = 0
-                apply(Tkinter.Button.__init__, (self, master, cnf), kw)
+                Tkinter.Button.__init__(self, master, cnf, **kw)
                 self.configure(command=self.set)
 
             def set(self):
@@ -3012,7 +3023,7 @@ class DirDialogButtonClassFactory:
                 '''when we get a file, we call fn(filename)'''
                 self.fn = fn
                 self.__toggle = 0
-                apply(Tkinter.Button.__init__, (self, master, cnf), kw)
+                Tkinter.Button.__init__(self, master, cnf, **kw)
                 self.configure(command=self.set)
 
             def set(self):
@@ -3342,7 +3353,7 @@ class PmwFileDialog(Pmw.Dialog):
         try:
             fl = os.listdir(dir)
             fl.sort()
-        except os.error, arg:
+        except os.error as arg:
             if arg[0] in (2, 20):
                 return
             raise
@@ -3444,7 +3455,7 @@ class PmwDirDialog(PmwFileDialog):
         try:
             fl = os.listdir(dir)
             fl.sort()
-        except os.error, arg:
+        except os.error as arg:
             if arg[0] in (2, 20):
                 return
             raise
@@ -3669,6 +3680,8 @@ class Tail(object):
         """
         return self.nextline()
 
+    __next__ = next
+
 
 class TableCell(Label):
 
@@ -3678,7 +3691,7 @@ class TableCell(Label):
 
     def __init__(self, *args, **kwargs):
 
-        apply(Label.__init__, ((self,) + args), self.params)
+        Label.__init__(self, *args, **self.params)
         self.bind("<Enter>", self.on_enter)
         self.bind("<Leave>", self.on_leave)
         self.bind("<ButtonRelease-1>", self.on_clicked)
@@ -3704,7 +3717,7 @@ class TableCell(Label):
 
     def on_clicked(self, event):
 
-        for col in xrange(0, len(ScoreTable.fields)):
+        for col in range(0, len(ScoreTable.fields)):
             self.entry[self.row][col]["bg"] = self.SELECTED
             if self.table.selected != -1:
                 self.entry[self.table.selected][col]["bg"] = self.UNSELECTED
@@ -3751,14 +3764,14 @@ class ScoreTable(Frame):
 
     def createTable(self, rows, cols):
 
-        for col in xrange(0, len(self.fields)):
+        for col in range(0, len(self.fields)):
             Label(self.table, relief=SUNKEN, bd=2,
                   width=self.width[col],
                   font=("Helvetica", 12), text=self.fields[col]).grid(row=0, column=col, sticky=W + E)
 
-        for row in xrange(0, rows):
+        for row in range(0, rows):
             self.entry[row] = {}
-            for colx in xrange(0, cols):
+            for colx in range(0, cols):
                 self.entry[row][colx] = TableCell(self.table, row=row,
                                                   col=colx, entry=self.entry,
                                                   command=self)
@@ -3769,9 +3782,9 @@ class ScoreTable(Frame):
             firstVisible = 0
         self.firstVisible = firstVisible
         self.lastVisible = firstVisible + self.windowSize - 1
-        if self.lastVisible < len(self.data.values()):
-            for row in xrange(0, self.windowSize):
-                for col in xrange(0, self.cols):
+        if self.lastVisible < len(self.data):
+            for row in range(0, self.windowSize):
+                for col in range(0, self.cols):
                     try:
                         self.entry[row][col]["text"] = self.data[row + firstVisible][col]
                     except:

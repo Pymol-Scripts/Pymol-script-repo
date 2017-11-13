@@ -158,7 +158,7 @@ class Plotter(wx.Frame):
 				dataFile.write(axesTitles)
 				# Write x,y,z to a data file
 				graphType = self.currentGraph['Type']
-				print self.currentGraph['xData']
+				print(self.currentGraph['xData'])
 				#print self.currentGraph['xData'].shape[0], self.currentGraph['yData'].shape[0], self.currentGraph['zData'].shape
 				dim = self.currentGraph['xData'].shape[0]
 				if (graphType == 'DistanceMap'):
@@ -430,7 +430,7 @@ def run():
 def start():
 	if hasattr(stored, 'mtsslplot'):
 		if (stored.mtsslplot == 1):
-			print "mtsslPlotter is already opened!"
+			print("mtsslPlotter is already opened!")
 		else:
 			t = threading.Thread(target=run,args=())
 			t.setDaemon(0)
