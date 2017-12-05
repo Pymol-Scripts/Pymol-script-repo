@@ -31,7 +31,7 @@ else:
     import tkinter as Tkinter
     import tkinter.filedialog as tkFileDialog
     import queue as Queue
-    import tkinter.ttk as tkk
+    import tkinter.ttk as ttk
 
 import Pmw
 from tkintertable.Tables import TableCanvas
