@@ -221,7 +221,7 @@ class PlaneWizard(Wizard):
         try:
             cmd.edit("%s and not %s*" % (name, self.object_prefix))
             self.do_pick(0)
-        except pymol.CmdException, pmce:
+        except pymol.CmdException as pmce:
             print(pmce)
 
     def pickNextAtom(self, atom_name):

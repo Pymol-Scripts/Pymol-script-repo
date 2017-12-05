@@ -61,7 +61,7 @@ def drawgridbox(selection="(all)", nx=10, ny=10, nz=10, padding=0.0, lw=2.0, r=1
 
     ([minX, minY, minZ],[maxX, maxY, maxZ]) = cmd.get_extent(selection)
 
-    print "Box dimensions (%.2f, %.2f, %.2f)" % (maxX-minX, maxY-minY, maxZ-minZ)
+    print("Box dimensions (%.2f, %.2f, %.2f)" % (maxX-minX, maxY-minY, maxZ-minZ))
 
     minX = minX - float(padding)
     minY = minY - float(padding)
@@ -77,7 +77,7 @@ def drawgridbox(selection="(all)", nx=10, ny=10, nz=10, padding=0.0, lw=2.0, r=1
     dZ = (maxZ-minZ)/nZ
 
     if padding != 0:
-        print "Box dimensions + padding (%.2f, %.2f, %.2f)" % (maxX-minX, maxY-minY, maxZ-minZ)
+        print("Box dimensions + padding (%.2f, %.2f, %.2f)" % (maxX-minX, maxY-minY, maxZ-minZ))
     gridbox = [
         LINEWIDTH, float(lw),
         BEGIN, LINES,
