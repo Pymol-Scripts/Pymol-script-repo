@@ -57,6 +57,8 @@
 # PERFORMANCE OF THIS SOFTWARE.
 # ----------------------------------------------------------------------
 
+from __future__ import print_function
+
 # python lib
 import os
 import sys
@@ -66,26 +68,34 @@ if sys.version_info >= (2, 4):
 import math
 import random
 import tempfile
-import tkSimpleDialog
-import tkMessageBox
-import tkFileDialog
-import tkColorChooser
 
-import Tkinter
+
+if sys.version_info[0] > 2:
+    import tkinter.simpledialog as tkSimpleDialog
+    import tkinter.messagebox as tkMessageBox
+    import tkinter.filedialog as tkFileDialog
+    import tkinter.colorchooser as tkColorChooser
+    import tkinter as Tkinter
+else:
+    import tkSimpleDialog
+    import tkMessageBox
+    import tkFileDialog
+    import tkColorChooser
+    import Tkinter
 
 # pymol lib
 try:
     from pymol import cmd
     from pymol.cgo import *
 except ImportError:
-    print 'Warning: pymol library cmd not found.'
+    print('Warning: pymol library cmd not found.')
     sys.exit(1)
 
 # external lib
 try:
     import Pmw
 except ImportError:
-    print 'Warning: failed to import Pmw. Exit ...'
+    print('Warning: failed to import Pmw. Exit ...')
     sys.exit(1)
 
 VERBOSE = True
@@ -146,11 +156,11 @@ class DSSPPlugin:
                 pass
         if 'DSSP_BIN' in os.environ:
             if VERBOSE:
-                print 'Found DSSP_BIN in environmental variables', os.environ['DSSP_BIN']
+                print('Found DSSP_BIN in environmental variables', os.environ['DSSP_BIN'])
             self.dssp_bin.set(os.environ['DSSP_BIN'])
         else:
             if VERBOSE:
-                print 'DSSP_BIN not found in environmental variables.'
+                print('DSSP_BIN not found in environmental variables.')
             self.dssp_bin.set('')
         if 'STRIDE_BIN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
             if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
@@ -166,11 +176,11 @@ class DSSPPlugin:
                 pass
         if 'STRIDE_BIN' in os.environ:
             if VERBOSE:
-                print 'Found STRIDE_BIN in environmental variables', os.environ['STRIDE_BIN']
+                print('Found STRIDE_BIN in environmental variables', os.environ['STRIDE_BIN'])
             self.stride_bin.set(os.environ['STRIDE_BIN'])
         else:
             if VERBOSE:
-                print 'STRIDE_BIN not found in environmental variables.'
+                print('STRIDE_BIN not found in environmental variables.')
             self.stride_bin.set('')
 
         # DSSP visualization color
@@ -460,13 +470,13 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             cmd.set(name='pdb_use_ter_records', value=v)  # restore old value
 
         if VERBOSE:
-            print 'Selection %s saved to %s.' % (one_obj_sel, pdb_fn)
+            print('Selection %s saved to %s.' % (one_obj_sel, pdb_fn))
 
         if pdb_fn is None:
-            print 'WARNING: DSSP has no pdb file to work on!'
+            print('WARNING: DSSP has no pdb file to work on!')
             return None
 
-        print 'Running DSSP for %s ...' % (one_obj_sel,)
+        print('Running DSSP for %s ...' % (one_obj_sel,))
         dssp_sse_dict = {}
         if sys.version_info >= (2, 4):
             dssp_proc = subprocess.Popen([self.dssp_bin.get(), pdb_fn],
@@ -484,6 +494,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         sse_started = False
         for line in dssp_stdout.splitlines():
+            if not isinstance(line, str):  # Python 3
+                line = line.decode('ascii', 'ignore')
             if line.startswith('  #  RESIDUE'):
                 sse_started = True
                 continue
@@ -501,7 +513,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 dssp_sse_dict[k] = sscode
 
         self.dssp_rlt_dict[one_obj_sel] = dssp_sse_dict
-        print 'Got SSE for %d residues.' % (len(self.dssp_rlt_dict[one_obj_sel]),)
+        print('Got SSE for %d residues.' % (len(self.dssp_rlt_dict[one_obj_sel]),))
 
         # group residues according to their SSE, and chain name
         for k in self.dssp_rlt_dict[one_obj_sel].keys():
@@ -510,8 +522,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             chn = k[0]
             res = k[2]
             if VERBOSE:
-                print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
-                                                               chn.strip(), res, sse)
+                print('(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
+                                                               chn.strip(), res, sse))
             SSE_res[sse].setdefault(chn, []).append(res)
 
         self.SSE_res_dict[one_obj_sel] = SSE_res
@@ -522,11 +534,11 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         self.SSE_sel_dict[one_obj_sel] = SSE_sel
 
-        print '\nNumber of residues with SSE element:'
+        print('\nNumber of residues with SSE element:')
         for sse in self.DSSP_SSE_list:
             num = sum([len(SSE_res[sse][chn]) for chn in SSE_res[sse]])
-            print '%20s (%s) : %5d' % (self.SSE_name[sse], sse, num)
-        print
+            print('%20s (%s) : %5d' % (self.SSE_name[sse], sse, num))
+        print('')
 
         # clean up pdb_fn and dssp_tmpout_fn created by tempfile.mkstemp()
         if os.path.isfile(pdb_fn):
@@ -557,7 +569,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             if sel in all_sel_names:
                 if cmd.count_atoms(sel) == 0:
                     err_msg = 'ERROR: The selection %s is empty.' % (sel,)
-                    print 'ERROR: %s' % (err_msg,)
+                    print('ERROR: %s' % (err_msg,))
                     tkMessageBox.showinfo(title='ERROR', message=err_msg)
                     return False
                 else:
@@ -569,29 +581,29 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             #       saved separately and SSE should be calculated for each
             #       of the selections.
             else:
-                print 'The selection/object you specified is not found.'
-                print 'Your input will be interpreted as a selection-expression.'
+                print('The selection/object you specified is not found.')
+                print('Your input will be interpreted as a selection-expression.')
                 # check whether the selection is empty
                 tmpsel = self.randomSeleName(prefix='your_sele_')
                 cmd.select(tmpsel, sel)
                 if cmd.count_atoms(tmpsel) == 0:
                     cmd.delete(tmpsel)
                     err_msg = 'ERROR: The selection %s is empty.' % (sel,)
-                    print 'ERROR: %s' % (err_msg,)
+                    print('ERROR: %s' % (err_msg,))
                     tkMessageBox.showinfo(title='ERROR', message=err_msg)
                     return False
                 else:
                     sel_name = tmpsel
         else:   # what structure do you want DSSP to work on?
             err_msg = 'No PyMOL selection/object specified!'
-            print 'ERROR: %s' % (err_msg,)
+            print('ERROR: %s' % (err_msg,))
             tkMessageBox.showinfo(title='ERROR', message=err_msg)
             return False
 
         # each object in the selection is treated as an independent struc
         objlist = cmd.get_object_list(sel_name)
         self.ss_asgn_prog = 'DSSP'
-        print 'Starting %s ...' % (self.ss_asgn_prog, )
+        print('Starting %s ...' % (self.ss_asgn_prog, ))
 
         for objname in objlist:
             self.sel_obj_list.append('%s and %s' % (sel_name, objname))
@@ -623,13 +635,13 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         os.close(pdb_os_fh)
         cmd.save(filename=pdb_fn, selection=one_obj_sel)
         if VERBOSE:
-            print 'Selection %s saved to %s.' % (one_obj_sel, pdb_fn)
+            print('Selection %s saved to %s.' % (one_obj_sel, pdb_fn))
 
         if pdb_fn is None:
-            print 'WARNING: Stride has no pdb file to work on!'
+            print('WARNING: Stride has no pdb file to work on!')
             return None
 
-        print 'Running Stride for %s ...' % (one_obj_sel,)
+        print('Running Stride for %s ...' % (one_obj_sel,))
         stride_sse_dict = {}
         if sys.version_info >= (2, 4):
             stride_proc = subprocess.Popen([self.stride_bin.get(), pdb_fn],
@@ -647,6 +659,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             fh.close()
 
         for line in stride_stdout.splitlines():
+            if not isinstance(line, str):  # Python 3
+                line = line.decode('ascii', 'ignore')
             if line.startswith('ASG'):
                 resname, ch = line[5:8], line[9]
                 # according to stride doc, col 12-15 are used for residue number
@@ -664,7 +678,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 stride_sse_dict[k] = sscode
 
         self.stride_rlt_dict[one_obj_sel] = stride_sse_dict
-        print 'Got SSE for %d residues.' % (len(self.stride_rlt_dict[one_obj_sel]),)
+        print('Got SSE for %d residues.' % (len(self.stride_rlt_dict[one_obj_sel]),))
 
         # group residues according to their SSE, and chain name
         for k in self.stride_rlt_dict[one_obj_sel].keys():
@@ -672,8 +686,8 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             chn = k[0]  # this can be a space!
             res = k[2]
             if VERBOSE:
-                print '(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
-                                                               chn.strip(), res, sse)
+                print('(%s) and \"%s\"/%s/  sse=%s' % (str(one_obj_sel),
+                                                               chn.strip(), res, sse))
             SSE_res[sse].setdefault(chn, []).append(res)
 
         self.SSE_res_dict[one_obj_sel] = SSE_res
@@ -683,11 +697,11 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             SSE_sel[sse] = sse_sel_name
         self.SSE_sel_dict[one_obj_sel] = SSE_sel
 
-        print '\nNumber of residues with SSE element:'
+        print('\nNumber of residues with SSE element:')
         for sse in self.STRIDE_SSE_list:
             num = sum([len(SSE_res[sse][chn]) for chn in SSE_res[sse]])
-            print '%20s (%s) : %5d' % (self.SSE_name[sse], sse, num)
-        print
+            print('%20s (%s) : %5d' % (self.SSE_name[sse], sse, num))
+        print('')
 
         # clean up pdb_fn and dssp_tmpout_fn created by tempfile.mkstemp()
         if os.path.isfile(pdb_fn):
@@ -715,7 +729,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             if sel in all_sel_names:
                 if cmd.count_atoms(sel) == 0:
                     err_msg = 'ERROR: The selection %s is empty.' % (sel,)
-                    print 'ERROR: %s' % (err_msg,)
+                    print('ERROR: %s' % (err_msg,))
                     tkMessageBox.showinfo(title='ERROR', message=err_msg)
                     return False
                 else:
@@ -724,14 +738,14 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             # we assume either a single-word selector or
             # some other selection-expression is uesd
             else:
-                print 'The selection/object you specified is not found.'
-                print 'Your input will be interpreted as a selection-expression.'
+                print('The selection/object you specified is not found.')
+                print('Your input will be interpreted as a selection-expression.')
                 tmpsel = self.randomSeleName(prefix='your_sele_')
                 cmd.select(tmpsel, sel)
                 if cmd.count_atoms(tmpsel) == 0:
                     cmd.delete(tmpsel)
                     err_msg = 'ERROR: The selection %s is empty.' % (sel,)
-                    print 'ERROR: %s' % (err_msg,)
+                    print('ERROR: %s' % (err_msg,))
                     tkMessageBox.showinfo(title='ERROR', message=err_msg)
                     return False
                 else:
@@ -739,14 +753,14 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
 
         else:   # what structure do you want Stride to work on?
             err_msg = 'No PyMOL selection/object specified!'
-            print 'ERROR: %s' % (err_msg,)
+            print('ERROR: %s' % (err_msg,))
             tkMessageBox.showinfo(title='ERROR', message=err_msg)
             return False
 
         # each object in the selection is treated as an independent struc
         objlist = cmd.get_object_list(sel_name)
         self.ss_asgn_prog = 'Stride'
-        print 'Starting %s ...' % (self.ss_asgn_prog, )
+        print('Starting %s ...' % (self.ss_asgn_prog, ))
 
         for objname in objlist:
             self.sel_obj_list.append('%s and %s' % (sel_name, objname))
@@ -773,7 +787,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
         sel_list_chn = []
 
         if VERBOSE:
-            print '\nSelecting SSE %s ... \n' % (sse)
+            print('\nSelecting SSE %s ... \n' % (sse))
 
         for chn in self.SSE_res_dict[sel][sse]:  # color one chain at a time
             if chn == ' ':
@@ -781,7 +795,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             else:
                 chn_str = chn
             if VERBOSE:
-                print 'Selecting SSE %s on chain %s ... \n' % (sse, chn)
+                print('Selecting SSE %s on chain %s ... \n' % (sse, chn))
             limit = 150  # color every 150 residues
             sel_name_chn = self.randomSeleName(prefix='%s_%s_%s_' % ('_'.join(sel.split()), chn_str, sse))
 
@@ -791,16 +805,16 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 sel_expr = '(%s) and \"%s\"/%s/' % (sel, chn.strip(), '+'.join(self.SSE_res_dict[sel][sse][chn]))
                 cmd.select(sel_name_chn, sel_expr)
                 if VERBOSE:
-                    print 'select %s, %s' % (sel_name_chn, sel_expr)
+                    print('select %s, %s' % (sel_name_chn, sel_expr))
                 sel_list_chn.append(sel_name_chn)
             else:
                 rn = len(self.SSE_res_dict[sel][sse][chn])
-                print 'total number of res with %s = %d' % (sse, rn)
+                print('total number of res with %s = %d' % (sse, rn))
                 sz = int(math.ceil(rn / float(limit)))
                 sel_list_seg = []
-                for i in xrange(sz):
+                for i in range(sz):
                     s, e = i * limit, min((i + 1) * limit, rn)
-                    print s, e
+                    print(s, e)
                     #sel_expr = '/%s//%s/%s/' % (sel,chn.strip(), '+'.join(self.SSE_res[sse][chn][s:e]))
                     # always quote chain name in case it is empty (otherwise sel misinterpreted)
                     sel_expr = '(%s) and \"%s\"/%s/' % (sel, chn.strip(),
@@ -808,13 +822,13 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                     sel_name_seg = self.randomSeleName(prefix='%s_%s_%s_tmp_' % ('_'.join(sel.split()), chn_str, sse))
                     cmd.select(sel_name_seg, sel_expr)
                     if VERBOSE:
-                        print 'select %s, %s' % (sel_name_seg, sel_expr)
+                        print('select %s, %s' % (sel_name_seg, sel_expr))
                     sel_list_seg.append(sel_name_seg)
 
                 sel_expr = ' or '.join(sel_list_seg)
                 cmd.select(sel_name_chn, sel_expr)
                 if VERBOSE:
-                    print 'select %s, %s' % (sel_name_chn, sel_expr)
+                    print('select %s, %s' % (sel_name_chn, sel_expr))
                 [cmd.delete(asel) for asel in sel_list_seg]
                 sel_list_chn.append(sel_name_chn)
 
@@ -824,7 +838,7 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             cmd.select(sel_name, sel_expr)
             [cmd.delete(asel) for asel in sel_list_chn]
         else:
-            print 'INFO: No residues are assigned to SSE \'%s\'.' % (sse,)
+            print('INFO: No residues are assigned to SSE \'%s\'.' % (sse,))
             sel_name = None
 
         return sel_name
@@ -832,11 +846,11 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
     def updateColor(self):
         if self.ss_asgn_prog is None:
             err_msg = 'Run DSSP or Stride to assign secondary structures first!'
-            print 'ERROR: %s' % (err_msg,)
+            print('ERROR: %s' % (err_msg,))
             tkMessageBox.showinfo(title='ERROR', message=err_msg)
         else:
-            print 'Update color for %s' % (self.pymol_sel.get()),
-            print 'using secondary structure assignment by %s' % (self.ss_asgn_prog,)
+            print('Update color for %s' % (self.pymol_sel.get()), end=' ')
+            print('using secondary structure assignment by %s' % (self.ss_asgn_prog,))
 
             if self.ss_asgn_prog == 'DSSP':
                 SSE_list = self.DSSP_SSE_list
@@ -849,21 +863,21 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 for sel_obj in self.sel_obj_list:
                     if self.SSE_sel_dict[sel_obj][sse] is not None:
                         cmd.color('%s_color' % (sse,), self.SSE_sel_dict[sel_obj][sse])
-                        print 'color', self.SSE_sel_dict[sel_obj][sse], ',', self.SSE_col_RGB[sse]
+                        print('color', self.SSE_sel_dict[sel_obj][sse], ',', self.SSE_col_RGB[sse])
                     else:
-                        print 'No residues with SSE \'%s\' to color.' % (sse,)
+                        print('No residues with SSE \'%s\' to color.' % (sse,))
 
         return
 
     def updateSS(self):
         if self.ss_asgn_prog is None:
             err_msg = 'Run DSSP or Stride to assign secondary structures first!'
-            print 'ERROR: %s' % (err_msg,)
+            print('ERROR: %s' % (err_msg,))
             tkMessageBox.showinfo(title='ERROR', message=err_msg)
         else:
-            print 'Update secondary structures for %s' % (self.pymol_sel.get()),
-            print 'using secondary structure assignment by %s' % (self.ss_asgn_prog,)
-            print 'SSE mapping: (H,G,I) ==> H; (E,B,b) ==> S; (T,S,-,C) ==> L'
+            print('Update secondary structures for %s' % (self.pymol_sel.get()), end=' ')
+            print('using secondary structure assignment by %s' % (self.ss_asgn_prog,))
+            print('SSE mapping: (H,G,I) ==> H; (E,B,b) ==> S; (T,S,-,C) ==> L')
 
             if self.ss_asgn_prog == 'DSSP':
                 SSE_list = self.DSSP_SSE_list
@@ -874,9 +888,9 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 for sel_obj in self.sel_obj_list:
                     if self.SSE_sel_dict[sel_obj][sse] is not None:
                         cmd.alter(self.SSE_sel_dict[sel_obj][sse], 'ss=\'%s\'' % (self.SSE_map[sse],))
-                        print 'alter %s, ss=%s' % (self.SSE_sel_dict[sel_obj][sse], self.SSE_map[sse])
+                        print('alter %s, ss=%s' % (self.SSE_sel_dict[sel_obj][sse], self.SSE_map[sse]))
                     else:
-                        print 'No residue with SSE %s to update ss.' % (sse,)
+                        print('No residue with SSE %s to update ss.' % (sse,))
 
             # show cartoon for the input selection, and rebuild
             cmd.show('cartoon', self.pymol_sel.get())
@@ -939,23 +953,23 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
                 SSE_col_but[sse]['activebackground'] = self.SSE_col[sse]
                 SSE_col_but[sse].update()
         except Tkinter._tkinter.TclError:
-            print 'Old color (%s) will be used.' % (self.mesh_col)
+            print('Old color (%s) will be used.' % (self.mesh_col))
 
     def execute(self, butcmd):
         """ Run the cmd represented by the botton clicked by user.
         """
         if butcmd == 'OK':
-            print 'is everything OK?'
+            print('is everything OK?')
 
         elif butcmd == 'Run DSSP':
             rtn = self.runDSSP()
             if rtn and VERBOSE:
-                print 'Done with DSSP!'
+                print('Done with DSSP!')
 
         elif butcmd == 'Run Stride':
             rtn = self.runStride()
             if rtn and VERBOSE:
-                print 'Done with Stride!'
+                print('Done with Stride!')
 
         elif butcmd == 'Update Color':
             self.updateColor()
@@ -964,16 +978,16 @@ Hongbo Zhu. DSSP and Stride plugin for PyMOL, 2011, BIOTEC, TU Dresden.
             self.updateSS()
 
         elif butcmd == 'Exit':
-            print 'Exiting DSSP and Stride Plugin ...'
+            print('Exiting DSSP and Stride Plugin ...')
             if __name__ == '__main__':
                 self.parent.destroy()
             else:
                 self.dialog.withdraw()
-            print 'Done.'
+            print('Done.')
         else:
-            print 'Exiting DSSP and Stride Plugin because of unknown button click ...'
+            print('Exiting DSSP and Stride Plugin because of unknown button click ...')
             self.dialog.withdraw()
-            print 'Done.'
+            print('Done.')
 
     def quit(self):
         self.dialog.destroy()
