@@ -173,7 +173,7 @@ class eMovie:
 def __init__(self):
 
     self.menuBar.addcascademenu('Plugin', 'eMovie', 'eMovie plugin', label='eMovie')
-    self.menuBar.addmenuitem('eMovie', 'command', 'Open eMovie', label='Open eMovie', command=lambda: open_eMovie())
+    self.menuBar.addmenuitem('eMovie', 'command', 'Open eMovie', label='Open eMovie', command=lambda: open_eMovie(self.root))
 
     # also initialize Kristian Rother's movie.py commands
     #
@@ -204,9 +204,9 @@ def __init__(self):
     # open_eMovie()
 
 
-def open_eMovie():
+def open_eMovie(parent=None):
     global root
-    root = Tk()
+    root = Toplevel(parent)
     root.title(' eMovie 1.04 ')
     global emovie
     emovie = eMovie(root)
