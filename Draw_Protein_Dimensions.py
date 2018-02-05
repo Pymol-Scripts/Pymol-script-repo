@@ -20,9 +20,11 @@ License: MIT
 from __future__ import print_function
 
 __author__  = 'Pablo Guardado Calvo'
-__version__ = '0.1'
+__version__ = '0.2'
 __email__   = 'pablo.guardado (at) gmail.com'
 __date__    = '13/08/2015'
+__modification_date__ = '05/02/2018'
+__modification_reason__ = 'Error in the code produced sometimes inverted structures'
 
 ###########################################################################################################################################################
 # USAGE
@@ -170,7 +172,7 @@ def rotacion_orig(selection):
 	ord_autovect_array = numpy.array([[ord_autovect[0][0], ord_autovect[0][1], ord_autovect[0][2]],
 	                                  [ord_autovect[1][0], ord_autovect[1][1], ord_autovect[1][2]],
 					  [ord_autovect[2][0], ord_autovect[2][1], ord_autovect[2][2]]])
-	if numpy.linalg.det(ord_autovect_array) == -1:
+	if numpy.linalg.det(ord_autovect_array) < 0.:
 		ord_autovect_array = numpy.array([[ord_autovect[2][0], ord_autovect[2][1], ord_autovect[2][2]],
 	                                  	  [ord_autovect[1][0], ord_autovect[1][1], ord_autovect[1][2]],
 	 				  	  [ord_autovect[0][0], ord_autovect[0][1], ord_autovect[0][2]]])
