@@ -1,7 +1,6 @@
 from __future__ import print_function
 from pymol import cmd
 import os
-import platform
 import sys
 import math
 from time import localtime, strftime
@@ -253,20 +252,11 @@ def cyspka(molecule, chain, residue, SeeProgress='yes', pH=7.2, MoveSGatom='no',
 
     # Lets make a result file, and write out the angle, the SumMCSC, and the number of neighbours for this state.
     Currentdir = os.getcwd()
-    if platform.system() == 'Windows':
-        Newdir = os.getcwd() + "\Results"
-    if platform.system() == 'Linux':
-        Newdir = os.getcwd() + "/Results"
+    Newdir = os.path.join(os.getcwd(), "Results")
     if not os.path.exists(Newdir):
         os.makedirs(Newdir)
-    if platform.system() == 'Windows':
-        filename = ".\Results\Result_" + molecule + "_" + chain + "_" + residue + ".txt"
-    if platform.system() == 'Windows':
-        filenamelog = ".\Results\Result_log.log"
-    if platform.system() == 'Linux':
-        filename = "./Results/Result_" + molecule + "_" + chain + "_" + residue + ".txt"
-    if platform.system() == 'Linux':
-        filenamelog = "./Results/Result_log.log"
+    filename = os.path.join(".", "Results", "Result_" + molecule + "_" + chain + "_" + residue + ".txt")
+    filenamelog = os.path.join(".", "Results", "Result_log.log")
     logfile = open(filenamelog, "a")
     outfile = open(filename, "w")
     timeforlog = strftime("%Y %b %d %a %H:%M:%S", localtime())
