@@ -369,7 +369,8 @@ def run(prog, args):
     except IOError:
         print("Error opening output_file when trying to run the APBS command.")
 
-    print("Running:\n\tprog=%s\n\targs=%s" % (prog, args))
+    if DEBUG:
+        print("Running:\n\tprog=%s\n\targs=%s" % (prog, args))
     retcode = subprocess.call(args, stdout=output_file.fileno(), stderr=subprocess.STDOUT)
     output_file.seek(0)
     #prog_out = output_file.read()
@@ -638,6 +639,11 @@ class APBSTools2:
                                  title = 'PyMOL APBS Tools',
                                  command = self.execute)
         self.dialog.withdraw()
+
+        if sys.platform.startswith('win'):
+            # avoid crash on Windows with PyMOL 2.0 (PyQt)
+            self.dialog.resizable(0, 0)
+
         Pmw.setbusycursorattributes(self.dialog.component('hull'))
 
         w = Tkinter.Label(self.dialog.interior(),
@@ -912,6 +918,17 @@ class APBSTools2:
         # here than it is to make the get_default_location check
         # recursively for everything.
         apbs_location = ''
+        psize_location = ''
+
+        try:
+            import freemol.apbs
+            apbs_location = freemol.apbs.get_exe_path()
+            psize_location = freemol.apbs.get_psize_path()
+        except:
+            pass
+
+        if not psize_location:
+            psize_location = get_default_location('psize.py')
         if not apbs_location:
             apbs_location = get_default_location('apbs.exe')
         if not apbs_location:
@@ -943,7 +960,7 @@ class APBSTools2:
                                      label_pyclass=FileDialogButtonClassFactory.get(self.setPsizeLocation),
                                      validate={'validator': quickFileValidation, },
                                      #value = '/usr/local/apbs-0.3.1/tools/manip/psize.py',
-                                     value=get_default_location('psize.py'),
+                                     value=psize_location,
                                      label_text='APBS psize.py location:',
                                      )
         self.psize.pack(fill='x', padx=20, pady=10)
@@ -1137,10 +1154,10 @@ Citation for PDB2PQR:
     def execute(self, result, refocus=True):
         if result == 'Register APBS Use':
             import webbrowser
-            webbrowser.open("http://www.poissonboltzmann.org/docs/apbs-registration/")
+            webbrowser.open("http://www.poissonboltzmann.org/")
         elif result == 'Register PDB2PQR Use':
             import webbrowser
-            webbrowser.open("http://www.poissonboltzmann.org/docs/apbs-registration/")
+            webbrowser.open("http://www.poissonboltzmann.org/")
         elif result == 'Run APBS':
             good = self.generateApbsInputFile()
             if not good:
@@ -1431,9 +1448,10 @@ Citation for PDB2PQR:
         print("Erasing contents of", filename, "in order to clean it up")
         f = open(filename, 'w')
         # APBS accepts whitespace-delimited columns
-        # it doesn't care about non-coord lines, so there's not need to be careful about
-        # where we replace dashes.
-        txt = txt.replace('-', ' -')
+        coordregex = r'([- 0-9]{4}\.[ 0-9]{3})'
+        txt = re.sub(
+                r'^(ATOM  |HETATM)(........................)' + 3 * coordregex,
+                r'\1\2 \3 \4 \5', txt, flags=re.M)
         f.write(txt)
         f.close()
 
@@ -1683,7 +1701,6 @@ Citation for PDB2PQR:
 
         self.fixColumns(apbs_clone)
         pymol.cmd.save(pdb_filename, apbs_clone)
-        self.cleanupGeneratedPdbOrPqrFile(pdb_filename)
 
         pymol.cmd.delete(apbs_clone)
         #
@@ -1699,18 +1716,17 @@ Citation for PDB2PQR:
         #
         # We have to be a little cute about args, because _options could have several options in it.
 
-        print("TESTING")
-        # run('/tmp/tmp.py',())
-        print("DONE TESTING")
-        args = '%s %s %s' % (self.pdb2pqr_options.getvalue(),
+        if DEBUG:
+            print("TESTING")
+            # run('/tmp/tmp.py',())
+            print("DONE TESTING")
+
+        import shlex
+        args = [self.pdb2pqr.getvalue(),
+                ] + shlex.split(self.pdb2pqr_options.getvalue()) + [
                             pdb_filename,
                             self.pymol_generated_pqr_filename.getvalue(),
-                            )
-        if type(args) == type(''):
-            args = tuple(args.split())
-        elif type(args) in (type([]), type(())):
-            args = tuple(args)
-        args = (self.pdb2pqr.getvalue(),) + args
+        ]
         try:
             # This allows us to import pdb2pqr
             # sys.path.append(os.path.dirname(os.path.dirname(self.pdb2pqr.getvalue())))
@@ -1771,7 +1787,8 @@ Citation for PDB2PQR:
             print("Unassigned atom IDs", unassigned_atoms)
             show_error(message_text)
             return False
-        print("I WILL RETURN TRUE from pdb2pqr")
+        if DEBUG:
+            print("I WILL RETURN TRUE from pdb2pqr")
         return True
 
     # PQR generation routines are required to call
@@ -1800,7 +1817,8 @@ Citation for PDB2PQR:
 
         pqr_filename = self.getPqrFilename()
         try:
-            print("Erasing previous contents of", pqr_filename)
+            if DEBUG:
+                print("Erasing previous contents of", pqr_filename)
             f = open(pqr_filename, 'w')
             f.close()
         except:
@@ -2350,7 +2368,7 @@ class VisualizationGroup(Pmw.Group):
                                             label_text='Low',
                                             orient='vertical',
                                             entry_width=4,
-                                            entryfield_value=-1,
+                                            entryfield_value=-5,
                                             datatype='real',
                                             entryfield_validate={'validator': 'real'},
                                             )
@@ -2368,7 +2386,7 @@ class VisualizationGroup(Pmw.Group):
                                              label_text='High',
                                              orient='vertical',
                                              entry_width=4,
-                                             entryfield_value=1,
+                                             entryfield_value=5,
                                              datatype='real',
                                              entryfield_validate={'validator': 'real'}
                                              )
@@ -2475,7 +2493,8 @@ If you have a molecule and a map loaded, please click "Update"''',
         mid = float(self.mol_surf_middle.getvalue())
         high = float(self.mol_surf_high.getvalue())
         range = [low, mid, high]
-        print(" APBS Tools: range is", range)
+        if DEBUG:
+            print(" APBS Tools: range is", range)
         pymol.cmd.delete(ramp_name)
         pymol.cmd.ramp_new(ramp_name, map_name, range)
         pymol.cmd.set('surface_color', ramp_name, molecule_name)
