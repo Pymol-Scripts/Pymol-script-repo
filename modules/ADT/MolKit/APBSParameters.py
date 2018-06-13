@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # $Header: /opt/cvs/python/packages/share1.5/MolKit/APBSParameters.py,v 1.24 2009/09/23 01:34:50 sanner Exp $

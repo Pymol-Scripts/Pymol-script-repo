@@ -1,6 +1,5 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from bhtree import bhtreelib
 #
 # $Header: /opt/cvs/python/packages/share1.5/mglutil/bhtfunctions.py,v 1.9 2007/07/24 17:30:40 vareille Exp $

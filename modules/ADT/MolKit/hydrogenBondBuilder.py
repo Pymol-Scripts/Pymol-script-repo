@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 ############################################################################
 #
@@ -89,7 +88,7 @@ from MolKit.molecule import Atom, AtomSet, HydrogenBond
 from MolKit.distanceSelector import DistanceSelector
 
 #needed for some math..
-import numpy.oldnumeric as Numeric, math
+import numpy as Numeric, math
 
 #set up lists of types for donors/acceptors
 sp2Donors = ['Nam', 'Ng+', 'Npl']

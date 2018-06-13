@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Mon Mar 15 17:47:37 PST 2004 by lindy
@@ -17,7 +16,7 @@ Some definitions:
 
 import string
 import sys
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 import UserList
 
 class Cluster(UserList.UserList):

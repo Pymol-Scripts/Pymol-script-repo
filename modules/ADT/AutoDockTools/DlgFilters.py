@@ -25,7 +25,7 @@ filter_instance.filter(dlg) returns True/False
 
 """
 from string import strip
-from numpy import oldnumeric as Numeric
+import numpy as Numeric
 
 class Filter:
     """

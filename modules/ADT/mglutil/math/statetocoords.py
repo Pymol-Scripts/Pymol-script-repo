@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Tue Apr 23 09:20:22 PDT 2002 by lindy
@@ -15,7 +14,7 @@ space. The Kinematics class handles those transformations that
 apply to the internal nodes to the torTree (ie. torsions) changing
 the coordinates in the molecules local coordinate system.
 """
-import numpy.oldnumeric as Numeric, math
+import numpy as Numeric, math
 from mglutil.math.transformation import Transformation
 from mglutil.math.kinematics import Kinematics
 

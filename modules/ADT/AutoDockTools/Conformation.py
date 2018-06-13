@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Copyright: M. Sanner TSRI 2002
@@ -10,7 +9,7 @@
 
 import math
 import string
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 from mglutil.math.rmsd import RMSDCalculator
 from mglutil.math.statetocoords import StateToCoords

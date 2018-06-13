@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #########################################################################
 #
@@ -11,7 +10,7 @@
 #
 #########################################################################
 
-import Tkinter, numpy.oldnumeric as Numeric, string, math
+import Tkinter, numpy as Numeric, string, math
     
 from mglutil.math.rotax import rotax
 from mglutil.gui.Misc.Tk.KeybdModMonitor import KeyboardModifierMonitor

@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 ##  Copyright 1997-1999 by Konrad Hinsen, except as noted below.
 
@@ -25,7 +24,7 @@
 
 _undocumented = 1
 
-import numpy.oldnumeric as Numeric, types
+import numpy as Numeric, types
 import VectorModule
 
 class Tensor:
@@ -179,7 +178,7 @@ class Tensor:
     def eigenvalues(self):
         "Returns the eigenvalues of a rank-2 tensor in an array."
 	if self.rank == 2:
-	    from numpy.oldnumeric.linear_algebra import eigenvalues
+	    from numpy.linalg import eigvals as eigenvalues
 	    return eigenvalues(self.array)
 	else:
 	    raise ValueError, 'Undefined operation'
@@ -188,8 +187,9 @@ class Tensor:
         """Returns the eigenvalues of a rank-2 tensor and a tensor
         representing the rotation matrix to the diagonalized form."""
 	if self.rank == 2:
-	    from numpy.oldnumeric.linear_algebra import eigenvectors
-            ev, vectors = eigenvectors(self.array)
+	    from numpy.linalg import eig
+	    ev, vectors = eig(self.array)
+	    vectors = vectors.T
 	    return ev, Tensor(vectors)
 	else:
 	    raise ValueError, 'Undefined operation'
@@ -197,7 +197,7 @@ class Tensor:
     def inverse(self):
         "Returns the inverse of a rank-2 tensor."
 	if self.rank == 2:
-	    from numpy.oldnumeric.linear_algebra import inverse
+	    from numpy.linalg import inv as inverse
 	    return Tensor(inverse(self.array))
 	else:
 	    raise ValueError, 'Undefined operation'

@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 ############################################################################
 #
@@ -23,11 +22,11 @@ structures with higher level of hierarchies (see protein.py)
 import string, types, re
 #import misc
 from mglutil.util import misc
-from numpy.oldnumeric import sum, array, less_equal, take, nonzero, argsort
+from numpy import sum, array, less_equal, take, nonzero, argsort
 from MolKit.tree import TreeNode, TreeNodeSet, TreeNodeSetSelector
 from math import sqrt
 # from hbtree import bhtreelib
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 global bhtreeFlag
 try:

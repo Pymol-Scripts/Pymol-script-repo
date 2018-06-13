@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -31,7 +30,7 @@ import Pmw
 from time import sleep
 import types
 
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 try:
     from PIL import Image, ImageTk

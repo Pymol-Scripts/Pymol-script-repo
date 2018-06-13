@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -50,7 +49,7 @@ AddISOTxt = "An ISO value can be added by pressing 'Add new isovalue'\nbutton of
 DescriptionText = "Widget description:\nThe function is drawn at the top of the interface\nas a series of circles (dots) connected by line segments.\nThe X location of each dot indicates the data value,\nthe Y location indicates the opacity of that data value.\n" + SelectPointTxt + SetOpacityTxt + SetColorTxt + AddDotShapeTxt + MoveShapeTxt + DeleteDotTxt + LoadLUTTxt+ SaveLUTTxt+ SaveTFTxt + SplitMenuTxt+ ResetMenuTxt + AddISOTxt
 
 import Tkinter
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 import Pmw
 import math
 

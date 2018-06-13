@@ -87,7 +87,7 @@ from Pmv.guiTools import MoleculeChooser
 from Pmv.qkollua import q
 from SimpleDialog import SimpleDialog
 
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 import types, Tkinter, math, os, Pmw, tkMessageBox
 from string import split, find
 

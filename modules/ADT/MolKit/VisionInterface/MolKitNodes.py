@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #########################################################################
 #
@@ -16,7 +15,7 @@
 #########################################################################
 
 import warnings
-import numpy.oldnumeric as Numeric, string, os
+import numpy as Numeric, string, os
 
 from NetworkEditor.items import NetworkNode
 from Vision import UserLibBuild
@@ -261,7 +260,7 @@ class CenterAndRadius(NetworkNode):
         op.append(datatype='float', name='radius')
 
         code = """def doit(self, molecules):
-    import numpy.oldnumeric as Numeric
+    import numpy as Numeric
     from math import sqrt
     centers = []
     radii = []
@@ -477,7 +476,7 @@ class CalculateGasteigerCharges(NetworkNode):
     calculator = GasteigerChargeCalculator()
     for mol in mols:
         calculator.addCharges(mol.allAtoms)
-    import numpy.oldnumeric as Numeric
+    import numpy as Numeric
     charge_total = Numeric.add.reduce(mols.allAtoms.charge)
     self.outputData(mols=mols, charge_total=charge_total)
 """
@@ -502,7 +501,7 @@ class AddKollmanCharges(NetworkNode):
     calculator = KollmanChargeCalculator()
     for mol in mols:
         calculator.addCharges(mol.allAtoms)
-    import numpy.oldnumeric as Numeric
+    import numpy as Numeric
     charge_total = Numeric.add.reduce(mols.allAtoms.charge)
     self.outputData(mols=mols, charge_total=charge_total)
 """
@@ -1083,7 +1082,7 @@ try:
                 intats.append(a)
 
         if cutoff!=0.0:
-            import numpy.oldnumeric as Numeric
+            import numpy as Numeric
             points = Numeric.array(vf[:,:3], 'f')
             ids = Numeric.arange(len(points)).astype('i')
             result = Numeric.zeros( (len(points),) ).astype('i')
@@ -1764,7 +1763,7 @@ class BondsByDist(NetworkNode):
 # support ofr MSMS server node
 #################################################
 
-import types, numpy.oldnumeric as Numeric, re
+import types, numpy as Numeric, re
 
 class PublicHttpServer:
 
@@ -1899,7 +1898,7 @@ class RemoteMSMS(NetworkNode):
         try: colors = atoms.colors
         except: colors = ( (0.7, 0.7, 0.7), )
 
-    import numpy.oldnumeric as Numeric
+    import numpy as Numeric
     radii = Numeric.array(radii)
     radii.shape = (-1, 1)
     coords = Numeric.concatenate( (atoms.coords, radii), 1 )

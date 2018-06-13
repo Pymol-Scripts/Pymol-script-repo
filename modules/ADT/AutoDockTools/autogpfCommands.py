@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -126,7 +125,7 @@ from Pmv.guiTools import MoleculeChooser
 from Pmv.qkollua import q
 from SimpleDialog import SimpleDialog
 import types, Tkinter, math, os
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 
 from energyConstants import Rij, epsij, SolVol, SolPar, SolCon
@@ -176,7 +175,7 @@ from DejaVu.Box import Box
 from DejaVu import viewerConst
 from DejaVu.bitPatterns import patternList
 from opengltk.OpenGL import GL
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 face=((0,3,2,1),(3,7,6,2),(7,4,5,6),(0,1,5,4),(1,2,6,5),(0,4,7,3))
 coords=((1,1,-1),(-1,1,-1),(-1,-1,-1),(1,-1,-1),(1,1,1),(-1,1,1),(-1,-1,1),(1,-1,1))

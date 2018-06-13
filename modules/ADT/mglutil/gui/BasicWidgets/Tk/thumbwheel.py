@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #########################################################################
 #
@@ -12,7 +11,7 @@
 #########################################################################
 
 import Tkinter
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 import math
 import types
 import sys

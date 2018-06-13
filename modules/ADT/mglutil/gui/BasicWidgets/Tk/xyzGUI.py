@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 ########################################################################
 #
@@ -10,7 +9,7 @@
 #
 #########################################################################
 
-import Tkinter, numpy.oldnumeric as Numeric, string, math
+import Tkinter, numpy as Numeric, string, math
 
 from mglutil.util.callback import CallbackManager
 from thumbwheel import ThumbWheel

@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -40,7 +39,7 @@ This Module facilitates producing a  files for AutoDock. The steps in this proce
     * The results of the previous steps are written to a file. The user selects a filename via a filebrowser.  
     
 """
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 from DejaVu import viewerConst
 from ViewerFramework.VFCommand import CommandGUI

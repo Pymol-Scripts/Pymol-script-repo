@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -22,7 +21,7 @@ in the second set and the second 'distDict' which has values of distances
 corresponding to key-value pairs in pairDict.
 """
 
-import numpy.oldnumeric as Numeric, types, string, math
+import numpy as Numeric, types, string, math
 from molecule import AtomSet
 from protein import ResidueSet
 

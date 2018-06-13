@@ -35,7 +35,7 @@ For example, in the case of hsg1, a file could potentially contain only A:ARG8 a
 
 """
 from string import strip
-from numpy import oldnumeric as Numeric
+import numpy as Numeric
 from MolKit import Read
 from MolKit.molecule import MoleculeSet, Atom, AtomSet, HydrogenBond, BondSet
 from MolKit.protein import Residue, ResidueSet
@@ -44,7 +44,7 @@ from MolKit.hydrogenBondBuilder import HydrogenBondBuilder
 from PyBabel.cycle import RingFinder
 from PyBabel.aromatic import Aromatic
 from MolKit.bondSelector import AromaticCycleBondSelector
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from mglutil.math import crossProduct
 
 

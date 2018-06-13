@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #!/usr/bin/env python2.3
 #
@@ -8,7 +7,7 @@
 #
 #
 import os, string
-import numpy.oldnumeric as Numeric, math 
+import numpy as Numeric, math 
 
 from MolKit import Read
 from MolKit.torTree import TorTree

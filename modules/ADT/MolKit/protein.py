@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -28,7 +27,7 @@ from MolKit.molecule import Molecule, MoleculeSet, Atom, AtomSet, Bond
 import re
 from types import NoneType, StringType, IntType, TupleType, FloatType, ListType
 from string import split, upper, find
-from numpy.oldnumeric import sum
+from numpy import sum
 global bhtreeFlag
 try:
     import bhtree
@@ -636,7 +635,7 @@ class ResidueSetSelector(TreeNodeSetSelector):
 
 
     def testSequence(self, item):
-        import numpy.oldnumeric as Numeric
+        import numpy as Numeric
         try:
             ans = Numeric.add.reduce(map(self.testR,item))==len(item)
         except:

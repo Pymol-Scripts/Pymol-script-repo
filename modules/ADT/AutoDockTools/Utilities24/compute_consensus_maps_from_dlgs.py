@@ -6,7 +6,7 @@
 #
 # $Id: compute_consensus_maps_from_dlgs.py,v 1.8 2007/10/09 17:30:07 annao Exp $
 #
-import os, glob, numpy.oldnumeric as Numeric, math
+import os, glob, numpy as Numeric, math
 from AutoDockTools.Docking import Docking
 from PyAutoDock.AutoGrid import GridMap
 from MolKit.molecule import Atom, AtomSet, Bond, Molecule

@@ -1,6 +1,5 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
-import numpy.oldnumeric as Numeric
+import numpy, numpy as Numeric
 N=Numeric
 import types
 
@@ -23,7 +22,7 @@ def norm (A):
         A=Numeric.array(A,'f')
         res= A/Numeric.sqrt(Numeric.dot(A,A))
         return res.tolist()    
-    elif type(A)==Numeric.ArrayType:    
+    elif isinstance(A, numpy.ndarray):
         return A/Numeric.sqrt(Numeric.dot(A,A))    
     else:
         print "Need a list or Numeric array"

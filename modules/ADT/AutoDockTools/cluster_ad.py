@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Thu Aug  9 16:32:21 PDT 2001 by lindy
@@ -6,8 +5,7 @@
 # This is the python translation of cluster_analysis.cc from
 # the AutoDock code.
 
-#import numpy.oldnumeric as N
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 N = Numeric
 import UserList
 from mglutil.math.rmsd import RMSDCalculator

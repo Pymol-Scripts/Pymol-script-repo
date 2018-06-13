@@ -7,7 +7,7 @@
 # $Id: summarize_epdb_results4.py,v 1.2 2010/02/03 00:08:25 rhuey Exp $
 #
 import os, glob
-from numpy import oldnumeric as Numeric
+import numpy as Numeric
 from AutoDockTools.EpdbParser import EpdbParser
 
 

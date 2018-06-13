@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -19,7 +18,7 @@
 This class calculates the AutoDock internal energy for a set of atoms.
 """
 
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from math import sqrt
 from AutoDockTools.energyConstants import Rij, epsij
 from MolKit.molecule import AtomSet

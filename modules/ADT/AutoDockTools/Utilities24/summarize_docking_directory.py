@@ -5,7 +5,7 @@
 
 import logging as log
 import os, glob
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 import string
 
 from MolKit import Read

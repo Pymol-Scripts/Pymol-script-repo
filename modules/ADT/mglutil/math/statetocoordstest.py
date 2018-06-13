@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Thu Sep  6 12:14:22 PDT 2001 by lindy
@@ -11,7 +10,7 @@
 
 from mglutil.math.statetocoords import StateToCoords
 import unittest, math
-import numpy.oldnumeric as Numeric, numpy.oldnumeric.random_array as RandomArray
+import numpy as Numeric, numpy.random.mtrand as RandomArray
 from UserList import UserList
 
 

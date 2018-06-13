@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -26,7 +25,7 @@ and assign the results to individual atoms.
 
 """
 
-import Tkinter, numpy.oldnumeric as Numeric, Pmw
+import Tkinter, numpy as Numeric, Pmw
 
 from PyAutoDock.MolecularSystem import MolecularSystem
 from PyAutoDock.scorer import WeightedMultiTerm, Distance

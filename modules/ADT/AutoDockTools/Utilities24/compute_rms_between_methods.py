@@ -5,7 +5,7 @@
 # $Header: /opt/cvs/python/packages/share1.5/AutoDockTools/Utilities24/compute_rms_between_methods.py,v 1.5 2007/10/09 17:30:07 annao Exp $
 #
 import os, glob
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from math import sqrt
 
 from MolKit import Read

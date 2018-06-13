@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -27,7 +26,7 @@ This Object parses the result of an AutoDock job and returns a dictionary.
 import os
 from string import find, join, replace, split, rfind, strip
 import re
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 from AutoDockTools.ResultParser import ResultParser
 
