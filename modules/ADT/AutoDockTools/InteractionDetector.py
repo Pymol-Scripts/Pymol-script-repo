@@ -44,7 +44,6 @@ from MolKit.hydrogenBondBuilder import HydrogenBondBuilder
 from PyBabel.cycle import RingFinder
 from PyBabel.aromatic import Aromatic
 from MolKit.bondSelector import AromaticCycleBondSelector
-import numpy as Numeric
 from mglutil.math import crossProduct
 
 

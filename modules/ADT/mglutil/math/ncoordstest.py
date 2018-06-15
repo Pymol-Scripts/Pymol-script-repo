@@ -25,7 +25,6 @@ import numpy as Numeric, numpy.random.mtrand as RandomArray
 
 
 
-
 class NcoordsTest(unittest.TestCase):
     def setUp(self):
         """Called for every test."""
