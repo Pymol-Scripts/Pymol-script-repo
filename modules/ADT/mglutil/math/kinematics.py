@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Mon Oct 15 15:33:49 PDT 2001 by lindy
@@ -17,7 +16,7 @@ world coordinates (using translation, orientation, and origin).
 
 #from mglutil.math.ncoords import Ncoords
 from mglutil.math.rotax import rotax
-import numpy.oldnumeric as Numeric, math
+import numpy as Numeric, math
 
 
 class Kinematics:

@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #!/usr/bin/env python
 #
@@ -14,7 +13,7 @@ Implements method described in:
   doi:10.1098/rspa.2007.1823
 """
 
-import numpy.oldnumeric as N
+import numpy as N
 import math
 
     

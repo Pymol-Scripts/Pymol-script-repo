@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 ##############################################################################
 #
@@ -24,7 +23,7 @@ import types,os
 from mglutil.util.callback import CallBackFunction
 from mglutil.util.callback import CallbackManager
 from mglutil.util.misc import ensureFontCase
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from mglutil.gui.BasicWidgets.Tk.thumbwheel import ThumbWheel
 import Pmw
 from Pmw import *

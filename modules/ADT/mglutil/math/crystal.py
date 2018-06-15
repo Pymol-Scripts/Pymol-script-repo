@@ -1,6 +1,5 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
-import numpy.oldnumeric as Numeric, types
+import numpy as Numeric, types
 
 def EulerAnglesToMat( angles ):
     """Builds a rotation matrix from Euler angles given in degrees"""

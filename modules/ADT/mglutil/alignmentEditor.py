@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # $Header: /opt/cvs/python/packages/share1.5/mglutil/alignmentEditor.py,v 1.7 2007/07/24 17:30:40 vareille Exp $
@@ -9,7 +8,7 @@
 
 
 import os
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from mglutil.math import rigidFit
 from MolKit import pdbWriter
 import Tkinter

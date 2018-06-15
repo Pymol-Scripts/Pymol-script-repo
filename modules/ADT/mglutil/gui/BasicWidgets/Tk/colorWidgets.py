@@ -12,7 +12,7 @@
 #
 
 import Tkinter, Pmw, os
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from types import ListType, TupleType
 from mglutil.util.callback import CallbackFunction, CallbackManager
 from mglutil.util.colorUtil import ToRGB, ToHSV, ToHEX

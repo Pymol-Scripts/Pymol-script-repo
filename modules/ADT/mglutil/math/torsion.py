@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #taken from Pmv/measureCommands.py
 
@@ -9,7 +8,7 @@ def torsion( x1, x2, x3, x4):
     Raises a ValueError if angle is not defined.
     """
     from math import sqrt, acos
-    import numpy.oldnumeric as Numeric
+    import numpy as Numeric
     N=Numeric
     
     tang=0.0
@@ -52,7 +51,7 @@ def vvmult( a, b):
     """
     Compute a vector product for 3D vectors
     """
-    import numpy.oldnumeric as Numeric
+    import numpy as Numeric
     res = Numeric.zeros(3, 'f')
     res[0] = a[1]*b[2] - a[2]*b[1]
     res[1] = a[2]*b[0] - a[0]*b[2]

@@ -4,7 +4,7 @@ import os
 from MolKit import Read
 from MolKit.pdbWriter import PdbWriter, PdbqsWriter, PdbqWriter, PdbqtWriter
 from mglutil.math.rotax import rotax
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 
 if __name__ == '__main__':

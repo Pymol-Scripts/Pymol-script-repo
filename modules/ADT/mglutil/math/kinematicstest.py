@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Thu Jan 24 16:14:31 PST 2002 by lindy
@@ -40,7 +39,7 @@ Requirements for kinematics.py:
 from mglutil.math.kinematics import Kinematics
 from mglutil.math.transformation import Transformation
 import unittest, math
-import numpy.oldnumeric as Numeric, numpy.oldnumeric.random_array as RandomArray
+import numpy as Numeric, numpy.random.mtrand as RandomArray
 from UserList import UserList
 
 

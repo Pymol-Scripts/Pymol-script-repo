@@ -22,7 +22,7 @@ docking experiment
 from mglutil.gui.BasicWidgets.Tk.player import Player
 import Tkinter, Pmw, tkMessageBox
 import types, time, os
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from string import find
 from mglutil.util.callback import CallBackFunction
 from mglutil.gui.InputForm.Tk.gui import InputFormDescr, InputForm, evalString

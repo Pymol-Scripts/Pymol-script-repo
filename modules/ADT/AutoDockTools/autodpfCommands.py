@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -105,7 +104,7 @@ This Module facilitates producing a docking parameter file for AutoDock. The ste
     
 """
 
-import os, numpy.oldnumeric as Numeric
+import os, numpy as Numeric
 import Pmw
 
 from ViewerFramework.VFCommand import CommandGUI

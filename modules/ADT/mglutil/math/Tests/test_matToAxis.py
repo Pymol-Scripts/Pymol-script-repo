@@ -1,8 +1,7 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 from mglutil.regression import testplus
 from FlexTree.FTMotions import FTMotion_RotationAboutAxis, FTMotion_Hinge
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 def diff(res, expect):
     return res-expect < 1.0e-6  # close enough -> true
@@ -11,7 +10,6 @@ def diff(res, expect):
 def rotateObject():
     from mglutil.math.rotax import rotax
     from math import sin, cos, pi, sqrt, fabs
-    import numpy.oldnumeric as N
     import random
 
     degtorad = pi/180.

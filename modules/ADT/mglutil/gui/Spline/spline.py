@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 #$Id: spline.py,v 1.5 2007/08/08 02:03:49 vareille Exp $
@@ -9,12 +8,11 @@
 #(l1,h1)=(lowslope,highslope)
 #sp.spline_points gives list of spline points
 
-from numpy.oldnumeric import *
+from numpy import *
 import math
 from types import *
 from types import TupleType,ListType
 
-ArrayType = type(asarray(1.0))
 
 def array_map(f, ar):
         "Apply an ordinary function to all values in an array."
@@ -173,7 +171,6 @@ class Spline:
 
 
 #example
-from numpy.oldnumeric import arange, cos, Float
 import Tkinter
 class FunctionGraph1(Tkinter.Canvas):
 

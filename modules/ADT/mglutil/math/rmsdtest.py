@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Thu Jan 31 10:27:11 PST 2002 by lindy
@@ -23,7 +22,7 @@ Requirements for rmsd:
 
 from mglutil.math import rmsd
 import unittest, math
-import numpy.oldnumeric as Numeric, numpy.oldnumeric.random_array as RandomArray
+import numpy as Numeric, numpy.random.mtrand as RandomArray
 
 class ComputedValues(unittest.TestCase):
     decimals = 4 # decimal places to round to for float comparison

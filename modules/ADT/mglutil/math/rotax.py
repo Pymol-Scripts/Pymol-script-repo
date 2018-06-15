@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 """ This file contains the following functions,
 rotax
@@ -11,7 +10,7 @@ interpolate3DTransform
 
 
 from math import pi, sin, cos, sqrt
-import numpy.oldnumeric as N
+import numpy as N
 degtorad = pi/180.
 
 
@@ -365,7 +364,8 @@ p = 0.9 means apply M2 first, then apply 50% of M'.  M' is the transformation
         nextMat = matrixList[offset]
         p = (percent-indexList[offset-1])/(
                                     indexList[offset]-indexList[offset-1])
-        from numpy.oldnumeric.linear_algebra import inverse
+        from numpy.linalg import inv as inverse
+
         M = N.dot(inverse(prevMat), nextMat)
         Mat = _interpolateMat(M, p)
         return N.dot(prevMat, Mat)
@@ -388,7 +388,7 @@ def interpolate3DTransform1(matrixList, indexList, percent):
 
     prevMat = matrixList[i-1]
     nextMat = matrixList[i]
-    from numpy.oldnumeric.linear_algebra import inverse
+    from numpy.linalg import inv as inverse
     M = N.dot(inverse(prevMat), nextMat)
     p = (percent-indexList[i-1]) / (indexList[i]-indexList[i-1])
     Mat = _interpolateMat(M, p)

@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -74,7 +73,7 @@ After the selected docking log file is parsed, the user can:
 """
 import types, Tkinter, commands, os, copy, glob, popen2, time
 from string import find, join, replace, split, rfind, strip
-import numpy.oldnumeric as Numeric, math
+import numpy as Numeric, math
 import re
 import Pmw
 

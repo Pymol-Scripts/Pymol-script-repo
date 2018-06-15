@@ -1,11 +1,10 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # $Header: /opt/cvs/python/packages/share1.5/mglutil/math/transformation.py,v 1.45 2007/07/24 17:30:40 vareille Exp $
 #
 
 import math
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from mglutil.math import rotax
 from mglutil.math import VectorModule
 

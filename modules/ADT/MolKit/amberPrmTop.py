@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 ############################################################################
 #
@@ -17,7 +16,7 @@
 #from MolKit.molecule import Atom, AtomSet, Bond
 from sff.amber import AmberParm
 
-import numpy.oldnumeric as Numeric, types
+import numpy as Numeric, types
 from math import pi, sqrt, ceil, fabs
 from string import split, strip, join
 from os.path import basename

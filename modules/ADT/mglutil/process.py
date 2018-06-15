@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 # subprocess - Subprocesses with accessible I/O streams
 #

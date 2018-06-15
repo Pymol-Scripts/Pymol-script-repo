@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 ############################################################################
 #
@@ -25,7 +24,7 @@ from hydrogenBondBuilder import HydrogenBondBuilder
 from PyBabel.cycle import RingFinder
 from PyBabel.aromatic import Aromatic
 from bondSelector import AromaticCycleBondSelector
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from mglutil.math import crossProduct
 
 

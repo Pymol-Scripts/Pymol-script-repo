@@ -6,7 +6,7 @@
 #
 # $Id: write_clustering_histogram_postscript.py,v 1.3 2007/10/08 18:14:58 rhuey Exp $
 #
-import os, glob, Tkinter, numpy.oldnumeric as Numeric
+import os, glob, Tkinter, numpy as Numeric
 from MolKit import Read
 
 from AutoDockTools.Docking import Docking

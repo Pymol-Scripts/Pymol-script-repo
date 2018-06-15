@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 #
@@ -18,7 +17,7 @@ from MolKit.bondSelector import AromaticCycleBondSelector2
 from MolKit.molecule import BondSet
        
 def dist(c1, c2):       
-    import numpy.oldnumeric as Numeric, math
+    import numpy as Numeric, math
     d = Numeric.array(c2) - Numeric.array(c1) 
     ans = math.sqrt(Numeric.sum(d*d))
     return round(ans, 3)

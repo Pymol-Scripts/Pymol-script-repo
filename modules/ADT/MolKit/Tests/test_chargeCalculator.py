@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 #
@@ -8,7 +7,7 @@
 #
 
 import unittest
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from string import split
 from MolKit.chargeCalculator import GasteigerChargeCalculator
 from MolKit.chargeCalculator import KollmanChargeCalculator

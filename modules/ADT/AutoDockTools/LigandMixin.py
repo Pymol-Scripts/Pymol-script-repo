@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -87,7 +86,7 @@ This MIXIN Object adds AutoDock Ligand features to a MolKit.Protein
 
 
 """
-import numpy.oldnumeric as Numeric, math, types, os
+import numpy as Numeric, math, types, os
 from string import find
 from MolKit.pdbWriter import PdbqWriter
 from AutoDockTools.AutoDockBondClassifier import AutoDockBondClassifier

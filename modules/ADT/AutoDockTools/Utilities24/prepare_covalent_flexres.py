@@ -16,10 +16,7 @@ from math import sqrt
 
 from AutoDockTools.MoleculePreparation import AD4FlexibleReceptorPreparation
 
-try:
-    import Numeric
-except:
-    import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 def dist(a1, a2):
     c1 = Numeric.array(a1.coords)

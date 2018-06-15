@@ -4,7 +4,7 @@
 #
 # $Header: /opt/cvs/python/packages/share1.5/AutoDockTools/Utilities24/summarize_time.py,v 1.3 2007/10/08 18:14:20 rhuey Exp $
 #
-import os, glob, numpy.oldnumeric as Numeric
+import os, glob, numpy as Numeric
 from AutoDockTools.DlgParser import DlgParser
 
 

@@ -4,7 +4,7 @@
 #
 # $Header: /opt/cvs/python/packages/share1.5/AutoDockTools/Utilities24/summarize_wcg_docking.py,v 1.3 2007/10/08 18:14:32 rhuey Exp $
 #
-import os, glob, numpy.oldnumeric as Numeric
+import os, glob, numpy as Numeric
 from string import split, join
 
 from MolKit import Read

@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # $Header: /opt/cvs/python/packages/share1.5/mglutil/gui/InputForm/Tk/Tests/test_InputForm.py,v 1.7 2007/12/04 21:28:04 vareille Exp $
@@ -12,7 +11,7 @@ This module implements a set of functions to test the InputForm class
 
 import sys
 from mglutil.regression import testplus
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 import Tkinter, Pmw
 from mglutil.gui.InputForm.Tk.gui import InputFormDescr, InputForm,\
      CallBackFunction

@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 #
@@ -15,11 +14,11 @@
 
 
 
-import numpy.oldnumeric as Numeric, math, types
+import numpy as Numeric, math, types
 from molecule import Atom, AtomSet
 from protein import Residue
 from types import ListType, TupleType, StringType, IntType, FloatType, LongType
-from numpy.oldnumeric import ArrayType, sum
+from numpy import sum
 """
     GapFinder contain class to find Gap between residues.
     findGap: This class finds the residues which are not connected.

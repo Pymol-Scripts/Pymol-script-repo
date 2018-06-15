@@ -3,7 +3,7 @@
 # PC 2005/09/23
 # Get ligand topologies
 #
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
     
 from sets import Set
 from ligandclean.trial_templates import *

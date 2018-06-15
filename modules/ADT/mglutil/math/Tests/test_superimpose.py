@@ -1,9 +1,7 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 from mglutil.regression import testplus
 from mglutil.math.rotax import interpolate3DTransform, rotax
 #from math import pi, sin, cos, sqrt
-import numpy.oldnumeric as N
 #degtorad = pi/180.
                     
 def diff(res, expect):

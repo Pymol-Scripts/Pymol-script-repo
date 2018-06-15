@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 
 #############################################################################
@@ -25,7 +24,7 @@ import string, os.path, sys, types, glob
 from MolKit import Read
 from AutoDockTools.atomTypeTools import AutoDock4_AtomTyper
 import string
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 from math import ceil
 
 

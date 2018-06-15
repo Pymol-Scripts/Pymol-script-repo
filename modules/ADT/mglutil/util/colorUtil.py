@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -14,7 +13,7 @@
 # $Id: colorUtil.py,v 1.15 2007/07/24 17:30:40 vareille Exp $
 #
 
-import numpy.oldnumeric as Numeric, math
+import numpy as Numeric, math
 from types import FunctionType
 
 """ This Python module implements a set of methods and classes to manipulate

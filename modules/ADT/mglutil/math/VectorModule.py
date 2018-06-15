@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 ##  Copyright 1997-1999 by Konrad Hinsen, except as noted below.
 
@@ -26,7 +25,7 @@
 
 _undocumented = 1
 
-import numpy.oldnumeric as Numeric, types
+import numpy as Numeric, types
 import TensorModule
 
 

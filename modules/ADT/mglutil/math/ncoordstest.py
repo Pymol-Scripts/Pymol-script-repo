@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Tue Sep  4 17:02:59 PDT 2001 by lindy
@@ -21,7 +20,7 @@ Requirements for ncoords.py:
 
 from mglutil.math.ncoords import Ncoords
 import unittest, math
-import numpy.oldnumeric as Numeric, numpy.oldnumeric.random_array as RandomArray
+import numpy as Numeric, numpy.random.mtrand as RandomArray
 
 
 

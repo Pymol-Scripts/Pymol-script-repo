@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -26,7 +25,7 @@ from PyBabel.cycle import RingFinder
 from PyBabel.bo import BondOrder
 from PyBabel.aromatic import Aromatic
 from PyBabel.atomTypes import AtomHybridization
-import math, numpy.oldnumeric as Numeric
+import math, numpy as Numeric
 
 
 class BondSelector:

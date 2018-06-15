@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #!/usr/bin/env python
 #
@@ -6,7 +5,7 @@
 
 from DejaVu.colorTool import TkColor, RedWhiteRamp
 from DejaVu.colorMap import ColorMap
-import Image, numpy.oldnumeric as Numeric
+import Image, numpy as Numeric
 
 
 class PixelMap2D:
@@ -94,7 +93,6 @@ class PixelMap2D:
 
       
 if __name__=='__main__':
-    import numpy.oldnumeric as Numeric
     from time import sleep
     r = Numeric.array(range(10000))
     r.shape = (100,100)
@@ -153,7 +151,6 @@ if __name__=='__main__':
 ##here results are [lig1,lig2,lig3,lig4...]
 ## here rows in image will correspond to ligands and columns to receptors
 
-##import numpy.oldnumeric as Numeric
 ##ligand_results = Numeric.array(all_ligand_results)
 ##ligand_results.shape = (100,100)
 ##now ligand_results are #[[lig1]

@@ -11,10 +11,7 @@
 # $Id: AutoLigand.py,v 1.10 2009/10/01 17:12:27 sargis Exp $
 import sys, string
 import getopt
-try:
-	from Numeric import zeros
-except:
-	from numpy.oldnumeric import zeros
+from numpy import zeros
 from math import sqrt
 import copy
 def usage():

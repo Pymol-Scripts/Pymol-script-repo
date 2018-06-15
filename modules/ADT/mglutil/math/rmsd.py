@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -13,7 +12,7 @@
 # $Header: /opt/cvs/python/packages/share1.5/mglutil/math/rmsd.py,v 1.6 2007/07/24 17:30:40 vareille Exp $
 #
 
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 import math
 
 

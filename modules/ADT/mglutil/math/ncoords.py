@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #
 # Last modified on Tue Sep  4 16:32:29 PDT 2001 by lindy
@@ -13,7 +12,7 @@ of classes which transform and generally operate on lists
 of homogeneous coordinates.
 """
 
-import numpy.oldnumeric as Numeric
+import numpy as Numeric
 
 class Ncoords:
     def __init__(self, refCoords, tolist=1):

@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -8,8 +7,8 @@
 #
 #############################################################################
 
-import numpy.oldnumeric as Numeric, math
-import numpy.oldnumeric.linear_algebra as LinearAlgebra
+import numpy as Numeric, math
+import numpy.linalg
 from mglutil.math.rmsd import RMSDCalculator
 
 class RigidfitBodyAligner:
@@ -88,7 +87,8 @@ class RigidfitBodyAligner:
         rotTransposed = Numeric.transpose(rot)
         e = Numeric.dot(rot, rotTransposed)
 
-        evals, evecs = LinearAlgebra.eigenvectors(e)
+        evals, evecs = numpy.linalg.eig(e)
+        evecs = evecs.T
 
         ev = Numeric.identity(3).astype('d')
         # set ev[0] to be the evec or the largest eigenvalue
@@ -197,7 +197,7 @@ class RigidfitBodyAligner:
 
     
 if __name__ == '__main__':
-    import numpy.oldnumeric as Numeric
+    import numpy as Numeric
 
     a = [ [ 2.92666,  -5.8288,  4.7963 ],
           [ 3.4784 ,  -7.6197,  4.9499 ],

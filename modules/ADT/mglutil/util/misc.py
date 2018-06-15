@@ -1,4 +1,3 @@
-## Automatically adapted for numpy.oldnumeric Jul 23, 2007 by 
 
 #############################################################################
 #
@@ -16,12 +15,12 @@
 
 import types
 import sys
-import numpy.oldnumeric as Numeric
+import numpy
 
 def issequence(a):
     return type(a) is types.TupleType or \
            type(a) is types.ListType or \
-           isinstance(a, Numeric.ArrayType)
+           isinstance(a, numpy.ndarray)
 
 def isnumericstring(a):
     try:
@@ -44,7 +43,7 @@ def uniq(objectSequence):
 
 def deepCopySeq(sequence):
     """ returns the deep copy of the given sequence """
-    import numpy.oldnumeric as Numeric
+    import numpy as Numeric
     from types import TupleType, ListType
     assert type(sequence) in (TupleType, ListType, type(Numeric.array([1,2,3])))
     if hasattr(sequence, 'copy'):
