@@ -55,24 +55,34 @@ if sys.version_info[0] < 3:
     import tkMessageBox
     import tkFileDialog
     import tkColorChooser
+    import Queue
 else:
     import tkinter as Tkinter
     from tkinter import *
     import tkinter.messagebox as tkMessageBox
     import tkinter.filedialog as tkFileDialog
     import tkinter.colorchooser as tkColorChooser
+    import queue as Queue
 
 import Pmw
 from threading import Thread
 #from commands import getstatusoutput
 
+USE_SYS_EXECUTABLE = False
+
+def touch(filename):
+    with open(filename, 'a'):
+        pass
 
 def getstatusoutput(command):
     from subprocess import Popen, PIPE, STDOUT
     env = dict(os.environ)
     if 'PYMOL_GIT_MOD' in os.environ:
         env['PYTHONPATH'] = os.path.join(os.environ['PYMOL_GIT_MOD'], "ADT")
-    p = Popen(command.split(), stdout=PIPE, stderr=STDOUT, env=env)
+    args = command.split()
+    if args[0].endswith('.py') and USE_SYS_EXECUTABLE:
+        args.insert(0, sys.executable)
+    p = Popen(args, stdout=PIPE, stderr=STDOUT, stdin=PIPE, env=env)
     output = p.communicate()[0]
     return p.returncode, output
 
@@ -221,8 +231,9 @@ GRID_CENTER_FROM_COORDINATES = 1
 
 class Thread_run(Thread):
 
-    def __init__(self, command, previous=None, status_line=None, log_text=None):
+    def __init__(self, command, previous=None, status_line=None, log_text=None, gui=None):
         Thread.__init__(self)
+        self.gui = gui
         self.command = command
         self.status = -1
         self.previous = previous
@@ -232,37 +243,37 @@ class Thread_run(Thread):
     def run(self):
         if self.previous:
             self.previous.join()
-#!!! Tk thread problem in windows
-            if not sys.platform.startswith('win'):
-                if self.status_line:
-                    self.status_line.configure(text=self.log_text)
+            if self.status_line and self.gui:
+                self.gui.gui_updates_put(lambda: self.status_line.configure(text=self.log_text))
         self.status = os.system(self.command)
 
 
 class Thread_log(Thread):
 
-    def __init__(self, logfile, page):
+    def __init__(self, logfile, page, gui):
         Thread.__init__(self)
         self.page = page
         self.logfile = logfile
+        self.gui = gui
+
+    def log_line(self, line):
+        self.gui.gui_updates_put(lambda: self._log_line(line))
+
+    def _log_line(self, line):
+        # will be called in GUI thread
+        self.page.insert('end', line)
+        self.page.yview('moveto', 1.0)
 
     def run(self):
         if 'ADPLUGIN_NO_OUTPUT_REDIRECT' not in os.environ:
             t = Tail(self.logfile)
             line = t.nextline()
-#!!! Tk thread problem in windows
-            if not sys.platform.startswith('win'):
-                self.page.insert('end', "%s" % line)
             while line:
+                self.log_line(line)
                 line = t.nextline()
-#!!! Tk thread problem in windows
-                if not sys.platform.startswith('win'):
-                    self.page.insert('end', "%s" % line)
-                self.page.yview('moveto', 1.0)  # , 'page')
         else:
             line = 'LOG FILE OUTPUT NOT REDIRECTED'
-            self.page.insert('end', "%s" % line)
-            self.page.yview('moveto', 1.0)  # , 'page')
+            self.log_line(line)
 
 #==========================================================================
 #
@@ -1318,6 +1329,26 @@ class Autodock:
         #------------------------------------------------------------------
         ##################################################################
 
+        # GUI updates from other threads
+        self._gui_active = True
+        self._gui_updates_queue = Queue.Queue(100)
+        self._gui_updates_flush()
+
+    def _gui_updates_flush(self):
+        if not self._gui_active:
+            return
+
+        while not self._gui_updates_queue.empty():
+            func = self._gui_updates_queue.get(0)
+            func()
+
+        self.parent.after(100, self._gui_updates_flush)
+
+    def gui_updates_put(self, func):
+        '''Can be called from another thread with a GUI updating callback
+        '''
+        self._gui_updates_queue.put(func)
+
     def button_pressed(self, result):
         if hasattr(result, 'keycode'):
             if result.keycode == 36:
@@ -1326,6 +1357,7 @@ class Autodock:
                 elif self.notebook.getcurselection() == 'View Poses':
                     self.load_ligand_file()
         elif result == 'Exit' or result == None:
+            self._gui_active = False
             self.dialog.withdraw()
 
     #------------------------------------------------------------------
@@ -2014,13 +2046,13 @@ class Autodock:
         self.status_line.configure(text="Removed receptor %s" % rec)
         index = list(self.receptor_list.get(0, 'end')).index(rec)
         self.receptor_list.delete(index)
-        self.docking_receptor_list.delete(index)
+        self.docking_receptor_rigid_list.delete(index)
         try:
             self.receptor_list.selectitem(0)
-            self.docking_receptor_list.selectitem(0)
+            self.docking_receptor_rigid_list.selectitem(0)
         except:
             self.receptor_list.clear()
-            self.docking_receptor_list.clear()
+            self.docking_receptor_rigid_list.clear()
 
     def remove_flexible_residues(self):
         rec = self.receptor_list.get()
@@ -2244,11 +2276,11 @@ class Autodock:
             # dirty
             if os.path.isfile(outfile_log):
                 shutil.move(outfile_log, outfile_log + '~')
-            os.system('touch %s' % outfile_log)
+            touch(outfile_log)
             r = Thread_run(command)
             r.start()
             sleep(1)
-            ll = Thread_log(outfile_log, self.docking_page_log_text)
+            ll = Thread_log(outfile_log, self.docking_page_log_text, self)
             ll.start()
         else:
             self.status_line.configure(text="An error occured while trying to run Autogrid....")
@@ -2318,11 +2350,11 @@ class Autodock:
 #                self.status_line.configure(text="Now docking ligand: %s...." % ligands)
                 if os.path.isfile(outfile_poses):
                     shutil.move(outfile_poses, outfile_poses + '~')
-                os.system('touch %s' % outfile_poses)
-                r = Thread_run(command, self.current_thread, self.status_line, "Now docking ligand: %s...." % ligands)
+                touch(outfile_poses)
+                r = Thread_run(command, self.current_thread, self.status_line, "Now docking ligand: %s...." % ligands, self)
                 r.start()
                 self.current_thread = r
-                ll = Thread_log(outfile_poses, self.docking_page_log_text)
+                ll = Thread_log(outfile_poses, self.docking_page_log_text, self)
                 ll.start()
             else:
                 self.status_line.configure(text="Error while generating run input file for ligand: %s" % ligands)
@@ -2423,11 +2455,11 @@ class Autodock:
 #            self.status_line.configure(text="Now docking ligand: %s...." % ligands)
             if os.path.isfile(outfile_log):
                 shutil.move(outfile_log, outfile_log + '~')
-            os.system('touch %s' % outfile_log)
-            r = Thread_run(command, self.current_thread, self.status_line, "Now docking ligand: %s...." % ligands)
+            touch(outfile_log)
+            r = Thread_run(command, self.current_thread, self.status_line, "Now docking ligand: %s...." % ligands, self)
             r.start()
             self.current_thread = r
-            ll = Thread_log(outfile_log, self.docking_page_log_text)
+            ll = Thread_log(outfile_log, self.docking_page_log_text, self)
             ll.start()
 
         else:
@@ -2930,11 +2962,14 @@ class Autodock:
         if mode == 'w' and os.path.isfile(filename):
             p = os.path.abspath(filename)
             b = os.path.basename(p)
-            pa, n = p.split(b)
+            pa = os.path.dirname(p)
             tmp = '#' + b + '#'
             fn = os.path.join(pa, tmp)
-            os.rename(filename, fn)
-            self.status_line.configure(text='Backing up %s to %s' % (filename, fn))
+            try:
+                os.rename(filename, fn)
+                self.status_line.configure(text='Backing up %s to %s' % (filename, fn))
+            except Exception as e:
+                print(e)
         try:
             fp = open(filename, mode)
             return fp
