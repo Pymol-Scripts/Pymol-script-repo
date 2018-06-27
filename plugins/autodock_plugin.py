@@ -108,8 +108,6 @@ def __init__(self):
                              label='Autodock/Vina',
                              command=lambda s=self: Autodock(s))
 
-    cmd.set("retain_order")  # keep atom ordering
-
 
 #=============================================================================
 #
@@ -503,6 +501,8 @@ class Autodock:
     """ THE MAJOR PLUGIN CLASS """
 
     def __init__(self, app):
+        cmd.set("retain_order", quiet=0)  # keep atom ordering
+
         parent = app.root
         self.parent = parent
         # receptors and ligands
