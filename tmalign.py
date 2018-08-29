@@ -15,9 +15,9 @@ def save_pdb_without_ter(filename, selection, **kwargs):
     '''
 DESCRIPTION
 
-Save PDB file without TER records. External applications like TMalign and
-DynDom stop reading PDB files at TER records, which might be undesired in
-case of missing loops.
+    Save PDB file without TER records. External applications like TMalign and
+    DynDom stop reading PDB files at TER records, which might be undesired in
+    case of missing loops.
     '''
     v = cmd.get_setting_boolean('pdb_use_ter_records')
     if v:
@@ -32,17 +32,17 @@ def alignwithanymethod(mobile, target, methods='align super cealign tmalign',
     '''
 DESCRIPTION
 
-Align copies of mobile to target with several alignment methods
+    Align copies of mobile to target with several alignment methods
 
 ARGUMENTS
 
-mobile = string: atom selection
+    mobile = string: atom selection
 
-target = string: atom selection
+    target = string: atom selection
 
-methods = string: space separated list of PyMOL commands which take
-arguments "mobile" and "target" (in any order) {default: align super
-cealign tmalign}
+    methods = string: space separated list of PyMOL commands which take
+    arguments "mobile" and "target" (in any order) {default: align super
+    cealign tmalign}
     '''
     import threading
     import time
@@ -71,29 +71,29 @@ def tmalign(mobile, target, args='', exe='TMalign', ter=0, transform=1, object=N
     '''
 DESCRIPTION
 
-TMalign wrapper
+    TMalign wrapper
 
-Reference: Y. Zhang and J. Skolnick, Nucl. Acids Res. 2005 33, 2302-9
-http://zhanglab.ccmb.med.umich.edu/TM-align/
+    Reference: Y. Zhang and J. Skolnick, Nucl. Acids Res. 2005 33, 2302-9
+    http://zhanglab.ccmb.med.umich.edu/TM-align/
 
 USAGE
 
-tmalign mobile, target [, args [, exe ]]
+    tmalign mobile, target [, args [, exe ]]
 
 ARGUMENTS
 
-mobile, target = string: atom selections
+    mobile, target = string: atom selections
 
-args = string: Extra arguments like -d0 5 -L 100
+    args = string: Extra arguments like -d0 5 -L 100
 
-exe = string: Path to TMalign executable {default: TMalign}
+    exe = string: Path to TMalign executable {default: TMalign}
 
-ter = 0/1: If ter=0, then ignore chain breaks because TMalign will stop
-at first TER record {default: 0}
+    ter = 0/1: If ter=0, then ignore chain breaks because TMalign will stop
+    at first TER record {default: 0}
 
 SEE ALSO
 
-tmscore, mmalign
+    tmscore, mmalign
     '''
     import subprocess
     import tempfile
@@ -205,25 +205,25 @@ def tmscore(mobile, target, args='', exe='TMscore', quiet=0, **kwargs):
     '''
 DESCRIPTION
 
-TMscore wrapper
+    TMscore wrapper
 
-Reference: Yang Zhang and Jeffrey Skolnick, Proteins 2004 57: 702-710
-http://zhanglab.ccmb.med.umich.edu/TM-score/
+    Reference: Yang Zhang and Jeffrey Skolnick, Proteins 2004 57: 702-710
+    http://zhanglab.ccmb.med.umich.edu/TM-score/
 
 ARGUMENTS
 
-mobile, target = string: atom selections
+    mobile, target = string: atom selections
 
-args = string: Extra arguments like -d 5
+    args = string: Extra arguments like -d 5
 
-exe = string: Path to TMscore executable {default: TMscore}
+    exe = string: Path to TMscore executable {default: TMscore}
 
-ter = 0/1: If ter=0, then ignore chain breaks because TMscore will stop
-at first TER record {default: 0}
+    ter = 0/1: If ter=0, then ignore chain breaks because TMscore will stop
+    at first TER record {default: 0}
 
 SEE ALSO
 
-tmalign, mmalign
+    tmalign, mmalign
     '''
     kwargs.pop('_self', None)
     return tmalign(mobile, target, args, exe, quiet=quiet, **kwargs)
@@ -233,14 +233,14 @@ def mmalign(mobile, target, args='', exe='MMalign', ter=0, transform=1, quiet=0)
     '''
 DESCRIPTION
 
-MMalign wrapper
+    MMalign wrapper
 
-Reference: S. Mukherjee and Y. Zhang, Nucleic Acids Research 2009; 37: e83
-http://zhanglab.ccmb.med.umich.edu/MM-align/
+    Reference: S. Mukherjee and Y. Zhang, Nucleic Acids Research 2009; 37: e83
+    http://zhanglab.ccmb.med.umich.edu/MM-align/
 
 SEE ALSO
 
-tmalign, tmscore
+    tmalign, tmscore
     '''
     return tmalign(mobile, target, args, exe, ter, transform, quiet=quiet)
 
