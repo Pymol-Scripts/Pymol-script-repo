@@ -21,14 +21,14 @@ case of missing loops.
     '''
     v = cmd.get_setting_boolean('pdb_use_ter_records')
     if v:
-        cmd.unset('pdb_use_ter_records')
+        cmd.set('pdb_use_ter_records', 0)
     cmd.save(filename, selection, **kwargs)
     if v:
         cmd.set('pdb_use_ter_records')
 
 
 def alignwithanymethod(mobile, target, methods='align super cealign tmalign',
-                       async=1, quiet=1):
+                       async_=1, quiet=1, **kwargs):
     '''
 DESCRIPTION
 
@@ -47,7 +47,7 @@ cealign tmalign}
     import threading
     import time
     methods = methods.split()
-    async, quiet = int(async), int(quiet)
+    async_, quiet = int(kwargs.pop('async', async_)), int(quiet)
     mobile_obj = cmd.get_object_list('first (' + mobile + ')')[0]
 
     def myalign(method):
@@ -59,7 +59,7 @@ cealign tmalign}
             print('Finished: %s (%.2f sec)' % (method, time.time() - start))
 
     for method in methods:
-        if async:
+        if async_:
             t = threading.Thread(target=myalign, args=(method,))
             t.setDaemon(1)
             t.start()
@@ -119,7 +119,8 @@ tmscore, mmalign
     args = [exe, mobile_filename, target_filename, '-m', matrix_filename] + args.split()
 
     try:
-        process = subprocess.Popen(args, stdout=subprocess.PIPE)
+        process = subprocess.Popen(args, stdout=subprocess.PIPE,
+                universal_newlines=True)
         lines = process.stdout.readlines()
     except OSError:
         print('Cannot execute "%s", please provide full path to TMscore or TMalign executable' % (exe))
@@ -138,6 +139,7 @@ tmscore, mmalign
     rowcount = 0
     matrix = []
     line_it = iter(lines)
+    headercheck = False
     alignment = []
     for line in line_it:
         if 4 >= rowcount > 0:
@@ -146,10 +148,14 @@ tmscore, mmalign
                 matrix.extend(a[2:5])
                 matrix.append(a[1])
             rowcount += 1
+        elif not headercheck and line.startswith(' * '):
+            a = line.split(None, 2)
+            if len(a) == 3:
+                headercheck = a[1]
         elif line.lower().startswith(' -------- rotation matrix'):
             rowcount = 1
         elif line.startswith('(":" denotes'):
-            alignment = [line_it.next().rstrip() for i in range(3)]
+            alignment = [next(line_it).rstrip() for i in range(3)]
         else:
             match = re_score.search(line)
             if match is not None:

@@ -173,7 +173,7 @@ ARGUMENTS
     if not selection:
         selection = pdb_id
         if pdb_id not in cmd.get_names('all'):
-            cmd.fetch(pdb_id, async=0)
+            cmd.fetch(pdb_id)
 
     sele_chains = cmd.get_chains(selection)
     mappings = {}

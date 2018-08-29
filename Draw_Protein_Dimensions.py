@@ -197,29 +197,29 @@ def transformar(selection):
 
 
 def draw_AABB(selection):
-        """
+	"""
         DESCRIPTION
         For a given selection, draw the Axes Aligned bounding box around it without padding. Code taken and modified from DrawBoundingBox.py.
 
         """
 
- 	AA_original = selection + "_original"
+	AA_original = selection + "_original"
 	model_orig = cmd.create(AA_original, selection)
 
-        ([min_X, min_Y, min_Z],[max_X, max_Y, max_Z]) = cmd.get_extent(AA_original)
+	([min_X, min_Y, min_Z],[max_X, max_Y, max_Z]) = cmd.get_extent(AA_original)
 
 	print("The Axis Aligned Bounding Box (AABB) dimensions are (%.2f, %.2f, %.2f)" % (max_X-min_X, max_Y-min_Y, max_Z-min_Z))
 	print("The Axis Aligned Bounding Box (AABB) volume is %.2f A3" % ((max_X-min_X)*(max_Y-min_Y)*(max_Z-min_Z)))
 
 
-        min_X = min_X
-        min_Y = min_Y
-        min_Z = min_Z
-        max_X = max_X
-        max_Y = max_Y
-        max_Z = max_Z
+	min_X = min_X
+	min_Y = min_Y
+	min_Z = min_Z
+	max_X = max_X
+	max_Y = max_Y
+	max_Z = max_Z
 
-        boundingBox = [
+	boundingBox = [
                 LINEWIDTH, float(2),
 
                 BEGIN, LINES,
@@ -267,12 +267,12 @@ def draw_AABB(selection):
 	cmd.hide("nonbonded")
 
 	boxName = "box_AABB_"  + str(randint(0, 100))
-        cmd.load_cgo(boundingBox,boxName)
-        return boxName
+	cmd.load_cgo(boundingBox,boxName)
+	return boxName
 
 
 def draw_IABB(selection):
-        """
+	"""
         DESCRIPTION
         For a given selection, draw the Inertia Axes Aligned bounding box around it without padding. Code taken and modified from DrawBoundingBox.py.
 
@@ -280,20 +280,20 @@ def draw_IABB(selection):
 
 	transformar(selection)
 
-        ([minX, minY, minZ],[maxX, maxY, maxZ]) = cmd.get_extent(selection)
+	([minX, minY, minZ],[maxX, maxY, maxZ]) = cmd.get_extent(selection)
 
 	print("The Inertia Axis Aligned Bounding Box (IABB) dimensions are (%.2f, %.2f, %.2f)" % (maxX-minX, maxY-minY, maxZ-minZ))
 	print("The Inertia Axis Aligned Bounding Box (IABB) volume is %.2f A3" % ((maxX-minX)*(maxY-minY)*(maxZ-minZ)))
 
 
-        minX = minX
-        minY = minY
-        minZ = minZ
-        maxX = maxX
-        maxY = maxY
-        maxZ = maxZ
+	minX = minX
+	minY = minY
+	minZ = minZ
+	maxX = maxX
+	maxY = maxY
+	maxZ = maxZ
 
-        boundingBox = [
+	boundingBox = [
                 LINEWIDTH, float(2),
 
                 BEGIN, LINES,
@@ -327,7 +327,7 @@ def draw_IABB(selection):
                 END
         ]
 
- 	p4 = '_4' + str(randint(0, 100))
+	p4 = '_4' + str(randint(0, 100))
 	p5 = '_5' + str(randint(0, 100))
 	p6 = '_6' + str(randint(0, 100))
 	p7 = '_7' + str(randint(0, 100))
@@ -341,8 +341,8 @@ def draw_IABB(selection):
 	cmd.hide("nonbonded")
 
 	boxName = "box_IABB_" + str(randint(0, 100))
-        cmd.load_cgo(boundingBox,boxName)
-        return boxName
+	cmd.load_cgo(boundingBox,boxName)
+	return boxName
 
 
 def draw_BB(selection):
