@@ -18,7 +18,6 @@ from __future__ import print_function
 
 import Pmw
 import sys
-import string
 import webbrowser
 from pymol import cmd
 from xml.dom.minidom import parseString
@@ -334,7 +333,7 @@ class AnnotationService:
             httpRequest = urllib2.Request(url=pdbURL)
             pdbHttpHandle = urllib2.urlopen(httpRequest)
             pdbStr = pdbHttpHandle.read()
-            modelName = string.split(string.split(str(pdbURL), "/")[-1], ".")[0]
+            modelName = str(pdbURL).split("/")[-1].split(".")[0]
             cmd.read_pdbstr(pdbStr, modelName)
             self.status.setvalue(modelName + " loaded")
             self.loadedModels[modelName] = pdbURL
@@ -916,18 +915,18 @@ gZKaWEhQos4qREQmGPDAZlZAADs=
             self.annotationservice.selectedText = text
             # notify annotationservice to highlight context in graphical view
             if self.item.label == "context":
-                contextsplit = string.split(text, ";")
+                contextsplit = text.split(";")
                 if len(contextsplit) > 0:
                     view = contextsplit[0]
-                    view = string.replace(view, "view:", "")
-                    view = string.split(view, ",")
+                    view = view.replace("view:", "")
+                    view = view.split(",")
                     viewfloats = []
                     for v in view:
                         viewfloats.append(float(v))
                 if len(contextsplit) > 1:
                     context = contextsplit[1]
                     context = context.replace("ids:", "")
-                    contextids = string.split(context, ",")
+                    contextids = context.split(",")
                 # print "context: " + repr(contextids)
                 # print "view: " + repr(view)
                 self.annotationservice.selectAnnotation(contextids, view)

@@ -80,6 +80,7 @@ SETUP
             print(' poseview: running...')
 
         process = subprocess.Popen(args,
+                                   universal_newlines=True,
                                    stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         stdout, _ = process.communicate()
 

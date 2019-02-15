@@ -33,7 +33,6 @@ else:
     from tkinter import messagebox as tkMessageBox
     from tkinter import filedialog as tkFileDialog
 
-import string
 import os
 import pickle
 import time
@@ -1473,7 +1472,7 @@ class Save:
         # split the string using "." as the delimiter string and check if last entry is "pse" or "emov" if so, remove them
         # if not, add emov to string
 
-        splitFileName = string.split(fileName, ".")
+        splitFileName = fileName.split(".")
         if splitFileName[len(splitFileName) - 1] == "pse":
             fileName = fileName[:-4]
         elif splitFileName[len(splitFileName) - 1] == "emov":
@@ -1555,7 +1554,7 @@ class Save:
         # split the string using "." as the delimiter string and check if last entry is "pse" or "emov" if so, remove them
         # if not, add emov to string
 
-        splitFileName = string.split(fileName, ".")
+        splitFileName = fileName.split(".")
         if splitFileName[len(splitFileName) - 1] == "pse":
             fileName = fileName[:-4]
         elif splitFileName[len(splitFileName) - 1] == "emov":
@@ -1649,7 +1648,7 @@ class Load:
         # if it does not have an extension of either .pse or .emov, we will use it as is
         # if it has an extenstion of either .pse or .emov, we will strip away that extension
 
-        splitFileName = string.split(fileName, ".")
+        splitFileName = fileName.split(".")
 
         if splitFileName[len(splitFileName) - 1] == "emov":
             fileName = fileName[:-5]
@@ -1745,7 +1744,7 @@ class Load:
         # if it does not have an extension of either .pse or .emov, we will use it as is
         # if it has an extenstion of either .pse or .emov, we will strip away that extension
 
-        splitFileName = string.split(fileName, ".")
+        splitFileName = fileName.split(".")
 
         if splitFileName[len(splitFileName) - 1] == "emov":
             fileName = fileName[:-5]
@@ -2447,8 +2446,8 @@ def cmpStoryBoard(a, b):
     elif b[0] == "-":
         return 1
 
-    x = string.split(a[0], "-")
-    y = string.split(b[0], "-")
+    x = a[0].split("-")
+    y = b[0].split("-")
 
     xStartFrame = int(x[0])
     yStartFrame = int(y[0])
@@ -2520,7 +2519,7 @@ def getActionValues(action):
 
     # first we get the startFrame and the endFrame
     frames = action[0]
-    t = string.split(frames, "-")
+    t = frames.split("-")
     startFrame = t[0]  # the first token is the start frame
     if len(t) == 2:
         endFrame = t[1]
@@ -2537,9 +2536,9 @@ def getActionValues(action):
         return result
     elif actionType == "Morph":
         info = action[2]
-        q = string.split(info, ";")
-        p = string.split(q[0], " ")
-        r = string.split(q[1], " ")
+        q = info.split(";")
+        p = q[0].split(" ")
+        r = q[1].split(" ")
         morphName = p[len(p) - 1]
         direction = r[len(r) - 1]
 
@@ -2547,14 +2546,14 @@ def getActionValues(action):
         return result
     elif actionType == "Scene Set":
         info = action[2]
-        q = string.split(info, " ")
+        q = info.split(" ")
         sceneName = q[len(q) - 1]
 
         result = (startFrame, endFrame, actionType, sceneName)
         return result
     elif actionType == "Zoom":
         info = action[2]
-        q = string.split(info, " ")
+        q = info.split(" ")
         if len(q) == 2:
             amtZoom = q[1]
         else:
@@ -2569,9 +2568,9 @@ def getActionValues(action):
         return result
     elif actionType == "Rotation":
         info = action[2]
-        q = string.split(info, ";")
-        p = string.split(q[0], " ")
-        r = string.split(q[1], " ")
+        q = info.split(";")
+        p = q[0].split(" ")
+        r = q[1].split(" ")
         axis = p[1]
         degrees = r[2]
 
@@ -2579,11 +2578,11 @@ def getActionValues(action):
         return result
     elif actionType == "Fading":
         info = action[2]
-        q = string.split(info, ";")
-        p = string.split(q[0], " ")
-        r = string.split(q[1], " ")
-        s = string.split(q[2], " ")
-        u = string.split(q[3], " ")
+        q = info.split(";")
+        p = q[0].split(" ")
+        r = q[1].split(" ")
+        s = q[2].split(" ")
+        u = q[3].split(" ")
         molecule = p[len(p) - 1]
         representation = r[len(r) - 1]
         fadeFrom = s[len(s) - 1]
@@ -2596,10 +2595,10 @@ def getActionValues(action):
         return result
     elif actionType == "Worm":
         info = action[2]
-        q = string.split(info, ";")
-        p = string.split(q[0], " ")
-        r = string.split(q[1], " ")
-        s = string.split(r[len(r) - 1], "-")
+        q = info.split(";")
+        p = q[0].split(" ")
+        r = q[1].split(" ")
+        s = r[-1].split("-")
         molecule = p[len(p) - 1]
         startAA = s[0]
         endAA = s[1]
@@ -2973,7 +2972,7 @@ def get_frame_states(fstring):
     1:1-10     # this is crap, don't know what happens
     """
 
-    t = string.split(fstring, ":")
+    t = fstring.split(":")
     frames = t[0]  # the first token is frame range
     if len(t) == 2:
         states = t[1]  # the second token is state range
@@ -2981,7 +2980,7 @@ def get_frame_states(fstring):
         states = '1'  # only state number 1 is used
 
     # parse frame substring
-    t = string.split(frames, "-")
+    t = frames.split("-")
     firstFrame = int(t[0])  # first token is starting frame
     if len(t) == 2:
         lastFrame = int(t[1])  # second token is end frame
@@ -2989,7 +2988,7 @@ def get_frame_states(fstring):
         lastFrame = firstFrame  # only one frame is used
 
     # parse state substring
-    t = string.split(states, "-")
+    t = states.split("-")
     firstState = int(t[0])  # first token is starting state
     if len(t) == 2:
         lastState = int(t[1])  # second token is end state

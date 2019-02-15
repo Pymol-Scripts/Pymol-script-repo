@@ -1141,7 +1141,7 @@ def bni_fetch(parent, typ="pdb"):
                 typ = ["2fofc", "fofc"]
             for source in typ:
                 print("# Fetch %s of %s" % (source, code))
-                cmd.fetch(code, async=0, type=source)
+                cmd.fetch(code, type=source)
             if __pymol_version__ < 1.4:
                 print("# Pymol < 1.4 detected.(v. %s)" % __pymol_version__)
                 print("# Maps are mixed up. FoFc is 2FoFc and FoFc is 2FoFc.")
@@ -1199,7 +1199,7 @@ def bni_fetch(parent, typ="pdb"):
         for code in PDBcode:
             for source in typ:
                 print("# Fetch %s of %s" % (source, code))
-                cmd.fetch(code, async=0, type=source)
+                cmd.fetch(code, type=source)
                 if source == "pdb1":
                     cmd.split_states(code)
                     cmd.delete(code)
@@ -1290,10 +1290,9 @@ def combine_sele(selections=None, check="enabled", name="sele"):
     print("# BNI - Tools v. %s" % __version__)
     print("# Combined selections: %s" % sele_names)
     print("# to (%s)" % name)
-def _set_bni_ray(setting="set", app=None, async=1):
+def _set_bni_ray(setting="set", app=None, async_=1):
     '''Run sidebar input
     '''
-    async = int(_remove_brakets(async))
     width = 100
     dpi = 200
     width_unit = "mm"
@@ -1367,9 +1366,9 @@ def _set_bni_ray(setting="set", app=None, async=1):
         dpi = 1200
         print("# width: %s %s" % (width, width_unit))
         print("# resolution: %s dpi" % dpi)
-    if async == 1:
+    if async_ == 1:
         print("# Ray is working in the background")
-    bni_ray(width, width_unit=width_unit, dpi=dpi, async=async)
+    bni_ray(width, width_unit=width_unit, dpi=dpi, {'async': async_})
 def bni_ray(width, name_png=None, dpi="300", width_unit="cm", **arg):
     '''Ray specified with dpi and width.
     USAGE: bni_ray(width,dpi="300",width_unit="cm",name_png=None,**arg)

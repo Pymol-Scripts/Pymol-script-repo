@@ -1748,7 +1748,7 @@ class UripLabel:
 	numberToFind = {'painstaking': 1000, 'thorough search': 200, 'quick search': 50}
 	numberOfTries = {'painstaking': 100000, 'thorough search': 20000, 'quick search': 3000}
 	info = "\nFor the Urip label, the vdW restraints are by default set to 'loose' to account for possible polar interactions between the amide bonds and the DNA backbone."
-	errorMessage = "Check atom nomenclature. The ribose atoms are sometimes called C2* instead of C2'\nThis can be changed e.g. by 'alter all, name=string.replace(name,\"*\",\"'\")' in PyMOL."
+	errorMessage = "Check atom nomenclature. The ribose atoms are sometimes called C2* instead of C2'\nThis can be changed e.g. by 'alter all, name=name.replace(\"*\",\"'\")' in PyMOL."
 	trialAtomSphereRadius = 7.5
 	exclusionSphereRadius = 5.5
 	pdbStr = """HEADER    URIPSL\n

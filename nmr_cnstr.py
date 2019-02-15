@@ -28,7 +28,7 @@ def upl(fname):
     while upl != '':
 
         print(upl, i)
-        cns = string.split(upl)
+        cns = upl.split()
         cmd.dist('upl' + str(i), 'i. ' + cns[0] + ' & n. ' + cns[2], 'i. ' + cns[3] + ' & n. ' + cns[5])
         upl = f.readline()
         i += 1
@@ -50,7 +50,7 @@ def cns(fname):
         if upl == '\n':
             upl = f.readline()
             continue
-        cns = string.split(upl)
+        cns = upl.split()
         print(cns, i)
         if cns[0] == 'assign':
             print('CNS')

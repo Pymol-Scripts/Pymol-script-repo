@@ -509,7 +509,7 @@ class AnBeKoM:
                 return
             elif not os.path.exists(outdir):
                 self.CreateDirectory(outdir)
-            self.stdamString = string.join(self.stdam_list, "+")
+            self.stdamString = "+".join(self.stdam_list)
             # jen to zaskrtnute
             generatedString = ""
             for key in self.s:
@@ -696,7 +696,7 @@ class AnBeKoM:
         return 0
 
     def stdamMessage(self):
-        Pmw.MessageDialog(self.parent, title='Information', message_text='AA: Standard amino acids: \n ' + string.join(self.stdam_list, ", "))
+        Pmw.MessageDialog(self.parent, title='Information', message_text='AA: Standard amino acids: \n ' + ", ".join(self.stdam_list))
 
     def inputAnalyseWrap(self, args):
             # print self.listbox1.curselection()[0] # aby to fungovalo, musi byt bindnute na <<ListboxSelect>>
