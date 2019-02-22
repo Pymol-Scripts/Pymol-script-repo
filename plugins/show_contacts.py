@@ -5,14 +5,15 @@ for highlighting good and bad polar contacts. Factored out of
 clustermols by Matthew Baumgartner.
 The advantage of this package is it requires many fewer dependencies.
 '''
+from __future__ import print_function
 
 import sys,os
-import tkSimpleDialog
-import tkMessageBox
-import tkFileDialog
+import tkinter.simpledialog
+import tkinter.messagebox
+import tkinter.filedialog
 import Pmw
-import Tkinter
-from Tkinter import *
+import tkinter
+from tkinter import *
 from pymol import cmd
 
 DEBUG=1
@@ -31,9 +32,9 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
     True/False -  if False, something went wrong
     """
     if SC_DEBUG > 4:
-        print 'Starting show_contacts'
-        print 'selection = "' + selection + '"'
-        print 'selection2 = "' + selection2 + '"'
+        print('Starting show_contacts')
+        print('selection = "' + selection + '"')
+        print('selection2 = "' + selection2 + '"')
             
 
     #if the group of contacts already exist, delete them
@@ -44,8 +45,8 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
     all_don_acc2 = selection2 + " and  (donor or acceptor)"
     
     if SC_DEBUG > 4:
-        print 'all_don_acc1 = "' + all_don_acc1 + '"'
-        print 'all_don_acc2 = "' + all_don_acc2 + '"'
+        print('all_don_acc1 = "' + all_don_acc1 + '"')
+        print('all_don_acc2 = "' + all_don_acc2 + '"')
     
     #if theses selections turn out not to have any atoms in them, pymol throws cryptic errors when calling the dist function like:
     #'Selector-Error: Invalid selection name'
@@ -57,9 +58,9 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
     #print out some warnings
     if DEBUG > 3:
         if not all1_sele_count:
-            print 'Warning: all_don_acc1 selection empty!'
+            print('Warning: all_don_acc1 selection empty!')
         if not all2_sele_count:
-            print 'Warning: all_don_acc2 selection empty!'
+            print('Warning: all_don_acc2 selection empty!')
     
     ########################################
     allres = result + "_all"
@@ -111,13 +112,13 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
     #print out some warnings
     if SC_DEBUG > 2:
         if not onlyacceptors1_sele_count:
-            print 'Warning: onlyacceptors1 selection empty!'
+            print('Warning: onlyacceptors1 selection empty!')
         if not onlyacceptors2_sele_count:
-            print 'Warning: onlyacceptors2 selection empty!'
+            print('Warning: onlyacceptors2 selection empty!')
         if not onlydonors1_sele_count:
-            print 'Warning: onlydonors1 selection empty!'
+            print('Warning: onlydonors1 selection empty!')
         if not onlydonors2_sele_count:
-            print 'Warning: onlydonors2 selection empty!'    
+            print('Warning: onlydonors2 selection empty!')    
             
     
     accres = result+"_aa"
@@ -125,10 +126,10 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
         aa_dist_out = cmd.distance(accres, 'onlyacceptors1_sele', 'onlyacceptors2_sele', cutoff, 0)
 
         if aa_dist_out < 0:
-            print '\n\nCaught a pymol selection error in acceptor-acceptor selection of show_contacts'
-            print 'accres:', accres
-            print 'onlyacceptors1', onlyacceptors1
-            print 'onlyacceptors2', onlyacceptors2
+            print('\n\nCaught a pymol selection error in acceptor-acceptor selection of show_contacts')
+            print('accres:', accres)
+            print('onlyacceptors1', onlyacceptors1)
+            print('onlyacceptors2', onlyacceptors2)
             return False
     
         cmd.set("dash_color","red",accres)
@@ -142,11 +143,11 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
         
         #try to catch the error state 
         if dd_dist_out < 0:
-            print '\n\nCaught a pymol selection error in dd selection of show_contacts'
-            print 'donres:', donres
-            print 'onlydonors1', onlydonors1
-            print 'onlydonors2', onlydonors2
-            print "cmd.distance('" + donres + "', '" + onlydonors1 + "', '" + onlydonors2 + "', " + str(cutoff) + ", 0)"  
+            print('\n\nCaught a pymol selection error in dd selection of show_contacts')
+            print('donres:', donres)
+            print('onlydonors1', onlydonors1)
+            print('onlydonors2', onlydonors2)
+            print("cmd.distance('" + donres + "', '" + onlydonors1 + "', '" + onlydonors2 + "', " + str(cutoff) + ", 0)")  
             return False
         
         cmd.set("dash_color","red",donres)  
@@ -236,7 +237,7 @@ class Show_Contacts:
     def button_pressed(self, result):
         if hasattr(result,'keycode'):
             if result.keycode == 36:
-                print 'keycode:', result.keycode
+                print('keycode:', result.keycode)
         elif result == 'Ok' or result == 'Exit' or result == None:
             s1 = self.select_object_combo_box.get()
             s2 = self.select_object_combo_box2.get()
