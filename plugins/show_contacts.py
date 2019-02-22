@@ -8,12 +8,7 @@ The advantage of this package is it requires many fewer dependencies.
 from __future__ import print_function
 
 import sys,os
-import tkinter.simpledialog
-import tkinter.messagebox
-import tkinter.filedialog
-import Pmw
-import tkinter
-from tkinter import *
+import Pmw 
 from pymol import cmd
 
 DEBUG=1
