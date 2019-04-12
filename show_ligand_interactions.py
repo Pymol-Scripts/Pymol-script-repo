@@ -2,7 +2,7 @@
 # author: Thomas Evangelidis, 2019
 # License: BSD-2-Clause
 
-from pymol import cmd
+from pymol import cmd, util
 
 def show_ligand_interactions(recsel="not hetatm", ligsel="hetatm", cuttof=5):
     """
