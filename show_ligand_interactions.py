@@ -4,7 +4,7 @@
 
 from pymol import cmd, util
 
-def show_ligand_interactions(recsel="not hetatm", ligsel="hetatm", cuttof=5):
+def show_ligand_interactions(recsel="not hetatm", ligsel="hetatm", cutoff=5):
     """
 DESCRIPTION
 
@@ -25,10 +25,10 @@ ARGUMENTS
     cmd.show_as('sticks', 'hetatm')
     cmd.set('cartoon_transparency', 0.2)
     cmd.spectrum(selection=recsel+" or "+ligsel,byres=1)
-    util.cbag('not name C*')
+    util.cbag('not elem C')
     cmd.set('cartoon_fancy_helices', 1);
     cmd.show("sticks", "(hydro)");
-    cmd.select("pocket", "byres (receptor within %s of ligand)" % cuttof);
+    cmd.select("pocket", "byres (receptor within %s of ligand)" % cutoff);
     cmd.show("sticks", "pocket")
     cmd.hide('(h. and (e. c extend 1))')
     cmd.set('h_bond_max_angle', 30)
