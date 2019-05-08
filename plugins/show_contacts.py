@@ -31,6 +31,7 @@ def show_contacts(selection,selection2,result="contacts",cutoff=3.6, bigcutoff =
         print('selection = "' + selection + '"')
         print('selection2 = "' + selection2 + '"')
             
+    result = cmd.get_legal_name(result)
 
     #if the group of contacts already exist, delete them
     cmd.delete(result)
@@ -189,7 +190,7 @@ requiring the installation of additional dependencies.
 '''
 
 class Show_Contacts:
-    ''' Main Pymol Plugin Class '''
+    ''' Tk version of the Plugin GUI '''
     def __init__(self, app):
         parent = app.root
         self.parent = parent
@@ -247,7 +248,7 @@ class Show_Contacts:
     def populate_ligand_select_list(self):
         ''' Go thourgh the loaded objects in PyMOL and add them to the selected list. '''
         #get the loaded objects
-        loaded_objects = [ name for name in cmd.get_names('all') if '_cluster_' not in name ]
+        loaded_objects = _get_select_list()
          
         self.select_object_combo_box.clear()
         self.select_object_combo_box2.clear()
@@ -257,9 +258,81 @@ class Show_Contacts:
             self.select_object_combo_box2.insert('end', ob)
         
 
+def _get_select_list():
+    '''
+    Get either a list of object names, or a list of chain selections
+    '''
+    loaded_objects = [name for name in cmd.get_names('all', 1) if '_cluster_' not in name]
+
+    # if single object, try chain selections
+    if len(loaded_objects) == 1:
+        chains = cmd.get_chains(loaded_objects[0])
+        if len(chains) > 1:
+            loaded_objects = ['{} & chain {}'.format(loaded_objects[0], chain) for chain in chains]
+
+    return loaded_objects
+
+
+class Show_Contacts_Qt_Dialog(object):
+    ''' Qt version of the Plugin GUI '''
+    def __init__(self):
+        from pymol.Qt import QtWidgets
+        dialog = QtWidgets.QDialog()
+        self.setupUi(dialog)
+        self.populate_ligand_select_list()
+        dialog.accepted.connect(self.accept)
+        dialog.exec_()
+
+    def accept(self):
+        s1 = self.select_object_combo_box.currentText()
+        s2 = self.select_object_combo_box2.currentText()
+        show_contacts(s1, s2, '%s_%s' % (s1, s2))
+
+    def populate_ligand_select_list(self):
+        loaded_objects = _get_select_list()
+
+        self.select_object_combo_box.clear()
+        self.select_object_combo_box2.clear()
+
+        self.select_object_combo_box.addItems(loaded_objects)
+        self.select_object_combo_box2.addItems(loaded_objects)
+
+        if len(loaded_objects) > 1:
+            self.select_object_combo_box2.setCurrentIndex(1)
+
+    def setupUi(self, Dialog):
+        # Based on auto-generated code from ui file
+        from pymol.Qt import QtCore, QtWidgets
+        Dialog.resize(400, 50)
+        self.gridLayout = QtWidgets.QGridLayout(Dialog)
+        label = QtWidgets.QLabel("Select loaded object:", Dialog)
+        self.gridLayout.addWidget(label, 0, 0, 1, 1)
+        self.select_object_combo_box = QtWidgets.QComboBox(Dialog)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        self.select_object_combo_box.setSizePolicy(sizePolicy)
+        self.select_object_combo_box.setEditable(True)
+        self.gridLayout.addWidget(self.select_object_combo_box, 0, 1, 1, 1)
+        label = QtWidgets.QLabel("Select loaded object:", Dialog)
+        self.gridLayout.addWidget(label, 1, 0, 1, 1)
+        self.select_object_combo_box2 = QtWidgets.QComboBox(Dialog)
+        self.select_object_combo_box2.setSizePolicy(sizePolicy)
+        self.select_object_combo_box2.setEditable(True)
+        self.gridLayout.addWidget(self.select_object_combo_box2, 1, 1, 1, 1)
+        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.gridLayout.addWidget(self.buttonBox, 2, 0, 1, 2)
+        self.buttonBox.accepted.connect(Dialog.accept)
+        self.buttonBox.rejected.connect(Dialog.reject)
 
     
 def __init__(self):
+    try:
+        from pymol.plugins import addmenuitemqt
+        addmenuitemqt('Show Contacts', Show_Contacts_Qt_Dialog)
+        return
+    except Exception as e:
+        print(e)
     self.menuBar.addmenuitem('Plugin', 'command', 'Show Contacts', label = 'Show Contacts', command = lambda s=self : Show_Contacts(s))  
         
 
