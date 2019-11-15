@@ -1,89 +1,134 @@
 """
-    Set and get views stored on the .pse session.
+    Manage views and scenes.
     
     Pedro Sousa Lacerda <pslacerda@gmail.com>
     LaBiMM / UFBA: Laboratório de Bioinformática e Modelagem Molecular
 
-    It is the last option ("Manage views") on the "Scene" menu. Double-click to
-    rename a view. Erase it's name to delete it.
-
-    In order to persist data in the PSE session it stores data into the
-    mesh_clear_selection setting. It was the only way I found, if you use such
-    option, try other string settings (some are persisted).
+    Open it with the "Manage views" and "Manage scenes" options on the "Scene"
+    menu. Double-click to rename a entry. Erase it's name to delete it.
+    
 """
 
-import json
-
+import pymol
 import pymol.gui
 from pymol import cmd
+from pymol.cmd import _cmd
 from pymol.Qt import QtWidgets, QtCore, QtGui
 
 
-DATA_SETTING_KEY = "mesh_clear_selection"
+
+class ViewManager:
+
+    @staticmethod
+    def recall(key):
+        cmd.view(key, 'recall')
+
+    @staticmethod
+    def store(key):
+        cmd.view(key, 'store')
+    
+    @staticmethod
+    def rename(old_key, new_key):
+        curr_view = cmd.get_view()
+        cmd.view(old_key, 'recall', False)
+        cmd.view(old_key, 'clear')
+        cmd.view(new_key, 'store')
+        cmd.set_view(curr_view)
+    
+    @staticmethod
+    def clear(key):
+        cmd.view(key, 'clear')
+    
+    @staticmethod
+    def get_keys():
+        return list(pymol._view_dict)
 
 
-def new_view_widget():
+class SceneManager:
+
+    @staticmethod
+    def recall(key):
+        cmd.scene(key, 'recall')
+
+    @staticmethod
+    def store(key):
+        cmd.scene(key, 'store')
+    
+    @staticmethod
+    def rename(old_key, new_key):
+        cmd.scene(key, 'rename', new_key=new_key)
+    
+    @staticmethod
+    def clear(key):
+        cmd.scene(key, 'clear')
+    
+    @staticmethod
+    def get_keys():
+        return _cmd._get_scene_order(_cmd) or []
+
+
+def new_manager_widget(manager, title):
     dockWidget = QtWidgets.QDockWidget()
-    dockWidget.setWindowTitle("Views")
+    dockWidget.setWindowTitle(title)
 
     widget = QtWidgets.QWidget()
     layout = QtWidgets.QVBoxLayout(widget)
     dockWidget.setWidget(widget)
     widget.setLayout(layout)
-
-    viewsModel = QtGui.QStandardItemModel(0, 1, widget)
-    def persist():
-        records = []
-        for i in range(viewsModel.rowCount()):
-            item = viewsModel.itemFromIndex(viewsModel.index(i, 0))
-            text = item.text()
-            view = item.data()
-            records.append((text, view))
-        cmd.set(DATA_SETTING_KEY, json.dumps(records))
-
-    viewsModel.rowsInserted.connect(persist)
-    #viewsModel.rowsMoved.connect(persist)
-    viewsModel.rowsRemoved.connect(persist)
-    @viewsModel.dataChanged.connect
+    
+    model = QtGui.QStandardItemModel(0, 1, widget)
+    
+    tree = QtWidgets.QTreeView(widget)
+    tree.setModel(model)
+    tree.setHeaderHidden(True)
+        
+    current_key = None
+    
+    def update_treeview():
+        model.clear()
+        for key in manager.get_keys():
+            item = QtGui.QStandardItem()
+            item.setText(key)
+            model.blockSignals(True)
+            model.appendRow(item)
+            model.blockSignals(False)
+    
+    @model.rowsInserted.connect
+    def onRowsInserted(index):
+        key = model.itemFromIndex(index).text()
+        store_view(key)
+        update_treeview()
+        
+    @model.dataChanged.connect
     def onDataChanged(index):
-        item = viewsModel.itemFromIndex(index)
-        if item.text() == "":
-            viewsModel.removeRow(index.row())
+        new_key = model.itemFromIndex(index).text()
+        if new_key == "":
+            manager.clear(current_key)
         else:
-            persist()
-
+            manager.rename(current_key, new_key)
+        update_treeview()
+    
     @dockWidget.visibilityChanged.connect
     def onVisibilityChanged(visible):
         if not visible:
             return
-        viewsModel.clear()
-        try:
-            records = json.loads(cmd.get(DATA_SETTING_KEY))
-        except:
-            records = []
-        
-        for (text, view) in records:
-            item = QtGui.QStandardItem()
-            item.setText(text)
-            item.setData(view)
-            viewsModel.appendRow(item)
+        update_treeview()
     
-    tree = QtWidgets.QTreeView(widget)
-    tree.setModel(viewsModel)
-    tree.setHeaderHidden(True)
     @tree.clicked.connect
     def onClicked(index):
-        view = viewsModel.itemFromIndex(index).data()
-        cmd.set_view(view)
+        nonlocal current_key
+
+        key = model.itemFromIndex(index).text()
+        current_key = key
+        
+        manager.recall(key)
     
     storeBtn = QtWidgets.QPushButton("Store", widget)
     @storeBtn.clicked.connect
     def onClicked():
-        count = viewsModel.rowCount()
-        item = QtGui.QStandardItem()
-        item.setText(f"view{count}")
-        item.setData(cmd.get_view())
-        viewsModel.appendRow(item)
+        count = len(manager.get_keys())
+        manager.store(f"view{count}")
+        update_treeview()
     
     layout.addWidget(tree)
     layout.addWidget(storeBtn)
@@ -94,9 +139,9 @@ def __init_plugin__(app=None):
     window = pymol.gui.get_qtwindow()
     menu = window.menudict['Scene']
     menu.addSeparator()
-    action = menu.addAction("Manage views")
     
-    widget = new_view_widget()
+    action = menu.addAction("Manage views")
+    widget = new_manager_widget(ViewManager, "Views")
     window.addDockWidget(
         QtCore.Qt.LeftDockWidgetArea,
         widget
@@ -105,3 +150,16 @@ def __init_plugin__(app=None):
     @action.triggered.connect
     def toggle():
         widget.show()
+
+    action = menu.addAction("Manage scenes")
+    widget = new_manager_widget(SceneManager, "Scenes")
+    window.addDockWidget(
+        QtCore.Qt.LeftDockWidgetArea,
+        widget
+    )
+    widget.hide()
+    @action.triggered.connect
+    def toggle():
+        widget.show()
+
+__init_plugin__()
