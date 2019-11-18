@@ -5,8 +5,7 @@
     LaBiMM / UFBA: Laboratório de Bioinformática e Modelagem Molecular
 
     Click on the "Manage views" option on the "Scene" menu (the last one).
-    Double-click an entry to rename the view. Erase it's name to delete it. 
-    
+    Double-click an entry to rename the view. Erase it's name to delete it.
 """
 
 import pymol
@@ -131,4 +130,3 @@ def __init_plugin__(app=None):
     @action.triggered.connect
     def toggle():
         widget.show()
-

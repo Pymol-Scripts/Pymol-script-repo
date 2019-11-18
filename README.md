@@ -1,12 +1,3 @@
-[![Code Health](https://landscape.io/github/Pymol-Scripts/Pymol-script-repo/master/landscape.svg?style=flat)](https://landscape.io/github/Pymol-Scripts/Pymol-script-repo/master)
-###This is the project to put all PyMOL script under Git control.
+## PyMOL Script Repository
 
-See more here: [Git intro](http://www.pymolwiki.org/index.php/Git_intro)
-
-###Import script in pymol by filename of script
-```import colorbydisplacement```
-
-To see the functions in the script:
-``` 
-help(colorbydisplacement)
-```
+This repository hosts most of the scripts and (single file) plugins from the [PyMOL Wiki](http://www.pymolwiki.org/). If you have a new script or plugin consider place it here. There is a [Git intro](http://www.pymolwiki.org/index.php/Git_intro) page for new contributors.
