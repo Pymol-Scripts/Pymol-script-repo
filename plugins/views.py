@@ -12,13 +12,12 @@
 import pymol
 import pymol.gui
 from pymol import cmd
-from pymol.cmd import _cmd
+from pymol import _cmd
 from pymol.Qt import QtWidgets, QtCore, QtGui
 
 
-
 class ViewManager:
-
+    
     @staticmethod
     def recall(key):
         cmd.view(key, 'recall')
@@ -42,29 +41,11 @@ class ViewManager:
     @staticmethod
     def get_keys():
         return list(pymol._view_dict)
-
-
-class SceneManager:
-
-    @staticmethod
-    def recall(key):
-        cmd.scene(key, 'recall')
-
-    @staticmethod
-    def store(key):
-        cmd.scene(key, 'store')
     
     @staticmethod
-    def rename(old_key, new_key):
-        cmd.scene(key, 'rename', new_key=new_key)
-    
-    @staticmethod
-    def clear(key):
-        cmd.scene(key, 'clear')
-    
-    @staticmethod
-    def get_keys():
-        return _cmd._get_scene_order(_cmd) or []
+    def next_key():
+        count = len(ViewManager.get_keys())
+        return f'view{count}'
 
 
 def new_manager_widget(manager, title):
@@ -151,15 +132,5 @@ def __init_plugin__(app=None):
     def toggle():
         widget.show()
 
-    action = menu.addAction("Manage scenes")
-    widget = new_manager_widget(SceneManager, "Scenes")
-    window.addDockWidget(
-        QtCore.Qt.LeftDockWidgetArea,
-        widget
-    )
-    widget.hide()
-    @action.triggered.connect
-    def toggle():
-        widget.show()
 
 __init_plugin__()
