@@ -4,9 +4,8 @@
     Pedro Sousa Lacerda <pslacerda@gmail.com>
     LaBiMM / UFBA: Laboratório de Bioinformática e Modelagem Molecular
 
-    Open it with the "Manage views" and "Manage scenes" options on the "Scene"
-    menu. Double-click to rename a entry. Erase it's name to delete it.
-    
+    Click on the "Manage views" option on the "Scene" menu (the last one).
+    Double-click an entry to rename the view. Erase it's name to delete it.
 """
 
 import pymol
@@ -131,6 +130,3 @@ def __init_plugin__(app=None):
     @action.triggered.connect
     def toggle():
         widget.show()
-
-
-__init_plugin__()
