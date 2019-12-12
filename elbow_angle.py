@@ -25,12 +25,20 @@ REQUIREMENTS
     com.py
         by Jason Vertrees
         http://www.pymolwiki.org/index.php/com
+
+
+CHANGELOG
+=========
+* 0.1.1
+  - fixed: Print an error message instead of failing silently when a limit
+    residue doesn't exist.
+
 '''
 
 from __future__ import print_function
 
 __author__ = 'Jared Sampson'
-__version__ = '0.1'
+__version__ = '0.1.1'
 
 
 from pymol import cmd
@@ -169,8 +177,28 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     # the C-alpha atoms of limit_l and limit_h of the original fab
     hinge_l_sel = "%s//%s/%s/CA" % (obj, light, limit_l)
     hinge_h_sel = "%s//%s/%s/CA" % (obj, heavy, limit_h)
-    hinge_l = cmd.get_atom_coords(hinge_l_sel)
-    hinge_h = cmd.get_atom_coords(hinge_h_sel)
+
+    def safe_get_atom_coords(sel):
+        '''Get atom coords or return None if not found.
+
+        Works around a bug in cmd.get_atom_coords() where it fails silently if
+        the atom in the selection does not exist.
+
+        See: https://github.com/schrodinger/pymol-open-source/issues/74
+        '''
+        try:
+            cmd.id_atom(sel)
+            return cmd.get_atom_coords(sel)
+        except:
+            print(f'No coordinates found for atom """{sel}"""')
+            return None
+
+    hinge_l = safe_get_atom_coords(hinge_l_sel)
+    hinge_h = safe_get_atom_coords(hinge_h_sel)
+    if None in [hinge_l, hinge_h]:
+        raise ValueError('Unable to calculate elbow angle. Please check '
+                         'your limit and chain selections and try again.')
+
     hinge_vec = numpy.array(hinge_h) - numpy.array(hinge_l)
 
     test = numpy.dot(hinge_vec, numpy.cross(direction_v, direction_c))
