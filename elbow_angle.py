@@ -42,6 +42,7 @@ __version__ = '0.1.1'
 
 
 from pymol import cmd
+from pymol import pymol
 import numpy
 
 try:
@@ -178,27 +179,15 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     hinge_l_sel = "%s//%s/%s/CA" % (obj, light, limit_l)
     hinge_h_sel = "%s//%s/%s/CA" % (obj, heavy, limit_h)
 
-    def safe_get_atom_coords(sel):
-        '''Get atom coords or return None if not found.
-
-        Works around a bug in cmd.get_atom_coords() where it fails silently if
-        the atom in the selection does not exist.
-
-        See: https://github.com/schrodinger/pymol-open-source/issues/74
-        '''
-        try:
-            cmd.id_atom(sel)
-            return cmd.get_atom_coords(sel)
-        except:
-            print(f'No coordinates found for atom """{sel}"""')
-            return None
-
-    hinge_l = safe_get_atom_coords(hinge_l_sel)
-    hinge_h = safe_get_atom_coords(hinge_h_sel)
-    if None in [hinge_l, hinge_h]:
-        raise ValueError('Unable to calculate elbow angle. Please check '
-                         'your limit and chain selections and try again.')
-
+    try:
+        hinge_l = cmd.get_atom_coords(hinge_l_sel)
+        hinge_h = cmd.get_atom_coords(hinge_h_sel)
+    except pymol.CmdException:
+        # Either hinge_l_sel or hinge_h_sel atom did not exist.
+        raise pymol.CmdException(
+            'Unable to calculate elbow angle. Please check '
+            'your limit and chain selections and try again.'
+        )
     hinge_vec = numpy.array(hinge_h) - numpy.array(hinge_l)
 
     test = numpy.dot(hinge_vec, numpy.cross(direction_v, direction_c))
