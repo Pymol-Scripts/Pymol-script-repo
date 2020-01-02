@@ -42,7 +42,7 @@ __version__ = '0.1.1'
 
 
 from pymol import cmd
-from pymol import pymol
+import pymol
 import numpy
 
 try:
