@@ -25,15 +25,24 @@ REQUIREMENTS
     com.py
         by Jason Vertrees
         http://www.pymolwiki.org/index.php/com
+
+
+CHANGELOG
+=========
+* 0.1.1
+  - fixed: Print an error message instead of failing silently when a limit
+    residue doesn't exist.
+
 '''
 
 from __future__ import print_function
 
 __author__ = 'Jared Sampson'
-__version__ = '0.1'
+__version__ = '0.1.1'
 
 
 from pymol import cmd
+import pymol
 import numpy
 
 try:
@@ -169,8 +178,16 @@ REQUIRES: com.py, transformations.py, numpy (see above)
     # the C-alpha atoms of limit_l and limit_h of the original fab
     hinge_l_sel = "%s//%s/%s/CA" % (obj, light, limit_l)
     hinge_h_sel = "%s//%s/%s/CA" % (obj, heavy, limit_h)
-    hinge_l = cmd.get_atom_coords(hinge_l_sel)
-    hinge_h = cmd.get_atom_coords(hinge_h_sel)
+
+    try:
+        hinge_l = cmd.get_atom_coords(hinge_l_sel)
+        hinge_h = cmd.get_atom_coords(hinge_h_sel)
+    except pymol.CmdException:
+        # Either hinge_l_sel or hinge_h_sel atom did not exist.
+        raise pymol.CmdException(
+            'Unable to calculate elbow angle. Please check '
+            'your limit and chain selections and try again.'
+        )
     hinge_vec = numpy.array(hinge_h) - numpy.array(hinge_l)
 
     test = numpy.dot(hinge_vec, numpy.cross(direction_v, direction_c))
