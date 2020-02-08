@@ -17,11 +17,11 @@ class annotate():
 
     Initiator `__init__` has 2 parameters:
 
-    :param aaseq: STRING: A SINGLE-LETTER, amino acid sequence corresponding to the complete VH or VL chain. Both uppercase and lowercase are accepted.
+    :param aaseq: STRING: A SINGLE-LETTER, amino acid sequence corresponding to the complete VH or VL chain.
 
     :param scheme: STRING: "kabat", "chothia", "contact", or "imgt". Must be in LOWERCASE
 
-    Class has 3 methods. `retrieve()`: retrieves numbered seqs from Abnum website, then sends it to method `analyze` to determine the FR and CDR regions, and to `output() ` to print the result and return a list of 2 dictionaries, the first of which contains to region:seq pairs, the second of which contains number:residue pairs.
+    Class has 3 methods. `retrieve()`: retrieves numbered seqs from Abnum website, then sends it to method `analyze` to determine the FR and CDR regions, and to `output() ` to print the result
 
     """
 
