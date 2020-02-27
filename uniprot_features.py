@@ -167,8 +167,7 @@ ARGUMENTS
         from urllib.request import urlopen
 
     if len(pdb_id) != 4 or not pdb_id[0].isdigit():
-        print(' Error: invalid pdb_id:', pdb_id)
-        raise CmdException
+        raise CmdException('invalid pdb_id: ' + pdb_id)
 
     if not selection:
         selection = pdb_id
@@ -183,6 +182,8 @@ ARGUMENTS
 
     try:
         for line in urlopen(url):
+            if not isinstance(line, str):
+                line = line.decode('utf-8')
             if not line.startswith(pdb_id):
                 continue
 
@@ -202,8 +203,7 @@ ARGUMENTS
 
             mappings[chain][1][int(number)] = resno
     except Exception as e:
-        print(' Error:', e)
-        raise CmdException
+        raise CmdException(str(e))
 
     for chain, (acc, sm) in mappings.items():
         uniprot_features(acc, '(%s) and chain %s' % (selection, chain),
