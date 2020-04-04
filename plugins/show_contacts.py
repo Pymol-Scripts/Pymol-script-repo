@@ -8,7 +8,6 @@ The advantage of this package is it requires many fewer dependencies.
 from __future__ import print_function
 
 import sys,os
-import Pmw 
 from pymol import cmd
 
 DEBUG=1
@@ -197,6 +196,7 @@ class Show_Contacts:
         
         self.app = app
         
+        import Pmw
 
         ############################################################################################
         ### Open a window with options to select to loaded objects ###
