@@ -78,7 +78,7 @@ SEE ALSO
         p0, p1 = int(floor(p)), int(ceil(p))
         ii = (p - p0)
         col_list = [colvec[p1][j] * ii + colvec[p0][j] * (1.0 - ii) for j in range(3)]
-        col_name = '0x%02x%02x%02x' % (col_list[0] * 255, col_list[1] * 255, col_list[2] * 255)
+        col_name = '0x%02x%02x%02x' % tuple(int(0xFF * v) for v in col_list)
         for s in settings:
             cmd.set(s, col_name, selection, state=i + first)
 
