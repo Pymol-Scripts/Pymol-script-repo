@@ -1,21 +1,26 @@
-from Tkinter import *
-import tkSimpleDialog
-import tkMessageBox
-import tkColorChooser
-import tkFileDialog
+from __future__ import print_function
+
 import sys
+if sys.version_info[0] < 3:
+    from Tkinter import *
+    import tkSimpleDialog
+    import tkMessageBox
+    import tkColorChooser
+else:
+    from tkinter import *
+    from tkinter import simpledialog as tkSimpleDialog
+    import tkinter.messagebox as tkMessageBox
+    import tkinter.colorchooser as tkColorChooser
+
 import re
-from pymol import stored, cmd, selector
+from pymol import stored, cmd
 import math
 from pymol.cgo import *
 from pymol.vfont import plain
-try:
-    from cctbx import sgtbx, uctbx
-    import numpy as N
-    from numpy.linalg import *
-    from cctbx import uctbx, sgtbx
-except:
-    quit("Oops! SuperSym requires cctbx and numeric python to function. Please install these.")
+
+from cctbx import sgtbx, uctbx
+import numpy as N
+from numpy.linalg import *
 
 
 def __init__(self):
@@ -391,7 +396,7 @@ def symset(prefix = "sym", object = -1, x=0,y=0,z=0, opList = []):
         try:
             op = opMatrices[i]
         except:
-            print "Bad symmetry partner numbers. Try again."
+            print("Bad symmetry partner numbers. Try again.")
             quit()
         copy = "%s%02d_%d_%d_%d" % (prefix, i, x, y, z)
         cmd.copy(copy, object)
@@ -522,8 +527,8 @@ def get_orthogonalization_matrix(object, quiet = 0):
                                 [0.0, b * sg, c * (ca - cb * cg) / sg],
                                 [0.0, 0.0, c * sb * math.sqrt(1.0 - ((cb * cg - ca) / (sb * sg))**2)]])
     if not quiet:
-        print fracToOrt
-        print inv(fracToOrt)
+        print(fracToOrt)
+        print(inv(fracToOrt))
     return fracToOrt
 
 # -*- coding: utf-8 -*-
@@ -562,7 +567,7 @@ def findSurfaceResidues(objSel="(all)", cutoff=2.5, selName = 0):
 
  stored.tmp_dict = {}
  cmd.iterate(tmpObj, "stored.tmp_dict[(chain,resv)]=1")
- exposed = stored.tmp_dict.keys()
+ exposed = list(stored.tmp_dict.keys())
  exposed.sort()
 
  cmd.select(selName, objSel + " in " + tmpObj )
@@ -615,14 +620,14 @@ def draw_cell_param(cell_param_list,radius=1.0,mode=0):
 
   U=uctbx.unit_cell((cell_param_list))
 
-  vert_000 = map(set_to_zero,U.orthogonalize((0.,0.,0)))
-  vert_100 = map(set_to_zero,U.orthogonalize((1.,0.,0)))
-  vert_010 = map(set_to_zero,U.orthogonalize((0.,1.,0)))
-  vert_001 = map(set_to_zero,U.orthogonalize((0.,0.,1)))
-  vert_110 = map(set_to_zero,U.orthogonalize((1.,1.,0)))
-  vert_011 = map(set_to_zero,U.orthogonalize((0.,1.,1)))
-  vert_101 = map(set_to_zero,U.orthogonalize((1.,0.,1)))
-  vert_111 = map(set_to_zero,U.orthogonalize((1.,1.,1)))
+  vert_000 = list(map(set_to_zero,U.orthogonalize((0.,0.,0))))
+  vert_100 = list(map(set_to_zero,U.orthogonalize((1.,0.,0))))
+  vert_010 = list(map(set_to_zero,U.orthogonalize((0.,1.,0))))
+  vert_001 = list(map(set_to_zero,U.orthogonalize((0.,0.,1))))
+  vert_110 = list(map(set_to_zero,U.orthogonalize((1.,1.,0))))
+  vert_011 = list(map(set_to_zero,U.orthogonalize((0.,1.,1))))
+  vert_101 = list(map(set_to_zero,U.orthogonalize((1.,0.,1))))
+  vert_111 = list(map(set_to_zero,U.orthogonalize((1.,1.,1))))
 
 #  vert_000 = map(None,U.orthogonalize((0.,0.,0)))
 #  vert_100 = map(None,U.orthogonalize((1.,0.,0)))
@@ -692,9 +697,9 @@ def draw_cell_param(cell_param_list,radius=1.0,mode=0):
   #wire_text(text,plain,map(None,U.orthogonalize((0.0,0.0,1.05))),'C',[[3.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,3.0]])
 
     cyl_text(text,plain,[-5.,-5.,-1],'Origin',0.20,axes=[[3.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,3.0]],color=[1.0,0.0,1.0])
-    cyl_text(text,plain,map(None,U.orthogonalize((1.05,0.0,0.0))),'A',0.20,axes=[[3.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,3.0]],color=[1.0,0.0,0.0])
-    cyl_text(text,plain,map(None,U.orthogonalize((0.0,1.05,0.0))),'B',0.20,axes=[[3.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,3.0]],color=[0.0,1.0,0.0])
-    cyl_text(text,plain,map(None,U.orthogonalize((0.0,0.0,1.05))),'C',0.20,axes=[[3.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,3.0]],color=[0.0,0.0,1.0])
+    cyl_text(text,plain,list(U.orthogonalize((1.05,0.0,0.0))),'A',0.20,axes=[[3.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,3.0]],color=[1.0,0.0,0.0])
+    cyl_text(text,plain,list(U.orthogonalize((0.0,1.05,0.0))),'B',0.20,axes=[[3.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,3.0]],color=[0.0,1.0,0.0])
+    cyl_text(text,plain,list(U.orthogonalize((0.0,0.0,1.05))),'C',0.20,axes=[[3.0,0.0,0.0],[0.0,3.0,0.0],[0.0,0.0,3.0]],color=[0.0,0.0,1.0])
 
     cmd.load_cgo(text,'text')
 
@@ -865,8 +870,8 @@ def draw_symops_param(cell_param_list,sg,radius=0.2,extension=0):
   if symop_axes:
     for ax in symop_axes:
       #print ax
-      start = map(set_to_zero,U.orthogonalize(list(ax['start'])))
-      end = map(set_to_zero,U.orthogonalize(list(ax['end'])))
+      start = list(map(set_to_zero,U.orthogonalize(list(ax['start']))))
+      end = list(map(set_to_zero,U.orthogonalize(list(ax['end']))))
 ###############################################################################
 # Tried rounding off start and end values in order to understand why axes go
 # missing in the drawing, but seem to be present in the cgo.  Doesn't help!
@@ -910,7 +915,7 @@ def draw_symops_param(cell_param_list,sg,radius=0.2,extension=0):
 #  #######################################################################################
 
   else:
-    print "\nNo symmetry axes found for this space group: %s\n" % sg
+    print("\nNo symmetry axes found for this space group: %s\n" % sg)
 
   for key,val in ax_obj.items():
     name=sg + "_" + key
@@ -936,27 +941,6 @@ def draw_symops_param(cell_param_list,sg,radius=0.2,extension=0):
 
 def list_plus(lhs, rhs):
   return [l + r for l, r in zip(lhs, rhs)]
-
-def list_minus(lhs, rhs):
-  return [l - r for l, r in zip(lhs, rhs)]
-
-def list_multiplies(lhs, rhs):
-  return [l * r for l, r in zip(lhs, rhs)]
-
-def list_divides(lhs, rhs):
-  return [l / r for l, r in zip(lhs, rhs)]
-
-def list_modulus(lhs, rhs):
-  return [l % r for l, r in zip(lhs, rhs)]
-
-def list_dot_product(lhs, rhs=0):
-  if rhs == 0: rhs = lhs
-  result = 0
-  for l, r in zip(lhs, rhs): result += l * r
-  return result
-
-def str_ev(EV):
-  return "[%d,%d,%d]" % EV
 
 ###def fract_2_dec(fraction):
 ###  list = fraction.split('/')
@@ -1081,7 +1065,7 @@ def get_all_axes(space_group_symbol=None, space_group_info=None, extension=0):
           if rtmxanal:
             #print rtmxanal
             axes_dict[rtmxanal] = 0
-  axes_list = axes_dict.keys()
+  axes_list = list(axes_dict.keys())
   axes_list.sort()
 
   # reject nonenantiomorphic space groups
@@ -1090,14 +1074,14 @@ def get_all_axes(space_group_symbol=None, space_group_info=None, extension=0):
       sgtbx.space_group_info(space_group_symbol).show_summary(),
       #print len(axes_list), space_group_symbol
     except:
-      print space_group, space_group_symbol
-      print
+      print(space_group, space_group_symbol)
+      print()
       sys.exit(1)
     axes = []
     for a in axes_list:
       if len(a) == 3 and len(a[1]) == 3 and len(a[2]) == 3:
         tmp_dict = {}
-        print "%4s %7.4f %7.4f %7.4f    %7.4f %7.4f %7.4f " % (a[0],a[1][0],a[1][1],a[1][2],a[2][0],a[2][1],a[2][2])
+        print("%4s %7.4f %7.4f %7.4f    %7.4f %7.4f %7.4f " % (a[0],a[1][0],a[1][1],a[1][2],a[2][0],a[2][1],a[2][2]))
         tmp_dict['symb'] = a[0]
         start_array = N.asarray(a[1])
         end_array = N.asarray(a[2])
@@ -1109,7 +1093,7 @@ def get_all_axes(space_group_symbol=None, space_group_info=None, extension=0):
 #rlc#        tmp_dict['end'] = a[2]
         axes.append(tmp_dict)
       else:
-        print a
+        print(a)
   else:
     return None
 
