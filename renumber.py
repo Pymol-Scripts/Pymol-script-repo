@@ -26,8 +26,8 @@ ARGUMENTS
     '''
     start, quiet = int(start), int(quiet)
     model = cmd.get_model(selection)
-    cmd.iterate(selection, 'atom_it.next().model = model',
-                space={'atom_it': iter(model.atom)})
+    cmd.iterate(selection, 'next(atom_it).model = model',
+            space={'atom_it': iter(model.atom), 'next': next})
     if startsele is not None:
         startidx = cmd.index('first (' + startsele + ')')[0]
         for atom in model.atom:
@@ -63,8 +63,8 @@ ARGUMENTS
             elif (atom.name, other.name) not in [('SG', 'SG')]:
                 traverse(other, resi)
     traverse(startatom, start)
-    cmd.alter(selection, 'resi = atom_it.next().resi',
-              space={'atom_it': iter(model.atom)})
+    cmd.alter(selection, 'resi = next(atom_it).resi',
+            space={'atom_it': iter(model.atom), 'next': next})
     if not quiet:
         print(' Renumber: range (%d to %d)' % tuple(minmax))
 
