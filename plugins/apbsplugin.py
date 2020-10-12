@@ -1263,7 +1263,8 @@ Citation for PDB2PQR:
             finegridpoints = size.getFineGridPoints()  # dime
             center = size.getCenter()  # cgcent and fgcent
             print("APBS's psize.py was used to calculated grid dimensions")
-        except (NoPsize, ImportError):
+        except (NoPsize, ImportError, AttributeError) as e:
+            print(e)
             print("This plugin was used to calculated grid dimensions")
             #
             # First, we need to get the dimensions of the molecule
