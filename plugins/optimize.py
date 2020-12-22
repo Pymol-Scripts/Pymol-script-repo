@@ -247,13 +247,12 @@ def enable_disable_entry(var):
 
 
 def minimize(selection='all', forcefield='MMFF94s', method='Conjugate Gradients', nsteps0= 500, conv=0.0001, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
-    pdb_string = cmd.get_pdbstr(selection)
+    mol_string = cmd.get_str('mol',selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
-    obconversion.SetInAndOutFormats('pdb', 'pdb')
+    obconversion.SetInAndOutFormats('mol', 'mol')
     mol = ob.OBMol()
-    obconversion.ReadString(mol, pdb_string)
-    mol.AddHydrogens()
+    obconversion.ReadString(mol, mol_string)
     ff = ob.OBForceField.FindForceField(forcefield) ## GAFF, MMFF94s, MMFF94, UFF, Ghemical
     ff.Setup(mol)
     if cutoff == True:
@@ -266,24 +265,23 @@ def minimize(selection='all', forcefield='MMFF94s', method='Conjugate Gradients'
         ff.SteepestDescent(nsteps0, conv)
     ff.GetCoordinates(mol)
     nrg = ff.Energy()
-    pdb_string = obconversion.WriteString(mol)
+    mol_string = obconversion.WriteString(mol)
     cmd.delete(name)
     if name == 'all':
         name = 'all_'
-    cmd.read_pdbstr(pdb_string, name)
+    cmd.read_molstr(mol_string, name,state=0,finish=1,discrete=1)
     print('#########################################')
     print('The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit()))
     print('#########################################')
 
 
 def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps1= 500, conformers=25, lowest_conf=5):
-    pdb_string = cmd.get_pdbstr(selection)
+    mol_string = cmd.get_str('mol',selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
-    obconversion.SetInAndOutFormats('pdb', 'pdb')
+    obconversion.SetInAndOutFormats('mol', 'mol')
     mol = ob.OBMol()
-    obconversion.ReadString(mol, pdb_string)
-    mol.AddHydrogens()
+    obconversion.ReadString(mol, mol_string)
     ff = ob.OBForceField.FindForceField(forcefield) ## GAFF, MMFF94s, MMFF94, UFF, Ghemical
     ff.Setup(mol)
     if method == 'Weighted':
@@ -317,8 +315,8 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
             name_n = '%s%02d' % (name, i)
             cmd.delete(name_n)
             mol.SetConformer(orden) 
-            pdb_string = obconversion.WriteString(mol)
-            cmd.read_pdbstr(pdb_string, name_n)
+            mol_string = obconversion.WriteString(mol)
+            cmd.read_molstr(mol_string, name_n,state=0,finish=1,discrete=1)
             if i != 0:
                 rmsd = cmd.fit(name_n, '%s00' % name, quiet=1)
             print('%15s | %10.2f%9s |%6.1f'    % (name_n, nrg, nrg_unit, rmsd))
@@ -326,12 +324,13 @@ def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps
     else:
         ff.GetCoordinates(mol)
         nrg = ff.Energy()
-        pdb_string = obconversion.WriteString(mol)
+        mol_string = obconversion.WriteString(mol)
         cmd.delete(name)
-        cmd.read_pdbstr(pdb_string, name)
+        cmd.read_molstr(mol_string, name,state=0,finish=1,discrete=1)
         print('#########################################')
         print('The Energy of %s is %8.2f %s       '  % (name, nrg, ff.GetUnit()))
         print('#########################################')
 
 cmd.extend('minimize', minimize)
 cmd.extend('conf_search', conf_search)
+
