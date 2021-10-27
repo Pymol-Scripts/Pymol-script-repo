@@ -53,7 +53,7 @@ AUTHOR
 
 LICENSE
 
-Copyright (c) 2014-2017 Jared Sampson
+Copyright (c) 2014-2021 Jared Sampson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -75,6 +75,9 @@ THE SOFTWARE.
 
 CHANGELOG
 
+    0.3.0   Generalize the way colors and menus are defined and added, to
+            enable the use of additional color palettes. [2021-10-27]
+
     0.2.0   Complete overhaul for PyMOL 2.0 with conversion to module format.
             Now, setting the new `cb_*` color values requires a call to the
            `set_colors()` function after import.  You can also now add a
@@ -83,9 +86,10 @@ CHANGELOG
 
 '''
 from __future__ import print_function
+import math
 
 __author__ = 'Jared Sampson'
-__version__ = '0.2.0'
+__version__ = '0.3.0'
 
 import pymol
 from pymol import cmd
@@ -93,87 +97,116 @@ from pymol import cmd
 
 # Color blind-friendly color list based on information found at:
 # http://jfly.iam.u-tokyo.ac.jp/html/color_blind/#pallet
-CB_COLORS = {
-    'black': {
-        'rgb': [0, 0, 0],
-        'alt': None,
+CB_COLORS = [
+    {
+        'name': 'red',
+        'rgb': [213, 94, 0],
+        'alt': ['vermillion', 'red_orange', 'redorange'],
     },
-    'orange': {
+    {
+        'name': 'orange',
         'rgb': [230, 159, 0],
         'alt': None,
     },
-    'sky_blue': {
-        'rgb': [86, 180, 233],
-        'alt': ['skyblue', 'light_blue', 'lightblue'],
-    },
-    'bluish_green': {
-        'rgb': [0, 158, 115],
-        'alt': ['bluishgreen', 'green'],
-    },
-    'yellow': {
+    {
+        'name': 'yellow',
         'rgb': [240, 228, 66],
         'alt': None,
     },
-    'blue': {
+    {
+        'name': 'green',
+        'rgb': [0, 158, 115],
+        'alt': ['bluish_green', 'bluishgreen'],
+    },
+    {
+        'name': 'light_blue',
+        'rgb': [86, 180, 233],
+        'alt': ['sky_blue', 'skyblue', 'lightblue'],
+    },
+    {
+        'name': 'blue',
         'rgb': [0, 114, 178],
         'alt': None,
     },
-    'vermillion': {
-        'rgb': [213, 94, 0],
-        'alt': ['red', 'red_orange', 'redorange'],
-    },
-    'reddish_purple': {
+    {
+        'name': 'violet',
         'rgb': [204, 121, 167],
-        'alt': ['reddishpurple', 'rose', 'violet', 'magenta'],
+        'alt': ['reddish_purple', 'reddishpurple', 'rose', 'magenta'],
+    },
+    {
+        'name': 'black',
+        'rgb': [0, 0, 0],
+        'code': '222',
+        'alt': None,
+    },
+]
+
+
+PALETTES = {
+    'cb_colors': {
+        'colors': CB_COLORS,
+        'prefix': 'cb_',
     },
 }
 
 
-def set_colors(replace=False):
+def _get_palettes(palette=None):
+    '''Return the desired palettes dict.'''
+    if palette is None:
+        palettes = PALETTES
+    else:
+        palettes = {palette: PALETTES[palette]}
+    return palettes
+
+
+def set_colors(palette=None, replace=False):
     '''Add the color blind-friendly colors to PyMOL.'''
-    # Track the added colors
+    palettes = _get_palettes(palette)
     added_colors = []
+    for pname, p in palettes.items():
+        for c in p['colors']:
+            # RGB tuple shortcut
+            rgb = c['rgb']
 
-    for color, properties in CB_COLORS.items():
-        # RGB tuple shortcut
-        rgb = properties['rgb']
+            # Get the primary and alternate color names into a single list
+            names = [c['name']]
+            if c['alt']:
+                names.extend(c['alt'])
 
-        # Get the primary and alternate color names into a single list
-        names = [color]
-        if properties['alt']:
-            names.extend(properties['alt'])
+            # Set the colors
+            for name in names:
+                try:
+                    use_name = p['prefix'] + name
+                except KeyError:
+                    use_name = name
+                cmd.set_color(use_name, rgb)
 
-        # Set the colors
-        for name in names:
-            # Set the cb_color
-            cb_name = 'cb_{}'.format(name)
-            cmd.set_color(cb_name, rgb)
+                # Optionally replace built-in colors
+                if replace:
+                    cmd.set_color(name, rgb)
+                    spacer = (20 - len(name)) * ' '
+                    added_colors.append('    {}{}{}'.format(name, spacer, use_name))
+                else:
+                    added_colors.append('    {}'.format(use_name))
 
-            # Optionally replace built-in colors
-            if replace:
-                cmd.set_color(name, rgb)
-                spacer = (20 - len(name)) * ' '
-                added_colors.append('    {}{}{}'.format(name, spacer, cb_name))
-            else:
-                added_colors.append('    {}'.format(cb_name))
-
-    # Notify user of newly available colors
-    print('\nColor blind-friendly colors are now available:')
-    print('\n'.join(added_colors))
-    print('')
+        # Notify user of newly available colors
+        print(f'\n{pname} colors are now available:')
+        print('\n'.join(added_colors))
+        print('')
 
 
-def add_menu():
-    '''Add a color blind-friendly list of colors to the PyMOL OpenGL menu.'''
+def _add_palette_menu(name, palette, replace=False):
+    '''Add a color palette to the PyMOL OpenGL menu.'''
 
     # Make sure cb_colors are installed.
-    print('Checking for colorblindfriendly colors...')
+    print(f'Checking for {name} colors...')
     try:
-        if cmd.get_color_index('cb_red') == -1:
-            # mimic pre-1.7.4 behavior
-            raise pymol.CmdException
+        for c in palette['colors']:
+            if cmd.get_color_index(c['name']) == -1:
+                # mimic pre-1.7.4 behavior
+                raise pymol.CmdException
     except pymol.CmdException:
-        print('Adding colorblindfriendly colors...')
+        print(f'Adding {name} palette colors...')
         set_colors()
 
     # Abort if PyMOL is too old.
@@ -184,35 +217,57 @@ def add_menu():
         return
 
     # Add the menu
-    print('Adding cb_colors menu...')
+    print(f'Adding {name} menu...')
     # mimic pymol.menu.all_colors_list format
     # first color in list is used for menu item color
-    cb_colors = ('cb_colors', [
-        ('830', 'cb_red'),
-        ('064', 'cb_green'),
-        ('046', 'cb_blue'),
-        ('882', 'cb_yellow'),
-        ('746', 'cb_magenta'),
-        ('368', 'cb_skyblue'),
-        ('860', 'cb_orange'),
-    ])
+
+    def _get_color_code(rgb):
+        '''Return a 3-digit string approximating the RGB color.'''
+        return ''.join([str(math.floor(x / 256 * 10)) for x in rgb])
+
+    # Menu item for each color should be a tuple in the form
+    #    ('999', 'color_name')
+    # where '999' is a string representing the 0-255 RGB color converted to
+    # a 0-9 integer RGB format (i.e. 1000 colors).
+    color_tuples = []
+    for c in palette['colors']:
+        try:
+            # Allow code to be set explicitly in palette definition. This is
+            # helpful for very dark colors, to allow contrast against the black
+            # menu background.
+            color_code = c['code']
+        except KeyError:
+            color_code = _get_color_code(c['rgb'])
+
+        color_tuples.append((color_code, palette['prefix'] + c['name']))
+
+    menu_colors = (name, color_tuples)
+
     # First `pymol` is the program instance, second is the Python module
     all_colors_list = pymol.pymol.menu.all_colors_list
-    if cb_colors in all_colors_list:
-        print('Menu was already added!')
+    if menu_colors in all_colors_list:
+        print(f'Menu for {name} was already added!')
     else:
-        all_colors_list.append(cb_colors)
+        all_colors_list.append(menu_colors)
     print('  done.')
 
 
-def remove_menu():
-    '''Remove the cb_colors menu.'''
+def add_menu(palette=None, replace=False):
+    '''Add the specified color palettes to the PyMOL OpenGL menu.'''
+    palettes = _get_palettes(palette)
+    for name, pal in palettes.items():
+        _add_palette_menu(name, pal, replace=replace)
+
+
+def remove_menu(palette=None):
+    '''Remove the color palette menu(s).'''
+    palettes = _get_palettes(palette)
     all_colors_list = pymol.pymol.menu.all_colors_list
-    if all_colors_list[-1][0] == 'cb_colors':
-        all_colors_list.pop()
-        print('The `cb_colors` menu has been removed.')
-    else:
-        print('The `cb_colors` menu was not found! Aborting.')
+    for p in palettes.keys():
+        for i, menu in enumerate(all_colors_list):
+            if menu[0] == p:
+                del(all_colors_list[i])
+                print(f'Deleted menu for {p} palette.')
 
 
 if __name__ == "pymol":
