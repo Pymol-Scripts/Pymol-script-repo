@@ -142,7 +142,9 @@ CB_COLORS = [
     },
 ]
 
-# Viridis and Magma palettes contributed by Yehudi Bloch
+# Viridis and Magma palettes contributed by Yehudi Bloch, originally
+# developed by Stéfan van der Walt and Nathaniel Smith for matplotlib.
+# https://matplotlib.org/stable/users/prev_whats_new/whats_new_1.5.html
 VIRIDIS_COLORS = [
     {'name':  'viridis1', 'rgb': [253, 231,  36], 'alt': None,},
     {'name':  'viridis2', 'rgb': [186, 222,  39], 'alt': None,},
