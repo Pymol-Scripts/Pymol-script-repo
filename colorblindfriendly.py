@@ -229,9 +229,8 @@ def set_colors(palette=None, replace=False):
                     added_colors.append('    {}'.format(use_name))
 
         # Notify user of newly available colors
-        print(f'\n{pname} colors are now available:')
+        print(f'These {pname} colors are now available:')
         print('\n'.join(added_colors))
-        print('')
 
 
 def _add_palette_menu(name, palette, replace=False):
@@ -246,7 +245,7 @@ def _add_palette_menu(name, palette, replace=False):
                 raise pymol.CmdException
     except pymol.CmdException:
         print(f'Adding {name} palette colors...')
-        set_colors()
+        set_colors(palette=name)
 
     # Abort if PyMOL is too old.
     try:
@@ -285,10 +284,10 @@ def _add_palette_menu(name, palette, replace=False):
     # First `pymol` is the program instance, second is the Python module
     all_colors_list = pymol.pymol.menu.all_colors_list
     if menu_colors in all_colors_list:
-        print(f'Menu for {name} was already added!')
+        print(f'  - Menu for {name} was already added!')
     else:
         all_colors_list.append(menu_colors)
-    print('  done.')
+    print('    done.\n')
 
 
 def add_menu(palette=None, replace=False):
