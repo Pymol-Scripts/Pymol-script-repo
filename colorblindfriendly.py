@@ -201,8 +201,8 @@ def _get_palettes(palette=None):
 def set_colors(palette=None, replace=False):
     '''Add the color blind-friendly colors to PyMOL.'''
     palettes = _get_palettes(palette)
-    added_colors = []
     for pname, p in palettes.items():
+        added_colors = []
         for c in p['colors']:
             # RGB tuple shortcut
             rgb = c['rgb']
