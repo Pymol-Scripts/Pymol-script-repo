@@ -76,7 +76,8 @@ THE SOFTWARE.
 CHANGELOG
 
     0.3.0   Generalize the way colors and menus are defined and added, to
-            enable the use of additional color palettes. [2021-10-27]
+            enable the use of additional color palettes. Add Viridis and Magma
+            palettes (contributed by Yehudi Bloch).  [2021-10-27]
 
     0.2.0   Complete overhaul for PyMOL 2.0 with conversion to module format.
             Now, setting the new `cb_*` color values requires a call to the
@@ -141,11 +142,48 @@ CB_COLORS = [
     },
 ]
 
+# Viridis and Magma palettes contributed by Yehudi Bloch
+VIRIDIS_COLORS = [
+    {'name':  'viridis1', 'rgb': [253, 231,  36], 'alt': None,},
+    {'name':  'viridis2', 'rgb': [186, 222,  39], 'alt': None,},
+    {'name':  'viridis3', 'rgb': [121, 209,  81], 'alt': None,},
+    {'name':  'viridis4', 'rgb': [ 66, 190, 113], 'alt': None,},
+    {'name':  'viridis5', 'rgb': [ 34, 167, 132], 'alt': None,},
+    {'name':  'viridis6', 'rgb': [ 32, 143, 140], 'alt': None,},
+    {'name':  'viridis7', 'rgb': [ 41, 120, 142], 'alt': None,},
+    {'name':  'viridis8', 'rgb': [ 52,  94, 141], 'alt': None,},
+    {'name':  'viridis9', 'rgb': [ 64,  67, 135], 'alt': None,},
+    {'name': 'viridis10', 'rgb': [ 72,  35, 116], 'alt': None,},
+    {'name': 'viridis11', 'rgb': [ 68,   1,  84], 'alt': None,},
+]
+
+MAGMA_COLORS = [
+    {'name':  'magma1', 'rgb': [251, 252, 191], 'alt': None,},
+    {'name':  'magma2', 'rgb': [253, 205, 114], 'alt': None,},
+    {'name':  'magma3', 'rgb': [253, 159, 108], 'alt': None,},
+    {'name':  'magma4', 'rgb': [246, 110,  91], 'alt': None,},
+    {'name':  'magma5', 'rgb': [221,  73, 104], 'alt': None,},
+    {'name':  'magma6', 'rgb': [181,  54, 121], 'alt': None,},
+    {'name':  'magma7', 'rgb': [140,  41, 128], 'alt': None,},
+    {'name':  'magma8', 'rgb': [ 99,  25, 127], 'alt': None,},
+    {'name':  'magma9', 'rgb': [ 59,  15, 111], 'alt': None,},
+    {'name': 'magma10', 'rgb': [ 20,  13,  53], 'alt': None,},
+    {'name': 'magma11', 'rgb': [  0,   0,   3], 'alt': None,},
+]
+
 
 PALETTES = {
     'cb_colors': {
         'colors': CB_COLORS,
         'prefix': 'cb_',
+    },
+    'viridis': {
+        'colors': VIRIDIS_COLORS,
+        'prefix': '',
+    },
+    'magma': {
+        'colors': MAGMA_COLORS,
+        'prefix': '',
     },
 }
 
