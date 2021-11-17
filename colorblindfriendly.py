@@ -146,33 +146,32 @@ CB_COLORS = [
 # developed by Stéfan van der Walt and Nathaniel Smith for matplotlib.
 # https://matplotlib.org/stable/users/prev_whats_new/whats_new_1.5.html
 VIRIDIS_COLORS = [
-    {'name':  'viridis1', 'rgb': [253, 231,  36], 'alt': None,},
-    {'name':  'viridis2', 'rgb': [186, 222,  39], 'alt': None,},
-    {'name':  'viridis3', 'rgb': [121, 209,  81], 'alt': None,},
-    {'name':  'viridis4', 'rgb': [ 66, 190, 113], 'alt': None,},
-    {'name':  'viridis5', 'rgb': [ 34, 167, 132], 'alt': None,},
-    {'name':  'viridis6', 'rgb': [ 32, 143, 140], 'alt': None,},
-    {'name':  'viridis7', 'rgb': [ 41, 120, 142], 'alt': None,},
-    {'name':  'viridis8', 'rgb': [ 52,  94, 141], 'alt': None,},
-    {'name':  'viridis9', 'rgb': [ 64,  67, 135], 'alt': None,},
-    {'name': 'viridis10', 'rgb': [ 72,  35, 116], 'alt': None,},
-    {'name': 'viridis11', 'rgb': [ 68,   1,  84], 'alt': None,},
+    {'name':  'viridis1', 'rgb': [253, 231,  36], 'alt': None},    # noqa: E241
+    {'name':  'viridis2', 'rgb': [186, 222,  39], 'alt': None},    # noqa: E241
+    {'name':  'viridis3', 'rgb': [121, 209,  81], 'alt': None},    # noqa: E241
+    {'name':  'viridis4', 'rgb': [ 66, 190, 113], 'alt': None},    # noqa: E241
+    {'name':  'viridis5', 'rgb': [ 34, 167, 132], 'alt': None},    # noqa: E241
+    {'name':  'viridis6', 'rgb': [ 32, 143, 140], 'alt': None},    # noqa: E241
+    {'name':  'viridis7', 'rgb': [ 41, 120, 142], 'alt': None},    # noqa: E241
+    {'name':  'viridis8', 'rgb': [ 52,  94, 141], 'alt': None},    # noqa: E241
+    {'name':  'viridis9', 'rgb': [ 64,  67, 135], 'alt': None},    # noqa: E241
+    {'name': 'viridis10', 'rgb': [ 72,  35, 116], 'alt': None},    # noqa: E241
+    {'name': 'viridis11', 'rgb': [ 68,   1,  84], 'alt': None},    # noqa: E241
 ]
 
 MAGMA_COLORS = [
-    {'name':  'magma1', 'rgb': [251, 252, 191], 'alt': None,},
-    {'name':  'magma2', 'rgb': [253, 205, 114], 'alt': None,},
-    {'name':  'magma3', 'rgb': [253, 159, 108], 'alt': None,},
-    {'name':  'magma4', 'rgb': [246, 110,  91], 'alt': None,},
-    {'name':  'magma5', 'rgb': [221,  73, 104], 'alt': None,},
-    {'name':  'magma6', 'rgb': [181,  54, 121], 'alt': None,},
-    {'name':  'magma7', 'rgb': [140,  41, 128], 'alt': None,},
-    {'name':  'magma8', 'rgb': [ 99,  25, 127], 'alt': None,},
-    {'name':  'magma9', 'rgb': [ 59,  15, 111], 'alt': None,},
-    {'name': 'magma10', 'rgb': [ 20,  13,  53], 'alt': None,},
-    {'name': 'magma11', 'rgb': [  0,   0,   3], 'alt': None,},
+    {'name':  'magma1', 'rgb': [251, 252, 191], 'alt': None},      # noqa: E241
+    {'name':  'magma2', 'rgb': [253, 205, 114], 'alt': None},      # noqa: E241
+    {'name':  'magma3', 'rgb': [253, 159, 108], 'alt': None},      # noqa: E241
+    {'name':  'magma4', 'rgb': [246, 110,  91], 'alt': None},      # noqa: E241
+    {'name':  'magma5', 'rgb': [221,  73, 104], 'alt': None},      # noqa: E241
+    {'name':  'magma6', 'rgb': [181,  54, 121], 'alt': None},      # noqa: E241
+    {'name':  'magma7', 'rgb': [140,  41, 128], 'alt': None},      # noqa: E241
+    {'name':  'magma8', 'rgb': [ 99,  25, 127], 'alt': None},      # noqa: E241
+    {'name':  'magma9', 'rgb': [ 59,  15, 111], 'alt': None},      # noqa: E241
+    {'name': 'magma10', 'rgb': [ 20,  13,  53], 'alt': None},      # noqa: E241
+    {'name': 'magma11', 'rgb': [  0,   0,   3], 'alt': None},      # noqa: E241
 ]
-
 
 PALETTES = {
     'cb_colors': {
