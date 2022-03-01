@@ -86,7 +86,7 @@ SEE ALSO
         val_range = maximum - minimum
         cmd.color(colors[0], selection)
 
-    steps = int(60 / parts)
+    steps = 60 // parts
     steps_total = steps * parts
 
     val_start = minimum
