@@ -86,7 +86,7 @@ SEE ALSO
         val_range = maximum - minimum
         cmd.color(colors[0], selection)
 
-    steps = 60 / parts
+    steps = 60 // parts
     steps_total = steps * parts
 
     val_start = minimum
@@ -94,7 +94,7 @@ SEE ALSO
         for i in range(steps):
             ii = float(i) / steps
             col_list = [colvec[p + 1][j] * ii + colvec[p][j] * (1.0 - ii) for j in range(3)]
-            col_name = '0x%02x%02x%02x' % (col_list[0] * 255, col_list[1] * 255, col_list[2] * 255)
+            col_name = '0x%02x%02x%02x' % (int(col_list[0] * 255), int(col_list[1] * 255), int(col_list[2] * 255))
             val_end = val_range * (i + 1 + p * steps) / steps_total + minimum
             if expression in discrete_expr:
                 cmd.color(col_name, '(%s) and %s %d-%d' % (selection, expression, val_start, val_end))
