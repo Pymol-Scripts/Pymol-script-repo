@@ -8,31 +8,31 @@ findseq needle, haystack[, selName[, het[, firstOnly]]]
 
 PARAMS:
 needle (string)
-		the sequence of amino acids to match and select
-		in the haystack.  This can be a sequence of amino
-		acids, or a string-style regular expression.  See
-		examples.
+        the sequence of amino acids to match and select
+        in the haystack.  This can be a sequence of amino
+        acids, or a string-style regular expression.  See
+        examples.
 
 hastack (string or PyMOL selection)
-		name of the PyMOL object/selection in which
-		to find the needle.
+        name of the PyMOL object/selection in which
+        to find the needle.
 
 selName (string; defaults to None)
-		This is the name of the selection to return.  If selName
-		is left blank (None), then the selection name will be
-		foundSeqXYZ where XYZ is some random number; if selName is
-		"sele" the usual PyMOL "(sele)" will be used; and, lastly,
-		if selName is anything else, that name will be used verbatim.
+        This is the name of the selection to return.  If selName
+        is left blank (None), then the selection name will be
+        foundSeqXYZ where XYZ is some random number; if selName is
+        "sele" the usual PyMOL "(sele)" will be used; and, lastly,
+        if selName is anything else, that name will be used verbatim.
 
 het (0 or 1; defaults to 0)
-		This boolean flag allows (1) or disallows (0) heteroatoms
-		from being considered.
+        This boolean flag allows (1) or disallows (0) heteroatoms
+        from being considered.
 
 firstOnly (0 or 1; defaults to 0)
-		Subsequences or motifs might be repeated, this controls how we
-		consider multiple matches.  If firstOnly is False (0) then we return
-		all found subsequences; if firstOnly is True (1), then we just return
-		the first found sequence.
+        Subsequences or motifs might be repeated, this controls how we
+        consider multiple matches.  If firstOnly is False (0) then we return
+        all found subsequences; if firstOnly is True (1), then we just return
+        the first found sequence.
 
 RETURNS:
 a newly created selection with the atoms you sought.  If there are
@@ -358,10 +358,14 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
         i_chains = chains[start:stop]
         # are all residues from one chain?
         if len(set(i_chains)) != 1:
-        	# now they are not, this match is not really a match, skip it
-        	continue
+            # now they are not, this match is not really a match, skip it
+            continue
         chain = i_chains[0]
-        cmd.select(rSelName, rSelName + " or (__h and i. " + str(IDs[start]) + "-" + str(IDs[stop - 1]) + " and c. " + chain + " )")
+        # Only apply chains to selection algebra if there are defined chains.
+        if chain:
+            cmd.select(rSelName, rSelName + " or (__h and i. " + str(IDs[start]) + "-" + str(IDs[stop - 1]) + " and c. " + chain + " )")
+        else:
+            cmd.select(rSelName, rSelName + " or (__h and i. " + str(IDs[start]) + "-" + str(IDs[stop - 1]) + ")")
         if int(firstOnly):
             break
     cmd.delete("__h")
