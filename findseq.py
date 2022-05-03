@@ -13,7 +13,7 @@ needle (string)
         acids, or a string-style regular expression.  See
         examples.
 
-hastack (string or PyMOL selection)
+haystack (string or PyMOL selection)
         name of the PyMOL object/selection in which
         to find the needle.
 
