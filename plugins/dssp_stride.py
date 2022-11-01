@@ -76,12 +76,14 @@ if sys.version_info[0] > 2:
     import tkinter.filedialog as tkFileDialog
     import tkinter.colorchooser as tkColorChooser
     import tkinter as Tkinter
+    from shutil import which
 else:
     import tkSimpleDialog
     import tkMessageBox
     import tkFileDialog
     import tkColorChooser
     import Tkinter
+    which = lambda cmd: None
 
 # pymol lib
 try:
@@ -92,11 +94,7 @@ except ImportError:
     sys.exit(1)
 
 # external lib
-try:
-    import Pmw
-except ImportError:
-    print('Warning: failed to import Pmw. Exit ...')
-    sys.exit(1)
+import Pmw
 
 VERBOSE = True
 
@@ -132,7 +130,7 @@ class DSSPPlugin:
         Pmw.setbusycursorattributes(self.dialog.component('hull'))
 
         # parameters used by DSSP
-        self.pymol_sel = Tkinter.StringVar()
+        self.pymol_sel = Tkinter.StringVar(value="all")
         self.dssp_bin = Tkinter.StringVar()
         self.stride_bin = Tkinter.StringVar()
         self.dssp_rlt_dict = {}
@@ -161,7 +159,7 @@ class DSSPPlugin:
         else:
             if VERBOSE:
                 print('DSSP_BIN not found in environmental variables.')
-            self.dssp_bin.set('')
+            self.dssp_bin.set(which('mkdssp') or '')
         if 'STRIDE_BIN' not in os.environ and 'PYMOL_GIT_MOD' in os.environ:
             if sys.platform.startswith('linux') and platform.machine() == 'x86_32':
                 initialdir_stride = os.path.join(os.environ['PYMOL_GIT_MOD'], "Stride", "i86Linux2", "stride")
@@ -181,7 +179,7 @@ class DSSPPlugin:
         else:
             if VERBOSE:
                 print('STRIDE_BIN not found in environmental variables.')
-            self.stride_bin.set('')
+            self.stride_bin.set(which('stride') or '')
 
         # DSSP visualization color
         # - H        Alpha helix (4-12)
