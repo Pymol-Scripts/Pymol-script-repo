@@ -170,7 +170,7 @@ SEE ALSO
             print('')
 
     assert len(matrix) == 3 * 4
-    matrix.extend([0, 0, 0, 1])
+    matrix.extend([0.0, 0.0, 0.0, 1.0])
 
     if int(transform):
         cmd.transform_selection('byobject (%s)' % (mobile), matrix, homogenous=1)
