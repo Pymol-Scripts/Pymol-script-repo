@@ -52,6 +52,10 @@ fetch 1a3h
 # this ends up finding the sequence, GMSSHGLQWY
 findseq GMS.*QWY, 1a3h, sele
 
+# find the Potential N-linked glycosylation sites in 5fyj
+fetch 5fyj
+findseq N(?=[^P][ST]), 5fyj and chain G+B, 5fyj_pngs
+
 NOTES:
 Assumes we're using the ONE LETTER amino acid abbreviations.
 
@@ -342,7 +346,7 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
     aaDict = {'aaList': []}
     cmd.iterate("(name ca) and __h", "aaList.append((resi,resn,chain))", space=aaDict)
 
-    IDs = [int(x[0]) for x in aaDict['aaList']]
+    IDs = [x[0] for x in aaDict['aaList']]
     AAs = ''.join([one_letter[x[1]] for x in aaDict['aaList']])
     chains = [x[2] for x in aaDict['aaList']]
 
@@ -363,9 +367,9 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
         chain = i_chains[0]
         # Only apply chains to selection algebra if there are defined chains.
         if chain:
-            cmd.select(rSelName, rSelName + " or (__h and i. " + str(IDs[start]) + "-" + str(IDs[stop - 1]) + " and c. " + chain + " )")
+            cmd.select(rSelName, rSelName + " or (__h and i. " + '+'.join(IDs[ii] for ii in range(start, stop)) + " and c. " + chain + " )")
         else:
-            cmd.select(rSelName, rSelName + " or (__h and i. " + str(IDs[start]) + "-" + str(IDs[stop - 1]) + ")")
+            cmd.select(rSelName, rSelName + " or (__h and i. " + '+'.join(IDs[ii] for ii in range(start, stop)) + ")")
         if int(firstOnly):
             break
     cmd.delete("__h")
