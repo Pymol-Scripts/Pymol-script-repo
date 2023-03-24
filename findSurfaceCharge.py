@@ -38,59 +38,33 @@ SEE ALSO
     return selName
 
 
-def findSurfaceCharge(pH=7.0, folded=True, selection="all", cutoff=2.5):
-    """
-DESCRIPTION
+def _findSurfaceChargeImpl(selection, pH, folded, cutoff):
 
-    Calculates a surface charge at entered pH. Also allows for the charge of an unfolded protein to be calculated.
+    def get_exposed_residues(selection,cutoff):
+        cutoff = float(cutoff)
 
-USAGE
 
-    findSurfaceCharge [pH, [folded, [selection ,[cutoff]]]]
+        selName = findSurfaceAtoms(selection, cutoff)
 
-ARGUMENTS
+        tempExposed = set()
+        cmd.iterate(selName, "tempExposed.add((resv,oneletter))", space=locals())
+        cmd.delete(selName)
 
-    pH = The pH value to estimate a surface charge at
+        tempExposed=sorted(tempExposed) #list of exposed residues
+        exposed=[]
+        for res in tempExposed:
+                exposed.append(res[1]+str(res[0]))
 
-    folded = Whether the protein is folded (True) or denatured (False)
+        return exposed
 
-    selection = string: object or selection in which to find exposed
-    residues {default: all}
+    if folded:
+        exposed = get_exposed_residues(selection,cutoff)
+    else:
+        exposed = get_exposed_residues(selection,0)
 
-    cutoff = float: cutoff of what is exposed or not {default: 2.5 Ang**2}
+    pH=float(pH)
 
-RETURNS
-
-    A printout of the estimated surface charge at a given pH
-
-    """
-    cutoff = float(cutoff)
-
-    selName = findSurfaceAtoms(selection, cutoff)
-
-    exposed = set()
-    cmd.iterate(selName, "exposed.add((resv))", space=locals())
-    cmd.delete(selName)
-
-    selNameRes = cmd.get_unused_name("exposed_res_")
-
-    exposed=sorted(exposed) #list of exposed residues
-
-    seq=cmd.get_fastastr('all')
-    seqbegin = seq.find('\n')
-    newSeq = seq[seqbegin::].replace('\n', ' ').replace('\r', '').replace(' ','').replace("?","")
-
-    #adjusts for beginning position
-    first = set()
-    allRes = findSurfaceAtoms(selection, 0)
-    cmd.iterate(allRes, "first.add((resv))", space=locals())
-    cmd.delete(allRes)
-
-    selNameRes = cmd.get_unused_name("exposed_res_")
-
-    first=sorted(first)[0] #firstRes
     #gets all charged amino acids on the surface
-    reslist= []
     exposedAtms=""
     K=0
     R=0
@@ -98,43 +72,22 @@ RETURNS
     H=0
     E=0
 
-    if folded:
-        offset=(1+first)
-        for r in exposed:
-            amino=newSeq[r-offset]
-            if amino not in "KRDHE":
-                continue
-            elif amino=='K':
-                K+=1
-            elif amino=='R':
-                R+=1
-            elif amino=='D':
-                D+=1
-            elif amino=="H":
-                H+=1
-            elif amino=='E':
-                E+=1
-            exposedAtms+=amino
-            chargedAA=amino
-            reslist.append(chargedAA)
-    else:
-        for r in newSeq:
-            amino=r
-            if amino not in "KRDHE":
-                continue
-            elif amino=='K':
-                K+=1
-            elif amino=='R':
-                R+=1
-            elif amino=='D':
-                D+=1
-            elif amino=="H":
-                H+=1
-            elif amino=='E':
-                E+=1
-            exposedAtms+=amino
-            chargedAA=amino
-            reslist.append(chargedAA)
+    for r in exposed:
+        amino=r[0]
+        if amino not in "KRDHE":
+            continue
+        elif amino=='K':
+            K+=1
+        elif amino=='R':
+            R+=1
+        elif amino=='D':
+            D+=1
+        elif amino=="H":
+            H+=1
+        elif amino=='E':
+            E+=1
+        exposedAtms+=amino
+        chargedAA=amino
 
 
     kCharge= 1 / (1 + 10 ** (pH - 10.54))
@@ -152,11 +105,45 @@ RETURNS
 
     if folded:
         print ("Exposed charged residues: " +str(exposedAtms))
-        print ("The expected surface charge of this protein at pH " + str(pH) +" is: " +chargetx)
+        print ("The expected surface charge of " + selection +" at pH " + str(pH) +" is: " +chargetx)
 
     else:
         print ("Charged residues: "+str(exposedAtms))
-        print ("The expected charge of this denatured protein at pH " +str(pH) +" is: " +chargetx)
+        print ("The expected charge of denatured " + selection +" at pH " +str(pH) +" is: " +chargetx)
+    return (selection, chargetx)
+
+
+def findSurfaceCharge(selection="", pH=7.0, folded=True, cutoff=2.5):
+    """
+DESCRIPTION
+
+    Calculates a surface charge at entered pH. Also allows for the charge of an unfolded protein to be calculated.
+
+USAGE
+
+    findSurfaceCharge [pH, [folded, [selection ,[cutoff]]]]
+
+ARGUMENTS
+
+    pH = The pH value to estimate a surface charge at
+
+    folded = Whether the protein is folded (True) or denatured (False)
+
+    selection = string: object or selection in which to find exposed
+    residues {default: first - the first protein loaded in}
+
+    cutoff = float: cutoff of what is exposed or not {default: 2.5 Ang**2}
+
+RETURNS
+
+    A printout of the estimated surface charge at a given pH
+
+    """
+    if not selection:
+        for obj in cmd.get_names():
+            _findSurfaceChargeImpl(obj, pH, folded, cutoff)
+    else:
+        _findSurfaceChargeImpl(selection, pH, folded, cutoff)
 
 
 cmd.extend("findSurfaceAtoms", findSurfaceAtoms)
