@@ -130,7 +130,7 @@ ARGUMENTS
     folded = Whether the protein is folded (True) or denatured (False)
 
     selection = string: object or selection in which to find exposed
-    residues {default: first - the first protein loaded in}
+        residues {default: empty string - all objects}
 
     cutoff = float: cutoff of what is exposed or not {default: 2.5 Ang**2}
 
