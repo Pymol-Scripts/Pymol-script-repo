@@ -47,13 +47,13 @@ def _findSurfaceChargeImpl(selection, pH, folded, cutoff):
         selName = findSurfaceAtoms(selection, cutoff)
 
         tempExposed = set()
-        cmd.iterate(selName, "tempExposed.add((resv,oneletter))", space=locals())
+        cmd.iterate(selName, "tempExposed.add((model,segi,chain,resv,resi,oneletter))", space=locals())
         cmd.delete(selName)
 
         tempExposed=sorted(tempExposed) #list of exposed residues
         exposed=[]
         for res in tempExposed:
-                exposed.append(res[1]+str(res[0]))
+            exposed.append(res[-1] + res[-2])
 
         return exposed
 
@@ -97,11 +97,7 @@ def _findSurfaceChargeImpl(selection, pH, folded, cutoff):
     hCharge= 1 / (1 + 10 ** (pH - 6.04))
 
     charge=kCharge*K+rCharge*R+hCharge*H+dCharge*D+eCharge*E
-    charge=round(charge,2)
-    if charge>0:
-        chargetx="+"+str(charge)
-    else:
-        chargetx=str(charge)
+    chargetx = "%+.2f" % (charge)
 
     if folded:
         print ("Exposed charged residues: " +str(exposedAtms))
