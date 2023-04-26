@@ -4,6 +4,8 @@ https://pymolwiki.org/index.php/Outline
 Author: Jarrett Johnson (Schrodinger, Inc.)
 """
 
+from __future__ import annotations
+
 from pymol import cmd
 from pymol.Qt import QtCore
 from pymol.Qt import QtGui
@@ -18,7 +20,7 @@ from PIL import ImageDraw
 from PIL import ImageFilter
 from PIL import ImageOps
 
-VERSION = "0.1"
+__version__ = "0.1"
 
 
 def __init_plugin__(app=None) -> None:
@@ -42,11 +44,13 @@ def run_plugin_gui() -> None:
 dialog = None
 
 
-def _create_clean_overlay(img: Image, target_color: tuple) -> Image:
+def _create_clean_overlay(img: Image, target_color: tuple,
+                          outline_width: int) -> Image:
     """
     Create a clean overlay of the image by removing inner edges
     :param img: Image
     :param target_color: Outline color
+    :param outline_width: Outline width
     """
     BLACK = (0, 0, 0, 255)
     WHITE = (255, 255, 255, 255)
@@ -73,7 +77,10 @@ def _create_clean_overlay(img: Image, target_color: tuple) -> Image:
     bitwise_or_add = ImageChops.add(inverted, threshold)
 
     # Find edges
-    edges = bitwise_or_add.filter(ImageFilter.FIND_EDGES).convert("RGBA")
+    edges = bitwise_or_add.\
+        filter(ImageFilter.FIND_EDGES).\
+        filter(ImageFilter.MaxFilter(outline_width)).\
+        convert("RGBA")
 
     def _replace_color(img: Image, target_color: tuple,
                        replace_color: tuple) -> None:
@@ -93,51 +100,57 @@ def _create_clean_overlay(img: Image, target_color: tuple) -> Image:
     return edges
 
 
-def _outline(outline_sele: str, outline_color: tuple, reps: tuple) -> None:
+def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
+             reps: tuple) -> None:
     """
-    Outline a selection's surface with a specific color.
+    Outline a selection's representations with a specific color.
     :param outline_sele: Selection to outline
     :param outline_color: Color to outline with
     :param reps: Representations to outline
     """
-    tmp_scene = "tmp_scene"
+    try:
+        tmp_scene = "tmp_scene"
 
-    cmd.scene(tmp_scene, "store", quiet=1)
+        cmd.scene(tmp_scene, "store", quiet=1)
 
-    # Render what we have
-    base_bytes = cmd.png(filename=None, ray=1)
+        # Render what we have
+        base_bytes = cmd.png(filename=None, ray=1)
 
-    # Render only whats outlined
-    cmd.hide('everything')
-    for rep in reps:
-        cmd.show(rep, outline_sele)
-    ray_trace_mode = cmd.get('ray_trace_mode')
+        # Render only whats outlined
+        cmd.hide('everything')
+        for rep in reps:
+            cmd.show(rep, outline_sele)
 
-    # Ray trace edges (we'll remove inner edges later)
-    cmd.set('ray_trace_mode', 2)
+        # Ray trace edges (we'll remove inner edges later)
+        ray_trace_mode = cmd.get('ray_trace_mode')
+        cmd.set('ray_trace_mode', 2)
 
-    ray_opaque_background = cmd.get('ray_opaque_background')
-    cmd.set('ray_opaque_background', 0)
+        ray_trace_color = cmd.get('ray_trace_color')
+        cmd.set('ray_trace_color', 'white')
 
-    overlay_bytes = cmd.png(filename=None, ray=1)
+        ray_opaque_background = cmd.get('ray_opaque_background')
+        cmd.set('ray_opaque_background', 0)
 
-    base = Image.open(BytesIO(base_bytes))
-    overlay = Image.open(BytesIO(overlay_bytes))
-    overlay = _create_clean_overlay(overlay, outline_color)
+        overlay_bytes = cmd.png(filename=None, ray=1)
 
-    composite = Image.composite(overlay, base, overlay)
+        base = Image.open(BytesIO(base_bytes))
+        overlay = Image.open(BytesIO(overlay_bytes))
+        overlay = _create_clean_overlay(overlay, outline_color, outline_width)
 
-    # TODO: load_png doesn't seem to take a filename so we have to save to disk
-    tmp_composite_png = "_tmp_outline_comp.png"
-    composite.save(tmp_composite_png)
-    cmd.load_png(tmp_composite_png, quiet=1)
+        composite = Image.composite(overlay, base, overlay)
 
-    # Revert scene and clean up
-    cmd.scene(tmp_scene, "recall", quiet=1)
-    cmd.scene(tmp_scene, "clear", quiet=1)
-    cmd.set('ray_trace_mode', ray_trace_mode)
-    cmd.set('ray_opaque_background', ray_opaque_background)
-    os.remove(tmp_composite_png)
+        # TODO: load_png doesn't take raw bytes so we have to save to disk
+        tmp_composite_png = "_tmp_outline_comp.png"
+        composite.save(tmp_composite_png)
+        cmd.load_png(tmp_composite_png, quiet=1)
+    finally:
+        # Revert scene and clean up
+        cmd.scene(tmp_scene, "recall", quiet=1)
+        cmd.scene(tmp_scene, "clear", quiet=1)
+        cmd.set('ray_trace_mode', ray_trace_mode)
+        cmd.set('ray_trace_color', ray_trace_color)
+        cmd.set('ray_opaque_background', ray_opaque_background)
+        os.remove(tmp_composite_png)
 
 
 class StringListSelectorWidgetItem(QtWidgets.QWidget):
@@ -207,10 +220,10 @@ class StringListSelectorWidget(QtWidgets.QWidget):
         return rep_list
 
 
-class SurfaceOutlineDialog(QtWidgets.QDialog):
+class RepresentationOutlineDialog(QtWidgets.QDialog):
     """
-    Surface Outline Dialog that allows the user to outline a selection's
-        surface with a specific color.
+    Representation Outline Dialog that allows the user to outline a selection's
+        representations with a specific color.
 
     :cvar REP_LIST: List of outlinable representations
     :var_type REP_LIST: list
@@ -224,6 +237,7 @@ class SurfaceOutlineDialog(QtWidgets.QDialog):
         super().__init__(*args, **kwargs)
         self.setWindowTitle("Outliner")
         self.default_sele = 'all'
+        self.default_kernel_size = 2
 
         self.layout = QtWidgets.QVBoxLayout(self)
 
@@ -242,6 +256,19 @@ class SurfaceOutlineDialog(QtWidgets.QDialog):
         self.color_dialogue = QtWidgets.QColorDialog(default_color)
         self.color_dialogue_btn = QtWidgets.QPushButton('Color')
 
+        # Width slider
+        self.slider_layout = QtWidgets.QHBoxLayout()
+        self.width_slider = self._createWidthSlider()
+        width_min = self._kernelToWidth(self.width_slider.minimum())
+        width_max = self._kernelToWidth(self.width_slider.maximum())
+        self.width_label = QtWidgets.QLabel("Width: ")
+        self.width_min = QtWidgets.QLabel(str(width_min))
+        self.width_max = QtWidgets.QLabel(str(width_max))
+        self.slider_layout.addWidget(self.width_label)
+        self.slider_layout.addWidget(self.width_min)
+        self.slider_layout.addWidget(self.width_slider)
+        self.slider_layout.addWidget(self.width_max)
+
         self._updateCol()
 
         # Brief note
@@ -254,8 +281,26 @@ class SurfaceOutlineDialog(QtWidgets.QDialog):
         self.layout.addWidget(self.combobox)
         self.layout.addWidget(self.rep_list)
         self.layout.addWidget(self.color_dialogue_btn)
+        self.layout.addLayout(self.slider_layout)
         self.layout.addWidget(self.outline_button)
         self.layout.addWidget(self.note)
+
+    def _kernelToWidth(self, kernel_size: int) -> int:
+        """
+        Convert kernel size to width
+        :param kernel_size: Kernel size
+        :return: Width
+        """
+        return kernel_size * 2 - 1
+
+    def _createWidthSlider(self) -> QtWidgets.QSlider:
+        width_slider = QtWidgets.QSlider(QtCore.Qt.Horizontal)
+        kernel_min = 1
+        kernel_max = 5
+        width_slider.setRange(kernel_min, kernel_max)
+        width_slider.setValue(self.default_kernel_size)
+        width_slider.setTickPosition(QtWidgets.QSlider.TicksBelow)
+        return width_slider
 
     def _updateCol(self) -> None:
         """
@@ -281,6 +326,7 @@ class SurfaceOutlineDialog(QtWidgets.QDialog):
         def onOutlineClicked():
             col = self.color_dialogue.currentColor().getRgb()
             _outline(self.combobox.currentText(), col,
+                     self._kernelToWidth(self.width_slider.value()),
                      self.rep_list.get_rep_list())
 
         self.outline_button.clicked.connect(onOutlineClicked)
@@ -303,9 +349,9 @@ class SurfaceOutlineDialog(QtWidgets.QDialog):
         super().showEvent(event)
 
 
-def make_dialog() -> SurfaceOutlineDialog:
+def make_dialog() -> RepresentationOutlineDialog:
     """
-    Create a Surface Outline Dialog
+    Create a Representation Outline Dialog
     """
-    dialog = SurfaceOutlineDialog()
+    dialog = RepresentationOutlineDialog()
     return dialog
