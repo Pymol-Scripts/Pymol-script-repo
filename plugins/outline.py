@@ -128,6 +128,9 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
         ray_trace_color = cmd.get('ray_trace_color')
         cmd.set('ray_trace_color', 'white')
 
+        bg_color = cmd.get('bg_rgb')
+        cmd.bg_color('black')
+
         ray_opaque_background = cmd.get('ray_opaque_background')
         cmd.set('ray_opaque_background', 0)
 
@@ -149,6 +152,7 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
         cmd.scene(tmp_scene, "clear", quiet=1)
         cmd.set('ray_trace_mode', ray_trace_mode)
         cmd.set('ray_trace_color', ray_trace_color)
+        cmd.set('bg_rgb', bg_color)
         cmd.set('ray_opaque_background', ray_opaque_background)
         os.remove(tmp_composite_png)
 
