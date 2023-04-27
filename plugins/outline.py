@@ -101,11 +101,13 @@ def _create_clean_overlay(img: Image, target_color: tuple,
 
 
 def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
-             reps: tuple) -> None:
+             scale: int, reps: tuple) -> None:
     """
     Outline a selection's representations with a specific color.
     :param outline_sele: Selection to outline
     :param outline_color: Color to outline with
+    :param outline_width: Width of outline
+    :param scale: Scale factor for antialiasing
     :param reps: Representations to outline
     """
     try:
@@ -134,11 +136,14 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
         ray_opaque_background = cmd.get('ray_opaque_background')
         cmd.set('ray_opaque_background', 0)
 
-        overlay_bytes = cmd.png(filename=None, ray=1)
+        (width, height) = cmd.get_viewport()
+        overlay_bytes = cmd.png(filename=None, ray=1, width=width*scale,
+                                height=height*scale)
 
         base = Image.open(BytesIO(base_bytes))
         overlay = Image.open(BytesIO(overlay_bytes))
         overlay = _create_clean_overlay(overlay, outline_color, outline_width)
+        overlay = overlay.resize((width, height), Image.Resampling.LANCZOS)
 
         composite = Image.composite(overlay, base, overlay)
 
@@ -224,6 +229,25 @@ class StringListSelectorWidget(QtWidgets.QWidget):
         return rep_list
 
 
+class ButtonGroup(QtWidgets.QButtonGroup):
+    """
+    Helper class for creating a group of radio buttons
+    """
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.setExclusive(True)
+
+    def addButton(self, label: str) -> QtWidgets.QRadioButton:
+        """
+        Add button to group
+        :param label: Button label
+        :return: Button
+        """
+        button = QtWidgets.QRadioButton(label)
+        super().addButton(button)
+        return button
+
+
 class RepresentationOutlineDialog(QtWidgets.QDialog):
     """
     Representation Outline Dialog that allows the user to outline a selection's
@@ -250,7 +274,7 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         self._refreshCombobox()
 
         self.rep_list = StringListSelectorWidget(
-            add_label='Add Representation', str_list=self.REP_LIST)
+            add_label='(+) Add Representation', str_list=self.REP_LIST)
 
         # Outline Button to start Outlining
         self.outline_button = QtWidgets.QPushButton(self.default_sele)
@@ -273,6 +297,20 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         self.slider_layout.addWidget(self.width_slider)
         self.slider_layout.addWidget(self.width_max)
 
+        # Antialias Radiobutton
+        self.antialias_layout = QtWidgets.QHBoxLayout()
+        self.antialias_group = ButtonGroup()
+        self.no_aa = self.antialias_group.addButton(
+            "1x Antialias (Fast; Jagged)")
+        self.no_aa.setChecked(True)
+        self.low_aa = self.antialias_group.addButton(
+            "2x Antialias (Slow; Crisp)")
+        self.hi_aa = self.antialias_group.addButton(
+            "4x Antialias (Very Slow; Beautiful)")
+        self.antialias_layout.addWidget(self.no_aa)
+        self.antialias_layout.addWidget(self.low_aa)
+        self.antialias_layout.addWidget(self.hi_aa)
+
         self._updateCol()
 
         # Brief note
@@ -286,6 +324,7 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         self.layout.addWidget(self.rep_list)
         self.layout.addWidget(self.color_dialogue_btn)
         self.layout.addLayout(self.slider_layout)
+        self.layout.addLayout(self.antialias_layout)
         self.layout.addWidget(self.outline_button)
         self.layout.addWidget(self.note)
 
@@ -329,9 +368,10 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         # Connect Outline Button Signals
         def onOutlineClicked():
             col = self.color_dialogue.currentColor().getRgb()
+            scale = int(self.antialias_group.checkedButton().text()[0])
+            width = self._kernelToWidth(self.width_slider.value() * scale)
             _outline(self.combobox.currentText(), col,
-                     self._kernelToWidth(self.width_slider.value()),
-                     self.rep_list.get_rep_list())
+                     width, scale, self.rep_list.get_rep_list())
 
         self.outline_button.clicked.connect(onOutlineClicked)
 
