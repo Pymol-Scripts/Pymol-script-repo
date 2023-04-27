@@ -136,6 +136,8 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
         ray_opaque_background = cmd.get('ray_opaque_background')
         cmd.set('ray_opaque_background', 0)
 
+        ray_antialias = cmd.get('antialias')
+        cmd.set('antialias', 0)
         (width, height) = cmd.get_viewport()
         overlay_bytes = cmd.png(filename=None, ray=1, width=width*scale,
                                 height=height*scale)
@@ -155,6 +157,7 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
         # Revert scene and clean up
         cmd.scene(tmp_scene, "recall", quiet=1)
         cmd.scene(tmp_scene, "clear", quiet=1)
+        cmd.set('antialias', ray_antialias)
         cmd.set('ray_trace_mode', ray_trace_mode)
         cmd.set('ray_trace_color', ray_trace_color)
         cmd.set('bg_rgb', bg_color)
@@ -270,7 +273,15 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         self.layout = QtWidgets.QVBoxLayout(self)
 
         # Combobox to hold Object & Selections
+        self.combobox_layout = QtWidgets.QHBoxLayout()
         self.combobox = QtWidgets.QComboBox()
+        self.combobox_refresh_btn = QtWidgets.QPushButton()
+        icon = self.style().standardIcon(QtWidgets.QStyle.SP_BrowserReload)
+        self.combobox_refresh_btn.setIcon(icon)
+        self.combobox_refresh_btn.setFixedSize(25, 25)
+        self.combobox_refresh_btn.clicked.connect(self._refreshCombobox)
+        self.combobox_layout.addWidget(self.combobox)
+        self.combobox_layout.addWidget(self.combobox_refresh_btn)
         self._refreshCombobox()
 
         self.rep_list = StringListSelectorWidget(
@@ -314,13 +325,14 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         self._updateCol()
 
         # Brief note
-        self.note = QtWidgets.QLabel(
-            "Note: Selection must be completely enveloped by window.")
+        note = "Note: Selection must be completely enveloped by window.\n" +\
+            "Avoid touching the window while outline is in process."
+        self.note = QtWidgets.QLabel(note)
 
         self._connectSignals()
 
         self.layout.addWidget(QtWidgets.QLabel("Selection:"))
-        self.layout.addWidget(self.combobox)
+        self.layout.addLayout(self.combobox_layout)
         self.layout.addWidget(self.rep_list)
         self.layout.addWidget(self.color_dialogue_btn)
         self.layout.addLayout(self.slider_layout)
