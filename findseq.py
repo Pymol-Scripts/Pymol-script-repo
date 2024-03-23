@@ -70,6 +70,9 @@ import random
 
 
 def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
+    """USAGE:
+        findseq needle, haystack[, selName[, het[, firstOnly]]]
+    """
     # set the name of the selection to return.
     if selName == None:
         rSelName = "foundSeq" + str(random.randint(0, 32000))
@@ -374,8 +377,12 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
             break
     cmd.delete("__h")
     return rSelName
-cmd.extend("findseq", findseq)
 
+cmd.extend("findseq", findseq)
+cmd.findseq = findseq
+cmd.auto_arg[1]['findseq'] = [ cmd.object_sc, 'object', '']
+cmd.auto_arg[2]['findseq'] = [lambda: cmd.Shortcut(['het=1','firstOnly=1']), 'params', '']
+cmd.auto_arg[3]['findseq'] = [lambda: cmd.Shortcut(['het=1','firstOnly=1']), 'params', '']
 
 def checkParams(needle, haystack, selName, het, firstOnly):
     """
