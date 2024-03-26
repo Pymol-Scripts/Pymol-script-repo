@@ -376,6 +376,9 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
         if int(firstOnly):
             break
     cmd.delete("__h")
+    if not cmd.count_atoms(rSelName):
+        print("Sequence was not found")
+        cmd.delete(rSelName)
     return rSelName
 
 cmd.extend("findseq", findseq)
