@@ -77,8 +77,6 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
     if selName == None:
         rSelName = "foundSeq" + str(random.randint(0, 32000))
         selName = rSelName
-    elif selName == "sele":
-        rSelName = "sele"
     else:
         rSelName = selName
 
@@ -376,6 +374,13 @@ def findseq(needle, haystack, selName=None, het=0, firstOnly=0):
         if int(firstOnly):
             break
     cmd.delete("__h")
+    cnt = cmd.count_atoms(rSelName)
+    if not cnt:
+        print("Sequence was not found")
+        cmd.delete(rSelName)
+        return None
+
+    print(f'findseq: selection "{rSelName}" defined with {cnt} atoms.')
     return rSelName
 
 cmd.extend("findseq", findseq)
