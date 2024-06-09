@@ -2,7 +2,7 @@ from pymol import cmd, CmdException
 
 
 @cmd.extend
-def color_by_conservation(aln, names=(), color=None, as_putty=0):
+def color_by_conservation(aln, names=(), color=None, as_putty=0, _self=cmd):
     '''
     See more here: http://www.pymolwiki.org/index.php/color_by_conservation
 
@@ -21,10 +21,10 @@ def color_by_conservation(aln, names=(), color=None, as_putty=0):
                     as cartoon putty, colored by the 'color' field
     '''
 
-    if cmd.get_type(aln) != "object:alignment":
+    if _self.get_type(aln) != "object:alignment":
         raise CmdException("Error: Bad or incorrectly specified alignment object.")
 
-    r = cmd.get_raw_alignment(aln)
+    r = _self.get_raw_alignment(aln)
 
     if names == ():
         known_objs = []
@@ -38,21 +38,21 @@ def color_by_conservation(aln, names=(), color=None, as_putty=0):
         M = len(known_objs) + 1
 
     for obj in known_objs:
-        cmd.alter(obj, "b=0.0")
+        _self.alter(obj, "b=0.0")
 
     for af in r:
         c = float(1.0 + len(af)) / float(M)
         for y in af:
-            cmd.alter("%s and index %s" % (y[0], y[1]), "b=c", space={'c': c})
+            _self.alter("%s and index %s" % (y[0], y[1]), "b=c", space={'c': c})
 
     if int(as_putty) != 0:
         for obj in known_objs:
-            cmd.show_as("cartoon", "%s" % obj)
-            cmd.cartoon("putty", "%s" % obj)
+            _self.show_as("cartoon", "%s" % obj)
+            _self.cartoon("putty", "%s" % obj)
 
     if color is not None:
         for obj in known_objs:
-            cmd.spectrum('b', color, obj)
+            _self.spectrum('b', color, obj)
     
-    cmd.sort()
-    cmd.rebuild()
+    _self.sort()
+    _self.rebuild()
