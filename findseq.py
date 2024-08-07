@@ -1,5 +1,6 @@
 from pymol import cmd
 import re
+from collections import defaultdict
 
 ONE_LETTER = {
     '00C': 'C', '01W': 'X', '0A0': 'D', '0A1': 'Y', '0A2': 'K',
@@ -332,43 +333,32 @@ def findseq(needle, haystack='*', selName=None, het=0, firstOnly=0):
         return None
 
     # remove hetero atoms (waters/ligands/etc) from consideration?
-    if het:
+    if bool(int(het)):
         cmd.select("__h", "br. " + haystack)
     else:
         cmd.select("__h", "br. " + haystack + " and not het")
 
     # get the AAs in the haystack
-    aaDict = {'aaList': []}
-    cmd.iterate("(name ca) and __h", "aaList.append((resi,resn,chain,segi))", space=aaDict)
-
-    IDs = [x[0] for x in aaDict['aaList']]
-    AAs = ''.join([ONE_LETTER[x[1]] for x in aaDict['aaList']])
-    chains = [x[2] for x in aaDict['aaList']]
-    segis = [x[3] for x in aaDict['aaList']]
-    objs = cmd.get_object_list('__h')
+    IDs = defaultdict(list)
+    AAs = defaultdict(list)
+    for obj in cmd.get_object_list():
+        for atom in cmd.get_model(f"%{obj} and (name ca) and __h").atom:
+            IDs[(obj, atom.segi, atom.chain)].append(atom.resi)
+            AAs[(obj, atom.segi, atom.chain)].append(ONE_LETTER[atom.resn])
 
     reNeedle = re.compile(needle.upper())
-
     # make an empty selection to which we add residues
     cmd.select(rSelName, 'None')
 
-    for obj in objs:
-        it = reNeedle.finditer(AAs)
+    for key in AAs:
+        obj, segi, chain = key
+
+        chain_sequence = "".join(AAs[key])
+        it = reNeedle.finditer(chain_sequence)
         for i in it:
-            (start, stop) = i.span()
+            start, stop = i.span()
+            resi = "+".join(IDs[key][start:stop])
 
-            # we found some residues, which segi/chains are they from?
-            i_chains = chains[start:stop]
-            i_segis = segis[start:stop]
-            # are all residues from one chain?
-            if len(set(i_chains)) != 1 or len(set(i_segis)) != 1:
-                # now they are not, this match is not really a match, skip it
-                continue
-
-            chain = i_chains[0]
-            segi = i_segis[0]
-
-            resi = '+'.join(IDs[i] for i in range(start, stop))
             sel = f'__h and %{obj} and resi {resi}'
 
             if chain:
