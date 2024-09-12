@@ -333,25 +333,29 @@ def findseq(needle, haystack='*', selName=None, het=0, firstOnly=0):
         return None
 
     # remove hetero atoms (waters/ligands/etc) from consideration?
+    hstk = cmd.get_unused_name()
     if bool(int(het)):
-        cmd.select("__h", "br. " + haystack)
+        cmd.select(hstk, f"byres {haystack}")
     else:
-        cmd.select("__h", "br. " + haystack + " and not het")
+        cmd.select(hstk, f"byres {haystack} and not het")
 
     # get the AAs in the haystack
     IDs = defaultdict(list)
     AAs = defaultdict(list)
     for obj in cmd.get_object_list():
-        for atom in cmd.get_model(f"%{obj} and (name ca) and __h").atom:
+        for atom in cmd.get_model(f"%{obj} and (name ca) and {hstk}").atom:
             IDs[(obj, atom.segi, atom.chain)].append(atom.resi)
             AAs[(obj, atom.segi, atom.chain)].append(ONE_LETTER[atom.resn])
 
     reNeedle = re.compile(needle.upper())
-    # make an empty selection to which we add residues
-    cmd.select(rSelName, 'None')
 
-    for key in AAs:
+    matches = defaultdict(list)
+    for key in sorted(AAs):
         obj, segi, chain = key
+
+        if int(firstOnly) and len(matches[obj]) >= 1:
+            # ignore other chains
+            continue
 
         chain_sequence = "".join(AAs[key])
         it = reNeedle.finditer(chain_sequence)
@@ -359,20 +363,23 @@ def findseq(needle, haystack='*', selName=None, het=0, firstOnly=0):
             start, stop = i.span()
             resi = "+".join(IDs[key][start:stop])
 
-            sel = f'__h and %{obj} and resi {resi}'
+            sel = f'{hstk} and %{obj} and resi {resi}'
 
             if chain:
                 sel += f' and chain {chain}'
             if segi:
                 sel += f' and segi {segi}'
 
-            sel = f'{rSelName} or ({sel})'
-            cmd.select(rSelName, sel)
+            matches[obj].append(sel)
 
-            if int(firstOnly):
-                break
+    # remove multiple matches in the same chain
+    if int(firstOnly):
+        for obj, v in matches.items():
+            matches[obj] = v[:1]
 
-    cmd.delete("__h")
+    cmd.select(rSelName, " or ".join(f"({s})" for v in matches.values() for s in v))
+    cmd.delete(hstk)
+
     cnt = cmd.count_atoms(rSelName)
     if not cnt:
         print("Sequence was not found")
