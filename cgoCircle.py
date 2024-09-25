@@ -1,7 +1,15 @@
+"""
+This script was initially copied from https://pymolwiki.org/index.php/CgoCircle on Sept. 23, 2024. 
+
+The PyMOL Wiki page containing the code that was copied is licensed under GNU Free Documentation License 1.2.
+
+Probable Author: Jason Vertrees.
+"""
+
 import math
 import pymol
 from pymol.cgo import *
-import random
+from pymol import cmd
 
 def cgoCircle(x, y, z, r=8.0, cr=1.0, cg=0.4, cb=0.8, w=2.0):
   """
