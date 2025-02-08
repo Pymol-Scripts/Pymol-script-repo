@@ -1161,7 +1161,7 @@ class PyMOLComboObjectBox(QComboBox):
 
     def showPopup(self):
         currentText = self.currentText().strip()
-        objects = cmd.get_object_list(self.sele, "all")
+        objects = cmd.get_names("all", enabled_only=True)
         self.clear()
         self.addItems(objects)
         if currentText != "":
