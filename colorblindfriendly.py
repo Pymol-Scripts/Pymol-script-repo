@@ -88,6 +88,7 @@ CHANGELOG
 '''
 from __future__ import print_function
 import math
+from typing import NamedTuple
 
 __author__ = 'Jared Sampson'
 __version__ = '0.3.0'
@@ -96,156 +97,147 @@ import pymol
 from pymol import cmd
 
 
+class PaletteColor(NamedTuple):
+    '''Named tuple for storing color information.'''
+    name: str
+    rgb: tuple[int, int, int]
+    alt_names: list[str] | None = None
+    # Allow code to be set explicitly in palette definition. This is helpful
+    # for very dark colors, to allow contrast against the dark menu background.
+    short_code: str | None = None  # for GUI menu
+
+    def all_names(self):
+        '''Return a list of all names for this color.'''
+        names = [self.name]
+        if self.alt_names:
+            names.extend(self.alt_names)
+        return names
+
+    def get_short_code(self):
+        '''Return a 3-digit string approximating the RGB color.'''
+        if self.short_code:
+            return self.short_code
+        return ''.join([str(math.floor(x / 256 * 10)) for x in self.rgb])
+
+class Palette(NamedTuple):
+    '''Named tuple for storing palette information.'''
+    name: str
+    colors: list[PaletteColor]
+    prefix: str = ''
+
+
 # Color blind-friendly color list based on information found at:
 # http://jfly.iam.u-tokyo.ac.jp/html/color_blind/#pallet
 CB_COLORS = [
-    {
-        'name': 'red',
-        'rgb': [213, 94, 0],
-        'alt': ['vermillion', 'red_orange', 'redorange'],
-    },
-    {
-        'name': 'orange',
-        'rgb': [230, 159, 0],
-        'alt': None,
-    },
-    {
-        'name': 'yellow',
-        'rgb': [240, 228, 66],
-        'alt': None,
-    },
-    {
-        'name': 'green',
-        'rgb': [0, 158, 115],
-        'alt': ['bluish_green', 'bluishgreen'],
-    },
-    {
-        'name': 'light_blue',
-        'rgb': [86, 180, 233],
-        'alt': ['sky_blue', 'skyblue', 'lightblue'],
-    },
-    {
-        'name': 'blue',
-        'rgb': [0, 114, 178],
-        'alt': None,
-    },
-    {
-        'name': 'violet',
-        'rgb': [204, 121, 167],
-        'alt': ['reddish_purple', 'reddishpurple', 'rose', 'magenta'],
-    },
-    {
-        'name': 'black',
-        'rgb': [0, 0, 0],
-        'code': '222',
-        'alt': None,
-    },
+    PaletteColor('red', (213, 94, 0),
+                 ['vermillion', 'red_orange', 'redorange']),
+    PaletteColor('orange', (230, 159, 0)),
+    PaletteColor('yellow', (240, 228, 66)),
+    PaletteColor('green', (0, 158, 115),
+                 ['bluish_green', 'bluishgreen']),
+    PaletteColor('light_blue', (86, 180, 233),
+                 ['lightblue', 'sky_blue', 'skyblue']),
+    PaletteColor('blue', (0, 114, 178)),
+    PaletteColor('violet', (204, 121, 167),
+                 ['reddish_purple', 'reddishpurple', 'rose', 'magenta']),
+    PaletteColor('black', (0, 0, 0), short_code='222'),
 ]
+CB_PALETTE = Palette('colorblind', CB_COLORS, prefix='cb_')
 
 # Viridis and Magma palettes contributed by Yehudi Bloch, originally
 # developed by Stéfan van der Walt and Nathaniel Smith for matplotlib.
 # https://matplotlib.org/stable/users/prev_whats_new/whats_new_1.5.html
 VIRIDIS_COLORS = [
-    {'name':  'viridis1', 'rgb': [253, 231,  36], 'alt': None},    # noqa: E241
-    {'name':  'viridis2', 'rgb': [186, 222,  39], 'alt': None},    # noqa: E241
-    {'name':  'viridis3', 'rgb': [121, 209,  81], 'alt': None},    # noqa: E241
-    {'name':  'viridis4', 'rgb': [ 66, 190, 113], 'alt': None},    # noqa: E241
-    {'name':  'viridis5', 'rgb': [ 34, 167, 132], 'alt': None},    # noqa: E241
-    {'name':  'viridis6', 'rgb': [ 32, 143, 140], 'alt': None},    # noqa: E241
-    {'name':  'viridis7', 'rgb': [ 41, 120, 142], 'alt': None},    # noqa: E241
-    {'name':  'viridis8', 'rgb': [ 52,  94, 141], 'alt': None},    # noqa: E241
-    {'name':  'viridis9', 'rgb': [ 64,  67, 135], 'alt': None},    # noqa: E241
-    {'name': 'viridis10', 'rgb': [ 72,  35, 116], 'alt': None},    # noqa: E241
-    {'name': 'viridis11', 'rgb': [ 68,   1,  84], 'alt': None},    # noqa: E241
+    PaletteColor('viridis1',  (253, 231,  36)),
+    PaletteColor('viridis2',  (186, 222,  39)),
+    PaletteColor('viridis3',  (121, 209,  81)),
+    PaletteColor('viridis4',  ( 66, 190, 113)),
+    PaletteColor('viridis5',  ( 34, 167, 132)),
+    PaletteColor('viridis6',  ( 32, 143, 140)),
+    PaletteColor('viridis7',  ( 41, 120, 142)),
+    PaletteColor('viridis8',  ( 52,  94, 141)),
+    PaletteColor('viridis9',  ( 64,  67, 135)),
+    PaletteColor('viridis10', ( 72,  35, 116)),
+    PaletteColor('viridis11', ( 68,   1,  84)),
 ]
+VIRIDIS_PALETTE = Palette('viridis', VIRIDIS_COLORS)
 
 MAGMA_COLORS = [
-    {'name':  'magma1', 'rgb': [251, 252, 191], 'alt': None},      # noqa: E241
-    {'name':  'magma2', 'rgb': [253, 205, 114], 'alt': None},      # noqa: E241
-    {'name':  'magma3', 'rgb': [253, 159, 108], 'alt': None},      # noqa: E241
-    {'name':  'magma4', 'rgb': [246, 110,  91], 'alt': None},      # noqa: E241
-    {'name':  'magma5', 'rgb': [221,  73, 104], 'alt': None},      # noqa: E241
-    {'name':  'magma6', 'rgb': [181,  54, 121], 'alt': None},      # noqa: E241
-    {'name':  'magma7', 'rgb': [140,  41, 128], 'alt': None},      # noqa: E241
-    {'name':  'magma8', 'rgb': [ 99,  25, 127], 'alt': None},      # noqa: E241
-    {'name':  'magma9', 'rgb': [ 59,  15, 111], 'alt': None},      # noqa: E241
-    {'name': 'magma10', 'rgb': [ 20,  13,  53], 'alt': None},      # noqa: E241
-    {'name': 'magma11', 'rgb': [  0,   0,   3], 'alt': None},      # noqa: E241
+    PaletteColor('magma1',  (251, 252, 191)),
+    PaletteColor('magma2',  (253, 205, 114)),
+    PaletteColor('magma3',  (253, 159, 108)),
+    PaletteColor('magma4',  (246, 110,  91)),
+    PaletteColor('magma5',  (221,  73, 104)),
+    PaletteColor('magma6',  (181,  54, 121)),
+    PaletteColor('magma7',  (140,  41, 128)),
+    PaletteColor('magma8',  ( 99,  25, 127)),
+    PaletteColor('magma9',  ( 59,  15, 111)),
+    PaletteColor('magma10', ( 20,  13,  53)),
+    PaletteColor('magma11', (  0,   0,   3)),
 ]
+MAGMA_PALETTE = Palette('magma', MAGMA_COLORS)
 
-PALETTES = {
-    'cb_colors': {
-        'colors': CB_COLORS,
-        'prefix': 'cb_',
-    },
-    'viridis': {
-        'colors': VIRIDIS_COLORS,
-        'prefix': '',
-    },
-    'magma': {
-        'colors': MAGMA_COLORS,
-        'prefix': '',
-    },
+PALETTES_MAP = {
+    CB_PALETTE.name: CB_PALETTE,
+    VIRIDIS_PALETTE.name: VIRIDIS_PALETTE,
+    MAGMA_PALETTE.name: MAGMA_PALETTE,
 }
 
 
-def _get_palettes(palette=None):
-    '''Return the desired palettes dict.'''
-    if palette is None:
-        palettes = PALETTES
+def _get_palettes(palette_name: str | None = None):
+    '''Return the desired Palette(s).'''
+    if palette_name is None:
+        return PALETTES_MAP.values()
+    if palette_name not in PALETTES_MAP:
+        raise ValueError(f'Palette "{palette_name}" not found.')
     else:
-        palettes = {palette: PALETTES[palette]}
-    return palettes
+        return [PALETTES_MAP[palette_name]]
 
 
 def set_colors(palette=None, replace=False):
     '''Add the color blind-friendly colors to PyMOL.'''
     palettes = _get_palettes(palette)
-    for pname, p in palettes.items():
+    for palette in palettes:
         added_colors = []
-        for c in p['colors']:
+        for color in palette.colors:
             # RGB tuple shortcut
-            rgb = c['rgb']
-
-            # Get the primary and alternate color names into a single list
-            names = [c['name']]
-            if c['alt']:
-                names.extend(c['alt'])
+            rgb = color.rgb
 
             # Set the colors
-            for name in names:
-                try:
-                    use_name = p['prefix'] + name
-                except KeyError:
+            for name in color.all_names():
+                if palette.prefix:
+                    use_name = f'{palette.prefix}{name}'
+                else:
                     use_name = name
                 cmd.set_color(use_name, rgb)
 
                 # Optionally replace built-in colors
                 if replace:
                     cmd.set_color(name, rgb)
+                    # FIXME hard-coded column width
                     spacer = (20 - len(name)) * ' '
-                    added_colors.append('    {}{}{}'.format(name, spacer, use_name))
+                    added_colors.append(f'    {name}{spacer}{use_name}')
                 else:
                     added_colors.append('    {}'.format(use_name))
 
         # Notify user of newly available colors
-        print(f'These {pname} colors are now available:')
+        print(f'These {palette.name} colors are now available:')
         print('\n'.join(added_colors))
 
 
-def _add_palette_menu(name, palette, replace=False):
+def _add_palette_menu(palette: Palette):
     '''Add a color palette to the PyMOL OpenGL menu.'''
 
     # Make sure cb_colors are installed.
-    print(f'Checking for {name} colors...')
+    print(f'Checking for {palette.name} colors...')
     try:
-        for c in palette['colors']:
-            if cmd.get_color_index(c['name']) == -1:
+        for color in palette.colors:
+            if cmd.get_color_index(color.name) == -1:
                 # mimic pre-1.7.4 behavior
                 raise pymol.CmdException
     except pymol.CmdException:
-        print(f'Adding {name} palette colors...')
-        set_colors(palette=name)
+        print(f'Adding {palette.name} palette colors...')
+        set_colors(palette=palette.name)
 
     # Abort if PyMOL is too old.
     try:
@@ -255,57 +247,50 @@ def _add_palette_menu(name, palette, replace=False):
         return
 
     # Add the menu
-    print(f'Adding {name} menu...')
+    print(f'Adding {palette.name} menu...')
     # mimic pymol.menu.all_colors_list format
     # first color in list is used for menu item color
 
-    def _get_color_code(rgb):
-        '''Return a 3-digit string approximating the RGB color.'''
-        return ''.join([str(math.floor(x / 256 * 10)) for x in rgb])
-
-    # Menu item for each color should be a tuple in the form
+    # Menu item for each color in the menu should be a tuple in the form
     #    ('999', 'color_name')
     # where '999' is a string representing the 0-255 RGB color converted to
     # a 0-9 integer RGB format (i.e. 1000 colors).
-    color_tuples = []
-    for c in palette['colors']:
-        try:
-            # Allow code to be set explicitly in palette definition. This is
-            # helpful for very dark colors, to allow contrast against the black
-            # menu background.
-            color_code = c['code']
-        except KeyError:
-            color_code = _get_color_code(c['rgb'])
-
-        color_tuples.append((color_code, palette['prefix'] + c['name']))
-
-    menu_colors = (name, color_tuples)
+    color_tuples = [
+        (color.get_short_code(), palette.prefix + color.name)
+        for color in palette.colors
+    ]
+    menu_colors = (palette.name, color_tuples)
 
     # First `pymol` is the program instance, second is the Python module
     all_colors_list = pymol.pymol.menu.all_colors_list
     if menu_colors in all_colors_list:
-        print(f'  - Menu for {name} was already added!')
+        print(f'  - Menu for {palette.name} was already added!')
     else:
         all_colors_list.append(menu_colors)
     print('    done.\n')
 
 
-def add_menu(palette=None, replace=False):
+def add_menu(palette_name=None):
     '''Add the specified color palettes to the PyMOL OpenGL menu.'''
-    palettes = _get_palettes(palette)
-    for name, pal in palettes.items():
-        _add_palette_menu(name, pal, replace=replace)
+    palettes = _get_palettes(palette_name)
+    for palette in palettes:
+        _add_palette_menu(palette)
 
 
-def remove_menu(palette=None):
+def remove_menu(palette_name=None):
     '''Remove the color palette menu(s).'''
-    palettes = _get_palettes(palette)
+    palettes = _get_palettes(palette_name)
     all_colors_list = pymol.pymol.menu.all_colors_list
-    for p in palettes.keys():
-        for i, menu in enumerate(all_colors_list):
-            if menu[0] == p:
-                del(all_colors_list[i])
-                print(f'Deleted menu for {p} palette.')
+    for palette in palettes:
+        initial_length = len(all_colors_list)
+        all_colors_list[:] = [
+            color_menu for color_menu in all_colors_list
+            if color_menu[0] != palette.name
+        ]
+        if len(all_colors_list) == initial_length:
+            print(f'No menu for {palette.name} palette found. Nothing deleted.')
+        else:
+            print(f'Deleted menu for {palette.name} palette.')
 
 
 if __name__ == "pymol":
