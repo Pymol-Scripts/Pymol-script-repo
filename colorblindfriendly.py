@@ -88,7 +88,7 @@ CHANGELOG
 '''
 from __future__ import print_function
 import math
-from typing import NamedTuple
+from typing import NamedTuple, Optional
 
 __author__ = 'Jared Sampson'
 __version__ = '0.3.0'
@@ -101,10 +101,10 @@ class PaletteColor(NamedTuple):
     '''Named tuple for storing color information.'''
     name: str
     rgb: tuple[int, int, int]
-    alt_names: list[str] | None = None
+    alt_names: Optional[list[str]] = None
     # Allow code to be set explicitly in palette definition. This is helpful
     # for very dark colors, to allow contrast against the dark menu background.
-    short_code: str | None = None  # for GUI menu
+    short_code: Optional[str] = None  # for GUI menu
 
     def all_names(self):
         '''Return a list of all names for this color.'''
@@ -184,7 +184,7 @@ PALETTES_MAP = {
 }
 
 
-def _get_palettes(palette_name: str | None = None):
+def _get_palettes(palette_name: Optional[str] = None):
     '''Return the desired Palette(s).'''
     if palette_name is None:
         return PALETTES_MAP.values()
