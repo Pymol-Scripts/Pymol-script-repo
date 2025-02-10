@@ -75,7 +75,7 @@ THE SOFTWARE.
 
 CHANGELOG
 
-    0.3.0   Generalize the way colors and menus are defined and added, to
+    0.3.0   Generalize the way colors and menus are efined and added, to
             enable the use of additional color palettes. Add Viridis and Magma
             palettes (contributed by Yehudi Bloch).  [2021-10-27]
 
