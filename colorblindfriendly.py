@@ -35,7 +35,7 @@ USAGE
     cbf.set_colors()
     color myObject, cb_red
 
-    # Replace built-in colors with cbf ones
+    # Replace built-in colors of same names with cbf ones
     cbf.set_colors(replace=True)
     color myOtherObject, yellow   # actually cb_yellow
 
