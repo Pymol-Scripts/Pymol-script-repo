@@ -140,11 +140,17 @@ class PaletteColor(NamedTuple):
             return self.short_code
         return ''.join([str(math.floor(x / 256 * 10)) for x in self.rgb])
 
+
 class Palette(NamedTuple):
     '''Named tuple for storing palette information.'''
     name: str
     colors: list[PaletteColor]
     prefix: str = ''
+
+    def install(self):
+        '''Install the palette, adding colors and the GUI menu.'''
+        PALETTES_MAP[self.name] = self
+        add_menu(self.name)
 
 
 # Color blind-friendly color list based on information found at:
