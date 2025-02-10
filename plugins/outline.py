@@ -11,8 +11,11 @@ from pymol.Qt import QtCore
 from pymol.Qt import QtGui
 from pymol.Qt import QtWidgets
 
+from dataclasses import dataclass
+
 import os
 from io import BytesIO
+from pathlib import Path
 
 from PIL import Image
 from PIL import ImageChops
@@ -20,7 +23,7 @@ from PIL import ImageDraw
 from PIL import ImageFilter
 from PIL import ImageOps
 
-__version__ = "0.1"
+__version__ = "0.2"
 
 
 def __init_plugin__(app=None) -> None:
@@ -100,8 +103,15 @@ def _create_clean_overlay(img: Image, target_color: tuple,
     return edges
 
 
+@dataclass
+class Extent2D:
+    width: int = 0
+    height: int = 0
+
+
 def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
-             scale: int, reps: tuple) -> None:
+             scale: int, reps: tuple, image_extent: Extent2D,
+             save_file: bool) -> None:
     """
     Outline a selection's representations with a specific color.
     :param outline_sele: Selection to outline
@@ -109,6 +119,8 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
     :param outline_width: Width of outline
     :param scale: Scale factor for antialiasing
     :param reps: Representations to outline
+    :param image_extent: Image extent
+    :param save_file: Should save to file
     """
     try:
         tmp_scene = "tmp_scene"
@@ -116,7 +128,8 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
         cmd.scene(tmp_scene, "store", quiet=1)
 
         # Render what we have
-        base_bytes = cmd.png(filename=None, ray=1)
+        width, height = image_extent.width, image_extent.height
+        base_bytes = cmd.png(filename=None, ray=1, width=width, height=height)
 
         # Render only whats outlined
         cmd.hide('everything')
@@ -138,7 +151,6 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
 
         ray_antialias = cmd.get('antialias')
         cmd.set('antialias', 0)
-        (width, height) = cmd.get_viewport()
         overlay_bytes = cmd.png(filename=None, ray=1, width=width*scale,
                                 height=height*scale)
 
@@ -149,10 +161,26 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
 
         composite = Image.composite(overlay, base, overlay)
 
+        composition_file = Path.cwd() / "_tmp_outline_comp.png"
+        composition_file_name = str(composition_file)
+        composite.save(composition_file_name)
         # TODO: load_png doesn't take raw bytes so we have to save to disk
-        tmp_composite_png = "_tmp_outline_comp.png"
-        composite.save(tmp_composite_png)
-        cmd.load_png(tmp_composite_png, quiet=1)
+        cmd.load_png(composition_file_name, quiet=1)
+        if save_file:
+            new_name = QtWidgets.QFileDialog.getSaveFileName(
+                None, "Save File", str(Path.cwd()), "PNG Files (*.png)")[0]
+            # rename file
+            new_path = Path(new_name)
+            if new_path.exists():
+                new_path.unlink()
+            composition_file.rename(new_path)
+            composition_file_name = str(new_path)
+            msg = QtWidgets.QMessageBox()
+            msg.setWindowTitle("File Saved")
+            msg.setText(f"Saved to {composition_file_name}")
+            msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+            msg.exec_()
+
     finally:
         # Revert scene and clean up
         cmd.scene(tmp_scene, "recall", quiet=1)
@@ -162,7 +190,8 @@ def _outline(outline_sele: str, outline_color: tuple, outline_width: int,
         cmd.set('ray_trace_color', ray_trace_color)
         cmd.set('bg_rgb', bg_color)
         cmd.set('ray_opaque_background', ray_opaque_background)
-        os.remove(tmp_composite_png)
+        if not save_file:
+            composition_file.unlink()
 
 
 class StringListSelectorWidgetItem(QtWidgets.QWidget):
@@ -251,6 +280,34 @@ class ButtonGroup(QtWidgets.QButtonGroup):
         return button
 
 
+class ImageExtentSelectionGroup(QtWidgets.QWidget):
+    """
+    Two spinboxes for selecting image width and height
+    """
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        width, height = cmd.get_viewport()
+        self.width = width
+        self.height = height
+        self.width_box = QtWidgets.QSpinBox()
+        self.height_box = QtWidgets.QSpinBox()
+        self.width_box.setRange(32, 8192)
+        self.height_box.setRange(32, 8192)
+        self.width_box.setValue(self.width)
+        self.height_box.setValue(self.height)
+        self.layout = QtWidgets.QHBoxLayout(self)
+        self.layout.addWidget(QtWidgets.QLabel("Img Width:"))
+        self.layout.addWidget(self.width_box)
+        self.layout.addWidget(QtWidgets.QLabel("Img Height:"))
+        self.layout.addWidget(self.height_box)
+
+    def get_extent(self) -> Extent2D:
+        """
+        :return: Image extent
+        """
+        return Extent2D(self.width_box.value(), self.height_box.value())
+
+
 class RepresentationOutlineDialog(QtWidgets.QDialog):
     """
     Representation Outline Dialog that allows the user to outline a selection's
@@ -322,6 +379,12 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         self.antialias_layout.addWidget(self.low_aa)
         self.antialias_layout.addWidget(self.hi_aa)
 
+        # Image Extent Spinbox group
+        self.image_extent_selection_group = ImageExtentSelectionGroup()
+
+        # File save field
+        self.save_file_checkbox = QtWidgets.QCheckBox("Save to file")
+
         self._updateCol()
 
         # Brief note
@@ -337,6 +400,8 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         self.layout.addWidget(self.color_dialogue_btn)
         self.layout.addLayout(self.slider_layout)
         self.layout.addLayout(self.antialias_layout)
+        self.layout.addWidget(self.image_extent_selection_group)
+        self.layout.addWidget(self.save_file_checkbox)
         self.layout.addWidget(self.outline_button)
         self.layout.addWidget(self.note)
 
@@ -381,9 +446,12 @@ class RepresentationOutlineDialog(QtWidgets.QDialog):
         def onOutlineClicked():
             col = self.color_dialogue.currentColor().getRgb()
             scale = int(self.antialias_group.checkedButton().text()[0])
-            width = self._kernelToWidth(self.width_slider.value() * scale)
+            outline_width = self._kernelToWidth(self.width_slider.value() * scale)
+            image_extent = self.image_extent_selection_group.get_extent()
             _outline(self.combobox.currentText(), col,
-                     width, scale, self.rep_list.get_rep_list())
+                     outline_width, scale, self.rep_list.get_rep_list(),
+                     image_extent,
+                     self.save_file_checkbox.isChecked())
 
         self.outline_button.clicked.connect(onOutlineClicked)
 

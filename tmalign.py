@@ -152,7 +152,7 @@ SEE ALSO
             a = line.split(None, 2)
             if len(a) == 3:
                 headercheck = a[1]
-        elif line.lower().startswith(' -------- rotation matrix'):
+        elif (' rotation matrix') in line.lower():
             rowcount = 1
         elif line.startswith('(":" denotes'):
             alignment = [next(line_it).rstrip() for i in range(3)]

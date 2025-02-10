@@ -1,33 +1,30 @@
-'''
-See more here: http://www.pymolwiki.org/index.php/color_by_conservation
-
-    PARAMETERS
-    aln
-        (string) the alignment object name
-    names
-        (list) a list of object names that are in the alignment;
-               if (), then PyMOL will attempt to glean the names
-               from the alignment object
-    color
-        (string) valid PyMOL spectrum name
-
-    as_putty
-        (0 or 1) if 0 display is not changed, else participating objects are shown
-                 as cartoon putty, colored by the 'color' field
-'''
-
-from __future__ import print_function
-from pymol import cmd
+from pymol import cmd, CmdException
 
 
-def color_by_conservation(aln, names=(), color="rainbow", as_putty=0, _self=cmd):
-    # PyMOL doesn't yet know about object:alignment
-    # but we need to check that this exists or we might crash
-    if _self.get_type(aln) not in ("object:", "object:alignment"):
-        print("Error: Bad or incorrectly specified alignment object.")
-        return None
+@cmd.extend
+def color_by_conservation(aln, names=(), color=None, as_putty=0, _self=cmd):
+    '''
+    See more here: http://www.pymolwiki.org/index.php/color_by_conservation
 
-    r = cmd.get_raw_alignment(aln)
+        PARAMETERS
+        aln
+            (string) the alignment object name
+        names
+            (list) a list of object names that are in the alignment;
+                if (), then PyMOL will attempt to glean the names
+                from the alignment object
+        color
+            (string) valid PyMOL spectrum name
+
+        as_putty
+            (0 or 1) if 0 display is not changed, else participating objects are shown
+                    as cartoon putty, colored by the 'color' field
+    '''
+
+    if _self.get_type(aln) != "object:alignment":
+        raise CmdException("Error: Bad or incorrectly specified alignment object.")
+
+    r = _self.get_raw_alignment(aln)
 
     if names == ():
         known_objs = []
@@ -48,12 +45,14 @@ def color_by_conservation(aln, names=(), color="rainbow", as_putty=0, _self=cmd)
         for y in af:
             _self.alter("%s and index %s" % (y[0], y[1]), "b=c", space={'c': c})
 
-    if as_putty != 0:
+    if int(as_putty) != 0:
         for obj in known_objs:
             _self.show_as("cartoon", "%s" % obj)
             _self.cartoon("putty", "%s" % obj)
+
+    if color is not None:
+        for obj in known_objs:
             _self.spectrum('b', color, obj)
-            _self.sort()
-            _self.rebuild()
-    return None
-cmd.extend("color_by_conservation", color_by_conservation)
+    
+    _self.sort()
+    _self.rebuild()

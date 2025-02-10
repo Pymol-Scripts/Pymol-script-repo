@@ -74,7 +74,7 @@ def touch(filename):
     with open(filename, 'a'):
         pass
 
-def getstatusoutput(command):
+def getstatusoutput(command, work_dir=None):
     from subprocess import Popen, PIPE, STDOUT
     env = dict(os.environ)
     if 'PYMOL_GIT_MOD' in os.environ:
@@ -82,7 +82,7 @@ def getstatusoutput(command):
     args = command.split()
     if args[0].endswith('.py') and USE_SYS_EXECUTABLE:
         args.insert(0, sys.executable)
-    p = Popen(args, stdout=PIPE, stderr=STDOUT, stdin=PIPE, env=env)
+    p = Popen(args, stdout=PIPE, stderr=STDOUT, stdin=PIPE, env=env, cwd=work_dir)
     output = p.communicate()[0]
     return p.returncode, output
 
@@ -95,7 +95,7 @@ from pymol.vfont import plain
 from glob import glob
 import platform
 
-__version__ = "2.1.1"
+__version__ = "2.1.2"
 #=============================================================================
 #
 #     INITIALISE PLUGIN
@@ -544,9 +544,11 @@ class Autodock:
         # paths to executables
         self.config_settings = {}
         self.autodock_tools_path = StringVar()
+        self.work_path = StringVar()
         self.autogrid_exe = StringVar()
         self.autodock_exe = StringVar()
         self.vina_exe = StringVar()
+        self.python_exe = StringVar()
 
         # ligand display settings
 
@@ -592,11 +594,25 @@ class Autodock:
 
         # build pages
         self.configuration_page = self.notebook.add('Configuration')
-
+        self.configuration_page = Pmw.ScrolledFrame(self.configuration_page, horizflex='expand', vertflex='expand')
+        self.configuration_page.pack(fill='both', expand=True)
+        self.configuration_page = self.configuration_page.interior()
         self.grid_definition_page = self.notebook.add('Grid Settings')
+        self.grid_definition_page = Pmw.ScrolledFrame(self.grid_definition_page, horizflex='expand', vertflex='expand')
+        self.grid_definition_page.pack(fill='both', expand=True)
+        self.grid_definition_page = self.grid_definition_page.interior()
         self.receptor_preparation_page = self.notebook.add('Receptor')
+        self.receptor_preparation_page = Pmw.ScrolledFrame(self.receptor_preparation_page, horizflex='expand', vertflex='expand')
+        self.receptor_preparation_page.pack(fill='both', expand=True)
+        self.receptor_preparation_page = self.receptor_preparation_page.interior()
         self.ligand_preparation_page = self.notebook.add('Ligands')
+        self.ligand_preparation_page = Pmw.ScrolledFrame(self.ligand_preparation_page, horizflex='expand', vertflex='expand')
+        self.ligand_preparation_page.pack(fill='both', expand=True)
+        self.ligand_preparation_page = self.ligand_preparation_page.interior()
         self.docking_page = self.notebook.add('Docking')
+        self.docking_page = Pmw.ScrolledFrame(self.docking_page, horizflex='expand', vertflex='expand')
+        self.docking_page.pack(fill='both', expand=True)
+        self.docking_page = self.docking_page.interior()
         self.pose_viewer_page = self.notebook.add('View Poses')
         self.rank_page = self.notebook.add('Score/Rank')
         self.map_viewer_page = self.notebook.add('Grid Maps')
@@ -844,7 +860,7 @@ class Autodock:
         #     PLUGIN CONFIGURATION PAGE
 
         self.configuration_top_group = Pmw.Group(self.configuration_page, tag_text='General Notes')
-        self.configuration_top_group.pack(fill='both', expand=0, padx=10, pady=5)
+        self.configuration_top_group.pack(fill='both', expand=1, padx=10, pady=5)
 
         self.text_field = Tkinter.Label(self.configuration_top_group.interior(),
                                         text=intro_text,
@@ -855,7 +871,7 @@ class Autodock:
         self.text_field.pack(expand=0, fill='both', padx=4, pady=4)
 
         self.configuration_group = Pmw.Group(self.configuration_page, tag_text='Scripts and Program Paths')
-        self.configuration_group.pack(fill='both', expand=0, padx=10, pady=5)
+        self.configuration_group.pack(fill='both', expand=1, padx=10, pady=5)
 
         self.config_settings = self.read_plugin_config_file()
 
@@ -863,36 +879,42 @@ class Autodock:
                                                       labelpos='w',
                                                       label_pyclass=DirDialogButtonClassFactory.get(self.set_autodock_tools_path),
                                                       value=self.config_settings['autodock_tools_path'],
-                                                      label_text='AutoDockTools:')
+                                                      label_text='AutoDockTools (no whitespace):')
 
         self.autogrid_location = Pmw.EntryField(self.configuration_group.interior(),
                                                 labelpos='w',
                                                 label_pyclass=FileDialogButtonClassFactory.get(self.set_autogrid_location),
                                                 value=self.config_settings['autogrid_exe'],
-                                                label_text='autogrid4 executable:')
+                                                label_text='autogrid4 executable (no whitespace):')
 
         self.autodock_location = Pmw.EntryField(self.configuration_group.interior(),
                                                 labelpos='w',
                                                 label_pyclass=FileDialogButtonClassFactory.get(self.set_autodock_location),
                                                 value=self.config_settings['autodock_exe'],
-                                                label_text='autodock4 executable:')
+                                                label_text='autodock4 executable (no whitespace):')
 
         self.vina_location = Pmw.EntryField(self.configuration_group.interior(),
                                             labelpos='w',
                                             label_pyclass=FileDialogButtonClassFactory.get(self.set_vina_location),
                                             value=self.config_settings['vina_exe'],
-                                            label_text='vina executable:')
+                                            label_text='vina executable (no whitespace):')
 
+        self.python_location = Pmw.EntryField(self.configuration_group.interior(),
+                                            labelpos='w',
+                                            label_pyclass=FileDialogButtonClassFactory.get(self.set_python_location),
+                                            value=self.config_settings['python_exe'],
+                                            label_text='python executable (in mgltools):')
         self.work_path_location = Pmw.EntryField(self.configuration_group.interior(),
                                                  labelpos='w',
                                                  label_pyclass=DirDialogButtonClassFactory.get(self.set_work_path_location),
-                                                 value=os.path.abspath(os.curdir),
-                                                 label_text='Working Directory:')
+                                                 value= self.config_settings['work_path'] if self.config_settings['work_path'] else os.path.abspath(os.curdir),
+                                                 label_text='Working Directory (no whitespace):')
 
         for x in [self.autodock_tools_location,
                    self.autogrid_location,
                    self.autodock_location,
                    self.vina_location,
+                   self.python_location,
                    self.work_path_location
                    ]:
             x.pack(fill='both', expand=1, padx=10, pady=5)
@@ -901,6 +923,7 @@ class Autodock:
                            self.autogrid_location,
                            self.autodock_location,
                            self.vina_location,
+                           self.python_location,
                            self.work_path_location
                            ])
 
@@ -973,19 +996,19 @@ class Autodock:
         self.flexible_residues_list.pack(side=LEFT, padx=3, anchor='n')
 
         self.receptor_preparation_bottom_group = Pmw.Group(self.receptor_preparation_page, tag_text='Log')
-        self.receptor_preparation_bottom_group.pack(fill='both', expand=0, padx=10, pady=5)
+        self.receptor_preparation_bottom_group.pack(fill='both', expand=1, padx=10, pady=5)
 
         self.receptor_page_log_text = Pmw.ScrolledText(self.receptor_preparation_bottom_group.interior(),
                                                        borderframe=5,
                                                        vscrollmode='dynamic',
                                                        hscrollmode='dynamic',
                                                        labelpos='n',
-                                                       text_width=150, text_height=15,
+                                                       text_width=250, text_height=25,
                                                        text_wrap='none',
                                                        text_background='#000000',
                                                        text_foreground='green'
                                                        )
-        self.receptor_page_log_text.pack(side=LEFT, anchor='n', pady=0)
+        self.receptor_page_log_text.pack(side=TOP, anchor='n', pady=0)
 
         self.receptor_page_log_text.insert('end', receptor_prep_text)
 
@@ -1061,7 +1084,7 @@ class Autodock:
         self.ligand_pdbqt_list.pack(side=LEFT, padx=3, anchor='n')
 
         self.ligand_preparation_bottom_group = Pmw.Group(self.ligand_preparation_page, tag_text='Log')
-        self.ligand_preparation_bottom_group.pack(fill='both', expand=0, padx=10, pady=5)
+        self.ligand_preparation_bottom_group.pack(fill='both', expand=1, padx=10, pady=5)
 
         self.ligand_page_log_text = Pmw.ScrolledText(self.ligand_preparation_bottom_group.interior(),
                                                      borderframe=5,
@@ -1069,12 +1092,12 @@ class Autodock:
                                                      hscrollmode='dynamic',
                                                      labelpos='n',
                                                      #                                                        label_text='Log',
-                                                     text_width=150, text_height=15,
+                                                     text_width=250, text_height=25,
                                                      text_wrap='none',
                                                      text_background='#000000',
                                                      text_foreground='green'
                                                      )
-        self.ligand_page_log_text.pack(side=LEFT, anchor='n', pady=0)
+        self.ligand_page_log_text.pack(side=TOP, anchor='n', pady=0)
         self.ligand_page_log_text.insert('end', ligand_prep_text)
 
         #------------------------------------------------------------------
@@ -1147,19 +1170,19 @@ class Autodock:
         self.docking_button_box2.alignbuttons()
 
         self.docking_bottom_group = Pmw.Group(self.docking_page, tag_text='Log')
-        self.docking_bottom_group.pack(fill='both', expand=0, padx=10, pady=5)
+        self.docking_bottom_group.pack(fill='both', expand=1, padx=10, pady=5)
 
         self.docking_page_log_text = Pmw.ScrolledText(self.docking_bottom_group.interior(),
                                                       borderframe=5,
                                                       vscrollmode='dynamic',
                                                       hscrollmode='dynamic',
                                                       labelpos='n',
-                                                      text_width=150, text_height=25,
+                                                      text_width=250, text_height=25,
                                                       text_wrap='none',
                                                       text_background='#000000',
                                                       text_foreground='green'
                                                       )
-        self.docking_page_log_text.pack(side=LEFT, anchor='n', pady=0)
+        self.docking_page_log_text.pack(side=TOP, anchor='n', pady=0)
         self.docking_page_log_text.insert('end', docking_text)
 
         #------------------------------------------------------------------
@@ -1814,8 +1837,15 @@ class Autodock:
         self.vina_exe.set(filename)
         self.config_settings['vina_exe'] = filename
 
+    def set_python_location(self, filename):
+        self.python_location.setvalue(filename)
+        self.python_exe.set(filename)
+        self.config_settings['python_exe'] = filename
+
     def set_work_path_location(self, dirname):
         self.work_path_location.setvalue(dirname)
+        self.work_path.set(dirname)
+        self.config_settings['work_path'] = dirname
 
     def work_dir(self):
         return self.work_path_location.getvalue()
@@ -1827,6 +1857,8 @@ class Autodock:
         self.config_settings['autogrid_exe'] = ''
         self.config_settings['autodock_exe'] = ''
         self.config_settings['vina_exe'] = ''
+        self.config_settings['python_exe'] = ''
+        self.config_settings['work_path'] = ''
 
         if 'PYMOL_GIT_MOD' in os.environ:
             self.config_settings['autodock_tools_path'] = os.path.join(os.environ['PYMOL_GIT_MOD'], "ADT", "AutoDockTools", "Utilities24")
@@ -1863,7 +1895,9 @@ class Autodock:
         self.autogrid_exe.set(self.config_settings['autogrid_exe'])
         self.autodock_exe.set(self.config_settings['autodock_exe'])
         self.vina_exe.set(self.config_settings['vina_exe'])
+        self.python_exe.set(self.config_settings['python_exe'])
         self.autodock_tools_path.set(self.config_settings['autodock_tools_path'])
+        self.work_path.set(self.config_settings['work_path'])
         return self.config_settings
 
     def save_plugin_config_file(self):
@@ -1874,7 +1908,9 @@ class Autodock:
         self.config_settings['autogrid_exe'] = self.autogrid_location.getvalue()
         self.config_settings['autodock_exe'] = self.autodock_location.getvalue()
         self.config_settings['vina_exe'] = self.vina_location.getvalue()
+        self.config_settings['python_exe'] = self.python_location.getvalue()
         self.config_settings['autodock_tools_path'] = self.autodock_tools_location.getvalue()
+        self.config_settings['work_path'] = self.work_path_location.getvalue()
         # print 'ADDD', self.autodock_location.getvalue()
         for key, val in self.config_settings.items():
             print(key, '=', val, file=fp)
@@ -1931,13 +1967,14 @@ class Autodock:
         tmp_rec_pdb = os.path.join(self.work_dir(), "receptor.%s.pdb" % sel[0])
         print(tmp_rec_pdb)
         cmd.save(tmp_rec_pdb, sel[0])
+        python = self.python_exe.get()
         util_program = os.path.join(self.autodock_tools_path.get(), "prepare_receptor4.py")
         outfilename = os.path.join(self.work_dir(), "receptor.%s.pdbqt" % sel[0])
-        command = "%s -r %s -o %s -A checkhydrogens" % (util_program, tmp_rec_pdb, outfilename)
+        command = "%s %s -r %s -o %s -A checkhydrogens" % (python, util_program, tmp_rec_pdb, outfilename)
         self.receptor_page_log_text.insert('end', "Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto', 1.0)
 
-        result, output = getstatusoutput(command)
+        result, output = getstatusoutput(command, self.work_dir())
         if result == 0:
             self.receptor_list.insert('end', sel[0])
             self.status_line.configure(text="Successfully generated receptor file receptor.%s.pdbqt" % sel[0])
@@ -1980,17 +2017,18 @@ class Autodock:
         #                receptor_object.flexible_residues.append( [int(resi), resn] )
 #        self.status_line.configure(text = "Selected %d flexible residues for receptor %s" \
 #                                   % (len(receptor_object.flexible_residues), rec))
+        python = self.python_exe.get()
         util_program = os.path.join(self.autodock_tools_path.get(), "prepare_flexreceptor4.py")
         flex_res_string = receptor_object.flex_res_string()
         receptor_filename = receptor_object.receptor_pdbqt
         rec_rigid = receptor_filename[:-6] + '.rigid.pdbqt'
         rec_flexible = receptor_filename[:-6] + '.flexible.pdbqt'
-        command = "%s -r %s -s %s -g %s -x %s" % \
-                  (util_program, receptor_filename, flex_res_string, rec_rigid, rec_flexible)
+        command = "%s %s -r %s -s %s -g %s -x %s" % \
+                  (python, util_program, receptor_filename, flex_res_string, rec_rigid, rec_flexible)
         self.receptor_page_log_text.insert('end', "Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto', 1.0)
 #        result = os.system(command)
-        result, output = getstatusoutput(command)
+        result, output = getstatusoutput(command, self.work_dir())
         if result == 0:
             receptor_object.receptor_rigid = rec_rigid
             receptor_object.receptor_flexible = rec_flexible
@@ -2010,11 +2048,12 @@ class Autodock:
     def load_receptor_pdbqt(self):
         fn = self.receptor_pdbqt_location.getvalue()
         outfile = os.path.join(self.work_dir(), os.path.basename(fn).split('.')[0] + '_pdb.pdb')
+        python = self.python_exe.get()
         util_program = os.path.join(self.autodock_tools_path.get(), "pdbqt_to_pdb.py")
-        command = "%s -f %s -o %s " % (util_program, fn, outfile)
+        command = "%s %s -f %s -o %s " % (python, util_program, fn, outfile)
         self.receptor_page_log_text.insert('end', "Batch: %s\n" % command)
         self.receptor_page_log_text.yview('moveto', 1.0)
-        result, output = getstatusoutput(command)
+        result, output = getstatusoutput(command, self.work_dir())
         if result == 0:
             self.status_line.configure(text="Loading receptor %s" % fn)
             self.receptor_page_log_text.insert('end', output)
@@ -2085,14 +2124,16 @@ class Autodock:
         self.ligand_list.selectitem(-1)
 
     def generate_ligand(self):
+        print(self.work_dir())
         sel = self.ligand_list.get()
         filename = self.ligand_dic[sel].input_file
         outfile = os.path.join(self.work_dir(), os.path.basename(filename).split('.')[0] + '.pdbqt')
+        python = self.python_exe.get()
         util_program = os.path.join(self.autodock_tools_path.get(), "prepare_ligand4.py")
-        command = "%s -l %s -o %s -A checkhydrogens" % (util_program, filename, outfile)
+        command = "%s %s -l %s -o %s -A checkhydrogens" % (python, util_program, filename, outfile)
         self.ligand_page_log_text.insert('end', "Batch: %s\n" % command)
 #        result = os.system(command)
-        result, output = getstatusoutput(command)
+        result, output = getstatusoutput(command, self.work_dir())
         if result == 0:
             self.ligand_pdbqt_list.insert('end', sel)
             self.docking_ligand_list.insert('end', sel)
@@ -2251,8 +2292,9 @@ class Autodock:
         print('spacing %5.3f' % spacing, file=fp)
         print('gridcenter  %8.3f %8.3f %8.3f' % (center_X, center_Y, center_Z), file=fp)
         fp.close()
+        python = self.python_exe.get()
         util_program = os.path.join(self.autodock_tools_path.get(), "prepare_gpf4.py")
-        command = "%s -r %s -i %s -o %s" % (util_program, rigid_receptor_file, template_gpf, outfile_gpf)
+        command = "%s %s -r %s -i %s -o %s" % (python, util_program, rigid_receptor_file, template_gpf, outfile_gpf)
         if flex_receptor_file is not None:
             command += ' -x %s' % flex_receptor_file
         if hasattr(self, "multiple_ligands"):
@@ -2262,7 +2304,7 @@ class Autodock:
 
         self.docking_page_log_text.insert('end', "Batch: %s\n" % command)
         self.docking_page_log_text.yview('moveto', 1.0)
-        result, output = getstatusoutput(command)
+        result, output = getstatusoutput(command, self.work_dir())
         if result == 0:
             self.status_line.configure(text="Successfully generated AutoGrid input file")
             self.docking_page_log_text.insert('end', output)
@@ -2324,18 +2366,18 @@ class Autodock:
         fp = self.fileopen(template_dpf, 'w')
         print('ga_run %d ' % (nposes), file=fp)
         fp.close()
-
+        python = self.python_exe.get()
         util_program = os.path.join(self.autodock_tools_path.get(), "prepare_dpf4.py")
         if ligands != 'All':
             outfile_dpf = ligands + '.dpf'
-            command = "%s -r %s -i %s -o %s " % (util_program, rigid_receptor_file, template_dpf, outfile_dpf)
+            command = "%s %s -r %s -i %s -o %s " % (python, util_program, rigid_receptor_file, template_dpf, outfile_dpf)
             if flex_receptor_file is not None:
                 command += ' -x %s' % flex_receptor_file
             else:
                 command += ' -l %s' % lig_pdbqt
             self.docking_page_log_text.insert('end', "Batch: %s\n" % command)
             self.docking_page_log_text.yview('moveto', 1.0)
-            result, output = getstatusoutput(command)
+            result, output = getstatusoutput(command, self.work_dir())
             if result == 0:
                 self.status_line.configure(text="Wrote AutoDock input file for ligand: %s" % ligands)
 #                self.docking_page_log_text.insert('end',"Running AutoDock.....\n")
@@ -2605,7 +2647,7 @@ class Autodock:
                                                                        hscrollmode='dynamic',
                                                                        labelpos='n',
                                                                        label_text=name,
-                                                                       text_width=150, text_height=15,
+                                                                       text_width=250, text_height=25,
                                                                        text_wrap='none',
                                                                        text_background='#000000',
                                                                        text_foreground='green'
