@@ -94,7 +94,7 @@ import math
 from typing import NamedTuple, Optional
 
 __author__ = 'Jared Sampson'
-__version__ = '0.3.0'
+__version__ = '0.4.0'
 
 import pymol
 from pymol import cmd
