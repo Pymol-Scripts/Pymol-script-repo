@@ -16,7 +16,7 @@ DESCRIPTION
     reference to consult when making all kinds of figures, not just those made
     using PyMOL.
 
-    The colors are:
+    The "colorblind" color palette includes:
 
     * cb_black
     * cb_orange
@@ -27,8 +27,16 @@ DESCRIPTION
     * cb_vermillion (also: cb_red, cb_redorange, cb_red_orange)
     * cb_reddish_purple (also: cb_rose, cb_violet, cb_magenta)
 
+    Also added are two palettes from matplotlib, "viridis" and "magma", which
+    are designed to be perceptually uniform in both color and black-and-white
+    printouts.  These are available as "viridis[1-11]", "magma[1-11]".
+
 USAGE
 
+    With the PyMOL Script Repo installed and importable, import the module and
+    set the colors:
+
+    ```
     import colorblindfriendly as cbf
 
     # Add the new colors
@@ -41,6 +49,16 @@ USAGE
 
     # Add a `cb_colors` menu item to the OpenGL GUI ([C] menu in the right panel)
     cbf.add_menu()
+    ```
+
+    Or, to use without installing, run the script directly from GitHub.  This
+    will add the colors and install GUI palette menus for  all three default
+    color palettes:
+
+    ```
+    run https://github.com/Pymol-Scripts/Pymol-script-repo/blob/master/colorblindfriendly.py
+    color myObject, cb_red
+    ```
 
 REQUIREMENTS
 
