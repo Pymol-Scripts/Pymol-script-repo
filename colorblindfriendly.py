@@ -53,7 +53,7 @@ AUTHOR
 
 LICENSE
 
-Copyright (c) 2014-2021 Jared Sampson
+Copyright (c) 2014-2025 Jared Sampson
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -74,6 +74,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 CHANGELOG
+
+    0.4.0   Add Palette and PaletteColor NamedTuples for cleaner declaration of
+            color palettes.  [2025-02-10]
 
     0.3.0   Generalize the way colors and menus are efined and added, to
             enable the use of additional color palettes. Add Viridis and Magma
