@@ -1,3 +1,57 @@
+"""
+DESCRIPTION:
+    Given a sequence/regex to find, select those matching amino acids in the
+    protein.
+
+USAGE:
+    findseq needle, [haystack[, selName[, het[, matchMode]]]]
+
+PARAMS:
+needle (string)
+        the sequence of amino acids to match and select
+        in the haystack.  This can be a sequence of amino
+        acids, or a string-style regular expression.  See
+        examples.
+
+haystack (string; PyMOL object or selection; defaults to *)
+        name of the PyMOL object/selection in which
+        to find the needle.
+
+selName (string; defaults to None)
+        This is the name of the selection to return.  If selName
+        is left blank (None), then the selection name will be
+        foundSeqXYZ where XYZ is some random number; if selName is
+        "sele" the usual PyMOL "(sele)" will be used; and, lastly,
+        if selName is anything else, that name will be used verbatim.
+
+het (0 or 1; defaults to 0)
+        This boolean flag allows (1) or disallows (0) heteroatoms
+        from being considered.
+
+matchMode (first/all/chain; defaults to "all")
+        Subsequences or motifs might be repeated, this controls how we
+        consider multiple matches. Options are:
+        - 'first': Return the first match found in each object.
+        - 'chain': Return the first match found in each chain.
+        - 'all': Return all matches found in all chains.
+
+RETURNS:
+    a newly created selection with the atoms you sought.
+
+EXAMPLE:
+    # find SPVI in 1h12, foundSeqXYZ as return name
+    findseq SPVI, 1h12
+
+    # find FATEW and make it (sele).
+    findseq FATEW, 1g01, sele
+
+    # find the regular expression GMS.*QWY in 1a3h
+    # and put the return value in (sele).
+    fetch 1a3h
+    # this ends up finding the sequence, GMSSHGLQWY
+    findseq GMS.*QWY, 1a3h, sele
+"""
+
 from pymol import cmd
 import re
 from collections import defaultdict
@@ -11,7 +65,7 @@ def findseq(needle, haystack='*', selName=None, het=0, matchMode="all"):
         protein.
 
     USAGE:
-        findseq needle, [haystack[, selName[, het[, firstOnly]]]]
+        findseq needle, [haystack[, selName[, het[, matchMode]]]]
 
     PARAMS:
     needle (string)
@@ -57,19 +111,9 @@ def findseq(needle, haystack='*', selName=None, het=0, matchMode="all"):
         fetch 1a3h
         # this ends up finding the sequence, GMSSHGLQWY
         findseq GMS.*QWY, 1a3h, sele
-
-        # find the Potential N-linked glycosylation sites in 5fyj
-        fetch 5fyj
-        findseq N(?=[^P][ST]), 5fyj and chain G+B, 5fyj_pngs
-
-    NOTES:
-        Assumes we're using the ONE LETTER amino acid abbreviations.
-
-    AUTHOR:
-        Jason Vertrees, 2009.
     """
-    # set the name of the selection to return.
     selName = selName or cmd.get_unused_name("foundSeq")
+
     # input checking
     if not checkParams(needle, haystack, selName, het, matchMode):
         print("There was an error with a parameter. Please see the above error message for how to fix it.")
