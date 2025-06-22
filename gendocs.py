@@ -75,6 +75,6 @@ tmpl = Template(dedent("""
     {% endfor %} 
     {% endfor %}
 """))
-docs_path = "command_list.md"
+docs_path = "command_docs.md"
 with open(docs_path, "w") as fd:
     fd.write(tmpl.render(commands=FOUND))
