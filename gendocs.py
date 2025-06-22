@@ -3,8 +3,7 @@ import tempfile
 import webbrowser
 from collections import defaultdict
 from glob import glob
-from textwrap import indent
-
+from textwrap import dedent, indent
 from jinja2 import Template
 
 
@@ -41,7 +40,7 @@ class Visitor3pass(ast.NodeVisitor):
             try:
                 if isinstance(functiondef.body[0].value.value, str):
                     docstring = functiondef.body[0].value.value
-                    docstring = indent(docstring, " " * 4)
+                    docstring = indent(dedent(docstring), " " * 4)
                     FOUND[self.module][functiondef.name] = docstring
             except Exception as exc:
                 pass
@@ -65,19 +64,17 @@ for module in [*glob("*.py"), *glob("plugins/*.py")]:
             v.visit(tree)
         else:
             del FOUND[module]
-            print("%s:: NeedRefactor" % module)
+            print("%s::NeedRefactor" % module)
 
-tmpl = Template("""
-# PyMOL Script Repo: Plugin List
-{% for module in commands %}
-* ## {{ module }}
-{% for command in commands[module] %}
-    * # {{ command }}
+tmpl = Template(dedent("""
+    {% for module in commands %}
+    ## {{ module }}
+    {% for command in commands[module] %}
+    ### {{ command }}
     ```{{ commands[module][command] }}```
-{% endfor %} 
-{% endfor %}
-""")
-_, path = tempfile.mkstemp(suffix=".md")
-with open(path, "w") as fd:
+    {% endfor %} 
+    {% endfor %}
+"""))
+docs_path = "command_docs.md"
+with open(docs_path, "w") as fd:
     fd.write(tmpl.render(commands=FOUND))
-print("DOCUMENTATION: %s" % path)
