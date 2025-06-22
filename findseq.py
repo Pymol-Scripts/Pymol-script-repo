@@ -203,3 +203,11 @@ def checkParams(needle, haystack, selName, het, matchMode):
         print("Error: selName was not a string.")
         return False
     return True
+
+
+def test_findseq():
+    cmd.fab('ACDEFG', 'm1')
+    cmd.fab('HIKLMN', 'm2')
+    cmd.do('findseq DEF, *, foundSeq')
+    assert cmd.count_atoms("foundSeq and m1") == 47
+    assert cmd.count_atoms("foundSeq and m2") == 0
