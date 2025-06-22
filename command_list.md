@@ -1,19 +1,92 @@
 
-# PyMOL Script Repo: Plugin List
 
-* ## aKMT_Lys_pred.py
+## Draw_Protein_Dimensions.py
 
-    * # get_resis_from_resn
-    ```None```
+### draw_Protein_Dimensions
+```None```
 
-    * # match_peptides
-    ```None```
+### draw_BB
+```None```
  
 
-* ## anglebetweenhelices.py
+## aKMT_Lys_pred.py
 
-    * # helix_orientation
-    ```
+### get_resis_from_resn
+```None```
+
+### match_peptides
+```None```
+ 
+
+## aaindex.py
+
+### aaindex2b
+```
+    DESCRIPTION
+
+        "aaindex" looks up the Amino Acid Index from
+          http://www.genome.jp/aaindex/
+        for the given key and assignes b-factors to the given selection. Unknown
+        residues get the average index value assigned.
+
+    USAGE
+
+        aaindex2b [key [, selection]]
+
+    ARGUMENTS
+
+        key = string: Key of AAindex entry
+
+        selection = string: atoms to assign b-factors {default: (all)}
+
+    EXAMPLE
+
+        # Hydropathy index by Kyte-Doolittle
+        aaindex2b KYTJ820101
+        spectrumany b, white yellow forest
+        show surface
+```
+
+### pmf
+```
+    DESCRIPTION
+
+        Potential of Mean Force
+
+    ARGUMENTS
+
+        key = string: aaindex key
+
+        cutoff = float: distance cutoff {default: 7.0}
+        cutoff = (float, float): distance shell
+
+        selection1 = string: atom selection {default: (name CB)}
+
+        selection2 = string: atom selection {default: selection1}
+
+    NOTES
+
+        Does also support a list of keys and a list of cutoffs to deal with
+        multiple distance shells.
+
+    EXAMPLES
+
+        # distance dependent c-beta contact potentials
+        pmf SIMK990101, 5,         /2x19//A//CB
+        pmf SIMK990102, [5, 7.5],  /2x19//A//CB
+        pmf [SIMK990101, SIMK990102, SIMK990103], [0, 5, 7.5, 10], /2x19//A//CB
+
+        # interface potential
+        sidechaincenters 2x19_scc, 2x19
+        pmf KESO980102, 7.0, /2x19_scc//A, /2x19_scc//B
+        distance /2x19_scc//A, /2x19_scc//B, cutoff=7.0
+```
+ 
+
+## anglebetweenhelices.py
+
+### helix_orientation
+```
     DESCRIPTION
 
         Get the center and direction of a helix as vectors. Will only work
@@ -36,10 +109,10 @@
     SEE ALSO
 
         angle_between_helices, helix_orientation_hbond, loop_orientation, cafit_orientation
-    ```
+```
 
-    * # helix_orientation_hbond
-    ```
+### helix_orientation_hbond
+```
     DESCRIPTION
 
         Get the center and direction of a helix as vectors. Will only work
@@ -57,10 +130,10 @@
     SEE ALSO
 
         helix_orientation
-    ```
+```
 
-    * # loop_orientation
-    ```
+### loop_orientation
+```
     DESCRIPTION
 
         Get the center and approximate direction of a peptide. Works for any
@@ -74,10 +147,10 @@
     SEE ALSO
 
         helix_orientation
-    ```
+```
 
-    * # cafit_orientation
-    ```
+### cafit_orientation
+```
     DESCRIPTION
 
         Get the center and direction of a peptide by least squares
@@ -94,10 +167,10 @@
     SEE ALSO
 
         helix_orientation
-    ```
+```
 
-    * # angle_between_helices
-    ```
+### angle_between_helices
+```
     DESCRIPTION
 
         Calculates the angle between two helices
@@ -121,19 +194,19 @@
     SEE ALSO
 
         helix_orientation, helix_orientation_hbond, loop_orientation, cafit_orientation
-    ```
+```
  
 
-* ## annotate_v.py
+## annotate_v.py
 
-    * # annotate_v
-    ```None```
+### annotate_v
+```None```
  
 
-* ## b2transparency.py
+## b2transparency.py
 
-    * # b2transparency
-    ```
+### b2transparency
+```
     DESCRIPTION
 
         Set surface (or other) transparency for each atom scaled by b-factor.
@@ -156,13 +229,13 @@
     SEE ALSO
 
         spectrum, cartoon putty
-    ```
+```
  
 
-* ## bbPlane.py
+## bbPlane.py
 
-    * # bbPlane
-    ```
+### bbPlane
+```
     DESCRIPTION
 
         Draws a plane across the backbone for a selection
@@ -181,57 +254,104 @@
 
         You need to pass in an object or selection with at least two
         amino acids.  The plane spans CA_i, O_i, N-H_(i+1), and CA_(i+1)
-    ```
+```
  
 
-* ## cb_colors.py
+## cb_colors.py
  
 
-* ## ccp4_contact.py
+## ccp4_contact.py
 
-    * # ccp4_contact
-    ```None```
+### ccp4_contact
+```None```
  
 
-* ## ccp4_ncont.py
+## ccp4_ncont.py
 
-    * # ccp4_ncont
-    ```None```
+### ccp4_ncont
+```None```
  
 
-* ## ccp4_pisa.py
+## ccp4_pisa.py
 
-    * # ccp4_pisa
-    ```None```
+### ccp4_pisa
+```None```
  
 
-* ## center_of_mass.py
+## center_of_mass.py
 
-    * # com
-    ```None```
+### com
+```None```
 
-    * # get_com
-    ```
-     DESCRIPTION
+### get_com
+```
+    DESCRIPTION
 
-        Calculates the center of mass
+       Calculates the center of mass
 
-        Author: Sean Law
-        Michigan State University
-        slaw (at) msu . edu
-    ```
+       Author: Sean Law
+       Michigan State University
+       slaw (at) msu . edu
+```
  
 
-* ## centroid.py
+## centroid.py
 
-    * # centroid
-    ```None```
+### centroid
+```None```
  
 
-* ## cgo_arrow.py
+## cgoCircle.py
 
-    * # cgo_arrow
-    ```
+### cgoCircle
+```
+    Create a CGO circle
+
+    PARAMS
+          x, y, z
+            X, Y and Z coordinates of the origin
+
+          r
+            Radius of the circle
+
+          cr, cg, cb
+            Color triplet, [r,g,b] where r,g,b are all [0.0,1.0].
+
+          w
+            Line width of the circle
+
+    RETURNS
+          the CGO object (it also loads it into PyMOL, too).
+
+```
+
+### circleSelection
+```
+    circleSelection -- draws a cgo circle around a given selection or object
+
+    PARAMS
+          selName
+            Name of the thing to encircle.
+
+          r
+            Radius of circle.
+            DEFAULT: This cript automatically defines the radius for you.  If
+            you select one atom and the resultant circle is too small, then
+            you can override the script's calculation of r and specify your own.
+
+          cr, cg, cb
+            red, green and blue coloring, each a value in the range [0.0, 1.0]
+
+    RETURNS
+          The circle object.
+
+```
+ 
+
+## cgo_arrow.py
+
+### cgo_arrow
+```
     DESCRIPTION
 
         Create a CGO arrow between two picked atoms.
@@ -253,16 +373,16 @@
         color = string: one or two color names {default: blue red}
 
         name = string: name of CGO object
-    ```
+```
  
 
-* ## cgo_grid.py
+## cgo_grid.py
 
-    * # eval_color
-    ```None```
+### eval_color
+```None```
 
-    * # cgo_grid
-    ```
+### cgo_grid
+```
     DESCRIPTION
 
         Generates an animated flowing mesh object using the points provided
@@ -362,22 +482,25 @@
 
         quiet: <boolean> toggles output
 
-    ```
+```
  
 
-* ## colorblindfriendly.py
+## color_by_conservation.py
  
 
-* ## colorbydisplacement.py
-
-    * # ColorByDisplacementAll
-    ```None```
+## colorblindfriendly.py
  
 
-* ## colorbyrmsd.py
+## colorbydisplacement.py
 
-    * # colorbyrmsd
-    ```
+### ColorByDisplacementAll
+```None```
+ 
+
+## colorbyrmsd.py
+
+### colorbyrmsd
+```
     DESCRIPTION
 
         Align two structures and show the structural deviations in color to more
@@ -404,13 +527,13 @@
         fetch 1ake 4ake, async=0
         remove chain B
         colorbyrmsd 1ake, 4ake
-    ```
+```
  
 
-* ## cubes.py
+## cubes.py
 
-    * # cubes
-    ```
+### cubes
+```
     DESCRIPTION
 
         Create a cube representation CGO for all atoms in selection.
@@ -433,10 +556,10 @@
     SEE ALSO
 
         tetrahedra
-    ```
+```
 
-    * # tetrahedra
-    ```
+### tetrahedra
+```
     DESCRIPTION
 
         Create a tetrahedra representation CGO for all atoms in selection.
@@ -444,31 +567,31 @@
     SEE ALSO
 
         cubes
-    ```
+```
  
 
-* ## cyspka.py
+## cyspka.py
 
-    * # cyspka
-    ```None```
+### cyspka
+```None```
 
-    * # loopcyspka
-    ```None```
+### loopcyspka
+```None```
  
 
-* ## displacementmap.py
+## displacementmap.py
 
-    * # dispmap
-    ```None```
+### dispmap
+```None```
 
-    * # Coord
-    ```None```
+### Coord
+```None```
  
 
-* ## distancetoatom.py
+## distancetoatom.py
 
-    * # distancetoatom
-    ```
+### distancetoatom
+```
     DESCRIPTION
 
         distancetoatom.py
@@ -509,63 +632,63 @@
                              0: no sorting (by names)
                             -1: descending
         quiet       <bool>  toggle verbosity
-    ```
+```
  
 
-* ## draw_rotation_axis.py
+## draw_rotation_axis.py
  
 
-* ## drawgridbox.py
+## drawgridbox.py
 
-    * # drawgridbox
-    ```
-        DESCRIPTION
-            Given selection, draw a grid box around it.
+### drawgridbox
+```
+    DESCRIPTION
+        Given selection, draw a grid box around it.
 
-        USAGE:
-            drawgridbox [selection, [nx, [ny, [nz, [padding, [lw, [r, [g, b]]]]]]]]
+    USAGE:
+        drawgridbox [selection, [nx, [ny, [nz, [padding, [lw, [r, [g, b]]]]]]]]
 
-        PARAMETERS:
-            selection,    the selection to enboxen
-                          defaults to (all)
+    PARAMETERS:
+        selection,    the selection to enboxen
+                      defaults to (all)
 
-            nx,           number of grids on axis X
-                          defaults to 10
+        nx,           number of grids on axis X
+                      defaults to 10
 
-            ny,           number of grids on axis Y
-                          defaults to 10
+        ny,           number of grids on axis Y
+                      defaults to 10
 
-            nz,           number of grids on axis Z
-                          defaults to 10
+        nz,           number of grids on axis Z
+                      defaults to 10
 
-            padding,      defaults to 0
+        padding,      defaults to 0
 
-            lw,           line width
-                          defaults to 2.0
+        lw,           line width
+                      defaults to 2.0
 
-            r,            red color component, valid range is [0.0, 1.0]
-                          defaults to 1.0
+        r,            red color component, valid range is [0.0, 1.0]
+                      defaults to 1.0
 
-            g,            green color component, valid range is [0.0, 1.0]
-                          defaults to 1.0
+        g,            green color component, valid range is [0.0, 1.0]
+                      defaults to 1.0
 
-            b,            blue color component, valid range is [0.0, 1.0]
-                          defaults to 1.0
+        b,            blue color component, valid range is [0.0, 1.0]
+                      defaults to 1.0
 
-        RETURNS
-            string, the name of the CGO box
+    RETURNS
+        string, the name of the CGO box
 
-        NOTES
-            * This function creates a randomly named CGO grid box. The user can
-            specify the number of grids on X/Y/Z axis, the width of the lines,
-            the padding and also the color.
-    ```
+    NOTES
+        * This function creates a randomly named CGO grid box. The user can
+        specify the number of grids on X/Y/Z axis, the width of the lines,
+        the padding and also the color.
+```
  
 
-* ## dssr_block.py
+## dssr_block.py
 
-    * # dssr_block
-    ```
+### dssr_block
+```
     DESCRIPTION
 
         Create a nucleic acid base "block" cartoon with DSSR.
@@ -613,13 +736,13 @@
         # custom coloring
         fetch 1msy, async=0
         dssr_block block_color=N red | minor 0.9 | major yellow
-    ```
+```
  
 
-* ## dynamic_mesh.py
+## dynamic_mesh.py
 
-    * # dynamic_mesh
-    ```
+### dynamic_mesh
+```
     DESCRIPTION
 
         Make 'dynamic' mesh from volumetric data such as electron density map.
@@ -654,13 +777,13 @@
     SEE ALSO
 
         isomesh
-    ```
+```
  
 
-* ## elbow_angle.py
+## elbow_angle.py
 
-    * # elbow_angle
-    ```
+### elbow_angle
+```
 
     DESCRIPTION
 
@@ -682,19 +805,19 @@
     REQUIRES: com.py, transformations.py, numpy (see above)
 
 
-    ```
+```
  
 
-* ## ex.py
+## ex.py
 
-    * # ex
-    ```None```
+### ex
+```None```
  
 
-* ## extra_fit.py
+## extra_fit.py
 
-    * # extra_fit
-    ```
+### extra_fit
+```
     DESCRIPTION
 
         Like "intra_fit", but for multiple objects instead of
@@ -714,13 +837,13 @@
     SEE ALSO
 
         alignto, cmd.util.mass_align, align_all.py from Robert Campbell
-    ```
+```
  
 
-* ## findSurfaceCharge.py
+## findSurfaceCharge.py
 
-    * # findSurfaceAtoms
-    ```
+### findSurfaceAtoms
+```
         Adapted from Jason Vertrees https://pymolwiki.org/index.php/FindSurfaceResidues
     DESCRIPTION
 
@@ -734,10 +857,10 @@
     SEE ALSO
 
         findSurfaceResidues
-    ```
+```
 
-    * # findSurfaceCharge
-    ```
+### findSurfaceCharge
+```
     DESCRIPTION
 
         Calculates a surface charge at entered pH. Also allows for the charge of an unfolded protein to be calculated.
@@ -761,13 +884,13 @@
 
         A printout of the estimated surface charge at a given pH
 
-    ```
+```
  
 
-* ## findSurfaceResidues.py
+## findSurfaceResidues.py
 
-    * # findSurfaceAtoms
-    ```
+### findSurfaceAtoms
+```
     DESCRIPTION
 
         Finds those atoms on the surface of a protein
@@ -780,10 +903,10 @@
     SEE ALSO
 
         findSurfaceResidues
-    ```
+```
 
-    * # findSurfaceResidues
-    ```
+### findSurfaceResidues
+```
     DESCRIPTION
 
         Finds those residues on the surface of a protein
@@ -806,13 +929,71 @@
             A Python list of residue numbers corresponding
             to those residues w/more exposure than the cutoff.
 
-    ```
+```
  
 
-* ## flatten_obj.py
+## findseq.py
 
-    * # flatten_obj
-    ```
+### findseq
+```
+    DESCRIPTION:
+        Given a sequence/regex to find, select those matching amino acids in the
+        protein.
+
+    USAGE:
+        findseq needle, [haystack[, selName[, het[, matchMode]]]]
+
+    PARAMS:
+    needle (string)
+            the sequence of amino acids to match and select
+            in the haystack.  This can be a sequence of amino
+            acids, or a string-style regular expression.  See
+            examples.
+
+    haystack (string; PyMOL object or selection; defaults to *)
+            name of the PyMOL object/selection in which
+            to find the needle.
+
+    selName (string; defaults to None)
+            This is the name of the selection to return.  If selName
+            is left blank (None), then the selection name will be
+            foundSeqXYZ where XYZ is some random number; if selName is
+            "sele" the usual PyMOL "(sele)" will be used; and, lastly,
+            if selName is anything else, that name will be used verbatim.
+
+    het (0 or 1; defaults to 0)
+            This boolean flag allows (1) or disallows (0) heteroatoms
+            from being considered.
+
+    matchMode (first/all/chain; defaults to "all")
+            Subsequences or motifs might be repeated, this controls how we
+            consider multiple matches. Options are:
+            - 'first': Return the first match found in each object.
+            - 'chain': Return the first match found in each chain.
+            - 'all': Return all matches found in all chains.
+
+    RETURNS:
+        a newly created selection with the atoms you sought.
+
+    EXAMPLE:
+        # find SPVI in 1h12, foundSeqXYZ as return name
+        findseq SPVI, 1h12
+
+        # find FATEW and make it (sele).
+        findseq FATEW, 1g01, sele
+
+        # find the regular expression GMS.*QWY in 1a3h
+        # and put the return value in (sele).
+        fetch 1a3h
+        # this ends up finding the sequence, GMSSHGLQWY
+        findseq GMS.*QWY, 1a3h, sele
+```
+ 
+
+## flatten_obj.py
+
+### flatten_obj
+```
     DESCRIPTION
 
         "flatten_obj" combines multiple objects or states into a single object,
@@ -866,13 +1047,13 @@
 
         split_states
 
-    ```
+```
  
 
-* ## focal_blur.py
+## focal_blur.py
 
-    * # FocalBlur
-    ```
+### FocalBlur
+```
     DESCRIPTION
 
         Creates fancy figures by introducing a focal blur to the image. The object
@@ -894,13 +1075,13 @@
 
         FocalBlur aperture=1, samples=100
         FocalBlur aperture=2, samples=100, ray=1, width=600, height=400
-    ```
+```
  
 
-* ## format_bonds.py
+## format_bonds.py
 
-    * # format_bonds
-    ```
+### format_bonds
+```
     DESCRIPTION
         Formats bonds in aromatic or charged residues
     EXAMPLE
@@ -914,19 +1095,19 @@
                    1: single bonds (deactivates valence display)
                    2: regular double bonds (activates valence display)
                  >=3: delocalized (activates valence display)
-    ```
+```
  
 
-* ## forster_distance_calculator.py
+## forster_distance_calculator.py
 
-    * # forster
-    ```None```
+### forster
+```None```
  
 
-* ## get_colors.py
+## get_colors.py
 
-    * # get_colors
-    ```
+### get_colors
+```
     DESCRIPTION:
         returns a list of available pymol colors
 
@@ -936,10 +1117,10 @@
     EXAMPLES:
         get_colors # basic colors
         get colors all # larger range with intermediates
-    ```
+```
 
-    * # get_random_color
-    ```
+### get_random_color
+```
     DESCRIPTION:
         returns a random color name available in pymol
         ! Requires get_colors !Indended mostly for use in Python
@@ -953,13 +1134,13 @@
         # color object randomly:
         fetch 1hpv, async=0
         cmd.color(get_random_color())
-    ```
+```
  
 
-* ## get_raw_distances.py
+## get_raw_distances.py
 
-    * # get_raw_distances
-    ```
+### get_raw_distances
+```
     DESCRIPTION
 
         Get the list of pair items from distance objects. Each list item is a
@@ -980,10 +1161,10 @@
     SEE ALSO
 
         select_distances, cmd.find_pairs, cmd.get_raw_alignment
-    ```
+```
 
-    * # select_distances
-    ```
+### select_distances
+```
     DESCRIPTION
 
         Turns a distance object into a named atom selection.
@@ -998,13 +1179,13 @@
     SEE ALSO
 
         get_raw_distances
-    ```
+```
  
 
-* ## grepset.py
+## grepset.py
 
-    * # grepset
-    ```
+### grepset
+```
     DESCRIPTION
         "grepset" greps through the list of settings using a python
         regular expression as defined in the 're' module.
@@ -1021,48 +1202,48 @@
 
     SEE ALSO
             Python re module
-    ```
+```
  
 
-* ## gridbox.py
+## gridbox.py
 
-    * # gridbox
-    ```
-    	DESCRIPTION
-    	Create a box from the center coordinate of the box and the size of box
-	
-    	USAGE
-    	run gridbox.py
-    	1the simplest
-    	gridbox center_x,center_y,center_z,size_x,size_y,size_z
-    	2rename the box object
-    	gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,
-    	3set the color of the box object
-    	gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,r1,g1,b1
-    	4set the trasp of the box
-    	gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,r1,g1,b1,trasp
-	
-    	ps:the value of r1,g1,b1 trasp   range  is 0-1
-    	   trasp=1,no trasprent
-	
-	
-	```
+### gridbox
+```
+    DESCRIPTION
+    Create a box from the center coordinate of the box and the size of box
+
+    USAGE
+    run gridbox.py
+    1the simplest
+    gridbox center_x,center_y,center_z,size_x,size_y,size_z
+    2rename the box object
+    gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,
+    3set the color of the box object
+    gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,r1,g1,b1
+    4set the trasp of the box
+    gridbox center_x,center_y,center_z,size_x,size_y,size_z,name,r1,g1,b1,trasp
+
+    ps:the value of r1,g1,b1 trasp   range  is 0-1
+       trasp=1,no trasprent
+
+
+```
  
 
-* ## hbplus.py
+## hbplus.py
 
-    * # hbplus
-    ```
+### hbplus
+```
     DESCRIPTION
 
         HBPLUS wrapper
-    ```
+```
  
 
-* ## inertia_tensor.py
+## inertia_tensor.py
 
-    * # tensor
-    ```
+### tensor
+```
     DESCRIPTION
 
         This script will draw the inertia tensor of the selection.
@@ -1087,24 +1268,24 @@
     NOTES
 
         Requires numpy.
-    ```
+```
  
 
-* ## isoslider.py
+## isoslider.py
 
-    * # isoslider
-    ```
+### isoslider
+```
     DESCRIPTION
 
         Opens a dialog with isolevel sliders for all isomesh and isosurface
         objects in PyMOL.
-    ```
+```
  
 
-* ## load_img_stack.py
+## load_img_stack.py
 
-    * # load_img_stack
-    ```
+### load_img_stack
+```
     DESCRIPTION
 
         Load a stack of images as a map
@@ -1127,53 +1308,53 @@
     EXAMPLES
 
         load_img_stack img*.tif, extent=(21.0, 14.5, 18.2)
-    ```
+```
  
 
-* ## load_nrrd.py
+## load_nrrd.py
  
 
-* ## modevectors.py
+## modevectors.py
 
-    * # modevectors
-    ```
-        Authors Sean Law & Srinivasa
-        Michigan State University
-        slaw_(at)_msu_dot_edu
+### modevectors
+```
+    Authors Sean Law & Srinivasa
+    Michigan State University
+    slaw_(at)_msu_dot_edu
 
-        Editor Sacha Yee
+    Editor Sacha Yee
 
-        USAGE
+    USAGE
 
-        While in PyMOL
+    While in PyMOL
 
-        Parameter                Preset            Type    Description
-        first_obj_frame          Undefined         String  Object name of the first structure.  The mode vector will propagate from this structure.  Defined by user.
-        last_obj_frame           Undefined         String  Object name of the last structure.  The mode vector (arrow head) will end at this structure.  Defined by user.
-        first_state              1                 Integer Defines state of first object
-        last_state               1                 Integer Defines state of last object
-        outname                  modevectors       String  Name of object to store mode vectors in.
-        head                     1.0               Float   Radius for the circular base of the arrow head (cone)
-        tail                     0.3               Float   Radius for the cylinder of the arrow tail (cylinder)
-        head_length              1.5               Float   Length of the arrow head (from the base of the cone to the tip of cone)
-        head_rgb                 1.0,1.0,1.0       String  RGB colour for the arrow head.
-        tail_rgb                 1.0,1.0,1.0       String  RGB colour for the arrow tail.
-        cutoff                   4.0               Float   Skips mode vectors that do not meet the cutoff distance (in Angstroms).
-        skip                     0                 Integer Denotes how many atoms to skip.  No arrows will be created for skipped atoms.
-        cut                      0.0               Float   Truncates all arrow tail lengths (without disturbing the arrow head) (in Angstroms).
-        atom                     CA                String  Designates the atom to derive mode vectors from.
-        stat                     show              String  Keeps track and prints statistics (total modevectors, skipped, cutoff).
-        factor                   1.0               Float   Multiplies each mode vector length by a specified factor.
-                                                           Values between 0 and 1 will decrease the relative mode vector length.
-                                                           Values greater than 1 will increase the relative mode vector length.
-        notail                   0                 Integer Hides tails and only uses cones (porcupine plot)
-    ```
+    Parameter                Preset            Type    Description
+    first_obj_frame          Undefined         String  Object name of the first structure.  The mode vector will propagate from this structure.  Defined by user.
+    last_obj_frame           Undefined         String  Object name of the last structure.  The mode vector (arrow head) will end at this structure.  Defined by user.
+    first_state              1                 Integer Defines state of first object
+    last_state               1                 Integer Defines state of last object
+    outname                  modevectors       String  Name of object to store mode vectors in.
+    head                     1.0               Float   Radius for the circular base of the arrow head (cone)
+    tail                     0.3               Float   Radius for the cylinder of the arrow tail (cylinder)
+    head_length              1.5               Float   Length of the arrow head (from the base of the cone to the tip of cone)
+    head_rgb                 1.0,1.0,1.0       String  RGB colour for the arrow head.
+    tail_rgb                 1.0,1.0,1.0       String  RGB colour for the arrow tail.
+    cutoff                   4.0               Float   Skips mode vectors that do not meet the cutoff distance (in Angstroms).
+    skip                     0                 Integer Denotes how many atoms to skip.  No arrows will be created for skipped atoms.
+    cut                      0.0               Float   Truncates all arrow tail lengths (without disturbing the arrow head) (in Angstroms).
+    atom                     CA                String  Designates the atom to derive mode vectors from.
+    stat                     show              String  Keeps track and prints statistics (total modevectors, skipped, cutoff).
+    factor                   1.0               Float   Multiplies each mode vector length by a specified factor.
+                                                       Values between 0 and 1 will decrease the relative mode vector length.
+                                                       Values greater than 1 will increase the relative mode vector length.
+    notail                   0                 Integer Hides tails and only uses cones (porcupine plot)
+```
  
 
-* ## movie_color_fade.py
+## movie_color_fade.py
 
-    * # movie_color_fade
-    ```
+### movie_color_fade
+```
     DESCRIPTION
 
         Fades the color of representations in movies
@@ -1219,13 +1400,13 @@
     SEE ALSO
 
         mdo, mappend, set, movie_fade
-    ```
+```
  
 
-* ## movie_fade.py
+## movie_fade.py
 
-    * # movie_fade
-    ```
+### movie_fade
+```
     DESCRIPTION
 
         Fades representations in movies with their transparency settings.
@@ -1247,51 +1428,51 @@
     SEE ALSO
 
         mdo, mappend, set
-    ```
+```
  
 
-* ## nmr_cnstr.py
+## nmr_cnstr.py
  
 
-* ## perp_maker.py
+## perp_maker.py
 
-    * # perp_maker
-    ```
+### perp_maker
+```
     DESCRIPTION
 
         Creates perpendicular planes
-    ```
+```
  
 
-* ## plane.py
+## plane.py
 
-    * # make_plane
-    ```
-        DESCRIPTION
-        Create a CGO plane from three atomic coordinates
+### make_plane
+```
+    DESCRIPTION
+    Create a CGO plane from three atomic coordinates
 
-        USAGE
-        make_plane name, a1, a2, a3
+    USAGE
+    make_plane name, a1, a2, a3
 
-        where each atom is a standard PyMOL selection (defaults to pk1,pk2 and pk3)
-    ```
+    where each atom is a standard PyMOL selection (defaults to pk1,pk2 and pk3)
+```
 
-    * # make_plane_points
-    ```
-        DESCRIPTION
-        Create a CGO plane from three atomic coordinates
+### make_plane_points
+```
+    DESCRIPTION
+    Create a CGO plane from three atomic coordinates
 
-        USAGE
-        make_plane name, l1, l2, l3
+    USAGE
+    make_plane name, l1, l2, l3
 
-        where each xys is a list with floats of x,y,z coordinates
-    ```
+    where each xys is a list with floats of x,y,z coordinates
+```
  
 
-* ## plot_noe.py
+## plot_noe.py
 
-    * # plot_noe
-    ```
+### plot_noe
+```
     DESCRIPTION
 
         A function for plotting XPLOR NOE restraints on a structure
@@ -1321,13 +1502,13 @@
     EXAMPLE
 
         PyMOL> plot_noe noe_short.tbl
-    ```
+```
  
 
-* ## poseview.py
+## poseview.py
 
-    * # poseview
-    ```
+### poseview
+```
     DESCRIPTION
 
         PoseView wrapper
@@ -1356,34 +1537,34 @@
 
         1) Put poseview executable to PATH (e.g. /usr/bin/poseview)
         2) Set environment variable BIOSOLVE_LICENSE_FILE="/path/to/poseview.lic"
-    ```
+```
  
 
-* ## propka.py
+## propka.py
 
-    * # propka
-    ```    20110823```
+### propka
+```    20110823```
 
-    * # getpropka
-    ```None```
+### getpropka
+```None```
  
 
-* ## pymol2glmol.py
+## pymol2glmol.py
 
-    * # pymol2glmol
-    ```None```
+### pymol2glmol
+```None```
  
 
-* ## pymolscriptrepo.py
+## pymolscriptrepo.py
  
 
-* ## quickdisplays.py
+## quickdisplays.py
 
-    * # disp_list
-    ```None```
+### disp_list
+```None```
 
-    * # disp_ss
-    ```
+### disp_ss
+```
     DESCRIPTION
 
         Formats the passed object into secondary structure cartoon
@@ -1403,10 +1584,10 @@
                                            set='False' to supress coloring altogether, or enter False
                                            for the coloring to be omitted, e.g. 'marine False green'
         only                       <bool>  if True will use show_as; else show
-    ```
+```
 
-    * # disp_ball_stick
-    ```
+### disp_ball_stick
+```
     DESCRIPTION
 
         Formats the passed object into ball and stick
@@ -1428,15 +1609,15 @@
         hydrogens          <int>   -1: remove; 1: add; else: as is
         only=False         <bool>  if True will use show_as; else show
 
-    ```
+```
 
-    * # disp_stick_ball
-    ```
-        see help disp_stick_ball
-    ```
+### disp_stick_ball
+```
+    see help disp_stick_ball
+```
 
-    * # disp_mesh
-    ```
+### disp_mesh
+```
     DESCRIPTION
 
         Adds a mesh to the object
@@ -1463,10 +1644,10 @@
                                    sets the b-factor range limits
                                    <list> [min,max] # absolute values
                                    <float> percentile cutoff (both sides) # relative for each protein
-    ```
+```
 
-    * # disp_surf
-    ```
+### disp_surf
+```
     DESCRIPTION
 
         Advanced surface representation (cf. examples)
@@ -1498,10 +1679,10 @@
                                    sets the b-factor range limits
                                    <list> [min,max] # absolute values
                                    <float> percentile cutoff (both sides) # relative for each protein
-    ```
+```
 
-    * # disp_putty
-    ```
+### disp_putty
+```
     DESCRIPTION
 
         Formats the passed object into a Putty b-factor sausage
@@ -1516,31 +1697,31 @@
                               <list> [min,max]
                               <float> percentile cutoff (both sides)
         only=True             <bool>  if True will use show_as; else show
-    ```
+```
  
 
-* ## removealt.py
+## removealt.py
 
-    * # removealt
-    ```
-        removeAlt -- remove all alternate location-atoms not of altloc "keep" from object.
+### removealt
+```
+    removeAlt -- remove all alternate location-atoms not of altloc "keep" from object.
 
-        input:
-                obj -- the object(s) to remove the atoms frmo
-                keep -- which type of alt loc to keep
+    input:
+            obj -- the object(s) to remove the atoms frmo
+            keep -- which type of alt loc to keep
 
-        output: none -- removes atoms
+    output: none -- removes atoms
 
-        examples:
-                removeAlt # remove all altLocations that aren't altloc A
-                removeAlt pdbID, C  # remove all but C altlocations from pdbID
-    ```
+    examples:
+            removeAlt # remove all altLocations that aren't altloc A
+            removeAlt pdbID, C  # remove all but C altlocations from pdbID
+```
  
 
-* ## renumber.py
+## renumber.py
 
-    * # renumber
-    ```
+### renumber
+```
     DESCRIPTION
 
         Set residue numbering (resi) based on connectivity.
@@ -1553,25 +1734,25 @@
 
         startsele = string: residue to start counting from {default: first in
         selection}
-    ```
+```
  
 
-* ## rotkit.py
+## rotkit.py
 
-    * # rotateline
-    ```None```
+### rotateline
+```None```
 
-    * # mutate
-    ```None```
+### mutate
+```None```
 
-    * # toline
-    ```None```
+### toline
+```None```
  
 
-* ## save_mopac.py
+## save_mopac.py
 
-    * # save_mopac
-    ```
+### save_mopac
+```
     DESCRIPTION
 
         Save to MOPAC format
@@ -1585,13 +1766,13 @@
         zero = string: atoms to save with zero flag {default: none}
 
         state = integer: state to save {default: -1 (current state)}
-    ```
+```
  
 
-* ## save_pdb_with_anisou.py
+## save_pdb_with_anisou.py
 
-    * # save_pdb_with_anisou
-    ```
+### save_pdb_with_anisou
+```
     DESCRIPTION
 
          Save in PDB format including ANISOU records.
@@ -1599,26 +1780,26 @@
     SEE ALSO
 
         save
-    ```
+```
  
 
-* ## save_settings.py
+## save_settings.py
 
-    * # save_settings
-    ```
+### save_settings
+```
     DESCRIPTION
 
         Dumps all settings with non-default values to ~/.pymolrc-settings.py
 
         Feature Request: Save settings for later use - ID: 1009951
         https://sourceforge.net/tracker/?func=detail&aid=1009951&group_id=4546&atid=354546
-    ```
+```
  
 
-* ## select_sites.py
+## select_sites.py
 
-    * # select_sites
-    ```
+### select_sites
+```
     DESCRIPTION
 
         Make named selections from SITE records.
@@ -1633,16 +1814,16 @@
         prefix = string: prefix for named selections {default: site_}
 
         nice = 0 or 1: make colored sticks representation for sites {default :1}
-    ```
+```
 
-    * # sites
-    ```None```
+### sites
+```None```
  
 
-* ## show_bumps.py
+## show_bumps.py
 
-    * # show_bumps
-    ```
+### show_bumps
+```
     DESCRIPTION
 
         Visualize VDW clashes
@@ -1652,13 +1833,13 @@
         selection = string: atom selection {default: all}
 
         name = string: name of CGO object to create {default: bump_check}
-    ```
+```
  
 
-* ## show_ligand_interactions.py
+## show_ligand_interactions.py
 
-    * # show_ligand_interactions
-    ```
+### show_ligand_interactions
+```
     DESCRIPTION
 
         Visualize interactions between receptor and ligand.
@@ -1670,13 +1851,13 @@
         ligsel = string: atom selections of the ligand {default: "hetatm"}
 
         cutoff = float: show as sticks all receptor residues within this distance from the ligand {default: 5.0}
-    ```
+```
  
 
-* ## spectrum_states.py
+## spectrum_states.py
 
-    * # spectrum_states
-    ```
+### spectrum_states
+```
     DESCRIPTION
 
         Color each state in a multi-state object different.
@@ -1699,13 +1880,13 @@
     SEE ALSO
 
         spectrum, spectrumany
-    ```
+```
  
 
-* ## spectrumany.py
+## spectrumany.py
 
-    * # spectrumany
-    ```
+### spectrumany
+```
     DESCRIPTION
 
         Define a color spectrum with as many color-stops as you like (at least 2).
@@ -1731,275 +1912,78 @@
     SEE ALSO
 
         spectrum
-    ```
+```
  
 
-* ## spectrumbar.py
-
-    * # spectrumbar
-    ```
-        Author Sean M. Law
-        University of Michigan
-        seanlaw_(at)_umich_dot_edu
-
-        USAGE
-
-        While in PyMOL
-
-        run spectrumbar.py
-
-        spectrumbar (RGB_Colors,radius=1.0,name=spectrumbar,head=(0.0,0.0,0.0),tail=(10.0,0.0,0.0),length=10.0, ends=square)
-
-        Parameter     Preset         Type     Description
-        RGB_Colors    [1.0,1.0,1.0]  N/A      RGB colors can be specified as a
-                                              triplet RGB value or as PyMOL
-                                              internal color name (i.e. red)
-        radius        1.0            float    Radius of cylindrical spectrum bar
-        name          spectrumbar    string   CGO object name for spectrum bar
-        head          (0.0,0.0,0.0)  float    Starting coordinate for spectrum bar
-        tail          (10.0,0.0,0.0) float    Ending coordinate for spectrum bar
-        length        10.0           float    Length of spectrum bar
-        ends          square         string   For rounded ends use ends=rounded
-
-        Examples:
-
-        spectrumbar red, green, blue
-        spectrumbar 1.0,0.0,0.0, 0.0,1.0,0.0, 0.0,0.0,1.0
-
-        The above two examples produce the same spectrumbar!
-
-        spectrumbar radius=5.0
-        spectrumbar length=20.0
-
-    ```
- 
-
-* ## stereo_ray.py
-
-    * # stereo_ray
-    ```
-     DESCRIPTION
-
-        "stereo_ray" ray-traces the current scene twice (separated by 
-        a six-degree rotation around the y axis)
-        and saves a pair of images that can be combined in any image
-        manipulation software to form a stereoimage.
-        The first argument, the output file name, is mandatory.
-        The second and third arguments, the size of the image, are not.
-        If the width is given, the height will be calculated.
-
-     USAGE
-
-        stereo_ray filename [, width [, height]]
-
-     EXAMPLE
-
-        stereo_ray output, 1000, 600
-        stereo_ray secondImage.png
-    ```
- 
-
-* ## togroup.py
-
-    * # toGroup
-    ```
-        DESCRIPTION
-        toGroup will take a multistate object and extract it
-        to a group with N objects all in state #1.  It essentially
-        performs the following:
-
-        split_states myObj, prefix=somePrefix
-        group newGroup, somePrefix*
-        delete myObj
-
-        PARAMETERS:
-
-        groupName (string)
-            The name of the group to create
-
-        sel (string)
-            The name of the selection/object from which
-            to make the group
-
-        prefix (string)
-            The prefix of the names of each of split states.
-            For example, if your prefix is ''obj'' and is in
-            states 1 through 100 then the states will be labeled
-            obj1, obj2, obj3, ..., obj100.
-
-        delOrig (string/boolean)
-            If true then delete the original selection, otherwise not.
-
-        RETURN
-
-        Nothing, it makes a new group.
-
-    ```
- 
-
-* ## transformations.py
- 
-
-* ## uniprot_features.py
-
-    * # uniprot_features
-    ```
-    DESCRIPTION
-
-        Fetch feature list from uniprot.org and create named selections.
-
-        Requires residue numbering (resi) to match uniprot sequence!
-
-    ARGUMENTS
-
-        uniprot_id = string: UniProtKB name or accession
-
-        selection = string: atom selection {default: all}
-
-        withss = 0/1: update secondary structure {default: 0}
-    ```
-
-    * # uniprot_auto
-    ```
-    DESCRIPTION
-
-        Like "uniprot_features" but with automatic fetching of UniProtKB accession
-        and sequence mapping for given pdb_id from http://www.bioinf.org.uk/pdbsws/
-
-    ARGUMENTS
-
-        pdb_id = string: PDB accession ID
-
-        selection = string: atom selection {default: <pdb_id>, will be fetched if
-        no such object is loaded}
-
-        withss = 0/1: update secondary structure {default: 0}
-    ```
- 
-
-* ## viol_noes.py
-
-    * # viol_noes
-    ```
-    DESCRIPTION
-
-        Visualize Xplor-NIH NOE violations.
-
-    ARGUMENTS
-
-        molecule = string: molecule on which to show the violations.
-
-        viol_file = string: Xplor-NIH .viol file that contains the violations to be visualized.
-
-        viol_class = string: NOE class in .viol file to show {default: None (means all NOE classes)}.
-
-
-    EXAMPLE
-
-        PyMOL> run viol_noes.py
-        PyMOL> viol_noes molecule, ./molecule.pdb.viol
-
-    NOTES
-
-        The NOE violations will be shown as distances between the relevant residues/atoms and colored according to the severity of violation (the closer to the blue end of the spectrum, the more severe the violation; to closer to the red end, the less severe the violation).
-    ```
- 
-
-* ## wfmesh.py
-
-    * # createWFObj
-    ```None```
- 
-
-* ## Draw_Protein_Dimensions.py
-
-    * # draw_Protein_Dimensions
-    ```None```
-
-    * # draw_BB
-    ```None```
- 
-
-* ## aaindex.py
-
-    * # aaindex2b
-    ```
-    DESCRIPTION
-
-        "aaindex" looks up the Amino Acid Index from
-          http://www.genome.jp/aaindex/
-        for the given key and assignes b-factors to the given selection. Unknown
-        residues get the average index value assigned.
+## spectrumbar.py
+
+### spectrumbar
+```
+    Author Sean M. Law
+    University of Michigan
+    seanlaw_(at)_umich_dot_edu
 
     USAGE
 
-        aaindex2b [key [, selection]]
+    While in PyMOL
 
-    ARGUMENTS
+    run spectrumbar.py
 
-        key = string: Key of AAindex entry
+    spectrumbar (RGB_Colors,radius=1.0,name=spectrumbar,head=(0.0,0.0,0.0),tail=(10.0,0.0,0.0),length=10.0, ends=square)
 
-        selection = string: atoms to assign b-factors {default: (all)}
+    Parameter     Preset         Type     Description
+    RGB_Colors    [1.0,1.0,1.0]  N/A      RGB colors can be specified as a
+                                          triplet RGB value or as PyMOL
+                                          internal color name (i.e. red)
+    radius        1.0            float    Radius of cylindrical spectrum bar
+    name          spectrumbar    string   CGO object name for spectrum bar
+    head          (0.0,0.0,0.0)  float    Starting coordinate for spectrum bar
+    tail          (10.0,0.0,0.0) float    Ending coordinate for spectrum bar
+    length        10.0           float    Length of spectrum bar
+    ends          square         string   For rounded ends use ends=rounded
+
+    Examples:
+
+    spectrumbar red, green, blue
+    spectrumbar 1.0,0.0,0.0, 0.0,1.0,0.0, 0.0,0.0,1.0
+
+    The above two examples produce the same spectrumbar!
+
+    spectrumbar radius=5.0
+    spectrumbar length=20.0
+
+```
+ 
+
+## stereo_ray.py
+
+### stereo_ray
+```
+    DESCRIPTION
+
+       "stereo_ray" ray-traces the current scene twice (separated by 
+       a six-degree rotation around the y axis)
+       and saves a pair of images that can be combined in any image
+       manipulation software to form a stereoimage.
+       The first argument, the output file name, is mandatory.
+       The second and third arguments, the size of the image, are not.
+       If the width is given, the height will be calculated.
+
+    USAGE
+
+       stereo_ray filename [, width [, height]]
 
     EXAMPLE
 
-        # Hydropathy index by Kyte-Doolittle
-        aaindex2b KYTJ820101
-        spectrumany b, white yellow forest
-        show surface
-    ```
-
-    * # pmf
-    ```
-    DESCRIPTION
-
-        Potential of Mean Force
-
-    ARGUMENTS
-
-        key = string: aaindex key
-
-        cutoff = float: distance cutoff {default: 7.0}
-        cutoff = (float, float): distance shell
-
-        selection1 = string: atom selection {default: (name CB)}
-
-        selection2 = string: atom selection {default: selection1}
-
-    NOTES
-
-        Does also support a list of keys and a list of cutoffs to deal with
-        multiple distance shells.
-
-    EXAMPLES
-
-        # distance dependent c-beta contact potentials
-        pmf SIMK990101, 5,         /2x19//A//CB
-        pmf SIMK990102, [5, 7.5],  /2x19//A//CB
-        pmf [SIMK990101, SIMK990102, SIMK990103], [0, 5, 7.5, 10], /2x19//A//CB
-
-        # interface potential
-        sidechaincenters 2x19_scc, 2x19
-        pmf KESO980102, 7.0, /2x19_scc//A, /2x19_scc//B
-        distance /2x19_scc//A, /2x19_scc//B, cutoff=7.0
-    ```
+       stereo_ray output, 1000, 600
+       stereo_ray secondImage.png
+```
  
 
-* ## color_by_conservation.py
- 
+## tmalign.py
 
-* ## findseq.py
-
-    * # findseq
-    ```    USAGE:
-            findseq needle, haystack[, selName[, het[, firstOnly]]]
-    ```
- 
-
-* ## tmalign.py
-
-    * # alignwithanymethod
-    ```
+### alignwithanymethod
+```
     DESCRIPTION
 
         Align copies of mobile to target with several alignment methods
@@ -2013,10 +1997,10 @@
         methods = string: space separated list of PyMOL commands which take
         arguments "mobile" and "target" (in any order) {default: align super
         cealign tmalign}
-    ```
+```
 
-    * # tmalign
-    ```
+### tmalign
+```
     DESCRIPTION
 
         TMalign wrapper
@@ -2042,10 +2026,10 @@
     SEE ALSO
 
         tmscore, mmalign
-    ```
+```
 
-    * # tmscore
-    ```
+### tmscore
+```
     DESCRIPTION
 
         TMscore wrapper
@@ -2067,10 +2051,10 @@
     SEE ALSO
 
         tmalign, mmalign
-    ```
+```
 
-    * # mmalign
-    ```
+### mmalign
+```
     DESCRIPTION
 
         MMalign wrapper
@@ -2081,23 +2065,138 @@
     SEE ALSO
 
         tmalign, tmscore
-    ```
+```
  
 
-* ## plugins/dynoplot.py
+## togroup.py
 
-    * # ramachandran
-    ```None```
+### toGroup
+```
+    DESCRIPTION
+    toGroup will take a multistate object and extract it
+    to a group with N objects all in state #1.  It essentially
+    performs the following:
+
+    split_states myObj, prefix=somePrefix
+    group newGroup, somePrefix*
+    delete myObj
+
+    PARAMETERS:
+
+    groupName (string)
+        The name of the group to create
+
+    sel (string)
+        The name of the selection/object from which
+        to make the group
+
+    prefix (string)
+        The prefix of the names of each of split states.
+        For example, if your prefix is ''obj'' and is in
+        states 1 through 100 then the states will be labeled
+        obj1, obj2, obj3, ..., obj100.
+
+    delOrig (string/boolean)
+        If true then delete the original selection, otherwise not.
+
+    RETURN
+
+    Nothing, it makes a new group.
+
+```
  
 
-* ## plugins/get_box.py
+## transformations.py
  
 
-* ## plugins/views.py
+## uniprot_features.py
+
+### uniprot_features
+```
+    DESCRIPTION
+
+        Fetch feature list from uniprot.org and create named selections.
+
+        Requires residue numbering (resi) to match uniprot sequence!
+
+    ARGUMENTS
+
+        uniprot_id = string: UniProtKB name or accession
+
+        selection = string: atom selection {default: all}
+
+        withss = 0/1: update secondary structure {default: 0}
+```
+
+### uniprot_auto
+```
+    DESCRIPTION
+
+        Like "uniprot_features" but with automatic fetching of UniProtKB accession
+        and sequence mapping for given pdb_id from http://www.bioinf.org.uk/pdbsws/
+
+    ARGUMENTS
+
+        pdb_id = string: PDB accession ID
+
+        selection = string: atom selection {default: <pdb_id>, will be fetched if
+        no such object is loaded}
+
+        withss = 0/1: update secondary structure {default: 0}
+```
  
 
-* ## plugins/vina.py
+## viol_noes.py
+
+### viol_noes
+```
+    DESCRIPTION
+
+        Visualize Xplor-NIH NOE violations.
+
+    ARGUMENTS
+
+        molecule = string: molecule on which to show the violations.
+
+        viol_file = string: Xplor-NIH .viol file that contains the violations to be visualized.
+
+        viol_class = string: NOE class in .viol file to show {default: None (means all NOE classes)}.
+
+
+    EXAMPLE
+
+        PyMOL> run viol_noes.py
+        PyMOL> viol_noes molecule, ./molecule.pdb.viol
+
+    NOTES
+
+        The NOE violations will be shown as distances between the relevant residues/atoms and colored according to the severity of violation (the closer to the blue end of the spectrum, the more severe the violation; to closer to the red end, the less severe the violation).
+```
  
 
-* ## plugins/outline.py
+## wfmesh.py
+
+### createWFObj
+```None```
+ 
+
+## gendocs.py
+ 
+
+## plugins/dynoplot.py
+
+### ramachandran
+```None```
+ 
+
+## plugins/get_box.py
+ 
+
+## plugins/outline.py
+ 
+
+## plugins/views.py
+ 
+
+## plugins/vina.py
  
