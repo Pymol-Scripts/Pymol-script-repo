@@ -206,6 +206,7 @@ def checkParams(needle, haystack, selName, het, matchMode):
 
 
 def test_findseq():
+    cmd.reinitialize()
     cmd.fab('ACDEFG', 'm1')
     cmd.fab('HIKLMN', 'm2')
     cmd.do('findseq DEF, *, foundSeq')
