@@ -1,0 +1,24 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: mamba-org/setup-micromamba@v2
+      with:
+        generate-run-shell: true
+        environment-name: ci
+        create-args: >-
+          pillow
+          pymol-open-source
+          pyopengl
+          pytest
+          requests
+
+    - name: Test
+      run: python3 -m pytest -v
+      shell: micromamba-shell {0}
