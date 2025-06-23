@@ -5,5 +5,5 @@ If you have a new script or plugin consider place it here.
 
 There is a [Git intro](http://www.pymolwiki.org/index.php/Git_intro) page for new contributors.
 
-The [command docs.md](command_docs.md) file documents many of the plugins hosted here. They are collected
+The [COMMANDS.md](COMMANDS.md) file documents many of the plugins hosted here. They are collected
 by [gendocs.py](gendocs.py) script.
