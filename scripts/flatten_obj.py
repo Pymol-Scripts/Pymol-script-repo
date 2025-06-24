@@ -277,7 +277,7 @@ SEE ALSO
                 cmd.create(prefix, obj, state, 1)
 
         # renumber all states
-        statere = re.compile("^%s_(.*)_(\d+)$" % metaprefix) # matches split object names
+        statere = re.compile(r"^%s_(.*)_(\d+)$" % metaprefix) # matches split object names
 
         warn_lowercase = False
 

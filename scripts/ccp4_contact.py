@@ -30,7 +30,7 @@ import re
 
 def parseCONTACTContacts(f):
     # Lys    24A  ca  Asp   263D  CG   ...  4.94    [   -1B   ]   3: -X,  Y+1/2,  -Z+1/2
-    conParser = re.compile("(\S*)\s*(\d+)([A-Z])\s*(\w+)")
+    conParser = re.compile(r"(\S*)\s*(\d+)([A-Z])\s*(\w+)")
     s1 = []
     s2 = []
     for line in f:
