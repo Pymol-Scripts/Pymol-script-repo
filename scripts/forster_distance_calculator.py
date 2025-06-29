@@ -1,4 +1,4 @@
-'''
+r'''
 Described at PyMOL wiki:
 http://www.pymolwiki.org/index.php/forster_distance_calculator
 
@@ -77,7 +77,7 @@ def forster(D_Exi="ATTO488Exi.txt", D_Emi="ATTO488Emi.txt", A_Exi="ATTO590Exi.tx
     print("The .plt should be opened with gnuplot to make the graphs.")
     print("The created graphs are .eps files.")
     print("They can be converted to pdf with the program: epstopdf or eps2pdf")
-    print('Part of LaTeX: C:\Program Files (x86)\MiKTeX 2.9\miktex' + "\\" + "bin")
+    print(r'Part of LaTeX: C:\Program Files (x86)\MiKTeX 2.9\miktex' + "\\" + "bin")
     print("Or download here: http://tinyurl.com/eps2pdf")
 
     DonorEmi = open(D_Emi, "r")

@@ -23,7 +23,7 @@ See more here: http://www.pymolwiki.org/index.php/ccp4_ncont
     AUTHOR
         Gerhard Reitmayr and Dalia Daujotyte, 2009.
 '''
-from __future__ import print_function
+from pathlib import Path
 from pymol import cmd
 import re
 
@@ -31,7 +31,7 @@ import re
 def parseNCONTContacts(f):
     # /1/B/ 282(PHE). / CE1[ C]:  /1/E/ 706(GLN). / O  [ O]:   3.32
     # * in the second group is needed when chain code is blank
-    conParser = re.compile("\s*/(\d+)/([a-zA-Z0-9]*)/\s*(\d+).*?/\s*([a-zA-Z0-9]*).*?:")
+    conParser = re.compile(r"\s*/(\d+)/([a-zA-Z0-9]*)/\s*(\d+).*?/\s*([a-zA-Z0-9]*).*?:")
     mode = 0
     s1 = []
     s2 = []
@@ -83,3 +83,21 @@ def ccp4_ncont(contactsfile, selName1="source", selName2="target"):
     cmd.select(selName2 + "_atom", atomSel)
 
 cmd.extend("ccp4_ncont", ccp4_ncont)
+
+
+def test_ccp4_ncont():
+    datadir = Path(__file__).parents[1] / "files_for_examples"
+    cmd.reinitialize()
+    cmd.fab("PCQAFSISGKQKGFEDSRGTL", "m1", chain="A", resi=80)
+    cmd.fnab("GCTGAC", "m2", dbl_helix=False)
+    cmd.remove("hydro")
+    cmd.alter("m2", "chain = 'C'")
+    cmd.alter("m2", "resv += 407")
+    cmd.alter("m2 & name O1P", "name = 'OP1'")
+    cmd.alter("m2 & name O2P", "name = 'OP2'")
+    cmd.alter("m2 & name O3P", "name = 'OP3'")
+    ccp4_ncont(f"{datadir}/2c7r.ncont", selName1="sel1", selName2="sel2")
+    assert cmd.count_atoms("sel1_res") == 23
+    assert cmd.count_atoms("sel1_atom") == 5
+    assert cmd.count_atoms("sel2_res") == 104
+    assert cmd.count_atoms("sel2_atom") == 16

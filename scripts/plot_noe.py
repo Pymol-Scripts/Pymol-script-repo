@@ -56,10 +56,10 @@ EXAMPLE
     if advanced_coloring == 1:
         cmd.set("group_auto_mode", 2)
 
-    rgx_assi = re.compile("\s*[asignASIGN]+\s+.*")
-    rgx_or = re.compile("\s*[orOR]+\s+.*")
-    rgx_bracket = re.compile("(\(|\))")
-    rgx_tick = re.compile("(\w)\'")
+    rgx_assi = re.compile(r"\s*[asignASIGN]+\s+.*")
+    rgx_or = re.compile(r"\s*[orOR]+\s+.*")
+    rgx_bracket = re.compile(r"(\(|\))")
+    rgx_tick = re.compile(r"(\w)'")
 
     restraint_line = None
     restraint_block = []
@@ -68,17 +68,17 @@ EXAMPLE
     for line in open(filename):
         if rgx_assi.match(line):
             if restraint_line:
-                restraint_block.append(rgx_tick.sub("\g<1>^", rgx_bracket.sub(" ", restraint_line)))
+                restraint_block.append(rgx_tick.sub(r"\g<1>^", rgx_bracket.sub(" ", restraint_line)))
                 restraints_blocks.append(restraint_block)
             restraint_block = []
             restraint_line = line
         elif rgx_or.match(line):
-            restraint_block.append(rgx_tick.sub("\g<1>^", rgx_bracket.sub(" ", restraint_line)))
+            restraint_block.append(rgx_tick.sub(r"\g<1>^", rgx_bracket.sub(" ", restraint_line)))
             restraint_line = line
         else:
             restraint_line += line
 
-    restraint_block.append(rgx_tick.sub("\g<1>^", rgx_bracket.sub(" ", restraint_line)))
+    restraint_block.append(rgx_tick.sub(r"\g<1>^", rgx_bracket.sub(" ", restraint_line)))
     restraints_blocks.append(restraint_block)
 
     for restraint_block in restraints_blocks:

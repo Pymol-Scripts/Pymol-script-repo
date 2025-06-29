@@ -42,7 +42,7 @@ class WFMesh(Callback):
         if os.path.exists(file):
             input = open(file, 'r')
             for line in input:
-                dat = re.split("\s+", line)
+                dat = re.split(r"\s+", line)
 
                 # Find vertex line
                 if line[0] == 'v' and line[1] != 't' and line[1] != 'n':

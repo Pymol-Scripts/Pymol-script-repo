@@ -23,13 +23,14 @@ See more here: http://www.pymolwiki.org/index.php/ccp4_contact
     AUTHOR
         Gerhard Reitmayr and Dalia Daujotyte, 2011.
 '''
+from pathlib import Path
 from pymol import cmd
 import re
 
 
 def parseCONTACTContacts(f):
     # Lys    24A  ca  Asp   263D  CG   ...  4.94    [   -1B   ]   3: -X,  Y+1/2,  -Z+1/2
-    conParser = re.compile("(\S*)\s*(\d+)([A-Z])\s*(\w+)")
+    conParser = re.compile(r"(\S*)\s*(\d+)([A-Z])\s*(\w+)")
     s1 = []
     s2 = []
     for line in f:
@@ -73,3 +74,14 @@ def ccp4_contact(contactsfile, selName1="source", selName2="target"):
     cmd.select(selName2 + "_atom", atomSel)
 
 cmd.extend("ccp4_contact", ccp4_contact)
+
+
+def test_ccp4_contact():
+    datadir = Path(__file__).parents[1] / "files_for_examples"
+    cmd.reinitialize()
+    cmd.fab("PCQAFSISGKQKGFEDSRGTL", chain="A", resi=80)
+    ccp4_contact(f"{datadir}/2c7r.contact", selName1="sel1", selName2="sel2")
+    assert cmd.count_atoms("sel1_res") == 128
+    assert cmd.count_atoms("sel1_atom") == 20
+    assert cmd.count_atoms("sel2_res") == 128
+    assert cmd.count_atoms("sel2_atom") == 20
