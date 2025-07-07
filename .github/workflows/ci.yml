@@ -18,6 +18,7 @@ jobs:
           pyopengl
           pytest
           requests
+          biopython
 
     - name: Test
       run: python3 -m pytest -v
