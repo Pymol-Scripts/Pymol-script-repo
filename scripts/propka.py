@@ -1,4 +1,4 @@
-'''
+r'''
 Described at PyMOL wiki:
 http://www.pymolwiki.org/index.php/propka
 
@@ -222,7 +222,7 @@ def getpropka(PDB="NIL", chain="*", resi="0", resn="NIL", source="upload", PDBID
     assert version in ['v2.0', 'v3.0', 'v3.1'], "'version' has to be either: 'v2.0', 'v3.0', 'v3.1'"
     assert source in ['ID', 'upload', 'addr', 'input_file'], "'source' has to be either: 'ID', 'upload', 'addr', 'input_file'"
     if source == "upload":
-        assert PDB not in ['NIL'], "You always have to provide PDB path. Example: PDB=.\Results_propka\4ins2011.pdb"
+        assert PDB not in ['NIL'], r"You always have to provide PDB path. Example: PDB=.\Results_propka\4ins2011.pdb"
     if source == "ID":
         assert len(PDBID) == 4, "PDBID has to be 4 characters"
     # To print out to screen for selected residues. Can be separated with "." or make ranges with "-". Example: resi="4-8.10"
@@ -517,7 +517,7 @@ def importpropkabonds(result_pka_pkafile):
 
 def createdirs():
     if platform.system() == 'Windows':
-        Newdir = os.getcwd() + "\Results_propka\\"
+        Newdir = os.getcwd() + "\\Results_propka\\"
     if platform.system() == 'Linux':
         Newdir = os.getcwd() + "/Results_propka/"
     if not os.path.exists(Newdir):

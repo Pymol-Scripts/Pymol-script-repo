@@ -277,7 +277,7 @@ SEE ALSO
                 cmd.create(prefix, obj, state, 1)
 
         # renumber all states
-        statere = re.compile("^%s_(.*)_(\d+)$" % metaprefix) # matches split object names
+        statere = re.compile(r"^%s_(.*)_(\d+)$" % metaprefix) # matches split object names
 
         warn_lowercase = False
 
@@ -334,3 +334,25 @@ cmd.extend('flatten_obj', flatten_obj)
 # tab-completion of arguments
 cmd.auto_arg[0]['flatten_obj'] = [ cmd.object_sc, 'name or selection', '']
 cmd.auto_arg[1]['flatten_obj'] = [ cmd.object_sc, 'selection', '']
+
+
+def test_flatten_obj__rename0():
+    cmd.reinitialize()
+    cmd.fab("ACD", "m1", chain="C")
+    cmd.fab("DEF", "m2", chain="C")
+    flatten_obj("m3", "m1 | m2", rename=0)
+    assert cmd.count_atoms("m3") == 80
+    assert cmd.count_atoms("m3 & resi 2") == 26
+    assert cmd.get_chains("m3") == ["A", "C"]
+
+
+def test_flatten_obj__rename1():
+    cmd.reinitialize()
+    cmd.fab("ACD", "m1", chain="C")
+    cmd.fab("DEF", "m2", chain="C")
+    flatten_obj("m3", "m1 | m2", rename=1, chain_map="foo")
+    assert cmd.get_chains("m3") == ["A", "B"]
+    assert dict(stored.foo) == {
+        "A": ("m1", 1, "C"),
+        "B": ("m2", 1, "C"),
+    }
