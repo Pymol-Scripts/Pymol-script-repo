@@ -6,24 +6,15 @@ Author : Osvaldo Martin
 email: aloctavodia@gmail.com
 Date: august 2014
 License: MIT License
-Version 0.8
+Version 0.9
 '''
 
 import sys
-
-if sys.version_info[0] < 3:
-    import Tkinter
-    from Tkinter import *
-else:
-    import tkinter as Tkinter
-    from tkinter import *
-
-import Pmw
 from pymol import cmd
 
 try:
-    import openbabel as ob
-except:
+    from openbabel import openbabel as ob
+except ImportError:
     print('<' * 80 + '''
 
 Optimize plug-in needs openbabel to be installed in your system, please follow the instructions at
@@ -31,222 +22,313 @@ http://openbabel.org/wiki/Get_Open_Babel
 
 ''' + '>' * 80)
 
-
-def __init__(self):
-    """Add this Plugin to the PyMOL menu"""
-    self.menuBar.addmenuitem('Plugin', 'command',
-                            'Optimize',
-                            label = 'Optimize',
-                            command = lambda : mainDialog(self.root))
+from pymol.Qt import QtCore, QtWidgets, QtGui
+Qt = QtCore.Qt
 
 
-def _tk_update(elem):
-    elem.update_idletasks()
+def __init_plugin__(app=None) -> None:
+    from pymol.plugins import addmenuitemqt
+    addmenuitemqt('OpenBabel Optimize', run_plugin_gui)
+
+def run_plugin_gui() -> None:
+    """
+    Creates and shows the Optimize dialog.
+    """
+    global dialog
+
+    if dialog is None:
+        dialog = make_dialog()
+
+    dialog.show()
+
+dialog = None
 
 
-def mainDialog(root=None):
-    """ Creates the GUI """
-    global entry_vdw, entry_elec, entry_conformers, entry_lowest
-    def set_minimize():
-        forcefield = ff_value.get()
-        method = method_value.get()
-        nsteps0 = int(entry_nsteps0.get())
-        conv = float(entry_conv.get())
-        cutoff = bool(cutoff_value.get())
-        cut_vdw = float(entry_vdw.get())
-        cut_elec = float(entry_elec.get())
-        selection = sel0_value.get()
-        minimize(selection, forcefield, method, nsteps0, conv, cutoff, cut_vdw, cut_elec)
+def make_dialog():
+    """
+    Create the dialog
+    """
+    return OptimizeDialog()
 
-    def set_conf_search():
-        forcefield = ff_value.get()
-        conf_method = conf_method_value.get()
-        nsteps1 = int(entry_nsteps1.get())
-        conformers = int(entry_conformers.get())
-        lowest_conf = int(entry_lowest.get())
-        selection = sel1_value.get()
-        conf_search(selection, forcefield, conf_method, nsteps1, conformers, lowest_conf)
+class OptimizeDialog(QtWidgets.QDialog):
+    """
+    Dialog for optimization settings.
+    """
 
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle(" Optimize ")
+        self.setMinimumWidth(450)
 
-    master = Toplevel(root)
-    master.title(' Optimize ')
-    w = Tkinter.Label(master, text="\nOptimize: Let's find that minimum!\n",
-                                background = 'black',
-                                foreground = 'white')
-    w.pack(expand=1, fill = 'both', padx=4, pady=4)
-############################ NoteBook #########################################
-    Pmw.initialise()
-    nb = Pmw.NoteBook(master, hull_width=430, hull_height=320)
-    p1 = nb.add(' Local optimization ')
-    p2 = nb.add(' Global Optimization ')
-    p3 = nb.add('    About   ')
-    nb.pack(padx=5, pady=5, fill=BOTH, expand=1)
-############################ Minimization TAB #################################
-    group = Pmw.Group(p1, tag_text='Minimization options')
-    group.pack(fill='both', expand=1, padx=5, pady=5)
-# Force Field options
-    ff_value = StringVar(master=group.interior())
-    ff_value.set('MMFF94s')
-    Pmw.OptionMenu(group.interior(),
-                labelpos = 'w',
-                label_text = 'Force Field',
-                menubutton_textvariable = ff_value,
-                items = ['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
-                menubutton_width = 15,
-        ).grid(row=0, columnspan=2)
-# Method
-    method_value = StringVar(master=group.interior())
-    method_value.set('Conjugate Gradients')
-    Pmw.OptionMenu(group.interior(),
-                labelpos = 'w',
-                label_text = '   Method  ',
-                menubutton_textvariable = method_value,
-                items = ['Conjugate Gradients', 'Steepest Descent'],
-                menubutton_width = 15,
-        ).grid(row=1, columnspan=2)
-    Label(group.interior(), text='steps').grid(row=2, column=0)
-    nsteps0 = StringVar(master=group.interior())
-    nsteps0.set(500)
-    entry_nsteps0 = Entry(group.interior(), textvariable=nsteps0, width=15)
-    entry_nsteps0.grid(row=2, column=1)
-    _tk_update(entry_nsteps0)
-    Label(group.interior(), text='convergence').grid(row=3, column=0)
-    conv = StringVar(master=group.interior())
-    conv.set(0.0001)
-    entry_conv = Entry(group.interior(), textvariable=conv, width=15)
-    entry_conv.grid(row=3, column=1)
-    _tk_update(entry_conv)
-    Label(group.interior(), text='selection').grid(row=4, column=0)
-    sel0_value = StringVar(master=group.interior())
-    names = cmd.get_names('all')
-    if len(names) > 0:
-        sel0_value.set(names[0])
-    else:
-        sel0_value.set('all')
-    entry_sel0_value = Entry(group.interior(),textvariable=sel0_value, width=15)
-    entry_sel0_value.grid(row=4, column=1)
-    entry_sel0_value.configure(state='normal')
-    _tk_update(entry_sel0_value)
-###########################################################################
-    cutoff_value = BooleanVar(master=group.interior())
-    cutoff_value.set(False)
-    Radiobutton(group.interior(), text='No cutoff ', variable=cutoff_value, value=False, command=disable_entry).grid(row=5, columnspan=3)
-    Radiobutton(group.interior(), text='Use cutoff', variable=cutoff_value, value=True,
-command=enable_entry).grid(row=6, columnspan=3)
-    Label(group.interior(), text='Van der Waals').grid(row=7, column=0)
-    vdw_value = StringVar(master=group.interior())
-    vdw_value.set(6.0)
-    entry_elec = Entry(group.interior(),textvariable=vdw_value, width=15)
-    entry_elec.grid(row=7, column=1)
-    entry_elec.configure(state='disabled')
-    _tk_update(entry_elec)
-    Label(group.interior(), text='Electrostatic').grid(row=8, column=0)
-    elec_value = StringVar(master=group.interior())
-    elec_value.set(8.0)
-    entry_vdw = Entry(group.interior(),textvariable=elec_value, width=15)
-    entry_vdw.grid(row=8, column=1)
-    entry_vdw.configure(state='disabled')
-    _tk_update(entry_vdw)
+        # Main vertical layout
+        main_layout = QtWidgets.QVBoxLayout(self)
 
-# Run
-    Button(p1, text="Minimize", command=set_minimize).pack(side=BOTTOM)
-############################ Conformation search TAB ###########################
-    group = Pmw.Group(p2,tag_text='Conformational Search options')
-    group.pack(fill='both', expand=1, padx=5, pady=5)
-# Force Field options
-    ff_value = StringVar(master=group.interior())
-    ff_value.set('MMFF94s')
-    Pmw.OptionMenu(group.interior(),
-                labelpos = 'w',
-                label_text = 'Force Field',
-                menubutton_textvariable = ff_value,
-                items = ['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'],
-                menubutton_width = 15,
-        ).grid(row=0, columnspan=2)
-# Method
-    conf_method_value = StringVar(master=group.interior())
-    conf_method_value.set('Weighted')
-    Pmw.OptionMenu(group.interior(),
-                labelpos = 'w',
-                label_text = '   Method  ',
-                menubutton_textvariable = conf_method_value,
-                items = ['Weighted', 'Random', 'Systematic'],
-                menubutton_width = 15,
-                command = enable_disable_entry,
-        ).grid(row=1, columnspan=2)
-    Label(group.interior(), text='steps').grid(row=2, column=0)
-    nsteps1 = StringVar(master=group.interior())
-    nsteps1.set(500)
-    entry_nsteps1 = Entry(group.interior(), textvariable=nsteps1, width=15)
-    entry_nsteps1.grid(row=2, column=1)
-    _tk_update(entry_nsteps1)
-    Label(group.interior(), text='conformers ').grid(row=3, column=0)
-    conformers = StringVar(master=group.interior())
-    conformers.set(25)
-    entry_conformers = Entry(group.interior(), textvariable=conformers, width=15)
-    entry_conformers.grid(row=3, column=1)
-    entry_conformers.configure(state='normal')
-    _tk_update(entry_conformers)
-    Label(group.interior(), text=' lowest conf    ').grid(row=4, column=0)
-    lowest = StringVar(master=group.interior())
-    lowest.set(5)
-    entry_lowest = Entry(group.interior(), textvariable=lowest, width=15)
-    entry_lowest.grid(row=4, column=1)
-    entry_lowest.configure(state='normal')
-    _tk_update(entry_lowest)
-    Label(group.interior(), text='selection').grid(row=5, column=0)
-    sel1_value = StringVar(master=group.interior())
-    names = cmd.get_names('all')
-    if len(names) > 0:
-        sel1_value.set(names[0])
-    else:
-        sel1_value.set('all')
-    entry_sel1_value = Entry(group.interior(),textvariable=sel1_value, width=15)
-    entry_sel1_value.grid(row=5, column=1)
-    entry_sel1_value.configure(state='normal')
-    _tk_update(entry_sel1_value)
-# Run
-    Button(p2, text="Search", command=set_conf_search).pack(side=BOTTOM)
-############################ About TAB ########################################
-    Label(p3, text = """
-Optimize provides a PyMOL graphical interface to some 
+        # Header label (replaces the original Tkinter Label)
+        header_label = QtWidgets.QLabel("Optimize: Let's find that minimum!")
+        header_label.setStyleSheet("background-color: black; color: white; padding: 4px;")
+        header_label.setAlignment(Qt.AlignCenter)
+        main_layout.addWidget(header_label)
+
+        # Tab widget (replaces Pmw.NoteBook)
+        self.tabs = QtWidgets.QTabWidget()
+        main_layout.addWidget(self.tabs)
+
+        # Create and add the tabs
+        self._create_local_opt_tab()
+        self._create_global_opt_tab()
+        self._create_about_tab()
+
+    def _create_local_opt_tab(self):
+        """
+        Creates the 'Local optimization' tab."""
+        local_tab = QtWidgets.QWidget()
+        layout = QtWidgets.QVBoxLayout(local_tab)
+        layout.setContentsMargins(10, 10, 10, 10)
+
+        # Group box for options (replaces Pmw.Group)
+        group_box = QtWidgets.QGroupBox("Minimization options")
+        grid = QtWidgets.QGridLayout(group_box) # Using a grid for clean alignment
+
+        # Get current molecule selections from PyMOL
+        pymol_selections = cmd.get_names('all')
+        if not pymol_selections:
+            pymol_selections = ['all']
+
+        grid.addWidget(QtWidgets.QLabel("Force Field:"), 0, 0)
+        self.local_ff_combo = QtWidgets.QComboBox()
+        self.local_ff_combo.addItems(['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'])
+        self.local_ff_combo.setCurrentText('MMFF94s')
+        grid.addWidget(self.local_ff_combo, 0, 1)
+
+        # Method
+        grid.addWidget(QtWidgets.QLabel("Method:"), 1, 0)
+        self.local_method_combo = QtWidgets.QComboBox()
+        self.local_method_combo.addItems(['Conjugate Gradients', 'Steepest Descent'])
+        grid.addWidget(self.local_method_combo, 1, 1)
+
+        # Steps (replaces Label and Entry with QLabel and QLineEdit)
+        grid.addWidget(QtWidgets.QLabel("Steps:"), 2, 0)
+        self.entry_nsteps0 = QtWidgets.QLineEdit("500")
+        grid.addWidget(self.entry_nsteps0, 2, 1)
+
+        # Convergence
+        grid.addWidget(QtWidgets.QLabel("Convergence:"), 3, 0)
+        self.entry_conv = QtWidgets.QLineEdit("0.0001")
+        grid.addWidget(self.entry_conv, 3, 1)
+
+        # Selection
+        grid.addWidget(QtWidgets.QLabel("Selection:"), 4, 0)
+        self.sel0_value = QtWidgets.QLineEdit(pymol_selections[0])
+        grid.addWidget(self.sel0_value, 4, 1)
+
+        # Cutoff Radio Buttons (replaces Tkinter.Radiobutton)
+        self.no_cutoff_radio = QtWidgets.QRadioButton("No cutoff")
+        self.no_cutoff_radio.setChecked(True)
+        grid.addWidget(self.no_cutoff_radio, 5, 0, 1, 2)
+
+        self.use_cutoff_radio = QtWidgets.QRadioButton("Use cutoff")
+        grid.addWidget(self.use_cutoff_radio, 6, 0, 1, 2)
+
+        # Van der Waals Cutoff
+        grid.addWidget(QtWidgets.QLabel("Van der Waals Cutoff (Å):"), 7, 0)
+        self.entry_vdw = QtWidgets.QLineEdit("6.0")
+        self.entry_vdw.setEnabled(False)
+        grid.addWidget(self.entry_vdw, 7, 1)
+
+        # Electrostatic Cutoff
+        grid.addWidget(QtWidgets.QLabel("Electrostatic Cutoff (Å):"), 8, 0)
+        self.entry_elec = QtWidgets.QLineEdit("8.0")
+        self.entry_elec.setEnabled(False)
+        grid.addWidget(self.entry_elec, 8, 1)
+
+        # Connect signal to slot for enabling/disabling cutoff entries
+        self.use_cutoff_radio.toggled.connect(self._toggle_cutoff_entries)
+
+        layout.addWidget(group_box)
+        layout.addStretch()
+
+        # Minimize Button (replaces Tkinter.Button)
+        minimize_button = QtWidgets.QPushButton("Minimize")
+        minimize_button.clicked.connect(self._set_minimize)
+        layout.addWidget(minimize_button, alignment=Qt.AlignRight)
+
+        self.tabs.addTab(local_tab, " Local optimization ")
+
+    def _create_global_opt_tab(self):
+        """
+        Creates the 'Global Optimization' tab.
+        """
+        global_tab = QtWidgets.QWidget()
+        layout = QtWidgets.QVBoxLayout(global_tab)
+        layout.setContentsMargins(10, 10, 10, 10)
+
+        group_box = QtWidgets.QGroupBox("Conformational Search options")
+        grid = QtWidgets.QGridLayout(group_box)
+
+        pymol_selections = cmd.get_names('all')
+        if not pymol_selections:
+            pymol_selections = ['all']
+
+        # --- Widgets for Global Optimization ---
+        # Force Field
+        grid.addWidget(QtWidgets.QLabel("Force Field:"), 0, 0)
+        self.global_ff_combo = QtWidgets.QComboBox()
+        self.global_ff_combo.addItems(['GAFF', 'MMFF94s', 'MMFF94', 'UFF', 'Ghemical'])
+        self.global_ff_combo.setCurrentText('MMFF94s')
+        grid.addWidget(self.global_ff_combo, 0, 1)
+
+        # Method
+        grid.addWidget(QtWidgets.QLabel("Method:"), 1, 0)
+        self.conf_method_combo = QtWidgets.QComboBox()
+        self.conf_method_combo.addItems(['Weighted', 'Random', 'Systematic'])
+        self.conf_method_combo.currentTextChanged.connect(self._toggle_conformer_entries)
+        grid.addWidget(self.conf_method_combo, 1, 1)
+
+        # Steps
+        grid.addWidget(QtWidgets.QLabel("Steps (for optimization):"), 2, 0)
+        self.entry_nsteps1 = QtWidgets.QLineEdit("500")
+        grid.addWidget(self.entry_nsteps1, 2, 1)
+
+        # Conformers
+        grid.addWidget(QtWidgets.QLabel("Conformers (to generate):"), 3, 0)
+        self.entry_conformers = QtWidgets.QLineEdit("25")
+        grid.addWidget(self.entry_conformers, 3, 1)
+
+        # Lowest Energy Conformers
+        grid.addWidget(QtWidgets.QLabel("Lowest Energy (to keep):"), 4, 0)
+        self.entry_lowest = QtWidgets.QLineEdit("5")
+        grid.addWidget(self.entry_lowest, 4, 1)
+
+        # Selection
+        grid.addWidget(QtWidgets.QLabel("Selection:"), 5, 0)
+        self.sel1_value = QtWidgets.QLineEdit(pymol_selections[0])
+        grid.addWidget(self.sel1_value, 5, 1)
+
+        layout.addWidget(group_box)
+        layout.addStretch()
+
+        # Search Button
+        search_button = QtWidgets.QPushButton("Search")
+        search_button.clicked.connect(self._set_conf_search)
+        layout.addWidget(search_button, alignment=Qt.AlignRight)
+
+        self.tabs.addTab(global_tab, " Global Optimization ")
+        self._toggle_conformer_entries(self.conf_method_combo.currentText())
+
+    def _create_about_tab(self):
+        """
+        Creates the 'About' tab.
+        """
+        about_tab = QtWidgets.QWidget()
+        layout = QtWidgets.QVBoxLayout(about_tab)
+        layout.setContentsMargins(15, 15, 15, 15)
+
+        about_text = """
+Optimize provides a PyMOL graphical interface to some
 of the many options available in openbabel (openbabel.org).
 
 
 If you find Optimize useful great! 
 If you don't and have some suggestions or comments 
 to do please write to me (aloctavodia@gmail.com).
-""",justify=CENTER).pack()
+"""
+        label = QtWidgets.QLabel(about_text)
+        label.setAlignment(Qt.AlignCenter)
+        label.setWordWrap(True)
+
+        layout.addWidget(label)
+        layout.addStretch()
+
+        self.tabs.addTab(about_tab, "    About   ")
+
+    def _toggle_cutoff_entries(self, checked):
+        """
+        Enables or disables cutoff fields based on the radio button state.
+        """
+        self.entry_vdw.setEnabled(checked)
+        self.entry_elec.setEnabled(checked)
+
+    def _toggle_conformer_entries(self, method_text):
+        """
+        Enables or disables conformer fields based on the selected method.
+        """
+        is_systematic = (method_text == 'Systematic')
+        self.entry_conformers.setEnabled(not is_systematic)
+        self.entry_lowest.setEnabled(not is_systematic)
+
+    def _set_minimize(self):
+        """
+        Reads values from the GUI and calls the minimize() function.
+        """
+        try:
+            forcefield = self.local_ff_combo.currentText()
+            method = self.local_method_combo.currentText()
+            nsteps0 = int(self.entry_nsteps0.text())
+            conv = float(self.entry_conv.text())
+            cutoff = self.use_cutoff_radio.isChecked()
+            cut_vdw = float(self.entry_vdw.text())
+            cut_elec = float(self.entry_elec.text())
+            selection = self.sel0_value.text()
+
+            print("Starting minimization...")
+            minimize(selection, forcefield, method, nsteps0, conv, cutoff, cut_vdw, cut_elec)
+        except ValueError as e:
+            print(f"Error: Invalid input value. Please check numbers. Details: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
+
+    def _set_conf_search(self):
+        """
+        Reads values from the GUI and calls the conf_search() function.
+        """
+        try:
+            forcefield = self.global_ff_combo.currentText()
+            conf_method = self.conf_method_combo.currentText()
+            nsteps1 = int(self.entry_nsteps1.text())
+            conformers = int(self.entry_conformers.text())
+            lowest_conf = int(self.entry_lowest.text())
+            selection = self.sel1_value.text()
+
+            print("Starting conformational search...")
+            conf_search(selection, forcefield, conf_method, nsteps1, conformers, lowest_conf)
+        except ValueError as e:
+            print(f"Error: Invalid input value. Please check numbers. Details: {e}")
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")
 
 
-def enable_entry():
-    """enables the fields for proxy and port"""
-    entry_vdw.configure(state='normal')
-    _tk_update(entry_vdw)
-    entry_elec.configure(state='normal')
-    _tk_update(entry_elec)
+def minimize(selection: str ='all', forcefield: str ='MMFF94s',
+             method: str ='Conjugate Gradients', nsteps0: int = 500,
+             conv: float = 0.0001, cutoff: bool = False,
+             cut_vdw: float = 6.0, cut_elec: float = 8.0) -> None:
+    """
+DESCRIPTION
 
+    Minimize the energy of a molecule using OpenBabel's force fields.
 
-def disable_entry():
-    """disables all the fields related to the proxy tab"""
-    entry_vdw.configure(state='disabled')
-    _tk_update(entry_vdw)
-    entry_elec.configure(state='disabled')
-    _tk_update(entry_elec)
+ARGUMENTS
 
+    selection = string: The selection string for the molecule to minimize.
 
-def enable_disable_entry(var):
-    if var == 'Systematic':
-        entry_conformers.configure(state='disabled')
-        entry_lowest.configure(state='disabled')
-    else:
-        entry_conformers.configure(state='normal')
-        entry_lowest.configure(state='normal')
-    _tk_update(entry_conformers)
-    _tk_update(entry_lowest)
+    forcefield = string: The force field to use (e.g., 'GAFF', 'MMFF94s', 'UFF', 'Ghemical').
 
+    method = string: The optimization method ('Conjugate Gradients' or 'Steepest Descent').
 
-def minimize(selection='all', forcefield='MMFF94s', method='Conjugate Gradients', nsteps0= 500, conv=0.0001, cutoff=False, cut_vdw=6.0, cut_elec=8.0):
+    nsteps0 = int: The number of optimization steps.
+
+    conv = float: The convergence criterion.
+
+    cutoff = bool: Whether to use cutoff for van der Waals and electrostatic interactions.
+
+    cut_vdw = float: The cutoff distance for van der Waals interactions.
+
+    cut_elec = float: The cutoff distance for electrostatic interactions.
+
+SEE ALSO
+
+    conf_search
+
+    """
     mol_string = cmd.get_str('mol',selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
@@ -275,8 +357,33 @@ def minimize(selection='all', forcefield='MMFF94s', method='Conjugate Gradients'
     print('#########################################')
 
 
-def conf_search(selection='all', forcefield='MMFF94s', method='Weighted', nsteps1= 500, conformers=25, lowest_conf=5):
-    mol_string = cmd.get_str('mol',selection)
+def conf_search(selection: str = 'all', forcefield: str = 'MMFF94s',
+                method: str = 'Weighted', nsteps1: int = 500,
+                conformers: int = 25, lowest_conf: int = 5):
+    """
+DESCRIPTION
+
+    Perform a conformational search on a molecule using OpenBabel's force fields.
+
+ARGUMENTS
+
+    selection = string: The selection string for the molecule to search.
+
+    forcefield = string: The force field to use (e.g., 'GAFF', 'MMFF94s', 'UFF', 'Ghemical').
+
+    method = string: The search method for global-minimum ('Weighted', 'Random', or 'Systematic').
+
+    nsteps1 = int: The number of optimization steps for each conformer.
+
+    conformers = int: The number of conformers to be analyzed.
+
+    lowest_conf = int: The number of lowest energy conformers to keep.
+
+SEE ALSO
+
+    minimize
+    """
+    mol_string = cmd.get_str('mol', selection)
     name = cmd.get_legal_name(selection)
     obconversion = ob.OBConversion()
     obconversion.SetInAndOutFormats('mol', 'mol')
