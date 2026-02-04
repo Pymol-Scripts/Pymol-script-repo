@@ -1,21 +1,26 @@
 '''
 See more here: http://www.pymolwiki.org/index.php/Colorama
 
---- COLORAMA: Coloring Widget for PyMOL --- 
+--- COLORAMA: Coloring Widget for PyMOL ---
 Author  : Gregor Hagelueken
 Program : Color_select
 Date    : Oct 2007
-Version : 0.1.1
+Version : 0.1.1 (Original Tkinter version)
 Mail    : gha@helmholtz-hzi.de
 
-COLORAMA is a plugin for the PyMOL Molecular Graphics System. 
-It allows to color molecules using RGB or HSV colors which can be manually adjusted. 
+Updated for PyMOL 3.x compatibility (Qt-based GUI)
+Update Date: 2026 February 2
+Update Author: Converted from Tkinter to PyQt5/PyQt6
+Update Author: Blaine Mooers
+
+COLORAMA is a plugin for the PyMOL Molecular Graphics System.
+It allows coloring molecules using RGB or HSV colors which can be manually adjusted.
 Alternatively, a user defined color gradient can be applied to the molecule.
-The program works properly with PyMOL versions >=1.0.
- 
+This version works with PyMOL versions >=3.0.
+
 The program uses a modified version of the color_b program by Robert L. Campbell & James Stroud
 for the gradient calculation and the RGBToHTMLColor function by Paul Winkler.
- 
+
 Literature:
  DeLano, W.L. The PyMOL Molecular Graphics System (2002) DeLano Scientific, San Carlos, CA, USA. http://www.pymol.org
 '''
@@ -24,402 +29,557 @@ from __future__ import print_function
 from __future__ import absolute_import
 
 import colorsys
-import sys
 from pymol import cmd, stored
 
-if sys.version_info[0] < 3:
-    from Tkinter import *
-else:
-    from tkinter import *
+# Import Qt - try PyQt6 first, then PyQt5
+try:
+    from PyQt6.QtWidgets import (
+        QWidget, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout,
+        QLabel, QLineEdit, QPushButton, QRadioButton, QButtonGroup,
+        QSlider, QFrame, QSizePolicy
+    )
+    from PyQt6.QtCore import Qt, pyqtSignal
+    from PyQt6.QtGui import QColor, QPalette
+    PYQT_VERSION = 6
+except ImportError:
+    from PyQt5.QtWidgets import (
+        QWidget, QDialog, QVBoxLayout, QHBoxLayout, QGridLayout,
+        QLabel, QLineEdit, QPushButton, QRadioButton, QButtonGroup,
+        QSlider, QFrame, QSizePolicy
+    )
+    from PyQt5.QtCore import Qt, pyqtSignal
+    from PyQt5.QtGui import QColor, QPalette
+    PYQT_VERSION = 5
 
 
-class Colorama:
+class ColorField(QLabel):
+    """A colored label widget that displays a solid color."""
 
-    def __init__(self, master):
-        # create frames
-        self.F1 = Frame(roota, padx=5, pady=5, bg='red')
-        self.F2 = Frame(roota, padx=5, pady=5, bg='green')
-        self.F3 = Frame(roota, padx=5, pady=5, bg='blue')
-        self.F4 = Frame(self.F1, padx=5, pady=5, bg='yellow')
-        self.F5 = Frame(self.F1, padx=5, pady=5, bg='white')
-        self.F6 = Frame(self.F1, padx=5, pady=5, bg='pink')
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setMinimumSize(30, 80)
+        self.setAutoFillBackground(True)
+        self.set_color("#808080")
 
-        # color system radiobuttons
-        self.Radiocolorsystem = IntVar()
-        self.RGB = Radiobutton(self.F3, text='RGB', indicatoron=0, variable=self.Radiocolorsystem, value=1, command=self.Scalergb)
-        self.HSV = Radiobutton(self.F3, text='HSV', indicatoron=0, variable=self.Radiocolorsystem, value=2, command=self.Scalehsv)
+    def set_color(self, hex_color):
+        """Set the background color using a hex color string."""
+        palette = self.palette()
+        palette.setColor(QPalette.ColorRole.Window, QColor(hex_color))
+        self.setPalette(palette)
 
-        # mono/gradient and Farbe1/Farbe2 radiobuttons
-        self.RadioMonoGradient = IntVar()
-        self.RadioFarbe12 = IntVar()
-        self.Monobutton = Radiobutton(self.F3, text='M', indicatoron=0, variable=self.RadioMonoGradient, value=1, command=self.Mono)
-        self.Gradbutton = Radiobutton(self.F3, text='G', indicatoron=0, variable=self.RadioMonoGradient, value=2, command=self.Grad)
-        self.Farbe1button = Radiobutton(self.F3, text='C1', indicatoron=0, variable=self.RadioFarbe12, value=1, command=self.Farbe1)
-        self.Farbe2button = Radiobutton(self.F3, text='C2', indicatoron=0, variable=self.RadioFarbe12, value=2, command=self.Farbe2)
 
-        # preselect RGB and mono
-        self.RGB.select()
-        self.Monobutton.select()
-        self.Farbe1button.select()
+class LabeledSlider(QWidget):
+    """A vertical slider with a label above it."""
+
+    valueChanged = pyqtSignal(int)
+
+    def __init__(self, label_text, min_val=0, max_val=255, parent=None):
+        super().__init__(parent)
+        self.layout = QVBoxLayout(self)
+        self.layout.setContentsMargins(5, 5, 5, 5)
+
+        self.label = QLabel(label_text)
+        self.label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.slider = QSlider(Qt.Orientation.Vertical)
+        self.slider.setMinimum(min_val)
+        self.slider.setMaximum(max_val)
+        self.slider.setValue(0)
+        self.slider.setMinimumHeight(100)
+
+        self.value_label = QLabel("0")
+        self.value_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+
+        self.layout.addWidget(self.label)
+        self.layout.addWidget(self.slider)
+        self.layout.addWidget(self.value_label)
+
+        self.slider.valueChanged.connect(self._on_value_changed)
+
+        # For HSV mode, we need to track if we are using float values
+        self._is_float_mode = False
+        self._resolution = 1
+
+    def _on_value_changed(self, value):
+        if self._is_float_mode:
+            float_val = value * self._resolution
+            self.value_label.setText(f"{float_val:.2f}")
+        else:
+            self.value_label.setText(str(value))
+        self.valueChanged.emit(value)
+
+    def set_label(self, text):
+        self.label.setText(text)
+
+    def set_range(self, min_val, max_val, resolution=1):
+        """Set the range of the slider."""
+        self._resolution = resolution
+        if resolution < 1:
+            # Float mode for HSV
+            self._is_float_mode = True
+            self.slider.setMinimum(int(min_val / resolution))
+            self.slider.setMaximum(int(max_val / resolution))
+        else:
+            self._is_float_mode = False
+            self.slider.setMinimum(int(min_val))
+            self.slider.setMaximum(int(max_val))
+
+    def get_value(self):
+        """Return the current value, accounting for resolution."""
+        if self._is_float_mode:
+            return self.slider.value() * self._resolution
+        return self.slider.value()
+
+    def set_value(self, value):
+        """Set the slider value, accounting for resolution."""
+        if self._is_float_mode:
+            self.slider.setValue(int(value / self._resolution))
+        else:
+            self.slider.setValue(int(value))
+
+
+class Colorama(QDialog):
+    """Main Colorama dialog window for PyMOL 3.x."""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("COLORAMA by gha (Qt version)")
+        self.setMinimumSize(400, 300)
+
+        # Initialize state variables
+        self.selection = ""
         self.monograd = 'mono'
         self.colorsystem = 'rgb'
         self.farbe12 = 'farbe1'
+        self.farbe1 = (128, 128, 128)
+        self.farbe2 = (128, 128, 128)
 
-        # initialize the scales
-        self.Scales()
+        self._setup_ui()
 
-        # other GUI elements
-        self.selectionentry = Entry(master=self.F5, font=('Arial', 10))
-        self.selectionentry.insert(0, "")
-        self.selectionbutton = Button(master=self.F5, text='Set', command=self.setselection)
-        self.setgradientbutton = Button(master=self.F5, text='Set Gradient', command=self.setgradient)
-        self.label = Label(master=self.F4, text="None", font=('Arial', 10))
-        self.selectionlabel = Label(master=self.F4, text="Active:", font=('Arial', 10))
-        self.inputlabel = Label(master=self.F5, text="Object:", font=('Arial', 10))
-        self.colorfield1 = Label(master=self.F3, width=3, height=10)
-        self.colorfield2 = Label(master=self.F3, width=3, height=10)
+    def _setup_ui(self):
+        """Set up the user interface."""
+        main_layout = QVBoxLayout(self)
 
-        self.selection = ""
-        self.setselection()
+        # Top section: Object selection
+        selection_layout = QHBoxLayout()
+        self.input_label = QLabel("Object:")
+        self.selection_entry = QLineEdit()
+        self.selection_entry.setPlaceholderText("Enter object name")
+        self.set_button = QPushButton("Set")
+        self.set_button.clicked.connect(self.setselection)
+        self.set_gradient_button = QPushButton("Set Gradient")
+        self.set_gradient_button.clicked.connect(self.setgradient)
 
-        # start layout procedure
-        self.layout()
+        selection_layout.addWidget(self.input_label)
+        selection_layout.addWidget(self.selection_entry)
+        selection_layout.addWidget(self.set_button)
+        selection_layout.addWidget(self.set_gradient_button)
+        main_layout.addLayout(selection_layout)
 
-    def layout(self):
-        self.F1.pack(side=TOP, anchor=NW)
-        self.F4.pack(side=BOTTOM, fill=X, anchor=W)
-        self.F5.pack(side=TOP)
-        self.F2.pack(side=RIGHT, fill=Y)
-        self.F3.pack(side=LEFT, fill=X)
+        # Active selection label
+        active_layout = QHBoxLayout()
+        self.selection_label = QLabel("Active:")
+        self.active_label = QLabel("None")
+        active_layout.addWidget(self.selection_label)
+        active_layout.addWidget(self.active_label)
+        active_layout.addStretch()
+        main_layout.addLayout(active_layout)
 
-        #entry and buttons
-        self.setgradientbutton.pack(side=RIGHT, fill=X, anchor=NE)
-        self.selectionbutton.pack(side=RIGHT, anchor=N)
-        self.selectionentry.pack(side=RIGHT, fill=X, anchor=NE)
+        # Middle section: Controls and sliders
+        middle_layout = QHBoxLayout()
 
-        # labels
-        self.inputlabel.pack(side=TOP, anchor=NW)
-        self.selectionlabel.pack(side=LEFT, anchor=W)
-        self.label.pack(side=LEFT)
+        # Left side: Radio buttons
+        radio_layout = QVBoxLayout()
 
-        # colorfields
-        self.colorfield2.pack(side=RIGHT)
-        self.colorfield1.pack(side=RIGHT)
+        # Color system radio buttons (RGB/HSV)
+        self.color_system_group = QButtonGroup(self)
+        self.rgb_button = QRadioButton("RGB")
+        self.hsv_button = QRadioButton("HSV")
+        self.color_system_group.addButton(self.rgb_button, 1)
+        self.color_system_group.addButton(self.hsv_button, 2)
+        self.rgb_button.setChecked(True)
+        self.rgb_button.clicked.connect(self.Scalergb)
+        self.hsv_button.clicked.connect(self.Scalehsv)
 
-        # scales
-        self.ScaleRed.pack(side=RIGHT, fill=Y)
-        self.ScaleGreen.pack(side=RIGHT, fill=Y)
-        self.ScaleBlue.pack(side=RIGHT, fill=Y)
+        radio_layout.addWidget(self.rgb_button)
+        radio_layout.addWidget(self.hsv_button)
 
-        # radiobuttons
-        self.RGB.pack(side=TOP, fill=X)
-        self.HSV.pack(side=TOP, fill=X)
-        self.Monobutton.pack(side=TOP, fill=X)
-        self.Gradbutton.pack(side=TOP, fill=X)
-        self.Farbe1button.pack(side=TOP, fill=X)
-        self.Farbe2button.pack(side=TOP, fill=X)
+        # Separator
+        separator1 = QFrame()
+        separator1.setFrameShape(QFrame.Shape.HLine)
+        radio_layout.addWidget(separator1)
 
-    def Scales(self):
-        self.ScaleRed = Scale(master=self.F2, label='R', length='3c',
-                              from_=0, to=255,
-                              # set(startred),
-                              command=self.setzeFarbe)
-        self.ScaleGreen = Scale(master=self.F2, label='G', length='3c',
-                                from_=0, to=255,
-                                # set(startgreen),
-                                command=self.setzeFarbe)
-        self.ScaleBlue = Scale(master=self.F2, label='B', length='3c',
-                               from_=0, to=255,
-                               # set(startblue),
-                               command=self.setzeFarbe)
+        # Mono/Gradient radio buttons
+        self.mono_grad_group = QButtonGroup(self)
+        self.mono_button = QRadioButton("Mono")
+        self.grad_button = QRadioButton("Gradient")
+        self.mono_grad_group.addButton(self.mono_button, 1)
+        self.mono_grad_group.addButton(self.grad_button, 2)
+        self.mono_button.setChecked(True)
+        self.mono_button.clicked.connect(self.Mono)
+        self.grad_button.clicked.connect(self.Grad)
+
+        radio_layout.addWidget(self.mono_button)
+        radio_layout.addWidget(self.grad_button)
+
+        # Separator
+        separator2 = QFrame()
+        separator2.setFrameShape(QFrame.Shape.HLine)
+        radio_layout.addWidget(separator2)
+
+        # C1/C2 radio buttons (for gradient colors)
+        self.farbe_group = QButtonGroup(self)
+        self.farbe1_button = QRadioButton("Color 1")
+        self.farbe2_button = QRadioButton("Color 2")
+        self.farbe_group.addButton(self.farbe1_button, 1)
+        self.farbe_group.addButton(self.farbe2_button, 2)
+        self.farbe1_button.setChecked(True)
+        self.farbe1_button.clicked.connect(self.Farbe1)
+        self.farbe2_button.clicked.connect(self.Farbe2)
+
+        radio_layout.addWidget(self.farbe1_button)
+        radio_layout.addWidget(self.farbe2_button)
+        radio_layout.addStretch()
+
+        middle_layout.addLayout(radio_layout)
+
+        # Color fields
+        color_field_layout = QVBoxLayout()
+        color_field_layout.addWidget(QLabel("C1"))
+        self.colorfield1 = ColorField()
+        color_field_layout.addWidget(self.colorfield1)
+        color_field_layout.addWidget(QLabel("C2"))
+        self.colorfield2 = ColorField()
+        color_field_layout.addWidget(self.colorfield2)
+        color_field_layout.addStretch()
+        middle_layout.addLayout(color_field_layout)
+
+        # Sliders
+        slider_layout = QHBoxLayout()
+        self.scale_red = LabeledSlider("R", 0, 255)
+        self.scale_green = LabeledSlider("G", 0, 255)
+        self.scale_blue = LabeledSlider("B", 0, 255)
+
+        self.scale_red.valueChanged.connect(self.setzeFarbe)
+        self.scale_green.valueChanged.connect(self.setzeFarbe)
+        self.scale_blue.valueChanged.connect(self.setzeFarbe)
+
+        slider_layout.addWidget(self.scale_red)
+        slider_layout.addWidget(self.scale_green)
+        slider_layout.addWidget(self.scale_blue)
+
+        middle_layout.addLayout(slider_layout)
+        main_layout.addLayout(middle_layout)
 
     def Scalergb(self):
-        if (self.colorsystem == 'hsv'):
-            h = float(self.ScaleRed.get())
-            s = float(self.ScaleGreen.get())
-            v = float(self.ScaleBlue.get())
+        """Switch to RGB color mode."""
+        if self.colorsystem == 'hsv':
+            h = self.scale_red.get_value()
+            s = self.scale_green.get_value()
+            v = self.scale_blue.get_value()
             rgbcolor = colorsys.hsv_to_rgb(h, s, v)
             r = 255 * rgbcolor[0]
             g = 255 * rgbcolor[1]
             b = 255 * rgbcolor[2]
-            self.ScaleRed.config(label='R', from_=0, to=255, resolution=1)
-            self.ScaleGreen.config(label='G', from_=0, to=255, resolution=1)
-            self.ScaleBlue.config(label='B', from_=0, to=255, resolution=1)
-            self.ScaleRed.set(r)
-            self.ScaleGreen.set(g)
-            self.ScaleBlue.set(b)
+
+            self.scale_red.set_label('R')
+            self.scale_green.set_label('G')
+            self.scale_blue.set_label('B')
+            self.scale_red.set_range(0, 255, 1)
+            self.scale_green.set_range(0, 255, 1)
+            self.scale_blue.set_range(0, 255, 1)
+            self.scale_red.set_value(r)
+            self.scale_green.set_value(g)
+            self.scale_blue.set_value(b)
             self.colorsystem = 'rgb'
 
     def Scalehsv(self):
-        if (self.colorsystem == 'rgb'):
-            r = float(self.ScaleRed.get()) / 255
-            g = float(self.ScaleGreen.get()) / 255
-            b = float(self.ScaleBlue.get()) / 255
+        """Switch to HSV color mode."""
+        if self.colorsystem == 'rgb':
+            r = float(self.scale_red.get_value()) / 255
+            g = float(self.scale_green.get_value()) / 255
+            b = float(self.scale_blue.get_value()) / 255
             hsvcolor = colorsys.rgb_to_hsv(r, g, b)
             h = hsvcolor[0]
             s = hsvcolor[1]
             v = hsvcolor[2]
-            self.ScaleRed.config(label='H', from_=0, to=1, resolution=0.01)
-            self.ScaleGreen.config(label='S', from_=0, to=1, resolution=0.01)
-            self.ScaleBlue.config(label='V', from_=0, to=1, resolution=0.01)
-            self.ScaleRed.set(h)
-            self.ScaleGreen.set(s)
-            self.ScaleBlue.set(v)
+
+            self.scale_red.set_label('H')
+            self.scale_green.set_label('S')
+            self.scale_blue.set_label('V')
+            self.scale_red.set_range(0, 1, 0.01)
+            self.scale_green.set_range(0, 1, 0.01)
+            self.scale_blue.set_range(0, 1, 0.01)
+            self.scale_red.set_value(h)
+            self.scale_green.set_value(s)
+            self.scale_blue.set_value(v)
             self.colorsystem = 'hsv'
 
     def Mono(self):
+        """Set mode to mono (single color)."""
         self.monograd = 'mono'
 
     def Grad(self):
+        """Set mode to gradient."""
         self.monograd = 'grad'
 
     def Farbe1(self):
-        # Let the scales know which color is to be changed
+        """Select color 1 for editing."""
         self.farbe12 = 'farbe1'
-        # set scales to farbe1
-        if (self.monograd == 'grad'):
-            if (self.colorsystem == 'rgb'):
-                startred = self.farbe1[0]
-                startgreen = self.farbe1[1]
-                startblue = self.farbe1[2]
-                self.ScaleRed.set(startred)
-                self.ScaleGreen.set(startgreen)
-                self.ScaleBlue.set(startblue)
-            elif (self.colorsystem == 'hsv'):
-                hsvcolor = colorsys.rgb_to_hsv(self.farbe1[0], self.farbe1[1], self.farbe1[2])
-                h = hsvcolor[0]
-                s = hsvcolor[1]
-                v = hsvcolor[2]
-                self.ScaleRed.set(h)
-                self.ScaleGreen.set(s)
-                self.ScaleBlue.set(v)
+        if self.monograd == 'grad':
+            if self.colorsystem == 'rgb':
+                self.scale_red.set_value(self.farbe1[0])
+                self.scale_green.set_value(self.farbe1[1])
+                self.scale_blue.set_value(self.farbe1[2])
+            elif self.colorsystem == 'hsv':
+                hsvcolor = colorsys.rgb_to_hsv(
+                    self.farbe1[0] / 255.0,
+                    self.farbe1[1] / 255.0,
+                    self.farbe1[2] / 255.0
+                )
+                self.scale_red.set_value(hsvcolor[0])
+                self.scale_green.set_value(hsvcolor[1])
+                self.scale_blue.set_value(hsvcolor[2])
 
     def Farbe2(self):
-        # Let the scales know which color is to be changed
+        """Select color 2 for editing."""
         self.farbe12 = 'farbe2'
-        # set scales to farbe1
-        if (self.monograd == 'grad'):
-            if (self.colorsystem == 'rgb'):
-                startred = self.farbe2[0]
-                startgreen = self.farbe2[1]
-                startblue = self.farbe2[2]
-                self.ScaleRed.set(startred)
-                self.ScaleGreen.set(startgreen)
-                self.ScaleBlue.set(startblue)
-            elif (self.colorsystem == 'hsv'):
-                hsvcolor = colorsys.rgb_to_hsv(self.farbe2[0], self.farbe2[1], self.farbe2[2])
-                h = hsvcolor[0]
-                s = hsvcolor[1]
-                v = hsvcolor[2]
-                self.ScaleRed.set(h)
-                self.ScaleGreen.set(s)
-                self.ScaleBlue.set(v)
+        if self.monograd == 'grad':
+            if self.colorsystem == 'rgb':
+                self.scale_red.set_value(self.farbe2[0])
+                self.scale_green.set_value(self.farbe2[1])
+                self.scale_blue.set_value(self.farbe2[2])
+            elif self.colorsystem == 'hsv':
+                hsvcolor = colorsys.rgb_to_hsv(
+                    self.farbe2[0] / 255.0,
+                    self.farbe2[1] / 255.0,
+                    self.farbe2[2] / 255.0
+                )
+                self.scale_red.set_value(hsvcolor[0])
+                self.scale_green.set_value(hsvcolor[1])
+                self.scale_blue.set_value(hsvcolor[2])
 
     def setselection(self):
-        if (self.selectionentry.get() != ""):
-            self.selection = self.selectionentry.get()
+        """Set the active selection from the entry field."""
+        entry_text = self.selection_entry.text().strip()
+        if entry_text != "":
+            self.selection = entry_text
 
-            # Color of each residue is stored in  stored.colorlist to check if the molecule has a colorgradient
+            # Color of each residue is stored to check if the molecule has a color gradient
             stored.colorlist = []
-            cmd.iterate(self.selection + " & name CA", "stored.colorlist.append(int(color))")
+            try:
+                cmd.iterate(self.selection + " & name CA", "stored.colorlist.append(int(color))")
+            except Exception:
+                pass
 
-            if (len(stored.colorlist) == 0):
-                # for other objects (e.g. density...)
-                stored.colorlist.append(cmd.get_object_color_index(self.selection))
-                stored.colorlist.append(cmd.get_object_color_index(self.selection))
+            if len(stored.colorlist) == 0:
+                # For other objects (e.g. density...)
+                try:
+                    color_idx = cmd.get_object_color_index(self.selection)
+                    stored.colorlist.append(color_idx)
+                    stored.colorlist.append(color_idx)
+                except Exception:
+                    stored.colorlist = [0, 0]
 
-            initialcolornterm = cmd.get_color_tuple(stored.colorlist[0])
-            initialcolorcterm = cmd.get_color_tuple(stored.colorlist[len(stored.colorlist) - 1])
-            self.farbe1 = initialcolornterm[0] * 255, initialcolornterm[1] * 255, initialcolornterm[2] * 255
-            self.farbe2 = initialcolorcterm[0] * 255, initialcolorcterm[1] * 255, initialcolorcterm[2] * 255
+            try:
+                initialcolornterm = cmd.get_color_tuple(stored.colorlist[0])
+                initialcolorcterm = cmd.get_color_tuple(stored.colorlist[len(stored.colorlist) - 1])
+            except Exception:
+                initialcolornterm = (0.5, 0.5, 0.5)
+                initialcolorcterm = (0.5, 0.5, 0.5)
+
+            self.farbe1 = (
+                int(initialcolornterm[0] * 255),
+                int(initialcolornterm[1] * 255),
+                int(initialcolornterm[2] * 255)
+            )
+            self.farbe2 = (
+                int(initialcolorcterm[0] * 255),
+                int(initialcolorcterm[1] * 255),
+                int(initialcolorcterm[2] * 255)
+            )
 
             # Set active object to label
-            self.label.config(text=self.selection)
+            self.active_label.setText(self.selection)
 
-            # check if there is a gradient and adjust Mono/Gradbutton
-            if (initialcolornterm == initialcolorcterm):
-                self.Monobutton.select()
+            # Check if there is a gradient and adjust Mono/Grad button
+            if initialcolornterm == initialcolorcterm:
+                self.mono_button.setChecked(True)
                 self.Mono()
-
-            elif (initialcolornterm != initialcolorcterm):
-                self.Gradbutton.select()
+            else:
+                self.grad_button.setChecked(True)
                 self.Grad()
 
-            # adjust colorfields
-            self.colorfield1.config(bg=self.RGBToHTMLColor(self.farbe1))
-            self.colorfield2.config(bg=self.RGBToHTMLColor(self.farbe2))
-            self.Farbe1button.select()
+            # Adjust color fields
+            self.colorfield1.set_color(self.RGBToHTMLColor(self.farbe1))
+            self.colorfield2.set_color(self.RGBToHTMLColor(self.farbe2))
+            self.farbe1_button.setChecked(True)
             self.Farbe1()
 
-            # Set scales to initialcolor of the new object
-            if (self.colorsystem == 'rgb'):
-                startred = 255 * initialcolornterm[0]
-                startgreen = 255 * initialcolornterm[1]
-                startblue = 255 * initialcolornterm[2]
-                self.ScaleRed.set(startred)
-                self.ScaleGreen.set(startgreen)
-                self.ScaleBlue.set(startblue)
-            elif (self.colorsystem == 'hsv'):
-                hsvcolor = colorsys.rgb_to_hsv(initialcolornterm[0], initialcolornterm[1], initialcolornterm[2])
-                h = hsvcolor[0]
-                s = hsvcolor[1]
-                v = hsvcolor[2]
-                self.ScaleRed.set(h)
-                self.ScaleGreen.set(s)
-                self.ScaleBlue.set(v)
+            # Set scales to initial color of the new object
+            if self.colorsystem == 'rgb':
+                self.scale_red.set_value(255 * initialcolornterm[0])
+                self.scale_green.set_value(255 * initialcolornterm[1])
+                self.scale_blue.set_value(255 * initialcolornterm[2])
+            elif self.colorsystem == 'hsv':
+                hsvcolor = colorsys.rgb_to_hsv(
+                    initialcolornterm[0],
+                    initialcolornterm[1],
+                    initialcolornterm[2]
+                )
+                self.scale_red.set_value(hsvcolor[0])
+                self.scale_green.set_value(hsvcolor[1])
+                self.scale_blue.set_value(hsvcolor[2])
 
-    def setzeFarbe(self, event):
-        if ((self.selection != "") & (self.monograd == 'mono')):
-            if (self.colorsystem == 'rgb'):
-                col = []
-                # read RGB values from scales
-                r = int(self.ScaleRed.get())
-                g = int(self.ScaleGreen.get())
-                b = int(self.ScaleBlue.get())
-                rgbcolor = r, g, b
-                # Prepare a rgb tupel
-                col.append(rgbcolor)
-                # hexcolor for colorfields
+    def setzeFarbe(self, event=None):
+        """Update color based on slider values."""
+        if self.selection != "" and self.monograd == 'mono':
+            if self.colorsystem == 'rgb':
+                r = int(self.scale_red.get_value())
+                g = int(self.scale_green.get_value())
+                b = int(self.scale_blue.get_value())
+                rgbcolor = (r, g, b)
                 hexcolor = self.RGBToHTMLColor(rgbcolor)
-                self.colorfield1.config(bg=hexcolor)
-                self.colorfield2.config(bg=hexcolor)
+                self.colorfield1.set_color(hexcolor)
+                self.colorfield2.set_color(hexcolor)
                 cmd.delete(self.selection + "_color")
-                cmd.set_color(self.selection + "_color", col[0])
+                cmd.set_color(self.selection + "_color", (r / 255.0, g / 255.0, b / 255.0))
                 cmd.color(self.selection + "_color", self.selection)
-                del col[0]
-            elif (self.colorsystem == 'hsv'):
-                col = []
-                # read HSV values from scales
-                h = float(self.ScaleRed.get())
-                s = float(self.ScaleGreen.get())
-                v = float(self.ScaleBlue.get())
-
-                # HSV to RGB and change from 1.0, 1.0, 1.0 format to 255,255,255 format
-                rgbcolor = colorsys.hsv_to_rgb(h, s, v)
-                r = 255 * rgbcolor[0]
-                g = 255 * rgbcolor[1]
-                b = 255 * rgbcolor[2]
-                # as above
-                rgbcolor = r, g, b
-                col.append(rgbcolor)
-                # hexcolor for colorfields
+            elif self.colorsystem == 'hsv':
+                h = float(self.scale_red.get_value())
+                s = float(self.scale_green.get_value())
+                v = float(self.scale_blue.get_value())
+                rgbcolor_float = colorsys.hsv_to_rgb(h, s, v)
+                r = int(255 * rgbcolor_float[0])
+                g = int(255 * rgbcolor_float[1])
+                b = int(255 * rgbcolor_float[2])
+                rgbcolor = (r, g, b)
                 hexcolor = self.RGBToHTMLColor(rgbcolor)
-                self.colorfield1.config(bg=hexcolor)
-                self.colorfield2.config(bg=hexcolor)
+                self.colorfield1.set_color(hexcolor)
+                self.colorfield2.set_color(hexcolor)
                 cmd.delete(self.selection + "_color")
-                cmd.set_color(self.selection + "_color", col[0])
+                cmd.set_color(self.selection + "_color", rgbcolor_float)
                 cmd.color(self.selection + "_color", self.selection)
-                del col[0]
-        elif ((self.selection != "") & (self.monograd == 'grad')):
 
-            if (self.colorsystem == 'rgb'):
-                col = []
-                # read RGB values from scales
-                r = int(self.ScaleRed.get())
-                g = int(self.ScaleGreen.get())
-                b = int(self.ScaleBlue.get())
-                rgbcolor = r, g, b
-                # Prepare a rgb tupel
-                col.append(rgbcolor)
-                # hexcolor for colorfields
+        elif self.selection != "" and self.monograd == 'grad':
+            if self.colorsystem == 'rgb':
+                r = int(self.scale_red.get_value())
+                g = int(self.scale_green.get_value())
+                b = int(self.scale_blue.get_value())
+                rgbcolor = (r, g, b)
                 hexcolor = self.RGBToHTMLColor(rgbcolor)
-                if (self.farbe12 == 'farbe1'):
-                    self.colorfield1.config(bg=hexcolor)
+                if self.farbe12 == 'farbe1':
+                    self.colorfield1.set_color(hexcolor)
                     self.farbe1 = rgbcolor
-                elif (self.farbe12 == 'farbe2'):
-                    self.colorfield2.config(bg=hexcolor)
+                elif self.farbe12 == 'farbe2':
+                    self.colorfield2.set_color(hexcolor)
                     self.farbe2 = rgbcolor
-
-            elif (self.colorsystem == 'hsv'):
-                col = []
-                # read HSV values from scales
-                h = float(self.ScaleRed.get())
-                s = float(self.ScaleGreen.get())
-                v = float(self.ScaleBlue.get())
-
-                # HSV to RGB and change from 1.0, 1.0, 1.0 format to 255,255,255 format
-                rgbcolor = colorsys.hsv_to_rgb(h, s, v)
-                r = 255 * rgbcolor[0]
-                g = 255 * rgbcolor[1]
-                b = 255 * rgbcolor[2]
-                # as above
-                rgbcolor = r, g, b
-                col.append(rgbcolor)
-                # hexcolor for colorfields
+            elif self.colorsystem == 'hsv':
+                h = float(self.scale_red.get_value())
+                s = float(self.scale_green.get_value())
+                v = float(self.scale_blue.get_value())
+                rgbcolor_float = colorsys.hsv_to_rgb(h, s, v)
+                r = int(255 * rgbcolor_float[0])
+                g = int(255 * rgbcolor_float[1])
+                b = int(255 * rgbcolor_float[2])
+                rgbcolor = (r, g, b)
                 hexcolor = self.RGBToHTMLColor(rgbcolor)
-
-                if (self.farbe12 == 'farbe1'):
-                    self.colorfield1.config(bg=hexcolor)
+                if self.farbe12 == 'farbe1':
+                    self.colorfield1.set_color(hexcolor)
                     self.farbe1 = rgbcolor
-                elif (self.farbe12 == 'farbe2'):
-                    self.colorfield2.config(bg=hexcolor)
+                elif self.farbe12 == 'farbe2':
+                    self.colorfield2.set_color(hexcolor)
                     self.farbe2 = rgbcolor
 
     def setgradient(self):
+        """Apply a color gradient to the selection."""
+        if self.selection == "":
+            return
 
         stored.residuelist = []
-        cmd.iterate(self.selection, "stored.residuelist.append(int(resi))")
+        try:
+            cmd.iterate(self.selection, "stored.residuelist.append(int(resi))")
+        except Exception:
+            print("Error: Could not iterate over selection")
+            return
+
+        if len(stored.residuelist) == 0:
+            print("Error: No residues found in selection")
+            return
+
         firstresidue = min(stored.residuelist)
         lastresidue = max(stored.residuelist)
-        rs = float(self.farbe1[0]) / float(255)
-        gs = float(self.farbe1[1]) / float(255)
-        bs = float(self.farbe1[2]) / float(255)
-        re = float(self.farbe2[0]) / float(255)
-        ge = float(self.farbe2[1]) / float(255)
-        be = float(self.farbe2[2]) / float(255)
+
+        rs = float(self.farbe1[0]) / 255.0
+        gs = float(self.farbe1[1]) / 255.0
+        bs = float(self.farbe1[2]) / 255.0
+        re = float(self.farbe2[0]) / 255.0
+        ge = float(self.farbe2[1]) / 255.0
+        be = float(self.farbe2[2]) / 255.0
+
         hsvcolorstart = colorsys.rgb_to_hsv(rs, gs, bs)
         hs = hsvcolorstart[0]
         ss = hsvcolorstart[1]
         vs = hsvcolorstart[2]
+
         hsvcolorend = colorsys.rgb_to_hsv(re, ge, be)
         he = hsvcolorend[0]
         se = hsvcolorend[1]
         ve = hsvcolorend[2]
-        color_grad(selection=self.selection, minimum=firstresidue, maximum=lastresidue, hs=hs, he=he, ss=ss, se=se, vs=vs, ve=ve)
+
+        color_grad(
+            selection=self.selection,
+            minimum=firstresidue,
+            maximum=lastresidue,
+            hs=hs, he=he,
+            ss=ss, se=se,
+            vs=vs, ve=ve
+        )
 
     def RGBToHTMLColor(self, rgb_tuple):
-            # by Paul Winkler
-        """ convert an (R, G, B) tuple to #RRGGBB """
+        """Convert an (R, G, B) tuple to #RRGGBB."""
         hexcolor = '#%02x%02x%02x' % tuple(map(int, rgb_tuple))
-        # that's it! '%02x' means zero-padded, 2-digit hex values
         return hexcolor
 
 
-def __init__(self):
-    self.menuBar.addmenuitem('Plugin', 'command',
-                             'Colorama',
-                             label='Colorama',
-                             command=lambda s=self: open_Colorama(s.root))
+# Global reference to keep dialog alive
+_colorama_dialog = None
 
 
-def open_Colorama(master):
-    # initialize window (roota)
-    global roota
-    roota = Toplevel(master)
-    roota.title(' COLORAMA by gha')
-    global colorama
-    colorama = Colorama(roota)
+def open_colorama():
+    """Open the Colorama dialog."""
+    global _colorama_dialog
+    if _colorama_dialog is None or not _colorama_dialog.isVisible():
+        _colorama_dialog = Colorama()
+    _colorama_dialog.show()
+    _colorama_dialog.raise_()
+    _colorama_dialog.activateWindow()
 
 
-def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11, sat=1, value=1, minimum='1', maximum='1', dummy='dummy_all', hs=1, he=1, ss=1, se=1, vs=1, ve=1, colorname='init'):
+def __init_plugin__(app=None):
     """
-      --- color_grad: color gradient tool for PyMOL --- 
-      Author  : Gregor Hagelueken
-      Program : Color_grad
-      Date    : Oct 2007
-      Version : 0.1.0
-      Mail    : gha@helmholtz-hzi.de
+    PyMOL 3.x plugin initialization.
+    This function is called by PyMOL when the plugin is loaded.
+    """
+    from pymol.plugins import addmenuitemqt
+    addmenuitemqt('Colorama', open_colorama)
 
 
+def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11,
+               sat=1, value=1, minimum='1', maximum='1', dummy='dummy_all',
+               hs=1, he=1, ss=1, se=1, vs=1, ve=1, colorname='init'):
+    """
+    --- color_grad: color gradient tool for PyMOL ---
+    Author  : Gregor Hagelueken
+    Program : Color_grad
+    Date    : Oct 2007
+    Version : 0.1.0
+    Mail    : gha@helmholtz-hzi.de
 
+    This is a modified version of the color_b program by Robert L. Campbell & James Stroud
 
-      This is a modified version of the color_b program by Robert L. Campbell & James Stroud
-
-      Literature:
-      DeLano, W.L. The PyMOL Molecular Graphics System (2002) DeLano Scientific, San Carlos, CA, USA. http://www.pymol.org
-
-      ----------------------------------------------------------------------
-      ----------------------------------------------------------------------
+    Literature:
+    DeLano, W.L. The PyMOL Molecular Graphics System (2002) DeLano Scientific, San Carlos, CA, USA. http://www.pymol.org
     """
 
     nbins = int(nbins)
@@ -437,53 +597,51 @@ def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11, sa
     dummy = "dummy-" + selection
     colname = "col" + selection
 
-
-# make sure sat and value are in the range 0-1.0
+    # Make sure sat and value are in the range 0-1.0
     sat = min(sat, 1.0)
     sat = max(sat, 0.0)
     value = min(value, 1.0)
     value = max(value, 0.0)
 
-# make sure lowercase
-    gradient.lower()
-    mode.lower()
+    # Make sure lowercase
+    gradient = gradient.lower()
+    mode = mode.lower()
 
-# Sanity checking
+    # Sanity checking
     if nbins == 1:
-        print("\n     WARNING: You specified nbins=1, which doesn't make sense...resetting nbins=11\n")
+        print("\n     WARNING: You specified nbins=1, which does not make sense...resetting nbins=11\n")
         nbins = 11
 
     if mode not in ('hist', 'ramp'):
         print("\n     WARNING: Unknown mode ", mode, "    ----->   Nothing done.\n")
         return
+
     if selection == '':
         print("\n USAGE: color_grad dimB, minimum=380, maximum=531, hs=0.3, he=0.25,ss=0.7,se=0.2,vs=1,ve=0.5\n")
         return
     elif gradient not in ('bgr', 'rgb', 'rainbow', 'reverserainbow', 'bwr', 'rwb',
-                          'bmr', 'rmb', 'rw', 'wr', 'gw', 'wg', 'bw', 'wb', 'gy', 'yg', 'gray', 'grey', 'reversegray', 'reversegrey'):
+                          'bmr', 'rmb', 'rw', 'wr', 'gw', 'wg', 'bw', 'wb', 'gy', 'yg',
+                          'gray', 'grey', 'reversegray', 'reversegrey'):
         print("\n     WARNING: Unknown gradient: ", gradient, "    ----->   Nothing done.\n")
         return
 
     print("MODE, GRADIENT, NBINS:", mode, gradient, nbins)
 
-# get list of B-factors from selection
+    # Get list of B-factors from selection
     m = cmd.get_model(selection)
     sel = []
     b_list = []
 
     if len(m.atom) == 0:
         print("Sorry, no atoms selected")
-
     else:
         if item == 'b':
             for i in range(len(m.atom)):
                 m.atom[i].b = m.atom[i].resi
                 b_list.append(m.atom[i].b)
-
         elif item == 'q':
             for i in range(len(m.atom)):
                 b_list.append(m.atom[i].q)
-
         else:
             print("Not configured to work on item %s" % item)
             return
@@ -494,61 +652,54 @@ def color_grad(selection='', item='b', mode='hist', gradient='bgr', nbins=11, sa
         max_b = maximum
         min_b = minimum
         print("Minimum and Maximum B-values: ", min_b, max_b)
-        #nbins = (max_b - min_b)
 
         if mode == 'hist':
-
-            # check if minimum or maximum was specified and use the entered values
+            # Check if minimum or maximum was specified and use the entered values
             if minimum != '':
                 min_b = int(minimum) - 1
             if maximum != '':
                 max_b = int(maximum) + 1
-            # histogram:
-            # color in bins of equal B-value ranges
-            # subtract 0.1 from the lowest B in order to ensure that the single
-            # atom with the lowest B value doesn't get omitted
+
+            # Histogram: color in bins of equal B-value ranges
             bin_width = (max_b - min_b) / nbins
             sel.append(selection + " and (%s = %4.4g" % (item, min_b + bin_width) + ")")
             for j in range(1, nbins):
-                #sel.append(selection + " and %s > %4.4g" % (item,min_b + j*bin_width))
                 sel.append(dummy + " and %s = %4.4g" % (item, min_b + j * bin_width))
 
-
-# call the function to create the gradient which returns a list of colours
+        # Call the function to create the gradient which returns a list of colors
         colours = make_gradient(sel, gradient, nbins, sat, value, hs, he, ss, se, vs, ve, colorname)
 
-# do the colouring now
+        # Do the coloring now
         for j in range(nbins):
             print("Color select: ", sel[j])
             cmd.color(colours[j], sel[j])
+
     sel = []
     colours = []
-# function for creating the gradient
 
 
 def make_gradient(sel, gradient, nbins, sat, value, hs, he, ss, se, vs, ve, colorname):
+    """Create a color gradient and return a list of color names."""
     if gradient == 'bgr' or gradient == 'rainbow':
         col = []
         coldesc = []
         for j in range(nbins):
-            # must append the str(sel[j]) to the color name so that it is unique
-            # for the selection
             coldesc.append(colorname + str(j))
-            # coldesc.append('col' + str(sel[j]) + str(j))
 
-            # create colors using hsv scale (fractional) starting at blue(.6666667)
-            # through red(0.00000) in intervals of .6666667/(nbins -1) (the "nbins-1"
-            # ensures that the last color is, in fact, red (0)
-            # rewrote this to use the colorsys module to convert hsv to rgb
-            hsv = (hs - (hs - he) * float(j) / (nbins - 1), ss - (ss - se) * float(j) / (nbins - 1), vs - (vs - ve) * float(j) / (nbins - 1))
-            # convert to rgb and append to color list
+            # Create colors using HSV scale
+            hsv = (
+                hs - (hs - he) * float(j) / (nbins - 1),
+                ss - (ss - se) * float(j) / (nbins - 1),
+                vs - (vs - ve) * float(j) / (nbins - 1)
+            )
+            # Convert to RGB and append to color list
             rgb = colorsys.hsv_to_rgb(hsv[0], hsv[1], hsv[2])
-
             col.append(rgb)
-            # cmd.set_color("col" + str(sel[j]) + str(j),col[j])
             cmd.set_color(colorname + str(j), col[j])
 
-            # cmd.color(,resi[j])
-
-    # return the gradient as a list of colors named by their index (i.e. col0,col1,col2,col3,...)
+    # Return the gradient as a list of colors named by their index
     return coldesc
+
+
+# Register the command with PyMOL
+cmd.extend('colorama', open_colorama)
