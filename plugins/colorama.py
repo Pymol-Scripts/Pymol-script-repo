@@ -5,7 +5,7 @@ See more here: http://www.pymolwiki.org/index.php/Colorama
 Author  : Gregor Hagelueken
 Program : Color_select
 Date    : Oct 2007
-Version : 0.1.1 (Original Tkinter version)
+Version : 1.0.0 (Updated from the original Tkinter version 0.1.1)
 Mail    : gha@helmholtz-hzi.de
 
 Updated for PyMOL 3.x compatibility (Qt-based GUI)
