@@ -111,3 +111,28 @@ def gridbox(center_x,center_y,center_z,size_x,size_y,size_z,name="gridbox",r1=0,
 
 
 cmd.extend('gridbox', gridbox)
+
+#Draw an example transparent grid box:
+size_x,size_y,size_z=[10,15,15]
+center_x,center_y,center_z=[34.82, 89.48, 45.98]
+gridbox(center_x,center_y,center_z,size_x,size_y,size_z,name="gridbox_1",r1=0,g1=1,b1=1,trasp=0.3)
+
+#How to get coordinate of a selected residue or molecule:
+#1: zoom
+#2: print cmd.get_position()
+
+#Add Axes
+axes=True
+if axes==True:
+    from pymol.cgo import CYLINDER, cyl_text
+    from pymol.vfont import plain
+
+    obj = [CYLINDER, 0., 0., 0., 10., 0., 0., 0.2, 1.0, 1.0, 1.0, 1.0, 0.0, 0., CYLINDER, 0., 0., 0., 0., 10., 0., 0.2, 1.0, 1.0, 1.0, 0., 1.0, 0.,CYLINDER, 0., 0., 0., 0., 0., 10., 0.2, 1.0, 1.0, 1.0, 0., 0.0, 1.0,]
+
+    cyl_text(obj,plain,[-5.,-5.,-1],'Origin',0.20,axes=[[3,0,0],[0,3,0],[0,0,3]])
+    cyl_text(obj,plain,[10.,0.,0.],'X',0.20,axes=[[3,0,0],[0,3,0],[0,0,3]])
+    cyl_text(obj,plain,[0.,10.,0.],'Y',0.20,axes=[[3,0,0],[0,3,0],[0,0,3]])
+
+    cmd.load_cgo(obj,'axes')
+
+
