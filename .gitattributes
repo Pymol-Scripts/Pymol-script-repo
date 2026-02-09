@@ -1,0 +1,12 @@
+﻿# Forzar line endings LF para código
+* text=auto eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+
+# Tratar binarios como binarios
+*.png binary
+*.jpg binary
+*.gif binary
+*.pdb binary
+

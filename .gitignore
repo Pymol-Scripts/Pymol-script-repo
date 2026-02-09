@@ -1,41 +1,30 @@
-# Compiled source #
-###################
-*.com
-*.class
-*.dll
-*.exe
-*.o
-*.so
+﻿# Archivos y carpetas de Python
+__pycache__/
+*.py[cod]
 *.pyc
-*.py.swp
+*.pyo
+*.pyd
 
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-*.rar
-*.tar
-*.zip
+# Configuración de entornos virtuales
+.env
+ENV/
+.venv
+env/
+venv/
+*.env
 
-# Logs and databases #
-######################
+# Archivos de PyMOL
+*.pse
 *.log
-*.sql
-*.sqlite
+*.pdbqt
+*.out
 
-# OS generated files #
-######################
-.DS_Store*
-ehthumbs.db
-Icon?
+# Archivos temporales del sistema
+.DS_Store
 Thumbs.db
-*~
-*.bak
+ehthumbs.db
+desktop.ini
 
-# IDE #
-#######
-.idea
+# Archivos de VSCode
+.vscode/
+.ipynb_checkpoints/
