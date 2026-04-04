@@ -1,10 +1,10 @@
 """
 DESCRIPTION:
-    Given a sequence/regex to find, select those matching amino acids in the
-    protein.
+    Given a sequence/regex to find, select those matching residues (amino acids or nucleotides) in the
+    macromolecule.
 
 USAGE:
-    findseq needle, [haystack[, selName[, het[, matchMode]]]]
+    findseq needle, [haystack[, selName[, het[, matchMode[, verbose]]]]]
 
 PARAMS:
 needle (string)
@@ -35,6 +35,11 @@ matchMode (first/all/chain; defaults to "all")
         - 'chain': Return the first match found in each chain.
         - 'all': Return all matches found in all chains.
 
+verbose (0 or 1; defaults to 0)
+        Enable diagnostic debug output. When true the function will print
+        the processed needle, per-chain sequence information, and any
+        matches found.
+
 RETURNS:
     a newly created selection with the atoms you sought.
 
@@ -58,14 +63,14 @@ from collections import defaultdict
 from itertools import groupby
 
 
-def findseq(needle, haystack='*', selName=None, het=0, matchMode="all"):
+def findseq(needle, haystack='*', selName=None, het=0, matchMode="all", verbose=0):
     """
     DESCRIPTION:
         Given a sequence/regex to find, select those matching amino acids in the
         protein.
 
     USAGE:
-        findseq needle, [haystack[, selName[, het[, matchMode]]]]
+        findseq needle, [haystack[, selName[, het[, matchMode[, verbose]]]]]
 
     PARAMS:
     needle (string)
@@ -96,6 +101,11 @@ def findseq(needle, haystack='*', selName=None, het=0, matchMode="all"):
             - 'chain': Return the first match found in each chain.
             - 'all': Return all matches found in all chains.
 
+    verbose (0 or 1; defaults to 0)
+            Enable diagnostic debug output. When true the function will print
+            the processed needle, raw and filtered sequences per chain, and
+            any matches found.
+
     RETURNS:
         a newly created selection with the atoms you sought.
 
@@ -115,7 +125,7 @@ def findseq(needle, haystack='*', selName=None, het=0, matchMode="all"):
     selName = selName or cmd.get_unused_name("foundSeq")
 
     # input checking
-    if not checkParams(needle, haystack, selName, het, matchMode):
+    if not checkParams(needle, haystack, selName, het, matchMode, verbose):
         print("There was an error with a parameter. Please see the above error message for how to fix it.")
         return
 
@@ -129,7 +139,8 @@ def findseq(needle, haystack='*', selName=None, het=0, matchMode="all"):
     # get the AAs in the haystack
     data = defaultdict(lambda: defaultdict(list))
     for obj in cmd.get_object_list():
-        cmd.iterate(f"%{obj} and {haystack_sel}", lambda atom: data[atom.model][(atom.segi, atom.chain)].append((atom.resi, atom.oneletter)))
+        # collect both one-letter and residue name for better RNA support
+        cmd.iterate(f"%{obj} and {haystack_sel}", lambda atom: data[atom.model][(atom.segi, atom.chain)].append((atom.resi, atom.oneletter, atom.resn)))
 
     reNeedle = re.compile(needle.upper())
     matches = []
@@ -137,8 +148,31 @@ def findseq(needle, haystack='*', selName=None, het=0, matchMode="all"):
         found = False
         for (segi, chain), seq_data in val.items():
             # discard repeated atoms per residue
-            seq = "".join(resn for (resi, resn), _ in groupby(seq_data))
-            ids = [resi for (resi, resn), _ in groupby(seq_data)]
+            # seq_data now contains tuples (resi, oneletter, resn)
+            pairs = []
+            # Derive single-letter code from resn when one-letter is missing.
+            # Rules:
+            # - use `onelet` if present and not 'X'
+            # - else use `resn`: if it starts with 'D' (e.g., DA) take second
+            #   character, else take the first character. Empty -> 'X'.
+            for (resi, onelet, resname), _ in groupby(seq_data):
+                letter = onelet
+                if not letter or str(letter).upper() == 'X':
+                    rn = str(resname).upper() if resname is not None else ''
+                    if len(rn) == 0:
+                        letter = 'X'
+                    elif len(rn) == 1:
+                        letter = rn
+                    elif rn.startswith('D') and len(rn) > 1:
+                        letter = rn[1]
+                    else:
+                        letter = rn[0]
+                pairs.append((resi, letter))
+            seq = "".join(letter for (resi, letter) in pairs)
+            ids = [resi for (resi, letter) in pairs]
+            if verbose:
+                seq_raw = "".join(str(letter) for (resi, letter) in pairs)
+                print(f"findseq: object={obj} segi={segi} chain={chain} seq_raw={seq_raw!r} -> seq={seq!r} ids={ids}")
 
             for m in reNeedle.finditer(seq):
                 found = True
@@ -147,6 +181,8 @@ def findseq(needle, haystack='*', selName=None, het=0, matchMode="all"):
 
                 sel = f"/{obj}/{segi}/{chain}/{resi}"
                 matches.append(sel)
+                if verbose:
+                    print(f"findseq: matched {needle!r} in {obj}/{segi}/{chain} span=({start},{stop}) resi={resi} sel={sel}")
 
                 if matchMode == "chain" or matchMode == "first":
                     break
@@ -172,7 +208,7 @@ cmd.auto_arg[2]['findseq'] = [lambda: cmd.Shortcut(['het=1','matchMode=chain', "
 cmd.auto_arg[3]['findseq'] = [lambda: cmd.Shortcut(['het=1','matchMode=chain', "matchMode=first"]), 'params', '']
 
 
-def checkParams(needle, haystack, selName, het, matchMode):
+def checkParams(needle, haystack, selName, het, matchMode, verbose=0):
     """
     This is just a helper function for checking the user input
     """
@@ -202,6 +238,14 @@ def checkParams(needle, haystack, selName, het, matchMode):
     if not isinstance(selName, str):
         print("Error: selName was not a string.")
         return False
+
+    # check verbose
+    try:
+        verbose = bool(int(verbose))
+    except ValueError:
+        print("Error: The 'verbose' parameter was not 0 or 1.")
+        return False
+    
     return True
 
 
